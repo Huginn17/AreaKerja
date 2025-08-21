@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 //NON USER
 
-Route::get('/welcome', function () {
+Route::get('/', function () {
     return view('welcome');
 });
 
@@ -54,12 +54,15 @@ Route::get('/bantuan', function () {
 Route::get('/lowongan-tersimpan', function () {
     return view('non-user.lowongan-tersimpan');
 }); 
+Route::get('/lowongan-detail', function () {
+    return view('non-user.lowongan-detail');
+});
 
-Route::get('/', [AuthController::class, 'index']);
-Route::get('/register', [AuthController::class, 'regis']);
-Route::get('/verifikasi', [AuthController::class, 'verif']);
-Route::get('/verifikasicode', [AuthController::class, 'verifcode']);
-Route::get('/verif-lupapw', [AuthController::class, 'veriflupapw']);
+Route::get('/login', [AuthController::class, 'login_non_user']);
+Route::get('/register', [AuthController::class, 'regis_non_user']);
+Route::get('/verifikasi', [AuthController::class, 'verif_non_user']);
+Route::get('/verifikasicode', [AuthController::class, 'verifcode_non_user']);
+Route::get('/verif-lupapw', [AuthController::class, 'veriflupapw_non_user']);
 
 
 
@@ -93,21 +96,50 @@ Route::get('/tran-tf-qr', function () {
 
 
 //Finance
-Route::get('/finance/register', function () {
-    return view('finance.auth.register');
-});
-Route::get('/finance/login', function () {
-    return view('finance.auth.login');
-});
-Route::get('/finance/verif', function () {
-    return view('finance.auth.verifikasi');
-});
-Route::get('/finance/verif-lupapw', function () {
-    return view('finance.auth.verif-lupa-sandi');
-});
-Route::get('/finance/verif-codepw', function () {
-    return view('finance.auth.verif-codepw');
-});
+Route::get('/finance/login', [AuthController::class, 'login_finance']);
+Route::get('/finance/register', [AuthController::class, 'regis_finance']);
+Route::get('/finance/verifikasi', [AuthController::class, 'verif_finance']);
+Route::get('/finance/verif-otp', [AuthController::class, 'verifotp_finance']);
+Route::get('/finance/verif-lupapw', [AuthController::class, 'veriflupapw_finance']);
+
+
 Route::get('/finance/dashboard', function () {
     return view('finance.dashboard');
+});
+
+
+
+
+//Admin
+Route::get('/admin/login',[AuthController::class, 'login_admin']);
+Route::get('/admin/register', [AuthController::class, 'regis_admin']);
+Route::get('/admin/verifikasi', [AuthController::class, 'verif_admin']);
+Route::get('/admin/verif-otp', [AuthController::class, 'verifotp_admin']);
+Route::get('/admin/verif-lupapw', [AuthController::class, 'veriflupapw_admin']);
+
+Route::get('/admin/dashboard', function () {
+   return view('admin.dashboard'); 
+});
+
+
+
+
+
+//Super Admin
+Route::get('/super_admin/login', [AuthController::class, 'login_super_admin']);
+Route::get('/super_admin/register', [AuthController::class, 'regis_super_admin']);
+Route::get('/super_admin/verifikasi', [AuthController::class, 'verif_super_admin']);
+Route::get('/super_admin/verif-otp', [AuthController::class, 'verifotp_super_admin']);
+Route::get('/super_admin/verif-lupapw', [AuthController::class, 'veriflupapw_super_admin']);
+
+
+
+
+
+
+
+
+//Perusahaan
+Route::get('/perusahaan/dashboard', function () {
+    return view('perusahaan.dashboard');
 });

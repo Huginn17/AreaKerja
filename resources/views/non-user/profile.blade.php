@@ -6,7 +6,7 @@
 <div class="bg-white  mx-12">
     <!-- Header: Avatar + Tombol -->
    <div class="border border-orange-300">
-  <div class="border border-orange-500 rounded-lg p-8 flex items-center justify-between">
+  <div class=" border-orange-500 border-rounded-lg p-8 flex items-center justify-between">
   
   <!-- Kiri: Foto + Upload/Remove -->
 
@@ -17,21 +17,19 @@
         <img src="cwe.png"
              alt="Profile"
              class="w-20 h-20 rounded-full object-cover border" />
-        <span class="absolute bottom-1 right-1 bg-orange-500 text-white text-xs rounded-full p-1">
+        <span class="absolute bottom-1 right-1 bg-orange-500  text-white text-xs rounded-full p-1">
           ✎
         </span>
       </div>
 
       <!-- Select Box -->
-      <div class="relative inline-block mt-2 w-28">
-        <select
-          class="w-full border-2 border-orange-500 text-orange-500 font-semibold rounded-md px-2 py-1 pr-6 text-xs cursor-pointer appearance-none bg-white">
+      <div class="relative inline-block mt-2 w-32">
+        <select class="w-full border-2 border-orange-500 text-orange-500 font-semibold rounded-md px-2 py-1 text-xs cursor-pointer appearance-none bg-white">
           <option selected>Pelamar Aktif</option>
           <option>Pelamar Nonaktif</option>
           <option>Menunggu Review</option>
         </select>
-        <svg xmlns="http://www.w3.org/2000/svg"
-             class="w-3 h-3 text-orange-500 absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none"
+        <svg xmlns="http://www.w3.org/2000/svg"ht-2 top-1/2 transform -translate-y-1/2 pointer-events-none"
              fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
         </svg>
@@ -72,21 +70,17 @@
     </div><br>
 
 
-<div class="flex justify-between items-center w-full mb-8 mt-2">
-  
-  <!-- Kiri -->
-  <div class="flex flex-col items-start">
-    <h2 class="text-lg font-semibold">Data Diri</h2>
-    <div class="w-24 h-1 bg-orange-500 mt-1"></div>
-  </div>
 
-  <!-- Kanan -->
-  <div class="flex flex-col items-end">
-    <h2 class="text-lg font-semibold">Informasi Akun</h2>
-    <div class="w-24 h-1 bg-orange-500 mt-1"></div>
+<div style="display: flex; justify-content: space-between; width: 800px; margin: 20px 0;">
+  <div style="font-weight: bold; border-bottom: 3px solid orange; padding-bottom: 5px; width: 40%;">
+    Data Diri
   </div>
-  
+  <div style="font-weight: bold; border-bottom: 3px solid orange; padding-bottom: 5px; width: 40%;">
+    Informasi Akun
+    
+  </div>
 </div>
+
 
 
 
@@ -119,7 +113,7 @@
             <div>
 
                 <label class="text-sm font-medium">Tanggal Lahir <span class="text-red-500">*</span></label>
-                <input type="date" class="w-full mt-1 border rounded-md px-3 py-2 text-sm">
+                <input type="Date" class="w-full mt-1 border rounded-md px-3 py-2 text-sm text-gray-500 ">
             </div>
 
             <div>
@@ -150,7 +144,7 @@
             <button class="flex justify-between items-center px-4 py-2 hover:bg-gray-50 border border-orange-500 text-orange-500 rounded-md text-sm">
                 Tambahkan Pengalaman Kerja <span class="text-xl">+</span>
             </button>
-            <label class="text-sm font-medium">Skill<span class="text-red-500">*</span></label>
+            <label class="text-sm font-medium">Skill <span class="text-red-500">*</span></label>
             <button class="flex justify-between items-center px-4 py-2 hover:bg-gray-50 border border-orange-500 text-orange-500 rounded-md text-sm">
                 Tambahkan Skill <span class="text-xl">+</span>
             </button>
@@ -178,19 +172,57 @@
             </div>
 
             <div>
-                <label class="text-sm font-medium">Nama Pengguna<span class="text-red-500">*</span></label>
+                <label class="text-sm font-medium">Nama Pengguna <span class="text-red-500">*</span></label>
                 <input type="text" placeholder="Nama Pengguna"
                     class="w-full mt-1 border rounded-md px-3 py-2 text-sm">
             </div>
 
             <div>
-                <label class="text-sm font-medium">Email<span class="text-red-500">*</span></label>
-                <input type="email" placeholder="Email" class="w-full mt-1 border rounded-md px-3 py-2 text-sm ">
+                <label class="text-sm font-medium">Email <span class="text-red-500">*</span></label>
+               <div class="flex items-center gap-2">
+  <!-- Input -->
+  <input 
+    type="email" 
+    placeholder="Email" 
+    class="w-full mt-1 border rounded-md px-3 py-2 text-sm focus:outline-none">
+  
+
+  <!-- Icon di luar border -->
+  <span class="mt-1 text-orange-500 cursor-pointer">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" 
+         class="w-5 h-5" viewBox="0 0 24 24">
+      <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 
+               7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 
+               1.003 0 0 0-1.42 0l-1.83 1.83 3.75 
+               3.75 1.84-1.82z"/>
+    </svg>
+  </span>
+</div>
+
+                
             </div>
 
             <div>
                 <label class="text-sm font-medium">Kata Sandi <span class="text-red-500">*</span></label>
-                <input type="password" placeholder="Kata Sandi" class="w-full mt-1 border rounded-md px-3 py-2 text-sm">
+                <div class="flex items-center gap-2">
+  <!-- Input -->
+  <input 
+    type="password" 
+    placeholder="Kata sandi" 
+    class="w-full mt-1 border rounded-md px-3 py-2 text-sm focus:outline-none">
+
+  <!-- Icon di luar border -->
+  <span class="mt-1 text-orange-500 cursor-pointer">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" 
+         class="w-5 h-5" viewBox="0 0 24 24">
+      <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 
+               7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 
+               1.003 0 0 0-1.42 0l-1.83 1.83 3.75 
+               3.75 1.84-1.82z"/>
+    </svg>
+  </span>
+</div>
+
             </div>
 
             <!-- Ekspektasi Gaji -->

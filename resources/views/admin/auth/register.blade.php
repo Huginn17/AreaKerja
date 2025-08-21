@@ -33,7 +33,7 @@
 
 
                 <div class="pt-20">
-                    <h2 class="text-2xl font-semibold text-center text-orange-600 mb-6">Buat Akun</h2>
+                    <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">Buat Akun</h2>
                 </div>
 
                 <!-- Tombol Sosial -->
@@ -46,80 +46,65 @@
                         class="w-10 h-10 flex items-center justify-center border rounded-full hover:bg-gray-100 text-gray-700 font-bold">in</button>
                 </div>
 
-                <!-- Pilih Role -->
-                <div class="flex justify-center mb-6">
-                    <div class="bg-gray-200 rounded-full p-1 flex space-x-1">
-                        <!-- Tombol Aktif -->
-                        <button class="bg-orange-500 text-white px-6 py-2 rounded-full text-sm font-semibold shadow">
-                            Pelamar
-                        </button>
-                        <!-- Tombol Tidak Aktif -->
-                        <button class="bg-gray-200 text-gray-600 px-6 py-2 rounded-full text-sm font-semibold">
-                            Perusahaan
-                        </button>
-                    </div>
-                </div>
-
                 <!-- Form -->
                 <form action="#" method="POST" class="space-y-4">
                     <div>
                         <label for="username" class="block text-sm font-medium text-gray-700 m-2">Nama Pengguna</label>
                         <input type="text" id="username" placeholder="Nama Pengguna"
-                            class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring focus:ring-orange-300 focus:outline-none">
+                            class="w-full px-4 py-3 border border-gray-700 rounded-lg  focus:outline-none">
                     </div>
 
                     <div>
                         <label for="email" class="block text-sm font-medium text-gray-700 m-2">Email</label>
                         <input type="email" id="email" placeholder="E-mail"
-                            class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring focus:ring-orange-300 focus:outline-none">
+                            class="w-full px-4 py-3 border border-gray-700 rounded-lg  focus:outline-none">
                     </div>
 
                     <div>
                         <label for="phone" class="block text-sm font-medium text-gray-700 m-2">No.Tlp</label>
                         <input type="text" id="phone" placeholder="No. Tlp"
-                            class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring focus:ring-orange-300 focus:outline-none">
+                            class="w-full px-4 py-3 border border-gray-700 rounded-lg  focus:outline-none">
                     </div>
 
                     <div>
                         <label for="password" class="block text-sm font-medium text-gray-700 m-2">Kata Sandi</label>
                         <input type="password" id="password" placeholder="Kata Sandi"
-                            class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring focus:ring-orange-300 focus:outline-none">
+                            class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:outline-none">
                     </div>
 
                     <!-- Checkbox -->
                     <label class="flex items-center text-sm font-medium gap-1">
                         <input type="checkbox" class="mr-2">
-                        Saya menyetujui <a href="#" class="text-orange-500"> Syarat dan Ketentuan </a> yang
+                        Saya menyetujui <a href="#" class="text-gray-500"> Syarat dan Ketentuan </a> yang
                         berlaku
                     </label>
 
-                  </form>
-                  <!-- Tombol Daftar -->
-                  <button onclick="openModal()"
-                      class="w-full py-3 bg-orange-500 text-white rounded-lg  font-semibold hover:bg-orange-600 mt-6">
-                      Daftar
-                  </button>
+                    <!-- Tombol Daftar -->
+                    <button type="submit"
+                        class="w-full  bg-gray-500 text-white rounded-full font-semibold hover:bg-gray-600">
+                        DAFTAR
+                    </button>
+                </form>
             </div>
         </div>
 
         <!-- Bagian kanan (Gambar) -->
         <section class="relative hidden md:flex w-2/4">
-            <img src="{{ asset('images/gambar2.jpg') }}" alt="Background" class="w-full h-full object-cover">
+            <img src="{{ asset('images/gambarkom.jpg') }}" alt="Background" class="w-full h-full object-cover">
 
             <!-- Overlay hitam transparan -->
             <div
                 class="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center text-center text-white px-6 pb-56">
-                <h2 class="text-3xl font-semibold mb-4">Hallo, Pekerja</h2>
+                <h2 class="text-3xl font-semibold mb-4">Admin Area Kerja</h2>
                 <p class="mb-6">untuk tetap terhubung dengan kami, silakan <br> masuk dengan informasi pribadi Anda
                 </p>
-                <a href="{{ url('/login') }}"
-                    class="px-20 py-4 border border-white rounded-full hover:bg-white hover:text-black transition">MASUK</a>
+                <button
+                    class="px-20 py-4 border border-white rounded-full hover:bg-white hover:text-black transition">MASUK</button>
             </div>
         </section>
 
     </div>
 
-    @include('non-user.auth.modal-regsiter')
 </body>
 
 </html>

@@ -11,7 +11,7 @@
             <div class="flex items-center w-full max-w-2xl mb-10">
                 <input type="text" placeholder="Apa yang bisa kami bantu?"
                     class="flex-grow px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-orange-500">
-                <button class="px-6 py-2 bg-orange-500 text-white font-medium rounded-r-md">Cari</button>
+                <button class="px-6 py-2 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-r-md">Cari</button>
             </div>  
 
             <!-- FAQ Grid -->

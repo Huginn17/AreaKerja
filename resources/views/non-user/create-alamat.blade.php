@@ -42,7 +42,7 @@
 
             <!-- Form Alamat -->
             <div class="mt-8">
-                <h3 class="text-base font-semibold hover:gray-100 border-b border-orange-400 pb-1 mb-4">Alamat</h3>
+                <h3 class="text-base font-semibold hover:gray-100 border-b border-orange-500 pb-2 mb-4">Alamat</h3>
 
                 <form class="space-y-4">
                     <div>

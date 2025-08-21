@@ -28,7 +28,7 @@
                 <span class="text-orange-500 hover:text-orange-600 font-semibold">Areakerja.com</span>
 
                 <div class="flex items-center gap-4 text-sm text-gray-600">
-                    <button class="bg-orange-500 hover:bg-orange-600 text-white p-2 rounded-full">
+                    <button class="bg-orange-500 hover:bg-orange-600 text-white p-2 px-3 rounded-full">
                         ➔
                     </button>
                     <span>Kamis, 27 Oktober 13:00 WIB</span>
@@ -131,7 +131,7 @@
 
         <!-- Floating Button -->
         <a href="#top"
-            class="fixed bottom-6 right-6 bg-orange-500 hover:bg-orange-600 text-white p-3 rounded-full shadow-lg">
+            class="fixed bottom-6 right-6 bg-orange-500 hover:bg-orange-600 text-white p-2 px-4 rounded-full shadow-lg">
             ↑
         </a>
     </div>

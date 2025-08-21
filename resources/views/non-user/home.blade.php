@@ -29,11 +29,11 @@
 
     <!-- Kategori Populer -->
     <section class="max-w-5xl mx-auto px-4 py-8">
-        <h4 class="mb-6 text-xl font-semibold text-gray-900 dark:text-white">KATEGORI PEKERJAAN POPULER </h4>
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 font-semibold text-shadow">
+        <h4 class="mb-4 text-lg font-semibold text-gray-900 dark:text-white">KATEGORI PEKERJAAN POPULER </h4>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 font-semibold">
             @foreach (['Teknologi', 'Pelayanan', 'Administrasi', '🔥 Full Time', 'Pemasaran', 'Pendidik', 'Customer Service', '🌐 WFO/WFH', 'Kasir', 'Keuangan', 'Admin', '🎓 Graduate'] as $kategori)
                 <span
-                    class="px-4 py-2 border rounded-lg text-sm bg-white hover:bg-gray-50 cursor-pointer flex items-center justify-center">
+                    class="px-4 py-2 border border-gray-300 rounded text-sm bg-white hover:bg-gray-50 cursor-pointer flex items-center justify-center shadow-sm">
                     {{ $kategori }}
                 </span>
             @endforeach
@@ -54,7 +54,8 @@
     
 
     <!-- Card Lowongan -->
-    <h3 class=" px-40 mt-8  text-gray-500 dark:text-white">Lowongan berdasarkan pada aktivitas Anda di areakerja</h3>
+    
+    <h3 class=" px-40 mt-8 text-gray-500 font-semibold dark:text-white">Lowongan berdasarkan pada aktivitas Anda di areakerja</h3>
     <section class="max-w-5xl mx-auto px-4 py-8 grid md:grid-cols-2 gap-6">
 
         {{-- nanti perulangannya disini --}}

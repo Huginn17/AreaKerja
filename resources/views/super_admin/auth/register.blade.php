@@ -33,7 +33,7 @@
 
 
                 <div class="pt-20">
-                    <h2 class="text-2xl font-semibold text-center text-orange-600 mb-6">Buat Akun</h2>
+                    <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">Buat Akun</h2>
                 </div>
 
                 <!-- Tombol Sosial -->
@@ -44,20 +44,6 @@
                         class="w-10 h-10 flex items-center justify-center border rounded-full hover:bg-gray-100 text-gray-700 font-bold">f</button>
                     <button
                         class="w-10 h-10 flex items-center justify-center border rounded-full hover:bg-gray-100 text-gray-700 font-bold">in</button>
-                </div>
-
-                <!-- Pilih Role -->
-                <div class="flex justify-center mb-6">
-                    <div class="bg-gray-200 rounded-full p-1 flex space-x-1">
-                        <!-- Tombol Aktif -->
-                        <button class="bg-orange-500 text-white px-6 py-2 rounded-full text-sm font-semibold shadow">
-                            Pelamar
-                        </button>
-                        <!-- Tombol Tidak Aktif -->
-                        <button class="bg-gray-200 text-gray-600 px-6 py-2 rounded-full text-sm font-semibold">
-                            Perusahaan
-                        </button>
-                    </div>
                 </div>
 
                 <!-- Form -->
@@ -93,33 +79,41 @@
                         berlaku
                     </label>
 
-                  </form>
-                  <!-- Tombol Daftar -->
-                  <button onclick="openModal()"
-                      class="w-full py-3 bg-orange-500 text-white rounded-lg  font-semibold hover:bg-orange-600 mt-6">
-                      Daftar
-                  </button>
+                </form>
+                <!-- Tombol Daftar -->
+                <button onclick="openModal()"
+                    class="w-60 ml-24 bg-orange-500 text-white rounded-full font-semibold hover:bg-orange-400 py-2 mt-4">
+                    Daftar
+                </button>
             </div>
         </div>
 
+
+
+
         <!-- Bagian kanan (Gambar) -->
         <section class="relative hidden md:flex w-2/4">
-            <img src="{{ asset('images/gambar2.jpg') }}" alt="Background" class="w-full h-full object-cover">
+            <img src="{{ asset('images/gambarkom.jpg') }}" alt="Background" class="w-full h-full object-cover">
+
+            <!-- Logo -->
+            <div class="absolute top-6 left-6 flex items-center">
+                <img src="{{ asset('images/logo_area_kerja_putih.png') }}" alt="Logo" class="h-12 w-12">
+                <span class="font-semibold mb-1 text-white">areakerja.com</span>
+            </div>
 
             <!-- Overlay hitam transparan -->
             <div
                 class="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center text-center text-white px-6 pb-56">
-                <h2 class="text-3xl font-semibold mb-4">Hallo, Pekerja</h2>
+                <h2 class="text-3xl font-semibold mb-4">Admin Area Kerja</h2>
                 <p class="mb-6">untuk tetap terhubung dengan kami, silakan <br> masuk dengan informasi pribadi Anda
                 </p>
-                <a href="{{ url('/login') }}"
-                    class="px-20 py-4 border border-white rounded-full hover:bg-white hover:text-black transition">MASUK</a>
+                <button
+                    class="px-20 py-4 border border-white rounded-full hover:bg-white hover:text-black transition">MASUK</button>
             </div>
         </section>
 
     </div>
-
-    @include('non-user.auth.modal-regsiter')
+@include('super_admin.auth.modal-register')
 </body>
 
 </html>
