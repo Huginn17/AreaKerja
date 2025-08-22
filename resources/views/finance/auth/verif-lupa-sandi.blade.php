@@ -50,26 +50,26 @@
                             <div><span class="font-bold">AA</span><br><span class="text-xs">Huruf Besar</span></div>
                             <div><span class="font-bold">aa</span><br><span class="text-xs">Huruf Kecil</span></div>
                             <div><span class="font-bold">123</span><br><span class="text-xs">Angka</span></div>
-                            <div><span class="font-bold">@#$</span><br><span class="text-xs">Simbol</span></div>
+                            <div><span class="font-bold">@$#</span><br><span class="text-xs">Simbol</span></div>
                         </div>
 
                          {{-- Form  --}}
                         <form action="#" method="POST" class="space-y-4">
                             @csrf
                             <div>
-                                <label class="block text-sm font-medium">Kata Sandi Baru</label>
+                                <label class="block text-sm font-medium m-2">Kata Sandi Baru</label>
                                 <div class="relative">
                                     <input type="password" name="password" placeholder="Kata Sandi"
-                                        class="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-orange-500">
+                                        class="w-full border-gray-500 border rounded-md px-4 py-2 focus:ring-2 focus:ring-orange-500">
                                     <span class="absolute right-3 top-2.5 text-gray-500 cursor-pointer">👁</span>
                                 </div>
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium">Konfirmasi Kata Sandi</label>
+                                <label class="block text-sm font-medium m-2">Konfirmasi Kata Sandi</label>
                                 <div class="relative">
                                     <input type="password" name="password_confirmation" placeholder="Kata Sandi"
-                                        class="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-orange-500">
+                                        class="w-full border-gray-500 border rounded-md px-4 py-2 focus:ring-2 focus:ring-orange-500">
                                     <span class="absolute right-3 top-2.5 text-gray-500 cursor-pointer">👁</span>
                                 </div>
                             </div>

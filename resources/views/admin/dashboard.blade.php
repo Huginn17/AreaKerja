@@ -26,7 +26,7 @@
 
             <div class="flex gap-6 mt-6 px-5 ">
                 <!-- Card Perusahaan -->
-                <div class="bg-white shadow-md rounded-md p-5 w-60">
+                <div class="bg-white shadow-md rounded-md p-5 w-60 hover:scale-105">
                     <h3 class="text-gray-700 text-sm font-medium mb-2">Perusahaan</h3>
                     <div class="flex items-center gap-2">
                         <span class="text-2xl font-bold text-gray-900">27</span>
@@ -37,7 +37,7 @@
                 </div>
 
                 <!-- Card Kandidat -->
-                <div class="bg-white shadow-md rounded-md p-5 w-60">
+                <div class="bg-white shadow-md rounded-md p-5 w-60 hover:scale-105">
                     <h3 class="text-gray-700 text-sm font-medium mb-2">Kandidat</h3>
                     <div class="flex items-center gap-2">
                         <span class="text-2xl font-bold text-gray-900">15</span>
@@ -48,7 +48,7 @@
                 </div>
 
                 <!-- Card Non Kandidat -->
-                <div class="bg-white shadow-md rounded-md p-5 w-60">
+                <div class="bg-white shadow-md rounded-md p-5 w-60 hover:scale-105">
                     <h3 class="text-gray-700 text-sm font-medium mb-2">Non Kandidat</h3>
                     <div class="flex items-center gap-2">
                         <span class="text-2xl font-bold text-gray-900">14</span>
@@ -59,7 +59,7 @@
                 </div>
 
                 <!-- Card Lowongan -->
-                <div class="bg-white shadow-md rounded-md p-5 w-60">
+                <div class="bg-white shadow-md rounded-md p-5 w-60 hover:scale-105">
                     <h3 class="text-gray-700 text-sm font-medium mb-2">Lowongan</h3>
                     <div class="flex items-center gap-2">
                         <span class="text-2xl font-bold text-gray-900">37</span>

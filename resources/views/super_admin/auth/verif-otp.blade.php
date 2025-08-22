@@ -67,10 +67,10 @@
                 <div class="flex items-center justify-center">
                     <div class="max-w-md w-full px-8">
                         <h2 class="text-2xl font-bold text-gray-800 mb-4">Verifikasi Akun</h2>
-                        <p class="text-orange-500 mb-4">
+                        <p class="text-orange-500 font-medium mb-4">
                             Silahkan verifikasi akun anda terlebih dahulu untuk bisa melakukan penggantian kata sandi
                         </p>
-                        <p class="mb-2 text-orange-500">
+                        <p class="mb-2 text-orange-500 font-medium">
                             Kode verifikasi telah dikirim ke email 
                         </p>
                            <span class="font-semibold">emailpengguna@gmail.com</span>.

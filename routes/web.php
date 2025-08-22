@@ -67,6 +67,15 @@ Route::get('/verif-lupapw', [AuthController::class, 'veriflupapw_non_user']);
 
 
 
+//SYARAT DAN KETENTUAN
+Route::get('/syarat/ketentuan', function () {
+    return view('layouts.syarat-dan-ketentuan');
+});
+
+
+
+
+
 //kandidat
 Route::get('/form-divisi', function () {
     return view('kandidat.form-divisi');
@@ -110,6 +119,7 @@ Route::get('/finance/dashboard', function () {
 
 
 
+
 //Admin
 Route::get('/admin/login',[AuthController::class, 'login_admin']);
 Route::get('/admin/register', [AuthController::class, 'regis_admin']);
@@ -143,3 +153,40 @@ Route::get('/super_admin/verif-lupapw', [AuthController::class, 'veriflupapw_sup
 Route::get('/perusahaan/dashboard', function () {
     return view('perusahaan.dashboard');
 });
+
+Route::get('/perusahaan/dashboard/isi', function () {
+    return view('perusahaan.dashboard-isi');
+});
+
+Route::get('/perusahaan/pelamar', function () {
+    return view('perusahaan.pelamar');
+});
+
+Route::get('/perusahaan/profile', function () {
+    return view('perusahaan.profile-perusahaan');
+});
+
+Route::get('/perusahaan/edit/kosong', function () {
+    return view('perusahaan.edit-profile-kosong');
+});
+
+Route::get('/perusahaan/alamat', function () {
+    return view('perusahaan.alamat');
+});
+Route::get('/perusahaan/alamat/buat', function () {
+    return view('perusahaan.buat-alamat');
+});
+
+Route::get('/perusahaan/profile/baru', function () {
+    return view('perusahaan.profile-baru');
+});
+
+Route::get('/perusahaan/tambah/lowongan', function () {
+    return view('perusahaan.tambah-lowongan');
+});
+
+Route::get('/perusahaan/register', [AuthController::class, 'regis_perusahaan']);
+Route::get('/perusahaan/login', [AuthController::class, 'login_perusahaan']);
+Route::get('/perusahaan/verifikasi', [AuthController::class, 'verif_perusahaan']);
+Route::get('/perusahaan/verif/otp', [AuthController::class, 'verifotp_perusahaan']);
+Route::get('/perusahaan/verif/lupapw', [AuthController::class, 'veriflupapw_perusahaan']);

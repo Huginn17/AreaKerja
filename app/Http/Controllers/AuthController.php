@@ -126,5 +126,32 @@ class AuthController extends Controller
     }
 
 
+
+
+
+    //PERUSAHAAN
+    public function login_perusahaan()
+    {
+        return view('perusahaan.auth.login');
+    }
+    public function regis_perusahaan()
+    {
+        return view('perusahaan.auth.register');
+    }
+
+    public function verif_perusahaan()
+    {
+        return view('perusahaan.auth.verif');
+    }
+
+    public function verifotp_perusahaan()
+    {
+        return view('perusahaan.auth.verif-otp');
+    }
+
+    public function veriflupapw_perusahaan()
+    {
+        return view('perusahaan.auth.verif-lupapw');
+    }
 }
         

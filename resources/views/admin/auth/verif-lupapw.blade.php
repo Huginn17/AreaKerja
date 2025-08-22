@@ -64,11 +64,11 @@
 
                         <!-- Verifikasi Syarat Password -->
                         <div class="grid grid-cols-5 gap-4 text-center mb-6">
-                            <div><span class="font-bold">8+</span><br><span class="text-xs">Karakter</span></div>
-                            <div><span class="font-bold">AA</span><br><span class="text-xs">Huruf Besar</span></div>
-                            <div><span class="font-bold">aa</span><br><span class="text-xs">Huruf Kecil</span></div>
-                            <div><span class="font-bold">123</span><br><span class="text-xs">Angka</span></div>
-                            <div><span class="font-bold">@#$</span><br><span class="text-xs">Simbol</span></div>
+                            <div><span class="font-semibold">8+</span><br><span class="text-xs">Karakter</span></div>
+                            <div><span class="font-semibold">AA</span><br><span class="text-xs">Huruf Besar</span></div>
+                            <div><span class="font-semibold">aa</span><br><span class="text-xs">Huruf Kecil</span></div>
+                            <div><span class="font-semibold">123</span><br><span class="text-xs">Angka</span></div>
+                            <div><span class="font-semibold">@$#</span><br><span class="text-xs">Simbol</span></div>
                         </div>
 
                         <!-- Form -->

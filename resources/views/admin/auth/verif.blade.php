@@ -77,7 +77,7 @@
                     </div>
                     <div class="flex justify-center">
                         <button type="submit"
-                            class=" bg-gray-500 text-white px-40 py-3 rounded font-small text-sm hover:bg-gray-400 transition">
+                            class=" bg-gray-600 text-white px-40 py-3 rounded font-small text-sm hover:bg-gray-400 transition">
                             Lanjutkan
                         </button>
                     </div>

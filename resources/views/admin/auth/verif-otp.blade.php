@@ -57,17 +57,17 @@
             <!-- OTP Input -->
             <div class="flex justify-between mb-6">
                 <input type="text" maxlength="1"
-                    class="w-12 h-12 border-b-2 border-black text-center text-xl focus:outline-none">
+                    class="w-12 h-12 border-b-4 border-black text-center text-xl focus:outline-none">
                 <input type="text" maxlength="1"
-                    class="w-12 h-12 border-b-2 border-black text-center text-xl focus:outline-none">
+                    class="w-12 h-12 border-b-4 border-black text-center text-xl focus:outline-none">
                 <input type="text" maxlength="1"
-                    class="w-12 h-12 border-b-2 border-black text-center text-xl focus:outline-none">
+                    class="w-12 h-12 border-b-4 border-black text-center text-xl focus:outline-none">
                 <input type="text" maxlength="1"
-                    class="w-12 h-12 border-b-2 border-black text-center text-xl focus:outline-none">
+                    class="w-12 h-12 border-b-4 border-black text-center text-xl focus:outline-none">
                 <input type="text" maxlength="1"
-                    class="w-12 h-12 border-b-2 border-black text-center text-xl focus:outline-none">
+                    class="w-12 h-12 border-b-4 border-black text-center text-xl focus:outline-none">
                 <input type="text" maxlength="1"
-                    class="w-12 h-12 border-b-2 border-black text-center text-xl focus:outline-none">
+                    class="w-12 h-12 border-b-4 border-black text-center text-xl focus:outline-none">
             </div>
 
             <!-- Resend -->

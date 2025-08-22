@@ -60,17 +60,17 @@
                         <!-- Input OTP -->
                         <div class="flex justify-center space-x-4 mb-6">
                             <input type="text" maxlength="1"
-                                class="w-12 h-12 text-center border-b-4 border-black text-lg focus:outline-none">
+                                class="w-12 h-12 text-center border-b-4 border-orange-500 text-lg focus:outline-none">
                             <input type="text" maxlength="1"
-                                class="w-12 h-12 text-center border-b-4 border-black text-lg focus:outline-none">
+                                class="w-12 h-12 text-center border-b-4 border-orange-500 text-lg focus:outline-none">
                             <input type="text" maxlength="1"
-                                class="w-12 h-12 text-center border-b-4 border-black text-lg focus:outline-none">
+                                class="w-12 h-12 text-center border-b-4 border-orange-500 text-lg focus:outline-none">
                             <input type="text" maxlength="1"
-                                class="w-12 h-12 text-center border-b-4 border-black text-lg focus:outline-none">
+                                class="w-12 h-12 text-center border-b-4 border-orange-500 text-lg focus:outline-none">
                             <input type="text" maxlength="1"
-                                class="w-12 h-12 text-center border-b-4 border-black text-lg focus:outline-none">
+                                class="w-12 h-12 text-center border-b-4 border-orange-500 text-lg focus:outline-none">
                             <input type="text" maxlength="1"
-                                class="w-12 h-12 text-center border-b-4 border-black text-lg focus:outline-none">
+                                class="w-12 h-12 text-center border-b-4 border-orange-500 text-lg focus:outline-none">
                         </div>
 
                         <p class="text-center text-gray-500">Belum menerima kode verifikasi melalui email?</p>

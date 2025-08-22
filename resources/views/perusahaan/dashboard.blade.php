@@ -23,7 +23,7 @@
 
             <!-- Header -->
             <h2 class="text-sm text-orange-500 font-medium">Dashboard</h2>
-            <h1 class="text-xl font-semibold mt-1">Selamat Datang Di Area Kerja Seven Inc</h1>
+            <h1 class="text-2xl font-semibold mt-1">Selamat Datang Di Area Kerja Seven Inc</h1>
 
             <!-- Cards -->
             <div class="grid md:grid-cols-3 gap-4 mt-6">
@@ -50,10 +50,10 @@
                     <!-- Tombol rata tengah -->
                     <div class="flex flex-col items-center">
                         <button
-                            class="w-48 px-4 bg-orange-500 text-white text-sm font-medium border border-white py-2 rounded-md mb-3 mt-3">
+                            class="w-48 px-4 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium border border-white py-2 rounded-md mb-3 mt-3">
                             Lihat Kandidat
                         </button>
-                        <button class="w-48 px-4 bg-white text-black text-sm font-medium py-2 rounded-md">
+                        <button class="w-48 px-4 bg-white hover:bg-gray-100 text-black text-sm font-medium py-2 rounded-md">
                             Cari Kandidat
                         </button>
                     </div>

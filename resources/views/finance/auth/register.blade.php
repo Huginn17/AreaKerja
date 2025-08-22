@@ -82,7 +82,7 @@
                         <!-- Checkbox -->
                         <div class="flex items-center text-xs">
                             <input type="checkbox" class="mr-2 accent-black border border-black">
-                            <span>Saya menyetujui <a href="#" class="text-orange-500 font-semibold">Syarat dan
+                            <span>Saya menyetujui <a href="{{ url('syarat/ketentuan') }}" class="text-orange-500 font-semibold">Syarat dan
                                     Ketentuan</a> yang berlaku</span>
                         </div>
 

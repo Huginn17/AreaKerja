@@ -94,8 +94,10 @@
                 </div>
 
                 <!-- Tombol Masuk -->
+                <div class="flex justify-center">
                 <button
-                    class="w-full bg-orange-500 text-white font-bold rounded-full py-2 hover:bg-orange-600">MASUK</button>
+                    class="w-40 bg-orange-500 text-white font-bold rounded-full py-3 hover:bg-orange-600">MASUK</button>
+                </div>
             </form>
 
             <!-- Daftar link -->

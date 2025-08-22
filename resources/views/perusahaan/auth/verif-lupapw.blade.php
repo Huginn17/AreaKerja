@@ -5,9 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login | Areakerja</title>
-    @vite('resources/css/app.css')
-    <link rel="icon" sizes="512x512" type="image/png" href="{{ asset('images/logoarea.png') }}">
+    <title>Verifikasi | Areakerja</title>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -23,9 +21,14 @@
 <body class="bg-gray-100">
     <div class="flex min-h-screen">
 
-        {{-- Background dengan overlay  --}}
+
+
+
+
+
+        <!-- Background dengan overlay -->
         <section class="relative h-screen w-2/4">
-            <img src="{{ asset('images/gambarkom.jpg') }}" alt="Background"
+            <img src="{{ asset('images/gambar2.jpg') }}" alt="Background"
                 class="absolute inset-0 w-full h-full object-cover">
 
             <!-- Overlay hitam transparan -->
@@ -34,21 +37,16 @@
             <!-- Konten -->
             <div class="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-6">
 
-                <!-- Logo -->
-                <div class="absolute top-6 left-6 flex items-center">
-                    <img src="{{ asset('images/logo_area_kerja_putih.png') }}" alt="Logo" class="h-12 w-12">
-                    <span class="font-semibold mb-1">areakerja.com</span>
-                </div>
 
                 <!-- Text -->
-                <h1 class="text-3xl font-bold mt-[-20%] mb-10">Super Admin Area Kerja</h1>
+                <h1 class="text-3xl font-bold mt-[-45%] mb-10">Hallo, Pekerja</h1>
                 <p class="text-sm mb-10">untuk tetap terhubung dengan kami, silakan<br> masuk dengan informasi pribadi
                     Anda</p>
 
                 <!-- Button -->
-                <a href="{{ url('/register') }}"
+                <a href="#"
                     class="px-20 py-4 border border-white rounded-full hover:bg-white hover:text-black transition">
-                    DAFTAR
+                    Masuk
                 </a>
             </div>
         </section>
@@ -61,24 +59,24 @@
                 <!-- Bagian Kanan -->
                 <div class=" flex items-center justify-center bg-white">
                     <div class="max-w-md w-full">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Lupa Kata Sandi</h2>
-                        <p class="text-orange-500 text-sm font-medium mb-10">Masukan kata sandi anda.<br>kata sandi harus mengandung.
+                        <h2 class="text-2xl font-bold text-orange-600 mb-2">Lupa Kata Sandi</h2>
+                        <p class="text-gray-600 text-sm mb-6">Masukan kata sandi anda.<br>kata sandi harus mengandung:
                         </p>
 
                         <!-- Verifikasi Syarat Password -->
                         <div class="grid grid-cols-5 gap-4 text-center mb-6">
-                            <div><span class="font-bold">8+</span><br><span class="text-xs  text-orange-500 font-medium">Karakter</span></div>
-                            <div><span class="font-bold">AA</span><br><span class="text-xs  text-orange-500 font-medium">Huruf Besar</span></div>
-                            <div><span class="font-bold">aa</span><br><span class="text-xs  text-orange-500 font-medium">Huruf Kecil</span></div>
-                            <div><span class="font-bold">123</span><br><span class="text-xs text-orange-500 font-medium">Angka</span></div>
-                            <div><span class="font-bold">@$#</span><br><span class="text-xs text-orange-500 font-medium">Simbol</span></div>
+                            <div><span class="font-bold">8+</span><br><span class="text-xs">Karakter</span></div>
+                            <div><span class="font-bold">AA</span><br><span class="text-xs">Huruf Besar</span></div>
+                            <div><span class="font-bold">aa</span><br><span class="text-xs">Huruf Kecil</span></div>
+                            <div><span class="font-bold">123</span><br><span class="text-xs">Angka</span></div>
+                            <div><span class="font-bold">@$#</span><br><span class="text-xs">Simbol</span></div>
                         </div>
 
                         <!-- Form -->
                         <form action="#" method="POST" class="space-y-4">
                             @csrf
                             <div>
-                                <label class="block text-sm font-semibold m-2">Kata Sandi Baru</label>
+                                <label class="block text-sm font-medium m-2">Kata Sandi Baru</label>
                                 <div class="relative">
                                     <input type="password" name="password" placeholder="Kata Sandi"
                                         class="w-full border-gray-500 border rounded-md px-4 py-2 focus:ring-2 focus:ring-orange-500">
@@ -87,7 +85,7 @@
                             </div>
 
                             <div>
-                                <label class="block text-sm font-semibold m-2">Konfirmasi Kata Sandi</label>
+                                <label class="block text-sm font-medium m-2">Konfirmasi Kata Sandi</label>
                                 <div class="relative">
                                     <input type="password" name="password_confirmation" placeholder="Kata Sandi"
                                         class="w-full border-gray-500 border rounded-md px-4 py-2 focus:ring-2 focus:ring-orange-500">
