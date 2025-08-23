@@ -98,6 +98,9 @@ Route::get('/tran-tf-bank', function () {
 Route::get('/tran-tf-qr', function () {
     return view('kandidat.transaksi-tf-qr');
 });
+Route::get('/saya-rekrut', function () {
+    return view('kandidat.rekrut-saya');
+});
 
 
 
@@ -184,6 +187,61 @@ Route::get('/perusahaan/profile/baru', function () {
 Route::get('/perusahaan/tambah/lowongan', function () {
     return view('perusahaan.tambah-lowongan');
 });
+
+Route::get('/perusahaan/lowongan', function () {
+    return view('perusahaan.lowongan');
+});
+Route::get('/perusahaan/lowongan/detail', function () {
+    return view('perusahaan.detail-lowongan');
+});
+
+
+Route::get('/perusahaan/terima/lamaran', function () {
+    return view('perusahaan.terima-pelamar');
+});
+
+Route::get('/perusahaan/konfirmasi/lamaran', function () {
+    return view('perusahaan.konfirmasi-lamaran');
+});
+
+Route::get('/perusahaan/jadi/alamat', function () {
+    return view('perusahaan.alamat-jadi');
+});
+
+
+
+Route::get('/perusahaan/kandidat', function () {
+    return view('perusahaan.kandidat-saya');
+});
+
+Route::get('/perusahaan/transaksi/koin', function () {
+    return view('perusahaan.transaksi-koin');
+});
+
+Route::get('/perusahaan/transaksi/koin/qris', function () {
+    return view('perusahaan.transaksi-koin-qris');
+});
+
+Route::get('/perusahaan/pengaturan', function () {
+    return view('perusahaan.pengaturan');
+});
+Route::get('/perusahaan/pengaturan/gantipw', function () {
+    return view('perusahaan.pengaturan-gantipw');
+});
+Route::get('/perusahaan/talent/hunter', function () {
+    return view('perusahaan.talent-hunter');
+});
+
+Route::get('/perusahaan/event', function () {
+    return view('perusahaan.event');
+});
+Route::get('/perusahaan/gabung/event', function () {
+    return view('perusahaan.gabung-event');
+});
+Route::get('/perusahaan/berhasilikut', function () {
+    return view('perusahaan.notif-berhasil-ikuti');
+});
+
 
 Route::get('/perusahaan/register', [AuthController::class, 'regis_perusahaan']);
 Route::get('/perusahaan/login', [AuthController::class, 'login_perusahaan']);

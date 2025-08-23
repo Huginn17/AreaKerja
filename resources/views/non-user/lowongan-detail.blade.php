@@ -1,16 +1,6 @@
 @extends('layouts.index')
 @section('content')
-    <!DOCTYPE html>
-    <html lang="id">
-
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Detail Lowongan</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-    </head>
-
-    <body class="bg-gray-50 font-sans">
+    <div class="bg-gray-50 font-sans">
         <div class="max-w-7xl mx-auto py-8 px-4 md:px-8 grid md:grid-cols-3 gap-6">
 
             <!-- Kiri: Detail Lowongan -->
@@ -129,8 +119,6 @@
         </div>
 
 
-        @include('layouts.footer')
-    </body>
-
-    </html>
+    </div>
+    @include('layouts.footer')
 @endsection
