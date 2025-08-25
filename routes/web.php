@@ -53,7 +53,7 @@ Route::get('/bantuan', function () {
 
 Route::get('/lowongan-tersimpan', function () {
     return view('non-user.lowongan-tersimpan');
-}); 
+});
 Route::get('/lowongan-detail', function () {
     return view('non-user.lowongan-detail');
 });
@@ -107,6 +107,7 @@ Route::get('/saya-rekrut', function () {
 
 
 
+
 //Finance
 Route::get('/finance/login', [AuthController::class, 'login_finance']);
 Route::get('/finance/register', [AuthController::class, 'regis_finance']);
@@ -119,20 +120,42 @@ Route::get('/finance/dashboard', function () {
     return view('finance.dashboard');
 });
 
+Route::get('/finance/paketharga', function () {
+    return view('finance.paket-harga');
+});
 
+Route::get('/finance/omset/perusahaan', function () {
+    return view('finance.omset-perusahaan');
+});
+Route::get('/finance/catatan/transaksi', function () {
+    return view('finance.catatan-tran');
+});
+Route::get('/finance/laporan/transaksi', function () {
+    return view('finance.laporan-tran');
+});
+Route::get('/finance/laporan/transaksi2', function () {
+    return view('finance.laporan-tran2');
+});
 
 
 
 //Admin
-Route::get('/admin/login',[AuthController::class, 'login_admin']);
+Route::get('/admin/login', [AuthController::class, 'login_admin']);
 Route::get('/admin/register', [AuthController::class, 'regis_admin']);
 Route::get('/admin/verifikasi', [AuthController::class, 'verif_admin']);
 Route::get('/admin/verif-otp', [AuthController::class, 'verifotp_admin']);
 Route::get('/admin/verif-lupapw', [AuthController::class, 'veriflupapw_admin']);
 
 Route::get('/admin/dashboard', function () {
-   return view('admin.dashboard'); 
+    return view('admin.dashboard');
 });
+Route::get('/admin/profile', function () {
+    return view('admin.profile');
+});
+Route::get('/admin/pelamar', function () {
+    return view('admin.pelamar');
+});
+
 
 
 
@@ -145,7 +168,9 @@ Route::get('/super_admin/verifikasi', [AuthController::class, 'verif_super_admin
 Route::get('/super_admin/verif-otp', [AuthController::class, 'verifotp_super_admin']);
 Route::get('/super_admin/verif-lupapw', [AuthController::class, 'veriflupapw_super_admin']);
 
-
+Route::get('/super_admin/dashboard', function () {
+    return view('super_admin.dashboard');
+});
 
 
 
@@ -208,7 +233,17 @@ Route::get('/perusahaan/jadi/alamat', function () {
     return view('perusahaan.alamat-jadi');
 });
 
+Route::get('/perusahaan/berlangganan', function () {
+    return view('perusahaan.berlangganan');
+});
 
+Route::get('/perusahaan/kandidat/ak', function () {
+    return view('perusahaan.kandidat-ak');
+});
+
+Route::get('/perusahaan/kandidat/areakerja', function () {
+    return view('perusahaan.kandidat-areakerja');
+});
 
 Route::get('/perusahaan/kandidat', function () {
     return view('perusahaan.kandidat-saya');
@@ -237,10 +272,28 @@ Route::get('/perusahaan/event', function () {
 });
 Route::get('/perusahaan/gabung/event', function () {
     return view('perusahaan.gabung-event');
+
+});Route::get('/perusahaan/event/kosong', function () {
+    return view('perusahaan.event-kosong');
 });
 Route::get('/perusahaan/berhasilikut', function () {
     return view('perusahaan.notif-berhasil-ikuti');
 });
+Route::get('/perusahaan/request/data', function () {
+    return view('perusahaan.request-data');
+});
+Route::get('perusahaan/pekerja/bermasalah', function () {
+    return view('perusahaan.pekerja-bermasalah');
+});
+Route::get('perusahaan/cari/nama/pekerja', function () {
+    return view('perusahaan.cari-nama-pekerja');
+});     
+Route::get('perusahaan/laporan/harian', function () {
+    return view('perusahaan.laporan-harian');
+});     
+Route::get('perusahaan/laporan/pekerja', function () {
+    return view('perusahaan.laporan-pekerja');
+});             
 
 
 Route::get('/perusahaan/register', [AuthController::class, 'regis_perusahaan']);
