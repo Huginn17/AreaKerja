@@ -155,10 +155,46 @@ Route::get('/admin/profile', function () {
 Route::get('/admin/pelamar', function () {
     return view('admin.pelamar');
 });
+Route::get('/admin/detail/data/kandidat', function () {
+    return view('admin.detail-data-kandidat');
+});
+Route::get('/admin/detail/data/non/kandidat', function () {
+    return view('admin.detail-data-non-kandidat');
+});
+Route::get('/admin/detail/data/calon/kandidat', function () {
+    return view('admin.detail-data-calon-kandidat');
+});
+Route::get('/admin/detail/manajemen/recruitmen', function () {
+    return view('admin.detail-manajemen-recruitmen');
+});
+
+Route::get('/admin/pelamar', function () {
+    return view('admin.pelamar');
+});
+Route::get('/admin/perusahaan', function () {
+    return view('admin.perusahaan');
+});
+Route::get('/admin/finance', function () {
+    return view('admin.finance');
+});
+Route::get('/admin/tips/kerja', function () {
+    return view('admin.tips-kerja');
+});
+Route::get('/admin/buatpost', function () {
+    return view('admin.buat-post');
+});
 
 
-
-
+//admin event
+Route::get('/admin/event/home', function () {
+    return view('admin.event.home');
+});
+Route::get('/admin/buat/event', function () {
+    return view('admin.event.buat-event');
+});
+Route::get('/admin/detail/event', function () {
+    return view('admin.event.detail-event');
+});
 
 
 //Super Admin
@@ -171,6 +207,41 @@ Route::get('/super_admin/verif-lupapw', [AuthController::class, 'veriflupapw_sup
 Route::get('/super_admin/dashboard', function () {
     return view('super_admin.dashboard');
 });
+
+Route::get('/super_admin/profile', function () {
+    return view('super_admin.profile-superadmin');
+});
+
+Route::get('/super_admin/edit-profile', function () {
+    return view('super_admin.edit-profile-superadmin');
+});
+
+Route::get('/super_admin/data-pelamar', function () {
+    return view('super_admin.data-pelamar');
+});
+
+Route::get('/super_admin/tambah-kandidat', function () {
+    return view('super_admin.tambah-kandidat-superadmin');
+});
+
+Route::get('/super_admin/detail-kandidat', function () {
+    return view('super_admin.detail-kandidat');
+});
+
+Route::get('/super_admin/pengaturan', function () {
+    return view('super_admin.pengaturan');
+});
+Route::get('/super_admin/banner', function () {
+    return view('super_admin.banner');
+});
+Route::get('/super_admin/add', function () {
+    return view('super_admin.add-user');
+});
+Route::get('/super_admin/detail/calon/kandidat', function () {
+    return view('super_admin.detail-calon-kandidat');
+});
+
+
 
 
 

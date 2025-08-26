@@ -1,10 +1,8 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
-    <!-- Main Content -->
-    <main class="flex-1 p-6">
-        <!-- Header -->
+    <main class="flex-1 p-6 bg-white overflow-y-auto">
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-medium">Dashboard</h1>
+            <h1 class="text-2xl font-medium">Detail Kandidat</h1>
             <div class="flex items-center gap-3">
                 <svg width="31" height="32" viewBox="0 0 31 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_722_7956)">
@@ -27,12 +25,12 @@
                 </svg>
 
                 <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
-                    <a href="/super_admin/profile">
+                    <a href="#">
                         <img src="{{ asset('images/ohim.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
                     </a>
                     <div class="text-sm">
                         <div class="font-semibold">Dj Ohim</div>
-                        <div class="text-gray-500">Lutung123@gmail.com</div>
+                        <div class="text-gray-500">lutung123@gmail.com</div>
                     </div>
 
                     <select class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
@@ -43,36 +41,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Cards -->
-        <div class="grid grid-cols-4 gap-6">
-            <div
-                class="bg-white p-5 rounded-lg shadow-lg hover:bg-gray-50 transition duration-300 hover:shadow-xl hover:scale-105">
-                <div class="text-black mb-2">Pelamar</div>
-                <div class="text-2xl font-semibold mb-1">27 <span class="text-gray-500 text-sm">+1.3%</span></div>
-                <a href="#" class="text-sm font-medium text-gray-500">Lihat Detail ></a>
-            </div>
-
-            <div
-                class="bg-white p-5 rounded-lg shadow-lg hover:bg-gray-50 transition duration-300 hover:shadow-xl hover:scale-105">
-                <div class="text-black mb-2">Perusahaan</div>
-                <div class="text-2xl font-semibold mb-1">15 <span class="text-gray-500 text-sm">+2.2%</span></div>
-                <a href="#" class="text-sm font-medium text-gray-500">Lihat Detail ></a>
-            </div>
-
-            <div
-                class="bg-white p-5 rounded-lg shadow-lg hover:bg-gray-50 transition duration-300 hover:shadow-xl hover:scale-105">
-                <div class="text-black mb-2">Admin</div>
-                <div class="text-2xl font-semibold mb-1">14 <span class="text-gray-500 text-sm">+0.7%</span></div>
-                <a href="#" class="text-sm font-medium text-gray-500">Lihat Detail ></a>
-            </div>
-
-            <div class="bg-white p-5 rounded-lg shadow-lg hover:bg-gray-50 transition duration-300 hover:scale-105">
-                <div class="text-black mb-2">Super Admin</div>
-                <div class="text-2xl font-semibold mb-1">37 <span class="text-gray-500 text-sm">+3.3%</span></div>
-                <a href="#" class="text-sm font-medium text-gray-500">Lihat Detail ></a>
-            </div>
-        </div>
+        
     </main>
-    </div>
 @endsection

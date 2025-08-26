@@ -4,7 +4,7 @@
 
 
         <!-- Header -->
-        <header class="w-full flex items-center justify-between px-6 py-3 border-bshadow-sm">
+        <header class="w-full flex items-center justify-between px-6 py-3 border-b shadow-sm">
             <h1 class="text-xl font-semibold">Profile</h1>
             <div class="flex items-center gap-3">
                 <!-- Notifikasi -->

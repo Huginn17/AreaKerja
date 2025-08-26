@@ -12,6 +12,8 @@
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/trix@2.0.0/dist/trix.css">
+    <script src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"></script>
 
     <style>
         body {
@@ -133,7 +135,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#"
+                    <a href="{{ url('/admin/perusahaan') }}"
                         class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 group">
                         <svg width="20" height="21" viewBox="0 0 20 21" fill="none"
                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -230,6 +232,7 @@
         </div>
     </aside>
     @yield('sidebaradmin')
+    <script src="{{ asset('js/admin.js') }}"></script>
 
 
     @include('finance.sidebar.modal-logout')
