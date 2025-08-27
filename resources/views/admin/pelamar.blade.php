@@ -6,7 +6,7 @@
             <div class="block lg:flex justify-between items-center mb-4">
                 <div class="space-x-2 grid grid-cols-2 gap-2 lg:inline md:inline mb-5 lg:mb-0">
                     <button id="btn_kandidat"
-                        class="bg-gray-700 text-gray-700 text-white px-4 py-2 rounded-md">Kandidat</button>
+                        class="bg-gray-700 text-gray-700 px-4 py-2 rounded-md">Kandidat</button>
                     <button id="btn_non_kandidat" class="border text-gray-700 px-4 py-2 rounded-md">Non Kandidat</button>
                     <button id="btn_calon_kandidat" class="border text-gray-700 px-4 py-2 rounded-md">Calon Kandidat</button>
                 </div>

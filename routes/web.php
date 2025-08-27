@@ -220,6 +220,14 @@ Route::get('/super_admin/data-pelamar', function () {
     return view('super_admin.data-pelamar');
 });
 
+Route::get('/super_admin/data-non-kandidat', function () {
+    return view('super_admin.data-non-kandidat');
+});
+
+Route::get('/super_admin/data-calon-kandidat', function () {
+    return view('super_admin.data-calon-kandidat');
+});
+
 Route::get('/super_admin/tambah-kandidat', function () {
     return view('super_admin.tambah-kandidat-superadmin');
 });
@@ -228,20 +236,75 @@ Route::get('/super_admin/detail-kandidat', function () {
     return view('super_admin.detail-kandidat');
 });
 
+Route::get('/super_admin/data-perusahaan', function () {
+    return view('super_admin.data-perusahaan');
+});
+
+Route::get('/super_admin/detail-perusahaan', function () {
+    return view('super_admin.detail-perusahaan');
+});
+
 Route::get('/super_admin/pengaturan', function () {
     return view('super_admin.pengaturan');
 });
 Route::get('/super_admin/banner', function () {
     return view('super_admin.banner');
 });
+
+
 Route::get('/super_admin/add', function () {
     return view('super_admin.add-user');
 });
-Route::get('/super_admin/detail/calon/kandidat', function () {
-    return view('super_admin.detail-calon-kandidat');
+Route::get('/super_admin/add/edit', function () {
+    return view('super_admin.edit-addprofile');
 });
 
 
+Route::get('/super_admin/tips/kerja', function () {
+    return view('super_admin.tips-kerja');
+});
+Route::get('/super_admin/buat/tips', function () {
+    return view('super_admin.buat-tips');
+});
+
+
+Route::get('/super_admin/event', function () {
+    return view('super_admin.event.home');
+});
+Route::get('/super_admin/event/buat', function () {
+    return view('super_admin.event.buat');
+});
+Route::get('/super_admin/event/view', function () {
+    return view('super_admin.event.view');
+});
+
+Route::get('/super_admin/akun/freeze', function () {
+    return view('super_admin.freeze');
+});
+Route::get('/super_admin/detail/frezee', function () {
+    return view('super_admin.detail-frezee');
+});
+
+Route::get('/super_admin/detail/calon/kandidat', function () {
+    return view('super_admin.detail-calon-kandidat');
+});
+Route::get('/super_admin/update/calon/kandidat', function () {
+    return view('super_admin.update-calon-kandidat');
+});
+Route::get('/super_admin/tambah/perusahaan', function () {
+    return view('super_admin.tambah-perusahaan');
+});
+Route::get('/super_admin/detail/lowongan', function () {
+    return view('super_admin.detail-lowongan');
+});
+
+Route::get('/super_admin/tambah/lowongan', function () {
+    return view('super_admin.tambah-lowongan');
+});
+
+Route::get('/super_admin/finance', function () {
+    return view('super_admin.finance');
+});
 
 
 

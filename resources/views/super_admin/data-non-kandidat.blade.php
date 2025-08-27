@@ -2,7 +2,7 @@
 @section('sidebarsuperadmin')
     <main class="flex-1 p-6 bg-white overflow-y-auto">
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-medium">Data Kandidat</h1>
+            <h1 class="text-2xl font-medium">Data Non Kandidat</h1>
             <div class="flex items-center gap-3">
                 <svg width="31" height="32" viewBox="0 0 31 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_722_7956)">
@@ -45,14 +45,15 @@
         <div class="flex items-center justify-between mb-6">
             <div class="flex items-center gap-4">
                 <div>
-                    <a id="btnAddPerusahaan" class="bg-orange-500 flex justify-center items-center px-4 py-1 rounded-md"
-                        href="/super_admin/tambah-kandidat"
+                    <a href="/super_admin/tambah-kandidat"
                         class="bg-orange-500 border border-orange-600 text-white px-3 py-2 rounded-lg inline-flex items-center justify-center">
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path d="M1.35156 10.6295H19.9094M10.6305 1.35059V19.9084" stroke="white" stroke-width="2.65112"
                                 stroke-linecap="round" stroke-linejoin="round" />
-                        </svg></a>
+                        </svg>
+                    </a>
+
                 </div>
                 <div>
                     <button class="bg-white border border-orange-600 text-orange-600 px-4 py-3 rounded-lg">
@@ -66,24 +67,50 @@
                 </div>
                 <div class="relative inline-block w-48">
                     <!-- Select utama -->
-                    <div class="flex items-center gap-2">
-                        <select id="kategori_select_kandidat" class="bg-orange-500 text-white px-10 py-2 rounded-md"
-                            name="" id="">
-                            <option id="kandidat_optn" value="kandidat">Kandidat</option>
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                            <option id="non_kandidat_optn" value="non_kandidat">Non Kandidat</option>
-                            <option id="calon_kandidat_opt" value="calon_kandidat">Calon Kandidat</option>
-                        </select>
+                    <button
+                        class="w-full bg-orange-500 text-white font-medium px-4 py-2 border border-orange-500 rounded-md flex justify-between items-center focus:outline-none"
+                        id="dropdownButton">
+                        <span>Pilih Opsi</span>
+                        <!-- Icon panah -->
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
 
+                    <!-- Dropdown menu -->
+                    <div id="dropdownMenu"
+                        class="absolute hidden mt-2 w-full bg-white rounded-md shadow-lg overflow-hidden z-10">
+                        <ul class="text-orange-500">
+                            <li>
+                                <a href="/super_admin/data-pelamar"
+                                    class="block px-4 py-2 hover:bg-orange-500 hover:text-white transition">Kandidat</a>
+                            </li>
+                            <li>
+                                <a href="/super_admin/data-non-kandidat"
+                                    class="block px-4 py-2 hover:bg-orange-500 hover:text-white transition">Non Kandidat</a>
+                            </li>
+                            <li>
+                                <a href="/super_admin/data-calon-kandidat"
+                                    class="block px-4 py-2 hover:bg-orange-500 hover:text-white transition">Calon Kandidat</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
+
+                <script>
+                    const button = document.getElementById("dropdownButton");
+                    const menu = document.getElementById("dropdownMenu");
+
+                    button.addEventListener("click", () => {
+                        menu.classList.toggle("hidden");
+                    });
+                </script>
+
             </div>
             <div class="flex gap-2">
                 <input type="text" placeholder="nama/username ..."
                     class="border border-gray-500 rounded-lg px-4 py-2 w-72">
-                <button class="bg-orange-500 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
+                <button class="bg-orange-500 font-medium text-white px-10 py-2 rounded-xl">Cari</button>
             </div>
         </div>
 
