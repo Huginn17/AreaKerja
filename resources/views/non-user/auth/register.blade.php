@@ -60,45 +60,95 @@
                     </div>
                 </div>
 
-                <!-- Form -->
-                <form action="#" method="POST" class="space-y-4">
+                {{-- form register --}}
+                <form id="registerForm" action="{{ route('registerproses') }}" method="POST" class="space-y-4">
+                    @csrf <!-- jangan lupa ini biar lolos proteksi Laravel -->
+
                     <div>
                         <label for="username" class="block text-sm font-medium text-gray-700 m-2">Nama Pengguna</label>
-                        <input type="text" id="username" placeholder="Nama Pengguna"
+                        <input type="text" id="username" name="username" placeholder="Nama Pengguna"
                             class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring focus:ring-orange-300 focus:outline-none">
+                        <p class="text-red-500 text-sm mt-1 error-message" data-field="username"></p>
                     </div>
 
                     <div>
                         <label for="email" class="block text-sm font-medium text-gray-700 m-2">Email</label>
-                        <input type="email" id="email" placeholder="E-mail"
+                        <input type="email" id="email" name="email" placeholder="E-mail"
                             class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring focus:ring-orange-300 focus:outline-none">
+                        <p class="text-red-500 text-sm mt-1 error-message" data-field="email"></p>
                     </div>
 
                     <div>
                         <label for="phone" class="block text-sm font-medium text-gray-700 m-2">No.Tlp</label>
-                        <input type="text" id="phone" placeholder="No. Tlp"
+                        <input type="text" id="phone" name="telepon_pelamar" placeholder="No. Tlp"
                             class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring focus:ring-orange-300 focus:outline-none">
+                        <p class="text-red-500 text-sm mt-1 error-message" data-field="telepon_pelamar"></p>
                     </div>
 
                     <div>
                         <label for="password" class="block text-sm font-medium text-gray-700 m-2">Kata Sandi</label>
-                        <input type="password" id="password" placeholder="Kata Sandi"
+                        <input type="password" id="password" name="password" placeholder="Kata Sandi"
                             class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring focus:ring-orange-300 focus:outline-none">
+                        <p class="text-red-500 text-sm mt-1 error-message" data-field="password"></p>
                     </div>
 
                     <!-- Checkbox -->
                     <label class="flex items-center text-sm font-medium gap-1">
                         <input type="checkbox" class="mr-2">
-                        Saya menyetujui <a href="{{ url('syarat/ketentuan') }}" class="text-orange-500"> Syarat dan Ketentuan </a> yang
+                        Saya menyetujui <a href="{{ url('syarat/ketentuan') }}" class="text-orange-500"> Syarat dan
+                            Ketentuan </a> yang
                         berlaku
                     </label>
 
-                  </form>
-                  <!-- Tombol Daftar -->
-                  <button onclick="openModal()"
-                      class="w-full py-3 bg-orange-500 text-white rounded-lg  font-semibold hover:bg-orange-600 mt-6">
-                      Daftar
-                  </button>
+                    <input type="hidden" name="role" value="pelamar">
+
+                    <!-- Tombol submit harus di dalam form -->
+                    <button type="submit"
+                        class="w-full py-3 bg-orange-500 text-white rounded-lg  font-semibold hover:bg-orange-600 mt-6">
+                        Daftar
+                    </button>
+                </form>
+
+
+
+
+                <!-- Modal overlay -->
+
+                <div id="successModal" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/50">
+                    <!-- Konten Modal -->
+                    <div
+                        class="relative bg-white rounded-2xl shadow-lg w-[90%] max-w-md p-8 text-center animate-fadeIn">
+
+                        <!-- Tombol X -->
+                        <button onclick="closeModal()"
+                            class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-xl font-bold">
+                            &times;
+                        </button>
+
+                        <!-- Judul -->
+                        <h2 class="text-2xl font-bold mb-3">Selamat Akun anda berhasil dibuat</h2>
+
+                        <!-- Pesan -->
+                        <p class="text-gray-700 mb-8">
+                            setelah ini anda hanya perlu login <br>untuk terhubung dengan areakerja
+                        </p>
+
+                        <!-- Gambar ilustrasi -->
+                        <div class="flex justify-center mb-6">
+                            <img src="{{ asset('images/orang.png') }}" alt="Ilustrasi" class="w-30 h-28">
+                        </div>
+
+                        <!-- Tombol aksi -->
+                        <div class="flex justify-center gap-6">
+                            <button id="goLogin"
+                                class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg">
+                                Masuk
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -110,7 +160,8 @@
             <div
                 class="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center text-center text-white px-6 pb-56">
                 <h2 class="text-3xl font-semibold mb-4">Hallo, Pekerja</h2>
-                <p class="mb-6">untuk tetap terhubung dengan kami, silakan <br> masuk dengan informasi pribadi Anda
+                <p class="mb-6">untuk tetap terhubung dengan kami, silakan <br> masuk dengan informasi pribadi
+                    Anda
                 </p>
                 <a href="{{ url('/login') }}"
                     class="px-20 py-4 border border-white rounded-full hover:bg-white hover:text-black transition">MASUK</a>
@@ -119,7 +170,37 @@
 
     </div>
 
-    @include('non-user.auth.modal-regsiter')
+    <script>
+        document.getElementById("registerForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+
+            let formData = new FormData(this);
+
+            let response = await fetch("{{ route('registerproses') }}", {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
+                },
+                body: formData
+            });
+
+            let data = await response.json();
+
+            if (data.success) {
+                let modal = document.getElementById("successModal");
+                modal.classList.remove("hidden");
+                modal.classList.add("flex"); // ✅ bikin tampil
+            } else {
+                alert("Terjadi kesalahan, coba lagi.");
+            }
+        });
+
+        // tombol "Masuk"
+        document.getElementById("goLogin").addEventListener("click", function() {
+            window.location.href = "{{ route('login') }}";
+        });
+    </script>
+
 </body>
 
 </html>

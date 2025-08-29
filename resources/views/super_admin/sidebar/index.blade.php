@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Dashboard</title>
+    <title>Super Admin</title>
 
     @vite('resources/css/app.css')
     <link rel="icon" sizes="512x512" type="image/png" href="{{ asset('images/logoarea.png') }}">
@@ -40,7 +40,7 @@
             <nav class="flex-1 px-4 py-6 text-sm">
                 <div class="font-semibold mb-3 ml-3">Umum</div>
                 <div class="{{ request()->is('super_admin/dashboard') ? 'bg-white text-orange-500' : '' }} rounded-md">
-                    <a href="/super_admin/dashboard"
+                    <a href="{{ route('superadmin.dashboard') }}"
                         class="flex font-semibold items-center mb-4 gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="15" height="16" viewBox="0 0 15 16" fill="currentColor"
                             xmlns="http://www.w3.org/2000/svg">
@@ -101,9 +101,9 @@
                     </a>
                 </div>
                 <div
-                    class="{{ request()->is('super_admin/akun/freeze') ? 'bg-white text-orange-500' : '' }} rounded-md">
+                    class="{{ request()->is('super_admin/akun/freeze') || request()->is('super_admin/detail/freeze') ? 'bg-white text-orange-500' : '' }} rounded-md">
                     <a href="/super_admin/akun/freeze"
-                        class="flex font-semibold items-center mb-1 gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
+                        class="flex font-semibold items-center mb-1 gap-3 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="14" height="17" viewBox="0 0 14 17" fill="currentColor"
                             xmlns="http://www.w3.org/2000/svg">
                             <path

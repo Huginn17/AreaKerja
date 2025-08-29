@@ -27,7 +27,8 @@
         </div>
 
         <!-- Dropdown -->
-        <select id="menu_select" class=" text-white bg-orange-500 border rounded p-2">
+        <select id="menu_select"
+            class="w-48 bg-orange-500 text-white font-medium px-4 py-2 border border-orange-500 rounded-md flex justify-between items-center focus:outline-none">
             <option value="paket_harga">Paket Harga</option>
             <option value="riwayat">Riwayat</option>
             <option value="laporan">Laporan</option>
@@ -109,7 +110,7 @@
                                     <th class="px-4 py-2 text-left">Dari</th>
                                     <th class="px-4 py-2 text-left">Sumber Dana</th>
                                     <th class="px-4 py-2 text-left">Total Koin</th>
-                                    <th class="px-4 py-2 text-left">Detail</th>
+                                    <th class="px-4 py-2 text-center">Detail</th>
                                     <th class="px-4 py-2 text-left">Status</th>
                                 </tr>
                             </thead>
@@ -122,7 +123,15 @@
                                     <td class="px-4 py-2">AppleCorp.</td>
                                     <td class="px-4 py-2">Koin AreaKerja</td>
                                     <td class="px-4 py-2">Rp. 10.000</td>
-                                    <td class="px-4 py-2 text-orange-500"><i class="fa-solid fa-file-lines">detail</i></td>
+                                    <td class="px-4 py-2 text-orange-500 flex items-center justify-center"><svg
+                                            width="19" height="24" viewBox="0 0 19 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
+                                                fill="#FA6601" />
+                                        </svg>
+
+                                    </td>
                                     <td class="px-4 py-2 text-green-600 font-semibold">Sukses</td>
                                 </tr>
                                 <tr class="border-t">
@@ -132,7 +141,15 @@
                                     <td class="px-4 py-2">AppleCorp.</td>
                                     <td class="px-4 py-2">Koin AreaKerja</td>
                                     <td class="px-4 py-2">Rp. 10.000</td>
-                                    <td class="px-4 py-2 text-orange-500"><i class="fa-solid fa-file-lines">detail</i></td>
+                                    <td class="px-4 py-2 text-orange-500 flex items-center justify-center"><svg
+                                            width="19" height="24" viewBox="0 0 19 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
+                                                fill="#FA6601" />
+                                        </svg>
+
+                                    </td>
                                     <td class="px-4 py-2 text-green-600 font-semibold">Sukses</td>
                                 </tr>
                             </tbody>
@@ -152,7 +169,7 @@
                                         <th class="px-4 py-2 text-left">Dari</th>
                                         <th class="px-4 py-2 text-left">Sumber Dana</th>
                                         <th class="px-4 py-2 text-left">Total Koin</th>
-                                        <th class="px-4 py-2 text-left">Detail</th>
+                                        <th class="px-4 py-2 text-center">Detail</th>
                                         <th class="px-4 py-2 text-left">Status</th>
                                     </tr>
                                 </thead>
@@ -165,7 +182,14 @@
                                         <td class="px-4 py-2">AppleCorp.</td>
                                         <td class="px-4 py-2">Koin AreaKerja</td>
                                         <td class="px-4 py-2">10 Koin</td>
-                                        <td class="px-4 py-2 text-orange-500"><i class="fa-solid fa-file-lines">detail</i>
+                                        <td class="px-4 py-2 text-orange-500 flex items-center justify-center"><svg
+                                                width="19" height="24" viewBox="0 0 19 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
+                                                    fill="#FA6601" />
+                                            </svg>
+
                                         </td>
                                         <td class="px-4 py-2 text-green-600 font-semibold">Sukses</td>
                                     </tr>
@@ -176,7 +200,14 @@
                                         <td class="px-4 py-2">AppleCorp.</td>
                                         <td class="px-4 py-2">Koin AreaKerja</td>
                                         <td class="px-4 py-2">10 Koin</td>
-                                        <td class="px-4 py-2 text-orange-500"><i class="fa-solid fa-file-lines">detail</i>
+                                        <td class="px-4 py-2 text-orange-500 flex items-center justify-center"><svg
+                                                width="19" height="24" viewBox="0 0 19 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
+                                                    fill="#FA6601" />
+                                            </svg>
+
                                         </td>
                                         <td class="px-4 py-2 text-green-600 font-semibold">Sukses</td>
                                     </tr>
@@ -202,17 +233,15 @@
                 {{-- riwayat transaksi --}}
                 <div class="mb-8 bg-orange-500 p-4 rounded-lg mt-3">
                     <span class="text-md font-semibold text-white">Riwayat Koin</span>
-                    <div class="flex justify-between items-start mb-3 mt-4">
-                        <select
-                            class="border border-orange-500 rounded-lg px-2 py-2 text-sm  text-orange-500 hover:bg-orange-500 hover:text-white">
+                    <div class="flex justify-start gap-3 mb-3 mt-4">
+                        <select class="border border-orange-500 rounded-lg px-4 py-2 text-sm text-orange-500 font-medium">
                             <option selected">Bulan</option>
                             <div class="font-bold text-black">
                                 <option value="">1 Bulan Terakhir</option>
                                 <option value="">3 Bulan Terakhir</option>
                             </div>
                         </select>
-                        <select
-                            class="border border-orange-500 rounded-lg px-2 py-2 text-sm mr-[600px] ml-5 text-orange-500 hover:bg-orange-500 hover:text-white">
+                        <select class="border border-orange-500 rounded-lg px-4 py-2 text-sm text-orange-500 font-medium">
                             <option selected">Tahun</option>
                             <div class="font-bold text-black">
                                 <option value="">1 Bulan Terakhir</option>
@@ -238,8 +267,9 @@
                                     <td class="px-4 py-2">Top Up</td>
                                     <td class="px-4 py-2">10</td>
                                     <td class="px-4 py-2">Rp. 1.000.000</td>
-                                    <td class="px-4 py-2 text-orange-500"><svg width="19" height="24"
-                                            viewBox="0 0 19 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <td class="px-4 py-2 text-orange-500 flex items-center justify-center"><svg
+                                            width="19" height="24" viewBox="0 0 19 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
                                             <path
                                                 d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
                                                 fill="#FA6601" />
@@ -252,8 +282,9 @@
                                     <td class="px-4 py-2">Top Up</td>
                                     <td class="px-4 py-2">10</td>
                                     <td class="px-4 py-2">Rp. 1.000.000</td>
-                                    <td class="px-4 py-2 text-orange-500"><svg width="19" height="24"
-                                            viewBox="0 0 19 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <td class="px-4 py-2 text-orange-500 flex items-center justify-center"><svg
+                                            width="19" height="24" viewBox="0 0 19 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
                                             <path
                                                 d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
                                                 fill="#FA6601" />

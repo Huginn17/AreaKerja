@@ -24,70 +24,62 @@
                     </defs>
                 </svg>
 
-                <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
-                    <a href="#">
-                        <img src="{{ asset('images/ohim.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
-                    </a>
-                    <div class="text-md">
-                        <div class="font-semibold">Dj Ohim</div>
-                        <div class="text-gray-500">lutung123@gmail.com</div>
+                <div
+                    class="flex items-center justify-between w-96 h-14 bg-white border border-orange-500 shadow-md rounded-2xl px-3 py-2">
+                    <!-- Logo + Info -->
+                    <div class="flex items-center gap-2 mr-2">
+                        <a href="#">
+                            <img src="{{ asset('images/seven.png') }}" class="w-16 h-16 object-contain" alt="User">
+                        </a>
+                        <div class="text-sm">
+                            <div class="font-semibold">Seven Inc</div>
+                            <div class="text-gray-500 text-xs">financeseven@gmail.com</div>
+                        </div>
                     </div>
 
-                    <select class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-md focus:outline-none">
+                    <!-- Dropdown -->
+                    <select class="appearance-none text-gray-600 text-xs px-8 focus:outline-none cursor-pointer">
                         <option>Text 1</option>
                         <option>Text 2</option>
                         <option>Text 3</option>
                     </select>
                 </div>
+
             </div>
         </div>
-
-
-
-        {{-- content --}}
-        <div class="flex justify-center items-center min-h-screen bg-white">
-
-            <div class="w-[700px] rounded-xl  border border-gray-700 p-6 bg-white">
-                <!-- Header -->
-                <div class="flex items-center gap-6">
-                    <!-- Profile Image -->
-                    <img src="{{ asset('images/ohim.jpg') }}" alt="Profile"
-                        class="w-32 h-32 rounded-full object-cover border">
-
-                    <!-- Buttons -->
-                    <div class="flex gap-4">
-                        <button class="px-6 py-2 bg-green-500 text-white font-semibold rounded-full">Unbanned</button>
-                        <button class="px-6 py-2 bg-red-600 text-white font-semibold rounded-full">Hapus Akun</button>
-                    </div>
-                </div>
-
-                <!-- Info Section -->
-                <div class="mt-6 flex flex-col gap-4">
-                    <!-- Top Text -->
-                    <div class="w-full bg-gray-200 py-2 text-center font-semibold rounded-md">
-                        Has been exploited with Am
-                    </div>
-
-                    <!-- Emails -->
-                    <div class="flex gap-4">
-                        <div class="w-full bg-gray-200 py-2 text-center rounded-md">
-                            ramadwi@gmail.com
-                        </div>
-                        <div class="w-full bg-gray-200 py-2 text-center rounded-md">
-                            ramadwi@gmail.com
-                        </div>
-                    </div>
-
-                    <!-- Location -->
-                    <div class="w-full bg-gray-200 py-2 text-center font-semibold rounded-md">
-                        Sleman, Yogyakarta
-                    </div>
-
-                    <!-- Empty Box -->
-                    <div class="w-full h-40 bg-gray-200 rounded-md"></div>
+        <div class="max-w-4xl mx-auto bg-white border border-gray-400 rounded-xl shadow-md overflow-hidden">
+            <!-- Header dengan foto dan tombol -->
+            <div class="flex items-center p-6 border-b border-gray-300 rounded-md shadow-md">
+                <img src="{{ asset('images/ohim.jpg') }}" alt="User" class="w-32 h-32 ml-2 rounded-full border-2 border-gray-600">
+                <div class="flex gap-3 mt-4 ml-24">
+                    <button class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-xl shadow">
+                        Unbanned
+                    </button>
+                    <button class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-xl shadow">
+                        Hapus Akun
+                    </button>
                 </div>
             </div>
 
+            <!-- Body -->
+            <div class="p-6 space-y-3">
+                <div class="bg-gray-200 text-center text-sm border-gray-300 shadow rounded-md border py-2">
+                    Has been exploited with Am
+                </div>
+                <div class="flex gap-3">
+                    <div class="flex-1 bg-gray-200 text-center text-sm border shadow border-gray-300 rounded-md py-2">
+                        ramadwi@gmail.com
+                    </div>
+                    <div class="flex-1 bg-gray-200 text-center text-sm border shadow border-gray-300 rounded-md py-2">
+                        ramadwi@gmail.com
+                    </div>
+                </div>
+                <div class="bg-gray-200 text-center text-sm border border-gray-300 shadow rounded-md py-2">
+                    Sleman, Yogyakarta
+                </div>
+                <div class="bg-gray-200 h-32 rounded-md"></div>
+            </div>
         </div>
+
     </main>
 @endsection

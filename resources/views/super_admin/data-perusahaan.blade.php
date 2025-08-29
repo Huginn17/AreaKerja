@@ -82,19 +82,19 @@
                         class="absolute hidden mt-2 w-full bg-white rounded-md shadow-lg overflow-hidden z-10">
                         <ul class="text-orange-500">
                             <li>
-                                <a href="#"
+                                <a href="/super_admin/data-perusahaan"
                                     class="block px-4 py-2 hover:bg-orange-500 hover:text-white transition">Perusahaan</a>
                             </li>
                             <li>
-                                <a href="#"
+                                <a href="/super_admin/data-recruitment"
                                     class="block px-4 py-2 hover:bg-orange-500 hover:text-white transition">Recruitment</a>
                             </li>
                             <li>
-                                <a href="#"
+                                <a href="/super_admin/data-talent-hunter"
                                     class="block px-4 py-2 hover:bg-orange-500 hover:text-white transition">Talent Hunter</a>
                             </li>
                             <li>
-                                <a href="#"
+                                <a href="/super_admin/data-panggilan"
                                     class="block px-4 py-2 hover:bg-orange-500 hover:text-white transition">Panggilan</a>
                             </li>
                         </ul>

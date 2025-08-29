@@ -1,9 +1,6 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
 
-
-
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -15,7 +12,7 @@
 <body class="bg-white">
 
   <!-- ✅ KONTEN LOWONGAN TETAP -->
-    <main class="flex-1 p-6 overflow-y-auto">
+    <main class="flex-1 p-6 ">
       <div class="max-w-3xl mx-auto border border-gray-300 rounded-lg shadow p-4 bg-white max-h-[600px] overflow-y-auto">
 
         <!-- Header Lowongan -->
@@ -114,10 +111,23 @@
             <p class="font-semibold text-lg m-2">Aktivitas Lowongan</p>
             <p>Lowongan dipasang 2 hari yang lalu</p>
           </div>
+          
         </div>
+<!-- Tombol di bawah form -->
+<div class="flex flex-col items-center mt-6 mb-2">
+  <button class="bg-orange-500 hover:bg-orange-600 text-white text-xs px-6 py-2 rounded-sm w-56">
+    Jadikan Rekomendasi
+  </button>
+  <button class="bg-orange-500 hover:bg-orange-600 text-white text-xs px-6 py-2 rounded-sm w-56 mt-2">
+    Kembali
+  </button>
+</div>
+</div> <!-- penutup container utama -->
 
       </div>
+      
     </main>
+    
   </div>
 
 </body>

@@ -47,81 +47,85 @@
         <div class="bg-white p-6">
 
             <!-- Card Social Media -->
-            <div class="bg-orange-500 p-6 rounded-lg mb-6 text-white w-[900px]">
-                <h3 class="text-lg font-semibold mb-4">Social Media</h3>
-                <div class="mb-4">
-                    <label class="block mb-1">Facebook</label>
-                    <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
-                </div>
-                <div class="mb-4">
-                    <label class="block mb-1">Youtube</label>
-                    <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
-                </div>
-                <div class="mb-4">
-                    <label class="block mb-1">Instagram</label>
-                    <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
-                </div>
-                <div class="mb-2">
-                    <label class="block mb-1">Linkedin</label>
-                    <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
+            <div class="bg-orange-500 p-6 rounded-lg mb-6 text-white w-full">
+                <div class="max-w-3xl mx-auto">
+                    <h3 class="text-lg font-semibold mb-4">Social Media</h3>
+                    <div class="mb-4">
+                        <label class="block mb-1">Facebook</label>
+                        <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-1">Youtube</label>
+                        <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-1">Instagram</label>
+                        <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
+                    </div>
+                    <div class="mb-2">
+                        <label class="block mb-1">Linkedin</label>
+                        <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
+                    </div>
                 </div>
             </div>
 
             <!-- Card Image Header -->
             <div class="bg-orange-500 p-6 rounded-lg text-white">
-                <h3 class="text-lg font-semibold mb-4">Image Header</h3>
+                <div class="max-w-3xl mx-auto">
+                    <h3 class="text-lg font-semibold mb-4">Image Header</h3>
 
-                <div class="mb-4">
-                    <label class="block mb-1">Beranda</label>
-                    <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
-                </div>
-                <div class="mb-4">
-                    <label class="block mb-1">Tips Kerja</label>
-                    <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
-                </div>
-                <div class="mb-4">
-                    <label class="block mb-1">Pasang Lowongan</label>
-                    <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
-                </div>
-                <div class="mb-4">
-                    <label class="block mb-1">Daftar Kandidat</label>
-                    <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
-                </div>
-                <div class="mb-4">
-                    <label class="block mb-1">Talent Hunter</label>
-                    <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
-                </div>
-                <div class="mb-4">
-                    <label class="block mb-1">Profil Pelamar</label>
-                    <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
-                </div>
-                <div class="mb-4">
-                    <label class="block mb-1">Lowongan Tersimpan</label>
-                    <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
-                </div>
-                <div class="mb-4">
-                    <label class="block mb-1">FAQ</label>
-                    <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
-                </div>
-                <div class="mb-4">
-                    <label class="block mb-1">Rekrut Pelamar</label>
-                    <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
-                </div>
-                <div class="mb-4">
-                    <label class="block mb-1">Pelamar Perusahaan</label>
-                    <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
-                </div>
-                <div class="mb-4">
-                    <label class="block mb-1">Kandidat AK</label>
-                    <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
-                </div>
-                <div class="mb-4">
-                    <label class="block mb-1">Berlangganan</label>
-                    <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
-                </div>
-                <div>
-                    <label class="block mb-1">Request Data</label>
-                    <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
+                    <div class="mb-4">
+                        <label class="block mb-1">Beranda</label>
+                        <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-1">Tips Kerja</label>
+                        <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-1">Pasang Lowongan</label>
+                        <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-1">Daftar Kandidat</label>
+                        <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-1">Talent Hunter</label>
+                        <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-1">Profil Pelamar</label>
+                        <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-1">Lowongan Tersimpan</label>
+                        <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-1">FAQ</label>
+                        <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-1">Rekrut Pelamar</label>
+                        <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-1">Pelamar Perusahaan</label>
+                        <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-1">Kandidat AK</label>
+                        <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-1">Berlangganan</label>
+                        <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
+                    </div>
+                    <div>
+                        <label class="block mb-1">Request Data</label>
+                        <input type="text" class="w-full px-3 py-2 rounded-md outline-none text-black">
+                    </div>
                 </div>
             </div>
 

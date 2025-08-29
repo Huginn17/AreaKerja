@@ -85,12 +85,12 @@
                 </div>
 
                 <p class="text-center text-gray-500 mb-6 mt-6 text-sm">gunakan email Anda untuk pendaftaran</p>
-
                 <!-- Form Login -->
-                <form class="space-y-4">
+                <form action="{{ route('login_superadmin') }}" method="POST" class="space-y-4">
+                    @csrf
                     <div>
                         <label for="username" class="block text-sm font-medium text-gray-700">Nama Pengguna</label>
-                        <input type="text" id="username" name="username" placeholder="Nama Pengguna"
+                        <input type="text" value="{{ old('username') }}" id="username" name="username" placeholder="Nama Pengguna"
                             class="mt-2 block w-full border border-gray-700 rounded-lg p-2.5 focus:ring-orange-500 focus:border-orange-500" />
                     </div>
                     <div>

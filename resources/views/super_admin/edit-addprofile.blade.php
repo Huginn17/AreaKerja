@@ -46,17 +46,15 @@
         {{-- content --}}
         <div class="flex items-center justify-center min-h-screen">
 
-            <div class=" w-full max-w-4xl p-6 rounded-lg border border-gray-300 shadow-sm">
+            <div class=" w-full max-w-4xl p-6 rounded-lg border border-gray-400 shadow-sm">
                 {{-- judul --}}
-                <h2 class="text-center text-lg font-semibold mb-6">Edit Profile</h2>
+                <h2 class="text-center text-lg font-semibold mb-4">Edit Profile</h2>
 
 
                 {{-- pp --}}
-                <div class="flex justify-center mb-6">
-                    <div class="w-24 h-24 bg-gray-300 rounded-full flex items-center justify-center">
+                <div class="flex justify-center mb-8">
                         {{-- <i class="fa-solid fa-user text-5xl text-gray-500"></i> --}}
-                        <img src="{{ asset('images/ohim.jpg') }}" class="w-24 h-24 rounded-full" alt="User">
-                    </div>
+                        <img src="{{ asset('images/ohim.jpg') }}" class="w-32 h-32 rounded-full" alt="User">
                 </div>
 
 
@@ -65,41 +63,41 @@
                     <div class="grid grid-cols-2 gap-4">
                         {{-- id user --}}
                         <div>
-                            <label for="" class="block text-sm font-medium">Id User<span
+                            <label for="" class="block text-sm font-medium mb-1">ID User <span
                                     class="text-red-500">*</span></label>
                             <input type="text" name="" id=""
-                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                class="w-full border border-gray-300 shadow rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-500">
                         </div>
                         {{-- email --}}
                         <div>
-                            <label for="" class="block text-sm font-medium">Email<span
+                            <label for="" class="block text-sm font-medium mb-1">Email <span
                                     class="text-red-500">*</span></label>
                             <input type="email" name="" id=""
-                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                class="w-full border border-gray-300 shadow rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-500">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
                         <!-- Nama Lengkap -->
                         <div>
-                            <label class="block text-sm font-medium">Nama Lengkap<span class="text-red-500">*</span></label>
+                            <label class="block text-sm font-medium mb-1">Nama Lengkap <span class="text-red-500">*</span></label>
                             <input type="text"
-                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                class="w-full border border-gray-300 shadow rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-500">
                         </div>
                         <!-- User (dropdown) -->
                         <div class="grid grid-cols-2 gap-2">
                             <div>
-                                <label class="block text-sm font-medium">User<span class="text-red-500">*</span></label>
+                                <label class="block text-sm font-medium mb-1">User <span class="text-red-500">*</span></label>
                                 <select
-                                    class="w-full border border-gray-300 rounded-md px-3 py-2 appearance-none bg-white focus:outline-none focus:ring-1 focus:ring-orange-500">
-                                    <option>Role</option>
+                                    class="w-full border border-gray-300 shadow rounded-md px-3 py-2 appearance-none bg-white focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                    <option>Role </option>
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium">&nbsp;</label>
+                                <label class="block text-sm font-medium mb-1">&nbsp; </label>
                                 <select
-                                    class="w-full border border-gray-300 rounded-md px-3 py-2 appearance-none bg-white focus:outline-none focus:ring-1 focus:ring-orange-500">
-                                    <option>daerah?</option>
+                                    class="w-full border border-gray-300 shadow rounded-md px-3 py-2 appearance-none bg-white focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                    <option>Daerah</option>
                                 </select>
                             </div>
                         </div>
@@ -108,47 +106,47 @@
                     <!-- Provinsi - Kota - Kecamatan - Kode Pos -->
                     <div class="grid grid-cols-4 gap-4">
                         <div>
-                            <label class="block text-sm font-medium">Provinsi<span class="text-red-500">*</span></label>
+                            <label class="block text-sm font-medium mb-1">Provinsi <span class="text-red-500">*</span></label>
                             <select
-                                class="w-full border border-gray-300 rounded-md px-3 py-2 appearance-none bg-white focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                class="w-full border border-gray-300 shadow rounded-md px-3 py-2 appearance-none bg-white focus:outline-none focus:ring-1 focus:ring-orange-500">
                                 <option>Pilih Provinsi</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium">Kota/Kabupaten<span
+                            <label class="block text-sm font-medium  mb-1">Kota/Kabupaten<span
                                     class="text-red-500">*</span></label>
                             <select
-                                class="w-full border border-gray-300 rounded-md px-3 py-2 appearance-none bg-white focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                class="w-full border border-gray-300 shadow rounded-md px-3 py-2 appearance-none bg-white focus:outline-none focus:ring-1 focus:ring-orange-500">
                                 <option>Pilih Kota</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium">Kecamatan<span class="text-red-500">*</span></label>
+                            <label class="block text-sm font-medium mb-1">Kecamatan <span class="text-red-500">*</span></label>
                             <select
-                                class="w-full border border-gray-300 rounded-md px-3 py-2 appearance-none bg-white focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                class="w-full border border-gray-300 shadow rounded-md px-3 py-2 appearance-none bg-white focus:outline-none focus:ring-1 focus:ring-orange-500">
                                 <option>Pilih Kecamatan</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium">Kode Pos<span class="text-red-500">*</span></label>
+                            <label class="block text-sm font-medium mb-1">Kode Pos <span class="text-red-500">*</span></label>
                             <input type="text"
-                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                class="w-full border border-gray-300 shadow rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-500">
                         </div>
                     </div>
 
                     <!-- Alamat Lengkap -->
                     <div>
-                        <label class="block text-sm font-medium">Alamat Lengkap<span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium mb-1">Alamat Lengkap <span class="text-red-500">*</span></label>
                         <input type="text"
-                            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                            class="w-full border border-gray-300 shadow rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-500">
                     </div>
 
                     <!-- Tombol -->
                     <div class="flex justify-center gap-4 pt-4">
                         <button type="button"
                             class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded">Hapus</button>
-                        <button type="button"
-                            class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded">Batal</button>
+                        <a href="/super_admin/add"
+                            class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded">Batal</a>
                     </div>
                 </form>
             </div>

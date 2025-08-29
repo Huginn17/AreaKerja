@@ -24,16 +24,21 @@
                     </defs>
                 </svg>
 
-                <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
-                    <a href="#">
-                        <img src="{{ asset('images/ohim.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
-                    </a>
-                    <div class="text-md">
-                        <div class="font-semibold">Dj Ohim</div>
-                        <div class="text-gray-500">lutung123@gmail.com</div>
+                <div
+                    class="flex items-center justify-between w-96 h-14 bg-white border border-orange-500 shadow-md rounded-2xl px-3 py-4">
+                    <!-- Logo + Info -->
+                    <div class="flex items-center gap-2 mr-2">
+                        <a href="#">
+                            <img src="{{ asset('images/seven.png') }}" class="w-16 h-16 object-contain" alt="User">
+                        </a>
+                        <div class="text-sm">
+                            <div class="font-semibold">Seven Inc</div>
+                            <div class="text-gray-500 text-xs">financeseven@gmail.com</div>
+                        </div>
                     </div>
 
-                    <select class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-md focus:outline-none">
+                    <!-- Dropdown -->
+                    <select class="appearance-none text-gray-600 text-xs px-8 focus:outline-none cursor-pointer">
                         <option>Text 1</option>
                         <option>Text 2</option>
                         <option>Text 3</option>
@@ -43,113 +48,63 @@
         </div>
 
         {{-- content --}}
-        <div class="flex justify-center py-10">
+        <div class="flex justify-center py-3">
 
-            <div class="w-[850px]">
+            <div class="w-full">
                 {{-- filter atas --}}
 
-                <div class="flex justify-between items-center mb-4">
-                    <div class="text-sm space-x-2">
-                        <span class="font-semibold">Semua (6)</span> |
-                        <span class="text-blue-600">Telah Terbit (5)</span> |
-                        <span class="text-blue-600">Draf (1)</span>
+                <div class="flex justify-between items-center">
+                    <div class="text-sm space-x-1">
+                        <span class="font-medium">Semua (6)</span> |
+                        <span class="text-blue-600">Telah Terbit <span class="text-gray-800">(5)</span></span> |
+                        <span class="text-blue-600">Draf <span class="text-gray-800">(1)</span></span>
                     </div>
 
-                    <a href="{{ url('/admin/buatpost') }}" class="bg-blue-600 text-white px-4 py-1 rounde">Buat Post</a>
+                    <a href="{{ url('/super_admin/buat/tips') }}" class="bg-blue-400 text-white px-4 py-2 rounded-lg mb-3">Buat Post</a>
                 </div>
 
                 {{-- filter bawah --}}
                 <div class="flex justify-between items-center mb-4">
-                    <div class="flex space-x-2">
-                        <select name="" id="" class="border border-gray-300 rounded px-2 py-1 text-sm">
+                    <div class="flex space-x-4">
+                        <select name="" id="" class="border border-gray-300 rounded-lg px-8 py-2 text-sm">
                             <option value="">Tanggal</option>
                         </select>
-                        <button class="bg-gray-700 px-3 py-1 rounded text-white">Terapkan</button>
-                        <button class="bg-red-600 text-white px-3 py-1 rounded">Hapus</button>
+                        <button class="bg-gray-700 px-8 py-1 rounded-lg text-white">Terapkan</button>
+                        <button class="bg-red-600 text-white px-6 py-1 rounded-lg">Hapus</button>
                     </div>
 
-                    <div class="flex space-x-2">
+                    <div class="flex space-x-4">
                         <input type="text" placeholder="nama/tanggal..."
-                            class="border border-gray-300 rounded px-2 py-1 text-sm">
-                        <button class="bg-gray-700 text-white px-4 py-1 rounded">Cari</button>
+                            class="border border-gray-300 rounded-lg px-2 py-1 text-sm">
+                        <button class="bg-gray-700 text-white px-9 py-2 rounded-lg">Cari</button>
                     </div>
                 </div>
                 {{-- table --}}
-                <div class="rounded-lg border border-gray-300 overflow-hidden">
+                <div class="rounded-lg overflow-hidden">
                     <table class="w-full text-sm text-left">
                         <thead class="bg-orange-600 text-white">
                             <tr>
-                                <th class="px-4 py-2 w-10"><input type="checkbox"></th>
-                                <th class="px-4 py-2">Judul</th>
-                                <th class="px-4 py-2">Penulis</th>
-                                <th class="px-4 py-2">Tanggal</th>
+                                <th class="px-4 py-3 w-10"><input type="checkbox"></th>
+                                <th class="px-4 py-3">Judul</th>
+                                <th class="px-4 py-3">Penulis</th>
+                                <th class="px-4 py-3">Tanggal</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Row -->
-                            <tr class="bg-gray-100">
-                                <td class="px-4 py-2"><input type="checkbox"></td>
-                                <td class="px-4 py-2 text-blue-600">Tips Bekerja Yang Tidak Membuatmu Stress</td>
-                                <td class="px-4 py-2">Zharif</td>
-                                <td class="px-4 py-2 font-bold">4/6/2004</td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-2"><input type="checkbox"></td>
-                                <td class="px-4 py-2 text-blue-600">Tips Bekerja Yang Tidak Membuatmu Stress</td>
-                                <td class="px-4 py-2">Zharif</td>
-                                <td class="px-4 py-2 font-bold">4/6/2004</td>
-                            </tr>
-                            <tr class="bg-gray-100">
-                                <td class="px-4 py-2"><input type="checkbox"></td>
-                                <td class="px-4 py-2 text-blue-600">Tips Bekerja Yang Tidak Membuatmu Stress</td>
-                                <td class="px-4 py-2">Zharif</td>
-                                <td class="px-4 py-2 font-bold">4/6/2004</td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-2"><input type="checkbox"></td>
-                                <td class="px-4 py-2 text-blue-600">Tips Bekerja Yang Tidak Membuatmu Stress</td>
-                                <td class="px-4 py-2">Zharif</td>
-                                <td class="px-4 py-2 font-bold">4/6/2004</td>
-                            </tr>
-                            <tr class="bg-gray-100">
-                                <td class="px-4 py-2"><input type="checkbox"></td>
-                                <td class="px-4 py-2 text-blue-600">Tips Bekerja Yang Tidak Membuatmu Stress</td>
-                                <td class="px-4 py-2">Zharif</td>
-                                <td class="px-4 py-2 font-bold">4/6/2004</td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-2"><input type="checkbox"></td>
-                                <td class="px-4 py-2 text-blue-600">Tips Bekerja Yang Tidak Membuatmu Stress</td>
-                                <td class="px-4 py-2">Zharif</td>
-                                <td class="px-4 py-2 font-bold">4/6/2004</td>
-                            </tr>
-                            <tr class="bg-gray-100">
-                                <td class="px-4 py-2"><input type="checkbox"></td>
-                                <td class="px-4 py-2 text-blue-600">Tips Bekerja Yang Tidak Membuatmu Stress</td>
-                                <td class="px-4 py-2">Zharif</td>
-                                <td class="px-4 py-2 font-bold">4/6/2004</td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-2"><input type="checkbox"></td>
-                                <td class="px-4 py-2 text-blue-600">Tips Bekerja Yang Tidak Membuatmu Stress</td>
-                                <td class="px-4 py-2">Zharif</td>
-                                <td class="px-4 py-2 font-bold">4/6/2004</td>
-                            </tr>
-                            <tr class="bg-gray-100">
-                                <td class="px-4 py-2"><input type="checkbox"></td>
-                                <td class="px-4 py-2 text-blue-600">Tips Bekerja Yang Tidak Membuatmu Stress</td>
-                                <td class="px-4 py-2">Zharif</td>
-                                <td class="px-4 py-2 font-bold">4/6/2004</td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-2"><input type="checkbox"></td>
-                                <td class="px-4 py-2 text-blue-600">Tips Bekerja Yang Tidak Membuatmu Stress</td>
-                                <td class="px-4 py-2">Zharif</td>
-                                <td class="px-4 py-2 font-bold">4/6/2004</td>
-                            </tr>
+                            @for ($i = 0; $i < 10; $i++)
+                                <tr class="{{ $i % 2 == 0 ? 'bg-gray-200' : 'bg-gray-100' }}">
+                                    <td class="px-4 py-4"><input type="checkbox"></td>
+                                    <td class="px-4 py-4 text-blue-600 font-medium">
+                                        Tips Bekerja Yang Tidak Membuatmu Stress
+                                    </td>
+                                    <td class="px-4 py-4 font-semibold">Zharif</td>
+                                    <td class="px-4 py-4 font-semibold">4/6/2004</td>
+                                </tr>
+                            @endfor
                         </tbody>
                     </table>
                 </div>
+
             </div>
         </div>
 

@@ -51,7 +51,7 @@
     <td valign="top" style="padding-right: 40px;">
       <div style="font-weight: bold; font-size: 30px; color: #f97316;">Bambang Kurnia</div>
       <div style="font-size: 12px; m-1">
-        <br><div class="text-sm">Prapatan Dalam No. 04 Rt. 47
+        <br><div class="text-sm">Prapatan Dalam No. 04 RT. 47
         <br>BALIKPAPAN KOTA, KOTA BALIKPAPAN,
         <br>KALIMANTAN TIMUR, ID, 76111
       </div>
@@ -64,7 +64,7 @@
 </svg>
 </td>
       <td  style="padding-left: 8px;">bambangkurnia@gmail.com</td>
-    <tr><td colspan="2" height="5`"></td></tr>
+    <tr><td colspan="2" height="5`"></td></tr> 
     <tr>
       <td style="color: #f97316;"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M16.5152 12.0128L12.7964 10.419C12.6375 10.3513 12.461 10.3371 12.2933 10.3784C12.1256 10.4197 11.9759 10.5144 11.8667 10.6481L10.2198 12.6603C7.63511 11.4416 5.55505 9.36157 4.3364 6.77691L6.34855 5.13C6.48258 5.02099 6.57745 4.87127 6.61879 4.70352C6.66013 4.53577 6.64569 4.35911 6.57765 4.2003L4.98388 0.481485C4.90921 0.310289 4.77714 0.170514 4.61045 0.0862606C4.44376 0.00200721 4.2529 -0.0214431 4.07077 0.0199532L0.617589 0.816842C0.441997 0.85739 0.285334 0.956258 0.173169 1.09731C0.0610036 1.23836 -4.04491e-05 1.41326 2.01088e-08 1.59348C2.01088e-08 10.1102 6.90305 17 15.4065 17C15.5868 17.0001 15.7618 16.9391 15.9029 16.8269C16.044 16.7148 16.1429 16.5581 16.1835 16.3824L16.9804 12.9292C17.0215 12.7462 16.9976 12.5546 16.9127 12.3873C16.8277 12.2201 16.6872 12.0876 16.5152 12.0128Z" fill="#FA6601"/>
@@ -145,14 +145,14 @@
 
         <!-- ORGANISASI -->
         <div style="font-weight: 700; font-size: 18px; color: #f97316; margin-bottom: 8px;">ORGANISASI</div>
-        <div style="width: 40px; height: 3px; background-color: #f97316; margin-bottom: 16px;"><svg width="335" height="1" viewBox="0 0 335 1" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div style="width: 40px; height: 3px; background-color: #f97316; margin-bottom: 20px;"><svg width="335" height="1" viewBox="0 0 335 1" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect width="335" height="1" fill="#FA6601"/>
 </svg>
 </div>
 
         <p style="margin: 0 0 14px 0;">
           <b>Jabatan – Tim Kreatif</b> <span style="float: right;"><b>(2018–2019)</b></span><br>
-          <b>HIMA IIKOM UGM</b><br>
+          <b>HIMA ILKOM UGM</b><br>
           <br>Sebagai anggota Tim Kreatif, saya bertanggung jawab dalam menghasilkan konsep kreatif untuk berbagai kegiatan dan acara yang diselenggarakan oleh himpunan. Saya berkolaborasi dengan tim untuk merancang desain visual, materi promosi, serta konten media sosial yang menarik dan efektif dalam menyampaikan pesan kepada anggota dan masyarakat.
         </p>
 
@@ -215,4 +215,4 @@
 </div>
 
 </div>
-
+@endsection

@@ -56,7 +56,7 @@
             </div>
 
             <!-- Form -->
-            <form class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <form action="{{ route('profile/update') }}" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Email -->
                 <div>
                     <label class="block text-sm font-medium mb-1">Email <span class="text-red-500">*</span></label>

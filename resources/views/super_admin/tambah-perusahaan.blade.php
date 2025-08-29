@@ -3,6 +3,7 @@
     <main class="flex-1 p-6 bg-white overflow-y-auto">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-medium">Tambah Perusahaan</h1>
+            
             <div class="flex items-center gap-3">
                 <svg width="31" height="32" viewBox="0 0 31 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_722_7956)">
@@ -24,7 +25,7 @@
                     </defs>
                 </svg>
 
-                <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
+                <div class="flex items-center gap-2 bg-white px-2 py-2 border border-gray-500 shadow-md rounded-2xl">
                     <a href="#">
                         <img src="{{ asset('images/ohim.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
                     </a>
@@ -49,7 +50,7 @@
                 <div class="flex items-center gap-2">
                     <img src="{{ asset('images/seven.png') }}" alt="avatar" class="w-24 h-24 rounded-full border mr-4" />
                     <button
-                        class="flex items-center gap-2 px-4 py-2 text-md border-2 border-orange-600 bg-orange-600 text-white rounded-md scale-90">
+                        class="flex items-center gap-2 px-4 py-2 text-md border-2 border-orange-600 bg-orange-500 hover:bg-orange-600 text-white rounded-md scale-90">
                         <!-- Icon upload -->
                         <svg width="13" height="13" viewBox="0 0 13 13" fill="none"
                             xmlns="http://www.w3.org/2000/svg">

@@ -33,26 +33,26 @@
         <div class="w-full h-full flex items-start justify-start p-10 mt-12">
             <div class="w-full max-w-2xl space-y-6">
                 <!-- Tombol Ganti Password -->
-                <button class="w-full bg-orange-600 text-white font-medium py-3 rounded-lg text-left pl-4">
+                <button class="w-full bg-orange-600 text-white font-medium py-4 rounded-lg text-left pl-4">
                     Ganti Password
                 </button>
 
                 <!-- Form -->
                 <div class="space-y-4">
                     <div class="flex items-center gap-6">
-                        <label class="w-56 text-gray-800">Kata Sandi Lama</label>
+                        <label class="w-72 text-gray-800">Kata Sandi Lama</label>
                         <input type="password"
-                            class="flex-1 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" />
+                            class="flex-1 border border-gray-300 shadow rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" />
                     </div>
                     <div class="flex items-center gap-6">
-                        <label class="w-56 text-gray-800">Kata Sandi Baru</label>
+                        <label class="w-72 text-gray-800">Kata Sandi Baru</label>
                         <input type="password"
-                            class="flex-1 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" />
+                            class="flex-1 border border-gray-300 shadow rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" />
                     </div>
                     <div class="flex items-center gap-6">
-                        <label class="w-56 text-gray-800">Masukkan Kembali Kata Sandi Baru</label>
+                        <label class="w-72 text-gray-800">Masukkan Kembali Kata Sandi Baru</label>
                         <input type="password"
-                            class="flex-1 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" />
+                            class="flex-1 border border-gray-300 shadow rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" />
                     </div>
                 </div>
 

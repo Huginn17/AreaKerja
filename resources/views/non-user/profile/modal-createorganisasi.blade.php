@@ -1,0 +1,74 @@
+<!-- Main modal -->
+<div id="crud-modal" tabindex="-1" aria-hidden="true"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+            <!-- Modal header -->
+            <div
+                class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+                <h3 class="text-lg font-bold">Tambah Pengalaman Organisasi</h3>
+                <button type="button"
+                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                    data-modal-toggle="crud-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            @if (session('success'))
+                <div class="bg-green-200 text-green-800 p-2 rounded">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <form action="{{ route('organisasi.store', $pelamar->id) }}" method="POST">
+                @csrf
+                <div class="mb-2">
+                    <label>Nama Organisasi</label>
+                    <input type="text" name="nama_organisasi" class="border w-full" required>
+                </div>
+
+                <div class="mb-2">
+                    <label>Jabatan</label>
+                    <input type="text" name="jabatan" class="border w-full" required>
+                </div>
+
+                <div class="mb-2">
+                    <label>Tahun Awal</label>
+                    <input type="number" name="tahun_awal" class="border w-full" required>
+                </div>
+
+                <div class="mb-2">
+                    <label>Tahun Akhir</label>
+                    <input type="number" name="tahun_akhir" class="border w-full">
+                </div>
+
+                <div class="mb-2">
+                    <label>Deskripsi</label>
+                    <textarea name="deskripsi" class="border w-full"></textarea>
+                </div>
+
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
+                    Simpan
+                </button>
+            </form>
+
+            <hr class="my-4">
+
+            <h3 class="text-lg font-bold">Riwayat Organisasi</h3>
+            <ul>
+                @foreach ($pelamar->pengalaman_organisasi as $org)
+                    <li>
+                        <strong>{{ $org->nama_organisasi }}</strong> - {{ $org->jabatan }}
+                        ({{ $org->tahun_awal }} - {{ $org->tahun_akhir ?? 'Sekarang' }})
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
+</div>

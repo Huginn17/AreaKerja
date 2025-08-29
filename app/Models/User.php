@@ -18,9 +18,10 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'username',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -41,4 +42,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function superadmin()
+    {
+        return $this->hasOne(SuperAdmin::class, 'user_id');
+    }
+
+    public function pelamar()
+    {
+        return $this->hasOne(Pelamar::class, 'user_id');
+    }
 }
