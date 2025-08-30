@@ -24,16 +24,17 @@
                     </defs>
                 </svg>
 
-                <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
+                <div class="flex items-center gap-2 bg-white px-0 py-1 border border-gray-200 shadow-md rounded-2xl">
                     <a href="#">
-                        <img src="{{ asset('images/ohim.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
+                        <img src="{{ asset('images/tangan.png') }}" class="w-8 h-8 rounded-full" alt="User">
                     </a>
                     <div class="text-sm">
-                        <div class="font-semibold">Dj Ohim</div>
-                        <div class="text-gray-500">lutung123@gmail.com</div>
+                        <div class="font-semibold">Steve Jobs</div>
+                        <div class="text-gray-500">Stevejobs@gmail.com</div>
                     </div>
 
-                    <select class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
+                    <select class="appearance-none px-6 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
+                           <option value=""></option>
                         <option>Text 1</option>
                         <option>Text 2</option>
                         <option>Text 3</option>
@@ -72,7 +73,7 @@
 
                     <!-- Misi -->
                     <h2 class="text-lg font-semibold mb-2">Misi</h2>
-                    <ul class="list-disc font-medium list-inside text-sm text-gray-800 mb-6 space-y-1">
+                    <ul class="list-disc font-medium list-inside text-sm text-gray-800 mb-6 ">
                         <li>Mengembangkan produk dan layanan teknologi yang mengutamakan kualitas & kebutuhan</li>
                         <li>Mendorong inovasi di setiap aspek pengembangan solusi digital untuk membantu klien</li>
                         <li>Menyediakan lingkungan kerja yang mendukung pengembangan profesional tim</li>
@@ -83,14 +84,19 @@
                     <div class="grid grid-cols-2 font-medium text-sm text-gray-800 mb-6 gap-y-2">
                         <p>User ID</p>
                         <p>: 7413580000</p>
+
                         <p>Username</p>
                         <p>: Seven_inc</p>
+
                         <p>Email</p>
                         <p>: seveninc@gmail.com</p>
+
                         <p>Kata Sandi</p>
                         <p>: ********</p>
+                        
                         <p>Nama Perusahaan</p>
                         <p>: Seven INC</p>
+                        
                         <p>Legalitas</p>
                         <p>: PT</p>
                     </div>
@@ -99,23 +105,23 @@
                     <h2 class="text-lg font-semibold mb-2">Kontak</h2>
                     <div class="grid grid-cols-2 font-medium text-sm text-gray-800 mb-6 gap-y-2">
                         <p>Perusahaan</p>
-                        <p>: (0274) 123456</p>
+                        <p class="font-semibold">: (0274) 123456</p>
                         <p>Whatsapp</p>
-                        <p>: 08123456789</p>
+                        <p class="font-semibold">: 08123456789</p>
                     </div>
 
                     <!-- Lowongan -->
                     <h2 class="text-lg font-semibold mb-2">Lowongan</h2>
                     <div class="text-sm font-medium space-y-2">
                         <div>
-                            <a href="#" class="text-blue-600 font-medium hover:underline mb-1">Front-End Developer</a>
-                            <p class="text-gray-800 mb-1">Yogyakarta </p>
-                            <p> 2 hari yang lalu </p>
+                            <a href="#" class="text-blue-500 text-sm font-semibold hover:underline mb-1">Front-End Developer</a>
+                            <p class="text-gray-400 mb-1">Yogyakarta </p>
+                            <p class="text-gray-400"> 2 hari yang lalu </p>
                         </div>
                         <div>
-                            <a href="#" class="text-blue-600 font-medium hover:underline mb-1">Back-End Developer</a>
-                            <p class="text-gray-800 mb-1">Yogyakarta </p>
-                            <p> 2 hari yang lalu</p>
+                            <a href="#" class="text-blue-500 text-sm font-semibold hover:underline mb-1">Back-End Developer</a>
+                            <p class="text-gray-400 mb-1">Yogyakarta </p>
+                            <p class="text-gray-400"> 2 hari yang lalu</p>
                         </div>
                     </div>
                 </div>
@@ -124,17 +130,17 @@
                 <!-- Tombol aksi -->
                 <div class="flex flex-col items-center space-y-3 w-full max-w-lg mx-auto mt-44">
                     <!-- Tombol Tambah Lowongan -->
-                    <button class="bg-orange-600 text-white px-24 py-2 rounded-md hover:bg-orange-500 mb-12">
+                    <button class="bg-orange-500 text-white px-24 py-2 rounded-md hover:bg-orange-600 mb-12">
                         Tambah Lowongan
                     </button>
 
                     <!-- Tombol Edit -->
-                    <button class="bg-blue-500 text-white w-full py-2 rounded-md hover:bg-blue-400">
+                    <button class="bg-blue-600 text-white w-full py-2 rounded-md hover:bg-blue-700">
                         Edit
                     </button>
 
                     <!-- Tombol Hapus -->
-                    <button class="bg-red-700 text-white w-full py-2 rounded-md hover:bg-red-600">
+                    <button class="bg-red-600 text-white w-full py-2 rounded-md hover:bg-red-700">
                         Hapus
                     </button>
                 </div>

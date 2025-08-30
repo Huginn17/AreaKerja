@@ -69,7 +69,7 @@
                 <div>
                     <label class="block text-sm font-medium mb-1">Username <span class="text-red-500">*</span></label>
                     <p class="w-full border border-gray-300 shadow rounded-md px-3 py-2 text-gray-500">
-                        lutung123@gmail.com
+                        Dj Ohim
                     </p>
                 </div>
 
@@ -77,7 +77,7 @@
                 <div class="md:col-span-2">
                     <label class="block text-sm font-medium mb-1">Nama Lengkap <span class="text-red-500">*</span></label>
                     <p class="w-full border border-gray-300 shadow rounded-md px-3 py-2 text-gray-500">
-                        lutung123@gmail.com
+                        Ohim
                     </p>
                 </div>
 

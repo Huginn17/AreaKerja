@@ -2,7 +2,7 @@
 @section('sidebaradmin')
     <div class="p-4 sm:ml-64">
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-medium">Data Kandidat</h1>
+            <h1 class="text-2xl font-medium">Data Non Kandidat</h1>
             <div class="flex items-center gap-3">
                 <svg width="31" height="32" viewBox="0 0 31 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_722_7956)">
@@ -87,7 +87,7 @@
                             <td class="px-4 py-3">S1</td>
                             <td class="px-4 py-3">Jawa Tengah</td>
                             <td class="px-4 py-2 flex gap-2 justify-center">
-                                <a href="{{ url('/admin/detail/data/kandidat') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-2 py-2 rounded-md">
+                                <a href="{{ url('/admin/detail/data/non/kandidat') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-2 py-2 rounded-md">
                                     <svg width="20" height="20" viewBox="0 0 20 16" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path

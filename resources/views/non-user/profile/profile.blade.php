@@ -134,12 +134,11 @@
 
                 <!-- MOdal crud -->
                 <!-- Bagian Organisasi -->
-                <label class="text-sm font-medium">Organisasi</label>
-
                 {{-- Jika user punya data organisasi --}}
-                @if ($pelamar->pengalaman_organisasi && $pelamar->pengalaman_organisasi->count() > 0)
+                @if (Auth::user()->pelamar->pengalaman_organisasi->count() > 0)
+                    <label class="text-sm font-medium">Organisasi</label>
                     <div class="p-4 bg-gray-100 rounded-lg">
-                        @foreach ($pelamar->pengalaman_organisasi as $org)
+                        @foreach (Auth::user()->pelamar->pengalaman_organisasi as $org)
                             <div class="mb-6">
                                 <h3 class="font-semibold text-gray-800 text-lg">
                                     {{ $org->jabatan }} - {{ $org->nama_organisasi }}
@@ -150,21 +149,27 @@
                                 </p>
                             </div>
                         @endforeach
+                        <button data-modal-target="show-org" data-modal-toggle="show-org" type="button"
+                            class="ph-fill ph-pencil-simple text-orange-500">
+                        </button>
                     </div>
                 @else
-                    {{-- Kalau belum ada data, tampil tombol --}}
-                    <button data-modal-target="crud-modal" data-modal-toggle="crud-modal"
-                        class="flex justify-between items-center px-4 py-2 hover:bg-gray-50 border border-orange-500 text-orange-500 rounded-md text-sm"
-                        type="button">
-                        Tambahkan Organisasi<span class="text-xl">+</span>
-                    </button>
+                    <div class="mb-4">
+                        <label class="block text-sm font-semibold text-gray-800 mb-1">Organisasi</label>
+                        <button data-modal-target="create_organisasimodal" data-modal-toggle="create_organisasimodal"
+                            type="button"
+                            class="flex items-center justify-between border border-orange-500 rounded-md w-full px-4 py-3 text-orange-500 font-semibold">
+                            <span>Tambahkan Organisasi</span>
+                            <span class="text-2xl font-bold">+</span>
+                        </button>
+                    </div>
                 @endif
 
-                <label class="text-sm font-medium">Pengalaman Kerja <span class="text-red-500"></span></label>
                 {{-- Jika user punya data kerja --}}
-                @if ($pelamar->pengalaman_kerja && $pelamar->pengalaman_kerja->count() > 0)
+                @if (Auth::user()->pelamar->pengalaman_kerja->count() > 0)
+                    <label class="text-sm font-medium">Pengalaman Kerja <span class="text-red-500"></span></label>
                     <div class="p-4 bg-gray-100 rounded-lg">
-                        @foreach ($pelamar->pengalaman_kerja as $kerja)
+                        @foreach (Auth::user()->pelamar->pengalaman_kerja as $kerja)
                             <div class="mb-6">
                                 <h3 class="font-semibold text-gray-800 text-lg">
                                     {{ $kerja->posisi_pekerjaan }} - {{ $kerja->nama_perusahaan }}
@@ -175,21 +180,53 @@
                                 </p>
                             </div>
                         @endforeach
+                        <button data-modal-target="show-kerja" data-modal-toggle="show-kerja" type="button"
+                            class="ph-fill ph-pencil-simple text-orange-500">
+                        </button>
                     </div>
                 @else
                     {{-- Kalau belum ada data, tampil tombol --}}
-                    <button data-modal-target="crud-modalkerja" data-modal-toggle="crud-modalkerja"
-                        class="flex justify-between items-center px-4 py-2 hover:bg-gray-50 border border-orange-500 text-orange-500 rounded-md text-sm"
-                        type="button">
-                        Tambahkan Pengalaman Kerja<span class="text-xl">+</span>
-                    </button>
+                   <div class="mb-4">
+                        <label class="block text-sm font-semibold text-gray-800 mb-1">Pengalaman Kerja</label>
+                        <button data-modal-target="create_kerjamodal" data-modal-toggle="create_kerjamodal"
+                            type="button"
+                            class="flex items-center justify-between border border-orange-500 rounded-md w-full px-4 py-3 text-orange-500 font-semibold">
+                            <span>Tambahkan Pengalaman Kerja</span>
+                            <span class="text-2xl font-bold">+</span>
+                        </button>
+                    </div>
                 @endif
-                <label class="text-sm font-medium">Skill <span class="text-red-500">*</span></label>
-                <button data-modal-target="crud-modal" data-modal-toggle="crud-modal"
-                    class="flex justify-between items-center px-4 py-2 hover:bg-gray-50 border border-orange-500 text-orange-500 rounded-md text-sm"
-                    type="button">
-                    Tambahkan Skill<span class="text-xl">+</span>
-                </button>
+
+
+                {{-- SKILL --}}
+                @if (Auth::user()->pelamar->skill->count() > 0)
+                    <label class="text-sm font-medium">Skill</label>
+                    <div class="p-4 bg-gray-100 rounded-lg">
+                        @foreach (Auth::user()->pelamar->skill as $sk)
+                            <div class="mb-6">
+                                <h3 class="font-semibold text-gray-800 text-lg">
+                                    {{ $sk->skill }} 
+                                </h3>
+                                <p class="text-gray-600 text-sm leading-relaxed">
+                                    {{ $sk->experience_level }}
+                                </p>
+                            </div>
+                        @endforeach
+                        <button data-modal-target="show-skill" data-modal-toggle="show-skill" type="button"
+                            class="ph-fill ph-pencil-simple text-orange-500">
+                        </button>
+                    </div>
+                @else
+                    <div class="mb-4">
+                        <label class="block text-sm font-semibold text-gray-800 mb-1">Skill</label>
+                        <button data-modal-target="create_skillmodal" data-modal-toggle="create_skillmodal"
+                            type="button"
+                            class="flex items-center justify-between border border-orange-500 rounded-md w-full px-4 py-3 text-orange-500 font-semibold">
+                            <span>Tambahkan Skill</span>
+                            <span class="text-2xl font-bold">+</span>
+                        </button>
+                    </div>
+                @endif
 
                 <!-- Sosial Media -->
                 <div class="flex flex-col gap-2">
@@ -232,10 +269,11 @@
                         <span class="mt-1 text-orange-500 cursor-pointer">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5"
                                 viewBox="0 0 24 24">
-                                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
-                                                                       7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
-                                                                       1.003 0 0 0-1.42 0l-1.83 1.83 3.75
-                                                                       3.75 1.84-1.82z" />
+                                <path
+                                    d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
+                                                                                                                                           7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
+                                                                                                                                           1.003 0 0 0-1.42 0l-1.83 1.83 3.75
+                                                                                                                                           3.75 1.84-1.82z" />
                             </svg>
                         </span>
                     </div>
@@ -254,10 +292,11 @@
                         <span class="mt-1 text-orange-500 cursor-pointer">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5"
                                 viewBox="0 0 24 24">
-                                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
-                                                                       7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
-                                                                       1.003 0 0 0-1.42 0l-1.83 1.83 3.75
-                                                                       3.75 1.84-1.82z" />
+                                <path
+                                    d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
+                                                                                                                                           7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
+                                                                                                                                           1.003 0 0 0-1.42 0l-1.83 1.83 3.75
+                                                                                                                                           3.75 1.84-1.82z" />
                             </svg>
                         </span>
                     </div>
@@ -285,11 +324,16 @@
                 </div>
             </div>
         </div>
-        @include('non-user.profile.modal-createkerja')
-        @include('non-user.profile.modal-createorganisasi')
+        @include('non-user.profile.kerja.modal-createkerja')
+        @include('non-user.profile.skill.modal-create')
+        @include('non-user.profile.organisasi.modal-createorganisasi')
+
+        @include('non-user.profile.skill.modal-show')
+        @include('non-user.profile.kerja.modal-show')
+        @include('non-user.profile.organisasi.modal-show')
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
- 
+
     @include('layouts.footer')
 @endsection

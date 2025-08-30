@@ -1,53 +1,35 @@
 @extends('admin.sidebar.index')
 @section('sidebaradmin')
     <!-- Profile & Notifikasi - Pojok Kanan Atas -->
-    <div class="absolute top-4 right-4 flex items-center gap-3 z-50">
+
+    <div class="absolute top-4 right-4 flex items-center gap-3 z-50 ">
         <!-- Notifikasi SVG -->
         <div class="relative inline-block">
-            <svg width="31" height="32" viewBox="0 0 31 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_690_13163)">
-                    <path
-                        d="M23.076 14.9436L22.6747 12.7388L21.1101 13.006L21.5756 15.5638C21.6168 15.7899 21.7387 15.9927 21.9146 16.1275L24.4524 18.0737L24.6985 19.4259L7.4876 22.3659L7.24147 21.0136L8.93911 18.3439C9.05673 18.159 9.09972 17.9281 9.05861 17.702L8.43786 14.2916C8.21777 13.0939 8.29153 11.8673 8.65169 10.7357C9.01186 9.60402 9.64569 8.6074 10.4892 7.84644C11.3326 7.08548 12.3559 6.58714 13.4555 6.40174C14.5552 6.21635 15.6924 6.35046 16.7522 6.79053L16.4051 4.88327C15.595 4.65112 14.7612 4.55737 13.9346 4.60549L13.6165 2.85766L12.0518 3.12493L12.37 4.87276C10.4802 5.41616 8.87215 6.70725 7.85685 8.49636C6.84155 10.2855 6.49109 12.4455 6.87324 14.5588L7.42973 17.6162L5.7321 20.286C5.61447 20.4709 5.57149 20.7018 5.6126 20.9279L6.07815 23.4857C6.11931 23.7118 6.24121 23.9146 6.41702 24.0495C6.59284 24.1843 6.80817 24.2401 7.01565 24.2047L12.4919 23.2693L12.647 24.1219C12.8528 25.2525 13.4623 26.2664 14.3414 26.9406C15.2205 27.6147 16.2971 27.8939 17.3345 27.7167C18.3719 27.5395 19.2851 26.9204 19.8732 25.9956C20.4612 25.0709 20.676 23.9162 20.4702 22.7855L20.315 21.9329L25.7912 20.9975C25.9987 20.9621 26.1813 20.8382 26.2989 20.6533C26.4165 20.4683 26.4595 20.2374 26.4183 20.0113L25.9528 17.4535C25.9116 17.2274 25.7896 17.0246 25.6138 16.8898L23.076 14.9436ZM18.9055 23.0528C19.029 23.7312 18.9002 24.424 18.5473 24.9789C18.1945 25.5337 17.6466 25.9052 17.0242 26.0115C16.4017 26.1178 15.7557 25.9503 15.2283 25.5458C14.7008 25.1413 14.3351 24.533 14.2117 23.8546L14.0565 23.002L18.7504 22.2002L18.9055 23.0528Z"
-                        fill="black" />
-                    <path
-                        d="M22.3629 11.0333C24.0912 10.7381 25.2143 8.97192 24.8714 7.08841C24.5286 5.2049 22.8497 3.91733 21.1214 4.21254C19.3932 4.50775 18.2701 6.27396 18.6129 8.15747C18.9558 10.041 20.6347 11.3286 22.3629 11.0333Z"
-                        fill="black" />
-                    <ellipse cx="21.3453" cy="5.1301" rx="6.35506" ry="6.15646" fill="#E46054" />
-                </g>
-                <defs>
-                    <clipPath id="clip0_690_13163">
-                        <rect width="25.3967" height="27.7315" fill="white"
-                            transform="matrix(0.985722 -0.168378 0.179073 0.983836 0.162109 4.27637)" />
-                    </clipPath>
-                </defs>
-                <!-- Lingkaran merah notifikasi -->
-                <circle cx="25" cy="7" r="7" fill="#E46054" />
-                <text x="25" y="11" text-anchor="middle" fill="white" font-size="10" font-weight="bold"
-                    font-family="Arial, sans-serif" style="user-select:none;">7</text>
-            </svg>
-            </svg>
+           <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
+                    <a href="#">
+                        <img src="{{ asset('images/ohim.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
+                    </a>
+                    <div class="text-sm">
+                        <div class="font-semibold">Dj Ohim</div>
+                        <div class="text-gray-500">lutung123@gmail.com</div>
+                    </div>
 
+                    <select class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
+                        <option>Text 1</option>
+                        <option>Text 2</option>
+                        <option>Text 3</option>
+                    </select>
+                </div>
         </div>
-
-        <!-- Profil -->
-        <div class="flex items-center gap-2 border border-gray-500 px-4 py-1 rounded-lg shadow-sm bg-white">
-            <img src="https://i.pravatar.cc/40" alt="Profile" class="w-8 h-8 rounded-full">
-            <div>
-                <p class="text-sm font-medium">Ronaldo</p>
-                <p class="text-xs text-gray-500">ronaldo@gmail.com</p>
-            </div>
-
-        </div>
-    </div><br>
+    </div>
     <br>
     <br>
-    <div
-        style="max-width: 820px; margin: 60px auto 80px 380px; font-family: Arial, sans-serif; color: #222; position: relative;">
+    <br>
+    
+    <div style="max-width: 820px; margin: 60px auto 80px 380px; font-family:'Poppins', sans-serif; color: #222; position: relative;">
 
         <!-- Tombol Close -->
-        <div
-            style="position: absolute; top: 15px; right: 10px; cursor: pointer; font-weight: medium; font-size: 40px; color: #555;">
-            ×</div>
+       <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
 
         <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
 
@@ -68,7 +50,7 @@
                     </td>
                     <td valign="top" style="font-size: 12px; color: #222; padding-left: 30px;">
                         <table cellpadding="2" cellspacing="0" border="0">
-                            <tr>
+                           <tr>
                                 <td style="color: #f97316;"><svg width="17" height="12" viewBox="0 0 17 12"
                                         fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -129,7 +111,7 @@
                 style="max-width: 900px; margin: 40px auto; font-family: Arial, sans-serif; color: #222; line-height: 1.5; font-size: 12px;">
 
                 <table width="100%" cellpadding="0" cellspacing="0" border="0"
-                    style="border-collapse: collapse;">
+                    style="border-collapse: collapse; font-family: 'Poppins', sans-serif;">
                     <tr valign="top">
                         <!-- Kolom kiri -->
                         <td width="50%">
@@ -143,7 +125,7 @@
                                     <rect width="335" height="1" fill="#FA6601" />
                                 </svg>
                             </div>
-                            <p style="margin-top: 0; margin-bottom: 24px;">
+                            <p style="margin-top: 0; margin-bottom: 24px; ">
                                 Saya adalah lulusan Teknik Informatika di Universitas Gadjah Mada yang memiliki minat besar
                                 dalam pengembangan web dan aplikasi. Dengan keahlian dalam Flutter untuk pengembangan
                                 aplikasi berbasis Android serta PHP untuk pemrograman web, saya terus mengasah kemampuan
@@ -163,23 +145,23 @@
                             </div>
                             <table style="width: 100%;  font-size: 12px; margin-bottom: 24px;">
                                 <tr>
-                                    <td style="padding: 2px 0;" class="font-bold">﹒Laravel</td>
+                                    <td style="padding: 2px 0;" class="font-bold">• Laravel</td>
                                     <td style="text-align: right; padding: 2px 0;" class="font-bold">Expert</td>
                                 </tr>
                                 <tr>
-                                    <td style="padding: 2px 0;" class="font-bold">﹒PHP</td>
+                                    <td style="padding: 2px 0;" class="font-bold">• PHP</td>
                                     <td style="text-align: right; padding: 2px 0;" class="font-bold">Intermediate</td>
                                 </tr>
                                 <tr>
-                                    <td style="padding: 2px 0;" class="font-bold">﹒Flutter</td>
+                                    <td style="padding: 2px 0;" class="font-bold">• Flutter</td>
                                     <td style="text-align: right; padding: 2px 0;" class="font-bold">Expert</td>
                                 </tr>
                                 <tr>
-                                    <td style="padding: 2px 0;" class="font-bold">﹒CSS</td>
+                                    <td style="padding: 2px 0;" class="font-bold">• CSS</td>
                                     <td style="text-align: right; padding: 2px 0;" class="font-bold">Intermediate</td>
                                 </tr>
                                 <tr>
-                                    <td style="padding: 2px 0;" class="font-bold">﹒Java Script</td>
+                                    <td style="padding: 2px 0;" class="font-bold">• Java Script</td>
                                     <td style="text-align: right; padding: 2px 0;" class="font-bold">Expert</td>
                                 </tr>
                             </table>
@@ -287,4 +269,4 @@
                 </div>
 
             </div>
-        @endsection
+@endsection

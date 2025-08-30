@@ -3,7 +3,7 @@
     <div class="p-4 sm:ml-64">
         <main class="flex-1 p-6 bg-white overflow-y-auto">
             <div class="flex justify-between items-center mb-6">
-                <h1 class="text-2xl font-medium">Detail Perusahaan</h1>
+                <h1 class="text-2xl font-medium">Detail Talent Hunter</h1>
                 <div class="flex items-center gap-3">
                     <svg width="31" height="32" viewBox="0 0 31 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_722_7956)">
@@ -46,45 +46,32 @@
 
             <!-- Konten utama -->
             <div class="max-w-6xl mx-auto bg-white rounded-xl p-6 relative">
-                <div class="max-w-5xl mx-auto border-2 border-gray-400 rounded-xl shadow">
+                <div class="max-w-5xl mx-auto border border-gray-400 rounded-xl shadow">
                     <!-- Header -->
                     <div class="flex items-center border border-gray-400 rounded-xl shadow-lg py-1 gap-4 mb-4">
                         <img src="{{ asset('images/seven.png') }}" alt="foto kandidat" class="w-68 h-64 mr-4">
                         <div class="ml-20">
-                            <h2 class="text-xl font-semibold">Front-End Developer</h2>
+                            <h2 class="text-xl font-bold">SEVEN INC</h2>
                         </div>
                     </div>
 
 
                     <div class="max-w-4xl mx-auto bg-white p-8">
-                        <h2 class="text-xl font-semibold mb-4">Detail Lowongan</h2>
-                        <h2 class="text-lg font-semibold mb-2">Gaji</h2>
-                        <h2 class="text-md font-normal mb-2">Rp.2.500.000 - Rp.4.500.000 per bulan</h2>
-                        <h2 class="text-lg font-semibold mb-2">Jenis Lowongan</h2>
-                        <h2 class="text-md font-normal mb-4">Full Time</h2>
+                        <h2 class="text-lg font-semibold mb-4">Deskripsi</h2>
+                        <h2 class="text-md font-normal mb-2 text-red-500 ml-2">Perusahaan Belum Menyelesaikan Bagian Ini
+                        </h2>
+                        <h2 class="text-lg font-semibold mb-4">Culture Perusahaan</h2>
+                        <h2 class="text-md font-normal mb-2 text-red-500 ml-2">Perusahaan Belum Menyelesaikan Bagian Ini
+                        </h2>
+                        <h2 class="text-lg font-semibold mb-4">Alamat Perusahaan</h2>
+                        <h2 class="text-md font-normal mb-4 ml-2">Ngasinan, Kraguman, Jogonalan, Klaten, Jawa Tengah 57425
+                        </h2>
 
-                        <h2 class="text-lg font-semibold mb-2">Deskripsi Pekerjaan</h2>
-                        <ul class="list-disc font-normal list-inside text-sm text-gray-800 mb-6 ">
-                            <li>Good personality, good Attitude</li>
-                            <li>Memiliki pengalaman web Programming</li>
-                            <li>Memahami desain efd dan erd</li>
-                            <li>Mampu mengimplementasikan desain ui/ux</li>
-                            <li>Menguasai HTML5, CSS3 dan JSX</li>
-                            <li>Memahami GIT</li>
-                            <li>Work From Office, Yogyakarta</li>
-                        </ul>
-
-                        <h2 class="text-lg font-semibold mb-2">Syarat Pekerjaan</h2>
-                        <ul class="list-disc font-normal list-inside text-sm text-gray-800 mb-6 ">
-                            <li>Minimal pendidikan SMA/SMK</li>
-                            <li>Laki-laki, Perempuan</li>
-                            <li>Umur !8-30</li>
-                            <li>Batas lamaran hingga dd/mm/yyyy</li>
-                        </ul>
-
-                        <h2 class="text-lg font-semibold mb-4">Aktivitas Lowongan</h2>
-                        <h2 class="text-md font-normal mb-4">Lowongan dipasang 2 hari yang lalu</h2>
-                       
+                        <h2 class="text-lg font-semibold mb-2">Kriteria Kandidat</h2>
+                        <p>Posisi Yang Dibutuhkan <span class="ml-[100px] mb-1">: Front End Developer</span></p>
+                        <p>Jenis Kelamin <span class="ml-[175px] mb-1">: Laki-laki</span></p>
+                        <p>Kisaran Gaji <span class="ml-[190px] mb-1">: Rp.4.500.000 sampai Rp.6.500.000</span></p>
+                        <p>Detail Tambahan <span class="ml-[145px]">: Memiliki pengalaman lebih dari setahun</span></p>
                     </div>
                 </div>
 
@@ -94,7 +81,7 @@
                     <button class="bg-gray-600 text-white w-96 p-2 rounded-md hover:bg-gray-500 transition duration-300">
                         Jadikan Rekomendasi
                     </button>
-                    <a href="{{ url('/admin/perusahaan') }}"
+                    <a href="{{ url('/admin/talenthunter') }}"
                         class="bg-gray-600 text-white text-center w-96 p-2 rounded-md hover:bg-gray-500 transition duration-300">
                         Kembali
                     </a>

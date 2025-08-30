@@ -29,8 +29,8 @@
                         <img src="{{ asset('images/ohim.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
                     </a>
                     <div class="text-sm">
-                        <div class="font-semibold">Dj Ohim</div>
-                        <div class="text-gray-500">lutung123@gmail.com</div>
+                        <div class="font-semibold">Steven Jobs</div>
+                        <div class="text-gray-500">StevenJobs123@gmail.com</div>
                     </div>
 
                     <select class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
@@ -50,10 +50,10 @@
 
                 <!-- Header -->
                 <div class="flex items-center gap-4 mb-8">
-                    <img src="{{ asset('images/ohim.jpg') }}" alt="foto kandidat"
+                    <img src="https://avatar.iran.liara.run/public" alt="foto kandidat"
                         class="w-20 h-20 rounded-full border mr-4">
                     <div>
-                        <h2 class="text-lg font-bold">Dj Ohim</h2>
+                        <h2 class="text-lg font-bold">Bambang Kurnia</h2>
                         <p class="text-sm font-semibold text-gray-700">
                             Saya adalah lulusan Teknik Informatika di Universitas Gadjah Mada yang memiliki <br> minat besar
                             dalam pengembangan web dan aplikasi.
@@ -65,28 +65,28 @@
                 <div class="grid grid-cols-2 gap-6 text-sm">
                     <!-- Kolom Kiri -->
                     <div>
-                        <p><span class="font-semibold mt-4">UserID</span></p>
-                        <p class="mb-3">743589003</p>
+                        <p><span class="font-semibold mt-4">User ID</span></p>
+                        <p class="mb-3">7413580000</p>
                         <p><span class="font-semibold">Nama Lengkap</span></p>
                         <p class="mb-3">Bambang Kurnia</p>
                         <p><span class="font-semibold">Alamat</span></p>
-                        <p class="mb-3">Jl. KH Hasyim No.60</p>
+                        <p class="mb-3">Jl. RE Mardanita RT.19 NO.80</p>
                         <p><span class="font-semibold">No.Telepon</span></p>
-                        <p class="mb-3">089563937592</p>
+                        <p class="mb-3">089563530921</p>
 
                         <p class="font-semibold mb-3">Social Media</p>
-                        <p>Instagram <span class="ml-8"> : Ohim</span></p>
-                        <p>Linkedln <span class="ml-12"> : Ohim</span></p>
-                        <p>Website <span class="ml-12"> : Ohim</span></p>
-                        <p>Twitter <span class="ml-14"> : Ohim</span></p>
+                        <p class="m-1">Instagram <span class="ml-8"> : bambang_kurnia</span></p>
+                        <p class="m-1">Linkedln <span class="ml-12"> : bambang.kurnia</span></p>
+                        <p class="m-1">Website <span class="ml-12"> : www.bambangkurnia.com</span></p>
+                        <p class="m-1">Twitter <span class="ml-14"> : bambang_kurnia</span></p>
                     </div>
 
                     <!-- Kolom Kanan -->
                     <div>
                         <p><span class="font-semibold">Username</span></p>
-                        <p class="mb-3">bambang</p>
+                        <p class="mb-3">bambang.kurnia</p>
                         <p><span class="font-semibold">Email</span></p>
-                        <p class="mb-3"> bambang@gmail.com</p>
+                        <p class="mb-3"> bambangkurnia@gmail.com</p>
                         <p><span class="font-semibold">Gender</span></p>
                         <p class="mb-3"> Laki-laki</p>
                         <p><span class="font-semibold">Keahlian</span></p>
@@ -96,7 +96,7 @@
 
                 <!-- Organisasi -->
                 <div class="mt-4 text-sm">
-                    <h3 class="font-bold mb-2">Organisasi</h3>
+                    <h3 class="font-medium mb-2">Organisasi</h3>
                     <p class="mb-1">1. Nama Organisasi <span class="ml-11"> Jabatan</span> <span class="ml-10">
                             20xx–20xx</span></p>
                     <p>2. Nama Organisasi <span class="ml-10"> Jabatan</span> <span class="ml-10"> 20xx–20xx </span></p>
@@ -104,7 +104,7 @@
 
                 <!-- Pengalaman -->
                 <div class="mt-4 text-sm">
-                    <h3 class="font-bold mb-2">Pengalaman Kerja</h3>
+                    <h3 class="font-medium mb-2">Pengalaman Kerja</h3>
                     <p class="mb-1"><span class="mr-1">1. Nama Pekerjaan</span> <span class="ml-12"> Nama
                             Perusahaan</span><span class="ml-10">Lokasi</span> <span class="ml-10">20xx–20xx</span></p>
                     <p>2. Nama Pekerjaan <span class="ml-12"> Nama Perusahaan</span> <span class="ml-10">Lokasi</span>
@@ -113,8 +113,8 @@
 
                 <!-- Pendidikan -->
                 <div class="mt-4 text-sm">
-                    <h3 class="font-bold mb-2">Riwayat Pendidikan</h3>
-                    <p class="mb-1"><span class="mr-1">1. Universitas Indonesia</span> <span class="ml-24">Teknik
+                    <h3 class="font-medium mb-2">Riwayat Pendidikan</h3>
+                    <p class="mb-1"><span class="mr-1">1. SMK N 1 Yogyakarta</span> <span class="ml-24">Teknik
                             Komputer
                             dan Jaringan</span> <span class="ml-8">20xx–20xx</span></p>
                     <p>2. Universitas Amikom Yogyakarta <span class="ml-6 mr-1">Informatika</span> <span
@@ -127,26 +127,28 @@
                 <button class="bg-blue-500 hover:bg-blue-400 text-white px-6 py-2 rounded-lg">Edit</button>
                 <button class="bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-lg">Unduh</button>
                 <button class="bg-red-600 hover:bg-red-500 text-white px-6 py-2 rounded-lg">Hapus</button>
-            </div>
+            </div><br>
 
-            <h1 class="font-semibold text-xl text-center mt-20">Curriculum Vitae</h1>
+
+            
+            <h1 class="font-semibold text-xl text-center mt-20">Curicullum Vitae</h1><br>
             <div>
                 <div class="max-w-5xl mx-auto bg-white p-10 text-gray-800">
                     <!-- Header -->
                     <div class="flex items-center justify-between pb-6">
                         <!-- Foto & Nama -->
                         <div class="flex items-center gap-4">
-                            <img src="{{ asset('images/ohim.jpg') }}" alt="Foto Profil"
+                            <img src="https://avatar.iran.liara.run/public/boy" alt="Foto Profil"
                                 class="w-28 h-28 rounded-full object-cover mr-4">
                             <div>
-                                <h1 class="text-2xl font-bold text-orange-600 mb-1">Ohim </h1>
-                                <p class="text-sm">Jl. Prapatan Dalam No. 04 Rt. 47<br>
+                                <h1 class="text-2xl font-bold text-orange-600 mb-1">Bambang Kurnia </h1>
+                                <p class="text-sm font-semibold">Jl. Prapatan Dalam No. 04 Rt. 47<br>
                                     Balikpapan Kota, Kota Balikpapan,<br>
                                     Kalimantan Timur, ID 76111</p>
                             </div>
                         </div>
                         <!-- Kontak -->
-                        <div class="text-sm space-y-2 text-right">
+                        <div class="text-sm space-y-2 text-right font-semibold">
                             <p class="flex items-center gap-2">
                                 <svg width="17" height="12" viewBox="0 0 17 12" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -173,7 +175,7 @@
                                         d="M8.5019 4.14141C6.08985 4.14141 4.14428 6.08742 4.14428 8.5C4.14428 10.9126 6.08985 12.8586 8.5019 12.8586C10.9139 12.8586 12.8595 10.9126 12.8595 8.5C12.8595 6.08742 10.9139 4.14141 8.5019 4.14141ZM8.5019 11.3336C6.94317 11.3336 5.66888 10.0629 5.66888 8.5C5.66888 6.93713 6.93938 5.66635 8.5019 5.66635C10.0644 5.66635 11.3349 6.93713 11.3349 8.5C11.3349 10.0629 10.0606 11.3336 8.5019 11.3336ZM14.0542 3.96313C14.0542 4.52834 13.5991 4.97975 13.0378 4.97975C12.4727 4.97975 12.0214 4.52455 12.0214 3.96313C12.0214 3.40171 12.4765 2.9465 13.0378 2.9465C13.5991 2.9465 14.0542 3.40171 14.0542 3.96313ZM16.9403 4.99492C16.8758 3.6331 16.5648 2.42681 15.5674 1.43295C14.5737 0.439083 13.3677 0.128026 12.0062 0.0597456C10.603 -0.0199152 6.39704 -0.0199152 4.99381 0.0597456C3.63609 0.124233 2.43006 0.43529 1.43263 1.42915C0.435193 2.42302 0.127998 3.62931 0.0597323 4.99113C-0.0199108 6.39468 -0.0199108 10.6015 0.0597323 12.0051C0.124205 13.3669 0.435193 14.5732 1.43263 15.5671C2.43006 16.5609 3.63229 16.872 4.99381 16.9403C6.39704 17.0199 10.603 17.0199 12.0062 16.9403C13.3677 16.8758 14.5737 16.5647 15.5674 15.5671C16.561 14.5732 16.872 13.3669 16.9403 12.0051C17.0199 10.6015 17.0199 6.39847 16.9403 4.99492ZM15.1274 13.511C14.8316 14.2545 14.259 14.8273 13.5118 15.127C12.393 15.5708 9.73826 15.4684 8.5019 15.4684C7.26553 15.4684 4.60697 15.5671 3.49197 15.127C2.74863 14.8311 2.17596 14.2583 1.87635 13.511C1.43263 12.392 1.53503 9.73664 1.53503 8.5C1.53503 7.26336 1.43642 4.60421 1.87635 3.48895C2.17217 2.74545 2.74484 2.17265 3.49197 1.87298C4.61076 1.42915 7.26553 1.53157 8.5019 1.53157C9.73826 1.53157 12.3968 1.43295 13.5118 1.87298C14.2552 2.16886 14.8278 2.74166 15.1274 3.48895C15.5712 4.608 15.4688 7.26336 15.4688 8.5C15.4688 9.73664 15.5712 12.3958 15.1274 13.511Z"
                                         fill="#FA6601" />
                                 </svg>
-                                @bambang_kurnia
+                                bambang_kurnia
                             </p>
                             <p class="flex items-center gap-2">
                                 <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
@@ -191,92 +193,123 @@
                     <div class="grid md:grid-cols-2 gap-8 mt-8">
                         <!-- Kolom Kiri -->
                         <div class="space-y-8">
+                            
                             <!-- Tentang Saya -->
                             <section>
-                                <h2 class="text-lg font-bold text-orange-600 border-b-2 border-orange-500 pb-1">TENTANG
-                                    SAYA</h2>
-                                <p class="mt-3 text-sm leading-relaxed">
-                                    Saya adalah lulusan Teknik Informatika di Universitas Gadjah Mada yang memiliki minat
-                                    besar dalam perancangan
-                                    user experience dan aplikasi. Dengan keahlian dalam desain UI/UX serta pengalaman
-                                    bekerja dalam tim pengembang perangkat lunak,
-                                    saya siap berkontribusi dalam menciptakan solusi digital yang inovatif.
-                                </p>
+                                <div style="font-weight: 700; font-size: 18px; color: #f97316; margin-bottom: 8px;">TENTANG SAYA</div>
+        <div style="width: 40px; height: 5px; background-color: #f97316; margin-bottom: 16px;"><svg width="335" height="1" viewBox="0 0 335 1" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="335" height="1" fill="#FA6601"/>
+        </svg>
+           </div>
+                               <p style="margin-top: 0; margin-bottom: 24px;" class="text-sm">
+          Saya adalah lulusan Teknik Informatika di Universitas Gadjah Mada yang memiliki minat besar dalam pengembangan web dan aplikasi. Dengan keahlian dalam Flutter untuk pengembangan aplikasi berbasis Android serta PHP untuk pemrograman web, saya terus mengasah kemampuan saya di bidang teknologi. Saya bercita-cita menjadi seorang programmer full-stack yang mampu mengembangkan aplikasi atau website sendiri, dengan harapan dapat memberikan kontribusi positif bagi masyarakat dalam menghadapi perkembangan dunia digital yang semakin pesat.
+        </p>
                             </section>
 
-                            <!-- Keahlian -->
-                            <section>
-                                <h2 class="text-lg font-bold text-orange-600 border-b-2 border-orange-500 pb-1">KEAHLIAN &
-                                    KOMPETENSI</h2>
-                                <ul class="grid grid-cols-2 gap-2 mt-3 text-sm list-disc list-inside">
-                                    <li>UI/UX Design</li>
-                                    <li>HTML, CSS, JS</li>
-                                    <li>ReactJS</li>
-                                    <li>Tailwind CSS</li>
-                                    <li>Figma</li>
-                                    <li>Adobe XD</li>
-                                </ul>
-                            </section>
+                           <!-- KEAHLIAN & KOMPETENSI -->
+             <section>
+                                 <div style="font-weight: 700; font-size: 18px; color: #f97316; margin-bottom: 8px;">KEAHLIAN &amp; KOMPETENSI</div>
+        <div style="width: 40px; height: 5px; background-color: #f97316; margin-bottom: 16px;"><svg width="335" height="1" viewBox="0 0 335 1" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="335" height="1" fill="#FA6601"/>
+</svg>
+</div>
+        <table style="width: 100%;  font-size: 12px; margin-bottom: 24px;">
+          <tr>
+            <td style="padding: 2px 0;" class="font-bold">﹒Laravel</td>
+            <td style="text-align: right; padding: 2px 0;" class="font-bold">Expert</td>
+          </tr>
+          <tr>
+            <td style="padding: 2px 0;"  class="font-bold">﹒PHP</td>
+            <td style="text-align: right; padding: 2px 0;"  class="font-bold">Intermediate</td>
+          </tr>
+          <tr>
+            <td style="padding: 2px 0;"  class="font-bold">﹒Flutter</td>
+            <td style="text-align: right; padding: 2px 0;"  class="font-bold">Expert</td>
+          </tr>
+          <tr>
+            <td style="padding: 2px 0;"  class="font-bold">﹒CSS</td>
+            <td style="text-align: right; padding: 2px 0;"  class="font-bold">Intermediate</td>
+          </tr>
+          <tr>
+            <td style="padding: 2px 0;"  class="font-bold">﹒Java Script</td>
+            <td style="text-align: right; padding: 2px 0;"  class="font-bold">Expert</td>
+          </tr>
+        </table>
+
+
 
                             <!-- Organisasi -->
                             <section>
-                                <h2 class="text-lg font-bold text-orange-600 border-b-2 border-orange-500 pb-1">ORGANISASI
-                                </h2>
-                                <div class="mt-3 space-y-4 text-sm">
-                                    <div>
-                                        <p class="font-semibold">Himpunan Mahasiswa Informatika <span
-                                                class="text-gray-500">(2016–2018)</span></p>
-                                        <p>Aktif sebagai anggota bidang pengembangan teknologi kampus, berkontribusi dalam
-                                            berbagai proyek internal.</p>
-                                    </div>
-                                    <div>
-                                        <p class="font-semibold">Komunitas Open Source Indonesia <span
-                                                class="text-gray-500">(2018–2020)</span></p>
-                                        <p>Berpartisipasi dalam pengembangan perangkat lunak open-source serta workshop
-                                            coding untuk pelajar.</p>
-                                    </div>
-                                </div>
-                            </section>
-                        </div>
+                                 <div style="font-weight: 700; font-size: 18px; color: #f97316; margin-bottom: 8px;">ORGANISASI</div>
+        <div style="width: 40px; height: 5px; background-color: #f97316; margin-bottom: 16px;"><svg width="335" height="1" viewBox="0 0 335 1" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="335" height="1" fill="#FA6601"/>
+</svg>
+</div>
+                         <p style="margin: 0 0 14px 0;">
+          <b class="text-sm">Jabatan – Tim Kreatif</b> <span style="float: right;"><b>(2018–2019)</b></span><br>
+          <b class="text-sm">HIMA ILKOM UGM</b>
+          <h4 class="text-sm">Sebagai anggota Tim Kreatif, saya bertanggung jawab dalam menghasilkan konsep kreatif untuk berbagai kegiatan dan acara yang diselenggarakan oleh himpunan. Saya berkolaborasi dengan tim untuk merancang desain visual, materi promosi, serta konten media sosial yang menarik dan efektif dalam menyampaikan pesan kepada anggota dan masyarakat.
+          </h4><br>
+
+        <p style="margin: 0 0 8px 0; clear: both;">
+  <b class="text-sm">Jabatan – <span style="font-weight: bold; text-sm">Divisi Humas</span></b>
+  <span style="float: right;"><strong>(2018–2019)</strong></span><br>
+  <strong style="display: inline-block; margin-bottom: 6px text-sm">BEM KM UGM</strong> <h4 class="text-sm">
+  sebagai anggota Divisi Humas BEM KM UGM, saya berperan dalam menjaga komunikasi yang baik antara organisasi dengan mahasiswa, pihak universitas, serta masyarakat umum. Tugas saya meliputi penyusunan strategi komunikasi, penyebaran informasi terkait kegiatan BEM melalui berbagai platform, seperti media sosial, website, dan publikasi langsung.
+  </h4>
+    </section>
+    </div>
 
                         <!-- Kolom Kanan -->
                         <div class="space-y-8">
                             <!-- Pengalaman Kerja -->
                             <section>
-                                <h2 class="text-lg font-bold text-orange-600 border-b-2 border-orange-500 pb-1">PENGALAMAN
-                                    KERJA</h2>
+                                <div style="font-weight: 700; font-size: 18px; color: #f97316; margin-bottom: 8px;">PENGALAMAN KERJA</div>
+        <div style="width: 40px; height: 5px; background-color: #f97316; margin-bottom: 16px;"><svg width="335" height="1" viewBox="0 0 335 1" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="335" height="1" fill="#FA6601"/>
+</svg>
+</div>
                                 <div class="mt-3 space-y-4 text-sm">
                                     <div>
-                                        <p class="font-semibold">UI/UX Designer <span
-                                                class="text-gray-500">(2020–2022)</span></p>
-                                        <p class="text-sm">PT. Mega Jaya Permata</p>
-                                        <p class="mt-1">Merancang antarmuka aplikasi mobile dengan fokus pada pengalaman
-                                            pengguna.</p>
-                                    </div>
-                                    <div>
-                                        <p class="font-semibold">Frontend Developer <span
-                                                class="text-gray-500">(2018–2020)</span></p>
-                                        <p class="text-sm">CV. Cipta Solusi Teknologi</p>
-                                        <p class="mt-1">Mengembangkan aplikasi berbasis web menggunakan ReactJS dan
-                                            Tailwind CSS.</p>
+                              <p style="margin: 0 0 14px 0;">
+          <b class="text-sm">Jabatan – UI/UX Designer</b> <span style="float: right;"><b class="text-sm">(2020–2022)</b></span><br>
+          <b class="text-sm">PT. Mega Jaya Permata</b>
+          <br> Bertanggung jawab untuk merancang antarmuka pengguna yang intuitif dan menyenangkan. Saya berkolaborasi dengan tim pengembang untuk memastikan setiap elemen desain tidak hanya estetis tetapi juga fungsional. Dalam pekerjaan ini, saya menggunakan tools seperti Figma dan Adobe XD untuk membuat wireframing, prototype, serta user flow efektif.
+        </p>
+
+        <p style="margin: 0 0 14px 0; clear: both;">
+          <b class="text-sm">Jabatan – Front End Developer</b> <span style="float: right;"><b class="text-sm">(2022–2023)</b></span><br>
+          <b class="text-sm">PT. PERTAMINA (Persero)</b>
+          <br> Bertugas untuk mengimplementasikan desain UI/UX ke dalam kode yang berfungsi dengan baik di sisi klien. Saya menggunakan teknologi seperti HTML, CSS, JavaScript, serta framework seperti React dan Vue.js untuk membangun antarmuka pengguna yang responsif dan interaktif.
+        </p>
+
+        <p style="margin: 0 0 14px 0; clear: both;">
+          <b class="text-sm">Jabatan – Back End Developer</b> <span style="float: right;"><b class="text-sm">(2023–2024)</b></span><br>
+          <b class="text-sm">PT. Haryanto Group</b>
+          <br> Fokus utama saya adalah pada pengembangan dan pengelolaan server, basis data, serta logika aplikasi di sisi server. Saya menggunakan bahasa pemrograman seperti PHP dan Node.js untuk membangun API dan sistem back-end yang handal, efisien, dan aman. Saya juga bertanggung jawab untuk memastikan data yang diolah dapat diakses secara cepat dan aman oleh pengguna melalui front-end, serta memastikan aplikasi dapat berkembang dengan baik seiring dengan meningkatnya permintaan dan penggunaan.
+        </p>
                                     </div>
                                 </div>
                             </section>
 
                             <!-- Pendidikan -->
                             <section>
-                                <h2 class="text-lg font-bold text-orange-600 border-b-2 border-orange-500 pb-1">LATAR
-                                    BELAKANG PENDIDIKAN</h2>
+                                  <div style="font-weight: 700; font-size: 18px; color: #f97316; margin-bottom: 8px;">LATAR BELAKANG PENDIDIKAN</div>
+        <div style="width: 40px; height: 5px; background-color: #f97316; margin-bottom: 16px;"><svg width="335" height="1" viewBox="0 0 335 1" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="335" height="1" fill="#FA6601"/>
+</svg>
+</div>
                                 <div class="mt-3 space-y-2 text-sm">
                                     <div>
-                                        <p class="font-semibold">Universitas Gadjah Mada <span
-                                                class="text-gray-500">(2014–2018)</span></p>
-                                        <p>S1 Teknik Informatika</p>
-                                    </div>
-                                    <div>
-                                        <p class="font-semibold">SMK Negeri 1 Balikpapan <span
-                                                class="text-gray-500">(2011–2014)</span></p>
-                                        <p>Teknik Komputer & Jaringan</p>
+                                    <p style="margin: 0 0 14px 0;">
+          <b class="text-sm">Universitas Gadjah Mada</b> <span style="float: right;"><b>(2018–2019)</b></span><br>
+           <b>Teknik Informatika</b>
+        </p>
+
+        <p style="margin: 0 0 14px 0; clear: both;">
+          <b class="text-sm">SMK Negeri 2 Yogyakarta</b> <span style="float: right;"><b>(2018–2019)</b></span><br>
+          <b>Teknik Komputer dan Jaringan</b>
+        </p>
                                     </div>
                                 </div>
                             </section>

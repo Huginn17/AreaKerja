@@ -2,7 +2,7 @@
 @section('sidebaradmin')
     <div class="p-4 sm:ml-64">
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-medium">Data Kandidat</h1>
+            <h1 class="text-2xl font-medium">Data Recruitment</h1>
             <div class="flex items-center gap-3">
                 <svg width="31" height="32" viewBox="0 0 31 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_722_7956)">
@@ -44,17 +44,17 @@
         <!-- Header -->
         <div class="flex items-center justify-between mb-6">
             <div class="flex items-center gap-4">
-                <a href="{{ url('/admin/pelamar') }}"
-                    class="{{ request()->is('admin/pelamar') ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-500 border-gray-500 hover:bg-gray-500 hover:text-white' }} px-6 py-2 text-md font-medium border-2 rounded-lg transition duration-300">
-                    Kandidat
+                <a href="{{ url('/admin/perusahaan') }}"
+                    class="{{ request()->is('admin/perusahaan') ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-500 border-gray-500 hover:bg-gray-500 hover:text-white' }} px-6 py-2 text-md font-medium border-2 rounded-lg transition duration-300">
+                    Perusahaan
                 </a>
-                <a href="{{ url('/admin/non/kandidat') }}"
-                    class="{{ request()->is('admin/non/kandidat') ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-500 border-gray-500 hover:bg-gray-500 hover:text-white' }} px-6 py-2 text-md font-medium border-2 rounded-lg transition duration-300">
-                    Non Kandidat
+                <a href="{{ url('/admin/recruitment') }}"
+                    class="{{ request()->is('admin/recruitment') ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-500 border-gray-500 hover:bg-gray-500 hover:text-white' }} px-6 py-2 text-md font-medium border-2 rounded-lg transition duration-300">
+                    Recruitment
                 </a>
-                <a href="{{ url('/admin/calon/kandidat') }}"
-                    class="{{ request()->is('admin/calon/kandidat') ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-500 border-gray-500 hover:bg-gray-500 hover:text-white' }} px-6 py-2 text-md font-medium border-2 rounded-lg transition duration-300">
-                    Calon Kandidat
+                <a href="{{ url('/admin/talenthunter') }}"
+                    class="{{ request()->is('admin/talenthunter') ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-500 border-gray-500 hover:bg-gray-500 hover:text-white' }} px-6 py-2 text-md font-medium border-2 rounded-lg transition duration-300">
+                    Talent Hunter
                 </a>
             </div>
             <div class="flex gap-2">
@@ -70,11 +70,11 @@
                 <thead class="text-center">
                     <tr>
                         <th class="p-7 font-medium">ID</th>
-                        <th class="p-7 font-medium">Nama</th>
-                        <th class="p-7 font-medium">Skill</th>
-                        <th class="p-7 font-medium">Pendidikan</th>
+                        <th class="p-7 font-medium">Nama Perusahaan</th>
+                        <th class="p-7 font-medium">Email</th>
+                        <th class="p-7 font-medium">Telepon</th>
                         <th class="p-7 font-medium">Alamat</th>
-                        <th class="p-7 font-medium">Detail</th>
+                        <th class="p-7 font-medium">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="text-center">
@@ -82,11 +82,11 @@
                         <!-- Contoh isi data (bisa diulang dengan loop dari backend) -->
                         <tr class="border-b">
                             <td class="px-4 py-3">000001</td>
-                            <td class="px-4 py-3">Zharif Deka</td>
-                            <td class="px-4 py-3">UI/UX Developer</td>
-                            <td class="px-4 py-3">S1</td>
+                            <td class="px-4 py-3">Seven INC</td>
+                            <td class="px-4 py-3">seveninc@gmail.com</td>
+                            <td class="px-4 py-3">(0351)-123456</td>
                             <td class="px-4 py-3">Jawa Tengah</td>
-                            <td class="px-4 py-2 flex gap-2 justify-center">
+                            <td class="px-4 py-3 flex gap-2 justify-center">
                                 <a href="{{ url('/admin/detail/data/kandidat') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-2 py-2 rounded-md">
                                     <svg width="20" height="20" viewBox="0 0 20 16" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">

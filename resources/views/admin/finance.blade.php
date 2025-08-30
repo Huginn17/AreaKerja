@@ -26,7 +26,7 @@
             <div class="block lg:flex justify-between items-center mb-4">
                 <div class="space-x-2 grid grid-cols-2 gap-2 lg:inline md:inline mb-5 lg:mb-0">
                     <button id="btn_koin"
-                        class="bg-gray-700 text-gray-700 text-white w-[110px] px-4 py-2 rounded-md text-sm">Koin</button>
+                        class="bg-gray-700 text-gray-700 w-[110px] px-4 py-2 rounded-md text-sm">Koin</button>
                     <button id="btn_tunai"
                         class="border text-gray-700 w-[110px] px-4 py-2 rounded-md text-sm">Tunai</button>
                 </div>

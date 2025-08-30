@@ -1,6 +1,6 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
-    <main class="flex-1 p-6 bg-white overflow-y-auto">
+    <main class="flex-1 p-6 bg-white overflow-x-auto">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-medium">Tambah Kandidat</h1>
             <div class="flex items-center gap-3">
@@ -204,7 +204,7 @@
                         class="bg-orange-600 text-white font-medium px-10 py-2 rounded-md hover:bg-orange-500 border border-orange-600 transition">Upload
                     </button>
                     <a href="/super_admin/data-pelamar"
-                        class="bg-white text-orange-600 font-medium px-12 py-2 rounded-md hover:bg-orange-100 border border-orange-600 transition">Batal
+                        class="bg-white text-orange-600 font-medium px-12 py-2 rounded-md hover:bg-gray-100 border border-orange-600 transition">Batal
                     </a>
                 </div>
             </form>

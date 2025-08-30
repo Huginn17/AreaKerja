@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PengalamanKerjaController;
 use App\Http\Controllers\PengalamanOrgController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SkillController;
 use App\Http\Controllers\SuperAdminController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,23 +25,44 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('non-user.home');
 });
-Route::get('/beranda',[AuthController::class, 'beranda'])->name('beranda');
+Route::get('/beranda', [AuthController::class, 'beranda'])->name('beranda');
 
 //ALAMAT PELAMAR
-Route::get('/alamat',[AlamatPelamarController::class, 'index']);
+Route::get('/alamat', [AlamatPelamarController::class, 'index']);
+
+Route::get('/create', function () {
+    return view('non-user.profile.organisasi.create');
+});
 
 //CRUD PROFILE
 
-          //pengalaman organisasi
-Route::post('/pelamar/{pelamar}/organisasi',[PengalamanOrgController::class, 'store'])->name('organisasi.store');
-          //pengalaman kerja
-Route::post('/pelamar/{pelamar}/kerja',[PengalamanKerjaController::class, 'store'])->name('kerja.store');
+//pengalaman organisasi
+Route::post('/create/organisasi', [PengalamanOrgController::class, 'store'])->name('organisasi.store')->middleware('auth');
+Route::get('/edit/organisasi/{organisasi:id}', [PengalamanOrgController::class, 'edit'])->name('organisasi.edit')->middleware('auth');
+Route::put('/update/organisasi/{organisasi:id}', [PengalamanOrgController::class, 'update'])->name('organisasi.update')->middleware('auth');
+Route::delete('/delete/organisasi/{organisasi:id}', [PengalamanOrgController::class, 'destroy'])->name('organisasi.destroy')->middleware('auth');
+
+
+//pengalaman kerja
+Route::post('/create/kerja', [PengalamanKerjaController::class, 'store'])->name('kerja.store')->middleware('auth');
+Route::get('/edit/kerja/{kerja:id}', [PengalamanKerjaController::class, 'edit'])->name('kerja.edit')->middleware('auth');
+Route::put('/update/kerja/{kerja:id}', [PengalamanKerjaController::class, 'update'])->name('kerja.update')->middleware('auth');
+Route::delete('/delete/kerja/{kerja:id}', [PengalamanKerjaController::class, 'destroy'])->name('kerja.destroy')->middleware('auth');
+
+
+//SKILL
+Route::post('/create/skill', [SkillController::class, 'store'])->name('skill.store')->middleware('auth');
+Route::get('/edit/skill/{skill:id}', [SkillController::class, 'edit'])->name('skill.edit')->middleware('auth');
+Route::put('/update/skill/{skill:id}', [SkillController::class, 'update'])->name('skill.update')->middleware('auth');
+Route::delete('/delete/skill/{skill:id}', [SkillController::class, 'destroy'])->name('skill.destroy')->middleware('auth');
 
 
 
 Route::get('/lowongan', function () {
     return view('non-user.pasang-lowongan');
-});{{  }}
+}); { {
+    }
+}
 Route::get('/daftar-kandidat', function () {
     return view('non-user.daftar-kandidat');
 });
@@ -54,7 +76,7 @@ Route::get('/tips-kerja', function () {
     return view('non-user.tips-kerja');
 });
 
-Route::get('/profile',[ProfileController::class, 'index'])->name('profile.index');
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 
 
 
@@ -72,17 +94,17 @@ Route::get('/lowongan-detail', function () {
 
 //LOGIN NON USER
 Route::middleware('guest')->group(function () {
-    
+
     Route::get('/login', [AuthController::class, 'login_non_user'])->name('login');
     Route::post('/loginproses', [AuthController::class, 'loginproses'])->name('loginproses');
 });
 
 Route::get('/home', function () {
-   return redirect()->route('beranda'); 
+    return redirect()->route('beranda');
 });
 
 Route::middleware('auth')->group(function () {
-    
+
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
@@ -147,7 +169,7 @@ Route::get('/finance/verif-lupapw', [AuthController::class, 'veriflupapw_finance
 
 Route::get('/finance/dashboard', function () {
     return view('finance.dashboard');
-})->name('finance.dashboard'); 
+})->name('finance.dashboard');
 
 Route::get('/finance/paketharga', function () {
     return view('finance.paket-harga');
@@ -172,11 +194,7 @@ Route::get('/finance/laporan/transaksi2', function () {
 
 
 //Admin
-Route::prefix('admin')->group(function () {
-    
-
-
-});
+Route::prefix('admin')->group(function () {});
 Route::get('/admin/login', [AuthController::class, 'login_admin']);
 Route::get('/admin/register', [AuthController::class, 'regis_admin']);
 Route::get('/admin/verifikasi', [AuthController::class, 'verif_admin']);
@@ -188,6 +206,9 @@ Route::get('/admin/dashboard', function () {
 });
 Route::get('/admin/profile', function () {
     return view('admin.profile');
+});
+Route::get('/admin/edit/profile', function () {
+    return view('admin.edit-profile');
 });
 Route::get('/admin/pelamar', function () {
     return view('admin.pelamar');
@@ -211,8 +232,23 @@ Route::get('/admin/detail/data/talent/hunter', function () {
 Route::get('/admin/pelamar', function () {
     return view('admin.pelamar');
 });
+
+Route::get('/admin/non/kandidat', function () {
+    return view('admin.non-kandidat');
+});
+
+Route::get('/admin/calon/kandidat', function () {
+    return view('admin.calon-kandidat');
+});
+
 Route::get('/admin/perusahaan', function () {
     return view('admin.perusahaan');
+});
+Route::get('/admin/recruitment', function () {
+    return view('admin.recruitment');
+});
+Route::get('/admin/talenthunter', function () {
+    return view('admin.talenthunter');
 });
 Route::get('/admin/finance', function () {
     return view('admin.finance');
@@ -238,18 +274,20 @@ Route::get('/admin/detail/event', function () {
 Route::get('/admin/detail/data/perusahaan', function () {
     return view('admin.detail-data-perusahaan');
 });
-Route::get('/admin/view/data/lowongan/', function () {
+Route::get('/admin/view/data/lowongan', function () {
     return view('admin.view-data-lowongan');
 });
-
+Route::get('/admin/view/talent/hunter', function () {
+    return view('admin.view-talent');
+});
 
 //Super Admin
 Route::prefix('super_admin')->group(function () {
-Route::get('/dashboard', [SuperAdminController::class, 'index'])->name('superadmin.dashboard');
+    Route::get('/dashboard', [SuperAdminController::class, 'index'])->name('superadmin.dashboard');
 
 
-//Profile
-Route::get('profil/{id}/edit', [SuperAdminController::class, 'edit_profile'])->name('edit_profile');
+    //Profile
+    Route::get('profil/{id}/edit', [SuperAdminController::class, 'edit_profile'])->name('edit_profile');
 });
 Route::get('/super_admin/login', [AuthController::class, 'login_super_admin']);
 Route::get('/super_admin/register', [AuthController::class, 'regis_super_admin']);
@@ -373,6 +411,9 @@ Route::get('/super_admin/finance', function () {
 Route::get('/super_admin/view/cv/pelamar', function () {
     return view('super_admin.view-cv-pelamar');
 });
+Route::get('/super_admin/detail/data/talent/hunter', function () {
+    return view('super_admin.detail-data-talent-hunter');
+});
 
 
 
@@ -474,8 +515,8 @@ Route::get('/perusahaan/event', function () {
 });
 Route::get('/perusahaan/gabung/event', function () {
     return view('perusahaan.gabung-event');
-
-});Route::get('/perusahaan/event/kosong', function () {
+});
+Route::get('/perusahaan/event/kosong', function () {
     return view('perusahaan.event-kosong');
 });
 Route::get('/perusahaan/berhasilikut', function () {
@@ -489,13 +530,13 @@ Route::get('perusahaan/pekerja/bermasalah', function () {
 });
 Route::get('perusahaan/cari/nama/pekerja', function () {
     return view('perusahaan.cari-nama-pekerja');
-});     
+});
 Route::get('perusahaan/laporan/harian', function () {
     return view('perusahaan.laporan-harian');
-});     
+});
 Route::get('perusahaan/laporan/pekerja', function () {
     return view('perusahaan.laporan-pekerja');
-});  
+});
 
 
 
