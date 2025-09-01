@@ -36,7 +36,7 @@
             <table cellpadding="0" cellspacing="0" border="0">
                 <tr>
                     <td valign="top" style="padding-right: 40px; text-align: center;">
-                        <img src="https://i.pravatar.cc/110" width="110" height="110"
+                        <img src="https://avatar.iran.liara.run/public/boy" width="110" height="110"
                             style="border-radius: 50%; object-fit: cover;" alt="Foto Profil" />
                     </td>
                     <td valign="top" style="padding-right: 40px;">

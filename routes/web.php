@@ -27,14 +27,21 @@ Route::get('/', function () {
 });
 Route::get('/beranda', [AuthController::class, 'beranda'])->name('beranda');
 
-//ALAMAT PELAMAR
-Route::get('/alamat', [AlamatPelamarController::class, 'index']);
-
-Route::get('/create', function () {
-    return view('non-user.profile.organisasi.create');
-});
 
 //CRUD PROFILE
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index')->middleware('auth');
+Route::put('/update/profile/{pelamar:id}', [ProfileController::class, 'update_profile'])->name('profile.update')->middleware('auth');
+Route::put('/delete/profile/{pelamar:id}', [ProfileController::class, 'destroy_profile'])->name('profile.destroy')->middleware('auth');
+
+
+//ALAMAT PELAMAR
+Route::get('/alamat', [ProfileController::class, 'alamat'])->name('alamat')->middleware('auth');
+Route::get('/form/alamat', [ProfileController::class, 'form_alamat'])->name('form_alamat')->middleware('auth');
+Route::post('/create/alamat', [ProfileController::class, 'store_alamat'])->name('alamat.store')->middleware('auth');
+Route::get('/edit/alamat/{alamatpelamar:id}', [ProfileController::class, 'edit_alamat'])->name('alamat.edit')->middleware('auth');
+Route::put('/update/alamat/{alamatpelamar:id}', [ProfileController::class, 'update_alamat'])->name('alamat.update')->middleware('auth');
+Route::delete('/delete/alamat/{alamatpelamar:id}', [ProfileController::class, 'destroy_alamat'])->name('alamat.destroy')->middleware('auth');
+
 
 //pengalaman organisasi
 Route::post('/create/organisasi', [PengalamanOrgController::class, 'store'])->name('organisasi.store')->middleware('auth');
@@ -75,8 +82,6 @@ Route::get('/tips1', function () {
 Route::get('/tips-kerja', function () {
     return view('non-user.tips-kerja');
 });
-
-Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 
 
 
@@ -250,13 +255,22 @@ Route::get('/admin/recruitment', function () {
 Route::get('/admin/talenthunter', function () {
     return view('admin.talenthunter');
 });
+Route::get('/admin/finance/tunai', function () {
+    return view('admin.finance-tunai');
+});
 Route::get('/admin/finance', function () {
     return view('admin.finance');
+});
+Route::get('/admin/bukti/koin', function () {
+    return view('admin.bukti-koin');
+});
+Route::get('/admin/bukti/tunai', function () {
+    return view('admin.bukti-tunai');
 });
 Route::get('/admin/tips/kerja', function () {
     return view('admin.tips-kerja');
 });
-Route::get('/admin/buatpost', function () {
+Route::get('/admin/buat/post', function () {
     return view('admin.buat-post');
 });
 
@@ -265,9 +279,11 @@ Route::get('/admin/buatpost', function () {
 Route::get('/admin/event/home', function () {
     return view('admin.event.home');
 });
-Route::get('/admin/buat/event', function () {
+
+Route::get('/admin/event/buat', function () {
     return view('admin.event.buat-event');
 });
+
 Route::get('/admin/detail/event', function () {
     return view('admin.event.detail-event');
 });
@@ -414,6 +430,10 @@ Route::get('/super_admin/view/cv/pelamar', function () {
 Route::get('/super_admin/detail/data/talent/hunter', function () {
     return view('super_admin.detail-data-talent-hunter');
 });
+Route::get('/super_admin/edit/data/talent/hunter', function () {
+    return view('super_admin.edit-data-talent-hunter');
+});
+
 
 
 

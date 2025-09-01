@@ -23,8 +23,7 @@ class PengalamanKerjaController extends Controller
         $validated['pelamar_id'] = Auth::user()->pelamar->id;
 
         PengalamanKerja::create($validated);
-        return redirect('/profile');
-        return back();
+        return redirect()->route('profile.index')->with('success', 'Pengalaman Kerja berhasil disimpan');
     }
 
     public function update(Request $request, PengalamanKerja $kerja)
@@ -43,7 +42,6 @@ class PengalamanKerjaController extends Controller
 
         $kerja->update($validated);
         return redirect('/profile');
-        return back();
     }
 
     public function edit(PengalamanKerja $kerja)

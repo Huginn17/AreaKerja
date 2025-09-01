@@ -42,46 +42,47 @@
             <div class="mt-8">
                 <h3 class="text-base font-semibold hover:gray-100 border-b border-orange-500 pb-2 mb-4">Alamat</h3>
 
-                <form action="{{ route('alamat.store') }}" method="POST" class="space-y-4">
+                <form action="{{ route('alamat.update', $data->id) }}" method="POST" class="space-y-4">
                     @csrf
+                    @method('PUT')
                     <div>
                         <label class="block text-sm mb-1">Label Alamat</label>
-                        <input type="text" name="label" class="w-full border border-gray-300 rounded-md px-3 py-2"
+                        <input type="text" name="label" value="{{old('label', $data->label)}}" class="w-full border border-gray-300 rounded-md px-3 py-2"
                             placeholder="Label Alamat">
                     </div>
                     <div>
                         <label class="block text-sm mb-1">Alamat Lengkap</label>
-                        <input type="text" name="desa" class="w-full border border-gray-300 rounded-md px-3 py-2"
+                        <input type="text" name="desa" value="{{old('desa', $data->desa)}}" class="w-full border border-gray-300 rounded-md px-3 py-2"
                             placeholder="Alamat Lengkap">
                     </div>
                     <div>
                         <label class="block text-sm mb-1">Kecamatan</label>
-                        <input type="text" name="kecamatan" class="w-full border border-gray-300 rounded-md px-3 py-2"
+                        <input type="text" name="kecamatan" value="{{old('kecamatan', $data->kecamatan)}}" class="w-full border border-gray-300 rounded-md px-3 py-2"
                             placeholder="Kecamatan">
                     </div>
                     <div>
                         <label class="block text-sm mb-1">Kota</label>
-                        <input type="text" name="kota" class="w-full border border-gray-300 rounded-md px-3 py-2" placeholder="Kota">
+                        <input type="text" name="kota" value="{{old('kota', $data->kota)}}" class="w-full border border-gray-300 rounded-md px-3 py-2" placeholder="Kota">
                     </div>
                     <div>
                         <label class="block text-sm mb-1">Provinsi</label>
-                        <input type="text" name="provinsi" class="w-full border border-gray-300 rounded-md px-3 py-2"
+                        <input type="text" name="provinsi" value="{{old('provinsi', $data->provinsi)}}" class="w-full border border-gray-300 rounded-md px-3 py-2"
                             placeholder="Provinsi">
                     </div>
                     <div>
                         <label class="block text-sm mb-1">Detail Alamat</label>
-                        <input type="text" name="detail" class="w-full border border-gray-300 rounded-md px-3 py-2"
+                        <input type="text" name="detail" value="{{old('detail', $data->detail)}}" class="w-full border border-gray-300 rounded-md px-3 py-2"
                             placeholder="Detail lainnya (Cth: Blok/Unit)">
                     </div>
                     <div>
                         <label class="block text-sm mb-1">Kode Pos</label>
-                        <input type="text" name="kode_pos" class="w-full border border-gray-300 rounded-md px-3 py-2"
+                        <input type="text" name="kode_pos" value="{{old('kode_pos', $data->kode_pos)}}" class="w-full border border-gray-300 rounded-md px-3 py-2"
                             placeholder="Kode Pos">
                     </div>
 
                     <!-- Tombol Simpan -->
                     <div class="flex justify-center pt-4">
-                        <button class="bg-orange-500 hover:bg-orange-600  text-white px-6 py-2 rounded-md">Simpan</button>
+                        <button class="bg-orange-500 hover:bg-orange-600  text-white px-6 py-2 rounded-md">Update</button>
                     </div>
                 </form>
             </div>

@@ -17,6 +17,10 @@ class Pelamar extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function alamat_pelamar(){
+        return $this->hasMany(AlamatPelamar::class, 'pelamar_id');
+    }
+
     public function pengalaman_organisasi(){
         return $this->hasMany(Organisasi::class, 'pelamar_id');
     }
@@ -27,6 +31,10 @@ class Pelamar extends Model
 
     public function skill(){
         return $this->hasMany(Skill::class, 'pelamar_id');
+    }
+
+    public function sosmed(){
+        return $this->hasOne(SocialMediaPelamar::class, 'pelamar_id');
     }
 
 }

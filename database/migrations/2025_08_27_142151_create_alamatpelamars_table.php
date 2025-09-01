@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('alamatpelamars', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pelamar_id')->constrained('pelamars')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('label')->default(null);
-            $table->string('desa')->default(null);
-            $table->string('kecamatan')->default(null);
-            $table->string('kota')->default(null);
-            $table->string('provinsi')->default(null);
-            $table->string('kode_pos')->default(null);
-            $table->string('detail')->default(null);
+            $table->string('label')->nullable();
+            $table->string('desa')->nullable();
+            $table->string('kecamatan')->nullable();
+            $table->string('kota')->nullable();
+            $table->string('provinsi')->nullable();
+            $table->string('kode_pos')->nullable();
+            $table->string('detail')->nullable();
             $table->timestamps();
         });
     }

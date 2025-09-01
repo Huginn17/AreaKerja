@@ -69,7 +69,6 @@
                     </div>
                     <div class="bg-orange-500 text-white py-2 text-sm">Rp. 2.000.000</div>
                 </div>
-
             </div>
 
             <!-- Tombol Konfirmasi -->

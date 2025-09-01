@@ -4,7 +4,7 @@
 
         <!-- Header -->
         <header class="w-full flex items-center justify-between px-6 py-3 border-bshadow-sm">
-            <h1 class="text-2xl font-semibold">Data Transaksi Coin</h1>
+            <h1 class="text-2xl font-semibold">Data Transaksi Tunai</h1>
             <div class="flex items-center gap-3">
                 <svg width="31" height="32" viewBox="0 0 31 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_722_7956)">
@@ -48,12 +48,12 @@
             <div class="flex items-center gap-4 mb-4">
                 <!-- Toggle Buttons -->
 
-                <a href="{{ url('/admin/finance') }}" 
-                  class="{{ request()->is('admin/finance') ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-500 border-gray-500 hover:bg-gray-500 hover:text-white' }} px-8 py-2 text-md font-medium border-2 rounded-lg transition duration-300">
-                   Koin</a>
-                <a href="{{ url('/admin/finance/tunai') }}" 
-                  class="{{ request()->is('admin/finance/tunai') ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-500 border-gray-500 hover:bg-gray-500 hover:text-white' }} px-8 py-2 text-md font-medium border-2 rounded-lg transition duration-300">
-                   Tunai</a>
+                <a href="{{ url('/admin/finance') }}"
+                    class="{{ request()->is('admin/finance') ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-500 border-gray-500 hover:bg-gray-500 hover:text-white' }} px-8 py-2 text-md font-medium border-2 rounded-lg transition duration-300">
+                    Koin</a>
+                <a href="{{ url('/admin/finance/tunai') }}"
+                    class="{{ request()->is('admin/finance/tunai') ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-500 border-gray-500 hover:bg-gray-500 hover:text-white' }} px-8 py-2 text-md font-medium border-2 rounded-lg transition duration-300">
+                    Tunai</a>
 
                 <!-- Input dengan Dropdown -->
                 <div class="flex items-center ml-[300px] border-2 overflow-hidden rounded-lg border-gray-400">
@@ -99,26 +99,6 @@
                             <td class="px-4 py-2">AppleCorp.</td>
                             <td class="px-4 py-2">VA BCA</td>
                             <td class="px-4 py-2">1.000 Koin</td>
-                            <td class="px-4 py-2 text-green-600 font-medium">Success</td>
-                            <td class="px-4 py-2 text-blue-600 flex justify-center">
-                                <a href="{{ url('/admin/bukti/koin') }}">
-                                <svg width="24" height="24"
-                                    viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M10.7077 25H4.23587C2.44874 25 0.999988 23.6568 1 22L1.00013 3.99999C1.00014 2.34314 2.44889 1 4.23601 1H18.7979C20.585 1 22.0338 2.34315 22.0338 4.00001V12.25M15.562 20.7501L18.5282 23.5001L25 17.4998M6.66331 7.00002H16.371M6.66331 11.5H16.371M6.66331 16H11.5171"
-                                        stroke="#0F0BFD" stroke-width="1.78861" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-                              </a>
-                            <td>
-                        </tr>
-                         <tr class="border-b text-center">
-                            <td class="px-4 py-2">2</td>
-                            <td class="px-4 py-2">991773493631</td>
-                            <td class="px-4 py-2">Open CV</td>
-                            <td class="px-4 py-2">AppleCorp.</td>
-                            <td class="px-4 py-2">VA BCA</td>
-                            <td class="px-4 py-2">1.000 Koin</td>
                             <td class="px-4 py-2 text-red-600 font-medium">Pending</td>
                             <td class="px-4 py-2 text-blue-600 flex justify-center"><svg width="24" height="24"
                                     viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -127,6 +107,26 @@
                                         stroke="#0F0BFD" stroke-width="1.78861" stroke-linecap="round"
                                         stroke-linejoin="round" />
                                 </svg>
+                            <td>
+                        </tr>
+                        <tr class="border-b text-center">
+                            <td class="px-4 py-2">2</td>
+                            <td class="px-4 py-2">991773493631</td>
+                            <td class="px-4 py-2">Open CV</td>
+                            <td class="px-4 py-2">AppleCorp.</td>
+                            <td class="px-4 py-2">VA BCA</td>
+                            <td class="px-4 py-2">1.000 Koin</td>
+                            <td class="px-4 py-2 text-green-600 font-medium">Success</td>
+                            <td class="px-4 py-2 text-blue-600 flex justify-center">
+                            <a href="{{ url('/admin/bukti/tunai') }}">
+                                <svg width="24" height="24"
+                                    viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M10.7077 25H4.23587C2.44874 25 0.999988 23.6568 1 22L1.00013 3.99999C1.00014 2.34314 2.44889 1 4.23601 1H18.7979C20.585 1 22.0338 2.34315 22.0338 4.00001V12.25M15.562 20.7501L18.5282 23.5001L25 17.4998M6.66331 7.00002H16.371M6.66331 11.5H16.371M6.66331 16H11.5171"
+                                        stroke="#0F0BFD" stroke-width="1.78861" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </a>
                             <td>
                         </tr>
 

@@ -4,7 +4,7 @@
 
         <div class=" mx-auto">
             <!-- Date -->
-            <div class="text-sm">7 Juli 2023</div>
+            <div class="text-sm font-medium">7 Juli 2023</div>
             <!-- Card 1 -->
             <div class="w-[800px] rounded-xl overflow-hidden relative">
                 <!-- Background Image -->

@@ -20,11 +20,16 @@
                 </button>
             </div>
             <!-- Modal body -->
-            <form id="formkerja" action="{{ route('kerja.store') }}" method="POST">
+            <form id="formkerja" action="{{ route('kerja.store') }}" method="POST" >
                 @csrf
                 <div class="mb-2">
                     <label>Nama Perusahaan</label>
                     <input type="text" name="nama_perusahaan" class="border w-full" required>
+                </div>
+
+                 <div class="mb-2">
+                    <label>Jabatan Pekerjaan</label>
+                    <input type="text" name="jabatan_pekerjaan" class="border w-full" required>
                 </div>
 
                 <div class="mb-2">
