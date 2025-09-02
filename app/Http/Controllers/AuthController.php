@@ -39,14 +39,8 @@ class AuthController extends Controller
             return back();
         }
     }
-    public function logout_superadmin(Request $request)
-    {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return redirect('/');
-    }
-
+    
+   
 
     //pelamar
     public function beranda()
@@ -104,13 +98,80 @@ class AuthController extends Controller
 
     }
 
-    public function logout(Request $request)
+     public function logout_pelamar(Request $request)
     {
+        Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('login');
+        return redirect('/');
     }
 
+
+    //LOGIN PERUSAHAAN
+    public function beranda_perusahaan()
+    {
+        return view('perusahaan.dashboard');
+    }
+     public function loginproses_perusahaan(Request $request)
+    {
+        $val = $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+
+        if (Auth::attempt($val)) {
+            $request->session()->regenerate();
+
+            // Hanya set sekali waktu login pertama
+            if (!$request->session()->has('already_logged')) {
+                $request->session()->put('first_login', true);
+                $request->session()->put('already_logged', true);
+            }
+
+            return redirect()->route('perusahaan.dashboard');
+        }
+
+        return back()->withErrors([
+            'username' => 'Username atau password salah.',
+        ]);
+    }
+
+
+    public function regis_proses_perusahaan(Request $request)
+    {
+        $valid = $request->validate([
+            'username' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'role' => 'required'
+        ]);
+
+        $valid['password'] = Hash::make($request->password);
+        $user = User::create($valid);
+
+        $valid_dataperusahaan = $request->validate([
+            'telepon_perusahaan' => 'required',
+            'nama_perusahaan' => 'nullable'
+        ]);
+
+        $valid_dataperusahaan['nama_perusahaan'] = $request->username;
+
+        $user->perusahaan()->create($valid_dataperusahaan);
+
+        return response()->json([
+        'success' => true,
+    ]);
+
+    }
+
+
+    public function logout_perusahaan(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('perusahaan.dashboard');
+    }
 
 
 

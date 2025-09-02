@@ -38,7 +38,7 @@
         <input 
           type="text" 
           placeholder="Nama Pekerja"
-          class="w-full border border-gray-500 rounded-md px-4 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:outline-none"
+          class="w-full border border-gray-500 rounded-md px-4 py-2 text-sm  focus:outline-none"
         >
       </div>
 
@@ -51,7 +51,7 @@
     <input 
       type="text" 
       placeholder="Contoh : Absensi Kerja_Nama_.pdf"
-      class="w-full border border-gray-500 rounded-md px-4 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:outline-none"
+      class="w-full border border-gray-500 rounded-md px-4 py-2 text-sm focus:outline-none"
     >
   </div>
 
@@ -86,7 +86,7 @@
         <textarea 
           rows="4" 
           placeholder="Contoh: Menno jarang sekali datang tepat waktu dan sering bolos kerja"
-          class="w-full border border-gray-500 rounded-md px-4 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:outline-none"
+          class="w-full border border-gray-500 rounded-md px-4 py-2 text-sm focus:outline-none"
         ></textarea>
       </div>
 

@@ -66,14 +66,14 @@
                             <label for="" class="block text-sm font-medium mb-1">ID User <span
                                     class="text-red-500">*</span></label>
                             <input type="text" name="" id=""
-                                class="w-full border border-gray-300 shadow rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                class="w-full border border-gray-300 shadow rounded-md px-3 py-2 focus:outline-none">
                         </div>
                         {{-- email --}}
                         <div>
                             <label for="" class="block text-sm font-medium mb-1">Email <span
                                     class="text-red-500">*</span></label>
                             <input type="email" name="" id=""
-                                class="w-full border border-gray-300 shadow rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                class="w-full border border-gray-300 shadow rounded-md px-3 py-2 focus:outline-none">
                         </div>
                     </div>
 
@@ -82,22 +82,26 @@
                         <div>
                             <label class="block text-sm font-medium mb-1">Nama Lengkap <span class="text-red-500">*</span></label>
                             <input type="text"
-                                class="w-full border border-gray-300 shadow rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                class="w-full border border-gray-300 shadow rounded-md px-3 py-2 focus:outline-none">
                         </div>
                         <!-- User (dropdown) -->
                         <div class="grid grid-cols-2 gap-2">
                             <div>
                                 <label class="block text-sm font-medium mb-1">User <span class="text-red-500">*</span></label>
                                 <select
-                                    class="w-full border border-gray-300 shadow rounded-md px-3 py-2 appearance-none bg-white focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                    class="w-full border border-gray-300 shadow rounded-md px-3 py-2 appearance-none bg-white focus:outline-none">
                                     <option>Role </option>
                                 </select>
                             </div>
                             <div>
                                 <label class="block text-sm font-medium mb-1">&nbsp; </label>
                                 <select
-                                    class="w-full border border-gray-300 shadow rounded-md px-3 py-2 appearance-none bg-white focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                    class="w-full border border-gray-300 shadow rounded-md px-3 py-2 appearance-none bg-white focus:outline-none">
                                     <option>Daerah</option>
+                                    <option>Yogyakarta</option>
+                                    <option>Sleman</option>
+                                    <option>Bandung</option>
+                                    <option>Jakarta</option>
                                 </select>
                             </div>
                         </div>
@@ -108,29 +112,39 @@
                         <div>
                             <label class="block text-sm font-medium mb-1">Provinsi <span class="text-red-500">*</span></label>
                             <select
-                                class="w-full border border-gray-300 shadow rounded-md px-3 py-2 appearance-none bg-white focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                class="w-full border border-gray-300 shadow rounded-md px-3 py-2 appearance-none bg-white focus:outline-none">
                                 <option>Pilih Provinsi</option>
+                                    <option>Jawa Barat</option>
+                                        <option>Jawa Tengah</option>
+                                            <option>Jawa Timur</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-sm font-medium  mb-1">Kota/Kabupaten<span
                                     class="text-red-500">*</span></label>
                             <select
-                                class="w-full border border-gray-300 shadow rounded-md px-3 py-2 appearance-none bg-white focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                class="w-full border border-gray-300 shadow rounded-md px-3 py-2 appearance-none bg-white focus:outline-none">
                                 <option>Pilih Kota</option>
+                                    <option>Yogyakarta</option>
+                                        <option>Solo</option>
+                                            <option>jakarta</option>
+                                                <option>Bandung</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-1">Kecamatan <span class="text-red-500">*</span></label>
                             <select
-                                class="w-full border border-gray-300 shadow rounded-md px-3 py-2 appearance-none bg-white focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                class="w-full border border-gray-300 shadow rounded-md px-3 py-2 appearance-none bg-white focus:outline-none">
                                 <option>Pilih Kecamatan</option>
+                                            <option>Bantul</option>
+                                                <option>Banguntapan</option>
+
                             </select>
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-1">Kode Pos <span class="text-red-500">*</span></label>
                             <input type="text"
-                                class="w-full border border-gray-300 shadow rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                                class="w-full border border-gray-300 shadow rounded-md px-3 py-2 focus:outline-none">
                         </div>
                     </div>
 
@@ -138,15 +152,15 @@
                     <div>
                         <label class="block text-sm font-medium mb-1">Alamat Lengkap <span class="text-red-500">*</span></label>
                         <input type="text"
-                            class="w-full border border-gray-300 shadow rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                            class="w-full border border-gray-300 shadow rounded-md px-3 py-2 focus:outline-none">
                     </div>
 
                     <!-- Tombol -->
                     <div class="flex justify-center gap-4 pt-4">
                         <button type="button"
-                            class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded">Hapus</button>
+                            class="bg-green-600 hover:bg-green-700 text-white px-8 py-2 rounded-full">Hapus</button>
                         <a href="/super_admin/add"
-                            class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded">Batal</a>
+                            class="bg-red-600 hover:bg-red-700 text-white px-8 py-2 rounded-full">Batal</a>
                     </div>
                 </form>
             </div>

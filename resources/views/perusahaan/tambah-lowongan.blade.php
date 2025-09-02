@@ -5,10 +5,10 @@
         <div class="w-[900px] p-6">
             <!-- Header -->
             <div class="flex items-center gap-4 mb-6">
-                <img src="{{ asset('images/seven.png') }}" alt="Logo" class="w-20">
+                <img src="{{ asset('images/seven.png') }}" alt="Logo" class="w-20 h-20">
                 <div>
-                    <h1 class="font-bold text-lg">Seven_Inc</h1>
-                    <p class="text-sm text-gray-600">Jasa TI dan Konsultan TI</p>
+                    <h1 class="font-bold text-lg m-1">Seven_Inc</h1>
+                    <p class="text-sm text-gray-600 m-1">Jasa TI dan Konsultan TI</p>
                     <p class="text-sm text-gray-600">Jakarta Timur, DKI Jakarta, Indonesia</p>
                 </div>
             </div>
@@ -30,6 +30,8 @@
                             <select
                                 class="w-full border rounded-md px-3 py-2 mt-1 outline-none focus:ring-1 focus:ring-orange-500">
                                 <option>Pilih Alamat</option>
+                                <option>Rumah</option>
+                                
                             </select>
                         </div>
                     </div>
@@ -44,6 +46,7 @@
                             <select
                                 class="border rounded-md px-3 py-2 mt-1 outline-none focus:ring-1 focus:ring-orange-500 w-50">
                                 <option>Full Time</option>
+                                <option>Middle Time</option>
                             </select>
                         </div>
 

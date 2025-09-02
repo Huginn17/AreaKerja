@@ -5,8 +5,8 @@
         <div class="flex items-center space-x-4">
             <img src="{{ asset('images/seven.png') }}" alt="Logo" class="w-60 h-56 object-contain" />
             <div>
-                <h1 class="font-semibold text-gray-800">Seven_Inc</h1>
-                <p class="text-sm text-gray-600">Jasa TI dan Konsultan TI</p>
+                <h1 class="font-semibold text-lg text-gray-800 m-2">Seven_Inc</h1>
+                <p class="text-lg text-gray-600 m-2">Jasa TI dan Konsultan TI</p>
             <p class="text-sm text-gray-400">Alamat default</p>
             </div>
         </div>

@@ -18,7 +18,7 @@
 
         <!-- Kotak form -->
         <div
-            style="width:90%; max-width:750px; margin:0 auto 50px auto; border:1px solid #ccc; border-radius:10px; padding:20px 30px;">
+            style="width:90%; max-width:750px; margin:0 auto 50px auto; border:1px solid rgb(34, 34, 34); border-radius:10px; padding:20px 30px;">
             <p class="font-semibold">Silahkan input jadwal wawancara untuk calon kandidat</p><br>
 
             <form class="space-y-5">
@@ -108,10 +108,11 @@
                     style="width:100%; padding:8px 10px; font-size:14px; border:1px solid #ccc; border-radius:6px; margin-bottom:20px; resize:none; min-height:90px;">Jl. Mangga dua No. 27 RT/RW 001/003, Kecamatan Mangga, Kota Jakarta Timur, Provinsi DKI Jakarta, 13463</textarea>
 
                 <!-- Button -->
-                <button type="submit"
-                    style="display:block; margin:10px auto 0 auto; padding:8px 25px; background-color:#ff6500; background-hover:#ff6600 border:none; color:#fff; font-size:14px; font-weight:600; border-radius:6px; cursor:pointer;">
-                    Selanjutnya
-                </button>
+              <button type="submit"
+    class="block mx-auto mt-2 px-6 py-2 bg-[#ff6500] text-white text-sm font-semibold rounded-md cursor-pointer hover:bg-[#e65c00] transition-colors duration-300">
+    Selanjutnya
+</button>
+
             </form>
         </div>
 

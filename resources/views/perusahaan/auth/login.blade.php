@@ -87,7 +87,8 @@
                 <p class="text-center text-gray-500 mb-6 mt-6 text-sm">gunakan email Anda untuk pendaftaran</p>
 
                 <!-- Form Login -->
-                <form class="space-y-4">
+                <form action="{{ route('loginproses_perusahaan') }}" method="POST" class="space-y-4">
+                    @csrf
                     <div>
                         <label for="username" class="block text-sm font-semibold text-gray-700">Nama Perusahaan</label>
                         <input type="text" id="username" name="username" placeholder="Nama Pengguna"

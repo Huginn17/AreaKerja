@@ -14,8 +14,8 @@
     <!-- Header: Logo dan Informasi -->
     <div class="flex items-start gap-6 mb-4">
       <!-- Logo -->
-      <div class="w-24">
-        <img src="https://i.imgur.com/f8iH6E4.png" alt="Seven Logo" class="w-full h-auto" />
+      <div class="w-30">
+        <img src="{{asset('images/seven.png')}}" alt="Seven Logo" class="w-30 h-30" />
       </div>
 
       <!-- Teks -->
@@ -53,14 +53,14 @@
 
     <!-- Footer Logo -->
     <div class="flex flex-col items-center mt-10">
-      <img src="https://logoarea.png" alt="logoarea" class="w-16 mb-1" />
+      <img src="{{asset('images/logoarea.png')}}" alt="logoarea" class="w-16 mb-1" />
       <p class="text-xs text-gray-500">Copyright©2024areakerja.com</p>
     </div>
 
     <!-- Tombol -->
     <div class="flex justify-end gap-4 mt-6">
-      <button class="px-7 py-1 bg-orange-500 text-white rounded-lg hover:bg-orange-600">Kembali</button>
-      <button class="px-7 py-1 bg-orange-500 text-white rounded-lg hover:bg-orange-600">Kirim</button>
+      <button class="px-7 py-1 bg-orange-500 text-white rounded-lg hover:bg-orange-600 m-2">Kembali</button>
+      <button class="px-7 py-1 bg-orange-500 text-white rounded-lg hover:bg-orange-600 m-2">Kirim</button>
     </div>
 
   </div>

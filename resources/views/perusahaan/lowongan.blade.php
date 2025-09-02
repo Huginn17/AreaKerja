@@ -9,9 +9,9 @@
                 <div class="flex items-center gap-4">
                     <img src="{{ asset('images/seven.png') }}" alt="Logo" class="w-20 h-20 object-contain">
                     <div>
-                        <h1 class="font-semibold text-lg">Seven_Inc</h1>
-                        <p class="text-sm">Jasa TI dan Konsultan TI</p>
-                        <p class="text-sm text-gray-600">Jakarta Timur, DKI Jakarta, Indonesia</p>
+                        <h1 class="font-semibold text-lg m-1">Seven_Inc</h1>
+                        <p class="text-lg m-1">Jasa TI dan Konsultan TI</p>
+                        <p class="text-sm text-gray-400">Jakarta Timur, DKI Jakarta, Indonesia</p>
                     </div>
                 </div>
 
@@ -31,11 +31,14 @@
     <div class="max-w-4xl mx-auto px-4 flex justify-between items-center mb-6">
         <div></div>
         <div class="flex gap-3 text-gray-500">
-            <select class="border rounded px-3 py-2 text-sm">
+            <select class="border rounded-lg px-7 py-2 text-sm">
                 <option>Jenis Paket</option>
+                <option>Middle</option>
             </select>
-            <select class="border rounded px-3 py-2 text-sm">
+            <select class="border rounded-lg px-7 py-2 text-sm">
                 <option>Jenis Lowongan</option>
+                <option>Programmer</option>
+                <option>UI UX Designer</option>
             </select>
         </div>
     </div>
@@ -44,13 +47,14 @@
     <div class="max-w-4xl mx-auto px-4 space-y-4">
 
         <!-- Card Lowongan -->
+        <h3 class="font-semibold text-lg">Lowongan</h3>
         <div class="flex items-center gap-4 p-4 rounded-lg shadow bg-white">
             <img src="{{ asset('images/seven.png') }}" alt="Logo" class="w-16 h-16 object-contain">
             <div class="flex-1">
-                <span class="text-sm text-gray-600">Seven Inc</span>
+                <span class="text-sm text-gray-400">Seven Inc</span>
                 <h2 class="font-semibold mt-1">UI UX Designer – WFO</h2>
-                <p class="text-sm text-gray-600">Yogyakarta</p>
-                <span class="inline-block mt-4 text-sm px-2 py-1 bg-gray-100 border rounded ">
+                <p class="text-sm text-gray-400">Yogyakarta</p>
+                <span class="inline-block mt-4 text-sm px-2 py-1 bg-gray-300 border rounded ">
                     Rp. 4.500.000 – Rp. 7.000.000 per bulan
                 </span>
             </div>
@@ -61,10 +65,11 @@
         <div class="flex items-center gap-4 p-4 rounded-lg shadow bg-white">
             <img src="{{ asset('images/seven.png') }}" alt="Logo" class="w-16 h-16 object-contain">
             <div class="flex-1">
-                <span class="text-sm text-gray-600">Seven Inc</span>
+                
+                <span class="text-sm text-gray-400">Seven Inc</span>
                 <h2 class="font-semibold mt-1">UI UX Designer – WFO</h2>
-                <p class="text-sm text-gray-600">Yogyakarta</p>
-                <span class="inline-block mt-4 text-sm px-2 py-1 bg-gray-100 border rounded ">
+                <p class="text-sm text-gray-400">Yogyakarta</p>
+                <span class="inline-block mt-4 text-sm px-2 py-1 bg-gray-300 border rounded ">
                     Rp. 4.500.000 – Rp. 7.000.000 per bulan
                 </span>
             </div>
@@ -72,12 +77,74 @@
         </div>
 
         <!-- Card lainnya tinggal diulang -->
+             <div class="flex items-center gap-4 p-4 rounded-lg shadow bg-white">
+            <img src="{{ asset('images/seven.png') }}" alt="Logo" class="w-16 h-16 object-contain">
+            <div class="flex-1">
+                
+                <span class="text-sm text-gray-400">Seven Inc</span>
+                <h2 class="font-semibold mt-1">UI UX Designer – WFO</h2>
+                <p class="text-sm text-gray-400">Yogyakarta</p>
+                <span class="inline-block mt-4 text-sm px-2 py-1 bg-gray-300 border rounded ">
+                    Rp. 4.500.000 – Rp. 7.000.000 per bulan
+                </span>
+            </div>
+            <p class="text-xs text-gray-500">Aktif 2 jam lalu</p>
+        </div>
+        
+          <div class="flex items-center gap-4 p-4 rounded-lg shadow bg-white">
+            <img src="{{ asset('images/seven.png') }}" alt="Logo" class="w-16 h-16 object-contain">
+            <div class="flex-1">
+                
+                <span class="text-sm text-gray-400">Seven Inc</span>
+                <h2 class="font-semibold mt-1">UI UX Designer – WFO</h2>
+                <p class="text-sm text-gray-400">Yogyakarta</p>
+                <span class="inline-block mt-4 text-sm px-2 py-1 bg-gray-300 border rounded ">
+                    Rp. 4.500.000 – Rp. 7.000.000 per bulan
+                </span>
+            </div>
+            <p class="text-xs text-gray-500">Aktif 2 jam lalu</p>
+        </div>
+
+
+          <div class="flex items-center gap-4 p-4 rounded-lg shadow bg-white">
+            <img src="{{ asset('images/seven.png') }}" alt="Logo" class="w-16 h-16 object-contain">
+            <div class="flex-1">
+                
+                <span class="text-sm text-gray-400">Seven Inc</span>
+                <h2 class="font-semibold mt-1">UI UX Designer – WFO</h2>
+                <p class="text-sm text-gray-400">Yogyakarta</p>
+                <span class="inline-block mt-4 text-sm px-2 py-1 bg-gray-300 border rounded ">
+                    Rp. 4.500.000 – Rp. 7.000.000 per bulan
+                </span>
+            </div>
+            <p class="text-xs text-gray-500">Aktif 2 jam lalu</p>
+        </div>
+
+
+
+
+          <div class="flex items-center gap-4 p-4 rounded-lg shadow bg-white">
+            <img src="{{ asset('images/seven.png') }}" alt="Logo" class="w-16 h-16 object-contain">
+            <div class="flex-1">
+                
+                <span class="text-sm text-gray-400">Seven Inc</span>
+                <h2 class="font-semibold mt-1">UI UX Designer – WFO</h2>
+                <p class="text-sm text-gray-400">Yogyakarta</p>
+                <span class="inline-block mt-4 text-sm px-2 py-1 bg-gray-300 border rounded ">
+                    Rp. 4.500.000 – Rp. 7.000.000 per bulan
+                </span>
+            </div>
+            <p class="text-xs text-gray-500">Aktif 2 jam lalu</p>
+        </div>
+
+
+
 
     </div>
 
     <!-- Button bawah -->
     <div class="max-w-4xl mx-auto px-4 py-6 text-center">
-        <button class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded">
+        <button class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-2 rounded">
             Memuat
         </button>
     </div>

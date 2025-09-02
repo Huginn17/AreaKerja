@@ -160,10 +160,10 @@
                     <!-- Button -->
                     <div class="md:col-span-2 flex justify-center items-center gap-4">
                         <button type="submit"
-                            class="bg-gray-500 text-white font-medium px-10 py-2 rounded-md hover:bg-gray-500 border border-gray-500 transition">Simpan
+                            class="bg-red-500 text-white font-medium px-12 py-1 rounded-md hover:bg-red-600 border border-red-500 transition">Batal
                         </button>
                         <a href="/admin/profile"
-                            class="bg-white text-gray-600 font-medium px-12 py-2 rounded-md hover:bg-gray-100 border border-gray-500 transition">Batal
+                            class="bg-green-500 text-white font-medium px-10 py-1 rounded-md hover:bg-green-600 border border-green-500 transition">Simpan
                         </a>
                     </div>
             </div>

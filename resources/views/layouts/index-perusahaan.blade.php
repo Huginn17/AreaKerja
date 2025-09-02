@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="register-pelamar-url" content="{{ route('registerproses') }}">
+    <meta name="register-perusahaan-url" content="{{ route('registerproses_perusahaan') }}">
+
     <title>areakerja.com</title>
     @vite('resources/css/app.css')
     <link rel="icon" sizes="512x512" type="image/png" href="{{ asset('images/logoarea.png') }}">
@@ -59,15 +63,15 @@
                         <div class="relative w-96 bg-white rounded-xl shadow-xl overflow-hidden mt-16 mr-10"
                             style="margin-left: 800px">
 
-                             <div class="text-right mr-5 mt-3">
-                               <button onclick="toggleModal()" class="text-gray-400 hover:text-red-500">
-                                 ✕
-                                </button>  
+                            <div class="text-right mr-5 mt-3">
+                                <button onclick="toggleModal()" class="text-gray-400 hover:text-red-500">
+                                    ✕
+                                </button>
 
-                             </div> 
+                            </div>
                             <!-- Header -->
                             <div class="flex justify-between items-center p-4 border-b">
-                                
+
                                 <h2 class="text-lg font-medium">Notifikasi</h2>
                                 <a href="#" class="text-orange-500 text-sm">Lihat semua</a>
                             </div>
@@ -80,7 +84,7 @@
                                     <div class="flex-1 text-sm">
                                         <p>Kandidat Anda Telah Siap</p>
                                         <div class="text-right">
-                                          <span class="text-xs text-gray-400">2 Jam lalu</span>
+                                            <span class="text-xs text-gray-400">2 Jam lalu</span>
                                         </div>
                                     </div>
                                 </div>
@@ -90,16 +94,17 @@
                                     <div class="flex-1 text-sm">
                                         <p>Anda Telah Melakukan Top Up Coin AK Sebesar 1000</p>
                                         <div class="text-right">
-                                          <span class="text-xs text-gray-400">3 Jam lalu</span>
+                                            <span class="text-xs text-gray-400">3 Jam lalu</span>
                                         </div>
                                     </div>
                                 </div>
-                                  <div class="flex items-start gap-3 p-4 border-b bg-gray-50">
+                                <div class="flex items-start gap-3 p-4 border-b bg-gray-50">
                                     <img src="{{ asset('images/seven.png') }}" class="h-10 w-10" alt="logo">
                                     <div class="flex-1 text-sm">
-                                        <p>Selesaikan transaksi sebelum estimasi habis melanjutkan Top Up Poin AK sebesar Rp.502.000,-</p>
+                                        <p>Selesaikan transaksi sebelum estimasi habis melanjutkan Top Up Poin AK
+                                            sebesar Rp.502.000,-</p>
                                         <div class="text-right">
-                                          <span class="text-xs text-gray-400">3 Jam lalu</span>
+                                            <span class="text-xs text-gray-400">3 Jam lalu</span>
                                         </div>
                                     </div>
                                 </div>
@@ -119,112 +124,135 @@
                     </script>
 
                 </button>
-                {{-- <a href="#" class="px-11 py-2 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition">
-                    Masuk
-                </a> --}}
+                @guest
+                    <a href="{{ route('login_perusahaan') }}"
+                        class="px-11 py-2 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition">
+                        Masuk
+                    </a>
+                @endguest
 
-                <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-                    <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0" id="user-menu-button"
-                        aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
-                        <span class="sr-only">Open user menu</span>
-                        <div class="bg-orange-500 text-sm text-white px-6 p-2 rounded-lg">
-                            <p>Seven inc</p>
-                        </div>
-                        <!-- <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg"
-                            alt="user photo"> -->
-                    </button>
+                {{-- Jika sudah login tampilkan dropdown --}}
+                @auth
+                    <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                        <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0" id="user-menu-button"
+                            aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+                            <span class="sr-only">Open user menu</span>
+                            @if (Auth::user()->role == 'perusahaan')
+                                @if (Auth::user()->perusahaan->img_profile)
+                                    <img id="pi" class="w-10 h-10  object-cover rounded-full profile-img"
+                                        src="{{ asset('storage/' . Auth::user()->perusahaan->img_profile) }}"
+                                        alt="Profile">
+                                @else
+                                    <img id="pi" class="w-10 h-10 rounded-full"
+                                        src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                        alt="">
+                                @endif
+                            @else
+                                <img class="w-10 h-10 rounded-full"
+                                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                    alt="">
+                            @endif
+                        </button>
 
-                    <!-- Dropdown menu -->
-                    <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-md dark:bg-gray-700 dark:divide-gray-600 border" id="user-dropdown">
-                        <div class="bg-white rounded-2xl shadow-lg w-80 overflow-hidden">
-                            <!-- Header -->
-                            <div class="flex items-center gap-3 px-5 py-4">
-                                <img src="{{ asset('images/logoarea.png') }}" alt="Logo" class="w-10 h-10">
-                                <div>
-                                    <h2 class="font-semibold text-gray-800">Seven Inc</h2>
-                                    <p class="text-sm text-gray-500">seveninc@gmail.com</p>
+                        <!-- Dropdown menu -->
+                        <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-md dark:bg-gray-700 dark:divide-gray-600 border"
+                            id="user-dropdown">
+                            <div class="bg-white rounded-2xl shadow-lg w-80 overflow-hidden">
+                                <!-- Header -->
+                                <div class="flex items-center gap-3 px-5 py-4">
+                                    <img src="{{ asset('images/logoarea.png') }}" alt="Logo" class="w-10 h-10">
+                                    <div>
+                                        <span class="block text-sm text-gray-900">{{ Auth::user()->username }}</span>
+                                        <span
+                                            class="block text-sm text-gray-500 truncate">{{ Auth::user()->email }}</span>
+                                    </div>
+                                </div>
+                                <hr>
+
+                                <!-- Menu -->
+                                <div class="flex flex-col mt-4">
+                                    <a href="{{ url('/perusahaan/profile') }}"
+                                        class="flex items-center gap-3 px-5 py-3 bg-orange-50 text-orange-600 font-medium">
+                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M11 1C5.477 1 1 5.477 1 11C1 16.523 5.477 21 11 21C16.523 21 21 16.523 21 11C21 5.477 16.523 1 11 1Z"
+                                                stroke="#FA6601" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path
+                                                d="M3.27344 17.346C3.27344 17.346 5.50244 14.5 11.0024 14.5C16.5024 14.5 18.7324 17.346 18.7324 17.346M11.0024 11C11.7981 11 12.5611 10.6839 13.1238 10.1213C13.6864 9.55871 14.0024 8.79565 14.0024 8C14.0024 7.20435 13.6864 6.44129 13.1238 5.87868C12.5611 5.31607 11.7981 5 11.0024 5C10.2068 5 9.44373 5.31607 8.88112 5.87868C8.31851 6.44129 8.00244 7.20435 8.00244 8C8.00244 8.79565 8.31851 9.55871 8.88112 10.1213C9.44373 10.6839 10.2068 11 11.0024 11Z"
+                                                fill="#FA6601" />
+                                        </svg>
+                                        Profil Perusahaan
+                                    </a>
+
+                                    <a href="#"
+                                        class="flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-gray-100">
+                                        <svg width="20" height="19" viewBox="0 0 20 19" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M2 19C1.45 19 0.979333 18.8043 0.588 18.413C0.196667 18.0217 0.000666667 17.5507 0 17V6C0 5.45 0.196 4.97933 0.588 4.588C0.98 4.19667 1.45067 4.00067 2 4H6V2C6 1.45 6.196 0.979333 6.588 0.588C6.98 0.196667 7.45067 0.000666667 8 0H12C12.55 0 13.021 0.196 13.413 0.588C13.805 0.98 14.0007 1.45067 14 2V4H18C18.55 4 19.021 4.196 19.413 4.588C19.805 4.98 20.0007 5.45067 20 6V17C20 17.55 19.8043 18.021 19.413 18.413C19.0217 18.805 18.5507 19.0007 18 19H2ZM2 17H18V6H2V17ZM8 4H12V2H8V4Z"
+                                                fill="#606060" />
+                                        </svg>
+
+                                        Koin Area Kerja
+                                    </a>
+
+                                    <a href="{{ url('/perusahaan/kandidat') }}"
+                                        class="flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-gray-100">
+                                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M19.3333 1H2.66667C2.22464 1 1.80072 1.17559 1.48816 1.48816C1.17559 1.80072 1 2.22464 1 2.66667V19.3333C1 19.7754 1.17559 20.1993 1.48816 20.5118C1.80072 20.8244 2.22464 21 2.66667 21H19.3333C19.7754 21 20.1993 20.8244 20.5118 20.5118C20.8244 20.1993 21 19.7754 21 19.3333V2.66667C21 2.22464 20.8244 1.80072 20.5118 1.48816C20.1993 1.17559 19.7754 1 19.3333 1Z"
+                                                stroke="#606060" stroke-width="1.66667" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path
+                                                d="M9.3342 14.8889L12.112 17.1111L16.5564 11.5556M5.44531 6H16.5564M5.44531 10.4444H9.88976"
+                                                stroke="#606060" stroke-width="1.66667" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+                                        Kandidat Saya
+                                    </a>
+
+                                    <a href="{{ url('/perusahaan/pengaturan') }}"
+                                        class="flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-gray-100">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M9.95 16C10.3 16 10.596 15.879 10.838 15.637C11.08 15.395 11.2007 15.0993 11.2 14.75C11.2 14.4 11.0793 14.104 10.838 13.862C10.5967 13.62 10.3007 13.4993 9.95 13.5C9.6 13.5 9.30433 13.621 9.063 13.863C8.82167 14.105 8.70067 14.4007 8.7 14.75C8.7 15.1 8.821 15.396 9.063 15.638C9.305 15.88 9.60067 16.0007 9.95 16ZM9.05 12.15H10.9C10.9 11.6 10.9627 11.1667 11.088 10.85C11.2133 10.5333 11.5673 10.1 12.15 9.55C12.5833 9.11667 12.925 8.704 13.175 8.312C13.425 7.92 13.55 7.44933 13.55 6.9C13.55 5.96667 13.2083 5.25 12.525 4.75C11.8417 4.25 11.0333 4 10.1 4C9.15 4 8.37933 4.25 7.788 4.75C7.19667 5.25 6.784 5.85 6.55 6.55L8.2 7.2C8.28333 6.9 8.471 6.575 8.763 6.225C9.055 5.875 9.50067 5.7 10.1 5.7C10.6333 5.7 11.0333 5.846 11.3 6.138C11.5667 6.43 11.7 6.75067 11.7 7.1C11.7 7.43333 11.6 7.746 11.4 8.038C11.2 8.33 10.95 8.60067 10.65 8.85C9.91667 9.5 9.46667 9.99167 9.3 10.325C9.13333 10.6583 9.05 11.2667 9.05 12.15ZM10 20C8.61667 20 7.31667 19.7377 6.1 19.213C4.88333 18.6883 3.825 17.9757 2.925 17.075C2.025 16.175 1.31267 15.1167 0.788 13.9C0.263333 12.6833 0.000666667 11.3833 0 10C0 8.61667 0.262667 7.31667 0.788 6.1C1.31333 4.88333 2.02567 3.825 2.925 2.925C3.825 2.025 4.88333 1.31267 6.1 0.788C7.31667 0.263333 8.61667 0.000666667 10 0C11.3833 0 12.6833 0.262667 13.9 0.788C15.1167 1.31333 16.175 2.02567 17.075 2.925C17.975 3.825 18.6877 4.88333 19.213 6.1C19.7383 7.31667 20.0007 8.61667 20 10C20 11.3833 19.7373 12.6833 19.212 13.9C18.6867 15.1167 17.9743 16.175 17.075 17.075C16.175 17.975 15.1167 18.6877 13.9 19.213C12.6833 19.7383 11.3833 20.0007 10 20ZM10 18C12.2333 18 14.125 17.225 15.675 15.675C17.225 14.125 18 12.2333 18 10C18 7.76667 17.225 5.875 15.675 4.325C14.125 2.775 12.2333 2 10 2C7.76667 2 5.875 2.775 4.325 4.325C2.775 5.875 2 7.76667 2 10C2 12.2333 2.775 14.125 4.325 15.675C5.875 17.225 7.76667 18 10 18Z"
+                                                fill="#606060" />
+                                        </svg>
+
+                                        Pengaturan
+                                    </a>
+                                </div>
+
+                                <!-- Logout Button -->
+                                <div class="px-5 py-4">
+                                    <form action="{{ route('logout_perusahaan') }}" method="POST"
+                                        class="flex justify-center mt-2">
+                                        @csrf
+                                        <button type="submit"
+                                            class="px-10 py-1 bg-orange-500 text-white rounded-lg shadow-md hover:bg-orange-600 transition">
+                                            Keluar
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
-                            <hr>
-
-                            <!-- Menu -->
-                            <div class="flex flex-col mt-4">
-                                <a href="{{ url ('/perusahaan/profile') }}"
-                                    class="flex items-center gap-3 px-5 py-3 bg-orange-50 text-orange-600 font-medium">
-                                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M11 1C5.477 1 1 5.477 1 11C1 16.523 5.477 21 11 21C16.523 21 21 16.523 21 11C21 5.477 16.523 1 11 1Z"
-                                            stroke="#FA6601" stroke-width="1.5" stroke-linecap="round"
-                                            stroke-linejoin="round" />
-                                        <path
-                                            d="M3.27344 17.346C3.27344 17.346 5.50244 14.5 11.0024 14.5C16.5024 14.5 18.7324 17.346 18.7324 17.346M11.0024 11C11.7981 11 12.5611 10.6839 13.1238 10.1213C13.6864 9.55871 14.0024 8.79565 14.0024 8C14.0024 7.20435 13.6864 6.44129 13.1238 5.87868C12.5611 5.31607 11.7981 5 11.0024 5C10.2068 5 9.44373 5.31607 8.88112 5.87868C8.31851 6.44129 8.00244 7.20435 8.00244 8C8.00244 8.79565 8.31851 9.55871 8.88112 10.1213C9.44373 10.6839 10.2068 11 11.0024 11Z"
-                                            fill="#FA6601" />
-                                    </svg>
-
-                                    Profil Perusahaan
-                                </a>
-
-                                <a href="#"
-                                    class="flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-gray-100">
-                                    <svg width="20" height="19" viewBox="0 0 20 19" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M2 19C1.45 19 0.979333 18.8043 0.588 18.413C0.196667 18.0217 0.000666667 17.5507 0 17V6C0 5.45 0.196 4.97933 0.588 4.588C0.98 4.19667 1.45067 4.00067 2 4H6V2C6 1.45 6.196 0.979333 6.588 0.588C6.98 0.196667 7.45067 0.000666667 8 0H12C12.55 0 13.021 0.196 13.413 0.588C13.805 0.98 14.0007 1.45067 14 2V4H18C18.55 4 19.021 4.196 19.413 4.588C19.805 4.98 20.0007 5.45067 20 6V17C20 17.55 19.8043 18.021 19.413 18.413C19.0217 18.805 18.5507 19.0007 18 19H2ZM2 17H18V6H2V17ZM8 4H12V2H8V4Z"
-                                        fill="#606060" />
-                                   </svg>
-                                   
-                                    Koin Area Kerja
-                                </a>
-
-                                <a href="{{ url('/perusahaan/kandidat') }}"
-                                    class="flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-gray-100">
-                                     <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M19.3333 1H2.66667C2.22464 1 1.80072 1.17559 1.48816 1.48816C1.17559 1.80072 1 2.22464 1 2.66667V19.3333C1 19.7754 1.17559 20.1993 1.48816 20.5118C1.80072 20.8244 2.22464 21 2.66667 21H19.3333C19.7754 21 20.1993 20.8244 20.5118 20.5118C20.8244 20.1993 21 19.7754 21 19.3333V2.66667C21 2.22464 20.8244 1.80072 20.5118 1.48816C20.1993 1.17559 19.7754 1 19.3333 1Z"
-                                            stroke="#606060" stroke-width="1.66667" stroke-linecap="round"
-                                            stroke-linejoin="round" />
-                                        <path
-                                            d="M9.3342 14.8889L12.112 17.1111L16.5564 11.5556M5.44531 6H16.5564M5.44531 10.4444H9.88976"
-                                            stroke="#606060" stroke-width="1.66667" stroke-linecap="round"
-                                            stroke-linejoin="round" />
-                                    </svg>
-                                    Kandidat Saya
-                                </a>
-
-                                <a href="{{ url('/perusahaan/pengaturan') }}"
-                                    class="flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-gray-100">
-                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                         <path d="M9.95 16C10.3 16 10.596 15.879 10.838 15.637C11.08 15.395 11.2007 15.0993 11.2 14.75C11.2 14.4 11.0793 14.104 10.838 13.862C10.5967 13.62 10.3007 13.4993 9.95 13.5C9.6 13.5 9.30433 13.621 9.063 13.863C8.82167 14.105 8.70067 14.4007 8.7 14.75C8.7 15.1 8.821 15.396 9.063 15.638C9.305 15.88 9.60067 16.0007 9.95 16ZM9.05 12.15H10.9C10.9 11.6 10.9627 11.1667 11.088 10.85C11.2133 10.5333 11.5673 10.1 12.15 9.55C12.5833 9.11667 12.925 8.704 13.175 8.312C13.425 7.92 13.55 7.44933 13.55 6.9C13.55 5.96667 13.2083 5.25 12.525 4.75C11.8417 4.25 11.0333 4 10.1 4C9.15 4 8.37933 4.25 7.788 4.75C7.19667 5.25 6.784 5.85 6.55 6.55L8.2 7.2C8.28333 6.9 8.471 6.575 8.763 6.225C9.055 5.875 9.50067 5.7 10.1 5.7C10.6333 5.7 11.0333 5.846 11.3 6.138C11.5667 6.43 11.7 6.75067 11.7 7.1C11.7 7.43333 11.6 7.746 11.4 8.038C11.2 8.33 10.95 8.60067 10.65 8.85C9.91667 9.5 9.46667 9.99167 9.3 10.325C9.13333 10.6583 9.05 11.2667 9.05 12.15ZM10 20C8.61667 20 7.31667 19.7377 6.1 19.213C4.88333 18.6883 3.825 17.9757 2.925 17.075C2.025 16.175 1.31267 15.1167 0.788 13.9C0.263333 12.6833 0.000666667 11.3833 0 10C0 8.61667 0.262667 7.31667 0.788 6.1C1.31333 4.88333 2.02567 3.825 2.925 2.925C3.825 2.025 4.88333 1.31267 6.1 0.788C7.31667 0.263333 8.61667 0.000666667 10 0C11.3833 0 12.6833 0.262667 13.9 0.788C15.1167 1.31333 16.175 2.02567 17.075 2.925C17.975 3.825 18.6877 4.88333 19.213 6.1C19.7383 7.31667 20.0007 8.61667 20 10C20 11.3833 19.7373 12.6833 19.212 13.9C18.6867 15.1167 17.9743 16.175 17.075 17.075C16.175 17.975 15.1167 18.6877 13.9 19.213C12.6833 19.7383 11.3833 20.0007 10 20ZM10 18C12.2333 18 14.125 17.225 15.675 15.675C17.225 14.125 18 12.2333 18 10C18 7.76667 17.225 5.875 15.675 4.325C14.125 2.775 12.2333 2 10 2C7.76667 2 5.875 2.775 4.325 4.325C2.775 5.875 2 7.76667 2 10C2 12.2333 2.775 14.125 4.325 15.675C5.875 17.225 7.76667 18 10 18Z" fill="#606060"/>
-                                    </svg>
-
-                                    Pengaturan
-                                </a>
-                            </div>
-
-                            <!-- Logout Button -->
-                            <div class="px-5 py-4">
-                                <button
-                                    class="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 rounded-lg">
-                                    Keluar
-                                </button>
-                            </div>
+                            <button data-collapse-toggle="navbar-user" type="button"
+                                class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                                aria-controls="navbar-user" aria-expanded="false">
+                                <span class="sr-only">Open main menu</span>
+                                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 17 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
+                                </svg>
+                            </button>
                         </div>
-                        <button data-collapse-toggle="navbar-user" type="button"
-                            class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                            aria-controls="navbar-user" aria-expanded="false">
-                            <span class="sr-only">Open main menu</span>
-                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 17 14">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
-                            </svg>
-                        </button>
-                    </div>
 
 
-
+                    @endauth
                 </div>
             </div>
     </header>

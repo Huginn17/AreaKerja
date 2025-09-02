@@ -4,6 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="register-pelamar-url" content="{{ route('registerproses') }}">
+    <meta name="register-perusahaan-url" content="{{ route('registerproses_perusahaan') }}">
+
+
     <title>areakerja.com</title>
     @vite('resources/css/app.css')
     <link rel="icon" type="image/png" href="{{ asset('images/logoarea.png') }}">
@@ -69,7 +74,7 @@
                             <span class="sr-only">Open user menu</span>
                             @if (Auth::user()->role == 'pelamar')
                                 @if (Auth::user()->pelamar->img_profile)
-                                    <img id="pi" class="w-40 h-40 sm:w-40 object-cover rounded-full mb-3 profile-img"
+                                    <img id="pi" class="w-10 h-10  object-cover rounded-full profile-img"
                                         src="{{ asset('storage/' . Auth::user()->pelamar->img_profile) }}" alt="Profile">
                                 @else
                                     <img id="pi" class="w-10 h-10 rounded-full"
@@ -117,7 +122,7 @@
                                     </li>
                                 @endif
                                 <li>
-                                    <form action="{{ route('logout') }}" method="POST" class="flex justify-center mt-2">
+                                    <form action="{{ route('logout_pelamar') }}" method="POST" class="flex justify-center mt-2">
                                         @csrf
                                         <button type="submit"
                                             class="px-10 py-1 bg-orange-500 text-white rounded-lg shadow-md hover:bg-orange-600 transition">
@@ -136,6 +141,7 @@
     {{-- Isi Halaman --}}
     @yield('content')
 
+
     {{-- Onboarding Tooltip --}}
     <div id="onboarding" class="hidden">
         <div class="fixed inset-0 bg-black bg-opacity-70 z-40"></div>
@@ -147,7 +153,8 @@
                     OK
                 </button>
             </div>
-            <div class="absolute top-3 -left-2 w-0 h-0 border-y-8 border-y-transparent border-r-8 border-r-white"></div>
+            <div class="absolute top-3 -left-2 w-0 h-0 border-y-8 border-y-transparent border-r-8 border-r-white">
+            </div>
         </div>
     </div>
 
@@ -185,6 +192,7 @@
 
     @include('layouts.modal-logout')
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    <script src="{{ asset('js/non_user.js') }}"></script>
 </body>
 
 </html>

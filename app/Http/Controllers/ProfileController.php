@@ -23,9 +23,16 @@ class ProfileController extends Controller
 
     public function update_profile(Request $request, Pelamar $pelamar)
     {
-        if ($pelamar->img_profile && Storage::exists('public/' . $pelamar->img_profile)) {
-            Storage::delete('public/' . $pelamar->img_profile);
+        if ($request->hasFile('img_profile')) {
+            // Hapus foto lama jika ada
+            if ($pelamar->img_profile && Storage::exists('public/' . $pelamar->img_profile)) {
+                Storage::delete('public/' . $pelamar->img_profile);
+            }
+            // Simpan foto baru
+            $validated['img_profile'] = $request->file('img_profile')->store('images', 'public');
         }
+
+
 
 
         $validated = $request->validate([
@@ -38,31 +45,30 @@ class ProfileController extends Controller
             "gaji_maksimal"    =>     "nullable"
         ]);
 
-        if ($request->hasFile('img_profile')) {
-            $validated['img_profile'] = $request->file('img_profile')->store('images','public');
-        }
+        // if ($request->hasFile('img_profile')) {
+        //     $validated['img_profile'] = $request->file('img_profile')->store('images', 'public');
+        // }
 
         $validated['user_id'] = Auth::user()->id;
         $pelamar->update($validated);
 
         $sosmed = $request->validate([
-           "instagram" => "nullable",
-           "linkedin" => "nullable",
-           "website" => "nullable",
-           "twitter" => "nullable",
+            "instagram" => "nullable",
+            "linkedin" => "nullable",
+            "website" => "nullable",
+            "twitter" => "nullable",
         ]);
 
         $pelamar->sosmed()->create($sosmed);
         return redirect()->route('profile.index')->with('success', 'Profile berhasil diupdate');
-
     }
     public function destroy_profile(Pelamar $pelamar)
     {
-         if ($pelamar->img_profile && Storage::exists('public/' . $pelamar->img_profile)) {
+        if ($pelamar->img_profile && Storage::exists('public/' . $pelamar->img_profile)) {
             Storage::delete('public/' . $pelamar->img_profile);
         }
 
-        $pelamar->img_profile->null;
+        $pelamar->img_profile = null;
         $pelamar->save();
         return redirect()->route('profile.index')->with('success', 'Profile berhasil dihapus');
     }

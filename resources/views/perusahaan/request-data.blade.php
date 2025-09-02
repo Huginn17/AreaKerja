@@ -27,7 +27,7 @@
   <div class="max-w-5xl mx-auto py-12 px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
     
     <!-- Card 1 -->
-    <div class="bg-orange-500 rounded-2xl p-8 text-center text-white w-60 shadow-lg">
+    <div class="bg-orange-500 rounded-lg p-8 text-center text-white w-60 shadow-lg hover:scale-105">
       <div class="flex justify-center mb-4">
         <!-- Icon -->
         <svg width="88" height="88" viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -37,13 +37,13 @@
       <h3 class="font-medium mb-6 text-lg leading-tight">
         Laporan Harian <br>Pekerja
       </h3>
-      <button class="bg-white text-orange-500 text-sm font-medium px-4 py-2 rounded-lg">
+      <button class="bg-white text-orange-500 hover:bg-gray-200 text-sm font-medium px-4 py-2 rounded-lg">
         lebih Detail
       </button>
     </div>
 
     <!-- Card 2 -->
-    <div class="bg-orange-500 rounded-2xl p-8 text-center text-white w-60 shadow-lg">
+    <div class="bg-orange-500 rounded-lg p-8 text-center text-white w-60 shadow-lg hover:scale-105">
       <div class="flex justify-center mb-4">
         <!-- Icon -->
         <svg width="82" height="84" viewBox="0 0 82 84" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -55,13 +55,13 @@
       <h3 class="font-medium mb-6 text-lg leading-tight">
         Cari Nama<br>Pekerja
       </h3>
-      <button class="bg-white text-orange-500 text-sm font-medium px-4 py-2 rounded-lg">
+      <button class="bg-white text-orange-500 hover:bg-gray-200 500 text-sm font-medium px-4 py-2 rounded-lg">
         lebih Detail
       </button>
     </div>
 
     <!-- Card 3 -->
-    <div class="bg-orange-500 rounded-2xl p-8 text-center text-white w-60 shadow-lg">
+    <div class="bg-orange-500 rounded-lg p-8 text-center text-white w-60 shadow-lg hover:scale-105">
       <div class="flex justify-center mb-4">
         <!-- Icon -->
         <svg width="103" height="100" viewBox="0 0 103 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -75,7 +75,7 @@
       <h3 class="font-medium mb-6 text-lg leading-tight">
         Laporan Harian <br>Pekerja
       </h3>
-      <button class="bg-white text-orange-500 text-sm font-medium px-4 py-2 rounded-lg">
+      <button class="bg-white text-orange-500 hover:bg-gray-200 text-sm font-medium px-4 py-2 rounded-lg">
         lebih Detail
       </button>
     </div>

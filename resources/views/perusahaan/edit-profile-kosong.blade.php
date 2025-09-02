@@ -9,7 +9,14 @@
             <label class="text-sm font-medium">Logo Perusahaan <span class="text-red-500">*</span></label>
             <div class="col-span-2 flex items-center space-x-4">
                 <div class="w-48 h-32 border border-gray-300 rounded-lg flex items-center justify-center overflow-hidden">
-                    <img src="{{ asset('images/seven.png') }}" alt="Logo" class="object-cover">
+                    @if (Auth::user()->perusahaan->img_profile)
+                        <img id="pp" class="w-20 h-20 object-contain mb-3 profile-img"
+                            src="{{ asset('storage/' . Auth::user()->perusahaan->img_profile) }}" alt="Profile">
+                    @else
+                        <img id="pp" class="w-48 h-34 object-contain mb-3"
+                            src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                            alt="">
+                    @endif
                 </div>
                 <div class="flex flex-col gap-y-6">
                     <button
@@ -22,7 +29,8 @@
                         </svg>
                         Upload
                     </button>
-                    <button class="flex items-center gap-3 px-6 py-2 text-sm border rounded-md text-gray-500 border-gray-300 hover:bg-gray-100">
+                    <button
+                        class="flex items-center gap-3 px-6 py-2 text-sm border rounded-md text-gray-500 border-gray-400 hover:bg-gray-100">
                         <svg width="13" height="14" viewBox="0 0 13 14" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -40,35 +48,37 @@
             <div class="grid grid-cols-3 gap-4 items-center">
                 <label class="text-sm font-medium">Nama Perusahaan <span class="text-red-500">*</span></label>
                 <input type="text"
-                    class="border border-gray-300 rounded-md flex w-[89%] h-11 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                    class="pl-2 border border-gray-300 rounded-md flex w-[89%] h-11 focus:outline-none focus:ring-1 focus:ring-orange-500">
             </div>
             <div class="grid grid-cols-3 gap-4 items-center">
                 <label class="text-sm font-medium">Alamat Perusahaan <span class="text-red-500">*</span></label>
                 <input type="text" placeholder=""
-                    class="border border-gray-300 rounded-md flex w-[89%] h-11 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                    class="pl-2 border border-gray-300 rounded-md flex w-[89%] h-11 focus:outline-none focus:ring-1 focus:ring-orange-500">
             </div>
             <div class="grid grid-cols-3 gap-4 items-center">
                 <label class="text-sm font-medium">Bidang Usaha <span class="text-red-500">*</span></label>
                 <input type="text"
-                    class="border border-gray-300 rounded-md flex w-[89%] h-11 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                    class="pl-2 border border-gray-300 rounded-md flex w-[89%] h-11 focus:outline-none focus:ring-1 focus:ring-orange-500">
             </div>
             <div class="grid grid-cols-3 gap-4 items-center">
                 <label class="text-sm font-medium">Nama Perusahaan <span class="text-red-500">*</span></label>
                 <input type="text"
-                    class="border border-gray-300 rounded-md flex w-[89%] h-11 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                    class="pl-2 border border-gray-300 rounded-md flex w-[89%] h-11 focus:outline-none focus:ring-1 focus:ring-orange-500">
             </div>
             <div class="grid grid-cols-3 gap-4 items-start">
                 <label class="text-sm font-medium mt-2">Deskripsi <span class="text-red-500">*</span></label>
-                <textarea class="col-span-2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-500"></textarea>
+                <textarea
+                    class="pl-2 col-span-2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-500"></textarea>
             </div>
             <div class="grid grid-cols-3 gap-4 items-center">
                 <label class="text-sm font-medium">Visi<span class="text-red-500 ml-1">*</span></label>
                 <input type="text"
-                    class="col-span-2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                    class="pl-2 col-span-2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-500">
             </div>
             <div class="grid grid-cols-3 gap-4 items-start">
                 <label class="text-sm font-medium mt-2">Misi<span class="text-red-500 ml-1">*</span></label>
-                <textarea class="col-span-2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-500"></textarea>
+                <textarea
+                    class="pl-2 col-span-2 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-500"></textarea>
             </div>
         </div>
         <hr class="border border-gray-200 mt-10">
@@ -78,28 +88,28 @@
             <div class="grid grid-cols-3 gap-4 items-center">
                 <label class="text-sm font-medium">Website</label>
                 <input type="text"
-                    class="border border-gray-300 rounded-md flex w-[89%] h-11 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                    class="pl-2 border border-gray-300 rounded-md flex w-[89%] h-11 focus:outline-none focus:ring-1 focus:ring-orange-500">
             </div>
             <div class="grid grid-cols-3 gap-4 items-center">
                 <label class="text-sm font-medium">Telepon</label>
                 <input type="text"
-                    class="border border-gray-300 rounded-md flex w-[89%] h-11 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                    class="pl-2 border border-gray-300 rounded-md flex w-[89%] h-11 focus:outline-none focus:ring-1 focus:ring-orange-500">
             </div>
             <div class="grid grid-cols-3 gap-4 items-center">
                 <label class="text-sm font-medium">Whatsapp</label>
                 <input type="text"
-                    class="border border-gray-300 rounded-md flex w-[89%] h-11 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                    class="pl-2 border border-gray-300 rounded-md flex w-[89%] h-11 focus:outline-none focus:ring-1 focus:ring-orange-500">
             </div>
             <div class="grid grid-cols-3 gap-4 items-center">
                 <label class="text-sm font-medium">Email</label>
                 <input type="email"
-                    class="border border-gray-300 rounded-md flex w-[89%] h-11 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                    class="pl-2 border border-gray-300 rounded-md flex w-[89%] h-11 focus:outline-none focus:ring-1 focus:ring-orange-500">
             </div>
         </div>
 
         <!-- Tombol -->
         <div class="flex justify-end gap-3 mt-8">
-            <button class="px-6 py-2 border  rounded-md text-gray-600 border-gray-300 hover:bg-gray-100">Batal</button>
+            <a href="/perusahaan/profile" class="px-6 py-2 border rounded-md text-orange-600 border-orange-600">Batal</a>
             <button class="px-6 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600">Simpan</button>
         </div>
     </div>

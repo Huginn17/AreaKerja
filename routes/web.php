@@ -110,11 +110,12 @@ Route::get('/home', function () {
 
 Route::middleware('auth')->group(function () {
 
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('/logout', [AuthController::class, 'logout_pelamar'])->name('logout_pelamar');
 });
 
 Route::get('/register', [AuthController::class, 'regis_non_user'])->name('register');
 Route::post('/registerproses', [AuthController::class, 'regis_proses'])->name('registerproses');
+
 
 Route::get('/verifikasi', [AuthController::class, 'verif_non_user']);
 Route::get('/verifikasicode', [AuthController::class, 'verifcode_non_user']);
@@ -441,9 +442,7 @@ Route::get('/super_admin/edit/data/talent/hunter', function () {
 
 
 //Perusahaan
-Route::get('/perusahaan/dashboard', function () {
-    return view('perusahaan.dashboard');
-});
+Route::get('/perusahaan/dashboard',[AuthController::class,'beranda_perusahaan'])->name('perusahaan.dashboard');
 
 Route::get('/perusahaan/dashboard/isi', function () {
     return view('perusahaan.dashboard-isi');
@@ -557,12 +556,29 @@ Route::get('perusahaan/laporan/harian', function () {
 Route::get('perusahaan/laporan/pekerja', function () {
     return view('perusahaan.laporan-pekerja');
 });
+Route::get('perusahaan/edit/alamat/jadi', function () {
+    return view('perusahaan.edit-alamat-jadi');
+});
 
 
 
 
-Route::get('/perusahaan/register', [AuthController::class, 'regis_perusahaan']);
-Route::get('/perusahaan/login', [AuthController::class, 'login_perusahaan']);
+
+
+
+Route::middleware('guest')->group(function () {
+
+
+    Route::get('/perusahaan/login', [AuthController::class, 'login_perusahaan'])->name('login_perusahaan');
+    Route::post('/loginproses_perusahaan', [AuthController::class, 'loginproses_perusahaan'])->name('loginproses_perusahaan');
+});
+
+
+Route::middleware('auth')->group(function () {
+
+    Route::post('/logout/perusahaan', [AuthController::class, 'logout_perusahaan'])->name('logout_perusahaan');
+});
+Route::post('/registerproses_perusahaan', [AuthController::class, 'regis_proses_perusahaan'])->name('registerproses_perusahaan');
 Route::get('/perusahaan/verifikasi', [AuthController::class, 'verif_perusahaan']);
 Route::get('/perusahaan/verif/otp', [AuthController::class, 'verifotp_perusahaan']);
 Route::get('/perusahaan/verif/lupapw', [AuthController::class, 'veriflupapw_perusahaan']);

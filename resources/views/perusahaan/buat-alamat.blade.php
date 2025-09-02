@@ -21,20 +21,27 @@
       <label class="block text-sm font-medium text-gray-800 mb-1">
         Provinsi <span class="text-red-500">*</span>
       </label>
-      <select
-        class="w-full mt-1 border border-orange-500 rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500">
-        <option>Provinsi</option>
+      <select class="w-full mt-1 border border-orange-500 rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500">
+         <option value="" disabled selected>Provinsi</option>
+        <option value="opsi1">Jawa Barat</option>
+        <option value="opsi2">Jawa tengah</option>
+        <option value="opsi3">Jawa Timur</option>
       </select>
     </div>
+
+
 
     <!-- Kabupaten -->
     <div>
       <label class="block text-sm font-medium text-gray-800 mb-1">
         Kabupaten <span class="text-red-500">*</span>
       </label>
-      <select
-        class="w-full mt-1 border border-orange-500 rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500">
+      <select  class="w-full mt-1 border border-orange-500 rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500">
         <option>Kabupaten</option>
+        <option>Kab.Bandung</option>
+        <option>Kab.Bantul</option>
+         <option>Kab.Sidoarjo</option>
+
       </select>
     </div>
 
@@ -46,6 +53,10 @@
       <select
         class="w-full mt-1 border border-orange-500 rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500">
         <option>Kecamatan</option>
+         <option>Kec.Cibeunying Kaler</option>
+          <option>Kec.Bantul</option>
+           <option>Kec.Sidoarjo</option>
+        
       </select>
     </div>
 

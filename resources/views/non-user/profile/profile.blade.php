@@ -1,6 +1,6 @@
 @extends('layouts.index')
 @section('content')
-    <form id="hapus-profile" action="{{ route('profile.destroy', Auth::user()->pelamar->id) }}">
+    <form id="hapus-profile" method="POST"  action="{{ route('profile.destroy', Auth::user()->pelamar->id) }}">
         @csrf
         @method('PUT')
     </form>
@@ -102,14 +102,14 @@
                     @if (Auth::user()->pelamar->nama_pelamar)
                         <div>
                             <label class="text-sm font-medium">Nama Lengkap <span class="text-red-500">*</span></label>
-                            <input type="text" placeholder="Nama Lengkap"
+                            <input type="text" placeholder="Nama Lengkap" name="nama_pelamar"
                                 value="{{ Auth::user()->pelamar->nama_pelamar }}"
                                 class="w-full mt-1 border rounded-md px-3 py-2 text-sm">
                         </div>
                     @else
                         <div>
                             <label class="text-sm font-medium">Nama Lengkap <span class="text-red-500">*</span></label>
-                            <input type="text" placeholder="Nama Lengkap"
+                            <input type="text" placeholder="Nama Lengkap" name="nama_pelamar"
                                 class="w-full mt-1 border rounded-md px-3 py-2 text-sm">
                         </div>
                     @endif
@@ -119,15 +119,15 @@
                             <label class="text-sm font-medium">Gender <span class="text-red-500">*</span></label>
                             <div class="flex gap-6 mt-2 text-sm">
                                 <label class="flex items-center gap-2">
-                                    <input type="radio" name="gender"
+                                    <input type="radio" name="gender" value="laki-laki"
                                         class="w-4 h-4 text-orange-500 border-2 border-orange-500"
-                                        {{ Auth::user()->pelamar->gender == 'Laki - Laki' ? 'checked' : '' }}>
+                                        {{ Auth::user()->pelamar->gender === 'laki-Laki' ? 'checked' : '' }}>
                                     Laki - Laki
                                 </label>
                                 <label class="flex items-center gap-2">
-                                    <input type="radio" name="gender"
+                                    <input type="radio" name="gender" value="perempuan"
                                         class="w-4 h-4 text-orange-500 border-2 border-orange-500"
-                                        {{ Auth::user()->pelamar->gender == 'Perempuan' ? 'checked' : '' }}>
+                                        {{ Auth::user()->pelamar->gender === 'perempuan' ? 'checked' : '' }}>
                                     Perempuan
                                 </label>
                             </div>
@@ -137,45 +137,44 @@
                             <label class="text-sm font-medium">Gender <span class="text-red-500">*</span></label>
                             <div class="flex gap-6 mt-2 text-sm">
                                 <label class="flex items-center gap-2">
-                                    <input type="radio" name="gender"
+                                    <input type="radio" name="gender" value="laki-laki"
                                         class="w-4 h-4 text-orange-500 border-2 border-orange-500"
-                                        {{ Auth::user()->pelamar->gender == 'Laki - Laki' ? 'checked' : '' }}>
                                     Laki - Laki
                                 </label>
                                 <label class="flex items-center gap-2">
                                     <input type="radio" name="gender"
+                                        value="perempuan"
                                         class="w-4 h-4 text-orange-500 border-2 border-orange-500"
-                                        {{ Auth::user()->pelamar->gender == 'Perempuan' ? 'checked' : '' }}>
                                     Perempuan
                                 </label>
                             </div>
                         </div>
                     @endif
 
-                    @if (Auth::user()->pelamar->tempat_lahir)
+                    @if (Auth::user()->pelamar->tanggal_lahir)
                         <div>
                             <label class="text-sm font-medium">Tanggal Lahir <span class="text-red-500">*</span></label>
-                            <input type="Date" class="w-full mt-1 border rounded-md px-3 py-2 text-sm text-gray-500 "
-                                value="{{ Auth::user()->pelamar->tempat_lahir }}">
+                            <input type="Date" name="tanggal_lahir" class="w-full mt-1 border rounded-md px-3 py-2 text-sm text-gray-500 " name="tempat_lahir"
+                                value="{{ Auth::user()->pelamar->tanggal_lahir }}">
                         </div>
                     @else
                         <div>
                             <label class="text-sm font-medium">Tanggal Lahir <span class="text-red-500">*</span></label>
-                            <input type="Date" class="w-full mt-1 border rounded-md px-3 py-2 text-sm text-gray-500 ">
+                            <input type="Date" name="tanggal_lahir" class="w-full mt-1 border rounded-md px-3 py-2 text-sm text-gray-500 ">
                         </div>
                     @endif
 
                     @if (Auth::user()->pelamar->telepon_pelamar)
                         <div>
                             <label class="text-sm font-medium">No. Tlp <span class="text-red-500">*</span></label>
-                            <input type="text" placeholder="No. Tlp"
+                            <input type="text" placeholder="No. Tlp" name="telepon_pelamar"
                                 class="w-full mt-1 border rounded-md px-3 py-2 text-sm"
                                 value="{{ Auth::user()->pelamar->telepon_pelamar }}">
                         </div>
                     @else
                         <div>
                             <label class="text-sm font-medium">No. Tlp <span class="text-red-500">*</span></label>
-                            <input type="text" placeholder="No. Tlp"
+                            <input type="text" placeholder="No. Tlp" name="telepon_pelamar"
                                 class="w-full mt-1 border rounded-md px-3 py-2 text-sm">
                         </div>
                     @endif
@@ -183,12 +182,12 @@
                     @if (Auth::user()->pelamar->deskripsi_diri)
                         <div>
                             <label class="text-sm font-medium">Deskripsi Diri <span class="text-red-500">*</span></label>
-                            <textarea placeholder="Deskripsikan diri anda secara singkat" class="w-full mt-1 border rounded-md px-3 py-2 text-sm">{{ Auth::user()->pelamar->deskripsi_diri }}</textarea>
+                            <textarea placeholder="Deskripsikan diri anda secara singkat" name="deskripsi_diri" class="w-full mt-1 border rounded-md px-3 py-2 text-sm">{{ Auth::user()->pelamar->deskripsi_diri }}</textarea>
                         </div>
                     @else
                         <div>
                             <label class="text-sm font-medium">Deskripsi Diri <span class="text-red-500">*</span></label>
-                            <textarea placeholder="Deskripsikan diri anda secara singkat" class="w-full mt-1 border rounded-md px-3 py-2 text-sm"></textarea>
+                            <textarea placeholder="Deskripsikan diri anda secara singkat" name="deskripsi_diri" class="w-full mt-1 border rounded-md px-3 py-2 text-sm"></textarea>
                         </div>
                     @endif
 
@@ -387,10 +386,10 @@
                         <label class="text-lg font-medium">Ekspektasi Gaji</label>
                         <div class="w-30 h-1 bg-orange-500 mt-1"></div><br>
                         <div class="flex items-center gap-2 mt-1">
-                            <input type="text" placeholder="Rp. -"
+                            <input type="number" placeholder="Rp. -" name="gaji_minimal" value="{{ Auth::user()->pelamar->gaji_minimal ?? '' }}"
                                 class="border border-black rounded-md px-4 py-2 text-gray-500 w-29">
                             <span>—</span>
-                            <input type="text" placeholder="Rp. -"
+                            <input type="text" placeholder="Rp. -" name="gaji_maksimal" value="{{ Auth::user()->pelamar->gaji_maksimal ?? '' }}"
                                 class="border border-black rounded-md px-4 py-2 text-sm w-29">
                         </div>
                         <input type="range" class="w-full mt-4 accent-gray-700 ">
