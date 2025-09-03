@@ -29,9 +29,9 @@
                             <h3 class="font-semibold text-gray-800 text-lg mt-3 ml-4">
                                 {{ $skill->skill }}
                             </h3> 
-                            <p class="text-gray-600 text-sm leading-relaxed mt-3 ml-4">
+                            <h3 class="text-gray-600 text-sm leading-relaxed mt-3 ml-4">
                                 {{ $skill->experience_level }}
-                            </p>
+</h3>
                             <a href="{{ route('skill.edit', $skill->id) }}"> 
                                 <svg width="14" height="14" viewBox="0 0 10 10" fill="none"
                                     xmlns="http://www.w3.org/2000/svg" class="mr-24 mt-4">
