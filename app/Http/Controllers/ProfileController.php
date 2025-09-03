@@ -23,17 +23,6 @@ class ProfileController extends Controller
 
     public function update_profile(Request $request, Pelamar $pelamar)
     {
-        if ($request->hasFile('img_profile')) {
-            // Hapus foto lama jika ada
-            if ($pelamar->img_profile && Storage::exists('public/' . $pelamar->img_profile)) {
-                Storage::delete('public/' . $pelamar->img_profile);
-            }
-            // Simpan foto baru
-            $validated['img_profile'] = $request->file('img_profile')->store('images', 'public');
-        }
-
-
-
 
         $validated = $request->validate([
             "nama_pelamar"    =>      "nullable",
@@ -45,9 +34,14 @@ class ProfileController extends Controller
             "gaji_maksimal"    =>     "nullable"
         ]);
 
-        // if ($request->hasFile('img_profile')) {
-        //     $validated['img_profile'] = $request->file('img_profile')->store('images', 'public');
-        // }
+        if ($request->hasFile('img_profile')) {
+            // Hapus foto lama jika ada
+            if ($pelamar->img_profile && Storage::exists('public/' . $pelamar->img_profile)) {
+                Storage::delete('public/' . $pelamar->img_profile);
+            }
+            // Simpan foto baru
+            $validated['img_profile'] = $request->file('img_profile')->store('images', 'public');
+        }
 
         $validated['user_id'] = Auth::user()->id;
         $pelamar->update($validated);
@@ -59,11 +53,13 @@ class ProfileController extends Controller
             "twitter" => "nullable",
         ]);
 
-        $pelamar->sosmed()->create($sosmed);
+        $sosmed = $request->only(['instagram', 'linkedin', 'website', 'twitter']);
+        $pelamar->sosmed()->updateOrCreate([], $sosmed);
         return redirect()->route('profile.index')->with('success', 'Profile berhasil diupdate');
     }
     public function destroy_profile(Pelamar $pelamar)
     {
+     
         if ($pelamar->img_profile && Storage::exists('public/' . $pelamar->img_profile)) {
             Storage::delete('public/' . $pelamar->img_profile);
         }
@@ -124,6 +120,7 @@ class ProfileController extends Controller
 
     public function destroy_alamat(AlamatPelamar $alamatpelamar)
     {
+        
         $alamatpelamar->delete();
         return redirect()->route('alamat')->with('success', 'Alamat berhasil dihapus');
     }

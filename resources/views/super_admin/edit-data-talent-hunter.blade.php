@@ -1,5 +1,6 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -34,7 +35,6 @@
 </defs>
 </svg>
 
-
         <!-- Profil -->
         <div class="flex items-center bg-white shadow-md rounded-lg px-3 py-1 space-x-3">
           <img src="https://avatar.iran.liara.run/public/boy" alt="Avatar" class="w-8 h-8 rounded-full object-cover" />
@@ -49,48 +49,56 @@
       </div>
     </div>
     
-<div class="w-full max-w-4xl mx-auto mt-10 p-6 bg-white shadow-md rounded-lg border border-gray-300 overflow-y-auto">
+
+<div class="w-full max-w-4xl mx-auto mt-10 p-6 bg-white shadow-md rounded-lg border border-gray-400 overflow-y-auto">
     <!-- Judul Halaman -->
     <div class="mb-6 border-gray-900 pb-5">
       <h1 class="text-xl font-bold text-gray-800">Edit Data Talent Hunter</h1>
     </div>
 
+
     <form class="space-y-5">
       <!-- Nama Perusahaan -->
       <div>
         <label class="block text-sm font-semibold text-gray-700">Nama Perusahaan<span class="text-red-500">*</span></label>
-        <input type="text" class="w-full border border-gray-300 rounded-md px-3 py-2 mt-1 focus:outline-none" />
+        <input type="text" class="w-full border border-gray-400 rounded-md px-3 py-2 mt-1 focus:outline-none" />
       </div>
+
 
       <!-- Alamat -->
       <div>
         <label class="block text-sm font-medium text-gray-700">Alamat<span class="text-red-500">*</span></label>
-        <input type="text" class="w-full border border-gray-300 rounded-md px-3 py-2 mt-1" />
+        <input type="text" class="w-full border border-gray-400 rounded-md px-3 py-2 mt-1" />
       </div>
+
 
       <!-- Email -->
       <div>
         <label class="block text-sm font-medium text-gray-700">Email<span class="text-red-500">*</span></label>
-        <input type="email" class="w-full border border-gray-300 rounded-md px-3 py-2 mt-1" />
+        <input type="email" class="w-full border border-gray-400 rounded-md px-3 py-2 mt-1" />
       </div>
+
 
       <!-- No Telepon -->
       <div>
         <label class="block text-sm font-medium text-gray-700">No. Telepon<span class="text-red-500">*</span></label>
-        <input type="text" class="w-full border border-gray-300 rounded-md px-3 py-2 mt-1" />
+        <input type="text" class="w-full border border-gray-400 rounded-md px-3 py-2 mt-1" />
       </div>
+
 
       <!-- Deskripsi Perusahaan -->
       <div>
         <label class="block text-sm font-medium text-gray-700">Deskripsi Perusahaan<span class="text-red-500">*</span></label>
-        <textarea class="w-full border border-gray-300 rounded-md px-3 py-2 mt-1" rows="3"></textarea>
+        <textarea class="w-full border border-gray-400 rounded-md px-3 py-2 mt-1" rows="3"></textarea>
       </div>
+
 
       <!-- Posisi yang dibutuhkan -->
       <div>
         <label class="block text-sm font-medium text-gray-700">Posisi yang dibutuhkan<span class="text-red-500">*</span></label>
-        <input type="text" class="w-full border border-gray-300 rounded-md px-3 py-2 mt-1" />
+        <input type="text" class="w-full border border-gray-400 rounded-md px-3 py-2 mt-1" />
       </div>
+
 
       <!-- Gender -->
     <div>
@@ -99,15 +107,17 @@
     <!-- Laki-laki -->
     <label class="flex items-center space-x-2">
       <input type="radio"name="gender"class="h-4 w-4 border-2 border-orange-400 text-orange-500 focus:ring-orange-500 focus:border-orange-500"/>
-      <span class="text-sm text-gray-700">Laki-laki</span>
+      <span class="text-sm font-semibold text-gray-700">Laki-laki</span>
     </label>
+
 
     <!-- Perempuan -->
     <label class="flex items-center space-x-2">
          <input type="radio"name="gender"class="h-4 w-4 border-2 border-orange-400 text-orange-500 focus:ring-orange-500 focus:border-orange-500"/>
-      <span class="text-sm text-gray-700">Perempuan</span> </label>
+      <span class="text-sm  font-semibold text-gray-700">Perempuan</span> </label>
   </div>
 </div>
+
 
       <!-- Gaji -->
      <div class="mb-4">
@@ -115,13 +125,14 @@
   <div class="flex items-center space-x-2">
     <input
       type="number"
-      class="w-40 border border-gray-300 rounded-md px-3 py-2 focus:outline-none" placeholder="Min"/>
+      class="w-40 border border-gray-400 rounded-md px-3 py-2 focus:outline-none" placeholder="Min"/>
     <span class="text-gray-500">-</span>
     <input
       type="number"
-      class="w-40 border border-gray-300 rounded-md px-3 py-2 focus:outline-none" placeholder="Max"/>
+      class="w-40 border border-gray-400 rounded-md px-3 py-2 focus:outline-none" placeholder="Max"/>
   </div>
 </div>
+
 
 
       <!-- Deskripsi Tambahan -->
@@ -129,6 +140,7 @@
         <label class="block text-sm font-medium text-gray-700">Deskripsi Perusahaan<span class="text-red-500">*</span></label>
         <textarea class="w-full border border-gray-300 rounded-md px-3 py-2 mt-1" rows="3"></textarea>
       </div>
+
 
       <!-- Tombol -->
     <div class="flex justify-center space-x-4 mt-6">
@@ -139,6 +151,7 @@
     Simpan
   </button>
 
+
   <!-- Tombol Batal -->
   <button
     type="button"
@@ -147,9 +160,9 @@
   </button>
 </div>
 
-      </div>
-    </form>
-  </div>
+</div>
+</form>
+</div>
 </body>
 </html>
 @endsection

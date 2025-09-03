@@ -6,8 +6,8 @@
             <h2 class="text-lg font-semibold">Kandidat Saya</h2>
             <div class="flex gap-7">
                 <input type="text" placeholder="nama kandidat/username ..."
-                    class="border rounded-full px-3 py-2 text-sm w-64">
-                <select class="border rounded-lg px-3 py-2 text-sm">
+                    class="border rounded-full px-10 py-2 text-sm w-64">
+                <select class="border rounded-lg px-10 py-2 text-sm">
                     <option>Skill</option>
                     <option>Videographer</option>
                     <option>Designer</option>

@@ -4,7 +4,7 @@
         <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-md p-8">
             <!-- Header -->
             <div class="flex items-center justify-between border-b border-gray-200 pb-4 mb-6">
-                <h1 class="text-2xl font-bold text-gray-800">Edit Pengalaman Organisasi</h1>
+                <h1 class="text-2xl font-semibold text-gray-800">Edit Pengalaman Organisasi</h1>
             </div>
 
             @if (session('success'))
@@ -54,9 +54,13 @@
                 </div>
 
                 <!-- Action -->
+                <div class="flex justify-between gap-4">
                     <button type="submit" class="px-5 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 shadow">
                         Simpan
                     </button>
+                    <a href=" {{ route('profile.index') }}" class="px-5 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 shadow">
+                        Batal
+                    </a>
                 </div>
             </form>
         </div>

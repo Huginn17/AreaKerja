@@ -26,7 +26,7 @@
 
                 <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
                     <a href="#">
-                        <img src="{{ asset('images/ohim.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
+                        <img src="{{ asset('images/logoarea.png') }}" class="w-8 h-8 rounded-full" alt="User">
                     </a>
                     <div class="text-sm">
                         <div class="font-semibold">Steven Jobs</div>

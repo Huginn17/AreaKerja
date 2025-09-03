@@ -7,7 +7,7 @@
             <!-- Modal header -->
             <div
                 class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-                <h3 class="text-lg font-bold">Tambah Pengalaman Kerja</h3>
+                <h3 class="text-lg font-semibold">Tambah Pengalaman Kerja</h3>
                 <button type="button"
                     class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                     data-modal-toggle="create_skillmodal">
@@ -20,21 +20,29 @@
                 </button>
             </div>
             <!-- Modal body -->
-            <form action="{{ route('skill.store') }}" method="POST">
-                @csrf
-                <div class="mb-2">
-                    <label>Skill</label>
-                    <input type="text" name="skill" class="border w-full" required>
-                </div>
-
-                <div class="mb-2">
-                    <label>Experience Level</label>
-                    <input type="text" name="experience_level" class="border w-full" required>
-                </div>
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
-                    Simpan
-                </button>
-            </form>
+            <div class="max-w-lg mx-auto bg-white shadow-lg rounded-xl p-6">
+                <form action="{{ route('skill.store') }}" method="POST">
+                    @csrf
+                    <div>
+                        <label class="block text-sm font-medium text-gray-900 mb-1">Skill</label>
+                        <input type="text" name="jabatan"
+                            class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 mb-3"
+                            required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-900 mb-1">Experience Level</label>
+                        <input type="text" name="jabatan"
+                            class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 mb-3"
+                            required>
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="submit"
+                            class="bg-orange-500 font-medium hover:bg-orange-600 text-white px-5 py-2 rounded-lg shadow-md transition">
+                            Simpan
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

@@ -15,4 +15,9 @@ class Perusahaan extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function alamat_perusahaan()
+    {
+        return $this->hasMany(AlamatPerusahaan::class, 'perusahaan_id');
+    }
 }

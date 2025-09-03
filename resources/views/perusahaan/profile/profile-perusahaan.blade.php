@@ -17,9 +17,9 @@
             <!-- Info Perusahaan -->
             <div>
                 <span class="text-lg font-semibold mb-1">{{ Auth::user()->perusahaan->nama_perusahaan }}</span>
-                <p class="text-sm text-gray-600 mb-2">Jasa TI dan Konsultan TI</p>
+                <span class="text-lg font-semibold mb-1">{{ Auth::user()->perusahaan->jenis_perusahaan }}</span>
                 <p class="text-xs text-gray-400 mb-4">Alamat default</p>
-                <a href="/perusahaan/edit/kosong"
+                <a href="{{ route('profile.edit.perusahaan') }}"
                     class="px-4 py-1 rounded-md border border-orange-400 text-orange-500 text-sm">
                     Edit Profile
                 </a>

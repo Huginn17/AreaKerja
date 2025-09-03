@@ -7,7 +7,7 @@
             <!-- Modal header -->
             <div
                 class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-                <h3 class="text-lg font-bold">Tambah Pengalaman Organisasi</h3>
+                <h3 class="text-lg font-semibold">Tambah Pengalaman Organisasi</h3>
                 <button type="button"
                     class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                     data-modal-hide="create_organisasimodal">
@@ -20,37 +20,53 @@
                 </button>
             </div>
             <!-- Modal body -->
-            <form action="{{ route('organisasi.store') }}" method="POST">
-                @csrf
-                <div class="mb-2">
-                    <label>Nama Organisasi</label>
-                    <input type="text" name="nama_organisasi" class="border w-full" required>
-                </div>
+            <div class="max-w-lg mx-auto bg-white shadow-lg rounded-xl p-6">
+                <form action="{{ route('organisasi.store') }}" method="POST" class="space-y-4">
+                    @csrf
 
-                <div class="mb-2">
-                    <label>Jabatan</label>
-                    <input type="text" name="jabatan" class="border w-full" required>
-                </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-900 mb-1">Nama Organisasi</label>
+                        <input type="text" name="nama_organisasi"
+                            class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
+                            required>
+                    </div>
 
-                <div class="mb-2">
-                    <label>Tahun Awal</label>
-                    <input type="number" name="tahun_awal" class="border w-full" required>
-                </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-900 mb-1">Jabatan</label>
+                        <input type="text" name="jabatan"
+                            class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
+                            required>
+                    </div>
 
-                <div class="mb-2">
-                    <label>Tahun Akhir</label>
-                    <input type="number" name="tahun_akhir" class="border w-full">
-                </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-900 mb-1">Tahun Awal</label>
+                            <input type="number" name="tahun_awal"
+                                class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
+                                required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-900 mb-1">Tahun Akhir</label>
+                            <input type="number" name="tahun_akhir"
+                                class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400">
+                        </div>
+                    </div>
 
-                <div class="mb-2">
-                    <label>Deskripsi</label>
-                    <textarea name="deskripsi" class="border w-full"></textarea>
-                </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-900 mb-1">Deskripsi</label>
+                        <textarea name="deskripsi" rows="4"
+                            class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"></textarea>
+                    </div>
 
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
-                    Simpan
-                </button>
-            </form>
+                    <div class="flex justify-end">
+                        <button type="submit"
+                            class="bg-orange-500 font-medium hover:bg-orange-600 text-white px-5 py-2 rounded-lg shadow-md transition">
+                            Simpan
+                        </button>
+                    </div>
+                </form>
+            </div>
+
         </div>
     </div>
 </div>

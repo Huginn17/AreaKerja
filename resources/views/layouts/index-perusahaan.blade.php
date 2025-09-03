@@ -11,6 +11,10 @@
 
     <title>areakerja.com</title>
     @vite('resources/css/app.css')
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css" />
     <link rel="icon" sizes="512x512" type="image/png" href="{{ asset('images/logoarea.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
@@ -38,7 +42,7 @@
             <nav class="hidden md:flex gap-6 font-semibold text-gray-800">
                 <a href="{{ url('/beranda') }}" class="hover:text-orange-700">Berlangganan</a>
                 <a href="{{ url('/talent-hunter') }}" class="hover:text-orange-700">Talent Hunter</a>
-                <a href="{{ url('/tips-kerja') }}" class="hover:text-orange-700">Kandidat</a>
+                <a href="{{ url('/perusahaan/kandidat') }}" class="hover:text-orange-700">Kandidat</a>
                 <a href="{{ url('/daftar-kandidat') }}" class="hover:text-orange-700">Pasang Lowongan</a>
                 <a href="{{ url('/perusahaan/event') }}" class="hover:text-orange-700">Event</a>
             </nav>
@@ -139,11 +143,11 @@
                             <span class="sr-only">Open user menu</span>
                             @if (Auth::user()->role == 'perusahaan')
                                 @if (Auth::user()->perusahaan->img_profile)
-                                    <img id="pi" class="w-10 h-10  object-cover rounded-full profile-img"
+                                    <img id="pa" class="w-10 h-10  object-cover rounded-full profile-img"
                                         src="{{ asset('storage/' . Auth::user()->perusahaan->img_profile) }}"
                                         alt="Profile">
                                 @else
-                                    <img id="pi" class="w-10 h-10 rounded-full"
+                                    <img id="pa" class="w-10 h-10 rounded-full"
                                         src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
                                         alt="">
                                 @endif
@@ -259,7 +263,19 @@
 
     {{-- isi halaman --}}
     @yield('content')
-
+    <script>
+        document.getElementById('fileinputperusahaan').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('pu').setAttribute('src', event.target.result);
+                    document.getElementById('pa').setAttribute('src', event.target.result);
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </body>
 

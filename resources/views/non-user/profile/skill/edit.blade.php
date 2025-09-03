@@ -4,7 +4,7 @@
         <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-md p-8">
             <!-- Header -->
             <div class="flex items-center justify-between border-b border-gray-200 pb-4 mb-6">
-                <h1 class="text-2xl font-bold text-gray-800">Edit Skill</h1>
+                <h1 class="text-2xl font-semibold text-gray-800">Edit Skill</h1>
             </div>
 
             @if (session('success'))
@@ -28,15 +28,20 @@
                 <!-- Experience -->
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Experience Level</label>
-                    <input type="text" name="experience_level"value="{{ old('experience_level', $DS->experience_level) }}"
+                    <input type="text"
+                        name="experience_level"value="{{ old('experience_level', $DS->experience_level) }}"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-orange-400 focus:outline-none">
                 </div>
                 <!-- Action -->
-                <button type="submit" class="px-5 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 shadow">
-                    Simpan
-                </button>
+                <div class="flex justify-between gap-4">
+                    <button type="submit" class="px-5 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 shadow">
+                        Simpan
+                    </button>
+                    <a href=" {{ route('profile.index') }}" class="px-5 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 shadow">
+                        Batal
+                    </a>
+                </div>
+            </form>
         </div>
-        </form>
-    </div>
     </div>
 @endsection

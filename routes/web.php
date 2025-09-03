@@ -4,6 +4,7 @@ use App\Http\Controllers\AlamatPelamarController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PengalamanKerjaController;
 use App\Http\Controllers\PengalamanOrgController;
+use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\SuperAdminController;
@@ -29,9 +30,10 @@ Route::get('/beranda', [AuthController::class, 'beranda'])->name('beranda');
 
 
 //CRUD PROFILE
+Route::prefix('pelamar')->middleware('auth')->group(function () {});
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index')->middleware('auth');
 Route::put('/update/profile/{pelamar:id}', [ProfileController::class, 'update_profile'])->name('profile.update')->middleware('auth');
-Route::put('/delete/profile/{pelamar:id}', [ProfileController::class, 'destroy_profile'])->name('profile.destroy')->middleware('auth');
+Route::delete('/delete/profile/{pelamar:id}', [ProfileController::class, 'destroy_profile'])->name('profile.destroy')->middleware('auth');
 
 
 //ALAMAT PELAMAR
@@ -434,6 +436,9 @@ Route::get('/super_admin/detail/data/talent/hunter', function () {
 Route::get('/super_admin/edit/data/talent/hunter', function () {
     return view('super_admin.edit-data-talent-hunter');
 });
+Route::get('/super_admin/detail/data/kandidat', function () {
+    return view('super_admin.detail-data-kandidat');
+});
 
 
 
@@ -442,7 +447,7 @@ Route::get('/super_admin/edit/data/talent/hunter', function () {
 
 
 //Perusahaan
-Route::get('/perusahaan/dashboard',[AuthController::class,'beranda_perusahaan'])->name('perusahaan.dashboard');
+Route::get('/perusahaan/dashboard', [AuthController::class, 'beranda_perusahaan'])->name('perusahaan.dashboard');
 
 Route::get('/perusahaan/dashboard/isi', function () {
     return view('perusahaan.dashboard-isi');
@@ -452,20 +457,25 @@ Route::get('/perusahaan/pelamar', function () {
     return view('perusahaan.pelamar');
 });
 
-Route::get('/perusahaan/profile', function () {
-    return view('perusahaan.profile-perusahaan');
+
+Route::prefix('perusahaan')->middleware('auth')->group(function () {
+    //PROFILE PERUSAHAAN
+    Route::get('/profile', [PerusahaanController::class, 'profile_perusahaan'])->name('profile.perusahaan');
+    Route::get('/edit/profile', [PerusahaanController::class, 'edit_profile'])->name('profile.edit.perusahaan');
+    Route::put('/update/profile/{perusahaan:id}', [PerusahaanController::class, 'update_profile_perusahaan'])->name('profile.update.perusahaan');
+    Route::delete('/delete/profile/{perusahaan:id}', [PerusahaanController::class, 'destroy_profile'])->name('profile.destroy.perusahaan');
+
+    //ALAMAT PERUSAHAAN
+    Route::get('//alamat', [PerusahaanController::class, 'alamat_perusahaan'])->name('alamat.perusahaan');
+    Route::get('/form/alamat', [PerusahaanController::class, 'form_alamat'])->name('form.alamat.perusahaan');
+
+    Route::post('/create/alamat', [PerusahaanController::class, 'store_alamat'])->name('alamat.store.perusahaan');
+    Route::get('/edit/alamat/{alamatperusahaan:id}', [PerusahaanController::class, 'edit_alamat'])->name('alamat.edit.perusahaan');
+    Route::put('/update/alamat/{alamatperusahaan:id}', [PerusahaanController::class, 'update_alamat'])->name('alamat.update.perusahaan');
+    Route::delete('/delete/alamat/{alamatperusahaan:id}', [PerusahaanController::class, 'destroy_alamat'])->name('alamat.destroy.perusahaan');
 });
 
-Route::get('/perusahaan/edit/kosong', function () {
-    return view('perusahaan.edit-profile-kosong');
-});
 
-Route::get('/perusahaan/alamat', function () {
-    return view('perusahaan.alamat');
-});
-Route::get('/perusahaan/alamat/buat', function () {
-    return view('perusahaan.buat-alamat');
-});
 
 Route::get('/perusahaan/profile/baru', function () {
     return view('perusahaan.profile-baru');
@@ -519,6 +529,10 @@ Route::get('/perusahaan/transaksi/koin/qris', function () {
     return view('perusahaan.transaksi-koin-qris');
 });
 
+Route::get('/perusahaan/detail/transaksi', function () {
+    return view('perusahaan.detail-transaksi');
+});
+
 Route::get('/perusahaan/pengaturan', function () {
     return view('perusahaan.pengaturan');
 });
@@ -559,6 +573,11 @@ Route::get('perusahaan/laporan/pekerja', function () {
 Route::get('perusahaan/edit/alamat/jadi', function () {
     return view('perusahaan.edit-alamat-jadi');
 });
+Route::get('perusahaan/alamat/kosong', function () {
+    return view('perusahaan.alamat-kosong');
+});
+
+
 
 
 
