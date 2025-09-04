@@ -95,7 +95,7 @@
                 </li>
                 <li class="{{ request()->is('admin/profile') ? 'bg-white text-gray-500' : 'text-white' }} rounded-md">
                     <a href="{{ url('/admin/profile') }}"
-                         class="flex font-semibold items-center mb-2 gap-3 hover:bg-white hover:text-gray-500 rounded-md px-3 py-2 transition duration-300">
+                        class="flex font-semibold items-center mb-2 gap-3 hover:bg-white hover:text-gray-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect width="20" height="20" fill="url(#pattern0_690_13045)" />
@@ -113,9 +113,10 @@
                     </a>
                 </li>
 
-                <li class="{{ request()->is('admin/pelamar') || request()->is('admin/non/kandidat') || request()->is('admin/calon/kandidat') ? 'bg-white text-gray-500' : 'text-white' }} rounded-md">
+                <li
+                    class="{{ request()->is('admin/pelamar') || request()->is('admin/non/kandidat') || request()->is('admin/calon/kandidat') ? 'bg-white text-gray-500' : 'text-white' }} rounded-md">
                     <a href="{{ url('/admin/pelamar') }}"
-                         class="flex font-semibold items-center mb-2 gap-3 hover:bg-white hover:text-gray-500 rounded-md px-3 py-2 transition duration-300">
+                        class="flex font-semibold items-center mb-2 gap-3 hover:bg-white hover:text-gray-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="20" height="21" viewBox="0 0 20 21" fill="none"
                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect y="0.5" width="20" height="20" fill="url(#pattern0_690_13060)" />
@@ -131,9 +132,10 @@
                         Pelamar
                     </a>
                 </li>
-                <li class="{{ request()->is('admin/perusahaan') || request()->is('admin/recruitment') || request()->is('admin/talenthunter') ? 'bg-white text-gray-500' : 'text-white' }} rounded-md">
+                <li
+                    class="{{ request()->is('admin/perusahaan') || request()->is('admin/recruitment') || request()->is('admin/talenthunter') ? 'bg-white text-gray-500' : 'text-white' }} rounded-md">
                     <a href="{{ url('/admin/perusahaan') }}"
-                         class="flex font-semibold items-center mb-2 gap-3 hover:bg-white hover:text-gray-500 rounded-md px-3 py-2 transition duration-300">
+                        class="flex font-semibold items-center mb-2 gap-3 hover:bg-white hover:text-gray-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="20" height="21" viewBox="0 0 20 21" fill="none"
                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect y="0.5" width="20" height="20" fill="url(#pattern0_690_13052)" />
@@ -153,7 +155,7 @@
                 </li>
                 <li class="{{ request()->is('admin/finance') ? 'bg-white text-gray-500' : 'text-white' }} rounded-md">
                     <a href="{{ url('/admin/finance') }}"
-                         class="flex font-semibold items-center mb-2 gap-3 hover:bg-white hover:text-gray-500 rounded-md px-3 py-2 transition duration-300">
+                        class="flex font-semibold items-center mb-2 gap-3 hover:bg-white hover:text-gray-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="20" height="21" viewBox="0 0 20 21" fill="none"
                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect y="0.5" width="20" height="20" fill="url(#pattern0_690_13053)" />
@@ -171,9 +173,10 @@
                         Finance
                     </a>
                 </li>
-                <li class="{{ request()->is('admin/tips/kerja') ? 'bg-white text-gray-500' : 'text-white' }} rounded-md">
+                <li
+                    class="{{ request()->is('admin/tips/kerja') ? 'bg-white text-gray-500' : 'text-white' }} rounded-md">
                     <a href="{{ url('/admin/tips/kerja') }}"
-                         class="flex font-semibold items-center mb-2 gap-3 hover:bg-white hover:text-gray-500 rounded-md px-3 py-2 transition duration-300">
+                        class="flex font-semibold items-center mb-2 gap-3 hover:bg-white hover:text-gray-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="20" height="21" viewBox="0 0 20 21" fill="none"
                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect y="0.5" width="20" height="20" fill="url(#pattern0_690_13054)" />
@@ -191,9 +194,10 @@
                         Tips Kerja
                     </a>
                 </li>
-                <li class="{{ request()->is('admin/event/home') ? 'bg-white text-gray-500' : 'text-white' }} rounded-md">
+                <li
+                    class="{{ request()->is('admin/event/home') ? 'bg-white text-gray-500' : 'text-white' }} rounded-md">
                     <a href="{{ url('/admin/event/home') }}"
-                          class="flex font-semibold items-center mb-2 gap-3 hover:bg-white hover:text-gray-500 rounded-md px-3 py-2 transition duration-300">
+                        class="flex font-semibold items-center mb-2 gap-3 hover:bg-white hover:text-gray-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="20" height="21" viewBox="0 0 20 21" fill="none"
                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect width="20" height="20" transform="matrix(-1 0 0 1 20 0.5)"
@@ -213,27 +217,98 @@
                     </a>
                 </li>
                 <li>
-                    <a onclick="openModal()"
-                        class="flex font-semibold text-white items-center mt-28 gap-2 rounded-md px-3 py-2 transition duration-300">
-                        <svg width="18" height="19" viewBox="0 0 18 19" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M14 5.1709L12.59 6.5809L14.17 8.1709H6V10.1709H14.17L12.59 11.7509L14 13.1709L18 9.1709L14 5.1709ZM2 2.1709H9V0.170898H2C0.9 0.170898 0 1.0709 0 2.1709V16.1709C0 17.2709 0.9 18.1709 2 18.1709H9V16.1709H2V2.1709Z"
-                                fill="currentColor" />
-                        </svg>
-
-                        Keluar
-                    </a>
+                    <form id="logout" action="" method="POST">
+                        @csrf
+                        <button onclick="openModal()"
+                            class="flex font-semibold text-white items-center mt-28 gap-2 rounded-md px-3 py-2 transition duration-300">
+                            <svg width="18" height="19" viewBox="0 0 18 19" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M14 5.1709L12.59 6.5809L14.17 8.1709H6V10.1709H14.17L12.59 11.7509L14 13.1709L18 9.1709L14 5.1709ZM2 2.1709H9V0.170898H2C0.9 0.170898 0 1.0709 0 2.1709V16.1709C0 17.2709 0.9 18.1709 2 18.1709H9V16.1709H2V2.1709Z"
+                                    fill="currentColor" />
+                            </svg>
+                            Keluar
+                        </button>
+                    </form>
                 </li>
             </ul>
         </div>
     </aside>
     @yield('sidebaradmin')
+    
+    <!-- Modal overlay -->
+    <div id="successModal" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/50">
+        <!-- Konten Modal -->
+        <div class="relative bg-white rounded-xl shadow-lg w-[90%] max-w-sm p-6 text-center">
+
+            <!-- Judul -->
+            <h2 class="text-lg font-bold mb-3">Konfimasi Keluar</h2>
+
+            <!-- Pesan -->
+            <p class="text-gray-700 mb-6">
+                Apakah anda yakin ingin keluar
+            </p>
+
+            <!-- Tombol aksi -->
+            <div class="flex justify-center gap-4">
+                <form action="{{ route('logout_admin') }}" method="POST">
+                    @csrf
+                    <button id="goLogin"
+                        class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-md font-medium">
+                        Keluar
+                    </button>
+                </form>
+                <button onclick="closeModal()"
+                    class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-md font-medium">
+                    Batal
+                </button>
+            </div>
+        </div>
+    </div>
     <script src="{{ asset('js/admin.js') }}"></script>
 
 
-    @include('finance.sidebar.modal-logout')
+    {{-- @include('finance.sidebar.modal-logout') --}}
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+
+    {{-- Preview gambar --}}
+     <script>
+        document.getElementById('fileinputadmin').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('pu').setAttribute('src', event.target.result);
+                    document.getElementById('pa').setAttribute('src', event.target.result);
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+
+
+
+     <script>
+        // Buka modal saat klik tombol "Keluar"
+        document.querySelector('#logout button').addEventListener('click', function(e) {
+            e.preventDefault(); // jangan langsung submit
+            let modal = document.getElementById("successModal");
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        });
+
+        // Tombol batal → tutup modal
+        function closeModal() {
+            let modal = document.getElementById("successModal");
+            modal.classList.remove("flex");
+            modal.classList.add("hidden");
+        }
+
+        // Tombol "Keluar" di modal → submit form logout
+        document.getElementById("goLogin").addEventListener("click", function() {
+            document.getElementById("logout_admin").submit();
+        });
+    </script>
 </body>
 
 </html>

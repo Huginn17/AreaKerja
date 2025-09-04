@@ -111,12 +111,12 @@
                                             class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500">Profil</a>
                                     </li>
                                     <li>
-                                        <a href="/lowongan/tersimpan"
+                                        <a href="/lowongan-tersimpan"
                                             class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500">Lowongan
                                             Tersimpan</a>
                                     </li>
                                     <li>
-                                        <a href="#"
+                                        <a href="tran-tf-kosong"
                                             class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500">Transaksi</a>
                                     </li>
                                     <li>

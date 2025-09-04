@@ -6,7 +6,7 @@
         <!-- Header -->
         <header class="w-full flex items-center justify-between px-6 py-3 border-bshadow-sm">
             <h1 class="text-xl font-semibold">Dashboard</h1>
-             <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3">
                 <svg width="31" height="32" viewBox="0 0 31 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_722_7956)">
                         <path
@@ -29,11 +29,24 @@
 
                 <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
                     <a href="#">
-                        <img src="{{ asset('images/ohim.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
+                        @if (Auth::user()->role == 'admin')
+                            @if (Auth::user()->admin->img_profile)
+                                <img id="pu" class="w-10 h-10  object-cover rounded-full profile-img"
+                                    src="{{ asset('storage/' . Auth::user()->admin->img_profile) }}" alt="Profile">
+                            @else
+                                <img id="pu" class="w-10 h-10 rounded-full"
+                                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                    alt="">
+                            @endif
+                        @else
+                            <img class="w-10 h-10 rounded-full"
+                                src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                alt="">
+                        @endif
                     </a>
                     <div class="text-sm mr-14">
-                        <div class="font-semibold">Dj Ohim</div>
-                        <div class="text-gray-500">lutung123@gmail.com</div>
+                        <span class="font-semibold">{{ Auth::user()->username }}</span>
+                        <p class="text-gray-500 text-sm">{{ Auth::user()->email }}</p>
                     </div>
                 </div>
             </div>

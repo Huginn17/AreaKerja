@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="register-finance-url" content="{{ route('registerproses_finance') }}">
     <title>Document</title>
 
     @vite('resources/css/app.css')
@@ -35,15 +37,16 @@
     </button>
 
     <aside id="logo-sidebar"
-        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+        aria-label="Sidebar">
         <div class="h-full px-3 py-4 overflow-y-auto bg-orange-600 dark:bg-gray-800 ">
-           <div class="px-4 py-2">
+            <div class="px-4 py-2">
                 <div class="inline-flex items-center -ml-2 gap-1 border-b-2 border-orange-300 pb-2">
                     <img src="{{ asset('images/logo_area_kerja_putih.png') }}" alt="logo" class="w-14 h-14">
                     <p class="text-xl text-white font-semibold">areakerja.com</p>
                 </div>
             </div>
-            
+
             <ul class="space-y-2 font-medium">
                 <li>
                     <p class="flex items-center p-2 text-white rounded-lg dark:text-white">
@@ -141,27 +144,83 @@
                     </div>
                 </li>
                 <li>
-                    <a onclick="openModal()"
-                        class="flex font-semibold text-white items-center mt-28 gap-2 rounded-md px-3 py-2 transition duration-300">
-                        <svg width="18" height="19" viewBox="0 0 18 19" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M14 5.1709L12.59 6.5809L14.17 8.1709H6V10.1709H14.17L12.59 11.7509L14 13.1709L18 9.1709L14 5.1709ZM2 2.1709H9V0.170898H2C0.9 0.170898 0 1.0709 0 2.1709V16.1709C0 17.2709 0.9 18.1709 2 18.1709H9V16.1709H2V2.1709Z"
-                                fill="currentColor" />
-                        </svg>
-
-                        Keluar
-                    </a>
-
+                    <form id="logout" action="" method="POST">
+                        @csrf
+                        <button onclick="openModal()"
+                            class="flex font-semibold text-white items-center mt-28 gap-2 rounded-md px-3 py-2 transition duration-300">
+                            <svg width="18" height="19" viewBox="0 0 18 19" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M14 5.1709L12.59 6.5809L14.17 8.1709H6V10.1709H14.17L12.59 11.7509L14 13.1709L18 9.1709L14 5.1709ZM2 2.1709H9V0.170898H2C0.9 0.170898 0 1.0709 0 2.1709V16.1709C0 17.2709 0.9 18.1709 2 18.1709H9V16.1709H2V2.1709Z"
+                                    fill="currentColor" />
+                            </svg>
+                            Keluar
+                        </button>
+                    </form>
                 </li>
             </ul>
+
+
+
         </div>
     </aside>
     @yield('sidebar')
 
+    <!-- Modal overlay -->
+    <div id="successModal" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/50">
+        <!-- Konten Modal -->
+        <div class="relative bg-white rounded-xl shadow-lg w-[90%] max-w-sm p-6 text-center">
+
+            <!-- Judul -->
+            <h2 class="text-lg font-bold mb-3">Konfimasi Keluar</h2>
+
+            <!-- Pesan -->
+            <p class="text-gray-700 mb-6">
+                Apakah anda yakin ingin keluar
+            </p>
+
+            <!-- Tombol aksi -->
+            <div class="flex justify-center gap-4">
+                <form action="{{ route('logout_finance') }}" method="POST">
+                    @csrf
+                    <button id="goLogin"
+                        class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-md font-medium">
+                        Keluar
+                    </button>
+                </form>
+                <button onclick="closeModal()"
+                    class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-md font-medium">
+                    Batal
+                </button>
+            </div>
+        </div>
+    </div>
+
 
     @include('finance.sidebar.modal-logout')
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    <script>
+        // Buka modal saat klik tombol "Keluar"
+        document.querySelector('#logout button').addEventListener('click', function(e) {
+            e.preventDefault(); // jangan langsung submit
+            let modal = document.getElementById("successModal");
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        });
+
+        // Tombol batal → tutup modal
+        function closeModal() {
+            let modal = document.getElementById("successModal");
+            modal.classList.remove("flex");
+            modal.classList.add("hidden");
+        }
+
+        // Tombol "Keluar" di modal → submit form logout
+        document.getElementById("goLogin").addEventListener("click", function() {
+            document.getElementById("logout").submit();
+        });
+    </script>
+
 </body>
 
 </html>

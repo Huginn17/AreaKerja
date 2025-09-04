@@ -54,26 +54,32 @@
                     </div>
 
                     <!-- Form -->
-                    <form action="#" class="space-y-3">
+                    <form id="registerForm" action="{{ route('registerproses_finance') }}" method="POST"
+                        class="space-y-3">
+                        @csrf
                         <div>
                             <label class="block text-sm font-medium m-2">Nama Pengguna</label>
-                            <input type="text" placeholder="Nama Pengguna"
+                            <input type="text" placeholder="Nama Pengguna" name="username" id="username"
                                 class="w-full border-gray-700 border rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400">
                         </div>
                         <div>
                             <label class="block text-sm font-medium m-2">E-mail</label>
-                            <input type="email" placeholder="E-mail"
+                            <input type="email" placeholder="E-mail" name="email" id="email"
                                 class="w-full border-gray-700 border rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400">
                         </div>
-                        <div>
+                        {{-- <div>
                             <label class="block text-sm font-medium m-2">No. Tlp</label>
                             <input type="text" placeholder="No. Tlp"
                                 class="w-full border-gray-700 border rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400">
-                        </div>
+                        </div> --}}
+
+                        <input class="pl-2 w-full outline-none border-none" hidden type="text" name="role"
+                            value="finance" />
+
                         <div>
                             <label class="block text-sm font-medium m-2">Kata Sandi</label>
                             <div class="relative">
-                                <input type="password" placeholder="Kata Sandi"
+                                <input type="password" placeholder="Kata Sandi" name="password" id="password"
                                     class="w-full border-gray-700 border rounded-md p-2 pr-9 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400">
                                 <span class="absolute right-3 top-2 text-gray-500 cursor-pointer text-xs">👁️</span>
                             </div>
@@ -82,17 +88,55 @@
                         <!-- Checkbox -->
                         <div class="flex items-center text-xs">
                             <input type="checkbox" class="mr-2 accent-black border border-black">
-                            <span>Saya menyetujui <a href="{{ url('syarat/ketentuan') }}" class="text-orange-500 font-semibold">Syarat dan
+                            <span>Saya menyetujui <a href="{{ url('syarat/ketentuan') }}"
+                                    class="text-orange-500 font-semibold">Syarat dan
                                     Ketentuan</a> yang berlaku</span>
                         </div>
 
                         <!-- Tombol Daftar -->
-                        
+
                         <button onclick="openModal()"
                             class="w-full  bg-orange-500 text-white  font-bold rounded-full py-2 text-sm hover:bg-orange-600 ">
                             Daftar
                         </button>
                     </form>
+                </div>
+
+                <!-- Modal overlay register -->
+
+                <div id="successModal" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/50">
+                    <!-- Konten Modal -->
+                    <div
+                        class="relative bg-white rounded-2xl shadow-lg w-[90%] max-w-md p-8 text-center animate-fadeIn">
+
+                        <!-- Tombol X -->
+                        <button onclick="closeModal()"
+                            class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-xl font-bold">
+                            &times;
+                        </button>
+
+                        <!-- Judul -->
+                        <h2 class="text-2xl font-bold mb-3">Selamat Akun anda berhasil dibuat</h2>
+
+                        <!-- Pesan -->
+                        <p class="text-gray-700 mb-8">
+                            setelah ini anda hanya perlu login <br>untuk terhubung dengan areakerja
+                        </p>
+
+                        <!-- Gambar ilustrasi -->
+                        <div class="flex justify-center mb-6">
+                            <img src="{{ asset('images/orang.png') }}" alt="Ilustrasi" class="w-30 h-28">
+                        </div>
+
+                        <!-- Tombol aksi -->
+                        <div class="flex justify-center gap-6">
+                            <button id="goLogin"
+                                class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg">
+                                Masuk
+                            </button>
+
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Bagian Kanan -->
@@ -110,6 +154,38 @@
         </div>
     </div>
     @include('finance.auth.modal-register')
+
+    {{-- modal register finance --}}
+    <script>
+        document.getElementById("registerForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+
+            let formData = new FormData(this);
+
+            let response = await fetch("{{ route('registerproses_finance') }}", {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
+                },
+                body: formData
+            });
+
+            let data = await response.json();
+
+            if (data.success) {
+                let modal = document.getElementById("successModal");
+                modal.classList.remove("hidden");
+                modal.classList.add("flex"); // ✅ bikin tampil
+            } else {
+                alert("Terjadi kesalahan, coba lagi.");
+            }
+        });
+
+        // tombol "Masuk"
+        document.getElementById("goLogin").addEventListener("click", function() {
+            window.location.href = "{{ route('loginproses_finance') }}";
+        });
+    </script>
 </body>
 
 </html>

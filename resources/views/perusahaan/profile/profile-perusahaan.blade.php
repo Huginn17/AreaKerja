@@ -16,8 +16,8 @@
             @endif
             <!-- Info Perusahaan -->
             <div>
-                <span class="text-lg font-semibold mb-1">{{ Auth::user()->perusahaan->nama_perusahaan }}</span>
-                <span class="text-lg font-semibold mb-1">{{ Auth::user()->perusahaan->jenis_perusahaan }}</span>
+                <span class="text-lg font-semibold ">{{ Auth::user()->perusahaan->nama_perusahaan }}</span>
+                <p class="text-sm font-semibold mb-1">{{ Auth::user()->perusahaan->jenis_perusahaan }}</p>
                 <p class="text-xs text-gray-400 mb-4">Alamat default</p>
                 <a href="{{ route('profile.edit.perusahaan') }}"
                     class="px-4 py-1 rounded-md border border-orange-400 text-orange-500 text-sm">
@@ -27,12 +27,21 @@
         </div>
 
         <!-- Deskripsi -->
-        <div class="mt-6">
-            <div class="flex items-start">
-                <label class="w-32 text-sm">Deskripsi</label>
-                <textarea class="flex-1 border border-orange-400 rounded-md h-24 p-2 focus:outline-none"></textarea>
+        @if (Auth::user()->perusahaan->deskripsi)
+            <div class="mt-6">
+                <div class="flex items-start">
+                    <label class="w-32 text-sm">Deskripsi</label>
+                    <input type="text" name="deskripsi" value="{{ Auth::user()->perusahaan->deskripsi }}" readonly class="flex-1 border border-orange-400 rounded-md h-24 p-2 focus:outline-none"></input>
+                </div>
             </div>
-        </div>
+        @else
+            <div class="mt-6">
+                <div class="flex items-start">
+                    <label class="w-32 text-sm">Deskripsi</label>
+                    <textarea class="flex-1 border border-orange-400 rounded-md h-24 p-2 focus:outline-none"></textarea>
+                </div>
+            </div>
+        @endif
 
         <!-- Grid Form & Kontak -->
         <div class="mt-6 grid grid-cols-3 gap-6">
@@ -55,13 +64,13 @@
                 <!-- Visi -->
                 <div class="flex items-center">
                     <label class="w-32 text-sm">Visi</label>
-                    <input type="text" class="flex-1 border border-orange-400 rounded-md p-2 focus:outline-none h-20" />
+                    <input type="text" name="visi" value="{{ Auth::user()->perusahaan->visi }}" class="flex-1 border border-orange-400 rounded-md p-2 focus:outline-none h-20" />
                 </div>
 
                 <!-- Misi -->
                 <div class="flex items-center">
                     <label class="w-32 text-sm">Misi</label>
-                    <input type="text" class="flex-1 border border-orange-400 rounded-md p-2 focus:outline-none h-20" />
+                    <input type="text" name="misi" value="{{ Auth::user()->perusahaan->misi }}" class="flex-1 border border-orange-400 rounded-md p-2 focus:outline-none h-20" />
                 </div>
             </div>
 
@@ -69,11 +78,11 @@
             <div class="border border-orange-400 rounded-md p-4 flex flex-col">
                 <h2 class="font-semibold mb-2 ml-4">Kontak</h2>
                 <ul class="list-disc ml-5 text-sm space-y-2 flex-1">
-                    <li class="py-2">Website<span class="pl-6"><a href="http://seven.inc"">: http://seven.inc</span></a>
+                    <li class="py-2">Website<span class="pl-6"><a href="{{ Auth::user()->perusahaan->website_perusahaan }}">: {{ Auth::user()->perusahaan->website_perusahaan }}</span></a>
                     </li>
-                    <li class="py-2">Telepon<span class="pl-6">: +62 81363729803</span></li>
-                    <li class="py-2">Whatsapp<span class="pl-3">: +62 81363729803</span></li>
-                    <li class="py-2">Email<span class="pl-10">: seveninc@gmail.com</span></li>
+                    <li class="py-2">Telepon<span class="pl-6">: {{ Auth::user()->perusahaan->telepon_perusahaan }}</span></li>
+                    <li class="py-2">Whatsapp<span class="pl-3">: {{ Auth::user()->perusahaan->whatsapp }}</span></li>
+                    <li class="py-2">Email<span class="pl-10">: {{ Auth::user()->email }}</span></li>
                 </ul>
             </div>
         </div>

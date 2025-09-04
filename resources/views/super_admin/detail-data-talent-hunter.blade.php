@@ -98,11 +98,22 @@
     </section>
 
   </div>
+<!-- Tombol di luar form -->
 <div class="flex space-x-4 justify-center mt-4">
-  <button class="bg-green-600 text-white font-semibold px-8 py-2 rounded-md shadow-md hover:bg-green-700 transition-duration-300">
-    Simpan
+  <!-- Submit button harus punya atribut `form="formData"` -->
+  <button
+    type="submit"
+    form="formData"
+    class="bg-green-500 text-white font-semibold px-8 py-2 rounded-md shadow-md hover:bg-green-700 transition duration-300"
+  
+    > Simpan
   </button>
-  <button class="bg-red-600 text-white font-semibold px-9 py-2 rounded-md shadow-md hover:bg-red-700 transition-duration-300">
+
+  <button
+    type="button"
+    onclick="window.history.back()"
+    class="bg-red-500 text-white font-semibold px-9 py-2 rounded-md shadow-md hover:bg-red-700 transition duration-300"
+  >
     Batal
   </button>
 </div>

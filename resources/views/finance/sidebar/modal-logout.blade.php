@@ -1,4 +1,4 @@
-<!-- Modal -->
+{{-- <!-- Modal -->
 <div id="finance_logoutModal" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/50">
     <!-- Konten Modal -->
     <div class="relative bg-white rounded-2xl shadow-lg w-[90%] max-w-md p-8 text-center animate-fadeIn">
@@ -65,4 +65,4 @@
     .animate-fadeIn {
         animation: fadeIn 0.3s ease-out;
     }
-</style>
+</style> --}}

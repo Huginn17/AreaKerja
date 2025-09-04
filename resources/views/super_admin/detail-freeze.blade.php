@@ -25,7 +25,7 @@
                 </svg>
 
                 <div
-                    class="flex items-center justify-between w-96 h-14 bg-white border border-orange-500 shadow-md rounded-2xl px-3 py-2">
+                    class="flex items-center justify-between w-65 h-14 bg-white border border-orange-500 shadow-md rounded-2xl px-3 py-2">
                     <!-- Logo + Info -->
                     <div class="flex items-center gap-2 mr-2">
                         <a href="#">
@@ -63,21 +63,21 @@
 
             <!-- Body -->
             <div class="p-6 space-y-3">
-                <div class="bg-gray-200 text-center text-sm border-gray-300 shadow rounded-md border py-2">
+                <div class="bg-gray-300 text-center t font-semibold ext-sm border-gray-300 shadow rounded-md border py-2">
                     Has been exploited with Am
                 </div>
                 <div class="flex gap-3">
-                    <div class="flex-1 bg-gray-200 text-center text-sm border shadow border-gray-300 rounded-md py-2">
+                    <div class="flex-1 bg-gray-300 text-center font-semibold text-sm border shadow border-gray-300 rounded-md py-2">
                         ramadwi@gmail.com
                     </div>
-                    <div class="flex-1 bg-gray-200 text-center text-sm border shadow border-gray-300 rounded-md py-2">
+                    <div class="flex-1 bg-gray-300 text-center font-semibold text-sm border shadow border-gray-300 rounded-md py-2">
                         ramadwi@gmail.com
                     </div>
                 </div>
-                <div class="bg-gray-200 text-center text-sm border border-gray-300 shadow rounded-md py-2">
+                <div class="bg-gray-300 text-center font-semibold text-sm border border-gray-300 shadow rounded-md py-2">
                     Sleman, Yogyakarta
                 </div>
-                <div class="bg-gray-200 h-32 rounded-md"></div>
+                <div class="bg-gray-300 h-32 rounded-md"></div>
             </div>
         </div>
 

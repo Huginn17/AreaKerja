@@ -69,16 +69,17 @@
             <p class="text-center text-gray-400 text-sm mb-6">gunakan email Anda untuk pendaftaran</p>
 
             <!-- Form -->
-            <form action="#" class="space-y-4">
+            <form action="{{ route('loginproses_finance') }}" method="POST" class="space-y-4">
+                @csrf
                 <div>
                     <label class="space-y-4 block text-sm font-medium m-2">Nama Pengguna</label>
-                    <input type="text" placeholder="Nama Pengguna"
+                    <input type="text" placeholder="Nama Pengguna" name="username" id="username"
                         class="w-full border-gray-700 border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-orange-400">
                 </div>
                 <div>
                     <label class="block text-sm font-medium m-2">Kata Sandi</label>
                     <div class="relative">
-                        <input type="password" placeholder="Kata Sandi"
+                        <input type="password" placeholder="Kata Sandi" name="password" id="password"
                             class="w-full border-gray-700 border rounded-md p-2 pr-10 focus:outline-none focus:ring-2 focus:ring-orange-400">
                         <span class="absolute right-3 top-2 text-gray-500 cursor-pointer">👁️</span>
                     </div>
@@ -95,7 +96,7 @@
 
                 <!-- Tombol Masuk -->
                 <div class="flex justify-center">
-                <button
+                <button type="submit"
                     class="w-40 bg-orange-500 text-white font-bold rounded-full py-3 hover:bg-orange-600">MASUK</button>
                 </div>
             </form>
@@ -103,7 +104,7 @@
             <!-- Daftar link -->
             <p class="text-center text-sm mt-4 text-gray-600">
                 Tidak Memiliki Akun?
-                <a href="#" class="text-orange-500 font-semibold hover:underline">Daftar Sekarang</a>
+                <a href="{{ route('finance.register') }}" class="text-orange-500 font-semibold hover:underline">Daftar Sekarang</a>
             </p>
         </div>
 

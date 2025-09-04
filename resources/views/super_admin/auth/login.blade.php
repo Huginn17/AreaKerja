@@ -46,7 +46,7 @@
                     Anda</p>
 
                 <!-- Button -->
-                <a href="{{ url('/register') }}"
+                <a href="{{ route('superadmin.register') }}"
                     class="px-20 py-4 border border-white rounded-full hover:bg-white hover:text-black transition">
                     DAFTAR
                 </a>
@@ -86,7 +86,7 @@
 
                 <p class="text-center text-gray-500 mb-6 mt-6 text-sm">gunakan email Anda untuk pendaftaran</p>
                 <!-- Form Login -->
-                <form action="{{ route('login_superadmin') }}" method="POST" class="space-y-4">
+                <form action="{{ route('loginproses_superadmin') }}" method="POST" class="space-y-4">
                     @csrf
                     <div>
                         <label for="username" class="block text-sm font-medium text-gray-700">Nama Pengguna</label>
@@ -110,7 +110,7 @@
                             MASUK
                         </button>
                     </div>
-                    <p class="text-center text-sm mt-4">Tidak Memiliki Akun? <a href="#"
+                    <p class="text-center text-sm mt-4">Tidak Memiliki Akun? <a href="{{ route('superadmin.register') }}"
                             class="text-orange-500 font-medium"> Daftar
                             Sekarang</a></p>
                 </form>

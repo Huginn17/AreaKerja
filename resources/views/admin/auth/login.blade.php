@@ -46,7 +46,7 @@
                     Anda</p>
 
                 <!-- Button -->
-                <a href="{{ url('/register') }}"
+                <a href="{{ route('admin.register') }}"
                     class="px-20 py-4 border border-white rounded-full hover:bg-white hover:text-black transition">
                     DAFTAR
                 </a>
@@ -87,15 +87,16 @@
                 <p class="text-center text-gray-500 mb-6 mt-6 text-sm">gunakan email Anda untuk pendaftaran</p>
 
                 <!-- Form Login -->
-                <form class="space-y-4">
+                <form action="{{ route('loginproses_admin') }}" method="POST" class="space-y-4">
+                    @csrf
                     <div>
                         <label for="username" class="block text-sm font-medium text-gray-700">Nama Pengguna</label>
-                        <input type="text" id="username" name="username" placeholder="Nama Pengguna"
+                        <input type="text" id="username" name="username" placeholder="Nama Pengguna" 
                             class="mt-2 block w-full border border-gray-700 rounded-lg p-2.5 focus:ring-gray-800 focus:border-gray-800" />
                     </div>
                     <div>
                         <label for="password" class="block text-sm font-medium text-gray-700">Kata Sandi</label>
-                        <input type="password" id="password" name="password" placeholder="Kata Sandi"
+                        <input type="password" id="password" name="password" placeholder="Kata Sandi" 
                             class="mt-2 block w-full border border-gray-700 rounded-lg p-2.5 focus:ring-gray-800 focus:border-gray-800" />
                     </div>
                     <div class="flex justify-between items-center text-sm text-gray-600">
@@ -110,7 +111,7 @@
                             MASUK
                         </button>
                     </div>
-                    <p class="text-center text-sm mt-4">Tidak Memiliki Akun? <a href="#"
+                    <p class="text-center text-sm mt-4">Tidak Memiliki Akun? <a href="{{ route('admin.register') }}"
                             class="text-gray-600 font-medium"> Daftar
                             Sekarang</a></p>
                 </form>

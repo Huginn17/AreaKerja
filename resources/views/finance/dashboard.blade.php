@@ -4,7 +4,7 @@
         <!-- Header -->
         <header class="w-full flex items-center justify-between px-6 py-3">
             <p class="font-medium text-2xl">Dashboard </p>
-                 <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3">
                 <svg width="31" height="32" viewBox="0 0 31 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_722_7956)">
                         <path
@@ -30,11 +30,24 @@
                     <!-- Logo + Info -->
                     <div class="flex items-center gap-2 mr-2">
                         <a href="#">
-                            <img src="{{ asset('images/seven.png') }}" class="w-16 h-16 object-contain" alt="User">
+                            @if (Auth::user()->role == 'pelamar')
+                                @if (Auth::user()->pelamar->img_profile)
+                                    <img id="pi" class="w-10 h-10  object-cover rounded-full profile-img"
+                                        src="{{ asset('storage/' . Auth::user()->pelamar->img_profile) }}" alt="Profile">
+                                @else
+                                    <img id="pi" class="w-10 h-10 rounded-full"
+                                        src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                        alt="">
+                                @endif
+                            @else
+                                <img class="w-10 h-10 rounded-full"
+                                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                    alt="">
+                            @endif
                         </a>
                         <div class="text-sm">
-                            <div class="font-semibold">Seven Inc</div>
-                            <div class="text-gray-500 text-xs">financeseven@gmail.com</div>
+                            <span class="font-semibold">{{ Auth::user()->username }}</spam>
+                                <p class="text-gray-500 text-sm">{{ Auth::user()->email }}</p>
                         </div>
                     </div>
 
@@ -109,17 +122,17 @@
                             </tr>
                         </thead>
                         <tbody class="text-sm text-gray-700">
-                             <tr class="border-b">
-                            <td class="px-3 py-2 text-center">1</td>
-                            <td class="px-3 py-2 text-center">991773493631</td>
-                            <td class="px-3 py-2 text-center">Open CV</td>
-                            <td class="px-3 py-2 text-center">AppleCorp.</td>
-                            <td class="px-3 py-2 text-center">Koin AreaKerja</td>
-                            <td class="px-3 py-2 text-center">17 Juni 2024</td>
-                            <td class="px-3 py-2 text-center">10 Koin</td>
-                            <td class="px-3 py-2 text-red-500 font-medium text-center">Gagal</td>
-                        </tr>
-                        {{-- <tr class="border-b">
+                            <tr class="border-b">
+                                <td class="px-3 py-2 text-center">1</td>
+                                <td class="px-3 py-2 text-center">991773493631</td>
+                                <td class="px-3 py-2 text-center">Open CV</td>
+                                <td class="px-3 py-2 text-center">AppleCorp.</td>
+                                <td class="px-3 py-2 text-center">Koin AreaKerja</td>
+                                <td class="px-3 py-2 text-center">17 Juni 2024</td>
+                                <td class="px-3 py-2 text-center">10 Koin</td>
+                                <td class="px-3 py-2 text-red-500 font-medium text-center">Gagal</td>
+                            </tr>
+                            {{-- <tr class="border-b">
                             <td class="px-3 py-2 text-center">1</td>
                             <td class="px-3 py-2 text-center">991773493631</td>
                             <td class="px-3 py-2 text-center">Open CV</td>
@@ -182,17 +195,17 @@
                             </tr>
                         </thead>
                         <tbody class="text-sm text-gray-700">
-                             <tr class="border-b">
-                            <td class="px-3 py-2 text-center">1</td>
-                            <td class="px-3 py-2 text-center">991773493631</td>
-                            <td class="px-3 py-2 text-center">Open CV</td>
-                            <td class="px-3 py-2 text-center">AppleCorp.</td>
-                            <td class="px-3 py-2 text-center">Koin AreaKerja</td>
-                            <td class="px-3 py-2 text-center">17 Juni 2024</td>
-                            <td class="px-3 py-2 text-center">10 Koin</td>
-                            <td class="px-3 py-2 text-red-500 font-medium text-center">Gagal</td>
-                        </tr>
-                        {{-- <tr class="border-b">
+                            <tr class="border-b">
+                                <td class="px-3 py-2 text-center">1</td>
+                                <td class="px-3 py-2 text-center">991773493631</td>
+                                <td class="px-3 py-2 text-center">Open CV</td>
+                                <td class="px-3 py-2 text-center">AppleCorp.</td>
+                                <td class="px-3 py-2 text-center">Koin AreaKerja</td>
+                                <td class="px-3 py-2 text-center">17 Juni 2024</td>
+                                <td class="px-3 py-2 text-center">10 Koin</td>
+                                <td class="px-3 py-2 text-red-500 font-medium text-center">Gagal</td>
+                            </tr>
+                            {{-- <tr class="border-b">
                             <td class="px-3 py-2 text-center">1</td>
                             <td class="px-3 py-2 text-center">991773493631</td>
                             <td class="px-3 py-2 text-center">Open CV</td>

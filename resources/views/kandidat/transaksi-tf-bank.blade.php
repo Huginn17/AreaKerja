@@ -4,7 +4,7 @@
 
         <div class="bg-white w-full max-w-2xl rounded-2xl shadow p-8">
             <!-- Judul -->
-            <h2 class="text-xl font-bold mb-6">Detail Transaksi</h2>
+            <h2 class="text-xl font-semibold mb-6">Detail Transaksi</h2>
 
             <!-- Info transaksi -->
             <div class="flex justify-between items-start mb-6">
@@ -14,7 +14,7 @@
                         <p class="font-medium">AK0078223327</p>
                     </div>
                     <div>
-                        <p class="text-gray-500">Status Tagihan</p>
+                        <p class="text-gray-500 mb-2">Status Tagihan</p>
                         <span class="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-xs font-medium">
                             Menunggu Pembayaran
                         </span>

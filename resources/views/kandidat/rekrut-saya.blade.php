@@ -1,4 +1,4 @@
-@extends('layouts.index-perusahaan')
+@extends('layouts.index')
 @section('content')
 <!DOCTYPE html>
 <html lang="id">

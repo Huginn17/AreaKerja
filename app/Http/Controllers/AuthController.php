@@ -9,38 +9,31 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-
-
-    public function login_superadmin(Request $request)
+    public function masuk(Request $request)
     {
-        $request->validate([
-            'username' => 'required',
-            'password' => 'required',
-        ], [
-            'username.required' => 'Username Harus Diisi',
-            'password.required' => 'Password Harus Diisi',
+        $v = $request->validate([
+            "username"   =>    "required",
+            "password"   =>    "required"
         ]);
-        $infologin = [
-            'username' => $request->username,
-            'password' =>  $request->password
-        ];
-
-        // $remember = $request->has('remember');
-
-        if (Auth::attempt($infologin)) {
-            $request->session()->regenerate();
-
-            // $user = Auth::user();
-            if (Auth::user()->role == 'super_admin') {
-                return redirect()->route('superadmin.dashboard');
+        if (Auth::attempt($v)) {
+            if (Auth::user()->role == 'superadmin') {
+                return redirect('/dashboard/superadmin');
+            } elseif (Auth::user()->role == 'admin') {
+                return redirect()->route('admin.dashboard');
+            } elseif (Auth::user()->role == 'pelamar') {
+                return redirect('/');
+            } elseif (Auth::user()->role == 'perusahaan') {
+                return redirect()->route('perusahaan.dashboard');
+            } elseif (Auth::user()->role == 'finance') {
+                return redirect('/dashboard/finance');
             }
         } else {
-
             return back();
         }
+        return back();
     }
-    
-   
+
+
 
     //pelamar
     public function beranda()
@@ -93,12 +86,11 @@ class AuthController extends Controller
         $user->pelamar()->create($valid_datapelamar);
 
         return response()->json([
-        'success' => true,
-    ]);
-
+            'success' => true,
+        ]);
     }
 
-     public function logout_pelamar(Request $request)
+    public function logout_pelamar(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
@@ -112,7 +104,7 @@ class AuthController extends Controller
     {
         return view('perusahaan.dashboard');
     }
-     public function loginproses_perusahaan(Request $request)
+    public function loginproses_perusahaan(Request $request)
     {
         $val = $request->validate([
             'username' => 'required',
@@ -159,9 +151,8 @@ class AuthController extends Controller
         $user->perusahaan()->create($valid_dataperusahaan);
 
         return response()->json([
-        'success' => true,
-    ]);
-
+            'success' => true,
+        ]);
     }
 
 
@@ -171,6 +162,204 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('perusahaan.dashboard');
+    }
+
+
+
+    //LOGIN FINANCE
+    public function beranda_finance()
+    {
+        return view('finance.dashboard');
+    }
+
+    public function loginproses_finance(Request $request)
+    {
+        $val = $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+
+        if (Auth::attempt($val)) {
+            $request->session()->regenerate();
+
+            // Hanya set sekali waktu login pertama
+            if (!$request->session()->has('already_logged')) {
+                $request->session()->put('first_login', true);
+                $request->session()->put('already_logged', true);
+            }
+
+            return redirect()->route('finance.dashboard');
+        }
+
+        return back()->withErrors([
+            'username' => 'Username atau password salah.',
+        ]);
+    }
+
+
+    public function regis_proses_finance(Request $request)
+    {
+        $valid = $request->validate([
+            'username' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'role' => 'required'
+        ]);
+
+        $valid['password'] = Hash::make($request->password);
+        $user = User::create($valid);
+
+        $valid_datafinance = $request->validate([
+            'nama_lengkap' => 'nullable',
+        ]);
+
+        $user->finance()->create($valid_datafinance);
+
+        return response()->json([
+            'success' => true,
+        ]);
+    }
+
+
+    public function logout_finance(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('finance.login');
+    }
+
+
+
+    //LOGIN ADMIN
+    public function login_admin()
+    {
+        return view('admin.auth.login');
+    }
+    public function beranda_admin()
+    {
+        return view('admin.dashboard');
+    }
+
+    public function loginproses_admin(Request $request)
+    {
+        $val = $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+
+        if (Auth::attempt($val)) {
+            $request->session()->regenerate();
+
+            // Hanya set sekali waktu login pertama
+            if (!$request->session()->has('already_logged')) {
+                $request->session()->put('first_login', true);
+                $request->session()->put('already_logged', true);
+            }
+
+            return redirect()->route('admin.dashboard');
+        }
+
+        return back()->withErrors([
+            'username' => 'Username atau password salah.',
+        ]);
+    }
+
+    public function regis_admin()
+    {
+        return view('admin.auth.register');
+    }
+
+    public function regis_proses_admin(Request $request)
+    {
+        $valid = $request->validate([
+            'username' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'role' => 'required'
+        ]);
+
+        $valid['password'] = Hash::make($request->password);
+        $user = User::create($valid);
+
+        $valid_dataadmin = $request->validate([
+            'nama_lengkap' => 'nullable',
+        ]);
+
+        $user->admin()->create($valid_dataadmin);
+
+        return response()->json([
+            'success' => true,
+        ]);
+    }
+
+
+    public function logout_admin(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('admin.login');
+    }
+
+
+
+
+    //LOGIN SUPER ADMIN
+     public function login_superadmin()
+    {
+        return view('super_admin.auth.login');
+    }
+     public function loginproses_superadmin(Request $request)
+    {
+        $val = $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+
+          if (Auth::attempt($val)) {
+            if (Auth::user()->role == "superadmin") {
+                return redirect()->route('superadmin.dashboard');
+            }
+        } else {
+            return back();
+        }
+    }
+
+     public function regis_super_admin()
+    {
+        return view('super_admin.auth.register');
+    }
+
+    public function regis_proses_superadmin(Request $request)
+    {
+        $valid = $request->validate([
+            'username' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'role' => 'required'
+        ]);
+
+        $valid['password'] = Hash::make($request->password);
+        $user = User::create($valid);
+
+        $valid_datasuperadmin = $request->validate([
+            'nama_lengkap' => 'nullable',
+        ]);
+
+        $user->superadmin()->create($valid_datasuperadmin);
+
+        return response()->json([
+            'success' => true,
+        ]);
+    }
+
+    public function logout_superadmin(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('superadmin.login');
     }
 
 
@@ -240,15 +429,7 @@ class AuthController extends Controller
 
 
     //ADMIN
-    public function login_admin()
-    {
-        return view('admin.auth.login');
-    }
-
-    public function regis_admin()
-    {
-        return view('admin.auth.register');
-    }
+    
 
     public function verif_admin()
     {
@@ -272,15 +453,9 @@ class AuthController extends Controller
 
 
     //SUPER ADMIN 
-    public function login_super_admin()
-    {
-        return view('super_admin.auth.login');
-    }
+   
 
-    public function regis_super_admin()
-    {
-        return view('super_admin.auth.register');
-    }
+   
 
     public function verif_super_admin()
     {

@@ -1,8 +1,6 @@
 @extends('admin.sidebar.index')
 @section('sidebaradmin')
     <div class="p-4 sm:ml-64">
-
-
         <!-- Header -->
         <header class="w-full flex items-center justify-between px-6 py-3">
             <h1 class="text-xl font-semibold">Profile</h1>
@@ -29,11 +27,24 @@
 
                 <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
                     <a href="#">
-                        <img src="{{ asset('images/ohim.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
+                        @if (Auth::user()->role == 'admin')
+                            @if (Auth::user()->admin->img_profile)
+                                <img id="pu" class="w-10 h-10  object-cover rounded-full profile-img"
+                                    src="{{ asset('storage/' . Auth::user()->admin->img_profile) }}" alt="Profile">
+                            @else
+                                <img id="pu" class="w-10 h-10 rounded-full"
+                                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                    alt="">
+                            @endif
+                        @else
+                            <img class="w-10 h-10 rounded-full"
+                                src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                alt="">
+                        @endif
                     </a>
                     <div class="text-sm mr-14">
-                        <div class="font-semibold">Dj Ohim</div>
-                        <div class="text-gray-500">lutung123@gmail.com</div>
+                        <span class="font-semibold">{{ Auth::user()->username }}</span>
+                        <p class="text-gray-500 text-sm">{{ Auth::user()->email }}</p>
                     </div>
                 </div>
             </div>
@@ -49,10 +60,17 @@
 
                 {{-- profiile --}}
                 <div class="flex items-center gap-4 mb-8">
-                    <img src="{{ asset('images/ohim.jpg') }}" class="w-24 h-24 rounded-full" alt="profile">
+                    @if (Auth::user()->admin->img_profile)
+                        <img id="pu" class="w-24 h-24 object-cover rounded-full"
+                            src="{{ asset('storage/' . Auth::user()->admin->img_profile) }}" alt="Profile">
+                    @else
+                        <img id="pu" class="w-24 h-24 object-cover rounded-full"
+                            src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                            alt="Profile">
+                    @endif
                     <div>
-                        <h3 class="font-semibold">DJ Ohim</h3>
-                        <p class="text-sm text-gray-500">lutung123@gmail.com</p>
+                        <h3 class="font-semibold">{{ Auth::user()->username }}</h3>
+                        <p class="text-sm text-gray-500">{{ Auth::user()->email }}</p>
                     </div>
                 </div>
 
@@ -63,25 +81,24 @@
                         {{-- email --}}
                         <div>
                             <label class="block mb-1 text-sm font-medium" for="">Email</label>
-                            <p class="w-full border border-gray-300 shadow rounded-md px-3 py-2 text-gray-500">
-                                lutung123@gmail.com
-                            </p>
+                            <input type="email" value="{{ Auth::user()->email }}" disabled
+                                class="w-full border border-gray-300 shadow rounded-md px-3 py-2 text-gray-500">
+
                         </div>
                         {{-- username --}}
                         <div>
                             <label for="" class="block mb-1 text-sm font-medium">Username</label>
-                            <p class="w-full border border-gray-300 shadow rounded-md px-3 py-2 text-gray-500">
-                                Dj Ohim
-                            </p>
+                            <input type="text" name="username" disabled value="{{ Auth::user()->username }}"
+                                class="w-full border border-gray-300 shadow rounded-md px-3 py-2 text-gray-500">
+
                         </div>
                     </div>
 
                     {{-- nama lengkap --}}
                     <div>
                         <label for="" class="block mb-1 text-sm font-medium">Nama Lengkap</label>
-                        <p class="w-full border border-gray-300 shadow rounded-md px-3 py-2 text-gray-500">
-                            Ohim
-                        </p>
+                        <input type="text" name="nama_lengkap" disabled value="{{ Auth::user()->admin->nama_lengkap }}"
+                            class="w-full border border-gray-300 shadow rounded-md px-3 py-2 text-gray-500">
                     </div>
 
                     {{-- provinsi,kota,kec --}}
@@ -91,10 +108,11 @@
                             <select name="provinsi" id=""
                                 class="border border-gray-300 rounded-md w-48 shadow px-2 py-2 text-sm text-gray-500"
                                 disabled>
-                                <option selected>Yogyakarta</option>
-                                <div class="text-gray-800">
-                                    <option value="">Jawa Tengah</option>
-                                </div>
+                                @if (Auth::user()->admin->provinsi)
+                                    <option selected>{{ Auth::user()->admin->provinsi }}</option>
+                                @else
+                                    <option selected>Data Belum Dilengakapi</option>
+                                @endif
                             </select>
                         </div>
                         <div class="mr-[25px]">
@@ -102,8 +120,11 @@
                             <select name="kota" id=""
                                 class="border border-gray-300 rounded-md shadow w-48 py-2 px-2 text-sm text-gray-500"
                                 disabled>
-                                <option selected class="text-left">Sleman</option>
-                                <option value="">Banjar</option>
+                                @if (Auth::user()->admin->kota)
+                                    <option selected>{{ Auth::user()->admin->kota }}</option>
+                                @else
+                                    <option selected>Data Belum Dilengakapi</option>
+                                @endif
                             </select>
                         </div>
 
@@ -112,8 +133,11 @@
                             <select name="kota" id=""
                                 class="border border-gray-300 rounded-md shadow w-48 py-2 px-3 text-sm text-gray-500"
                                 disabled>
-                                <option selected class="text-left">Maguwohrjo</option>
-                                <option value="">Depok</option>
+                                @if (Auth::user()->admin->kecamatan)
+                                    <option selected>{{ Auth::user()->admin->kecamatan }}</option>
+                                @else
+                                    <option selected>Data Belum Dilengakapi</option>
+                                @endif
                             </select>
                         </div>
                     </div>
@@ -122,24 +146,18 @@
                     <div class="flex">
                         <div class="mr-2">
                             <label class="block mb-1 text-sm font-medium">Desa</label>
-                            <p class="w-48 border border-gray-300 shadow rounded-md px-3 py-2 text-gray-500">
-                                -
-                            </p>
+                            <input type="text" name="desa" value="{{ Auth::user()->admin->desa }}" disabled class="w-48 border  border-gray-300 shadow rounded-md px-3 py-2 text-gray-500">
                         </div>
                         <div class="ml-5">
                             <label class="block mb-1 text-sm font-medium">Kode Pos</label>
-                            <p class="w-48 border border-gray-300 shadow rounded-md px-3 py-2 text-gray-500 ">
-                                63563
-                            </p>
+                            <input type="text" name="kode_pos" value="{{ Auth::user()->admin->kode_pos }}" disabled class="w-48 border border-gray-300 shadow rounded-md px-3 py-2 text-gray-500 ">
                         </div>
                     </div>
 
                     {{-- detail --}}
                     <div>
                         <label for="" class="block mb-1 text-sm font-medium">Detail Lainnya</label>
-                          <p class="w-full border border-gray-300 shadow rounded-md px-3 py-2 text-gray-500">
-                      -
-                    </p>
+                        <input type="text" name="detail_alamat" value="{{ Auth::user()->admin->detail_alamat }}" disabled class="w-full border border-gray-300 shadow rounded-md px-3 py-2 text-gray-500">
                     </div>
 
                     {{-- button --}}

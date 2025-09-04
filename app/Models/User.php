@@ -53,8 +53,18 @@ class User extends Authenticatable
         return $this->hasOne(Pelamar::class, 'user_id');
     }
 
+    public function finance()
+    {
+        return $this->hasOne(Finance::class, 'user_id');
+    }
+
     public function perusahaan()
     {
         return $this->hasOne(Perusahaan::class, 'user_id');
     } 
+
+    public function admin()
+    {
+        return $this->hasOne(Admin::class, 'user_id');
+    }
 }

@@ -125,9 +125,9 @@
 
             <!-- Tombol aksi -->
             <div class="grid grid-cols-1 space-y-3 mx-auto max-w-72 mt-20">
-                <button class="bg-blue-500 hover:bg-blue-400 text-white px-6 py-2 rounded-lg">Edit</button>
-                <button class="bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-lg">Unduh</button>
-                <button class="bg-red-600 hover:bg-red-500 text-white px-6 py-2 rounded-lg">Hapus</button>
+                <button class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg">Edit</button>
+                <button class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg">Unduh</button>
+                <button class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg">Hapus</button>
             </div><br>
 
 

@@ -49,7 +49,7 @@
                         </div>
 
                         <!-- Tombol Upload & Remove -->
-                        <div class="flex items-center gap-2">
+                        <div class="flex items-center gap-3">
 
                             <label
                                 class="flex items-center gap-1 border border-orange-400 text-orange-500 px-3 py-2 rounded-md text-sm font-medium hover:bg-orange-50">
@@ -64,7 +64,14 @@
 
                             <button type="button"
                                 onclick="event.preventDefault(); document.getElementById('removeForm').submit();"
-                                class="px-3 py-1 border rounded text-sm text-gray-600 hover:bg-gray-100">
+                                class="px-3 py-2 flex items-center gap-1 border border-gray-400 rounded text-sm text-gray-600 hover:bg-gray-100">
+                                <svg width="13" height="13" viewBox="0 0 13 13" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M11.7946 2.44649H9.4233V1.97744C9.4233 1.60425 9.27341 1.24634 9.00659 0.982451C8.73977 0.718563 8.37788 0.570313 8.00054 0.570312H5.15501C4.77767 0.570313 4.41579 0.718563 4.14896 0.982451C3.88214 1.24634 3.73225 1.60425 3.73225 1.97744V2.44649H1.36097C1.23519 2.44649 1.11456 2.4959 1.02562 2.58386C0.936685 2.67183 0.886719 2.79113 0.886719 2.91553C0.886719 3.03993 0.936685 3.15923 1.02562 3.24719C1.11456 3.33515 1.23519 3.38457 1.36097 3.38457H1.83523V11.8273C1.83523 12.0761 1.93516 12.3147 2.11304 12.4907C2.29092 12.6666 2.53218 12.7654 2.78374 12.7654H10.3718C10.6234 12.7654 10.8646 12.6666 11.0425 12.4907C11.2204 12.3147 11.3203 12.0761 11.3203 11.8273V3.38457H11.7946C11.9204 3.38457 12.041 3.33515 12.1299 3.24719C12.2189 3.15923 12.2688 3.03993 12.2688 2.91553C12.2688 2.79113 12.2189 2.67183 12.1299 2.58386C12.041 2.4959 11.9204 2.44649 11.7946 2.44649ZM4.68076 1.97744C4.68076 1.85304 4.73072 1.73374 4.81966 1.64578C4.9086 1.55782 5.02923 1.5084 5.15501 1.5084H8.00054C8.12632 1.5084 8.24695 1.55782 8.33589 1.64578C8.42483 1.73374 8.47479 1.85304 8.47479 1.97744V2.44649H4.68076V1.97744ZM10.3718 11.8273H2.78374V3.38457H10.3718V11.8273ZM5.62927 5.72979V9.48213C5.62927 9.60653 5.5793 9.72583 5.49036 9.8138C5.40142 9.90176 5.28079 9.95118 5.15501 9.95118C5.02923 9.95118 4.9086 9.90176 4.81966 9.8138C4.73072 9.72583 4.68076 9.60653 4.68076 9.48213V5.72979C4.68076 5.60539 4.73072 5.48609 4.81966 5.39812C4.9086 5.31016 5.02923 5.26074 5.15501 5.26074C5.28079 5.26074 5.40142 5.31016 5.49036 5.39812C5.5793 5.48609 5.62927 5.60539 5.62927 5.72979ZM8.47479 5.72979V9.48213C8.47479 9.60653 8.42483 9.72583 8.33589 9.8138C8.24695 9.90176 8.12632 9.95118 8.00054 9.95118C7.87476 9.95118 7.75413 9.90176 7.66519 9.8138C7.57625 9.72583 7.52629 9.60653 7.52629 9.48213V5.72979C7.52629 5.60539 7.57625 5.48609 7.66519 5.39812C7.75413 5.31016 7.87476 5.26074 8.00054 5.26074C8.12632 5.26074 8.24695 5.31016 8.33589 5.39812C8.42483 5.48609 8.47479 5.60539 8.47479 5.72979Z"
+                                        fill="#606060" />
+                                </svg>
+
                                 Remove
                             </button>
                         </div>
@@ -86,20 +93,22 @@
             </div><br>
 
 
-            <div class="flex justify-between w-[1025px] my-5">
-                <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
-                    Data Diri
-                </div>
-                <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
-                    Informasi Akun
-                </div>
-            </div>
+            <!-- <div class="flex justify-between w-[1025px] my-5">
+                    <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
+                        Data Diri
+                    </div>
+                    <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
+                        Informasi Akun
+                    </div>
+                </div> -->
 
 
             <!-- Grid: Dua Kolom -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Kolom Kiri -->
                 <div class="flex flex-col gap-4">
+                    <label class="text-lg font-medium">Data Diri</label>
+                    <div class="w-30 h-1 bg-orange-500 mt-1"></div><br>
                     @csrf
                     @method('PUT')
 
@@ -308,7 +317,6 @@
                                         </p>
                                     </div>
                                 @endforeach
-
                             </div>
                             <button data-modal-target="show-skill" data-modal-toggle="show-skill" type="button"
                                 class="mb-20 ml-4">
@@ -357,8 +365,10 @@
 
                 <!-- Kolom Kanan -->
                 <div class="flex flex-col gap-4">
+                    <label class="text-lg font-medium">Informasi Akun</label>
+                        <div class="w-30 h-1 bg-orange-500 mt-1"></div><br>
                     <div>
-                        <label class="text-sm font-medium">ID Pengguna  <span class="text-red-500">*</span></label>
+                        <label class="text-sm font-medium">ID Pengguna <span class="text-red-500">*</span></label>
                         <input type="text" placeholder="ID Pengguna" value="{{ Auth::user()->id }}"
                             class="w-full mt-1 border rounded-md px-3 py-2 text-sm">
                     </div>
@@ -382,9 +392,9 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5"
                                     viewBox="0 0 24 24">
                                     <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
-                                                                                    7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
-                                                                                  1.003 0 0 0-1.42 0l-1.83 1.83 3.75
-                                                                                3.75 1.84-1.82z" />
+                                                                                                    7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
+                                                                                                  1.003 0 0 0-1.42 0l-1.83 1.83 3.75
+                                                                                                3.75 1.84-1.82z" />
                                 </svg>
                             </span>
                         </div>
@@ -403,9 +413,9 @@
                                     viewBox="0 0 24 24">
                                     <path
                                         d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
-                                                                                                                                                                                                                                                                           7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
-                                                                                                                                                                                                                                                                           1.003 0 0 0-1.42 0l-1.83 1.83 3.75
-                                                                                                                                                                                                                                                                           3.75 1.84-1.82z" />
+                                                                                                                                                                                                                                                                                           7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
+                                                                                                                                                                                                                                                                                           1.003 0 0 0-1.42 0l-1.83 1.83 3.75
+                                                                                                                                                                                                                                                                                           3.75 1.84-1.82z" />
                                 </svg>
                             </span>
                         </div>
@@ -415,7 +425,7 @@
                     <!-- Ekspektasi Gaji -->
                     <div>
                         <label class="text-lg font-medium">Ekspektasi Gaji</label>
-                        <div class="w-30 h-1 bg-orange-500 mt-1"></div><br>
+                        <div class="w-30 h-1 bg-orange-500 mt-3"></div><br>
                         <div class="flex items-center gap-2 mt-1">
                             <div class="border border-black rounded-md px-4 py-2 text-orange-500 w-29">
                                 <span class="text-orange-500">Rp.</span>

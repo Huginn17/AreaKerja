@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AlamatPelamarController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PengalamanKerjaController;
@@ -21,6 +22,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//AUTH
+Route::post('/masuk', [AuthController::class, 'masuk'])->middleware('guest');
 //NON USER
 
 Route::get('/', function () {
@@ -151,6 +154,9 @@ Route::get('/konfir-bank', function () {
 Route::get('/konfir-qr', function () {
     return view('kandidat.konfir-qr');
 });
+Route::get('/tran-tf-kosong', function () {
+    return view('kandidat.transaksi-kosong');
+});
 Route::get('/tran-tf-bank', function () {
     return view('kandidat.transaksi-tf-bank');
 });
@@ -168,16 +174,26 @@ Route::get('/saya-rekrut', function () {
 
 
 //Finance
-Route::get('/finance/login', [AuthController::class, 'login_finance']);
-Route::get('/finance/register', [AuthController::class, 'regis_finance']);
-Route::get('/finance/verifikasi', [AuthController::class, 'verif_finance']);
-Route::get('/finance/verif-otp', [AuthController::class, 'verifotp_finance']);
-Route::get('/finance/verif-lupapw', [AuthController::class, 'veriflupapw_finance']);
+Route::middleware('guest')->group(function () {
 
+    Route::get('/finance/login', [AuthController::class, 'login_finance'])->name('finance.login');
+    Route::post('/finance/loginproses', [AuthController::class, 'loginproses_finance'])->name('loginproses_finance');
 
-Route::get('/finance/dashboard', function () {
-    return view('finance.dashboard');
-})->name('finance.dashboard');
+    Route::post('/finance/registerproses', [AuthController::class, 'regis_proses_finance'])->name('registerproses_finance');
+    Route::get('/finance/register', [AuthController::class, 'regis_finance'])->name('finance.register');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('/logout/finance', [AuthController::class, 'logout_finance'])->name('logout_finance');
+});
+
+Route::prefix('finance')->group(function () {
+    Route::get('/dashboard', [AuthController::class, 'beranda_finance'])->name('finance.dashboard');
+
+    Route::get('/verifikasi', [AuthController::class, 'verif_finance']);
+    Route::get('/verif-otp', [AuthController::class, 'verifotp_finance']);
+    Route::get('/verif-lupapw', [AuthController::class, 'veriflupapw_finance']);
+});
 
 Route::get('/finance/paketharga', function () {
     return view('finance.paket-harga');
@@ -202,22 +218,36 @@ Route::get('/finance/laporan/transaksi2', function () {
 
 
 //Admin
-Route::prefix('admin')->group(function () {});
-Route::get('/admin/login', [AuthController::class, 'login_admin']);
-Route::get('/admin/register', [AuthController::class, 'regis_admin']);
-Route::get('/admin/verifikasi', [AuthController::class, 'verif_admin']);
-Route::get('/admin/verif-otp', [AuthController::class, 'verifotp_admin']);
-Route::get('/admin/verif-lupapw', [AuthController::class, 'veriflupapw_admin']);
+Route::middleware('guest')->group(function () {
 
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
+    Route::get('/admin/login', [AuthController::class, 'login_admin'])->name('admin.login');
+    Route::post('/admin/loginproses', [AuthController::class, 'loginproses_admin'])->name('loginproses_admin');
+
+    Route::post('/admin/registerproses', [AuthController::class, 'regis_proses_admin'])->name('registerproses_admin');
+    Route::get('/admin/register', [AuthController::class, 'regis_admin'])->name('admin.register');
 });
-Route::get('/admin/profile', function () {
-    return view('admin.profile');
+
+Route::middleware('auth')->group(function () {
+    Route::post('/logout/admin', [AuthController::class, 'logout_admin'])->name('logout_admin');
 });
-Route::get('/admin/edit/profile', function () {
-    return view('admin.edit-profile');
+
+
+Route::prefix('admin')->middleware('auth')->group(function () {
+    Route::get('/dashboard', [AuthController::class, 'beranda_admin'])->name('admin.dashboard');
+
+    //PROFILE ADMIN
+    Route::get('/profile', [AdminController::class, 'profile_admin'])->name('admin.profile');
+    Route::get('/edit/profile', [AdminController::class, 'edit_profile'])->name('admin.edit.profile');
+    Route::put('/update/profile/{admin:id}', [AdminController::class, 'update_profile_admin'])->name('admin.update.profile');
+    Route::delete('/delete/profile/{admin:id}', [AdminController::class, 'destroy_profile'])->name('admin.destroy.profile');
+
+    // Route::get('/login', [AuthController::class, 'login_admin']);
+    // Route::get('/register', [AuthController::class, 'regis_admin']);
+    Route::get('/verifikasi', [AuthController::class, 'verif_admin']);
+    Route::get('/verif-otp', [AuthController::class, 'verifotp_admin']);
+    Route::get('/verif-lupapw', [AuthController::class, 'veriflupapw_admin']);
 });
+
 Route::get('/admin/pelamar', function () {
     return view('admin.pelamar');
 });
@@ -301,6 +331,21 @@ Route::get('/admin/view/talent/hunter', function () {
 });
 
 //Super Admin
+Route::middleware('guest')->group(function () {
+
+        Route::get('/super_admin/login', [AuthController::class, 'login_superadmin'])->name('superadmin.login');
+        Route::post('/super_admin/loginproses', [AuthController::class, 'loginproses_superadmin'])->name('loginproses_superadmin');
+
+        Route::post('/super_admin/registerproses', [AuthController::class, 'regis_proses_superadmin'])->name('registerproses_superadmin');
+        Route::get('/super_admin/register', [AuthController::class, 'regis_super_admin'])->name('superadmin.register');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('/logout/superadmin', [AuthController::class, 'logout_superadmin'])->name('logout_superadmin');
+});
+
+
+
 Route::prefix('super_admin')->group(function () {
     Route::get('/dashboard', [SuperAdminController::class, 'index'])->name('superadmin.dashboard');
 
@@ -308,8 +353,8 @@ Route::prefix('super_admin')->group(function () {
     //Profile
     Route::get('profil/{id}/edit', [SuperAdminController::class, 'edit_profile'])->name('edit_profile');
 });
-Route::get('/super_admin/login', [AuthController::class, 'login_super_admin']);
-Route::get('/super_admin/register', [AuthController::class, 'regis_super_admin']);
+
+
 Route::get('/super_admin/verifikasi', [AuthController::class, 'verif_super_admin']);
 Route::get('/super_admin/verif-otp', [AuthController::class, 'verifotp_super_admin']);
 Route::get('/super_admin/verif-lupapw', [AuthController::class, 'veriflupapw_super_admin']);
@@ -576,6 +621,7 @@ Route::get('perusahaan/edit/alamat/jadi', function () {
 Route::get('perusahaan/alamat/kosong', function () {
     return view('perusahaan.alamat-kosong');
 });
+
 
 
 
