@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('superadmins', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->string('nama_lengkap');
-            $table->string('img_profile')->default('black.png');
-            $table->string('provinsi')->default(null);
-            $table->string('kota')->default(null);
-            $table->string('kecamatan')->default(null);
-            $table->string('desa')->default(null);
-            $table->string('kode_pos')->default(null);
-            $table->string('detail_alamat')->default(null);
+            $table->string('nama_lengkap')->nullable();
+            $table->string('img_profile')->nullable();
+            $table->string('provinsi')->nullable();
+            $table->string('kota')->nullable();
+            $table->string('kecamatan')->nullable();
+            $table->string('desa')->nullable();
+            $table->string('kode_pos')->nullable();
+            $table->string('detail_alamat')->nullable();
             $table->timestamps();
         });
     }

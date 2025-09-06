@@ -87,6 +87,24 @@
                 <p class="text-center text-gray-500 mb-6 mt-6 text-sm">gunakan email Anda untuk pendaftaran</p>
 
                 <!-- Form Login -->
+                <!-- Alert -->
+                @if (session('success'))
+                    <div class="mb-4 p-3 rounded-lg bg-green-100 text-green-700 text-sm text-center">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if (session('error'))
+                    <div class="mb-4 p-3 rounded-lg bg-red-100 text-red-700 text-sm text-center">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
+                @if ($errors->any())
+                    <div class="mb-4 p-3 rounded-lg bg-red-100 text-red-700 text-sm text-center">
+                        {{ $errors->first() }}
+                    </div>
+                @endif
                 <form action="{{ route('loginproses_perusahaan') }}" method="POST" class="space-y-4">
                     @csrf
                     <div>
@@ -103,7 +121,7 @@
                         <label class="flex items-center">
                             <input type="checkbox" class="mr-2 border rounded-sm"> Ingat saya
                         </label>
-                        <a href="#" class="text-orange-500 hover:underline">Lupa kata sandi?</a>
+                        <a href="{{ route('verifikasi_perusahaan') }}" class="text-orange-500 hover:underline">Lupa kata sandi?</a>
                     </div>
                     <div class="flex justify-center">
                         <button type="submit"

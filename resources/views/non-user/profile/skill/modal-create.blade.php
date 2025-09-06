@@ -25,13 +25,13 @@
                     @csrf
                     <div>
                         <label class="block text-sm font-medium text-gray-900 mb-1">Skill</label>
-                        <input type="text" name="jabatan"
+                        <input type="text" name="skill"
                             class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 mb-3"
                             required>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-900 mb-1">Experience Level</label>
-                        <input type="text" name="jabatan"
+                        <input type="text" name="experience_level"  
                             class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 mb-3"
                             required>
                     </div>

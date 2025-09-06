@@ -67,11 +67,18 @@
                 </p>
 
                 <!-- Form Login -->
-                <form class="space-y-4">
+                <form action="{{ route('password.email.perusahaan') }}" method="POST" class="space-y-4">
+                    @csrf
                     <div>
                         <label for="username" class="block text-sm font-medium text-gray-700">E-mail</label>
                         <input type="email" id="email" name="email" placeholder="Email"
+                            value="{{ old('email') }}"
                             class="mt-2 block w-full border border-gray-700 rounded-lg p-2.5 focus:ring-orange-500 focus:border-orange-500" />
+
+                        @error('email')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+
                     </div>
                     <div class="flex justify-center">
                         <button type="submit"
@@ -79,7 +86,7 @@
                             Lanjutkan
                         </button>
                     </div>
-                    <a href="#" class="flex justify-center text-sm text-orange-500">Kembali</a>
+                    <a href="{{ route('login_perusahaan') }}" class="flex justify-center text-sm text-orange-500">Kembali</a>
                 </form>
             </div>
         </div>

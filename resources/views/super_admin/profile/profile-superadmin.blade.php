@@ -26,11 +26,24 @@
 
                 <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
                     <a href="#">
-                        <img src="{{ asset('images/ohim.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
+                        @if (Auth::user()->role == 'super_admin')
+                            @if (Auth::user()->superadmin->img_profile)
+                                <img id="pu" class="w-10 h-10  object-cover rounded-full profile-img"
+                                    src="{{ asset('storage/' . Auth::user()->superadmin->img_profile) }}" alt="Profile">
+                            @else
+                                <img id="pu" class="w-10 h-10 rounded-full"
+                                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                    alt="">
+                            @endif
+                        @else
+                            <img class="w-10 h-10 rounded-full"
+                                src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                alt="">
+                        @endif
                     </a>
                     <div class="text-sm">
-                        <div class="font-semibold">Dj Ohim</div>
-                        <div class="text-gray-500">lutung123@gmail.com</div>
+                        <span class="font-semibold">{{ Auth::user()->username }}</span>
+                        <p class="text-gray-500 text-sm">{{ Auth::user()->email }}</p>
                     </div>
 
                     <select class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
@@ -48,37 +61,41 @@
 
             <!-- Profile Info -->
             <div class="flex items-center gap-4 mb-6">
-                <img src="{{ asset('images/ohim.jpg') }}" alt="Profile" class="w-24 h-24 rounded-full">
+                @if (Auth::user()->superadmin->img_profile)
+                    <img id="pu" class="w-24 h-24 object-cover rounded-full"
+                        src="{{ asset('storage/' . Auth::user()->superadmin->img_profile) }}" alt="Profile">
+                @else
+                    <img id="pu" class="w-24 h-24 object-cover rounded-full"
+                        src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                        alt="Profile">
+                @endif
                 <div class="ml-2">
-                    <h3 class="font-semibold text-lg">Dj Ohim</h3>
-                    <p class="text-gray-500 text-sm">lutung123@gmail.com</p>
+                    <h3 class="font-semibold text-lg">{{ Auth::user()->username }}</h3>
+                    <p class="text-gray-500 text-sm">{{ Auth::user()->email }}</p>
                 </div>
             </div>
 
             <!-- Form -->
-            <form action="{{ route('profile/update') }}" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <form action="#" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Email -->
                 <div>
                     <label class="block text-sm font-medium mb-1">Email <span class="text-red-500">*</span></label>
-                    <p class="w-full border border-gray-300 shadow rounded-md px-3 py-2 text-gray-500">
-                        lutung123@gmail.com
-                    </p>
+                    <input class="w-full border border-gray-300 shadow rounded-md px-3 py-2 text-gray-500"
+                        value="{{ Auth::user()->email }}" disabled type="email name="email">
                 </div>
 
                 <!-- Username -->
                 <div>
                     <label class="block text-sm font-medium mb-1">Username <span class="text-red-500">*</span></label>
-                    <p class="w-full border border-gray-300 shadow rounded-md px-3 py-2 text-gray-500">
-                        Dj Ohim
-                    </p>
+                    <input class="w-full border border-gray-300 shadow rounded-md px-3 py-2 text-gray-500"
+                        value="{{ Auth::user()->username }}" disabled name="username" type="text">
                 </div>
 
                 <!-- Nama Lengkap -->
                 <div class="md:col-span-2">
                     <label class="block text-sm font-medium mb-1">Nama Lengkap <span class="text-red-500">*</span></label>
-                    <p class="w-full border border-gray-300 shadow rounded-md px-3 py-2 text-gray-500">
-                        Ohim
-                    </p>
+                    <input class="w-full border border-gray-300 shadow rounded-md px-3 py-2 text-gray-500"
+                        value="{{ Auth::user()->superadmin->nama_lengkap }}" disabled name="nama_lengkap" type="text">
                 </div>
 
                 <!-- Provinsi, Kota, Kecamatan -->
@@ -88,8 +105,11 @@
                         <select
                             class="w-full border text-gray-500 border-gray-300 shadow rounded-md px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none"
                             disabled>
-                            <option selected>Yogyakarta</option>
-                            <option>Bogor</option>
+                            @if (Auth::user()->superadmin->provinsi)
+                                <option selected>{{ Auth::user()->superadmin->provinsi }}</option>
+                            @else
+                                <option selected>Data Belum Dilengakapi</option>
+                            @endif
                         </select>
                     </div>
 
@@ -99,7 +119,11 @@
                         <select
                             class="w-full border text-gray-500 border-gray-300 shadow rounded-md px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none"
                             disabled>
-                            <option>Sleman</option>
+                            @if (Auth::user()->superadmin->kota)
+                                <option>{{ Auth::user()->superadmin->kota }}</option>
+                            @else
+                                <option selected>Data Belum Dilengakapi</option>
+                            @endif
                         </select>
                     </div>
 
@@ -108,7 +132,11 @@
                         <select
                             class="w-full border text-gray-500 border-gray-300 shadow rounded-md px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none"
                             disabled>
-                            <option>Maguwoharjo</option>
+                            @if (Auth::user()->superadmin->kecamatan)
+                                <option>{{ Auth::user()->superadmin->kecamatan }}</option>
+                                @else
+                                <option selected>Data Belum Dilengakapi</option>
+                            @endif
                         </select>
                     </div>
                 </div>
@@ -117,14 +145,14 @@
                 <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium mb-1">Desa <span class="text-red-500">*</span></label>
-                        <input type="text" value="Kedung Badak"
+                        <input type="text" value="{{ Auth::user()->superadmin->desa }}" name="desa"
                             class="w-full border text-gray-500 border-gray-300 shadow rounded-md px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none"
                             disabled>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Kode Pos <span class="text-red-500">*</span></label>
-                        <input type="text" value="63131"
+                        <input type="text" value="{{ Auth::user()->superadmin->kode_pos }}" name="kode_pos"
                             class="w-full border text-gray-500 border-gray-300 shadow rounded-md px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none"
                             disabled>
                     </div>
@@ -133,14 +161,14 @@
                 <!-- Detail Lainnya -->
                 <div class="md:col-span-2">
                     <label class="block text-sm font-medium mb-1">Detail Lainnya <span class="text-red-500">*</span></label>
-                    <input type="text" value="Jl. Perintis Kemerdekaan No. 11B, Gg. Cendrawasih"
+                    <input type="text" value="{{ Auth::user()->superadmin->detail_alamat }}" name="detail_alamat"
                         class="w-full border text-gray-500 border-gray-300 shadow rounded-md px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none"
                         disabled>
                 </div>
 
                 <!-- Button -->
                 <div class="md:col-span-2 flex justify-center mt-4">
-                    <a href="/super_admin/edit-profile"
+                    <a href="{{ route('superadmin.edit.profile') }}"
                         class="bg-orange-600 text-white font-medium px-12 py-2 rounded-md hover:bg-orange-500 transition inline-block text-center">
                         Edit
                     </a>

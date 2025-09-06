@@ -31,7 +31,6 @@
                     <span class="font-bold mb-1 text-orange-500">areakerja.com</span>
                 </div>
 
-
                 <div class="pt-20">
                     <h2 class="text-2xl font-semibold text-center text-orange-600 mb-6">Buat Akun</h2>
                 </div>
@@ -163,7 +162,6 @@
                             Daftar
                         </button>
                     </form>
-                    <!-- Tombol Daftar -->
                 </div>
             </div>
         </div>

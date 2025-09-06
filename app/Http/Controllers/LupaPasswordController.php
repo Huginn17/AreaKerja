@@ -1,0 +1,253 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\PasswordVerification;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+
+class LupaPasswordController extends Controller
+{
+    public function showEmailForm_pelamar()
+    {
+        return view('non-user.auth.verifikasi');
+    }
+
+    //kirim otp ke email
+    public function sendOtp(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+        $otp = rand(100000, 999999);
+        $token = Str::random(64);
+
+        PasswordVerification::UpdateOrcreate(
+            ['email' => $request->email],
+            [
+                'user_id' => $user->id,
+                'otp' => $otp,
+                'token' => $token
+            ]
+        );
+
+        //kirim email otp
+        Mail::raw("Kode OTP Anda adalah: {$otp}", function ($message) use ($user) {
+            $message->to($user->email)
+                ->subject('Kode Verifikasi OTP - AreaKerja');
+        });
+
+        return redirect()->route('password.otp.form.pelamar', $token)->with('success', 'Kode OTP telah dikirim ke email Anda.');
+    }
+
+    public function showOtpForm_pelamar($token)
+    {
+        $verif = PasswordVerification::where('token', $token)->firstOrFail();
+        $email = $verif->email;
+        return view('non-user.auth.verifikasicode', compact('email', 'token'));
+    }
+
+    //proses verif otp
+    public function verifyOtp(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'otp' => 'required',
+            'token' => 'required',
+        ]);
+
+        $verif = PasswordVerification::where('email', $request->email)
+            ->where('otp', $request->otp)
+            ->where('token', $request->token)
+            ->first();
+
+        if (!$verif) {
+            return back()->withErrors(['otp' => 'Kode OTP tidak valid.']);
+        }
+        return redirect()->route('password.reset.form.pelamar', [
+            'token' => $verif->token,
+            'email' => $verif->email
+        ]);
+    }
+
+    //form lupa pwnya
+    public function showResetForm_pelamar(Request $request, $token = null)
+    {
+        return view('non-user.auth.verif-lupa-sandi', [
+            'token' => $token,
+            'email' => $request->query('email')
+        ]);
+    }
+
+    //simpan pw baru
+    public function resetPassword(Request $request)
+    {
+
+        $request->validate([
+            'email'    => 'required|email|exists:users,email',
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'confirmed',
+                'regex:/[A-Z]/',      // huruf besar
+                'regex:/[a-z]/',      // huruf kecil
+                'regex:/[0-9]/',      // angka
+                'regex:/[@$!%*?&#]/', // simbol
+            ],
+            'token'    => 'required',
+        ], [
+            'password.min' => 'Password minimal 8 karakter.',
+            'password.regex' => 'Password harus mengandung huruf besar, huruf kecil, angka, dan simbol.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+        ]);
+
+        $verif = PasswordVerification::where('email', $request->email)
+            ->where('token', $request->token)
+            ->first();
+
+        if (!$verif) {
+            return back()->withErrors(['token' => 'Token tidak valid.']);
+        }
+
+        $user = User::where('email', $request->email)->first();
+        $user->update([
+            'password' => Hash::make($request->password)
+        ]);
+
+        //hapus klo berhasil
+        $verif->delete();
+        Auth::logout();
+
+        return redirect()->route('login')->with('success', 'Password berhasil diubah.');
+    }
+
+
+
+
+
+
+
+    //PERUSAHAAN
+    public function showEmailForm_perusahaan()
+    {
+        return view('perusahaan.auth.verif');
+    }
+
+    //kirim otp ke email
+    public function sendOtp_perusahaan(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+        $otp = rand(100000, 999999);
+        $token = Str::random(64);
+
+        PasswordVerification::UpdateOrcreate(
+            ['email' => $request->email],
+            [
+                'user_id' => $user->id,
+                'otp' => $otp,
+                'token' => $token
+            ]
+        );
+
+        //kirim email otp
+        Mail::raw("Kode OTP Anda adalah: {$otp}", function ($message) use ($user) {
+            $message->to($user->email)
+                ->subject('Kode Verifikasi OTP - AreaKerja');
+        });
+
+        return redirect()->route('password.otp.form.perusahaan', $token)->with('success', 'Kode OTP telah dikirim ke email Anda.');
+    }
+
+    public function showOtpForm_perusahaan($token)
+    {
+        $verif = PasswordVerification::where('token', $token)->firstOrFail();
+        $email = $verif->email;
+        return view('perusahaan.auth.verif-otp', compact('email', 'token'));
+    }
+
+    //proses verif otp
+    public function verifyOtp_perusahaan(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'otp' => 'required',
+            'token' => 'required',
+        ]);
+
+        $verif = PasswordVerification::where('email', $request->email)
+            ->where('otp', $request->otp)
+            ->where('token', $request->token)
+            ->first();
+
+        if (!$verif) {
+            return back()->withErrors(['otp' => 'Kode OTP tidak valid.']);
+        }
+        return redirect()->route('password.reset.form.perusahaan', [
+            'token' => $verif->token,
+            'email' => $verif->email
+        ]);
+    }
+
+    //form lupa pwnya
+    public function showResetForm_perusahaan(Request $request, $token = null)
+    {
+        return view('perusahaan.auth.verif-lupapw', [
+            'token' => $token,
+            'email' => $request->query('email')
+        ]);
+    }
+
+    //simpan pw baru
+    public function resetPassword_perusahaan(Request $request)
+    {
+
+        $request->validate([
+            'email'    => 'required|email|exists:users,email',
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'confirmed',
+                'regex:/[A-Z]/',      // huruf besar
+                'regex:/[a-z]/',      // huruf kecil
+                'regex:/[0-9]/',      // angka
+                'regex:/[@$!%*?&#]/', // simbol
+            ],
+            'token'    => 'required',
+        ], [
+            'password.min' => 'Password minimal 8 karakter.',
+            'password.regex' => 'Password harus mengandung huruf besar, huruf kecil, angka, dan simbol.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+        ]);
+
+        $verif = PasswordVerification::where('email', $request->email)
+            ->where('token', $request->token)
+            ->first();
+
+        if (!$verif) {
+            return back()->withErrors(['token' => 'Token tidak valid.']);
+        }
+
+        $user = User::where('email', $request->email)->first();
+        $user->update([
+            'password' => Hash::make($request->password)
+        ]);
+
+        //hapus klo berhasil
+        $verif->delete();
+        Auth::logout();
+
+        return redirect()->route('login_perusahaan')->with('success', 'Password berhasil diubah.');
+    }
+}

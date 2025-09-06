@@ -4,12 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Verifikasi | Areakerja</title>
+    <title>Reset Password | Areakerja</title>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 
     <style>
         body {
@@ -20,94 +18,114 @@
 
 <body class="bg-gray-100">
     <div class="flex min-h-screen">
-
-
-
-
-
-
-        <!-- Background dengan overlay -->
-        <section class="relative h-screen w-2/4">
+        <!-- Background kiri -->
+        <section class="relative h-screen w-2/4 hidden md:block">
             <img src="{{ asset('images/gambar2.jpg') }}" alt="Background"
                 class="absolute inset-0 w-full h-full object-cover">
-
-            <!-- Overlay hitam transparan -->
             <div class="absolute inset-0 bg-black bg-opacity-50"></div>
 
-            <!-- Konten -->
             <div class="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-6">
-
-
-                <!-- Text -->
                 <h1 class="text-3xl font-bold mt-[-45%] mb-10">Hallo, Pekerja</h1>
-                <p class="text-sm mb-10">untuk tetap terhubung dengan kami, silakan<br> masuk dengan informasi pribadi
+                <p class="text-sm mb-10">Untuk tetap terhubung dengan kami, silakan<br> masuk dengan informasi pribadi
                     Anda</p>
-
-                <!-- Button -->
-                <a href="#"
+                <a href="{{ route('login') }}"
                     class="px-20 py-4 border border-white rounded-full hover:bg-white hover:text-black transition">
                     Masuk
                 </a>
             </div>
         </section>
 
-
-
-        <!-- Kanan -->
+        <!-- Form Reset Password -->
         <div class="flex w-full md:w-4/5 bg-white items-center justify-center">
-            <div class="w-full max-w-md ">
-                <!-- Bagian Kanan -->
-                <div class=" flex items-center justify-center bg-white">
-                    <div class="max-w-md w-full">
-                        <h2 class="text-2xl font-bold text-orange-600 mb-2">Lupa Kata Sandi</h2>
-                        <p class="text-gray-600 text-sm mb-6">Masukan kata sandi anda.<br>kata sandi harus mengandung:
-                        </p>
+            <div class="w-full max-w-md px-6 py-10">
+                <h2 class="text-2xl font-bold text-orange-600 mb-2">Lupa Kata Sandi</h2>
+                <p class="text-gray-600 text-sm mb-6">Masukkan kata sandi baru.<br>Kata sandi harus mengandung:</p>
 
-                        <!-- Verifikasi Syarat Password -->
-                        <div class="grid grid-cols-5 gap-4 text-center mb-6">
-                            <div><span class="font-bold">8+</span><br><span class="text-xs">Karakter</span></div>
-                            <div><span class="font-bold">AA</span><br><span class="text-xs">Huruf Besar</span></div>
-                            <div><span class="font-bold">aa</span><br><span class="text-xs">Huruf Kecil</span></div>
-                            <div><span class="font-bold">123</span><br><span class="text-xs">Angka</span></div>
-                            <div><span class="font-bold">@#$</span><br><span class="text-xs">Simbol</span></div>
-                        </div>
-
-                        <!-- Form -->
-                        <form action="#" method="POST" class="space-y-4">
-                            @csrf
-                            <div>
-                                <label class="block text-sm font-medium">Kata Sandi Baru</label>
-                                <div class="relative">
-                                    <input type="password" name="password" placeholder="Kata Sandi"
-                                        class="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-orange-500">
-                                    <span class="absolute right-3 top-2.5 text-gray-500 cursor-pointer">👁</span>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium">Konfirmasi Kata Sandi</label>
-                                <div class="relative">
-                                    <input type="password" name="password_confirmation" placeholder="Kata Sandi"
-                                        class="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-orange-500">
-                                    <span class="absolute right-3 top-2.5 text-gray-500 cursor-pointer">👁</span>
-                                </div>
-                            </div>
-
-                            <button type="submit"
-                                class="w-full bg-orange-600 text-white py-2 rounded-md hover:bg-orange-700 transition">
-                                Ulang Kata Sandi
-                            </button>
-                        </form>
-
-                        <div class="text-center mt-4">
-                            <a href="#"
-                                class="text-orange-600 font-medium hover:underline">Kembali</a>
-                        </div>
+                <!-- Syarat Password -->
+                <!-- Indikator Password -->
+                <div class="grid grid-cols-5 gap-4 text-center mb-6 text-xs">
+                    <div id="rule-length" class="text-red-500">
+                        <span class="font-bold">8+</span><br>Karakter
                     </div>
+                    <div id="rule-uppercase" class="text-red-500">
+                        <span class="font-bold">AA</span><br>Huruf Besar
+                    </div>
+                    <div id="rule-lowercase" class="text-red-500">
+                        <span class="font-bold">aa</span><br>Huruf Kecil
+                    </div>
+                    <div id="rule-number" class="text-red-500">
+                        <span class="font-bold">123</span><br>Angka
+                    </div>
+                    <div id="rule-symbol" class="text-red-500">
+                        <span class="font-bold">@#$</span><br>Simbol
+                    </div>
+                </div>
+
+
+                <form action="{{ route('password.update.pelamar') }}" method="POST" class="space-y-4">
+                    @csrf
+                    <input type="hidden" name="email" value="{{ $email }}">
+                    <input type="hidden" name="token" value="{{ $token }}">
+
+                    <!-- Password Baru -->
+                    <div>
+                        <label class="block text-sm font-medium">Kata Sandi Baru</label>
+                        <input type="password" id="password" name="password" placeholder="Kata Sandi"
+                            class="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-orange-500" required>
+                    </div>
+
+                    <!-- Konfirmasi Password -->
+                    <div>
+                        <label class="block text-sm font-medium">Konfirmasi Kata Sandi</label>
+                        <input type="password" id="password_confirmation" name="password_confirmation"
+                            placeholder="Kata Sandi"
+                            class="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-orange-500" required>
+                    </div>
+
+                    {{-- <!-- Indikator -->
+                    <div class="text-sm text-gray-600 mb-4">
+                        <ul class="space-y-1">
+                            <li id="length" class="text-red-500">❌ Minimal 8 karakter</li>
+                            <li id="uppercase" class="text-red-500">❌ Huruf Besar (A-Z)</li>
+                            <li id="lowercase" class="text-red-500">❌ Huruf Kecil (a-z)</li>
+                            <li id="number" class="text-red-500">❌ Angka (0-9)</li>
+                            <li id="symbol" class="text-red-500">❌ Simbol (@$!%*?&#)</li>
+                        </ul>
+                    </div> --}}
+
+                    <!-- Submit -->
+                    <button type="submit"
+                        class="w-full bg-orange-600 text-white py-2 rounded-md hover:bg-orange-700 transition">
+                        Ulang Kata Sandi
+                    </button>
+                </form>
+
+                <div class="text-center mt-4">
+                    <a href="{{ route('login') }}" class="text-orange-600 font-medium hover:underline">Kembali</a>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Script Validasi Password -->
+    <script>
+        const password = document.getElementById('password');
+
+        password.addEventListener('input', function() {
+            const val = password.value;
+
+            // Aturan
+            document.getElementById('rule-length').className = val.length >= 8 ? "text-green-500" : "text-red-500";
+            document.getElementById('rule-uppercase').className = /[A-Z]/.test(val) ? "text-green-500" :
+                "text-red-500";
+            document.getElementById('rule-lowercase').className = /[a-z]/.test(val) ? "text-green-500" :
+                "text-red-500";
+            document.getElementById('rule-number').className = /[0-9]/.test(val) ? "text-green-500" :
+            "text-red-500";
+            document.getElementById('rule-symbol').className = /[@$!%*?&#]/.test(val) ? "text-green-500" :
+                "text-red-500";
+        });
+    </script>
 </body>
 
 </html>

@@ -67,4 +67,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Admin::class, 'user_id');
     }
+
+    public function passwordVerification()
+    {
+        return $this->hasMany(PasswordVerification::class, 'user_id');
+    }
 }

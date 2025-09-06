@@ -19,7 +19,6 @@ class SkillController extends Controller
 
         Skill::create($validated);
         return redirect('/profile');
-        return back();
     }
 
     public function update(Request $request, Skill $skill)

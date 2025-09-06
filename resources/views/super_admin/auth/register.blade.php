@@ -74,7 +74,7 @@
                             class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring focus:ring-orange-300 focus:outline-none">
                     </div>
 
-                      <input id="role" hidden class="pl-2 w-full outline-none border-none" type="role"
+                      <input id="role" hidden class="pl-2 w-full outline-none border-none"
                         name="role" value="super_admin">
 
                     <!-- Checkbox -->

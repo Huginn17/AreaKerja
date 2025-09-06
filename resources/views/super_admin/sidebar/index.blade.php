@@ -181,6 +181,21 @@
         <script src="{{ asset('js/super_admin.js') }}"></script>
         @include('finance.sidebar.modal-logout')
         <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+          {{-- Preview gambar --}}
+     <script>
+        document.getElementById('fileinputsuperadmin').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('pu').setAttribute('src', event.target.result);
+                    document.getElementById('pa').setAttribute('src', event.target.result);
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+
 </body>
 
 </html>

@@ -25,20 +25,20 @@
                     @csrf
                     <div>
                         <label class="block text-sm font-medium text-gray-900 mb-1">Nama Pekerjaan</label>
-                        <input type="text" name="nama_organisasi"
+                        <input type="text" name="nama_perusahaan"
                             class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 mb-3"
                             required>
                     </div>
 
                      <div>
                         <label class="block text-sm font-medium text-gray-900 mb-1">Jabatan Pekerjaan</label>
-                        <input type="text" name="jabatan"
+                        <input type="text" name="jabatan_pekerjaan"
                             class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 mb-3"
                             required>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-900 mb-1">Posisi Pekerjaan</label>
-                        <input type="text" name="jabatan"
+                        <input type="text" name="posisi_pekerjaan"
                             class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 mb-3"
                             required>
                     </div>

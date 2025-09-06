@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AlamatPelamarController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LupaPasswordController;
 use App\Http\Controllers\PengalamanKerjaController;
 use App\Http\Controllers\PengalamanOrgController;
 use App\Http\Controllers\PerusahaanController;
@@ -10,6 +11,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\SuperAdminController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +24,31 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+// Route::get('/test-otp/{email}', function ($email) {
+//     try {
+//         // generate OTP
+//         $otp = rand(100000, 999999);
+//         $token = Str::random(64);
+//   
+//         // kirim email
+//         Mail::raw("Kode OTP Anda adalah: {$otp}\nToken: {$token}", function ($message) use ($email) {
+//             $message->to($email)
+//                 ->subject("Test OTP Laravel");
+//         });
+//              
+//         return "✅ OTP berhasil dikirim ke {$email}. Cek inbox/spam Gmail kamu.";
+//     } catch (\Exception $e) {
+//         return "❌ Gagal mengirim OTP: " . $e->getMessage();
+//     }
+// });
+
+
+
+
+
+
+
 
 //AUTH
 Route::post('/masuk', [AuthController::class, 'masuk'])->middleware('guest');
@@ -121,10 +149,15 @@ Route::middleware('auth')->group(function () {
 Route::get('/register', [AuthController::class, 'regis_non_user'])->name('register');
 Route::post('/registerproses', [AuthController::class, 'regis_proses'])->name('registerproses');
 
+//VERFIKASI PASSWORD
+Route::get('/verifikasi', [LupaPasswordController::class, 'showEmailForm_pelamar'])->name('verifikasi_pelamar');
+Route::post('/verifikasi', [LupaPasswordController::class, 'sendOtp'])->name('password.email.pelamar');
 
-Route::get('/verifikasi', [AuthController::class, 'verif_non_user']);
-Route::get('/verifikasicode', [AuthController::class, 'verifcode_non_user']);
-Route::get('/verif-lupapw', [AuthController::class, 'veriflupapw_non_user']);
+Route::get('/verifikasi/otp/{token}', [LupaPasswordController::class, 'showOtpForm_pelamar'])->name('password.otp.form.pelamar');
+Route::post('/verifikasi/otp', [LupaPasswordController::class, 'verifyOtp'])->name('password.otp.verif.pelamar');
+
+Route::get('/reset-password/{token}', [LupaPasswordController::class, 'showResetForm_pelamar'])->name('password.reset.form.pelamar');
+Route::post('/reset-password', [LupaPasswordController::class, 'resetPassword'])->name('password.update.pelamar');
 
 
 
@@ -333,11 +366,11 @@ Route::get('/admin/view/talent/hunter', function () {
 //Super Admin
 Route::middleware('guest')->group(function () {
 
-        Route::get('/super_admin/login', [AuthController::class, 'login_superadmin'])->name('superadmin.login');
-        Route::post('/super_admin/loginproses', [AuthController::class, 'loginproses_superadmin'])->name('loginproses_superadmin');
+    Route::get('/super_admin/login', [AuthController::class, 'login_superadmin'])->name('superadmin.login');
+    Route::post('/super_admin/loginproses', [AuthController::class, 'loginproses_superadmin'])->name('loginproses_superadmin');
 
-        Route::post('/super_admin/registerproses', [AuthController::class, 'regis_proses_superadmin'])->name('registerproses_superadmin');
-        Route::get('/super_admin/register', [AuthController::class, 'regis_super_admin'])->name('superadmin.register');
+    Route::post('/super_admin/registerproses', [AuthController::class, 'regis_proses_superadmin'])->name('registerproses_superadmin');
+    Route::get('/super_admin/register', [AuthController::class, 'regis_super_admin'])->name('superadmin.register');
 });
 
 Route::middleware('auth')->group(function () {
@@ -346,12 +379,15 @@ Route::middleware('auth')->group(function () {
 
 
 
-Route::prefix('super_admin')->group(function () {
+Route::prefix('super_admin')->middleware('auth')->group(function () {
     Route::get('/dashboard', [SuperAdminController::class, 'index'])->name('superadmin.dashboard');
 
 
     //Profile
-    Route::get('profil/{id}/edit', [SuperAdminController::class, 'edit_profile'])->name('edit_profile');
+    Route::get('/profile', [SuperAdminController::class, 'profile_superadmin'])->name('superadmin.profile');
+    Route::get('/edit/profile', [SuperAdminController::class, 'edit_profile'])->name('superadmin.edit.profile');
+    Route::put('/update/profile/{superadmin:id}', [SuperAdminController::class, 'update_profile_superadmin'])->name('superadmin.update.profile');
+    Route::delete('/delete/profile/{superadmin:id}', [SuperAdminController::class, 'destroy_profile'])->name('superadmin.destroy.profile');
 });
 
 
@@ -360,9 +396,7 @@ Route::get('/super_admin/verif-otp', [AuthController::class, 'verifotp_super_adm
 Route::get('/super_admin/verif-lupapw', [AuthController::class, 'veriflupapw_super_admin']);
 
 
-Route::get('/super_admin/profile', function () {
-    return view('super_admin.profile-superadmin');
-});
+
 
 Route::get('/super_admin/edit-profile', function () {
     return view('super_admin.edit-profile-superadmin');
@@ -484,6 +518,10 @@ Route::get('/super_admin/edit/data/talent/hunter', function () {
 Route::get('/super_admin/detail/data/kandidat', function () {
     return view('super_admin.detail-data-kandidat');
 });
+Route::get('/super_admin/update/pelamar/kandidat', function () {
+    return view('super_admin.update-pelamar-kandidat');
+});
+
 
 
 
@@ -504,6 +542,16 @@ Route::get('/perusahaan/pelamar', function () {
 
 
 Route::prefix('perusahaan')->middleware('auth')->group(function () {
+    //VERFIKASI PASSWORD
+    Route::get('/verifikasi', [LupaPasswordController::class, 'showEmailForm_perusahaan'])->name('verifikasi_perusahaan');
+    Route::post('/verifikasi', [LupaPasswordController::class, 'sendOtp_perusahaan'])->name('password.email.perusahaan');
+
+    Route::get('/verifikasi/otp/{token}', [LupaPasswordController::class, 'showOtpForm_perusahaan'])->name('password.otp.form.perusahaan');
+    Route::post('/verifikasi/otp', [LupaPasswordController::class, 'verifyOtp_perusahaan'])->name('password.otp.verif.perusahaan');
+
+    Route::get('/reset-password/{token}', [LupaPasswordController::class, 'showResetForm_perusahaan'])->name('password.reset.form.perusahaan');
+    Route::post('/reset-password', [LupaPasswordController::class, 'resetPassword_perusahaan'])->name('password.update.perusahaan');
+
     //PROFILE PERUSAHAAN
     Route::get('/profile', [PerusahaanController::class, 'profile_perusahaan'])->name('profile.perusahaan');
     Route::get('/edit/profile', [PerusahaanController::class, 'edit_profile'])->name('profile.edit.perusahaan');
@@ -537,13 +585,12 @@ Route::get('/perusahaan/lowongan/detail', function () {
     return view('perusahaan.detail-lowongan');
 });
 
-
 Route::get('/perusahaan/terima/lamaran', function () {
     return view('perusahaan.terima-pelamar');
 });
 
-Route::get('/perusahaan/konfirmasi/lamaran', function () {
-    return view('perusahaan.konfirmasi-lamaran');
+Route::get('/perusahaan/konfirmasi/terkirim', function () {
+    return view('perusahaan.konfirmasi-terkirim');
 });
 
 Route::get('/perusahaan/jadi/alamat', function () {
@@ -644,9 +691,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout/perusahaan', [AuthController::class, 'logout_perusahaan'])->name('logout_perusahaan');
 });
 Route::post('/registerproses_perusahaan', [AuthController::class, 'regis_proses_perusahaan'])->name('registerproses_perusahaan');
-Route::get('/perusahaan/verifikasi', [AuthController::class, 'verif_perusahaan']);
-Route::get('/perusahaan/verif/otp', [AuthController::class, 'verifotp_perusahaan']);
-Route::get('/perusahaan/verif/lupapw', [AuthController::class, 'veriflupapw_perusahaan']);
+
 
 
 

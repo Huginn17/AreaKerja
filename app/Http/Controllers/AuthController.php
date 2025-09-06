@@ -318,7 +318,7 @@ class AuthController extends Controller
         ]);
 
           if (Auth::attempt($val)) {
-            if (Auth::user()->role == "superadmin") {
+            if (Auth::user()->role == "super_admin") {
                 return redirect()->route('superadmin.dashboard');
             }
         } else {
@@ -378,19 +378,6 @@ class AuthController extends Controller
         return view('non-user.auth.register');
     }
 
-    public function verif_non_user()
-    {
-        return view('non-user.auth.verifikasi');
-    }
-
-    public function verifcode_non_user()
-    {
-        return view('non-user.auth.verifikasicode');
-    }
-    public function veriflupapw_non_user()
-    {
-        return view('non-user.auth.verif-lupa-sandi');
-    }
 
 
 
