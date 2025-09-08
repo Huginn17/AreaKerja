@@ -10,7 +10,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -20,12 +19,6 @@
 
 <body class="bg-gray-100">
     <div class="flex min-h-screen">
-
-
-
-
-
-
         <!-- Background dengan overlay -->
         <section class="relative h-screen w-2/4">
             <img src="{{ asset('images/gambar2.jpg') }}" alt="Background"
@@ -36,14 +29,10 @@
 
             <!-- Konten -->
             <div class="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-6">
-
-
-                <!-- Text -->
                 <h1 class="text-3xl font-bold mt-[-45%] mb-10">Hallo, Pekerja</h1>
-                <p class="text-sm mb-10">untuk tetap terhubung dengan kami, silakan<br> masuk dengan informasi pribadi
-                    Anda</p>
-
-                <!-- Button -->
+                <p class="text-sm mb-10">
+                    untuk tetap terhubung dengan kami, silakan<br> masuk dengan informasi pribadi Anda
+                </p>
                 <a href="#"
                     class="px-20 py-4 border border-white rounded-full hover:bg-white hover:text-black transition">
                     Masuk
@@ -51,18 +40,9 @@
             </div>
         </section>
 
-
-
-        <!-- Kanan -->
+        <!-- Bagian Kanan -->
         <div class="flex w-full md:w-4/5 bg-white items-center justify-center">
             <div class="w-full max-w-md p-8">
-
-
-                <!-- Login Sosial -->
-                <div class="flex justify-center space-x-3 mb-5">
-
-                </div>
-
                 <div class="flex items-center justify-center">
                     <div class="max-w-md w-full px-8">
                         <h2 class="text-2xl font-bold text-orange-500 mb-4">Verifikasi Akun</h2>
@@ -70,70 +50,126 @@
                             Silahkan verifikasi akun anda terlebih dahulu untuk bisa melakukan penggantian kata sandi
                         </p>
                         <p class="mb-6">
-                            Kode verifikasi telah dikirim ke email <span
-                                class="font-semibold">emailpengguna@gmail.com</span>.
+                            Kode verifikasi telah dikirim ke email
+                            <span class="font-semibold">emailpengguna@gmail.com</span>.
                         </p>
 
-                        <p class="font-semibold text-center mb-4">Kode Verifikasi</p>
+                        <!-- FORM OTP -->
+                        <form action="{{ route('password.otp.verif.perusahaan') }}" method="POST" id="otpForm">
+                            @csrf
+                            <p class="font-semibold text-center mb-4">Kode Verifikasi</p>
 
-                        <!-- Input OTP -->
-                        <div class="flex justify-center space-x-4 mb-6">
-                            <input type="text" maxlength="1"
-                                class="w-12 h-12 text-center border-b-4 border-black text-lg focus:outline-none">
-                            <input type="text" maxlength="1"
-                                class="w-12 h-12 text-center border-b-4 border-black text-lg focus:outline-none">
-                            <input type="text" maxlength="1"
-                                class="w-12 h-12 text-center border-b-4 border-black text-lg focus:outline-none">
-                            <input type="text" maxlength="1"
-                                class="w-12 h-12 text-center border-b-4 border-black text-lg focus:outline-none">
-                            <input type="text" maxlength="1"
-                                class="w-12 h-12 text-center border-b-4 border-black text-lg focus:outline-none">
-                            <input type="text" maxlength="1"
-                                class="w-12 h-12 text-center border-b-4 border-black text-lg focus:outline-none">
-                        </div>
+                            <div class="flex justify-center space-x-4 mb-6">
+                                @for ($i = 1; $i <= 6; $i++)
+                                    <input type="text" maxlength="1" name="otp"
+                                        class="w-12 h-12 text-center border-b-4 border-black text-lg focus:outline-none otp-input">
+                                @endfor
+                            </div>
 
-                        <p class="text-center text-gray-500">Belum menerima kode verifikasi melalui email?</p>
-                        <p class="text-center mt-1">Kirim Ulang Kode Verifikasi
-                            <span id="countdown" class="text-orange-500 font-semibold">(00:45)</span>
+                            <!-- Hidden input untuk gabung semua OTP -->
+                            <input type="hidden" name="otp" id="otp_code">
+                            <input type="hidden" name="email" value="{{ $email }}">
+                            <input type="hidden" name="token" value="{{ $token }}">
+
+                            <p class="text-center text-gray-500">Belum menerima kode verifikasi melalui email?</p>
+                            <p class="text-center mt-1">
+                                Kirim Ulang Kode Verifikasi
+                                <span id="countdown" class="text-orange-500 font-semibold">(00:45)</span>
+                            </p>
+
+                            <div class="flex justify-center mt-6">
+                                <button type="submit"
+                                    class="bg-orange-500 text-white px-40 py-3 rounded-lg font-small text-sm hover:bg-orange-600 transition">
+                                    Lanjutkan
+                                </button>
+                            </div>
+                        </form>
+
+                        <p class="text-center font-semibold text-orange-500 hover:text-orange-600 mt-4">
+                            Ubah Email
                         </p>
                     </div>
                 </div>
-
-                <script>
-                    let timeLeft = 45;
-                    const countdownEl = document.getElementById("countdown");
-
-                    function startCountdown() {
-                        const timer = setInterval(() => {
-                            if (timeLeft <= 0) {
-                                clearInterval(timer);
-                                countdownEl.textContent = "(00:00)";
-                                countdownEl.classList.remove("text-orange-500");
-                                countdownEl.classList.add("text-blue-600", "cursor-pointer");
-                                countdownEl.textContent = " Kirim Ulang";
-                            } else {
-                                let minutes = String(Math.floor(timeLeft / 60)).padStart(2, '0');
-                                let seconds = String(timeLeft % 60).padStart(2, '0');
-                                countdownEl.textContent = `(${minutes}:${seconds})`;
-                                timeLeft--;
-                            }
-                        }, 1000);
-                    }
-
-                    startCountdown();
-                </script><br>
-                <div class="flex justify-center">
-                    <button type="submit"
-                        class=" bg-orange-500 text-white px-40 py-3 rounded-lg font-small text-sm hover:bg-orange-600 transition">
-                        Lanjutkan
-                    </button>
-                </div><br>
-                <p class="text-center font-semibold text-orange-500 hover:text-orange-600">Ubah Email</p>
             </div>
         </div>
     </div>
-    </div>
-    </div>
+
+    <script>
+        const inputs = document.querySelectorAll('.otp-input');
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', () => {
+                if (input.value && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+        });
+
+        document.getElementById('otpForm').addEventListener('submit', function(e) {
+            let otp = '';
+            document.querySelectorAll('.otp-input').forEach(input => otp += input.value);
+            document.getElementById('otp_code').value = otp;
+        });
+
+
+        const countdownEl = document.getElementById("countdown");
+        let timeLeft = 45;
+        let timer = null;
+
+        function startCountdown() {
+            clearInterval(timer); // bersihkan timer lama
+            countdownEl.classList.remove("text-blue-600", "cursor-pointer");
+            countdownEl.classList.add("text-orange-500");
+            countdownEl.style.pointerEvents = "none";
+
+            timer = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    countdownEl.textContent = "Kirim Ulang";
+                    countdownEl.classList.remove("text-orange-500");
+                    countdownEl.classList.add("text-blue-600", "cursor-pointer");
+                    countdownEl.style.pointerEvents = "auto"; // aktifkan kembali klik
+                } else {
+                    let minutes = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+                    let seconds = String(timeLeft % 60).padStart(2, '0');
+                    countdownEl.textContent = `(${minutes}:${seconds})`;
+                    timeLeft--;
+                }
+            }, 1000);
+        }
+
+        function resendOtp() {
+            fetch("{{ route('password.email.perusahaan') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify({
+                        email: "{{ $email ?? '' }}"
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message);
+                    // reset countdown
+                    timeLeft = 45;
+                    startCountdown();
+                })
+                .catch(err => console.error(err));
+        }
+
+        // klik event -> cek textContent langsung
+        countdownEl.addEventListener("click", () => {
+            if (countdownEl.textContent === "Kirim Ulang") {
+                resendOtp();
+            }
+        });
+
+        startCountdown();
+    </script>
+
+
+
 </body>
 
 </html>

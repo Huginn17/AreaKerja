@@ -11,12 +11,12 @@ class AuthController extends Controller
 {
     public function masuk(Request $request)
     {
-        $v = $request->validate([
+        $valid = $request->validate([
             "username"   =>    "required",
             "password"   =>    "required"
         ]);
-        if (Auth::attempt($v)) {
-            if (Auth::user()->role == 'superadmin') {
+        if (Auth::attempt($valid)) {
+            if (Auth::user()->role == 'super_admin') {
                 return redirect('/dashboard/superadmin');
             } elseif (Auth::user()->role == 'admin') {
                 return redirect()->route('admin.dashboard');
@@ -44,26 +44,28 @@ class AuthController extends Controller
 
     public function loginproses(Request $request)
     {
-        $val = $request->validate([
+        $valid = $request->validate([
             'username' => 'required',
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($val)) {
-            $request->session()->regenerate();
-
-            // Hanya set sekali waktu login pertama
-            if (!$request->session()->has('already_logged')) {
-                $request->session()->put('first_login', true);
-                $request->session()->put('already_logged', true);
+       if (Auth::attempt($valid)) {
+            if (Auth::user()->role == 'super_admin') {
+                return redirect()->route('superadmin.dashboard');
+            } elseif (Auth::user()->role == 'admin') {
+                return redirect()->route('admin.dashboard');
+            } elseif (Auth::user()->role == 'pelamar') {
+                return redirect('/');
+            } elseif (Auth::user()->role == 'perusahaan') {
+                return redirect()->route('perusahaan.dashboard');
+            } elseif (Auth::user()->role == 'finance') {
+                return redirect()->route('finance.dashboard');
             }
-
-            return redirect()->route('beranda');
+        } else {
+            return back()->withErrors([
+                'username' => 'Username atau password salah.',
+            ]);
         }
-
-        return back()->withErrors([
-            'username' => 'Username atau password salah.',
-        ]);
     }
 
 
@@ -299,7 +301,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('admin.login');
+        return redirect()->route('login');
     }
 
 

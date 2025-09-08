@@ -34,25 +34,29 @@ class DatabaseSeeder extends Seeder
                 'username' => 'holis',
                 'email' => 'holis@gmail.com',
                 'password' => Hash::make('123'),
-                'role' => 'finance'
+                'role' => 'finance',
+                'verified' => 1,
             ],
             [
                 'username' => 'adrian',
                 'email' => 'adrian@gmail.com',
                 'password' => Hash::make('123'),
-                'role' => 'admin'
+                'role' => 'admin',
+                'verified' => 1,
             ],
             [
                 'username' => 'memet',
                 'email' => 'perusahaan@gmail.com',
                 'password' => Hash::make('123'),
-                'role' => 'perusahaan'
+                'role' => 'perusahaan',
+                'verified' => 1,
             ],
             [
                 'username' => 'NPC',
                 'email' => 'npc@gmail.com',
                 'password' => Hash::make('123'),
-                'role' => 'pelamar'
+                'role' => 'pelamar',
+                'verified' => 1,
             ]
         ];
 
@@ -60,10 +64,10 @@ class DatabaseSeeder extends Seeder
             User::create($val);
         }
 
-        // 🔹 Buat superadmin terkait user_id 1
-        SuperAdmin::create([
-            'user_id' => 1,
-            'nama_lengkap' => 'gilang',
-        ]);
+        // // 🔹 Buat superadmin terkait user_id 1
+        // SuperAdmin::create([
+        //     'user_id' => 1,
+        //     'nama_lengkap' => 'gilang',
+        // ]);
     }
 }

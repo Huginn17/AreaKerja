@@ -69,28 +69,28 @@
                             <label for="username" class="block text-sm font-medium text-gray-700 m-2">Nama
                                 Pengguna</label>
                             <input type="text" id="username_pelamar" name="username" placeholder="Nama Pengguna"
-                                class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring focus:ring-orange-300 focus:outline-none">
+                                class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring-orange-500 focus:border-orange-500">
                             <p class="text-red-500 text-sm mt-1 error-message" data-field="username"></p>
                         </div>
 
                         <div>
                             <label for="email" class="block text-sm font-medium text-gray-700 m-2">Email</label>
                             <input type="email" id="email" name="email" placeholder="E-mail"
-                                class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring focus:ring-orange-300 focus:outline-none">
+                                class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring-orange-500 focus:border-orange-500">
                             <p class="text-red-500 text-sm mt-1 error-message" data-field="email"></p>
                         </div>
 
                         <div>
                             <label for="phone" class="block text-sm font-medium text-gray-700 m-2">No.Tlp</label>
                             <input type="text" id="phone_pelamar" name="telepon_pelamar" placeholder="No. Tlp"
-                                class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring focus:ring-orange-300 focus:outline-none">
+                                class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring-orange-500 focus:border-orange-500">
                             <p class="text-red-500 text-sm mt-1 error-message" data-field="telepon_pelamar"></p>
                         </div>
 
                         <div>
                             <label for="password" class="block text-sm font-medium text-gray-700 m-2">Kata Sandi</label>
                             <input type="password" id="password_pelamar" name="password" placeholder="Kata Sandi"
-                                class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring focus:ring-orange-300 focus:outline-none">
+                                class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring-orange-500 focus:border-orange-500">
                             <p class="text-red-500 text-sm mt-1 error-message" data-field="password"></p>
                         </div>
 
@@ -123,13 +123,13 @@
                             <label for="username" class="block text-sm font-medium text-gray-700 m-2">Nama
                                 Perusahaan</label>
                             <input type="text" id="username_perusahaan" placeholder="Nama Pengguna" name="username"
-                                class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring focus:ring-orange-300 focus:outline-none">
+                                class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring-orange-500 focus:border-orange-500">
                         </div>
 
                         <div>
                             <label for="email" class="block text-sm font-medium text-gray-700 m-2">Email</label>
                             <input type="email" id="email_perusahaan" placeholder="E-mail" name="email"
-                                class="w-full px-4 py-3    border-gray-700 border rounded-lg focus:ring focus:ring-orange-300 focus:outline-none">
+                                class="w-full px-4 py-3    border-gray-700 border rounded-lg focus:ring-orange-500 focus:border-orange-500">
                         </div>
 
                         <div>
@@ -137,14 +137,14 @@
                                 Perusahaan</label>
                             <input type="text" id="phone_perusahaan" placeholder="No. Tlp"
                                 name="telepon_perusahaan"
-                                class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring focus:ring-orange-300 focus:outline-none">
+                                class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring-orange-500 focus:border-orange-500">
                         </div>
 
                         <div>
                             <label for="password" class="block text-sm font-medium text-gray-700 m-2">Kata
                                 Sandi</label>
                             <input type="password" id="password_perusahaan" placeholder="Kata Sandi" name="password"
-                                class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring focus:ring-orange-300 focus:outline-none">
+                                class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring-orange-500 focus:border-orange-500">
                         </div>
 
                         <!-- Checkbox -->

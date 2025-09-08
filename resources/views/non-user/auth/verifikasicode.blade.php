@@ -85,9 +85,10 @@
                             </div>
                         </form>
 
-                        <p class="text-center font-semibold text-orange-500 hover:text-orange-600 mt-4">
+                        <a href="{{ route('email.ubah') }}"
+                            class="text-center font-semibold text-orange-500 hover:text-orange-600 mt-4">
                             Ubah Email
-                        </p>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -116,7 +117,8 @@
         let timer = null;
 
         function startCountdown() {
-            clearInterval(timer); // bersihkan timer lama
+            clearInterval(timer);
+            timeLeft = 45; // reset setiap kali countdown dimulai
             countdownEl.classList.remove("text-blue-600", "cursor-pointer");
             countdownEl.classList.add("text-orange-500");
             countdownEl.style.pointerEvents = "none";
@@ -127,7 +129,7 @@
                     countdownEl.textContent = "Kirim Ulang";
                     countdownEl.classList.remove("text-orange-500");
                     countdownEl.classList.add("text-blue-600", "cursor-pointer");
-                    countdownEl.style.pointerEvents = "auto"; // aktifkan kembali klik
+                    countdownEl.style.pointerEvents = "auto";
                 } else {
                     let minutes = String(Math.floor(timeLeft / 60)).padStart(2, '0');
                     let seconds = String(timeLeft % 60).padStart(2, '0');
@@ -151,16 +153,13 @@
                 .then(res => res.json())
                 .then(data => {
                     alert(data.message);
-                    // reset countdown
-                    timeLeft = 45;
-                    startCountdown();
+                    startCountdown(); // mulai lagi countdown baru
                 })
                 .catch(err => console.error(err));
         }
 
-        // klik event -> cek textContent langsung
         countdownEl.addEventListener("click", () => {
-            if (countdownEl.textContent === "Kirim Ulang") {
+            if (countdownEl.textContent.trim() === "Kirim Ulang") {
                 resendOtp();
             }
         });

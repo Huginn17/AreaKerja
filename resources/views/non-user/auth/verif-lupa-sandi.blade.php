@@ -62,7 +62,7 @@
                 </div>
 
 
-                <form action="{{ route('password.update.pelamar') }}" method="POST" class="space-y-4">
+                <form id="reset-passwordForm" action="{{ route('password.update.pelamar') }}" method="POST" class="space-y-4">
                     @csrf
                     <input type="hidden" name="email" value="{{ $email }}">
                     <input type="hidden" name="token" value="{{ $token }}">
@@ -100,6 +100,42 @@
                     </button>
                 </form>
 
+                {{-- modal lupa pw --}}
+                <div id="successModal" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/50">
+                    <!-- Konten Modal -->
+                    <div
+                        class="relative bg-white rounded-2xl shadow-lg w-[90%] max-w-md p-8 text-center animate-fadeIn">
+
+                        <!-- Tombol X -->
+                        <button onclick="closeModal()"
+                            class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-xl font-bold">
+                            &times;
+                        </button>
+
+                        <!-- Judul -->
+                        <h2 class="text-2xl font-bold mb-3">Selamat Akun anda berhasil dibuat <br>Silahkan masuk terlebih dahulu</h2>
+
+
+                        <!-- Pesan -->
+                        {{-- <p class="text-gray-700 mb-8">
+                            setelah ini anda hanya perlu login <br>untuk terhubung dengan areakerja
+                        </p> --}}
+
+                        <!-- Gambar ilustrasi -->
+                        <div class="flex justify-center mb-6">
+                            <img src="{{ asset('images/orang.png') }}" alt="Ilustrasi" class="w-30 h-28">
+                        </div>
+
+                        <!-- Tombol aksi -->
+                        <div class="flex justify-center gap-6">
+                            <button id="goLogin"
+                                class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg">
+                                Masuk
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
                 <div class="text-center mt-4">
                     <a href="{{ route('login') }}" class="text-orange-600 font-medium hover:underline">Kembali</a>
                 </div>
@@ -121,9 +157,40 @@
             document.getElementById('rule-lowercase').className = /[a-z]/.test(val) ? "text-green-500" :
                 "text-red-500";
             document.getElementById('rule-number').className = /[0-9]/.test(val) ? "text-green-500" :
-            "text-red-500";
+                "text-red-500";
             document.getElementById('rule-symbol').className = /[@$!%*?&#]/.test(val) ? "text-green-500" :
                 "text-red-500";
+        });
+    </script>
+     {{-- modal lupa pw --}}
+    <script>
+        document.getElementById("reset-passwordForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+
+            let formData = new FormData(this);
+
+            let response = await fetch("{{ route('password.update.pelamar') }}", {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
+                },
+                body: formData
+            });
+
+            let data = await response.json();
+
+            if (data.success) {
+                let modal = document.getElementById("successModal");
+                modal.classList.remove("hidden");
+                modal.classList.add("flex"); // ✅ bikin tampil
+            } else {
+                alert("Terjadi kesalahan, coba lagi.");
+            }
+        });
+
+        // tombol "Masuk"
+        document.getElementById("goLogin").addEventListener("click", function() {
+            window.location.href = "{{ route('login') }}";
         });
     </script>
 </body>

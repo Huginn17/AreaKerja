@@ -3,13 +3,16 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AlamatPelamarController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\LupaPasswordController;
+use App\Http\Controllers\PelamarController;
 use App\Http\Controllers\PengalamanKerjaController;
 use App\Http\Controllers\PengalamanOrgController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\SuperAdminController;
+use App\Http\Controllers\TipsKerjaController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -50,53 +53,82 @@ use Illuminate\Support\Str;
 
 
 
-//AUTH
-Route::post('/masuk', [AuthController::class, 'masuk'])->middleware('guest');
-//NON USER
 
+//NON USER
 Route::get('/', function () {
     return view('non-user.home');
 });
 Route::get('/beranda', [AuthController::class, 'beranda'])->name('beranda');
 
+//LOGIN AUTH
+Route::middleware('guest')->group(function () {
+
+    Route::get('/login', [AuthController::class, 'login_non_user'])->name('login');
+    Route::post('/loginproses', [AuthController::class, 'loginproses'])->name('loginproses');
+});
+Route::get('/home', [PelamarController::class, 'index'])->name('beranda')->middleware('role:pelamar');
+
+Route::middleware('auth')->group(function () {
+
+    Route::post('/logout', [AuthController::class, 'logout_pelamar'])->name('logout_pelamar');
+});
+
+Route::get('/register', [AuthController::class, 'regis_non_user'])->name('register');
+Route::post('/registerproses', [AuthController::class, 'regis_proses'])->name('registerproses');
+
+//VERFIKASI PASSWORD
+Route::get('/verifikasi', [LupaPasswordController::class, 'showEmailForm_pelamar'])->name('verifikasi_pelamar');
+Route::post('/verifikasi', [LupaPasswordController::class, 'sendOtp'])->name('password.email.pelamar');
+
+Route::get('/verifikasi/otp/{token}', [LupaPasswordController::class, 'showOtpForm_pelamar'])->name('password.otp.form.pelamar');
+Route::post('/verifikasi/otp', [LupaPasswordController::class, 'verifyOtp'])->name('password.otp.verif.pelamar');
+
+Route::get('/reset-password/{token}', [LupaPasswordController::class, 'showResetForm_pelamar'])->name('password.reset.form.pelamar');
+Route::post('/reset-password', [LupaPasswordController::class, 'resetPassword'])->name('password.update.pelamar');
+
+//VERIFIKASI EMAIL
+Route::get('email/ubah', [EmailVerificationController::class, 'showChangeEmailForm'])->name('email.ubah');
+Route::post('/email/send-verification', [EmailVerificationController::class, 'sendVerification'])->name('email.send.verification');
+Route::get('/email/verify/{token}', [EmailVerificationController::class, 'verify'])->name('email.verify');
+
 
 //CRUD PROFILE
-Route::prefix('pelamar')->middleware('auth')->group(function () {});
-Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index')->middleware('auth');
-Route::put('/update/profile/{pelamar:id}', [ProfileController::class, 'update_profile'])->name('profile.update')->middleware('auth');
-Route::delete('/delete/profile/{pelamar:id}', [ProfileController::class, 'destroy_profile'])->name('profile.destroy')->middleware('auth');
+Route::prefix('pelamar')->middleware('auth', 'role:pelamar')->group(function () {
+
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index')->middleware('auth');
+    Route::put('/update/profile/{pelamar:id}', [ProfileController::class, 'update_profile'])->name('profile.update')->middleware('auth');
+    Route::delete('/delete/profile/{pelamar:id}', [ProfileController::class, 'destroy_profile'])->name('profile.destroy');
 
 
-//ALAMAT PELAMAR
-Route::get('/alamat', [ProfileController::class, 'alamat'])->name('alamat')->middleware('auth');
-Route::get('/form/alamat', [ProfileController::class, 'form_alamat'])->name('form_alamat')->middleware('auth');
-Route::post('/create/alamat', [ProfileController::class, 'store_alamat'])->name('alamat.store')->middleware('auth');
-Route::get('/edit/alamat/{alamatpelamar:id}', [ProfileController::class, 'edit_alamat'])->name('alamat.edit')->middleware('auth');
-Route::put('/update/alamat/{alamatpelamar:id}', [ProfileController::class, 'update_alamat'])->name('alamat.update')->middleware('auth');
-Route::delete('/delete/alamat/{alamatpelamar:id}', [ProfileController::class, 'destroy_alamat'])->name('alamat.destroy')->middleware('auth');
+    //ALAMAT PELAMAR
+    Route::get('/alamat', [ProfileController::class, 'alamat'])->name('alamat')->middleware('auth');
+    Route::get('/form/alamat', [ProfileController::class, 'form_alamat'])->name('form_alamat')->middleware('auth');
+    Route::post('/create/alamat', [ProfileController::class, 'store_alamat'])->name('alamat.store')->middleware('auth');
+    Route::get('/edit/alamat/{alamatpelamar:id}', [ProfileController::class, 'edit_alamat'])->name('alamat.edit')->middleware('auth');
+    Route::put('/update/alamat/{alamatpelamar:id}', [ProfileController::class, 'update_alamat'])->name('alamat.update')->middleware('auth');
+    Route::delete('/delete/alamat/{alamatpelamar:id}', [ProfileController::class, 'destroy_alamat'])->name('alamat.destroy')->middleware('auth');
 
 
-//pengalaman organisasi
-Route::post('/create/organisasi', [PengalamanOrgController::class, 'store'])->name('organisasi.store')->middleware('auth');
-Route::get('/edit/organisasi/{organisasi:id}', [PengalamanOrgController::class, 'edit'])->name('organisasi.edit')->middleware('auth');
-Route::put('/update/organisasi/{organisasi:id}', [PengalamanOrgController::class, 'update'])->name('organisasi.update')->middleware('auth');
-Route::delete('/delete/organisasi/{organisasi:id}', [PengalamanOrgController::class, 'destroy'])->name('organisasi.destroy')->middleware('auth');
+    //pengalaman organisasi
+    Route::post('/create/organisasi', [PengalamanOrgController::class, 'store'])->name('organisasi.store')->middleware('auth');
+    Route::get('/edit/organisasi/{organisasi:id}', [PengalamanOrgController::class, 'edit'])->name('organisasi.edit')->middleware('auth');
+    Route::put('/update/organisasi/{organisasi:id}', [PengalamanOrgController::class, 'update'])->name('organisasi.update')->middleware('auth');
+    Route::delete('/delete/organisasi/{organisasi:id}', [PengalamanOrgController::class, 'destroy'])->name('organisasi.destroy')->middleware('auth');
 
 
-//pengalaman kerja
-Route::post('/create/kerja', [PengalamanKerjaController::class, 'store'])->name('kerja.store')->middleware('auth');
-Route::get('/edit/kerja/{kerja:id}', [PengalamanKerjaController::class, 'edit'])->name('kerja.edit')->middleware('auth');
-Route::put('/update/kerja/{kerja:id}', [PengalamanKerjaController::class, 'update'])->name('kerja.update')->middleware('auth');
-Route::delete('/delete/kerja/{kerja:id}', [PengalamanKerjaController::class, 'destroy'])->name('kerja.destroy')->middleware('auth');
+    //pengalaman kerja
+    Route::post('/create/kerja', [PengalamanKerjaController::class, 'store'])->name('kerja.store')->middleware('auth');
+    Route::get('/edit/kerja/{kerja:id}', [PengalamanKerjaController::class, 'edit'])->name('kerja.edit')->middleware('auth');
+    Route::put('/update/kerja/{kerja:id}', [PengalamanKerjaController::class, 'update'])->name('kerja.update')->middleware('auth');
+    Route::delete('/delete/kerja/{kerja:id}', [PengalamanKerjaController::class, 'destroy'])->name('kerja.destroy')->middleware('auth');
 
 
-//SKILL
-Route::post('/create/skill', [SkillController::class, 'store'])->name('skill.store')->middleware('auth');
-Route::get('/edit/skill/{skill:id}', [SkillController::class, 'edit'])->name('skill.edit')->middleware('auth');
-Route::put('/update/skill/{skill:id}', [SkillController::class, 'update'])->name('skill.update')->middleware('auth');
-Route::delete('/delete/skill/{skill:id}', [SkillController::class, 'destroy'])->name('skill.destroy')->middleware('auth');
-
-
+    //SKILL
+    Route::post('/create/skill', [SkillController::class, 'store'])->name('skill.store')->middleware('auth');
+    Route::get('/edit/skill/{skill:id}', [SkillController::class, 'edit'])->name('skill.edit')->middleware('auth');
+    Route::put('/update/skill/{skill:id}', [SkillController::class, 'update'])->name('skill.update')->middleware('auth');
+    Route::delete('/delete/skill/{skill:id}', [SkillController::class, 'destroy'])->name('skill.destroy')->middleware('auth');
+});
 
 Route::get('/lowongan', function () {
     return view('non-user.pasang-lowongan');
@@ -128,37 +160,6 @@ Route::get('/lowongan-tersimpan', function () {
 Route::get('/lowongan-detail', function () {
     return view('non-user.lowongan-detail');
 });
-
-
-//LOGIN NON USER
-Route::middleware('guest')->group(function () {
-
-    Route::get('/login', [AuthController::class, 'login_non_user'])->name('login');
-    Route::post('/loginproses', [AuthController::class, 'loginproses'])->name('loginproses');
-});
-
-Route::get('/home', function () {
-    return redirect()->route('beranda');
-});
-
-Route::middleware('auth')->group(function () {
-
-    Route::post('/logout', [AuthController::class, 'logout_pelamar'])->name('logout_pelamar');
-});
-
-Route::get('/register', [AuthController::class, 'regis_non_user'])->name('register');
-Route::post('/registerproses', [AuthController::class, 'regis_proses'])->name('registerproses');
-
-//VERFIKASI PASSWORD
-Route::get('/verifikasi', [LupaPasswordController::class, 'showEmailForm_pelamar'])->name('verifikasi_pelamar');
-Route::post('/verifikasi', [LupaPasswordController::class, 'sendOtp'])->name('password.email.pelamar');
-
-Route::get('/verifikasi/otp/{token}', [LupaPasswordController::class, 'showOtpForm_pelamar'])->name('password.otp.form.pelamar');
-Route::post('/verifikasi/otp', [LupaPasswordController::class, 'verifyOtp'])->name('password.otp.verif.pelamar');
-
-Route::get('/reset-password/{token}', [LupaPasswordController::class, 'showResetForm_pelamar'])->name('password.reset.form.pelamar');
-Route::post('/reset-password', [LupaPasswordController::class, 'resetPassword'])->name('password.update.pelamar');
-
 
 
 
@@ -220,7 +221,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout/finance', [AuthController::class, 'logout_finance'])->name('logout_finance');
 });
 
-Route::prefix('finance')->group(function () {
+Route::prefix('finance')->middleware('auth', 'role:finance')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'beranda_finance'])->name('finance.dashboard');
 
     Route::get('/verifikasi', [AuthController::class, 'verif_finance']);
@@ -265,7 +266,7 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::prefix('admin')->middleware('auth')->group(function () {
+Route::prefix('admin')->middleware('auth', 'role:admin')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'beranda_admin'])->name('admin.dashboard');
 
     //PROFILE ADMIN
@@ -279,6 +280,14 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/verifikasi', [AuthController::class, 'verif_admin']);
     Route::get('/verif-otp', [AuthController::class, 'verifotp_admin']);
     Route::get('/verif-lupapw', [AuthController::class, 'veriflupapw_admin']);
+
+    //TIPS KERJA POST
+    Route::get('/tips/kerja', [TipsKerjaController::class, 'index'])->name('admin.tips-kerja');
+    Route::post('/tips/kerja/', [TipsKerjaController::class, 'store_tips_kerja'])->name('admin.tips-kerja.store');
+    Route::get('/tips/kerja/create', [TipsKerjaController::class, 'tips_kerja_buat_post'])->name('admin.tips-kerja.createForm');
+    Route::put('/update/status/', [TipsKerjaController::class, 'update_status'])->name('admin.tips-kerja.update.status');
+    Route::delete('/delete', [TipsKerjaController::class, 'destroy'])->name('admin.tips-kerja.destroy');
+
 });
 
 Route::get('/admin/pelamar', function () {
@@ -333,9 +342,7 @@ Route::get('/admin/bukti/koin', function () {
 Route::get('/admin/bukti/tunai', function () {
     return view('admin.bukti-tunai');
 });
-Route::get('/admin/tips/kerja', function () {
-    return view('admin.tips-kerja');
-});
+
 Route::get('/admin/buat/post', function () {
     return view('admin.buat-post');
 });
@@ -379,7 +386,7 @@ Route::middleware('auth')->group(function () {
 
 
 
-Route::prefix('super_admin')->middleware('auth')->group(function () {
+Route::prefix('super_admin')->middleware('auth', 'role:super_admin')->group(function () {
     Route::get('/dashboard', [SuperAdminController::class, 'index'])->name('superadmin.dashboard');
 
 
@@ -540,8 +547,8 @@ Route::get('/perusahaan/pelamar', function () {
     return view('perusahaan.pelamar');
 });
 
+Route::prefix('perusahaan')->middleware('guest')->group(function () {
 
-Route::prefix('perusahaan')->middleware('auth')->group(function () {
     //VERFIKASI PASSWORD
     Route::get('/verifikasi', [LupaPasswordController::class, 'showEmailForm_perusahaan'])->name('verifikasi_perusahaan');
     Route::post('/verifikasi', [LupaPasswordController::class, 'sendOtp_perusahaan'])->name('password.email.perusahaan');
@@ -551,7 +558,10 @@ Route::prefix('perusahaan')->middleware('auth')->group(function () {
 
     Route::get('/reset-password/{token}', [LupaPasswordController::class, 'showResetForm_perusahaan'])->name('password.reset.form.perusahaan');
     Route::post('/reset-password', [LupaPasswordController::class, 'resetPassword_perusahaan'])->name('password.update.perusahaan');
+});
 
+
+Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan')->group(function () {
     //PROFILE PERUSAHAAN
     Route::get('/profile', [PerusahaanController::class, 'profile_perusahaan'])->name('profile.perusahaan');
     Route::get('/edit/profile', [PerusahaanController::class, 'edit_profile'])->name('profile.edit.perusahaan');
@@ -668,6 +678,7 @@ Route::get('perusahaan/edit/alamat/jadi', function () {
 Route::get('perusahaan/alamat/kosong', function () {
     return view('perusahaan.alamat-kosong');
 });
+
 
 
 

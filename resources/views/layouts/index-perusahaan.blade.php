@@ -129,7 +129,7 @@
 
                 </button>
                 @guest
-                    <a href="{{ route('login_perusahaan') }}"
+                    <a href="{{ route('login') }}"
                         class="px-11 py-2 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition">
                         Masuk
                     </a>

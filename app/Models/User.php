@@ -72,4 +72,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(PasswordVerification::class, 'user_id');
     }
+
+    public function emailVerifications()
+    {
+        return $this->hasMany(EmailVerification::class, 'user_id');
+    }
 }

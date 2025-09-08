@@ -99,15 +99,8 @@
                                 <span class="block text-sm text-gray-500 truncate">{{ Auth::user()->email }}</span>
                             </div>
                             <ul class="py-2" aria-labelledby="user-menu-button">
-                                @if (Auth::user()->role == 'superadmin')
-                                    <li class="px-3 font-semibold text-orange-600">SuperAdmin</li>
                                     <li>
-                                        <a href="/dashboard/superadmin"
-                                            class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500">Dashboard</a>
-                                    </li>
-                                @else
-                                    <li>
-                                        <a href="/profile"
+                                        <a href="{{ route('profile.index') }}"
                                             class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500">Profil</a>
                                     </li>
                                     <li>
@@ -123,7 +116,6 @@
                                         <a href="/bantuan"
                                             class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500">Bantuan</a>
                                     </li>
-                                @endif
                                 <li>
                                     <form action="{{ route('logout_pelamar') }}" method="POST" class="flex justify-center mt-2">
                                         @csrf
