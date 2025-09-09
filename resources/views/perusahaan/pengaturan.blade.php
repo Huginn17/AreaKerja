@@ -14,10 +14,10 @@
 
             <!-- Tombol Aksi -->
             <div class="mt-12 space-y-4">
-                <button class="w-full bg-orange-600 text-white py-3 rounded text-left pl-3">
+                <button class="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded text-left pl-3">
                     Ganti Email
                 </button>
-                <button class="w-full bg-orange-600 text-white py-3 rounded text-left pl-3">
+                <button class="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded text-left pl-3">
                     Ganti Password
                 </button>
             </div>

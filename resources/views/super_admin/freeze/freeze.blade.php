@@ -50,8 +50,10 @@
 
         {{-- content --}}
         <div class="flex gap-2 mb-6 mt-14 justify-end">
-            <input type="text" placeholder="nama/username ..." class="border border-gray-500 rounded-lg px-4 py-2 w-72">
-            <button class="bg-orange-500 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
+            <input id="cari" type="text" placeholder="nama/username ..."
+                class="border border-gray-500 rounded-lg px-4 py-2 w-72">
+            <button type="button" onclick="searchTable()"
+                class="bg-orange-500 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
         </div>
 
         <!-- Wrapper -->
@@ -59,28 +61,64 @@
 
 
             <!-- Table -->
-            <table class="w-full text-sm text-center">
+            <table id="myTable " class="w-full text-sm text-center">
                 <thead>
                     <tr class="text-gray-700">
                         <th class="p-7 font-semibold">No</th>
                         <th class="p-7 font-semibold">Username</th>
                         <th class="p-7 font-semibold">Email</th>
+                        <th class="p-7 font-semibold">Role</th>
                         <th class="p-7 font-semibold">Telepon</th>
                         <th class="p-7 font-semibold">Alamat</th>
+                        <th class="p-7 font-semibold">Status</th>
                         <th class="p-7 font-semibold">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
-                    @for ($i = 0; $i < 10; $i++)
+                    @foreach ($data as $d)
                         <!-- Baris Data -->
                         <tr>
-                            <td class="px-6 py-4">1</td>
-                            <td class="px-6 py-4">Toni_Kroos</td>
-                            <td class="px-6 py-4">tonikroos@gmail.com</td>
-                            <td class="px-6 py-4">081373728456</td>
-                            <td class="px-6 py-4">Sleman, Yogyakarta</td>
+                            <td class="px-6 py-4">{{ $d->id }}</td>
+                            <td class="px-6 py-4">{{ $d->username }}</td>
+                            <td class="px-6 py-4">{{ $d->email }}</td>
+                            <td class="px-6 py-4">{{ $d->role }}</td>
+                            <td class="px-6 py-4">
+                                @if ($d->role == 'pelamar')
+                                    {{ $d->pelamar->telepon_pelamar ?? '-' }}
+                                @elseif ($d->role == 'perusahaan')
+                                    {{ $d->perusahaan->telepon_perusahaan ?? '-' }}
+                                @elseif ($d->role == 'finance')
+                                    -
+                                @elseif ($d->role == 'admin')
+                                    -
+                                @elseif ($d->role == 'super_admin')
+                                    -
+                                @endif
+                            </td>
+                            <td class="px-6 py-4">
+                                @if ($d->role == 'pelamar')
+                                    {{ $d->pelamar()->latest()->first()->alamat_pelamar()->latest()->first()->provinsi ?? '-' }}
+                                @elseif ($d->role == 'perusahaan')
+                                    {{ $d->perusahaan()->latest()->first()->alamat_perusahaan()->latest()->first()->provinsi ?? '-' }}
+                                @elseif ($d->role == 'finance')
+                                    {{ $d->finance->provinsi ?? '-' }}
+                                @elseif ($d->role == 'admin')
+                                    {{ $d->admin->provinsi ?? '-' }}
+                                @elseif ($d->role == 'super_admin')
+                                    {{ $d->super_admin->provinsi ?? '-' }}
+                                @endif
+                            </td>
+                            <td class="px-6 py-4">
+                                @if ($d->status == 0)
+                                    <span
+                                        class="bg-blue-500 text-green-100 text-sm font-medium me-2 px-2.5 py-0.5 rounded-sm">Aktif</span>
+                                @elseif ($d->status == 1)
+                                    <span
+                                        class="bg-red-500 text-green-100 text-sm font-medium me-2 px-2.5 py-0.5 rounded-sm">Banned</span>
+                                @endif
+                            </td>
                             <td class="px-6 py-4 flex items-center justify-center">
-                                <a href="/super_admin/detail/freeze">
+                                <a href="{{ route('superadmin.detail.freeze', $d->id) }}">
                                     <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
                                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                         <mask id="mask0_743_14496" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
@@ -103,10 +141,20 @@
                                 </a>
                             </td>
                         </tr>
-                    @endfor
+                    @endforeach
                 </tbody>
             </table>
         </div>
+        <script>
+            document.getElementById("cari").addEventListener("keyup", function() {
+                let input = this.value.toLowerCase();
+                let rows = document.querySelectorAll("#myTable tbody tr");
 
+                rows.forEach(row => {
+                    let rowText = row.innerText.toLowerCase();
+                    row.style.display = rowText.includes(input) ? "" : "none";
+                });
+            });
+        </script>
     </main>
 @endsection

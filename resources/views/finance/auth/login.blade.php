@@ -8,17 +8,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Paksa semua teks pakai Poppins -->
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-    }
-  </style>
+    <!-- Paksa semua teks pakai Poppins -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
 </head>
 
-<body class="min-h-screen flex items-center justify-center bg-gradient-to-b from-orange-500 to-orange-400 font-sans">
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-b from-orange-500 to-orange-400">
 
-    <div class="bg-white rounded-2xl shadow-lg flex w-11/12 max-w-5xl overflow-hidden">
+    <div class="flex w-11/12 max-w-5xl overflow-hidden">
 
         <!-- Bagian Kiri -->
         <div
@@ -29,42 +29,45 @@
                 <span class="font-semibold">areakerja.com</span>
             </div>
             <!-- Welcome -->
-            <h2 class="text-2xl font-bold text-center mb-6 leading-snug">
+            <h2 class="text-2xl font-semibold text-center mb-6 leading-snug">
                 Selamat Datang Kembali ! <br> Finance Area Kerja
             </h2>
             <!-- Ilustrasi -->
-            <img src="{{ asset('images/wong_kang.png') }}" alt="Ilustrasi" class="w-auto mb-6">
+            <img src="{{ asset('images/wong_kang.png') }}" alt="Ilustrasi" class="w-auto mb-8">
             <!-- Button Daftar -->
             <button
-                class="border-2 border-white px-10 py-2 rounded-full font-semibold hover:bg-white hover:text-orange-500 transition">
+                class="border border-white w-40 py-3 rounded-full font-semibold hover:bg-white hover:text-orange-500 transition">
                 DAFTAR
             </button>
         </div>
 
         <!-- Bagian Kanan (Login Form) -->
-        <div class="w-1/2 p-10 flex flex-col justify-center">
+        <div class="w-1/2 p-10 flex flex-col justify-center bg-white rounded-2xl">
             <h2 class="text-center text-2xl font-bold text-orange-600 mb-4">Masuk</h2>
 
             <!-- Social Login -->
             <div class="flex justify-center space-x-3 mb-5">
 
-        
-          <div class="flex gap-3">
-              <button class="w-10 h-10 flex text-1xl items-center justify-center border rounded-full hover:bg-gray-100 text-gray-700 font-bold">
-               G
-              </button>
 
-              <button class="w-10 h-10 flex items-center justify-center border rounded-full hover:bg-gray-100 text-gray-700 font-bold">
-               f
-              </button>
+                <div class="flex gap-3">
+                    <button
+                        class="w-10 h-10 flex text-1xl items-center justify-center border rounded-full hover:bg-gray-100 text-gray-700 font-bold">
+                        G
+                    </button>
 
-  
-              <button class="w-10 h-10 flex items-center justify-center border rounded-full hover:bg-gray-100 text-gray-700 font-bold">
-               in
-              </button>
-          </div>
+                    <button
+                        class="w-10 h-10 flex items-center justify-center border rounded-full hover:bg-gray-100 text-gray-700 font-bold">
+                        f
+                    </button>
 
-        </div>
+
+                    <button
+                        class="w-10 h-10 flex items-center justify-center border rounded-full hover:bg-gray-100 text-gray-700 font-bold">
+                        in
+                    </button>
+                </div>
+
+            </div>
             <!-- Keterangan -->
             <p class="text-center text-gray-400 text-sm mb-6">gunakan email Anda untuk pendaftaran</p>
 
@@ -96,15 +99,16 @@
 
                 <!-- Tombol Masuk -->
                 <div class="flex justify-center">
-                <button type="submit"
-                    class="w-40 bg-orange-500 text-white font-bold rounded-full py-3 hover:bg-orange-600">MASUK</button>
+                    <button type="submit"
+                        class="w-40 bg-orange-500 text-white font-semibold rounded-full py-3 hover:bg-orange-600">MASUK</button>
                 </div>
             </form>
 
             <!-- Daftar link -->
             <p class="text-center text-sm mt-4 text-gray-600">
                 Tidak Memiliki Akun?
-                <a href="{{ route('finance.register') }}" class="text-orange-500 font-semibold hover:underline">Daftar Sekarang</a>
+                <a href="{{ route('finance.register') }}" class="text-orange-500 font-semibold hover:underline">Daftar
+                    Sekarang</a>
             </p>
         </div>
 

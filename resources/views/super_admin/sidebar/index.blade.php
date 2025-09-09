@@ -28,17 +28,15 @@
         <aside class="w-64 bg-orange-600 text-white">
             <!-- Logo -->
             <div class="px-4 py-2">
-                <div class="inline-flex items-center gap-1 border-b-2 border-orange-300 pb-2">
+                <div class="inline-flex items-center gap-1 border-b-2 border-orange-300">
                     <img src="{{ asset('images/logo_area_kerja_putih.png') }}" alt="logo" class="w-14 h-14">
                     <p class="text-xl font-semibold">areakerja.com</p>
                 </div>
             </div>
 
-
-
             <!-- Menu -->
-            <nav class="flex-1 px-4 py-6 text-sm">
-                <div class="font-semibold mb-3 ml-3">Umum</div>
+            <nav class="flex-1 px-4 text-sm">
+                <div class="font-bold mb-3 ml-3">Umum</div>
                 <div class="{{ request()->is('super_admin/dashboard') ? 'bg-white text-orange-500' : '' }} rounded-md">
                     <a href="{{ route('superadmin.dashboard') }}"
                         class="flex font-semibold items-center mb-4 gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
@@ -102,7 +100,7 @@
                 </div>
                 <div
                     class="{{ request()->is('super_admin/akun/freeze') || request()->is('super_admin/detail/freeze') ? 'bg-white text-orange-500' : '' }} rounded-md">
-                    <a href="/super_admin/akun/freeze"
+                    <a href="{{ route('superadmin.freeze') }}"
                         class="flex font-semibold items-center mb-1 gap-3 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="14" height="17" viewBox="0 0 14 17" fill="currentColor"
                             xmlns="http://www.w3.org/2000/svg">
@@ -115,7 +113,7 @@
                 </div>
                 <div class="{{ request()->is('super_admin/tips/kerja') ? 'bg-white text-orange-500' : '' }} rounded-md">
                     <a href="/super_admin/tips/kerja"
-                       class="flex font-semibold items-center mb-1 gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
+                        class="flex font-semibold items-center mb-1 gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -127,7 +125,7 @@
                 </div>
                 <div class="{{ request()->is('super_admin/event') ? 'bg-white text-orange-500' : '' }} rounded-md">
                     <a href="/super_admin/event"
-                       class="flex font-semibold items-center mb-1 gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
+                        class="flex font-semibold items-center mb-1 gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="20" height="21" viewBox="0 0 20 21" fill="currentColor"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -162,7 +160,8 @@
                         Link & Header
                     </a>
                 </div>
-                <div class="{{ request()->is('super_admin/pengaturan') ? 'bg-white text-orange-500' : '' }} rounded-md">
+                <div
+                    class="{{ request()->is('super_admin/pengaturan') ? 'bg-white text-orange-500' : '' }} rounded-md">
                     <a href="/super_admin/pengaturan"
                         class="flex font-semibold items-center mb-1 gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="16" height="17" viewBox="0 0 16 17" fill="currentColor"
@@ -173,6 +172,22 @@
                         </svg>
                         Pengaturan
                     </a>
+
+                </div>
+                <div>
+                    <form id="logout" action="" method="POST">
+                        @csrf
+                        <button onclick="openModal()"
+                            class="flex font-semibold text-white items-center gap-2 rounded-md px-3 py-2 transition duration-300">
+                            <svg width="18" height="19" viewBox="0 0 18 19" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M14 5.1709L12.59 6.5809L14.17 8.1709H6V10.1709H14.17L12.59 11.7509L14 13.1709L18 9.1709L14 5.1709ZM2 2.1709H9V0.170898H2C0.9 0.170898 0 1.0709 0 2.1709V16.1709C0 17.2709 0.9 18.1709 2 18.1709H9V16.1709H2V2.1709Z"
+                                    fill="currentColor" />
+                            </svg>
+                            Keluar
+                        </button>
+                    </form>
                 </div>
             </nav>
         </aside>
@@ -181,20 +196,20 @@
         <script src="{{ asset('js/super_admin.js') }}"></script>
         @include('finance.sidebar.modal-logout')
         <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
-          {{-- Preview gambar --}}
-     <script>
-        document.getElementById('fileinputsuperadmin').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                let reader = new FileReader();
-                reader.onload = function(event) {
-                    document.getElementById('pu').setAttribute('src', event.target.result);
-                    document.getElementById('pa').setAttribute('src', event.target.result);
+        {{-- Preview gambar --}}
+        <script>
+            document.getElementById('fileinputsuperadmin').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    let reader = new FileReader();
+                    reader.onload = function(event) {
+                        document.getElementById('pu').setAttribute('src', event.target.result);
+                        document.getElementById('pa').setAttribute('src', event.target.result);
+                    }
+                    reader.readAsDataURL(file);
                 }
-                reader.readAsDataURL(file);
-            }
-        });
-    </script>
+            });
+        </script>
 
 </body>
 

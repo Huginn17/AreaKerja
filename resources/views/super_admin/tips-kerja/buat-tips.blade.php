@@ -1,8 +1,8 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
     <main class="flex-1 p-6 bg-white overflow-y-auto">
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-medium">Tips Kerja</h1>
+        <div class="flex justify-between items-center mb-10">
+            <h1 class="text-2xl font-medium">Buat Post Baru</h1>
             <div class="flex items-center gap-3">
                 <svg width="31" height="32" viewBox="0 0 31 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_722_7956)">
@@ -25,7 +25,7 @@
                 </svg>
 
                 <div
-                    class="flex items-center justify-between w-96 h-14 bg-white border border-orange-500 shadow-md rounded-2xl px-3 py-4">
+                    class="flex items-center justify-between w-96 h-14 bg-white border border-orange-500 shadow-md rounded-2xl px-3 py-2">
                     <!-- Logo + Info -->
                     <div class="flex items-center gap-2 mr-2">
                         <a href="#">
@@ -48,65 +48,50 @@
         </div>
 
         {{-- content --}}
-        <div class="flex justify-center py-3">
-
-            <div class="w-full">
-                {{-- filter atas --}}
-
-                <div class="flex justify-between items-center">
-                    <div class="text-sm space-x-1">
-                        <span class="font-medium">Semua (6)</span> |
-                        <span class="text-blue-600">Telah Terbit <span class="text-gray-800">(5)</span></span> |
-                        <span class="text-blue-600">Draf <span class="text-gray-800">(1)</span></span>
+            <div class="mx-auto p-6">
+                <form action="{{ route('superadmin.tips-kerja.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="mb-4">
+                        <input type="text" name="title" placeholder="Judul artikel..."
+                            class="w-full border border-gray-300 rounded-lg px-3 py-2">
                     </div>
 
-                    <a href="{{ url('/super_admin/buat/tips') }}" class="bg-blue-400 text-white px-4 py-2 rounded-lg mb-3">Buat Post</a>
-                </div>
-
-                {{-- filter bawah --}}
-                <div class="flex justify-between items-center mb-4">
-                    <div class="flex space-x-4">
-                        <select name="" id="" class="border border-gray-300 rounded-lg px-8 py-2 text-sm">
-                            <option value="">Tanggal</option>
-                        </select>
-                        <button class="bg-gray-700 px-8 py-1 rounded-lg text-white">Terapkan</button>
-                        <button class="bg-red-600 text-white px-6 py-1 rounded-lg">Hapus</button>
+                    <div class="mb-3">
+                        <label for="uploadMedia"
+                            class="cursor-pointer px-4 py-2 bg-gray-100 border rounded-lg shadow hover:bg-gray-200 text-sm font-medium">
+                            Tambahkan Media
+                        </label>
+                        <input id="uploadMedia" type="file" name="image" hidden>
                     </div>
 
-                    <div class="flex space-x-4">
-                        <input type="text" placeholder="nama/tanggal..."
-                            class="border border-gray-300 rounded-lg px-2 py-1 text-sm">
-                        <button class="bg-gray-700 text-white px-9 py-2 rounded-lg">Cari</button>
+                    <div class="">
+                        <input id="x" type="hidden" name="content">
+                        <trix-editor input="x" class="trix-content"></trix-editor>
                     </div>
-                </div>
-                {{-- table --}}
-                <div class="rounded-lg overflow-hidden">
-                    <table class="w-full text-sm text-left">
-                        <thead class="bg-orange-600 text-white">
-                            <tr>
-                                <th class="px-4 py-3 w-10"><input type="checkbox"></th>
-                                <th class="px-4 py-3">Judul</th>
-                                <th class="px-4 py-3">Penulis</th>
-                                <th class="px-4 py-3">Tanggal</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @for ($i = 0; $i < 10; $i++)
-                                <tr class="{{ $i % 2 == 0 ? 'bg-gray-200' : 'bg-gray-100' }}">
-                                    <td class="px-4 py-4"><input type="checkbox"></td>
-                                    <td class="px-4 py-4 text-blue-600 font-medium">
-                                        Tips Bekerja Yang Tidak Membuatmu Stress
-                                    </td>
-                                    <td class="px-4 py-4 font-semibold">Zharif</td>
-                                    <td class="px-4 py-4 font-semibold">4/6/2004</td>
-                                </tr>
-                            @endfor
-                        </tbody>
-                    </table>
-                </div>
 
+                    <div class="flex justify-end gap-3 mt-4">
+                        <button class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg shadow">
+                            Simpan
+                        </button>
+                        <button class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg shadow">
+                            Batal
+                        </button>
+                    </div>
+                </form>
             </div>
-        </div>
-
+        {{-- Script inject gambar ke Trix --}}
+        <script>
+            document.getElementById("uploadMedia").addEventListener("change", function(e) {
+                let file = e.target.files[0];
+                if (file) {
+                    let reader = new FileReader();
+                    reader.onload = function(event) {
+                        const trixEditor = document.querySelector("trix-editor");
+                        trixEditor.editor.insertHTML(`<img src="${event.target.result}" class="my-3">`);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        </script>
     </main>
 @endsection

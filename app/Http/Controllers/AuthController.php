@@ -49,17 +49,25 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-       if (Auth::attempt($valid)) {
-            if (Auth::user()->role == 'super_admin') {
-                return redirect()->route('superadmin.dashboard');
-            } elseif (Auth::user()->role == 'admin') {
-                return redirect()->route('admin.dashboard');
-            } elseif (Auth::user()->role == 'pelamar') {
-                return redirect('/');
-            } elseif (Auth::user()->role == 'perusahaan') {
-                return redirect()->route('perusahaan.dashboard');
-            } elseif (Auth::user()->role == 'finance') {
-                return redirect()->route('finance.dashboard');
+        if (Auth::attempt($valid)) {
+            $user = Auth::user();
+            if ($user->status == 0) {
+                if (Auth::user()->role == 'super_admin') {
+                    return redirect()->route('superadmin.dashboard');
+                } elseif (Auth::user()->role == 'admin') {
+                    return redirect()->route('admin.dashboard');
+                } elseif (Auth::user()->role == 'pelamar') {
+                    return redirect('/');
+                } elseif (Auth::user()->role == 'perusahaan') {
+                    return redirect()->route('perusahaan.dashboard');
+                } elseif (Auth::user()->role == 'finance') {
+                    return redirect()->route('finance.dashboard');
+                }
+            } else {
+                Auth::logout();
+                return back()->withErrors([
+                    'username' => 'Akun anda tidak aktif',
+                ]);
             }
         } else {
             return back()->withErrors([
@@ -308,18 +316,18 @@ class AuthController extends Controller
 
 
     //LOGIN SUPER ADMIN
-     public function login_superadmin()
+    public function login_superadmin()
     {
         return view('super_admin.auth.login');
     }
-     public function loginproses_superadmin(Request $request)
+    public function loginproses_superadmin(Request $request)
     {
         $val = $request->validate([
             'username' => 'required',
             'password' => 'required',
         ]);
 
-          if (Auth::attempt($val)) {
+        if (Auth::attempt($val)) {
             if (Auth::user()->role == "super_admin") {
                 return redirect()->route('superadmin.dashboard');
             }
@@ -328,7 +336,7 @@ class AuthController extends Controller
         }
     }
 
-     public function regis_super_admin()
+    public function regis_super_admin()
     {
         return view('super_admin.auth.register');
     }
@@ -418,7 +426,7 @@ class AuthController extends Controller
 
 
     //ADMIN
-    
+
 
     public function verif_admin()
     {
@@ -442,9 +450,9 @@ class AuthController extends Controller
 
 
     //SUPER ADMIN 
-   
 
-   
+
+
 
     public function verif_super_admin()
     {

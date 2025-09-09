@@ -22,6 +22,9 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'verified',
+        'status',
+        'alasan_freeze_akun',
     ];
 
     /**

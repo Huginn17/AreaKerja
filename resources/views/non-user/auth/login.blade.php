@@ -127,7 +127,7 @@
                     </div>
                     <div class="flex justify-center">
                         <button type="submit"
-                            class="w-52 h-14 bg-orange-500 text-white py-2.5 rounded-full font-small text-sm hover:bg-orange-600 transition">
+                            class="w-52 h-14 bg-orange-500 text-white py-2.5 rounded-full font-normal text-md hover:bg-orange-600 transition duration-300 hover:scale-95">
                             MASUK
                         </button>
                     </div>

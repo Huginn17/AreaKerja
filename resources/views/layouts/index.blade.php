@@ -38,7 +38,7 @@
             </div>
 
             {{-- Menu --}}
-            <nav class="hidden md:flex gap-6 font-medium text-orange-500">
+            <nav class="hidden md:flex gap-6 font-semibold text-orange-500">
                 <a href="{{ url('/beranda') }}" class="hover:text-orange-700">Beranda</a>
                 <a href="{{ url('/talent-hunter') }}" class="hover:text-orange-700">Talent Hunter</a>
                 <a href="{{ url('/tips-kerja') }}" class="hover:text-orange-700">Tips Kerja</a>

@@ -5,7 +5,7 @@
         <div class="grid grid-cols-2 gap-8 mb-10">
             <!-- Logo Perusahaan -->
             <div>
-                <label class=" text-sm font-medium mb-3">Logo Perusahaan</label>
+                <label class=" text-lg font-medium mb-3">Logo Perusahaan</label>
                 <div class="flex gap-6 items-center">
                     <!-- Logo -->
                     <div class="w-48 h-48 flex items-center justify-center overflow-hidden">
@@ -14,19 +14,23 @@
                     <!-- Tombol Upload & Remove -->
                     <div class="flex flex-col gap-3">
                         <button
-                            class="flex items-center gap-2 px-4 py-2 text-sm border-2 border-orange-500 text-orange-500 rounded-md hover:bg-orange-50">
+                            class="flex items-center gap-2 px-4 py-2 text-sm border-4 border-orange-500 text-orange-500 rounded-md hover:bg-orange-50">
                             <!-- Icon upload -->
-                            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M4.70151 4.04985L6.00476 2.64706V8.49608C6.00476 8.65783 6.06472 8.81297 6.17145 8.92735C6.27818 9.04173 6.42293 9.10598 6.57387 9.10598C6.72481 9.10598 6.86956 9.04173 6.97629 8.92735C7.08302 8.81297 7.14297 8.65783 7.14297 8.49608V2.64706L8.44623 4.04985C8.49913 4.10701 8.56208 4.15239 8.63143 4.18335C8.70078 4.21431 8.77516 4.23026 8.85029 4.23026C8.92542 4.23026 8.99981 4.21431 9.06916 4.18335C9.13851 4.15239 9.20145 4.10701 9.25436 4.04985C9.3077 3.99315 9.35004 3.92569 9.37893 3.85137C9.40782 3.77705 9.4227 3.69733 9.4227 3.61681C9.4227 3.5363 9.40782 3.45658 9.37893 3.38226C9.35004 3.30793 9.3077 3.24048 9.25436 3.18378L6.97793 0.744145C6.92381 0.688618 6.85999 0.645092 6.79013 0.616064C6.65157 0.555062 6.49616 0.555062 6.35761 0.616064C6.28775 0.645092 6.22393 0.688618 6.1698 0.744145L3.89338 3.18378C3.84032 3.24064 3.79823 3.30815 3.76951 3.38246C3.74079 3.45676 3.72601 3.53639 3.72601 3.61681C3.72601 3.69723 3.74079 3.77687 3.76951 3.85117C3.79823 3.92547 3.84032 3.99298 3.89338 4.04985C3.94644 4.10671 4.00944 4.15182 4.07877 4.1826C4.1481 4.21338 4.2224 4.22922 4.29745 4.22922C4.37249 4.22922 4.4468 4.21338 4.51613 4.1826C4.58545 4.15182 4.64845 4.10671 4.70151 4.04985ZM11.6958 6.66635C11.5449 6.66635 11.4001 6.73061 11.2934 6.84499C11.1867 6.95937 11.1267 7.1145 11.1267 7.27626V10.9357C11.1267 11.0975 11.0668 11.2526 10.96 11.367C10.8533 11.4814 10.7085 11.5456 10.5576 11.5456H2.59013C2.43919 11.5456 2.29444 11.4814 2.18771 11.367C2.08098 11.2526 2.02102 11.0975 2.02102 10.9357V7.27626C2.02102 7.1145 1.96106 6.95937 1.85434 6.84499C1.74761 6.73061 1.60285 6.66635 1.45192 6.66635C1.30098 6.66635 1.15623 6.73061 1.0495 6.84499C0.942772 6.95937 0.882813 7.1145 0.882812 7.27626V10.9357C0.882813 11.421 1.06269 11.8864 1.38287 12.2295C1.70306 12.5727 2.13732 12.7654 2.59013 12.7654H10.5576C11.0104 12.7654 11.4447 12.5727 11.7649 12.2295C12.085 11.8864 12.2649 11.421 12.2649 10.9357V7.27626C12.2649 7.1145 12.205 6.95937 12.0982 6.84499C11.9915 6.73061 11.8468 6.66635 11.6958 6.66635Z" fill="#FA6601" />
-                            </svg>
+                            <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                           <path fill-rule="evenodd" clip-rule="evenodd" d="M7.368 9.29246C7.782 9.29246 8.118 9.62846 8.118 10.0425C8.118 10.4565 7.782 10.7925 7.368 10.7925H6.435C4.816 10.7925 3.5 12.1085 3.5 13.7265V18.6015C3.5 20.2205 4.816 21.5365 6.435 21.5365H17.565C19.183 21.5365 20.5 20.2205 20.5 18.6015V13.7175C20.5 12.1045 19.188 10.7925 17.576 10.7925H16.633C16.219 10.7925 15.883 10.4565 15.883 10.0425C15.883 9.62846 16.219 9.29246 16.633 9.29246H17.576C20.015 9.29246 22 11.2775 22 13.7175V18.6015C22 21.0475 20.01 23.0365 17.565 23.0365H6.435C3.99 23.0365 2 21.0475 2 18.6015V13.7265C2 11.2815 3.99 9.29246 6.435 9.29246H7.368ZM12.5306 2.72006L15.4466 5.64806C15.7386 5.94206 15.7376 6.41606 15.4446 6.70806C15.1506 7.00006 14.6766 7.00006 14.3846 6.70606L12.749 5.06481L12.7496 16.0394H11.2496L11.249 5.06481L9.6156 6.70606C9.4696 6.85406 9.2766 6.92706 9.0846 6.92706C8.8936 6.92706 8.7016 6.85406 8.5556 6.70806C8.2626 6.41606 8.2606 5.94206 8.5536 5.64806L11.4686 2.72006C11.7496 2.43706 12.2496 2.43706 12.5306 2.72006Z" fill="#FA6601"/>
+                           </svg>
+
                             Upload
                         </button>
                         <button
-                            class="flex items-center gap-2 px-4 py-2 mt-1 text-sm border-2 border-gray-400 text-gray-500 rounded-md hover:bg-gray-100">
+                            class="flex items-center gap-2 px-4 py-2 mt-1 text-sm border-4 border-gray-400 text-gray-500 rounded-md hover:bg-gray-100">
                             <!-- Icon trash -->
-                            <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M11.7907 2.77852H9.4194V2.30947C9.4194 1.93628 9.2695 1.57837 9.00268 1.31448C8.73586 1.05059 8.37397 0.902344 7.99663 0.902344H5.1511C4.77376 0.902344 4.41188 1.05059 4.14506 1.31448C3.87824 1.57837 3.72834 1.93628 3.72834 2.30947V2.77852H1.35707C1.23129 2.77852 1.11066 2.82793 1.02172 2.9159C0.932779 3.00386 0.882813 3.12316 0.882812 3.24756C0.882813 3.37196 0.932779 3.49126 1.02172 3.57922C1.11066 3.66719 1.23129 3.7166 1.35707 3.7166H1.83132V12.1594C1.83132 12.4082 1.93125 12.6468 2.10913 12.8227C2.28701 12.9986 2.52827 13.0975 2.77983 13.0975H10.3679C10.6195 13.0975 10.8607 12.9986 11.0386 12.8227C11.2165 12.6468 11.3164 12.4082 11.3164 12.1594V3.7166H11.7907C11.9165 3.7166 12.0371 3.66719 12.126 3.57922C12.215 3.49126 12.2649 3.37196 12.2649 3.24756C12.2649 3.12316 12.215 3.00386 12.126 2.9159C12.0371 2.82793 11.9165 2.77852 11.7907 2.77852ZM4.67685 2.30947C4.67685 2.18508 4.72682 2.06577 4.81576 1.97781C4.9047 1.88985 5.02532 1.84043 5.1511 1.84043H7.99663C8.12241 1.84043 8.24304 1.88985 8.33198 1.97781C8.42092 2.06577 8.47089 2.18508 8.47089 2.30947V2.77852H4.67685V2.30947ZM10.3679 12.1594H2.77983V3.7166H10.3679V12.1594ZM5.62536 6.06182V9.81416C5.62536 9.93856 5.57539 10.0579 5.48645 10.1458C5.39751 10.2338 5.27689 10.2832 5.1511 10.2832C5.02532 10.2832 4.9047 10.2338 4.81576 10.1458C4.72682 10.0579 4.67685 9.93856 4.67685 9.81416V6.06182C4.67685 5.93742 4.72682 5.81812 4.81576 5.73015C4.9047 5.64219 5.02532 5.59278 5.1511 5.59278C5.27689 5.59278 5.39751 5.64219 5.48645 5.73015C5.57539 5.81812 5.62536 5.93742 5.62536 6.06182ZM8.47089 6.06182V9.81416C8.47089 9.93856 8.42092 10.0579 8.33198 10.1458C8.24304 10.2338 8.12241 10.2832 7.99663 10.2832C7.87085 10.2832 7.75022 10.2338 7.66128 10.1458C7.57234 10.0579 7.52238 9.93856 7.52238 9.81416V6.06182C7.52238 5.93742 7.57234 5.81812 7.66128 5.73015C7.75022 5.64219 7.87085 5.59278 7.99663 5.59278C8.12241 5.59278 8.24304 5.64219 8.33198 5.73015C8.42092 5.81812 8.47089 5.93742 8.47089 6.06182Z" fill="#606060" />
-                            </svg>
+                            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+           <path d="M19.8238 9.96875C19.8238 9.96875 19.2808 16.7037 18.9658 19.5407C18.8158 20.8957 17.9788 21.6897 16.6078 21.7147C13.9988 21.7617 11.3868 21.7647 8.77881 21.7097C7.45981 21.6827 6.63681 20.8787 6.48981 19.5477C6.17281 16.6857 5.63281 9.96875 5.63281 9.96875" stroke="#878686" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M21.208 6.73828H4.25" stroke="#878686" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M17.9386 6.739C17.1536 6.739 16.4776 6.184 16.3236 5.415L16.0806 4.199C15.9306 3.638 15.4226 3.25 14.8436 3.25H10.6106C10.0316 3.25 9.52362 3.638 9.37362 4.199L9.13062 5.415C8.97662 6.184 8.30063 6.739 7.51562 6.739" stroke="#878686" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+
                             Remove
                         </button>
                     </div>
@@ -37,18 +41,21 @@
             <div class="space-y-4">
                 <div>
                     <label class=" text-sm font-medium">Nama Perusahaan</label>
-                    <input type="text"
-                        class="w-full mt-2 border-2 border-orange-500 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-500">
+               <input type="text" class="w-full mt-2 border-4 border-orange-500 rounded-md p-2 focus:outline-none">
+
+
                 </div>
                 <div>
                     <label class=" text-sm font-medium">Bidang Perusahaan</span></label>
-                    <input type="text"
-                        class="w-full mt-2 border-2 border-orange-500 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-500">
+                   <input type="text" class="w-full mt-2 border-4 border-orange-500 rounded-md p-2 focus:outline-none">
+
+
                 </div>
                 <div>
                     <label class=" text-sm font-medium">Alamat Perusahaan</label>
-                    <input type="text" value="Kantor 1"
-                        class="w-full mt-2 border-2 border-orange-500 bg-orange-500 text-white rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-orange-500">
+              <input type="text" class="w-full mt-2 border-4 border-orange-500 rounded-md p-2 focus:outline-none">
+
+
                 </div>
             </div>
         </div>
@@ -65,21 +72,25 @@
                 <!-- Badan Usaha -->
                 <div>
                     <label class=" text-sm font-semibold mb-1">Badan Usaha</label>
-                    <select class="w-full mt-2 border-2 border-orange-500 rounded-md p-2 focus:outline-none">
+                    <select class="w-full mt-2 border-4 border-orange-500 rounded-md p-2 focus:outline-none">
+
                         <option>Pilih badan usaha</option>
+                        <option>PT</option>
+                        <option>BUMN</option>
+
                     </select>
                 </div>
                 <!-- Visi -->
                 <div>
                     <label class=" text-sm font-semibold mb-1">Visi</label>
-                    <input type="text"
-                        class="w-full mt-2 border-2 border-orange-500 rounded-md p-2 py-8 focus:outline-none">
+                   <input type="text" class="w-full mt-2 border-4 border-orange-500 rounded-md p-2 focus:outline-none">
+
                 </div>
                 <!-- Deskripsi -->
                 <div>
                     <label class=" text-sm font-semibold mb-1">Deskripsi</label>
-                    <input type="text"
-                        class="w-full mt-2 border-2 border-orange-500 rounded-md p-2 py-8 focus:outline-none">
+                 <input type="text" class="w-full mt-2 border-4 border-orange-500 rounded-md p-2 focus:outline-none">
+
                 </div>
             </div>
 
@@ -96,7 +107,8 @@
                         </svg>
                         Website
                     </label>
-                    <input type="text" class="w-full mt-2 border-2 border-orange-500 rounded-md p-2 focus:outline-none">
+                    <input type="text" class="w-full mt-2 border-4 border-orange-500 rounded-md p-2 focus:outline-none">
+
                 </div>
                 <!-- Email -->
                 <div>
@@ -109,7 +121,8 @@
                         </svg>
                         Email
                     </label>
-                    <input type="email" class="w-full mt-2 border-2 border-orange-500 rounded-md p-2 focus:outline-none">
+                   <input type="text" class="w-full mt-2 border-4 border-orange-500 rounded-md p-2 focus:outline-none">
+
                 </div>
                 <!-- Whatsapp -->
                 <div>
@@ -122,7 +135,8 @@
                         </svg>
                         Whatsapp
                     </label>
-                    <input type="text" class="w-full mt-2 border-2 border-orange-500 rounded-md p-2 focus:outline-none">
+                  <input type="text" class="w-full mt-2 border-4 border-orange-500 rounded-md p-2 focus:outline-none">
+
                 </div>
                 <!-- Linkedin -->
                 <div>
@@ -135,7 +149,8 @@
                         </svg>
                         Linkedin
                     </label>
-                    <input type="text" class="w-full mt-2 border-2 border-orange-500 rounded-md p-2 focus:outline-none">
+                   <input type="text" class="w-full mt-2 border-4 border-orange-500 rounded-md p-2 focus:outline-none">
+
                 </div>
             </div>
         </div>
@@ -143,8 +158,9 @@
         <!-- MISI full width -->
         <div class="mt-6 space-y-3">
             <label class=" text-sm font-semibold mb-1">Misi</label>
-            <input type="text" class="w-full border-2 border-orange-500 rounded-md p-2 focus:outline-none">
-            <input type="text" class="w-full border-2 border-orange-500 rounded-md p-2 focus:outline-none">
+           <input type="text" class="w-full mt-2 border-4 border-orange-500 rounded-md p-2 focus:outline-none">
+        <input type="text" class="w-full mt-2 border-4 border-orange-500 rounded-md p-2 focus:outline-none">
+
         </div>
 
 
@@ -155,7 +171,7 @@
         <!-- Tombol -->
         <div class="flex justify-end gap-3 mt-8">
             <button
-                class="px-10 py-2 border-2 border-orange-500 text-orange-500 rounded-md hover:bg-orange-50">Batal</button>
+                class="px-10 py-2 border-4 border-orange-500 text-orange-500 rounded-md hover:bg-orange-50">Batal</button>
             <button class="px-8 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600">Simpan</button>
         </div>
     </div>

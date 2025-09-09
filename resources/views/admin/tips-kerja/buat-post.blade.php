@@ -33,4 +33,18 @@
             </form>
         </div>
     </div>
+    {{-- Script inject gambar ke Trix --}}
+    <script>
+        document.getElementById("uploadMedia").addEventListener("change", function(e) {
+            let file = e.target.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(event) {
+                    const trixEditor = document.querySelector("trix-editor");
+                    trixEditor.editor.insertHTML(`<img src="${event.target.result}" class="my-3">`);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 @endsection

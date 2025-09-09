@@ -13,6 +13,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\TipsKerjaController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -45,12 +46,6 @@ use Illuminate\Support\Str;
 //         return "❌ Gagal mengirim OTP: " . $e->getMessage();
 //     }
 // });
-
-
-
-
-
-
 
 
 
@@ -93,7 +88,7 @@ Route::get('/email/verify/{token}', [EmailVerificationController::class, 'verify
 
 
 //CRUD PROFILE
-Route::prefix('pelamar')->middleware('auth', 'role:pelamar')->group(function () {
+Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index')->middleware('auth');
     Route::put('/update/profile/{pelamar:id}', [ProfileController::class, 'update_profile'])->name('profile.update')->middleware('auth');
@@ -221,7 +216,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout/finance', [AuthController::class, 'logout_finance'])->name('logout_finance');
 });
 
-Route::prefix('finance')->middleware('auth', 'role:finance')->group(function () {
+Route::prefix('finance')->middleware('auth', 'role:finance', 'CheckUserStatus')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'beranda_finance'])->name('finance.dashboard');
 
     Route::get('/verifikasi', [AuthController::class, 'verif_finance']);
@@ -266,7 +261,7 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::prefix('admin')->middleware('auth', 'role:admin')->group(function () {
+Route::prefix('admin')->middleware('auth', 'role:admin', 'CheckUserStatus')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'beranda_admin'])->name('admin.dashboard');
 
     //PROFILE ADMIN
@@ -287,7 +282,6 @@ Route::prefix('admin')->middleware('auth', 'role:admin')->group(function () {
     Route::get('/tips/kerja/create', [TipsKerjaController::class, 'tips_kerja_buat_post'])->name('admin.tips-kerja.createForm');
     Route::put('/update/status/', [TipsKerjaController::class, 'update_status'])->name('admin.tips-kerja.update.status');
     Route::delete('/delete', [TipsKerjaController::class, 'destroy'])->name('admin.tips-kerja.destroy');
-
 });
 
 Route::get('/admin/pelamar', function () {
@@ -386,7 +380,7 @@ Route::middleware('auth')->group(function () {
 
 
 
-Route::prefix('super_admin')->middleware('auth', 'role:super_admin')->group(function () {
+Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserStatus')->group(function () {
     Route::get('/dashboard', [SuperAdminController::class, 'index'])->name('superadmin.dashboard');
 
 
@@ -395,6 +389,21 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin')->group(func
     Route::get('/edit/profile', [SuperAdminController::class, 'edit_profile'])->name('superadmin.edit.profile');
     Route::put('/update/profile/{superadmin:id}', [SuperAdminController::class, 'update_profile_superadmin'])->name('superadmin.update.profile');
     Route::delete('/delete/profile/{superadmin:id}', [SuperAdminController::class, 'destroy_profile'])->name('superadmin.destroy.profile');
+
+    //FREEZE AKUN   
+    Route::get('/freeze', [SuperAdminController::class, 'freezeForm'])->name('superadmin.freeze');
+    Route::get('/freeze/detail/{user:id}', [SuperAdminController::class, 'detail_freeze'])->name('superadmin.detail.freeze');
+    Route::put('/freeze/ban/{user:id}', [SuperAdminController::class, 'ban'])->name('superadmin.ban.freeze');
+    Route::put('/freeze/unban/{user:id}', [SuperAdminController::class, 'unban'])->name('superadmin.unban.freeze');
+    Route::delete('/delete/akun/{user:id}', [SuperAdminController::class, 'delete_akun'])->name('superadmin.delete.akun');
+
+    
+    //TIPS KERJA POST
+    Route::get('/tips/kerja', [TipsKerjaController::class, 'index_superadmin'])->name('superadmin.tips-kerja');
+    Route::post('/tips/kerja/', [TipsKerjaController::class, 'store_tips_kerja_superadmin'])->name('superadmin.tips-kerja.store');
+    Route::get('/tips/kerja/create', [TipsKerjaController::class, 'tips_kerja_buat_post_superadmin'])->name('superadmin.tips-kerja.createForm');
+    Route::put('/update/status/', [TipsKerjaController::class, 'update_status_superadmin'])->name('superadmin.tips-kerja.update.status');
+    Route::delete('/delete', [TipsKerjaController::class, 'destroy_superadmin'])->name('superadmin.tips-kerja.destroy');
 });
 
 
@@ -462,14 +471,6 @@ Route::get('/super_admin/add', function () {
 });
 Route::get('/super_admin/add/edit', function () {
     return view('super_admin.edit-addprofile');
-});
-
-
-Route::get('/super_admin/tips/kerja', function () {
-    return view('super_admin.tips-kerja');
-});
-Route::get('/super_admin/buat/tips', function () {
-    return view('super_admin.buat-tips');
 });
 
 
@@ -561,7 +562,7 @@ Route::prefix('perusahaan')->middleware('guest')->group(function () {
 });
 
 
-Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan')->group(function () {
+Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserStatus')->group(function () {
     //PROFILE PERUSAHAAN
     Route::get('/profile', [PerusahaanController::class, 'profile_perusahaan'])->name('profile.perusahaan');
     Route::get('/edit/profile', [PerusahaanController::class, 'edit_profile'])->name('profile.edit.perusahaan');
@@ -569,7 +570,7 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan')->group(functi
     Route::delete('/delete/profile/{perusahaan:id}', [PerusahaanController::class, 'destroy_profile'])->name('profile.destroy.perusahaan');
 
     //ALAMAT PERUSAHAAN
-    Route::get('//alamat', [PerusahaanController::class, 'alamat_perusahaan'])->name('alamat.perusahaan');
+    Route::get('/alamat', [PerusahaanController::class, 'alamat_perusahaan'])->name('alamat.perusahaan');
     Route::get('/form/alamat', [PerusahaanController::class, 'form_alamat'])->name('form.alamat.perusahaan');
 
     Route::post('/create/alamat', [PerusahaanController::class, 'store_alamat'])->name('alamat.store.perusahaan');

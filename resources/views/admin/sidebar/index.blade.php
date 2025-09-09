@@ -309,6 +309,8 @@
             document.getElementById("logout_admin").submit();
         });
     </script>
+
+    
 </body>
 
 </html>

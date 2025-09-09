@@ -51,7 +51,7 @@
         <div class="w-full">
             <div class="block lg:flex justify-between items-center mb-4">
                 <div class="space-x-2 grid grid-cols-2 gap-2 lg:inline md:inline mb-5 lg:mb-0">
-                   <a href="{{ url('admin/buat/event') }}"
+                   <a href="{{ url('/super_admin/event/buat') }}"
                         class="bg-blue-500 hover:bg-blue-400 transition duration-300 text-white px-4 py-2 rounded-md">Buat
                         Post</a>
                 </div>

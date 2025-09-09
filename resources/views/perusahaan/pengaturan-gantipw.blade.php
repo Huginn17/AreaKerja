@@ -16,7 +16,7 @@
                 <div class="w-full max-w-2xl space-y-6">
 
                     <!-- Tombol Ganti Password -->
-                    <button class="w-full bg-orange-600 text-white font-medium py-3 rounded-lg text-left pl-4">
+                    <button class="w-full bg-orange-500 text-white font-medium py-3 rounded-lg text-left pl-4">
                         Ganti Password
                     </button>
 
@@ -26,26 +26,26 @@
                         <div class="flex items-center gap-6">
                             <label class="w-56 text-gray-800">Kata Sandi Lama</label>
                             <input type="text" placeholder="Teknik Informatika"
-                                class="flex-1 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" />
+                                class="flex-1 border border-gray-400 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" />
                         </div>
 
                         <!-- Kata Sandi Baru -->
                         <div class="flex items-center gap-6">
                             <label class="w-56 text-gray-800">Kata Sandi Baru</label>
                             <input type="text" placeholder="Teknik Informatika"
-                                class="flex-1 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" />
+                                class="flex-1 border border-gray-400 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" />
                         </div>
 
                         <!-- Masukkan Kembali Kata Sandi Baru -->
                         <div class="flex items-center gap-6">
                             <label class="w-56 text-gray-800">Masukkan Kembali Kata Sandi Baru</label>
                             <input type="text" placeholder="Teknik Informatika"
-                                class="flex-1 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" />
+                                class="flex-1 border border-gray-400 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" />
                         </div>
                     </div>
 
                     <!-- Tombol Ganti Email -->
-                    <button class="w-full bg-orange-600 text-white font-medium py-3 rounded-lg text-left pl-4">
+                    <button class="w-full bg-orange-500 text-white font-medium py-3 rounded-lg text-left pl-4">
                         Ganti Email
                     </button>
 

@@ -26,7 +26,7 @@
                 </svg>
 
                 <div
-                    class="flex items-center justify-between w-96 h-14 bg-white border border-orange-500 shadow-md rounded-2xl px-3 py-2">
+                    class="flex items-center justify-between w-30 h-14 bg-white border border-orange-500 shadow-md rounded-2xl px-3 py-2">
                     <!-- Logo + Info -->
                     <div class="flex items-center gap-2 mr-2">
                         <a href="#">
@@ -57,12 +57,12 @@
             <div class="mb-10">
                 <div class="flex justify-between items-center mb-2">
                     <h2 class=" text-lg font-semibold mb-2">Tampilkan Omset Perusahaan</h2>
-                    <select class="border border-orange-500 rounded-lg px-3 py-2 text-sm ml-[50%]">
+                    <select class="border-2 border-orange-500 rounded-lg px-3 py-2 text-sm ml-[50%]">
                         <option selected">Bulan</option>
                         <option value="">1 Bulan Terakhir</option>
                         <option value="">3 Bulan Terakhir</option>
                     </select>
-                    <button class="bg-orange-500 text-white text-sm px-8 py-3 font-medium rounded-2xl ml-auto">Cari</button>
+                    <button class="bg-orange-500 text-white text-sm px-10 py-3 font-medium rounded-2xl ml-auto">Cari</button>
                 </div>
                 <div class="border border-gray-300 rounded-2xl overflow-hidden w-full">
 
@@ -78,6 +78,70 @@
                             <div>RP. 3.000.000</div>
                         </div>
                     </div>
+
+
+
+                         {{-- isi tabel --}}
+                    <div class="divider-y divide-gray-300 bg-white">
+                        <div class="flex justify-between font-semibold items-center px-4 py-3">
+                            <div>Januari 2023</div>
+                            <div>RP. 3.000.000</div>
+                        </div>
+                    </div>
+
+
+                         {{-- isi tabel --}}
+                    <div class="divider-y divide-gray-300 bg-white">
+                        <div class="flex justify-between font-semibold items-center px-4 py-3">
+                            <div>Januari 2023</div>
+                            <div>RP. 3.000.000</div>
+                        </div>
+                    </div>
+
+
+                         {{-- isi tabel --}}
+                    <div class="divider-y divide-gray-300 bg-white">
+                        <div class="flex justify-between font-semibold items-center px-4 py-3">
+                            <div>Januari 2023</div>
+                            <div>RP. 3.000.000</div>
+                        </div>
+                    </div>
+
+
+                         {{-- isi tabel --}}
+                    <div class="divider-y divide-gray-300 bg-white">
+                        <div class="flex justify-between font-semibold items-center px-4 py-3">
+                            <div>Januari 2023</div>
+                            <div>RP. 3.000.000</div>
+                        </div>
+                    </div>
+
+
+                         {{-- isi tabel --}}
+                    <div class="divider-y divide-gray-300 bg-white">
+                        <div class="flex justify-between font-semibold items-center px-4 py-3">
+                            <div>Januari 2023</div>
+                            <div>RP. 3.000.000</div>
+                        </div>
+                    </div>
+
+
+                         {{-- isi tabel --}}
+                    <div class="divider-y divide-gray-300 bg-white">
+                        <div class="flex justify-between font-semibold items-center px-4 py-3">
+                            <div>Januari 2023</div>
+                            <div>RP. 3.000.000</div>
+                        </div>
+                    </div>
+
+
+                         {{-- isi tabel --}}
+                    <div class="divider-y divide-gray-300 bg-white">
+                        <div class="flex justify-between font-semibold items-center px-4 py-3">
+                            <div>Januari 2023</div>
+                            <div>RP. 3.000.000</div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -85,9 +149,9 @@
                 <li class="py-2">Total Omset<span class="pl-3">: RP. 24.000.000</span></li>
                 <li class="py-2">Rata Rata<span class="pl-8">: RP. 3.000.000</span></li>
             </ul>
-            <div class="border border-orange-500 mt-5"></div>
+            <div class="border border-orange-500 mt-2"></div>
             <div class="mt-5">
-                <button class="bg-orange-500 text-white text-xs px-8 py-2 font-medium rounded-full ml-auto"
+                <button class="bg-orange-500 hover:bg-orange-600 text-white text-xs px-8 py-2 font-medium rounded-full ml-auto"
                     type="submit">Unduh</button>
             </div>
         </div>

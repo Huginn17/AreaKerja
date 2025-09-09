@@ -23,11 +23,14 @@ class SuperAdminController extends Controller
     }
     public function edit_profile(SuperAdmin $superadmin)
     {
-        return view('super_admin.profile.edit-profile-superadmin',
-         ["data" => $superadmin
-        ]);
+        return view(
+            'super_admin.profile.edit-profile-superadmin',
+            [
+                "data" => $superadmin
+            ]
+        );
     }
-    public function update_profile_superadmin(Request $request , SuperAdmin $superadmin)
+    public function update_profile_superadmin(Request $request, SuperAdmin $superadmin)
     {
 
         $validated = $request->validate([
@@ -48,10 +51,10 @@ class SuperAdminController extends Controller
         ]);
 
         $user = User::where('id', Auth::user()->id);
-       if ($user) {
+        if ($user) {
             $user->update($validated);
         }
-        
+
         $superadmin = SuperAdmin::where('id', Auth::user()->id)->first();
 
         if ($request->hasFile('img_profile')) {
@@ -72,7 +75,7 @@ class SuperAdminController extends Controller
     }
 
 
-     public function destroy_profile(SuperAdmin $superadmin)
+    public function destroy_profile(SuperAdmin $superadmin)
     {
         if ($superadmin->img_profile && Storage::exists('public/' . $superadmin->img_profile)) {
             Storage::delete('public/' . $superadmin->img_profile);
@@ -82,4 +85,46 @@ class SuperAdminController extends Controller
         $superadmin->save();
         return redirect()->route('superadmin.edit.profile')->with('success', 'Profile berhasil dihapus');
     }
+
+
+    //AKUN FREEZE
+    public function freezeForm()
+    {
+        return view('super_admin.freeze.freeze', [
+            "data" => User::all()
+        ]);
+    }
+
+    public function ban(Request $request, User $user)
+    {
+        // dd($request->all());
+        $data = $request->validate([
+            'status' => 'required|boolean'
+        ]);
+        $user->update($data);
+        return redirect()->route('superadmin.freeze')->with('success', 'Akun berhasil di freeze');
+    }
+
+    public function unban(Request $request, User $user)
+    {
+        $data = $request->validate([
+            'status' => 'required|boolean'
+        ]);
+        $user->update($data);
+        return redirect()->route('superadmin.freeze')->with('success', 'Akun berhasil di unfreeze');
+    }
+
+    public function delete_akun(User $user)
+    {
+        $user->delete($user->id);
+        return redirect()->route('superadmin.freeze')->with('success', 'Akun berhasil dihapus');
+    }
+
+    public function detail_freeze(User $user)
+    {
+        return view('super_admin.freeze.detail-freeze', [
+            "data" => $user
+        ]);
+    }
+
 }

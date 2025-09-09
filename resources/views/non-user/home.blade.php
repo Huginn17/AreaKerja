@@ -5,7 +5,7 @@
         <div class="max-w-5xl mx-auto px-5">
             <div
                 class="flex flex-col md:flex-row py-3 border border-gray-500 items-center text-gray-700 font-semibold rounded-xl shadow-md">
-                <img src="{{ asset('images/search.png') }}" alt="search" class="w-5 h-5 ml-7 mb-1">
+                <img src="{{ asset('images/search.png') }}" alt="search" class="w-5 h-5 ml-7 mb-1 ">
                 <input type="text" placeholder="Posisi lowongan, kata kunci, ..." class="flex-1 px-7 py-3  w-full">
                 <svg width="2" height="35" viewBox="0 0 2 35" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M1 0V35" stroke="black" stroke-opacity="0.4" />
@@ -19,7 +19,7 @@
             </div>
             <div class="mt-8">
                 <p class="text-center text-lg">
-                    <span class="text-orange-500 font-semibold">Lamar Pekerjaan Kamu</span> <span class="font-semibold">-
+                    <span class="text-orange-500 font-semibold">Lamar Pekerjaan Kamu</span> <span class="font-semibold text-gray-500">-
                         Dengan
                         waktu dan langkah yang cepat</span>
                 </p>
@@ -30,7 +30,7 @@
     <!-- Kategori Populer -->
     <section class="max-w-5xl mx-auto px-4 py-8">
         <h4 class="mb-4 text-lg font-semibold text-gray-900 dark:text-white">KATEGORI PEKERJAAN POPULER </h4>
-     <div class="grid grid-cols-5 gap-4 font-semibold text-xl">
+     <div class="grid grid-cols-5 gap-4 font-semibold text-xl transition-duration-300 py-4">
     @foreach (['Teknologi', 'Pelayanan', 'Administrasi', 'Pemasaran','🔥 Full Time', 'Pendidik', 'Customer Service', 'Keuangan','Kasir', '🌐 WFO/WFH', 'Admin', 'Programmer','Marketing', 'Multimedia','🎓 Graduate'] as $kategori)
         @php
             $isFullTime = $kategori === '🔥 Full Time';
@@ -46,7 +46,8 @@
                            ($isGraduate ? 'border-l-4 border-orange-500' : ''));
         @endphp
 
-        <span class="px-4 py-3 border border-gray-300 rounded text-sm bg-white hover:bg-gray-50 cursor-pointer flex items-center justify-start shadow-sm {{ $textClass }} {{ $borderClass }}">
+      <span class="h-14 w-full px-4 py-3 border border-gray-300 rounded text-sm bg-white hover:bg-gray-50 cursor-pointer flex items-center justify-center text-center shadow-sm {{ $textClass }} {{ $borderClass }}">
+
             @if ($isFullTime)
                 <span class="mr-2">🔥</span>
                 <span>Full Time</span>
@@ -68,10 +69,10 @@
     <!-- Tabs -->
     <div class="flex justify-center border-b">
         <div class="max-w-5xl mx-auto flex gap-6 px-4 text">
-            <a href="#" class="py-3 border-b-2 border-orange-600  text-gray-800 font-bold">
+            <a href="#" class="py-3 border-b-4 border-orange-600  text-gray-800 font-bold">
                 Umpan Lowongan
             </a>
-            <a href="#" class="py-3 text-gray-600 hover:text-gray-800 font-bold">
+            <a href="#" class="py-3 text-gray-700 hover:text-gray-800 font-bold">
                 Pencarian Baru-Baru Ini
             </a>
         </div>

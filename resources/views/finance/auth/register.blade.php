@@ -21,11 +21,11 @@
 <body class="min-h-screen flex items-center justify-center bg-orange-500">
     <div class="w-full max-w-5xl px-6 py-12 bg-gradient-to-r from-orange-500 to-yellow-300 rounded-md">
         <!-- Wrapper dengan padding agar form tidak mentok -->
-        <div class="w-full max-w-5xl px-6 py-12">
-            <div class="bg-white rounded-md flex overflow-hidden">
+        <div class="w-full">
+            <div class="flex overflow-hidden">
 
                 <!-- Bagian Kiri (Form Registrasi) -->
-                <div class="w-[50%] p-10">
+                <div class="w-[50%] p-10 bg-white rounded-2xl">
                     <h2 class="text-center text-xl font-bold text-orange-600 mb-4">Buat Akun</h2>
 
                     <!-- Logo -->
@@ -54,8 +54,7 @@
                     </div>
 
                     <!-- Form -->
-                    <form id="registerForm" action="{{ route('registerproses_finance') }}" method="POST"
-                        class="space-y-3">
+                    <form id="registerForm" action="{{ route('registerproses_finance') }}" method="POST">
                         @csrf
                         <div>
                             <label class="block text-sm font-medium m-2">Nama Pengguna</label>
@@ -86,7 +85,7 @@
                         </div>
 
                         <!-- Checkbox -->
-                        <div class="flex items-center text-xs">
+                        <div class="flex items-center text-xs mt-4">
                             <input type="checkbox" class="mr-2 accent-black border border-black">
                             <span>Saya menyetujui <a href="{{ url('syarat/ketentuan') }}"
                                     class="text-orange-500 font-semibold">Syarat dan
@@ -95,10 +94,13 @@
 
                         <!-- Tombol Daftar -->
 
-                        <button onclick="openModal()"
-                            class="w-full  bg-orange-500 text-white  font-bold rounded-full py-2 text-sm hover:bg-orange-600 ">
-                            Daftar
-                        </button>
+                        <div class="flex justify-center mt-4">
+                            <button onclick="openModal()"
+                                class="w-40 py-3 bg-orange-500 text-white font-bold rounded-full text-sm hover:bg-orange-600">
+                                DAFTAR
+                            </button>
+                        </div>
+
                     </form>
                 </div>
 
@@ -147,7 +149,7 @@
                         <img src="{{ asset('images/wong_kang.png') }}" alt="Ilustrasi" class="w-auto mx-auto">
                     </div>
                     <button
-                        class="border-2 border-white px-8 py-1.5 rounded-full text-sm hover:bg-white hover:text-orange-500 transition">MASUK</button>
+                        class="border border-white w-40 py-3 rounded-full text-sm hover:bg-white hover:text-orange-500 transition">MASUK</button>
                 </div>
 
             </div>

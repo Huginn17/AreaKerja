@@ -67,7 +67,7 @@
                             <span class="font-medium">Semua ({{ $all }})</span> |
                             <span id="btn_terbit" class="text-blue-600">Telah Terbit <span
                                     class="text-gray-800">({{ $terbit }})</span></span> |
-                            <span id="btn_blmterbit"="text-blue-600">Draf <span
+                            <span id="btn_blmterbit" class="text-blue-600">Draf <span
                                     class="text-gray-800">({{ $noterbit }})</span></span>
                         </div>
 
@@ -78,9 +78,11 @@
                     {{-- filter bawah --}}
                     <div class="flex justify-between items-center mb-4">
                         <div class="flex space-x-4">
-                            <select id="filterSelect" class="border-2 border-gray-400 rounded-lg px-8 py-2 text-sm">
+                            <select id="filter_select" onchange="searchTable()"
+                                class="border-2 border-gray-400 rounded-lg px-8 py-2 text-sm">
+                                <option value="title">Judul</option>
+                                <option value="penulis">Penulis</option>
                                 <option value="created_at">Tanggal</option>
-                                <option value="title">Nama</option>
                             </select>
                             <button type="button" onclick="setAction('update')"
                                 class="bg-gray-700 px-8 py-1 rounded-lg text-white">Terapkan</button>
@@ -89,7 +91,7 @@
                         </div>
 
                         <div class="flex space-x-4">
-                            <input id="searchInput" type="text" placeholder="nama/tanggal..."
+                            <input id="search_input" type="text" placeholder="nama/tanggal..."
                                 class="border-2 border-gray-400 rounded-lg px-2 py-1 text-sm">
                             <button type="button" onclick="searchTable()"
                                 class="bg-gray-700 text-white px-9 py-2 rounded-lg">Cari</button>
@@ -101,7 +103,7 @@
                         <input type="hidden" name="_method" id="formMethod">
                         <input type="hidden" name="status" id="statusField">
 
-                        <div id="sudah_terbit" class="rounded-lg overflow-hidden">
+                        <div id="sudah_terbit" class="rounded-lg overflow-hidden hidden">
                             <table class="w-full text-sm text-left">
                                 <thead class="bg-gray-600 text-white">
                                     <tr>
@@ -162,14 +164,19 @@
                     let belum_terbit = document.getElementById('belum_terbit');
                     let sudah_terbit = document.getElementById('sudah_terbit');
 
+                    // default tabel aktif (pakai id div)
+                    let activeTableId = 'belum_terbit';
+
                     btn_blmterbit.addEventListener("click", () => {
                         sudah_terbit.classList.add('hidden');
                         belum_terbit.classList.remove('hidden');
+                        activeTableId = 'belum_terbit'; // update
                     });
 
                     btn_terbit.addEventListener("click", () => {
                         belum_terbit.classList.add('hidden');
                         sudah_terbit.classList.remove('hidden');
+                        activeTableId = 'sudah_terbit'; // update
                     });
 
                     function setAction(action) {
@@ -196,25 +203,28 @@
                     });
 
                     function searchTable() {
-                        let input = document.getElementById("searchInput").value.toLowerCase();
-                        let filterBy = document.getElementById("filterSelect").value;
+                        let input = document.getElementById("search_input").value.toLowerCase();
+                        let filterBy = document.getElementById("filter_select").value;
 
-                        let table = document.querySelector("#sudah_terbit:not(.hidden) table, #belum_terbit:not(.hidden) table");
-                        let rows = table.querySelectorAll("tbody tr");
+                        const colIndex = {
+                            "title": 1,
+                            "penulis": 2,
+                            "created_at": 3
+                        };
 
-                        rows.forEach(row => {
-                            let colText = "";
+                        let table = document.querySelector(`#${activeTableId} table`);
+                        if (!table) return; // kalau table tidak ada, stop
 
-                            if (filterBy === "title") {
-                                colText = row.cells[2].innerText.toLowerCase();
-                            } else if (filterBy === "created_at") {
-                                colText = row.cells[3].innerText.toLowerCase();
-                            }
+                        let rows = table.getElementsByTagName("tr");
 
-                            row.style.display = colText.includes(input) ? "" : "none";
-                        });
+                        for (let i = 1; i < rows.length; i++) {
+                            let colText = rows[i].cells[colIndex[filterBy]]?.innerText.toLowerCase() || "";
+                            rows[i].style.display = colText.includes(input) ? "" : "none";
+                        }
                     }
                 </script>
+
+
             </div>
         </main>
     </div>

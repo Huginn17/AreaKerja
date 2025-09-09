@@ -52,8 +52,8 @@
                 <div class="flex items-center">
                     <label class="w-1 text-sm">Badan Usaha</label>
                     <select
-                        class="flex-1 border border-orange-400 rounded-md p-2 focus:outline-none mx-32 text-gray-400 text-sm">
-                        <option class="text-sm ">Pilih Badan Usaha</option>
+                        class="flex-1 border border-orange-400 rounded-md p-2 focus:outline-none mx-32 text-gray-300 text-sm">
+                        <option class="text-sm">Pilih Badan Usaha</option>
                         <option class="text-sm text-black font-semibold ">Perusahaan Perseorang</option>
                         <option class="text-sm text-black font-semibold ">CV (Persekutuan Komanditer)</option>
                         <option class="text-sm text-black font-semibold ">PT (Persekutuan Terbatas)</option>
