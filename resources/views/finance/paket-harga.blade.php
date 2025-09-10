@@ -25,26 +25,30 @@
                     </defs>
                 </svg>
 
-                <div
-                    class="flex items-center justify-between w-96 h-14 bg-white border border-orange-500 shadow-md rounded-2xl px-3 py-2">
-                    <!-- Logo + Info -->
-                    <div class="flex items-center gap-2 mr-2">
-                        <a href="#">
-                            <img src="{{ asset('images/seven.png') }}" class="w-16 h-16 object-contain" alt="User">
-                        </a>
-                        <div class="text-sm">
-                            <div class="font-semibold">Seven Inc</div>
-                            <div class="text-gray-500 text-xs">financeseven@gmail.com</div>
-                        </div>
-                    </div>
+                <div class="flex items-center justify-between w-[290px] h-[50px] bg-white border border-orange-500 shadow-md rounded-2xl px-4 py-2">
+  <!-- Kiri: Logo + Teks -->
+  <div class="flex items-center space-x-2">
+    <!-- Logo -->
+    <img src="{{asset('images/seven.png')}}" alt="Logo" class="w-15 h-10 object-contain" />
+    
+    <!-- Nama + Email -->
+    <div class="flex flex-col">
+      <span class="text-sm font-semibold text-gray-800">Seven Inc</span>
+      <span class="text-xs text-gray-500">financeseven@gmail.com</span>
+    </div>
+  </div>
 
-                    <!-- Dropdown -->
+  <!-- Kanan: Icon panah -->
+  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+  </svg>
+       <!-- Dropdown -->
                     <select class="appearance-none text-gray-600 text-xs px-8 focus:outline-none cursor-pointer">
                         <option>Text 1</option>
                         <option>Text 2</option>
                         <option>Text 3</option>
                     </select>
-                </div>
+</div>
 
             </div>
         </header>
@@ -57,24 +61,45 @@
                 <div class="flex justify-between items-center mb-2">
                     <h2 class="flex justify-between items-start text-lg font-semibold mb-2">Paket Harga Koin</h2>
                     <button onclick="bukaModal()"
-                        class="bg-orange-500 text-white text-xs px-5 py-1 rounded-full ml-auto">Edit</button>
+                        class="bg-orange-500 text-white text-sm px-5 py-1 rounded-full ml-auto">Edit</button>
                 </div>
                 <div class="border border-gray-300 rounded-2xl overflow-hidden w[500px]">
 
                     {{-- header --}}
                     <div class="flex justify-between items-center bg-orange-500 text-white px-4 py-2">
-                        <div class="flex-1 font-semibold">Nama</div>
-                        <div class="font-semibold">Harga</div>
+                        <div class="flex-1 font-semibold text-lg">Nama</div>
+                        <div class="font-semibold text-lg">Harga</div>
                     </div>
 
                     {{-- isi tabel --}}
-                    <div class="divider-y divide-gray-300 bg-white">
-                        <div class="flex font-semibold justify-between items-center px-4 py-3">
-                            <div>Pasang Lowongan Bronze</div>
-                            <div>150 Koin</div>
-                        </div>
-                    </div>
-                </div>
+     <div class="bg-white text-sm">
+    <div class="flex px-4 py-3 border-b border-gray-400">
+      <div class="w-1/2  border-gray-300 font-semibold text-lg">Pasang Lowongan Bronze</div>
+      <div class="w-1/2 text-right font-semibold text-lg">150 Koin</div>
+    </div>
+        </div>
+
+   <div class="bg-white text-sm">
+    <div class="flex px-4 py-3 border-b border-gray-400">
+      <div class="w-1/2  border-gray-300 font-semibold text-lg">Pasang Lowongan Silver</div>
+      <div class="w-1/2 text-right font-semibold text-lg">150 Koin</div>
+    </div>
+     </div>
+
+     <div class="bg-white text-sm">
+    <div class="flex px-4 py-3 border-b border-gray-400">
+      <div class="w-1/2  border-gray-300 font-semibold text-lg">Pasang Lowongan Gold</div>
+      <div class="w-1/2 text-right font-semibold text-lg">150 Koin</div>
+    </div>
+      </div>
+
+    <div class="bg-white text-sm">
+    <div class="flex px-4 py-3 border-b border-gray-400">
+      <div class="w-1/2  border-gray-300 font-semibold text-lg">Open Talent Hunter</div>
+      <div class="w-1/2 text-right font-semibold text-lg">150 Koin</div>
+    </div>
+           </div>
+            </div>
             </div>
 
 
@@ -83,22 +108,44 @@
             <div class="mb-10">
                 <div class="flex justify-between items-center mb-2">
                     <h2 class="flex justify-between items-start text-lg font-semibold mb-2">Paket Harga Pembayaran</h2>
-                    <button class="bg-orange-500 text-white text-xs px-5 py-1 rounded-full ml-auto">Edit</button>
+                    <button class="bg-orange-500 text-white text-sm px-5 py-1 rounded-full ml-auto">Edit</button>
                 </div>
                 <div class="border border-gray-300 rounded-2xl overflow-hidden w[500px]">
 
-                    {{-- header --}}
-                    <div class="flex justify-between items-center bg-orange-500 text-white px-4 py-2">
-                        <div class="flex-1 font-semibold">Nama</div>
-                        <div class="font-semibold">Harga</div>
+             {{-- header --}}
+             <div class="flex justify-between items-center bg-orange-500 text-white px-4 py-2">
+                        <div class="flex-1 font-semibold text-lg">Nama</div>
+                        <div class="font-semibold  text-lg">Harga</div>
                     </div>
 
-                    {{-- isi tabel --}}
-                    <div class="divider-y divide-gray-300 bg-white">
-                        <div class="flex font-semibold justify-between items-center px-4 py-3">
-                            <div>Pendaftaran kandidat</div>
-                            <div>Rp. 10.000.000</div>
-                        </div>
+         {{-- isi tabel --}}
+      <div class="bg-white text-sm">
+    <div class="flex px-4 py-3 border-b border-gray-400">
+      <div class="w-1/2  border-gray-300 font-semibold text-lg">Pendaftaran Kandidat</div>
+      <div class="w-1/2 text-right font-semibold text-lg">Rp. 200.000</div>
+    </div>
+     </div>
+
+        <div class="bg-white text-sm">
+    <div class="flex px-4 py-3 border-b border-gray-400">
+      <div class="w-1/2  border-gray-300 font-semibold text-lg">Top Up 10 Koin AreaKerja</div>
+      <div class="w-1/2 text-right font-semibold text-lg">Rp. 10.000</div>
+    </div>
+    </div>
+
+    <div class="bg-white text-sm">
+    <div class="flex px-4 py-3 border-b border-gray-400">
+      <div class="w-1/2  border-gray-300 font-semibold text-lg">Top Up 100 Koin AreaKerja</div>
+      <div class="w-1/2 text-right font-semibold text-lg">Rp. 100.000</div>
+    </div>
+     </div>
+
+
+   <div class="bg-white text-sm">
+    <div class="flex px-4 py-3 border-b border-gray-400">
+      <div class="w-1/2  border-gray-300 font-semibold text-lg">Top Up 1000 Koin AreaKerja</div>
+      <div class="w-1/2 text-right font-semibold text-lg">Rp. 500.000</div>
+    </div>
                     </div>
                 </div>
             </div>

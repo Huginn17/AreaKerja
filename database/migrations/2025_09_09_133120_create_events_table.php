@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->string('status')->default('Buka'); // Status event
+            $table->string('status')->default('buka'); // Status event
             $table->string('title'); // Nama event
             $table->integer('kuota')->nullable(); // Kuota partisipasi
             $table->string('image')->nullable(); // Banner atau gambar event
             $table->mediumText('content')->nullable(); // Deskripsi acara
             $table->date('tgl_mulai');
-            $table->string('jam_mulai');
+            $table->string('jam_mulai', 5);
             $table->date('tgl_akhir');
-            $table->string('jam_akhir');
+            $table->string('jam_akhir', 5);
             $table->string('lokasi')->nullable(); // Lokasi event
             $table->string('link_form')->nullable(); // Link pendaftaran
             $table->date('penutupan_pendaftaran')->nullable(); // Batas akhir daftar

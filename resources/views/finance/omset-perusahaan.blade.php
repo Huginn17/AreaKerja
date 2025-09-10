@@ -4,7 +4,7 @@
         <!-- Header -->
         <header class="w-full flex items-center justify-between px-6 py-3">
             <p class="font-semibold text-2xl">Omset Perusahaan </p>
-                 <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3">
                 <svg width="31" height="32" viewBox="0 0 31 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_722_7956)">
                         <path
@@ -24,20 +24,25 @@
                         </clipPath>
                     </defs>
                 </svg>
-
                 <div
-                    class="flex items-center justify-between w-30 h-14 bg-white border border-orange-500 shadow-md rounded-2xl px-3 py-2">
-                    <!-- Logo + Info -->
-                    <div class="flex items-center gap-2 mr-2">
-                        <a href="#">
-                            <img src="{{ asset('images/seven.png') }}" class="w-16 h-16 object-contain" alt="User">
-                        </a>
-                        <div class="text-sm">
-                            <div class="font-semibold">Seven Inc</div>
-                            <div class="text-gray-500 text-xs">financeseven@gmail.com</div>
+                    class="flex items-center justify-between w-[290px] h-[50px] bg-white border border-orange-500 shadow-md rounded-2xl px-4 py-2">
+                    <!-- Kiri: Logo + Teks -->
+                    <div class="flex items-center space-x-2">
+                        <!-- Logo -->
+                        <img src="{{ asset('images/seven.png') }}" alt="Logo" class="w-15 h-10 object-contain" />
+
+                        <!-- Nama + Email -->
+                        <div class="flex flex-col">
+                            <span class="text-sm font-semibold text-gray-800">Seven Inc</span>
+                            <span class="text-xs text-gray-500">financeseven@gmail.com</span>
                         </div>
                     </div>
 
+                    <!-- Kanan: Icon panah -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
                     <!-- Dropdown -->
                     <select class="appearance-none text-gray-600 text-xs px-8 focus:outline-none cursor-pointer">
                         <option>Text 1</option>
@@ -45,7 +50,6 @@
                         <option>Text 3</option>
                     </select>
                 </div>
-
             </div>
         </header>
 
@@ -62,96 +66,98 @@
                         <option value="">1 Bulan Terakhir</option>
                         <option value="">3 Bulan Terakhir</option>
                     </select>
-                    <button class="bg-orange-500 text-white text-sm px-10 py-3 font-medium rounded-2xl ml-auto">Cari</button>
+                    <button
+                        class="bg-orange-500 hover:bg-orange-600 text-white text-sm px-10 py-3 font-medium rounded-2xl ml-auto">Cari</button>
                 </div>
                 <div class="border border-gray-300 rounded-2xl overflow-hidden w-full">
 
                     {{-- header --}}
                     <div class="flex justify-center items-center bg-orange-500 text-white px-4 py-2">
-                        <div class=" font-semibold">Daftar Omset Perusahaan</div>
+                        <div class=" font-semibold text-lg">Daftar Omset Perusahaan</div>
                     </div>
 
                     {{-- isi tabel --}}
-                    <div class="divider-y divide-gray-300 bg-white">
-                        <div class="flex justify-between font-semibold items-center px-4 py-3">
-                            <div>Januari 2023</div>
-                            <div>RP. 3.000.000</div>
+                    <div class="bg-white text-sm">
+                        <div class="flex px-4 py-3 border-b border-gray-400">
+                            <div class="w-1/2  border-gray-300 font-semibold text-lg">Januari 2023</div>
+                            <div class="w-1/2 text-right font-semibold text-lg">Rp. 3.000.000</div>
                         </div>
                     </div>
 
 
 
-                         {{-- isi tabel --}}
-                    <div class="divider-y divide-gray-300 bg-white">
-                        <div class="flex justify-between font-semibold items-center px-4 py-3">
-                            <div>Januari 2023</div>
-                            <div>RP. 3.000.000</div>
+                    {{-- isi tabel --}}
+                    <div class="bg-white text-sm">
+                        <div class="flex px-4 py-3 border-b border-gray-400">
+                            <div class="w-1/2  border-gray-300 font-semibold text-lg">Januari 2023</div>
+                            <div class="w-1/2 text-right font-semibold text-lg">Rp. 3.000.000</div>
                         </div>
                     </div>
 
 
-                         {{-- isi tabel --}}
-                    <div class="divider-y divide-gray-300 bg-white">
-                        <div class="flex justify-between font-semibold items-center px-4 py-3">
-                            <div>Januari 2023</div>
-                            <div>RP. 3.000.000</div>
+                    {{-- isi tabel --}}
+                    <div class="bg-white text-sm">
+                        <div class="flex px-4 py-3 border-b border-gray-400">
+                            <div class="w-1/2  border-gray-300 font-semibold text-lg">Januari 2023</div>
+                            <div class="w-1/2 text-right font-semibold text-lg">Rp. 3.000.000</div>
                         </div>
                     </div>
 
 
-                         {{-- isi tabel --}}
-                    <div class="divider-y divide-gray-300 bg-white">
-                        <div class="flex justify-between font-semibold items-center px-4 py-3">
-                            <div>Januari 2023</div>
-                            <div>RP. 3.000.000</div>
+                    {{-- isi tabel --}}
+                    <div class="bg-white text-sm">
+                        <div class="flex px-4 py-3 border-b border-gray-400">
+                            <div class="w-1/2  border-gray-300 font-semibold text-lg">Januari 2023</div>
+                            <div class="w-1/2 text-right font-semibold text-lg">Rp. 3.000.000</div>
                         </div>
                     </div>
 
 
-                         {{-- isi tabel --}}
-                    <div class="divider-y divide-gray-300 bg-white">
-                        <div class="flex justify-between font-semibold items-center px-4 py-3">
-                            <div>Januari 2023</div>
-                            <div>RP. 3.000.000</div>
+                    {{-- isi tabel --}}
+                    <div class="bg-white text-sm">
+                        <div class="flex px-4 py-3 border-b border-gray-400">
+                            <div class="w-1/2  border-gray-300 font-semibold text-lg">Januari 2023</div>
+                            <div class="w-1/2 text-right font-semibold text-lg">Rp. 3.000.000</div>
                         </div>
                     </div>
 
 
-                         {{-- isi tabel --}}
-                    <div class="divider-y divide-gray-300 bg-white">
-                        <div class="flex justify-between font-semibold items-center px-4 py-3">
-                            <div>Januari 2023</div>
-                            <div>RP. 3.000.000</div>
+                    {{-- isi tabel --}}
+                    <div class="bg-white text-sm">
+                        <div class="flex px-4 py-3 border-b border-gray-400">
+                            <div class="w-1/2  border-gray-300 font-semibold text-lg">Januari 2023</div>
+                            <div class="w-1/2 text-right font-semibold text-lg">Rp. 3.000.000</div>
                         </div>
                     </div>
 
 
-                         {{-- isi tabel --}}
-                    <div class="divider-y divide-gray-300 bg-white">
-                        <div class="flex justify-between font-semibold items-center px-4 py-3">
-                            <div>Januari 2023</div>
-                            <div>RP. 3.000.000</div>
+                    {{-- isi tabel --}}
+                    <div class="bg-white text-sm">
+                        <div class="flex px-4 py-3 border-b border-gray-400">
+                            <div class="w-1/2  border-gray-300 font-semibold text-lg">Januari 2023</div>
+                            <div class="w-1/2 text-right font-semibold text-lg">Rp. 3.000.000</div>
                         </div>
                     </div>
 
 
-                         {{-- isi tabel --}}
-                    <div class="divider-y divide-gray-300 bg-white">
-                        <div class="flex justify-between font-semibold items-center px-4 py-3">
-                            <div>Januari 2023</div>
-                            <div>RP. 3.000.000</div>
+                    {{-- isi tabel --}}
+                    <div class="bg-white text-sm">
+                        <div class="flex px-4 py-3 border-b border-gray-400">
+                            <div class="w-1/2  border-gray-300 font-semibold text-lg">Januari 2023</div>
+                            <div class="w-1/2 text-right font-semibold text-lg">Rp. 3.000.000</div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <ul class="text-md font-semibold ">
-                <li class="py-2">Total Omset<span class="pl-3">: RP. 24.000.000</span></li>
-                <li class="py-2">Rata Rata<span class="pl-8">: RP. 3.000.000</span></li>
+                <li class="py-2 text-lg">Total Omset<span class="pl-3 text-lg">: RP. 24.000.000</span></li>
+                <li class="py-2 text-lg">Rata Rata<span class="pl-8 text-lg">: RP. 3.000.000</span></li>
             </ul>
             <div class="border border-orange-500 mt-2"></div>
             <div class="mt-5">
-                <button class="bg-orange-500 hover:bg-orange-600 text-white text-xs px-8 py-2 font-medium rounded-full ml-auto"
+                <button
+                    class="bg-orange-500 hover:bg-orange-600 text-white text-sm px-8 py-2 font-medium rounded-full ml-auto"
                     type="submit">Unduh</button>
             </div>
         </div>

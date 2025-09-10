@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AlamatPelamarController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmailVerificationController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\LupaPasswordController;
 use App\Http\Controllers\PelamarController;
 use App\Http\Controllers\PengalamanKerjaController;
@@ -29,7 +30,7 @@ use Illuminate\Support\Str;
 |
 */
 
-// Route::get('/test-otp/{email}', function ($email) {
+// Route::get({{  }}st-otp/{email}', function ($email) {
 //     try {
 //         // generate OTP
 //         $otp = rand(100000, 999999);
@@ -232,6 +233,14 @@ Route::get('/finance/omset/perusahaan', function () {
     return view('finance.omset-perusahaan');
 })->name('finance.omset-perusahaan');
 
+Route::get('/finance/page/unduh/omset', function () {
+    return view('finance.page-unduh-omset');
+})->name('finance.page-unduh-omset');
+
+Route::get('/finance/unduh/data/omset', function () {
+    return view('finance.unduh-data-omset');
+})->name('finance.unduh-data-omset');
+
 Route::get('/finance/catatan/transaksi', function () {
     return view('finance.catatan-tran');
 })->name('finance.catatan-tran');
@@ -282,6 +291,15 @@ Route::prefix('admin')->middleware('auth', 'role:admin', 'CheckUserStatus')->gro
     Route::get('/tips/kerja/create', [TipsKerjaController::class, 'tips_kerja_buat_post'])->name('admin.tips-kerja.createForm');
     Route::put('/update/status/', [TipsKerjaController::class, 'update_status'])->name('admin.tips-kerja.update.status');
     Route::delete('/delete', [TipsKerjaController::class, 'destroy'])->name('admin.tips-kerja.destroy');
+
+    //EVENT
+    Route::get('/event', [EventController::class, 'index_admin'])->name('admin.eventform');
+    Route::post('/event/store', [EventController::class, 'store_event_admin'])->name('admin.event.store');
+    Route::get('/event/create', [EventController::class, 'createForm_admin'])->name('admin.event.createForm');
+    Route::put('/update/event/{event}', [EventController::class, 'update_event_admin'])->name('admin.event.update');
+    Route::get('/event/{event}', [EventController::class, 'detail_admin'])->name('admin.detail.event');
+    Route::get('/event/{event}/edit', [EventController::class, 'edit_admin'])->name('admin.edit.event');
+    Route::delete('/delete/event/{event}', [EventController::class, 'destroy_admin'])->name('admin.event.destroy');
 });
 
 Route::get('/admin/pelamar', function () {
@@ -397,13 +415,22 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
     Route::put('/freeze/unban/{user:id}', [SuperAdminController::class, 'unban'])->name('superadmin.unban.freeze');
     Route::delete('/delete/akun/{user:id}', [SuperAdminController::class, 'delete_akun'])->name('superadmin.delete.akun');
 
-    
+
     //TIPS KERJA POST
     Route::get('/tips/kerja', [TipsKerjaController::class, 'index_superadmin'])->name('superadmin.tips-kerja');
     Route::post('/tips/kerja/', [TipsKerjaController::class, 'store_tips_kerja_superadmin'])->name('superadmin.tips-kerja.store');
     Route::get('/tips/kerja/create', [TipsKerjaController::class, 'tips_kerja_buat_post_superadmin'])->name('superadmin.tips-kerja.createForm');
     Route::put('/update/status/', [TipsKerjaController::class, 'update_status_superadmin'])->name('superadmin.tips-kerja.update.status');
     Route::delete('/delete', [TipsKerjaController::class, 'destroy_superadmin'])->name('superadmin.tips-kerja.destroy');
+
+    //EVENT
+    Route::get('/event', [EventController::class, 'index'])->name('superadmin.eventform');
+    Route::post('/event/store', [EventController::class, 'store_event'])->name('superadmin.event.store');
+    Route::get('/event/create', [EventController::class, 'createForm'])->name('superadmin.event.createForm');
+    Route::put('/update/event/{event}', [EventController::class, 'update_event'])->name('superadmin.event.update');
+    Route::get('/event/{event}', [EventController::class, 'detail'])->name('superadmin.detail.event');
+    Route::get('/event/{event}/edit', [EventController::class, 'edit'])->name('superadmin.edit.event');
+    Route::delete('/delete/event/{event}', [EventController::class, 'destroy'])->name('superadmin.event.destroy');
 });
 
 
@@ -474,15 +501,15 @@ Route::get('/super_admin/add/edit', function () {
 });
 
 
-Route::get('/super_admin/event', function () {
-    return view('super_admin.event.home');
-});
-Route::get('/super_admin/event/buat', function () {
-    return view('super_admin.event.buat');
-});
-Route::get('/super_admin/event/view', function () {
-    return view('super_admin.event.view');
-});
+// Route::get('/super_admin/event', function () {
+//     return view('super_admin.event.home');
+// });
+// Route::get('/super_admin/event/buat', function () {
+//     return view('super_admin.event.buat');
+// });
+// Route::get('/super_admin/event/view', function () {
+//     return view('super_admin.event.view');
+// });
 
 Route::get('/super_admin/akun/freeze', function () {
     return view('super_admin.freeze');

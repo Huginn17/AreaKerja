@@ -43,7 +43,7 @@
                         <option>Text 3</option>
                     </select>
                 </div>
-               
+
             </div>
         </div>
 
@@ -51,7 +51,7 @@
         <div class="w-full">
             <div class="block lg:flex justify-between items-center mb-4">
                 <div class="space-x-2 grid grid-cols-2 gap-2 lg:inline md:inline mb-5 lg:mb-0">
-                   <a href="{{ url('/super_admin/event/buat') }}"
+                    <a href="{{ route('superadmin.event.createForm') }}"
                         class="bg-blue-500 hover:bg-blue-400 transition duration-300 text-white px-4 py-2 rounded-md">Buat
                         Post</a>
                 </div>
@@ -71,37 +71,71 @@
                         <tr class="text-center">
                             <th class="p-7 font-semibold text-gray-700">Status</th>
                             <th class="p-7 font-semibold text-gray-700">Nama</th>
-                            <th class="p-7 font-semibold text-gray-700">Pendaftran</th>
-                            <th class="p-7 font-semibold text-gray-700">Quota</th>
+                            {{-- <th class="p-7 font-semibold text-gray-700">Pendaftran</th> --}}
+                            <th class="p-7 font-semibold text-gray-700">Kuota</th>
                             <th class="p-7 font-semibold text-gray-700">Mulai</th>
                             <th class="p-7 font-semibold text-gray-700">Selesai</th>
                             <th class="p-7 font-semibold text-gray-700">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="text-center">
-                            <td class="px-6 py-3 text-white">
-                                <span class="bg-green-500 px-5 py-1 rounded-lg whitespace-nowrap">Buka</span>
-                            </td>
-                            <td class="px-6 py-3 text-blue-400 font-medium whitespace-nowrap">Nama Event</td>
-                            <td class="px-6 py-3 text-gray-700 text-center whitespace-nowrap">0</td>
-                            <td class="px-6 py-3 text-gray-700 whitespace-nowrap">200</td>
-                            <td class="px-6 py-3 text-gray-700 whitespace-nowrap">27 Jul 2023 08.00</td>
-                            <td class="px-6 py-3 text-gray-700 whitespace-nowrap">27 Jul 2023 11.00</td>
-                            <td class="px-6 py-4 flex items-center gap-2">
-                                <button
-                                    class="bg-gray-500 text-white p-2 rounded hover:bg-gray-600 flex items-center justify-center">
-                                    <svg width="19" height="20" viewBox="0 0 19 20" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M3.42593 20C2.79784 20 2.25997 19.7822 1.81231 19.3467C1.36466 18.9111 1.14121 18.3881 1.14198 17.7778V3.33333H0V1.11111H5.70988V0H12.5617V1.11111H18.2716V3.33333H17.1296V17.7778C17.1296 18.3889 16.9058 18.9122 16.4581 19.3478C16.0105 19.7833 15.473 20.0007 14.8457 20H3.42593ZM14.8457 3.33333H3.42593V17.7778H14.8457V3.33333ZM5.70988 15.5556H7.99383V5.55556H5.70988V15.5556ZM10.2778 15.5556H12.5617V5.55556H10.2778V15.5556Z"
-                                            fill="white" />
-                                    </svg>
-                                </button>
-                            </td>
-                        </tr>
+                        @forelse ($events as $event)
+                            <tr class="text-center">
+                                <td class="px-6 py-3 text-white">
+                                    @if ($event->status == 'buka')
+                                        <span class="bg-green-500 px-5 py-1 rounded-lg whitespace-nowrap">Buka</span>
+                                    @elseif ($event->status == 'tutup')
+                                        <span class="bg-red-500 px-5 py-1 rounded-lg whitespace-nowrap">Tutup</span>
+                                    @else
+                                        <span class="bg-gray-500 px-5 py-1 rounded-lg whitespace-nowrap">Draft</span>
+                                    @endif
+                                </td>
+                                <td class="px-6 py-3 text-blue-400 font-medium whitespace-nowrap">
+                                    <a href="{{ route('superadmin.detail.event', $event->id) }}">{{ $event->title }}</a>
+                                </td>
+                                {{-- <td class="px-6 py-3 text-gray-700 text-center whitespace-nowrap">0</td> --}}
+                                <td class="px-6 py-3 text-gray-700 whitespace-nowrap">{{ $event->kuota ?? '-' }}</td>
+                                <td class="px-6 py-3 text-gray-700 whitespace-nowrap">
+                                    {{ \Carbon\Carbon::parse($event->tgl_mulai)->format('d M Y') }}
+                                    {{ $event->jam_mulai }}
+                                </td>
+                                <td class="px-6 py-3 text-gray-700 whitespace-nowrap">
+                                    @if ($event->tgl_akhir)
+                                        {{ \Carbon\Carbon::parse($event->tgl_akhir)->format('d M Y') }}
+                                        {{ $event->jam_akhir }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td class="px-6 py-4 flex items-center gap-2">
+                                    <form action="{{ route('superadmin.event.destroy', $event->id) }}" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit"
+                                            class="bg-gray-500 text-white p-2 rounded hover:bg-gray-600 flex items-center justify-center">
+                                            <svg width="19" height="20" viewBox="0 0 19 20" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M3.42593 20C2.79784 20 2.25997 19.7822 1.81231 19.3467C1.36466 18.9111 1.14121 18.3881 1.14198 17.7778V3.33333H0V1.11111H5.70988V0H12.5617V1.11111H18.2716V3.33333H17.1296V17.7778C17.1296 18.3889 16.9058 18.9122 16.4581 19.3478C16.0105 19.7833 15.473 20.0007 14.8457 20H3.42593ZM14.8457 3.33333H3.42593V17.7778H14.8457V3.33333ZM5.70988 15.5556H7.99383V5.55556H5.70988V15.5556ZM10.2778 15.5556H12.5617V5.55556H10.2778V15.5556Z"
+                                                    fill="white" />
+                                            </svg>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="text-center py-5 text-gray-500">
+                                    Belum ada event.
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
+                <div class="mt-4">
+                    {{ $events->links() }}
+                </div>
+
             </div>
             {{-- End Table --}}
 

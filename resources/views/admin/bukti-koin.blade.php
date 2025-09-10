@@ -98,8 +98,6 @@
             Copyright &copy; AREAKERJA.com
         </div>
 
-
-
     </div>
 
 </body>

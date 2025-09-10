@@ -1,6 +1,7 @@
 @extends('admin.sidebar.index')
 @section('sidebaradmin')
-    <div class="p-4 sm:ml-64">
+ <div class="p-4 sm:ml-64">
+    <div class="flex-1 p-6 bg-white overflow-y-auto">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-medium">Event</h1>
             <div class="flex items-center gap-3">
@@ -23,16 +24,34 @@
                         </clipPath>
                     </defs>
                 </svg>
-                   <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
-                    <a href="#">
-                        <img src="{{ asset('images/ohim.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
-                    </a>
-                    <div class="text-sm">
-                        <div class="font-semibold">Dj Ohim</div>
-                        <div class="text-gray-500">lutung123@gmail.com</div>
+                <div
+                    class="flex items-center justify-between w-96 h-14 bg-white border border-orange-500 shadow-md rounded-2xl px-3 py-2">
+                    <!-- Logo + Info -->
+                    <div class="flex items-center gap-2 mr-2">
+                        <a href="#">
+                            @if (Auth::user()->role == 'super_admin')
+                                @if (Auth::user()->superadmin->img_profile)
+                                    <img id="pu" class="w-10 h-10  object-cover rounded-full profile-img"
+                                        src="{{ asset('storage/' . Auth::user()->admin->img_profile) }}" alt="Profile">
+                                @else
+                                    <img id="pu" class="w-10 h-10 rounded-full"
+                                        src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                        alt="">
+                                @endif
+                            @else
+                                <img class="w-10 h-10 rounded-full"
+                                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                    alt="">
+                            @endif
+                        </a>
+                        <div class="text-sm">
+                            <span class="font-semibold">{{ Auth::user()->username }}</span>
+                            <p class="text-gray-500 text-sm">{{ Auth::user()->email }}</p>
+                        </div>
                     </div>
 
-                    <select class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
+                    <!-- Dropdown -->
+                    <select class="appearance-none text-gray-600 text-xs px-8 focus:outline-none cursor-pointer">
                         <option>Text 1</option>
                         <option>Text 2</option>
                         <option>Text 3</option>
@@ -48,8 +67,18 @@
             {{-- header status & tombol --}}
             <div class="flex justify-end items-center space-x-4 mb-4">
                 <span class="font-medium">Status</span>
-                <span class="bg-green-500 text-white px-4 py-2 rounded text-sm">Open</span>
-                <button class="bg-red-500 text-white px-14 py-2 rounded text-sm">Hapus</button>
+                @if ($event->status == 'buka')
+                    <span class="bg-green-500 text-white px-4 py-2 rounded text-sm">Buka</span>
+                @elseif ($event->status == 'tutup')
+                    <span class="bg-red-500 text-white px-4 py-2 rounded text-sm">Tutup</span>
+                @else
+                    <span class="bg-gray-500 text-white px-4 py-2 rounded text-sm">Draft</span>
+                @endif
+                <form action="{{ route('superadmin.event.destroy', $event->id) }}" method="post">
+                    @csrf
+                    @method('delete')
+                    <button class="bg-red-500 text-white px-14 py-2 rounded text-sm">Hapus</button>
+                </form>
             </div>
 
             <div class="flex justify-end items-center space-x-4 mb-6">
@@ -58,18 +87,30 @@
             </div>
 
             {{-- tanggal --}}
-            <p class="mb-2 font-semibold">25 Juni 2024</p>
+            <p class="mb-2 font-semibold">
+                {{ \Carbon\Carbon::parse($event->tgl_mulai)->format('d M Y') }}
+            </p>
 
             {{-- gambar --}}
-            <img src="{{ asset('images/rang nulis.jpg') }}" alt="event image" class="rounded-2xl mb-6">
+            @if ($event->image)
+                <img src="{{ asset('storage/' . $event->image) }}" alt="event image" class="rounded-2xl mb-6">
+            @else
+                <img src="{{ asset('images/rang nulis.jpg') }}" alt="event image" class="rounded-2xl mb-6">
+            @endif
 
             {{-- deskripsi --}}
-            <h2 class="font-semibold text-lg mb-2">Event</h2>
+            <h2 class="font-semibold text-lg mb-2">{{ $event->title }}</h2>
+            @php
+                // hapus <img>, <figure>, <figcaption> dari konten
+                $cleanContent = preg_replace('/<figure.*?<\/figure>/', '', $event->content);
+                $cleanContent = preg_replace('/<img[^>]+>/', '', $cleanContent);
+            @endphp
+
             <p class="text-justify">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus totam perspiciatis id nostrum
-                praesentium enim, accusamus nisi adipisci recusandae similique consequuntur vitae atque, dolore laudantium
-                commodi, ea excepturi possimus. Odit!
+                {!! $cleanContent !!}
             </p>
+
+
 
             {{-- detail acara --}}
             <h3 class="font-semibold text-orange-600 mt-6 mb-2">Detail Acara</h3>
@@ -82,7 +123,11 @@
                             fill="black" />
                     </svg>
 
-                    <p>Waktu: 20 Agustus 2023 (09.00 – 15.00) WIB</p>
+                    <p>
+                        Waktu:
+                        {{ \Carbon\Carbon::parse($event->tgl_mulai)->format('d M Y') }}
+                        ({{ $event->jam_mulai }}- {{ $event->jam_akhir }}) WIB
+                    </p>
                 </div>
                 <div class="flex items-center space-x-2">
                     <svg width="18" height="22" viewBox="0 0 18 22" fill="none"
@@ -95,7 +140,7 @@
                             fill="black" />
                     </svg>
 
-                    <p>Lokasi: Kantor 1 Seven INC, Bantul, Yogyakarta</p>
+                    <p>Lokasi: {{ $event->lokasi ?? '-' }}</p>
                 </div>
             </div>
 
@@ -110,14 +155,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class="border border-orange-500 px-4 py-2 text-center">Lorem ipsum</td>
-                            <td class="border border-orange-500 px-4 py-2 text-center">Lorem ipsum</td>
-                        </tr>
-                        <tr>
-                            <td class="border border-orange-500 px-4 py-2 text-center">Lorem ipsum</td>
-                            <td class="border border-orange-500 px-4 py-2 text-center">Lorem ipsum</td>
-                        </tr>
+                        @forelse ($event->kegiatan as $k)
+                            <tr>
+                                <td class="border border-orange-500 px-4 py-2 text-center">{{ $k->waktu }}</td>
+                                <td class="border border-orange-500 px-4 py-2 text-center">{{ $k->kegiatan }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="2" class="text-center py-3">Belum ada kegiatan</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
@@ -125,9 +172,10 @@
 
             {{-- tombol daftar --}}
             <!-- <div class="flex justify-center mt-6">
-                <button class="bg-orange-500 text-white px-8 py-2 rounded">Mendaftar</button>
-            </div> -->
+                                                    <button class="bg-orange-500 text-white px-8 py-2 rounded">Mendaftar</button>
+                                                </div> -->
         </div>
-        
+
     </div>
+ </div>
 @endsection

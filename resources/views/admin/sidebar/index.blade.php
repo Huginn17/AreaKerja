@@ -38,6 +38,11 @@
         display: none;
     }
 </style>
+ <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
 
 <body>
 
@@ -196,7 +201,7 @@
                 </li>
                 <li
                     class="{{ request()->is('admin/event/home') ? 'bg-white text-gray-500' : 'text-white' }} rounded-md">
-                    <a href="{{ url('/admin/event/home') }}"
+                    <a href="{{ route('admin.eventform') }}"
                         class="flex font-semibold items-center mb-2 gap-3 hover:bg-white hover:text-gray-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="20" height="21" viewBox="0 0 20 21" fill="none"
                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -310,7 +315,7 @@
         });
     </script>
 
-    
+    <script src="//unpkg.com/alpinejs" defer></script>
 </body>
 
 </html>

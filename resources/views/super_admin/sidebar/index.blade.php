@@ -20,6 +20,12 @@
             font-family: 'Poppins', sans-serif;
         }
     </style>
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -210,6 +216,7 @@
                 }
             });
         </script>
+        <script src="//unpkg.com/alpinejs" defer></script>
 
 </body>
 
