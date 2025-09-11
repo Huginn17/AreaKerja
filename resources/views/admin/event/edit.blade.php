@@ -1,0 +1,254 @@
+@extends('admin.sidebar.index')
+@section('sidebaradmin')
+    <div class="p-4 sm:ml-64">
+        <div class="flex-1 p-6 bg-white overflow-y-auto" x-data="{ openModal: false }">
+            <div class="flex justify-between items-center mb-10">
+                <h1 class="text-2xl font-medium">Edit Event</h1>
+            </div>
+
+            {{-- content --}}
+            <div class="w-full bg-white">
+                <form action="{{ route('admin.event.update', $event->id) }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+
+                    <!-- Judul -->
+                    <input type="text" placeholder="Masukkan judul event" name="title"
+                        value="{{ old('title', $event->title) }}"
+                        class="w-full bg-gray-200 border border-gray-400 rounded-md px-4 py-2 mb-8">
+
+                    <!-- Upload Media -->
+                    <div class="mb-4">
+                        <p class="mb-2">Gambar Saat Ini:</p>
+                        <img id="preview-image"
+                            src="{{ $event->image ? asset('storage/' . $event->image) : 'https://via.placeholder.com/150x150?text=No+Image' }}"
+                            class="w-40 h-40 object-cover rounded-md mb-2">
+
+                        <label for="uploadMedia"
+                            class="cursor-pointer px-4 py-2 bg-gray-100 border rounded-lg shadow hover:bg-gray-200 text-sm font-medium">
+                            Ganti Media
+                        </label>
+                        <input id="uploadMedia" type="file" name="image" accept="image/*" hidden>
+                    </div>
+
+
+                    <!-- Editor -->
+                    <div class="rounded-md overflow-hidden mt-4">
+                        <input id="x" type="hidden" name="content" value="{{ old('content', $event->content) }}">
+                        <trix-editor input="x" class="trix-content"></trix-editor>
+                    </div>
+
+                    <div class="space-y-4 mt-4">
+                        <!-- Waktu Acara -->
+                        <div>
+                            <label class="block font-medium mb-1">Waktu Acara</label>
+                            <div class="flex items-center gap-2">
+                                <input type="date" name="tgl_mulai" id="tgl_mulai"
+                                    class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-40"
+                                    value="{{ old('tgl_mulai', $event->tgl_mulai) }}">
+                                <input type="date" name="tgl_akhir" id="tgl_akhir"
+                                    class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-40"
+                                    value="{{ old('tgl_akhir', $event->tgl_akhir) }}">
+                                <input type="time" name="jam_mulai" id="jam_mulai"
+                                    class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-24"
+                                    value="{{ old('jam_mulai', $event->jam_mulai) }}">
+                                <span>Sampai</span>
+                                <input type="time" name="jam_akhir" id="jam_akhir"
+                                    class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-24"
+                                    value="{{ old('jam_akhir', $event->jam_akhir) }}">
+                            </div>
+                        </div>
+
+                        <!-- Penutupan Pendaftaran -->
+                        <div>
+                            <label class="block font-medium mb-1">Penutupan Pendaftaran</label>
+                            <input type="date" name="penutupan_pendaftaran" id="penutupan_pendaftaran"
+                                class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-40"
+                                value="{{ old('penutupan_pendaftaran', $event->penutupan_pendaftaran) }}">
+                        </div>
+
+                        <!-- Kuota -->
+                        <div>
+                            <label class="block font-medium mb-1">Kuota Partisipasi</label>
+                            <input type="number" name="kuota" value="{{ old('kuota', $event->kuota) }}"
+                                class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-24" placeholder="000">
+                        </div>
+
+                        <!-- Lokasi -->
+                        <div>
+                            <label class="block font-medium mb-1">Lokasi</label>
+                            <textarea name="lokasi" class="w-96 bg-gray-200 border rounded-md px-3 py-2 text-sm h-32 max-h-64"
+                                placeholder="Isi Detail Alamat Acara">{{ old('lokasi', $event->lokasi) }}</textarea>
+                        </div>
+
+                        <!-- Daftar Kegiatan -->
+                        <div>
+                            <label class="block font-medium mb-2">Daftar Kegiatan</label>
+                            <div id="kegiatan-list" class="space-y-2">
+                                @foreach ($event->kegiatan as $k)
+                                    <div
+                                        class="flex items-center gap-2 kegiatan-item bg-gray-100 p-2 rounded-md cursor-move">
+                                        <input type="time" name="kegiatan_waktu[]" value="{{ $k->waktu }}"
+                                            class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-24">
+                                        <input type="text" name="kegiatan_nama[]" value="{{ $k->kegiatan }}"
+                                            class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-80"
+                                            placeholder="Isi Kegiatan">
+                                        <button type="button" onclick="hapusKegiatan(this)"
+                                            class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm">
+                                            Hapus
+                                        </button>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <!-- Tombol Tambah Acara -->
+                        <div>
+                            <button type="button" @click="openModal = true"
+                                class="bg-green-600 text-white px-4 py-2 rounded-md shadow">Tambah Acara</button>
+                        </div>
+
+                        <!-- Modal -->
+                        <!-- Modal Tambah Kegiatan -->
+                        <div x-cloak x-show="openModal"
+                            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                            <div class="bg-white rounded-lg shadow-lg p-6 w-96">
+                                <h2 class="text-lg font-medium mb-4">Tambah Kegiatan</h2>
+
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium">Waktu</label>
+                                    <input type="time" id="modal-waktu"
+                                        class="w-full border rounded-md px-3 py-2 bg-gray-100">
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium">Nama Kegiatan</label>
+                                    <input type="text" id="modal-kegiatan"
+                                        class="w-full border rounded-md px-3 py-2 bg-gray-100" placeholder="Isi Kegiatan">
+                                </div>
+
+                                <div class="flex justify-end gap-2">
+                                    <button type="button" @click="openModal = false"
+                                        class="px-4 py-2 bg-gray-400 text-white rounded-md">Batal</button>
+                                    <button type="button" onclick="tambahKegiatan(); openModal=false;"
+                                        class="px-4 py-2 bg-green-600 text-white rounded-md">Tambah</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit -->
+                        <div class="flex gap-4 mt-6">
+                            <button type="submit"
+                                class="bg-green-600 text-white px-14 py-2 text-lg rounded-md shadow hover:bg-green-500">
+                                Update
+                            </button>
+                            <a href="{{ route('admin.eventform') }}"
+                                class="bg-red-600 hover:bg-red-500 text-white px-16 py-2 text-lg rounded-md shadow">
+                                Batal
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Script -->
+            <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+            <script>
+                document.addEventListener("trix-file-accept", function(event) {
+                    event.preventDefault(); // cegah upload file ke trix
+                    alert("Upload gambar lewat field 'Ganti Media', bukan di deskripsi!");
+                });
+            </script>
+
+            <script>
+                new Sortable(document.getElementById("kegiatan-list"), {
+                    animation: 150,
+                    handle: ".kegiatan-item",
+                    ghostClass: "bg-yellow-100"
+                });
+
+                function tambahKegiatan() {
+                    let waktu = document.getElementById("modal-waktu").value;
+                    let kegiatan = document.getElementById("modal-kegiatan").value;
+
+                    if (waktu && kegiatan) {
+                        let container = document.getElementById("kegiatan-list");
+                        let div = document.createElement("div");
+                        div.classList.add("flex", "items-center", "gap-2", "kegiatan-item", "bg-gray-100", "p-2", "rounded-md",
+                            "cursor-move");
+
+                        div.innerHTML = `
+                <input type="time" name="kegiatan_waktu[]" value="${waktu}"
+                    class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-24">
+                <input type="text" name="kegiatan_nama[]" value="${kegiatan}"
+                    class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-80">
+                <button type="button" onclick="hapusKegiatan(this)"
+                    class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm">
+                    Hapus
+                </button>
+            `;
+
+                        container.appendChild(div);
+                        document.getElementById("modal-waktu").value = "";
+                        document.getElementById("modal-kegiatan").value = "";
+                    }
+                }
+
+                function hapusKegiatan(button) {
+                    button.closest(".kegiatan-item").remove();
+                }
+
+                // Upload gambar 
+                document.getElementById("uploadMedia").addEventListener("change", function(e) {
+                    let file = e.target.files[0];
+                    if (file) {
+                        let reader = new FileReader();
+                        reader.onload = function(event) {
+                            document.getElementById("preview-image").setAttribute("src", event.target.result);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+
+                // Sinkronisasi tanggal mulai, akhir, dan penutupan
+                document.getElementById("tgl_mulai").addEventListener("change", function() {
+                    let tglMulai = this.value;
+                    let tglAkhir = document.getElementById("tgl_akhir");
+                    let pendaftaran = document.getElementById("penutupan_pendaftaran");
+
+                    if (tglMulai) {
+                        // batasi pendaftaran <= tgl_mulai
+                        pendaftaran.setAttribute("max", tglMulai);
+                        if (pendaftaran.value && pendaftaran.value > tglMulai) {
+                            pendaftaran.value = tglMulai;
+                        }
+
+                        // batasi tgl_akhir >= tgl_mulai
+                        tglAkhir.setAttribute("min", tglMulai);
+                        if (tglAkhir.value && tglAkhir.value < tglMulai) {
+                            tglAkhir.value = tglMulai;
+                        }
+                    } else {
+                        pendaftaran.removeAttribute("max");
+                        tglAkhir.removeAttribute("min");
+                    }
+                });
+
+                // Validasi jam (jam_mulai < jam_akhir)
+                document.getElementById("jam_mulai").addEventListener("change", validateJam);
+                document.getElementById("jam_akhir").addEventListener("change", validateJam);
+
+                function validateJam() {
+                    let jamMulai = document.getElementById("jam_mulai").value;
+                    let jamAkhir = document.getElementById("jam_akhir").value;
+
+                    if (jamMulai && jamAkhir && jamAkhir <= jamMulai) {
+                        alert("Jam akhir harus lebih besar dari jam mulai!");
+                        document.getElementById("jam_akhir").value = "";
+                    }
+                }
+            </script>
+
+        </div>
+    </div>
+@endsection

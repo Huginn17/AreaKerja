@@ -52,15 +52,25 @@
                         class="w-full bg-gray-200 border border-gray-400 rounded-md px-4 py-2 mb-8">
 
                     <!-- Upload Media -->
-                    <label for="uploadMedia"
-                        class="cursor-pointer px-4 py-2 bg-gray-100 border rounded-lg shadow hover:bg-gray-200 text-sm font-medium">
-                        Tambahkan Media
-                    </label>
-                    <input id="uploadMedia" type="file" name="image" hidden>
+                    <div class="mb-4">
+                        <label for="uploadMedia"
+                            class="cursor-pointer px-4 py-2 bg-gray-100 border rounded-lg shadow hover:bg-gray-200 text-sm font-medium">
+                            Tambahkan Media
+                        </label>
+                        <input id="uploadMedia" type="file" name="image" accept="image/*" hidden>
+                        <!-- Preview Gambar -->
+                        <div class="mt-3 w-64 h-40 border rounded-md overflow-hidden">
+                            <img id="previewImage"
+                                src="{{ isset($event) && $event->image ? asset('storage/' . $event->image) : asset('images/no images.jpg') }}"
+                                class="w-full h-full object-contain">
+                        </div>
+
+                    </div>
 
                     <!-- Editor -->
                     <div class="rounded-md overflow-hidden mt-4">
-                        <input id="x" type="hidden" name="content">
+                        <input id="x" type="hidden" name="content"
+                            value="{{ old('content', $event->content ?? '') }}">
                         <trix-editor input="x" class="trix-content"></trix-editor>
                     </div>
 
@@ -211,14 +221,13 @@
                     button.closest(".kegiatan-item").remove();
                 }
 
-                // Upload gambar ke Trix
+                // Upload gambar 
                 document.getElementById("uploadMedia").addEventListener("change", function(e) {
                     let file = e.target.files[0];
                     if (file) {
                         let reader = new FileReader();
                         reader.onload = function(event) {
-                            const trixEditor = document.querySelector("trix-editor");
-                            trixEditor.editor.insertHTML(`<img src="${event.target.result}" class="my-3">`);
+                            document.getElementById("previewImage").src = event.target.result;
                         };
                         reader.readAsDataURL(file);
                     }

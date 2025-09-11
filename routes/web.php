@@ -5,6 +5,7 @@ use App\Http\Controllers\AlamatPelamarController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\HargaController;
 use App\Http\Controllers\LupaPasswordController;
 use App\Http\Controllers\PelamarController;
 use App\Http\Controllers\PengalamanKerjaController;
@@ -220,14 +221,20 @@ Route::middleware('auth')->group(function () {
 Route::prefix('finance')->middleware('auth', 'role:finance', 'CheckUserStatus')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'beranda_finance'])->name('finance.dashboard');
 
-    Route::get('/verifikasi', [AuthController::class, 'verif_finance']);
-    Route::get('/verif-otp', [AuthController::class, 'verifotp_finance']);
-    Route::get('/verif-lupapw', [AuthController::class, 'veriflupapw_finance']);
-});
+    // Route::get('/verifikasi', [AuthController::class, 'verif_finance']);
+    // Route::get('/verif-otp', [AuthController::class, 'verifotp_finance']);
+    // Route::get('/verif-lupapw', [AuthController::class, 'veriflupapw_finance']);
 
-Route::get('/finance/paketharga', function () {
-    return view('finance.paket-harga');
-})->name('finance.paket-harga');
+
+    //PAKET HARGA
+    Route::get('/paket/harga', [HargaController::class, 'index'])->name('finance.paket-harga');
+
+    Route::get('/paketharga/edit/koin', [HargaController::class, 'edit_koin'])->name('finance.paket-harga.edit-koin');
+    Route::put('/update/harga/koin', [HargaController::class, 'update_koin'])->name('finance.paket-harga.update-koin');
+
+    Route::get('/paketharga/edit/harga', [HargaController::class, 'edit_pembayaran'])->name('finance.paket-harga.edit-pembayaran');
+    Route::put('/update/harga/harga', [HargaController::class, 'update_pembayaran'])->name('finance.paket-harga.update-pembayaran');
+});
 
 Route::get('/finance/omset/perusahaan', function () {
     return view('finance.omset-perusahaan');
@@ -341,6 +348,9 @@ Route::get('/admin/recruitment', function () {
 });
 Route::get('/admin/talenthunter', function () {
     return view('admin.talenthunter');
+});
+Route::get('/admin/finance/koin', function () {
+    return view('admin.finance-koin');
 });
 Route::get('/admin/finance/tunai', function () {
     return view('admin.finance-tunai');

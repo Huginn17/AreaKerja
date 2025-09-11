@@ -75,7 +75,7 @@
                 </li>
                 <li>
                     <div
-                        class="{{ request()->is('finance/paketharga') ? 'bg-white text-orange-500' : 'text-white' }} rounded-md">
+                        class="{{ request()->is('finance/paket/harga') ? 'bg-white text-orange-500' : 'text-white' }} rounded-md">
                         <a href="{{ route('finance.paket-harga') }}"
                             class="flex font-semibold items-center gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 24 24"

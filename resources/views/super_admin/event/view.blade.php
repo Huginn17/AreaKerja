@@ -81,7 +81,7 @@
             </div>
 
             <div class="flex justify-end items-center space-x-4 mb-6">
-                <button class="bg-blue-500 text-white px-12 py-2 rounded text-sm">Edit Event</button>
+                <a href="{{ route('superadmin.edit.event', $event->id) }}" class="bg-blue-500 text-white px-12 py-2 rounded text-sm">Edit Event</a>
                 <button class="bg-blue-500 text-white px-6 py-2 rounded text-sm">Lihat Partisipan</button>
             </div>
 

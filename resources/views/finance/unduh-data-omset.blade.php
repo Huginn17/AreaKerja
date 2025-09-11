@@ -37,8 +37,8 @@
         <span class="text-orange-500 font-semibold text-lg">Areakerja.com</span>
       </div>
       <div class="text-sm text-right">
-        <p class="text-lg">Email: finance.group@gmail.com</p>
-        <p class="text-lg">No.Telp: 0816342825322</p>
+        <p class="text-lg font-semibold">Email: finance.group@gmail.com</p>
+        <p class="text-lg font-semibold">No.Telp: 0816342825322</p>
       </div>
     </div>
   

@@ -74,7 +74,7 @@
                 @else
                     <span class="bg-gray-500 text-white px-4 py-2 rounded text-sm">Draft</span>
                 @endif
-                <form action="{{ route('superadmin.event.destroy', $event->id) }}" method="post">
+                <form action="{{ route('admin.event.destroy', $event->id) }}" method="post">
                     @csrf
                     @method('delete')
                     <button class="bg-red-500 text-white px-14 py-2 rounded text-sm">Hapus</button>
@@ -82,8 +82,8 @@
             </div>
 
             <div class="flex justify-end items-center space-x-4 mb-6">
-                <button class="bg-blue-500 text-white px-12 py-2 rounded text-sm">Edit Event</button>
-                <button class="bg-blue-500 text-white px-6 py-2 rounded text-sm">Lihat Partisipan</button>
+                <a href="{{ route('admin.edit.event', $event->id) }}" class="bg-blue-500 text-white px-12 py-2 rounded text-sm">Edit Event</a>
+                <a href="#" class="bg-blue-500 text-white px-6 py-2 rounded text-sm">Lihat Partisipan</a>
             </div>
 
             {{-- tanggal --}}
