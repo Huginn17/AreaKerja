@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class HargaPembayaran extends Model
+class DaftarBank extends Model
 {
     use HasFactory;
-    protected $table = 'harga_pembayarans';
+    protected $table = 'daftar_bank';
     protected $guarded = [];
 
     public function catatanCash()

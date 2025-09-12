@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DaftarBank;
+use App\Models\HargaPembayaran;
+use App\Models\Pembayaran;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -112,7 +115,10 @@ class AuthController extends Controller
     //LOGIN PERUSAHAAN
     public function beranda_perusahaan()
     {
-        return view('perusahaan.dashboard');
+        return view('perusahaan.dashboard', [
+            'hargaPembayarans' => HargaPembayaran::all(),
+            'daftarBank' => DaftarBank::all()
+        ]);
     }
     public function loginproses_perusahaan(Request $request)
     {

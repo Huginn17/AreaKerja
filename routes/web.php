@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AlamatPelamarController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CatatanCashController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\HargaController;
@@ -220,6 +221,8 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('finance')->middleware('auth', 'role:finance', 'CheckUserStatus')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'beranda_finance'])->name('finance.dashboard');
+    // hanya finance yang bisa akses
+    Route::post('/topup/{id}/update-status', [CatatanCashController::class, 'updateStatus'])->name('catatan_cash.update_status');
 
     // Route::get('/verifikasi', [AuthController::class, 'verif_finance']);
     // Route::get('/verif-otp', [AuthController::class, 'verifotp_finance']);
@@ -566,6 +569,9 @@ Route::get('/super_admin/detail/data/kandidat', function () {
 Route::get('/super_admin/update/pelamar/kandidat', function () {
     return view('super_admin.update-pelamar-kandidat');
 });
+Route::get('/super_admin/riwayat/tunai/koin', function () {
+    return view('super_admin.riwayat-tunai-koin');
+});
 
 
 
@@ -574,8 +580,6 @@ Route::get('/super_admin/update/pelamar/kandidat', function () {
 
 
 
-//Perusahaan
-Route::get('/perusahaan/dashboard', [AuthController::class, 'beranda_perusahaan'])->name('perusahaan.dashboard');
 
 Route::get('/perusahaan/dashboard/isi', function () {
     return view('perusahaan.dashboard-isi');
@@ -586,6 +590,7 @@ Route::get('/perusahaan/pelamar', function () {
 });
 
 Route::prefix('perusahaan')->middleware('guest')->group(function () {
+ 
 
     //VERFIKASI PASSWORD
     Route::get('/verifikasi', [LupaPasswordController::class, 'showEmailForm_perusahaan'])->name('verifikasi_perusahaan');
@@ -600,6 +605,7 @@ Route::prefix('perusahaan')->middleware('guest')->group(function () {
 
 
 Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserStatus')->group(function () {
+       Route::get('/dashboard', [AuthController::class, 'beranda_perusahaan'])->name('perusahaan.dashboard');
     //PROFILE PERUSAHAAN
     Route::get('/profile', [PerusahaanController::class, 'profile_perusahaan'])->name('profile.perusahaan');
     Route::get('/edit/profile', [PerusahaanController::class, 'edit_profile'])->name('profile.edit.perusahaan');
@@ -614,6 +620,17 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
     Route::get('/edit/alamat/{alamatperusahaan:id}', [PerusahaanController::class, 'edit_alamat'])->name('alamat.edit.perusahaan');
     Route::put('/update/alamat/{alamatperusahaan:id}', [PerusahaanController::class, 'update_alamat'])->name('alamat.update.perusahaan');
     Route::delete('/delete/alamat/{alamatperusahaan:id}', [PerusahaanController::class, 'destroy_alamat'])->name('alamat.destroy.perusahaan');
+
+
+    //TOP UP
+    Route::middleware('auth')->group(function () {
+    Route::post('/topup/store', [CatatanCashController::class, 'store'])->name('catatan_cash.store');
+    Route::get('/topup/{id}', [CatatanCashController::class, 'show'])->name('catatan_cash.show');
+    Route::post('/topup/{id}/upload-bukti', [CatatanCashController::class, 'uploadBukti'])->name('catatan_cash.upload_bukti');
+
+    
+});
+
 });
 
 

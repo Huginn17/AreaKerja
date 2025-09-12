@@ -26,6 +26,8 @@
             font-family: 'Poppins', sans-serif;
         }
     </style>
+    <script src="//unpkg.com/alpinejs" defer></script>
+
 </head>
 
 <body>
@@ -62,7 +64,7 @@
                         <span class="absolute top-0 right-0 block h-2 w-2 bg-yellow-400 rounded-full"></span>
                     </button>
 
-                    <!-- Modal -->
+                    {{-- <!-- Modal -->
                     <div id="notifModal" class="fixed inset-0 bg-black/40 hidden z-50 justify-end">
                         <div class="relative w-96 bg-white rounded-xl shadow-xl overflow-hidden mt-16 mr-10"
                             style="margin-left: 800px">
@@ -119,13 +121,13 @@
                                 <button class="text-sm text-gray-800">Tandai Baca</button>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
-                    <script>
+                    {{-- <script>
                         function toggleModal() {
                             document.getElementById("notifModal").classList.toggle("hidden");
                         }
-                    </script>
+                    </script> --}}
 
                 </button>
                 @guest
@@ -276,7 +278,7 @@
             }
         });
     </script>
-    
+    <script src="//unpkg.com/alpinejs" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </body>
 

@@ -10,13 +10,13 @@
                 </svg>
 
                 <!-- User box -->
-                <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
+                <div class="flex items-center gap-2 bg-white px-3 py-2 border border-orange-600 shadow-md rounded-2xl">
                     <a href="#">
-                        <img src="{{ asset('images/ohim.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
+                        <img src="{{ asset('images/seven.png') }}" class="w-12 h-12 rounded-full" alt="User">
                     </a>
                     <div class="text-md">
-                        <div class="font-semibold">Dj Ohim</div>
-                        <div class="text-gray-500">lutung123@gmail.com</div>
+                        <div class="font-semibold">Seven Inc</div>
+                        <div class="text-gray-500">Seveninc@gmail.com</div>
                     </div>
 
                     <select class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-md focus:outline-none">
@@ -54,7 +54,7 @@
                 </thead>
                 <tbody>
                     @for ($i = 0; $i < 10; $i++)
-                        <tr class="text-center">
+                        <tr class="text-center font-semibold">
                             <td class="px-4 py-2">1</td>
                             <td class="px-4 py-2">Admin</td>
                             <td class="px-4 py-2">useradmin5@gmail.com</td>

@@ -60,4 +60,13 @@ class HargaController extends Controller
     }
 
 
+    //TOP UP
+    public function top_up()
+    {
+        return view('finance.paket-harga.top-up', [
+            'title' => 'Top Up',
+        ]); 
+    }
+
+
 }

@@ -3,19 +3,19 @@
     <div class="flex-1 p-6 bg-white overflow-y-auto">
         {{-- Header --}}
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-medium">Paket Harga</h1>
+    <h1 class="text-2xl font-medium">Paket Harga</h1>
 
             <!-- user info -->
             <div class="flex items-center gap-3">
                 <svg width="31" height="32" viewBox="0 0 31 32" fill="none"
                     xmlns="http://www.w3.org/2000/svg">...</svg>
-                <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
+                <div class="flex items-center gap-2 bg-white px-3 py-2 border border-orange-600 shadow-md rounded-2xl">
                     <a href="#">
-                        <img src="{{ asset('images/ohim.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
+                        <img src="{{ asset('images/seven.png') }}" class="w-12 h-12 rounded-full" alt="User">
                     </a>
                     <div class="text-md">
-                        <div class="font-semibold">Dj Ohim</div>
-                        <div class="text-gray-500">lutung123@gmail.com</div>
+                        <div class="font-semibold">Seven Inc</div>
+                        <div class="text-gray-500">seveninc@gmail.com</div>
                     </div>
                     <select class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-md focus:outline-none">
                         <option>Text 1</option>
@@ -42,20 +42,56 @@
                     <div class="flex justify-between items-center mb-2">
                         <h2 class="flex justify-between items-start text-lg font-semibold mb-2">Paket Harga Koin</h2>
                         <button onclick="bukaModal()"
-                            class="bg-orange-500 text-white text-xs px-5 py-1 rounded-full ml-auto">Edit</button>
+                            class="bg-orange-500 hover:bg-orange-600 text-white text-lg px-7 py-1 rounded-full ml-auto">Edit</button>
                     </div>
                     <div class="border border-gray-300 rounded-2xl overflow-hidden w[500px]">
 
                         {{-- header --}}
-                        <div class="flex justify-between items-center bg-orange-500 text-white px-4 py-2">
+                        <div class="flex justify-between items-center bg-orange-500 text-white px-4 py-3">
                             <div class="flex-1 font-semibold">Nama</div>
                             <div class="font-semibold">Harga</div>
                         </div>
 
                         {{-- isi tabel --}}
                         <div class="divider-y divide-gray-300 bg-white">
-                            <div class="flex justify-between items-center px-4 py-3">
+                            <div class="flex justify-between items-center px-4 py-3 border-2">
                                 <div>Pasang Lowongan Bronze</div>
+                                <div>150 Koin</div>
+                            </div>
+                        </div>
+
+                          {{-- isi tabel --}}
+                        <div class="divider-y divide-gray-300 bg-white">
+                            <div class="flex justify-between items-center px-4 py-3 border-2">
+                                <div>Pasang Lowongan Silver</div>
+                                <div>150 Koin</div>
+                            </div>
+                        </div>
+
+                           <div class="divider-y divide-gray-300 bg-white">
+                            <div class="flex justify-between items-center px-4 py-3 border-2">
+                                <div>Pasang Lowongan Gold</div>
+                                <div>150 Koin</div>
+                            </div>
+                        </div>
+
+                           <div class="divider-y divide-gray-300 bg-white">
+                            <div class="flex justify-between items-center px-4 py-3 border-2">
+                                <div>Open Talent Hunter</div>
+                                <div>150 Koin</div>
+                            </div>
+                        </div>
+
+                           <div class="divider-y divide-gray-300 bg-white">
+                            <div class="flex justify-between items-center px-4 py-3 border-2">
+                                <div>Open CV</div>
+                                <div>150 Koin</div>
+                            </div>
+                        </div>
+
+                           <div class="divider-y divide-gray-300 bg-white">
+                            <div class="flex justify-between items-center px-4 py-3 border-2">
+                                <div>Berlanganan</div>
                                 <div>150 Koin</div>
                             </div>
                         </div>
@@ -66,21 +102,57 @@
                 <div class="mb-10">
                     <div class="flex justify-between items-center mb-2">
                         <h2 class="flex justify-between items-start text-lg font-semibold mb-2">Paket Harga Pembayaran</h2>
-                        <button class="bg-orange-500 text-white text-xs px-5 py-1 rounded-full ml-auto">Edit</button>
+                        <button class="bg-orange-500 hover:bg-orange-600 text-white text-lg px-7 py-1 rounded-full ml-auto">Edit</button>
                     </div>
                     <div class="border border-gray-300 rounded-2xl overflow-hidden w[500px]">
 
                         {{-- header --}}
-                        <div class="flex justify-between items-center bg-orange-500 text-white px-4 py-2">
-                            <div class="flex-1 font-semibold">Nama</div>
+                        <div class="flex justify-between items-center bg-orange-500 text-white px-4 py-3">
+                            <div class="flex-1 font-semibold ">Nama</div>
                             <div class="font-semibold">Harga</div>
                         </div>
 
                         {{-- isi tabel --}}
                         <div class="divider-y divide-gray-300 bg-white">
-                            <div class="flex justify-between items-center px-4 py-3">
+                            <div class="flex justify-between items-center px-4 py-3 border-2">
                                 <div>Pendaftaran kandidat</div>
-                                <div>Rp. 10.000.000</div>
+                                <div>Rp. 200.000</div>
+                            </div>
+                        </div>
+
+                               <div class="divider-y divide-gray-300 bg-white">
+                            <div class="flex justify-between items-center px-4 py-3 border-2">
+                                <div>Top Up 10 Koin Areakerja</div>
+                                <div>Rp. 10.000</div>
+                            </div>
+                        </div>
+
+                         <div class="divider-y divide-gray-300 bg-white">
+                            <div class="flex justify-between items-center px-4 py-3 border-2">
+                                <div>Top Up 100 Koin Areakerja</div>
+                                <div>Rp. 100.000</div>
+                            </div>
+                        </div>
+
+                         <div class="divider-y divide-gray-300 bg-white">
+                            <div class="flex justify-between items-center px-4 py-3 border-2">
+                                <div>Top Up 1.000 Koin Areakerja</div>
+                                <div>Rp. 500.000</div>
+                            </div>
+                        </div>
+
+
+                         <div class="divider-y divide-gray-300 bg-white">
+                            <div class="flex justify-between items-center px-4 py-3 border-2">
+                                <div>Top Up 10.000 Koin Areakerja</div>
+                                <div>Rp. 1000.000</div>
+                            </div>
+                        </div>
+
+                         <div class="divider-y divide-gray-300 bg-white">
+                            <div class="flex justify-between items-center px-4 py-3 border-2">
+                                <div>Top Up 100.000 Koin Areakerja</div>
+                                <div>Rp. 1.500.000</div>
                             </div>
                         </div>
                     </div>

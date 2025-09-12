@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Admin;
+use App\Models\DaftarBank;
 use App\Models\Finance;
 use App\Models\Hargakoin;
 use App\Models\HargaPembayaran;
@@ -102,40 +103,52 @@ class DatabaseSeeder extends Seeder
             "nama"     =>    "Top Up 10 Koin Area Kerja",
             "jumlah_koin" =>  10,
             "harga"       => 10000,
-            "icon"        => "topup_icon/1.png"
+            "icon"        => "bitcoin.png"
         ]);
         HargaPembayaran::create([
             "nama"     =>    "Top Up 100 Koin Area Kerja",
             "jumlah_koin" =>  100,
             "harga"       => 100000,
-            "icon"        => "topup_icon/2.png"
+            "icon"        => "bit2.png"
 
         ]);
         HargaPembayaran::create([
             "nama"     =>    "Top Up 1000 Koin Area Kerja",
             "jumlah_koin" =>  1000,
             "harga"       => 500000,
-            "icon"        => "topup_icon/3.png"
+            "icon"        => "bit3.png"
         ]);
         HargaPembayaran::create([
             "nama"     =>    "Top Up 10000 Koin Area Kerja",
             "jumlah_koin" =>  10000,
             "harga"       => 1000000,
-            "icon"        => "topup_icon/4.png"
+            "icon"        => "bit4.png"
             
         ]);
         HargaPembayaran::create([
             "nama"     =>    "Top Up 100000 Koin Area Kerja",
             "jumlah_koin" =>  100000,
             "harga"       => 1500000,
-            "icon"        => "topup_icon/5.png"
+            "icon"        => "bit5.png"
         ]);
         HargaPembayaran::create([
             "nama"     =>    "Top Up 1000000 Koin Area Kerja",
             "jumlah_koin" =>  1000000,
             "harga"       => 2000000,
-            "icon"        => "topup_icon/6.png"
+            "icon"        => "bit6.png"
         ]);
-       
+         DaftarBank::create([
+            "nama_bank"  =>    "BCA",
+            "owner"      =>     "Areakerja",
+            "no_rek"     =>     "009912212",
+            "logo_image"   =>     "topup_icon/Bca.png"
+        ]);
+        DaftarBank::create([
+            "nama_bank"  =>    "BRI",
+            "owner"      =>     "Areakerja",
+            "no_rek"     =>     "0021222112",
+            "logo_image"   =>     "topup_icon/Bri.png"
+        ]);
+      
     }
 }

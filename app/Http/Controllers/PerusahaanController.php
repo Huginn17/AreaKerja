@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class PerusahaanController extends Controller
 {
+    
     public function profile_perusahaan()
     {
         return view('perusahaan.profile.profile-perusahaan');

@@ -80,4 +80,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(EmailVerification::class, 'user_id');
     }
+
+    public function pembayaran()
+    {
+        return $this->hasMany(HargaPembayaran::class, 'user_id');
+    }
 }
