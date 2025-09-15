@@ -18,6 +18,8 @@
     <link rel="icon" sizes="512x512" type="image/png" href="{{ asset('images/logoarea.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     {{-- Paksa semua teks pakai Poppins  --}}
@@ -169,8 +171,7 @@
                                     <img src="{{ asset('images/logoarea.png') }}" alt="Logo" class="w-10 h-10">
                                     <div>
                                         <span class="block text-sm text-gray-900">{{ Auth::user()->username }}</span>
-                                        <span
-                                            class="block text-sm text-gray-500 truncate">{{ Auth::user()->email }}</span>
+                                        <span class="block text-sm text-gray-500 truncate">{{ Auth::user()->email }}</span>
                                     </div>
                                 </div>
                                 <hr>

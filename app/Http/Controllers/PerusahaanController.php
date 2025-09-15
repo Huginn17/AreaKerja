@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AlamatPerusahaan;
+use App\Models\CatatanCash;
 use App\Models\Perusahaan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 
 class PerusahaanController extends Controller
 {
-    
+
     public function profile_perusahaan()
     {
         return view('perusahaan.profile.profile-perusahaan');
@@ -125,4 +126,10 @@ class PerusahaanController extends Controller
         $alamatperusahaan->delete();
         return redirect()->route('alamat.perusahaan')->with('success', 'Alamat berhasil dihapus');
     }
+
+    // public function detail_transaksi_coin($id)
+    // {
+    //     $transaksi = CatatanCash::findOrFail($id);
+    //     return view('perusahaan.transaksi-koin', compact('transaksi'));
+    // }
 }

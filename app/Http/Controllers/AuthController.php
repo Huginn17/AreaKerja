@@ -115,11 +115,15 @@ class AuthController extends Controller
     //LOGIN PERUSAHAAN
     public function beranda_perusahaan()
     {
+        $perusahaan = auth()->user()->perusahaan;
+
         return view('perusahaan.dashboard', [
             'hargaPembayarans' => HargaPembayaran::all(),
-            'daftarBank' => DaftarBank::all()
+            'daftarBank' => DaftarBank::all(),
+            'perusahaan' => $perusahaan, 
         ]);
     }
+
     public function loginproses_perusahaan(Request $request)
     {
         $val = $request->validate([

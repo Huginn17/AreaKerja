@@ -7,14 +7,17 @@
   <div>
     <p class="font-semibold text-2xl mb-2">Riwayat</p><br>
   
+ <form action="/submit" method="POST" class="flex items-center gap-3">
   <!-- Dropdown -->
-        <select id="menu_select"
-            class="w-48 bg-orange-500 text-white font-medium px-4 py-2 border border-orange-500 rounded-lg flex justify-between items-center focus:outline-none">
-            <option value="paket_harga">Riwayat</option>
-            <option value="riwayat">Paket Harga</option>
-            <option value="laporan">Laporan</option>
-        </select>
+  <select id="menu_select" name="menu_select"
+          class="w-48 bg-orange-500 text-white font-medium px-4 py-2 border border-orange-500 rounded-lg focus:outline-none">
+      <option value="riwayat">Riwayat</option>
+      <option value="paket_harga">Paket Harga</option>
+      <option value="laporan">Laporan</option>
+  </select>
+</form>
     </button>
+    
   </div>
             <div class="flex items-center gap-3">
                 <svg width="31" height="32" viewBox="0 0 31 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -57,7 +60,6 @@
                         <option>Text 3</option>
                     </select>
                 </div>
-
             </div>
         </header>
 

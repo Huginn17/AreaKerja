@@ -10,6 +10,7 @@
     <title>Document</title>
 
     @vite('resources/css/app.css')
+    <script src="//unpkg.com/alpinejs" defer></script>
     <link rel="icon" sizes="512x512" type="image/png" href="{{ asset('images/logoarea.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
@@ -108,8 +109,8 @@
                 </li>
                 <li>
                     <div
-                        class="{{ request()->is('finance/catatan/transaksi') ? 'bg-white text-orange-500' : 'text-white' }} rounded-md">
-                        <a href="{{ route('finance.catatan-tran') }}"
+                        class="{{ request()->is('finance/laporan') ? 'bg-white text-orange-500' : 'text-white' }} rounded-md">
+                        <a href="{{ route('finance.laporan') }}"
                             class="flex font-semibold items-center gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
                             <svg width="20" height="21" viewBox="0 0 20 21" fill="currentColor" class="-ml-1"
                                 xmlns="http://www.w3.org/2000/svg">

@@ -13,16 +13,22 @@ class CatatanCash extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function hargaPembayaran()
     {
-        return $this->belongsTo(HargaPembayaran::class);
+        return $this->belongsTo(HargaPembayaran::class, 'harga_pembayaran_id');
     }
 
     public function bank()
     {
         return $this->belongsTo(DaftarBank::class, 'daftar_bank_id');
     }
+
+    public function perusahaan()
+{
+    return $this->user->perusahaan; 
+}
+
 }

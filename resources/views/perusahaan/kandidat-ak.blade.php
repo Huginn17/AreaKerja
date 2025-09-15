@@ -11,7 +11,6 @@
             <p class="text-sm mt-4">Sambutlah hari ini dengan semangat, dan <br>
                 manfaatkan sepenuhnya fasilitas yang kami <br>
                 berikan demi kenyamanan anda</p>
-
         </div>
     </section>
 

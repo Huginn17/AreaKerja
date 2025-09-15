@@ -21,8 +21,9 @@ return new class extends Migration
             $table->string('dari')->nullable();
             $table->string('sumberDana')->nullable();
             $table->integer('total')->nullable();
-            $table->enum('status', ['pending', 'menunggu_verifikasi', 'diterima', 'ditolak'])->default('pending');
+            $table->enum('status', ['pending', 'menunggu_verifikasi','expired', 'diterima', 'ditolak'])->default('pending');
             $table->string('bukti')->nullable();
+            $table->timestamp('expired_at')->nullable();
             $table->timestamps();
         });
     }

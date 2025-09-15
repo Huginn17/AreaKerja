@@ -31,16 +31,20 @@ class CatatanCashController extends Controller
             'sumberDana' => 'Transfer Bank',
             'total' => $harga->harga,
             'status' => 'pending',
+            'expired_at' => now()->addHours(24),
         ]);
 
-        return redirect()->route('catatan_cash.show', $transaksi->id);
+        return response()->json([
+            'success' => true,
+            'redirect_url' => route('catatan_cash.show', $transaksi->id)
+        ]);
     }
 
     //halaman detail transaksi
     public function show($id)
     {
         $transaksi = CatatanCash::with('hargaPembayaran', 'bank')->findOrFail($id);
-        return view('finance.catatan_cash.show', compact('transaksi'));
+        return view('perusahaan.transaksi-koin', compact('transaksi'));
     }
 
     //upload bukti transaksi
@@ -56,32 +60,32 @@ class CatatanCashController extends Controller
 
         $transaksi->update([
             'bukti' => $path,
-            'status' => 'menunggu verifikasi',
+            'status' => 'menunggu_verifikasi',
         ]);
         return redirect()->route('catatan_cash.show', $transaksi->id)
             ->with('success', 'Bukti transfer berhasil diupload.');
     }
 
     //finance update status 
-    public function updateStatus(Request $request, $id)
-    {
-      $transaksi = CatatanCash::findOrFail($id);
+    // public function updateStatus(Request $request, $id)
+    // {
+    //     $transaksi = CatatanCash::findOrFail($id);
 
-      $request->validate([
-        'status' => 'required|in:diterima,ditolak',
-      ]);
+    //     $request->validate([
+    //         'status' => 'required|in:diterima,ditolak',
+    //     ]);
 
-      $transaksi->update([
-         'status' => $request->status
-      ]);
+    //     $transaksi->update([
+    //         'status' => $request->status
+    //     ]);
 
-      //jika diterima, tambahkan koin perusahaan
-      if ($request->status == 'diterima') {
-          $perusahaan = Perusahaan::where('user_id', $transaksi->user_id)->first();
-          if($perusahaan){
-            $perusahaan->incerment('koin_perusahaan', $transaksi->hargaPembayaran->jumlah_koin);
-          }
-      }
-       return back()->with('success', 'Status transaksi berhasil diperbarui.');
-    }
+    //     //jika diterima, tambahkan koin perusahaan
+    //     if ($request->status == 'diterima') {
+    //         $perusahaan = Perusahaan::where('user_id', $transaksi->user_id)->first();
+    //         if ($perusahaan) {
+    //             $perusahaan->increment('koin_perusahaan', $transaksi->hargaPembayaran->jumlah_koin);
+    //         }
+    //     }
+    //     return back()->with('success', 'Status transaksi berhasil diperbarui.');
+    // }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CatatanCashController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\HargaController;
 use App\Http\Controllers\LupaPasswordController;
 use App\Http\Controllers\PelamarController;
@@ -237,6 +238,11 @@ Route::prefix('finance')->middleware('auth', 'role:finance', 'CheckUserStatus')-
 
     Route::get('/paketharga/edit/harga', [HargaController::class, 'edit_pembayaran'])->name('finance.paket-harga.edit-pembayaran');
     Route::put('/update/harga/harga', [HargaController::class, 'update_pembayaran'])->name('finance.paket-harga.update-pembayaran');
+
+    //LAP TRANSAKSI
+    Route::get('/finance/laporan', [FinanceController::class, 'laporan'])->name('finance.laporan');
+    Route::get('/finance/detail/{id}', [FinanceController::class, 'detail'])->name('finance.detail');
+    Route::post('/finance/verifikasi/{id}', [FinanceController::class, 'verifikasi'])->name('finance.verifikasi');
 });
 
 Route::get('/finance/omset/perusahaan', function () {
@@ -251,17 +257,10 @@ Route::get('/finance/unduh/data/omset', function () {
     return view('finance.unduh-data-omset');
 })->name('finance.unduh-data-omset');
 
-Route::get('/finance/catatan/transaksi', function () {
-    return view('finance.catatan-tran');
-})->name('finance.catatan-tran');
-
 Route::get('/finance/laporan/transaksi', function () {
     return view('finance.laporan-tran');
 })->name('finance.laporan-tran');
 
-Route::get('/finance/laporan/transaksi2', function () {
-    return view('finance.laporan-tran2');
-})->name('finance.laporan-tran2');
 
 
 
@@ -572,6 +571,9 @@ Route::get('/super_admin/update/pelamar/kandidat', function () {
 Route::get('/super_admin/riwayat/tunai/koin', function () {
     return view('super_admin.riwayat-tunai-koin');
 });
+Route::get('/super_admin/paket/harga', function () {
+    return view('super_admin.paket-harga');
+});
 
 
 
@@ -590,7 +592,7 @@ Route::get('/perusahaan/pelamar', function () {
 });
 
 Route::prefix('perusahaan')->middleware('guest')->group(function () {
- 
+
 
     //VERFIKASI PASSWORD
     Route::get('/verifikasi', [LupaPasswordController::class, 'showEmailForm_perusahaan'])->name('verifikasi_perusahaan');
@@ -605,7 +607,7 @@ Route::prefix('perusahaan')->middleware('guest')->group(function () {
 
 
 Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserStatus')->group(function () {
-       Route::get('/dashboard', [AuthController::class, 'beranda_perusahaan'])->name('perusahaan.dashboard');
+    Route::get('/dashboard', [AuthController::class, 'beranda_perusahaan'])->name('perusahaan.dashboard');
     //PROFILE PERUSAHAAN
     Route::get('/profile', [PerusahaanController::class, 'profile_perusahaan'])->name('profile.perusahaan');
     Route::get('/edit/profile', [PerusahaanController::class, 'edit_profile'])->name('profile.edit.perusahaan');
@@ -624,13 +626,12 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
 
     //TOP UP
     Route::middleware('auth')->group(function () {
-    Route::post('/topup/store', [CatatanCashController::class, 'store'])->name('catatan_cash.store');
-    Route::get('/topup/{id}', [CatatanCashController::class, 'show'])->name('catatan_cash.show');
-    Route::post('/topup/{id}/upload-bukti', [CatatanCashController::class, 'uploadBukti'])->name('catatan_cash.upload_bukti');
+        Route::post('/topup/store', [CatatanCashController::class, 'store'])->name('catatan_cash.store');
+        Route::get('/topup/{id}', [CatatanCashController::class, 'show'])->name('catatan_cash.show');
+        Route::post('/topup/{id}/upload-bukti', [CatatanCashController::class, 'uploadBukti'])->name('catatan_cash.upload_bukti');
 
-    
-});
-
+        // Route::get('/perusahaan/transaksi-koin/{id}', [PerusahaanController::class, 'detail_transaksi_coin'])->name('perusahaan.transaksi.coin.detail');
+    });
 });
 
 
@@ -678,9 +679,7 @@ Route::get('/perusahaan/kandidat', function () {
     return view('perusahaan.kandidat-saya');
 });
 
-Route::get('/perusahaan/transaksi/koin', function () {
-    return view('perusahaan.transaksi-koin');
-});
+
 
 Route::get('/perusahaan/transaksi/koin/qris', function () {
     return view('perusahaan.transaksi-koin-qris');
