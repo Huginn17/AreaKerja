@@ -11,11 +11,19 @@
 
     @vite('resources/css/app.css')
     <script src="//unpkg.com/alpinejs" defer></script>
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css" />
     <link rel="icon" sizes="512x512" type="image/png" href="{{ asset('images/logoarea.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -109,7 +117,7 @@
                 </li>
                 <li>
                     <div
-                        class="{{ request()->is('finance/laporan') ? 'bg-white text-orange-500' : 'text-white' }} rounded-md">
+                        class="{{ request()->is('/laporan') ? 'bg-white text-orange-500' : 'text-white' }} rounded-md">
                         <a href="{{ route('finance.laporan') }}"
                             class="flex font-semibold items-center gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
                             <svg width="20" height="21" viewBox="0 0 20 21" fill="currentColor" class="-ml-1"
@@ -122,7 +130,8 @@
                                     stroke="currentColor" stroke-width="1.5" fill="none" />
                                 <path
                                     d="M7 6.5H13M7 9.3H10.75M10.75 13.7V16.524C10.75 16.7448 10.75 16.8552 10.6787 16.9C10.6075 16.9448 10.5107 16.8952 10.3157 16.796L9.38425 16.324C9.31825 16.292 9.28525 16.2744 9.25 16.2744C9.21475 16.2744 9.18175 16.2912 9.11575 16.3248L8.18425 16.7968C7.98925 16.8952 7.89175 16.9448 7.82125 16.9C7.75 16.8552 7.75 16.7448 7.75 16.524V14.06"
-                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" />
+                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                    fill="none" />
                             </svg>
                             Catatan Transaksi
                         </a>

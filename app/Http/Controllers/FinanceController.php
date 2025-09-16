@@ -10,18 +10,29 @@ class FinanceController extends Controller
     public function verifikasi($id, Request $request)
     {
         $transaksi = CatatanCash::findOrFail($id);
+        $perusahaan = $transaksi->user->perusahaan;
+        $paket = $transaksi->hargaPembayaran;
 
-        if ($request->action == 'terima') {
+        if ($request->action == 'terima' && $transaksi->status !== 'diterima') {
+            // Ubah status
             $transaksi->status = 'diterima';
             $transaksi->save();
 
-            // ✅ Tambahkan koin ke perusahaan
-            if ($transaksi->user && $transaksi->user->perusahaan && $transaksi->hargaPembayaran) {
-                $perusahaan = $transaksi->user->perusahaan;
-                $perusahaan->koin_perusahaan += $transaksi->hargaPembayaran->jumlah_koin;
-                $perusahaan->save();
+            // Tambah koin ke perusahaan
+            $perusahaan->koin_perusahaan += $paket->jumlah_koin;
+            $perusahaan->save();
+        } elseif ($request->action == 'tolak' && $transaksi->status === 'diterima') {
+
+            $transaksi->status = 'ditolak';
+            $transaksi->save();
+
+            $perusahaan->koin_perusahaan -= $paket->jumlah_koin;
+            if ($perusahaan->koin_perusahaan < 0) {
+                $perusahaan->koin_perusahaan = 0;
             }
+            $perusahaan->save();
         } elseif ($request->action == 'tolak') {
+            // Kalau status awal masih pending
             $transaksi->status = 'ditolak';
             $transaksi->save();
         }
@@ -38,7 +49,7 @@ class FinanceController extends Controller
             $query->where('created_at', '>=', now()->subMonths($request->periode));
         }
 
-        $transaksi = $query->orderBy('created_at', 'desc')->get();
+        $transaksi = $query->orderBy('created_at', 'desc')->take(10)->get();
 
         return view('finance.catatan-tran', compact('transaksi'));
     }
@@ -58,5 +69,11 @@ class FinanceController extends Controller
             'status' => ucfirst($transaksi->status),
             'created_at' => $transaksi->created_at->format('d M Y H:i')
         ]);
+    }
+
+    public function hal_detail()
+    {
+        $transaksi = CatatanCash::with(['user', 'bank', 'hargaPembayaran'])->latest()->get();
+        return view('finance.detail-cat-koin', compact('transaksi'));
     }
 }

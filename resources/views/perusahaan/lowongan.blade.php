@@ -121,8 +121,6 @@
         </div>
 
 
-
-
           <div class="flex items-center gap-4 p-4 rounded-lg shadow bg-white">
             <img src="{{ asset('images/seven.png') }}" alt="Logo" class="w-16 h-16 object-contain">
             <div class="flex-1">
@@ -135,7 +133,7 @@
                 </span>
             </div>
             <p class="text-xs text-gray-500">Aktif 2 jam lalu</p>
-        </div>
+        </div>  
 
 
 

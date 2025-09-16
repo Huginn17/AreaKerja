@@ -13,12 +13,16 @@
 <body class="bg-white text-black">
 
   <div class="max-w-4xl mx-auto p-6 translate-x-40 overflow-y-auto">
+       <h3 class="text-xl font-semibold mb-3">Paket Harga</h3>
 
+
+</form>
     <!-- Header -->
     <div class="flex items-center justify-between mb-5">
       <!-- Title -->
 
         <form action="/submit" method="POST" class="flex items-center gap-3">
+          
   <!-- Dropdown -->
   <select id="menu_select" name="menu_select"
           class="w-48 bg-orange-500 text-white font-medium px-4 py-2 border border-orange-500 rounded-lg focus:outline-none">
@@ -83,7 +87,7 @@
     <div class="  overflow-y-auto">
       <div class="flex items-center justify-between px-5 py-3">
         <h2 class="text-base font-semibold">Paket Harga Koin</h2>
-        <button class="bg-orange-500 text-white text-sm font-medium px-4 py-1 rounded-full hover:bg-orange-600 focus:outline-none">
+        <button class="bg-orange-500 text-white text-sm font-medium px-7 py-1 rounded-lg hover:bg-orange-600 focus:outline-none">
           Edit
         </button>
       </div>
@@ -91,7 +95,7 @@
       <!-- Table -->
       <div class="px-15 pb-5">
         <div class="overflow-x-auto">
-          <table class="min-w-full border-rounded-lg text-base border rounded-lg">
+          <table class="min-w-full border-rounded-lg text-base border-2 border-rounded-lg">
             <!-- Table Head -->
             <thead>
               <tr class="border rounded-lg">
@@ -130,10 +134,62 @@
           </table>
         </div>
       </div>
-    </div>
 
+
+      <!-- Tabel Paket Harga -->
+    <div class="  overflow-y-auto">
+      <div class="flex items-center justify-between px-5 py-3">
+        <h2 class="text-base font-semibold">Paket Harga Pembayaran</h2>
+        <button class="bg-orange-500 text-white text-sm font-medium px-7 py-1 rounded-lg hover:bg-orange-600 focus:outline-none">
+          Edit
+        </button>
+      </div>
+
+      <!-- Table -->
+      <div class="px-15 pb-5">
+        <div class="overflow-x-auto">
+          <table class="min-w-full border-rounded-lg text-base border rounded-lg">
+            <!-- Table Head -->
+            <thead>
+              <tr class="border rounded-lg">
+                <th class="bg-orange-500 text-white text-left px-4 py-3 rounded-tl-md">Nama</th>
+                <th class="bg-orange-500 text-white text-right px-4 py-3 rounded-tr-md">Harga</th>
+              </tr>
+            </thead>
+
+            <!-- Table Body -->
+            <tbody class="divide-y divide-gray-200 border-gray-500 border-t">
+              <tr>
+                <td class="px-4 py-3 font-semibold">Pendaftaran Kandidat</td>
+                <td class="px-4 py-3 text-right font-semibold">Rp. 20.000</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-semibold">Top Up 10 Koin Areakerja</td>
+                <td class="px-4 py-3 text-right font-semibold">Rp. 10.000</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-semibold">Top Up 100 Koin Areakerja </td>
+                <td class="px-4 py-3 text-right font-semibold">Rp. 100.000</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-semibold">Top Up 1.000 Koin Areakerja/td>
+                <td class="px-4 py-3 text-right font-semibold">Rp. 500.000</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 font-semibold">Top Up 10.000 Koin Areakerja </td>
+                <td class="px-4 py-3 text-right font-semibold">Rp. 1.000.000</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-3 rounded-bl-md font-semibold">Top Up 100.000 Koin Areakerja</td>
+                <td class="px-4 py-3 text-right rounded-br-md font-semibold">Rp. 1.500.000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 </html>
-
+@endsection
 

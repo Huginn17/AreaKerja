@@ -1,0 +1,191 @@
+@extends('finance.sidebar.index')
+@section('sidebar')
+    <div class="p-4 sm:ml-64" x-data="{ openModal: false, detail: {} }" x-cloak>
+
+        <!-- Header -->
+        <header class="w-full flex items-center justify-between px-6 py-3">
+            <p class="font-semibold text-2xl">Catatan Transaksi</p>
+        </header>
+
+        <!-- Tabel Detail -->
+        <div class="p-4">
+            <div class="mb-8">
+                <h2 class="text-lg font-semibold mb-2">Riwayat Koin</h2>
+                <div class="rounded-2xl overflow-hidden border">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="bg-orange-500 text-white">
+                                <th class="px-4 py-2 text-left">No</th>
+                                <th class="px-4 py-2 text-left">No. Referensi</th>
+                                <th class="px-4 py-2 text-left">User</th>
+                                <th class="px-4 py-2 text-left">Email</th>
+                                <th class="px-4 py-2 text-left">Bank</th>
+                                <th class="px-4 py-2 text-left">Rekening</th>
+                                <th class="px-4 py-2 text-left">Harga</th>
+                                <th class="px-4 py-2 text-left">Jumlah Koin</th>
+                                <th class="px-4 py-2 text-left">Status</th>
+                                <th class="px-4 py-2 text-center">Lihat Detail</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($transaksi as $item)
+                                <tr class="border-t">
+                                    <td class="px-4 py-2">{{ $loop->iteration }}</td>
+                                    <td class="px-4 py-2">{{ $item->no_referensi }}</td>
+                                    <td class="px-4 py-2">{{ $item->user->username ?? '-' }}</td>
+                                    <td class="px-4 py-2">{{ $item->user->email ?? '-' }}</td>
+                                    <td class="px-4 py-2">{{ $item->bank->nama_bank ?? '-' }}</td>
+                                    <td class="px-4 py-2">{{ $item->bank->no_rek ?? '-' }}</td>
+                                    <td class="px-4 py-2">Rp
+                                        {{ number_format($item->hargaPembayaran->harga ?? 0, 0, ',', '.') }}</td>
+                                    <td class="px-4 py-2">{{ $item->hargaPembayaran->jumlah_koin ?? 0 }} Koin</td>
+                                    <td
+                                        class="px-4 py-2 font-semibold {{ $item->status == 'diterima' ? 'text-green-600' : 'text-red-500' }}">
+                                        {{ ucfirst($item->status) }}
+                                    </td>
+                                    <td class="px-4 py-2 text-center">
+                                        <button class="text-blue-600 hover:underline"
+                                            @click="
+                                            detail = {
+                                                id: {{ $item->id }},
+                                                user: '{{ $item->user->username ?? '-' }}',
+                                                email: '{{ $item->user->email ?? '-' }}',
+                                                bank: '{{ $item->bank->nama_bank ?? '-' }}',
+                                                rekening: '{{ $item->bank->no_rek ?? '-' }}',
+                                                harga: '{{ number_format($item->hargaPembayaran->harga ?? 0, 0, ',', '.') }}',
+                                                koin: '{{ $item->hargaPembayaran->jumlah_koin ?? 0 }}',
+                                                status: '{{ ucfirst($item->status) }}',
+                                                tanggal: '{{ $item->created_at->format('d M Y H:i') }}'
+                                            };
+                                            openModal = true;
+                                        ">
+                                            <i class="ph ph-file-arrow-up text-4xl"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Modal Detail -->
+                <div x-show="openModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
+                    x-transition>
+                    <div class="bg-white rounded-2xl shadow-lg w-[400px] p-6 relative">
+
+                        <!-- Judul -->
+                        <h2 class="text-xl font-semibold text-center mb-6"
+                            x-text="
+                detail.status == 'Diterima' 
+                    ? 'Top Up Berhasil' 
+                    : (detail.status == 'Ditolak' 
+                        ? 'Top Up Ditolak' 
+                        : 'Menunggu Verifikasi')
+            ">
+                        </h2>
+
+                        <!-- Icon -->
+                        <div class="flex justify-center mb-6">
+                            <!-- Diterima -->
+                            <template x-if="detail.status == 'Diterima'">
+                                <div class="w-16 h-16 rounded-full bg-orange-100 flex items-center justify-center">
+                                    <svg class="w-8 h-8 text-orange-500" fill="none" stroke="currentColor"
+                                        stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </div>
+                            </template>
+
+                            <!-- Ditolak -->
+                            <template x-if="detail.status == 'Ditolak'">
+                                <div class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center">
+                                    <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" stroke-width="2"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </div>
+                            </template>
+
+                            <!-- Pending -->
+                            <template x-if="detail.status == 'Pending'">
+                                <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center">
+                                    <svg class="w-8 h-8 text-gray-500 animate-spin" fill="none" stroke="currentColor"
+                                        stroke-width="2" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10"
+                                            stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor"
+                                            d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                                    </svg>
+                                </div>
+                            </template>
+                        </div>
+
+                        <!-- Detail Transaksi -->
+                        <div class="text-sm space-y-2">
+                            <div class="flex justify-between">
+                                <span class="font-semibold">No. Transaksi</span>
+                                <span x-text="detail.id"></span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="font-semibold">Status</span>
+                                <span
+                                    :class="detail.status == 'Diterima' ? 'bg-orange-500' :
+                                        (detail.status == 'Ditolak' ? 'bg-red-500' : 'bg-gray-500')"
+                                    class="text-white text-xs px-3 py-1 rounded-full" x-text="detail.status">
+                                </span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-semibold">Nama Pengirim</span>
+                                <span x-text="detail.user"></span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-semibold">Nama Penerima</span>
+                                <span>Area Kerja</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-semibold">Metode Pembayaran</span>
+                                <span x-text="detail.bank"></span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-semibold">Tgl/Waktu</span>
+                                <span x-text="detail.tanggal"></span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-semibold">Nominal</span>
+                                <span>Rp <span x-text="detail.harga"></span></span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="font-semibold">Biaya Admin</span>
+                                <span>Rp. 2.500</span>
+                            </div>
+
+                            <!-- Garis putus -->
+                            <div class="border-t border-dashed my-2"></div>
+
+                            <div class="flex justify-between font-semibold">
+                                <span>Total Pembayaran</span>
+                                <span>Rp. <span x-text="parseInt(detail.harga.replaceAll('.', '')) + 2500"></span></span>
+                            </div>
+                        </div>
+
+                        <!-- Logo -->
+                        <div class="flex justify-center mt-8">
+                            <img src="{{ asset('images/logoarea.png') }}" alt="Logo" class="w-16">
+                        </div>
+
+                        <!-- Tombol Tutup -->
+                        <div class="mt-6 flex justify-end">
+                            <button @click="openModal = false" class="bg-gray-200 px-4 py-2 rounded-lg">Tutup</button>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Alpine.js -->
+    <script src="//unpkg.com/alpinejs" defer></script>
+@endsection

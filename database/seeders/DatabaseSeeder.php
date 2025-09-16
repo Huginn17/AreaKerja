@@ -96,10 +96,10 @@ class DatabaseSeeder extends Seeder
             "harga"    =>      150
         ]);
 
-        HargaPembayaran::create([
-            "nama"     =>    "Pendaftaran Kandidat",
-            "harga"       => 200000
-        ]);
+        // HargaPembayaran::create([
+        //     "nama"     =>    "Pendaftaran Kandidat",
+        //     "harga"       => 200000
+        // ]);
 
         HargaPembayaran::create([
             "nama"     =>    "Top Up 10 Koin Area Kerja",

@@ -8,6 +8,7 @@ use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\HargaController;
+use App\Http\Controllers\LowonganPerusahaanController;
 use App\Http\Controllers\LupaPasswordController;
 use App\Http\Controllers\PelamarController;
 use App\Http\Controllers\PengalamanKerjaController;
@@ -240,9 +241,10 @@ Route::prefix('finance')->middleware('auth', 'role:finance', 'CheckUserStatus')-
     Route::put('/update/harga/harga', [HargaController::class, 'update_pembayaran'])->name('finance.paket-harga.update-pembayaran');
 
     //LAP TRANSAKSI
-    Route::get('/finance/laporan', [FinanceController::class, 'laporan'])->name('finance.laporan');
-    Route::get('/finance/detail/{id}', [FinanceController::class, 'detail'])->name('finance.detail');
-    Route::post('/finance/verifikasi/{id}', [FinanceController::class, 'verifikasi'])->name('finance.verifikasi');
+    Route::get('/laporan', [FinanceController::class, 'laporan'])->name('finance.laporan');
+     Route::get('/detail', [FinanceController::class, 'hal_detail'])->name('finance.detail.catatan.koin');
+    Route::get('/detail/{id}', [FinanceController::class, 'detail'])->name('finance.detail.id');
+    Route::post('/verifikasi/{id}', [FinanceController::class, 'verifikasi'])->name('finance.verifikasi');
 });
 
 Route::get('/finance/omset/perusahaan', function () {
@@ -574,6 +576,10 @@ Route::get('/super_admin/riwayat/tunai/koin', function () {
 Route::get('/super_admin/paket/harga', function () {
     return view('super_admin.paket-harga');
 });
+Route::get('/super_admin/laporan/transaksi', function () {
+    return view('super_admin.laporan-transaksi');
+});
+
 
 
 
@@ -630,8 +636,16 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
         Route::get('/topup/{id}', [CatatanCashController::class, 'show'])->name('catatan_cash.show');
         Route::post('/topup/{id}/upload-bukti', [CatatanCashController::class, 'uploadBukti'])->name('catatan_cash.upload_bukti');
 
-        // Route::get('/perusahaan/transaksi-koin/{id}', [PerusahaanController::class, 'detail_transaksi_coin'])->name('perusahaan.transaksi.coin.detail');
     });
+
+    //LOWONGAN SAYA
+Route::get('/lowongan', [LowonganPerusahaanController::class, 'index'])->name('lowongan.index');
+Route::get('/lowongan/create', [LowonganPerusahaanController::class, 'create_form'])->name('lowongan.create');
+Route::post('/lowongan', [LowonganPerusahaanController::class, 'store'])->name('lowongan.store');
+Route::get('/lowongan/{lowongan}', [LowonganPerusahaanController::class, 'show'])->name('lowongan.show');
+Route::get('/lowongan/{lowongan}/edit', [LowonganPerusahaanController::class, 'edit'])->name('lowongan.edit');
+Route::put('/lowongan/{lowongan}', [LowonganPerusahaanController::class, 'update'])->name('lowongan.update');
+Route::delete('/lowongan/{lowongan}', [LowonganPerusahaanController::class, 'destroy'])->name('lowongan.destroy');
 });
 
 
@@ -647,6 +661,11 @@ Route::get('/perusahaan/tambah/lowongan', function () {
 Route::get('/perusahaan/lowongan', function () {
     return view('perusahaan.lowongan');
 });
+
+Route::get('/perusahaan/lowongan/kosong', function () {
+    return view('perusahaan.lowongan-kosong');
+});
+
 Route::get('/perusahaan/lowongan/detail', function () {
     return view('perusahaan.detail-lowongan');
 });
