@@ -8,6 +8,7 @@ use App\Models\DaftarBank;
 use App\Models\Finance;
 use App\Models\Hargakoin;
 use App\Models\HargaPembayaran;
+use App\Models\PaketLowongan;
 use App\Models\SuperAdmin;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -163,5 +164,30 @@ class DatabaseSeeder extends Seeder
             "no_rek"     =>     "0021092829",
             "logo_image"   =>     "topup_icon/Bri.png"
         ]);
+
+        $pakets = [
+            [
+                'nama' => 'Gold',
+                'batas_listing' => 5,   // aktif 7 hari
+                'harga' => 50,          // harga 50 koin
+            ],
+            [
+                'nama' => 'Silver',
+                'batas_listing' => 3,   // aktif 3 hari
+                'harga' => 30,          // harga 30 koin
+            ],
+            [
+                'nama' => 'Bronze',
+                'batas_listing' => 1,   // aktif 1 hari
+                'harga' => 10,          // harga 10 koin
+            ],
+        ];
+
+        foreach ($pakets as $paket) {
+            PaketLowongan::updateOrCreate(
+                ['nama' => $paket['nama']],
+                $paket
+            );
+        }
     }
 }

@@ -31,10 +31,10 @@
                         <h3 class="text-lg font-medium mb-4">Lowongan Saya</h3>
                         <div class="bg-white rounded-md flex justify-between items-center px-3 py-3">
                             <span class="text-black font-bold">Lowongan Belum Terpasang</span>
-                            <button
+                            <a href="{{ route('lowongan.saya.perusahaan') }}"
                                 class="border border-orange-500 text-orange-500 px-3 py-1 rounded-md text-sm font-semibold">
                                 Tambah Lowongan
-                            </button>
+                            </a>
                         </div>
                         <div class="bg-white rounded-xl mt-4 px-4 py-2 text-green-700 inline-block">
                             <div class="max-w-2xl mx-auto flex justify-end">
@@ -51,11 +51,29 @@
                                             class="flex items-center text-green-600 text-sm font-medium">
                                             <p class="mr-2">Top Up Koin</p>
                                             <!-- icon + -->
-                                            <svg width="21" height="21" viewBox="0 0 21 21" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <rect x="0.242188" y="0.246094" width="20" height="20"
-                                                    fill="#42BB72" />
+                                            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <mask id="mask0_614_15612" style="mask-type:alpha"
+                                                    maskUnits="userSpaceOnUse" x="0" y="0" width="22" height="22">
+                                                    <rect x="0.53125" y="0.722656" width="20.4918" height="20.4918"
+                                                        fill="url(#pattern0_614_15612)" />
+                                                </mask>
+                                                <g mask="url(#mask0_614_15612)">
+                                                    <rect x="0.773438" y="0.96875" width="20" height="20"
+                                                        fill="#42BB72" />
+                                                </g>
+                                                <defs>
+                                                    <pattern id="pattern0_614_15612" patternContentUnits="objectBoundingBox"
+                                                        width="1" height="1">
+                                                        <use xlink:href="#image0_614_15612" transform="scale(0.0104167)" />
+                                                    </pattern>
+                                                    <image id="image0_614_15612" width="96" height="96"
+                                                        preserveAspectRatio="none"
+                                                        xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAABmJLR0QA/wD/AP+gvaeTAAAEhUlEQVR4nO2dz48URRTHP47ouCPIL1kJRBc9AAdNIF6JhkVMjEwg/uJEOHhBvUDgjyASJRIve9UbBxU5GvGCePRHlMCGRUPWFQPyQxDwsnCoISyrs/W6q6pf9fT7JN/Mpabn9fdNdXV3Vb8GwzAMwzAMwzCaxgPaAXgYBtYDa2ZoGHgUWNz7BPgHuNz7/BMYB04Bp4HvgQuVRl2A3BLQATYDo8BG4FnCY7wN/Awc6+kr4GbgNgeKFrABGAOu4gxLqRvAYaALPFjB/mXLI8C7wFnSm95PE8A7vVgaQwfYB0yhZ/xsTQF7e7ENNF3gV/QN76dJ4M1ke6/IKuAo+gZLdQQYSeKEAtuAS+ibWlRXge0J/KiMNvAR+kaGaqy3L7ViKfAd+ubF0rfAkqgOJWQF8BP6psXWSeCpiD4lYS1wDn2zUulcbx+zZCXwG/ompdYkGZ4hLcV1UW1zqtI47qZgFrQZrAFXqhNkcnb0MfpmaOlQBP+CeAN9E7T1erCLJVkFXBEEOOi6jNKg/GWJYAdVRwK9LMy2SIEPkrpBjhagg+75vg+tuM4CQ4L47qNV9AvAe2R4IZIBTwO7Uv9IG/gd3a7uQzO2PyjYC4r2gLdxN9uM/2c5sDPVxlvoTqDXoQfcxk30i5fSFOkBL+KOc8bcPAO8IG1cJAE7isfSWMReSbvKEG6AWVgqnLj4YpYcplLzN2488K7Ak/aAl8nD/LrwGLBJ0lCagNHysTSWjZJG0gSINmbch+hPKxkDhoHzwrZVUIcxAGAaeAK4OFcjSQ9YTz7m14kWsE7SyMea8Fgai9c7S0BaoiRgdYRAmoo3AfMEG1keIZCZpB5PYjzSFAuvd5IesCBCIE3F650lIC1REjA/QiBNJUoCjIRIEnA9eRSDyzVfA0kCvBsx+mIJUCZKAs5HCGQmuc8Jx8TrnSQB4xECaSqnfQ0kCfBuxOiLJUAZr3eS+ybLcDV4cpkTqNOEzDDw11yNJD3gAq7ejlGMH/GYD/Ir4WNhsTQSkWeWgHR8I2lkC7PSEH1h1k3gs5CIGsZhhHXpitwN/bRcLI0kiVct3NJr7eXfPrTjO0Oi5enTwAcF2jeVAyQch+wRpbk1RcEKjEVnxP4FPiz4nSbxPnAr9Y900K186EMrrglKPKZallcq2KG6aUuQoyWwUgX39Hmgl6UYwRWq0N55bV1CsZZcF3d6qm2ClqaB14JdDOQQ+kZo6WAE/4Jp4+pqaptRtY4DD0fwLwoLcRMQ2qZUpV/IsJBrk8pWZlvAtQmFW7N/YmgFg3k4Ogk8GdGnpCzB1dXUNi2WjpPhMd/HQ8B+6n+dMEZGZztl2Ep9X+DwVgI/VBihXveOviDjM50QuuRRdaufJoBXk+19JnSAPejPrM3UJLCbCu/n50Ab9xI1zYn+CVypySyqoGvyPO6FPxdJb/oV4BPgJTJYcKwewCyGcJWmRnt6jvAnOadx77S5+zLPr6lg3lZKbgmYzeO4cjmrcbc57r7OdgGwiHvPMF/H/bOv8d/X2f6Ap2aPYRiGYRiGYRhGldwBFK9RwjpRCLwAAAAASUVORK5CYII=" />
+                                                </defs>
                                             </svg>
+
                                         </button>
                                     </div>
                                 </div>
@@ -186,7 +204,8 @@
             </div>
 
             <!-- ================= MODAL STEP 2 ================= -->
-            <div id="modalStep2" class="fixed inset-0 hidden bg-black bg-opacity-50 z-50 flex items-center justify-center">
+            <div id="modalStep2"
+                class="fixed inset-0 hidden bg-black bg-opacity-50 z-50 flex items-center justify-center">
                 <div class="bg-white w-full max-w-md rounded-2xl shadow-xl relative p-6">
                     <button onclick="closeAllModal()"
                         class="absolute top-3 right-3 text-gray-400 hover:text-black">✕</button>

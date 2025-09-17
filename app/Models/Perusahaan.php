@@ -20,4 +20,9 @@ class Perusahaan extends Model
     {
         return $this->hasMany(AlamatPerusahaan::class, 'perusahaan_id');
     }
+
+    public function pasanglowongan()
+    {
+        return $this->hasMany(LowonganPerusahaan::class, 'perusahaan_id');
+    }
 }

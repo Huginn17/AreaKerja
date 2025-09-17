@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('perusahaan_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('nama')->nullable();
-            $table->string('slug')->nullable();
+            $table->string('slug')->nullable()->unique();
             $table->string('jenis')->nullable();
             $table->tinyInteger('rekomendasi')->default(0);
             $table->string('gaji_awal')->nullable();
@@ -29,6 +29,8 @@ return new class extends Migration
             $table->text('tanggung_jawab')->nullable();
             $table->text('benefit')->nullable();
             $table->foreignId('paket_id')->nullable()->constrained('paket_lowongans')->onDelete('cascade')->onUpdate('cascade');
+            $table->timestamp('published_at')->nullable();
+            $table->timestamp('expired_at')->nullable();
             $table->timestamps();
         });
     }

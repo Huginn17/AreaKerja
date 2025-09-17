@@ -26,11 +26,11 @@
 
                 <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
                     <a href="#">
-                        <img src="{{ asset('images/ohim.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
+                        <img src="{{ asset('images/seven.png') }}" class="w-8 h-8 rounded-full" alt="User">
                     </a>
                     <div class="text-sm">
-                        <div class="font-semibold">Dj Ohim</div>
-                        <div class="text-gray-500">lutung123@gmail.com</div>
+                        <div class="font-semibold">Seven Inc</div>
+                        <div class="text-gray-500">seveninc@gmail.com</div>
                     </div>
 
                     <select class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
@@ -68,7 +68,7 @@
                 <div class="relative inline-block w-48">
                     <!-- Select utama -->
                     <button
-                        class="w-full bg-orange-500 text-white font-medium px-4 py-2 border border-orange-500 rounded-md flex justify-between items-center focus:outline-none"
+                        class="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium px-4 py-2 border border-orange-500 rounded-md flex justify-between items-center focus:outline-none"
                         id="dropdownButton">
                         <span>Pilih Opsi</span>
                         <!-- Icon panah -->
@@ -115,7 +115,7 @@
             <div class="flex gap-2">
                 <input type="text" placeholder="nama/username ..."
                     class="border border-gray-500 rounded-lg px-4 py-2 w-72">
-                <button class="bg-orange-500 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
+                <button class="bg-orange-500 hover:bg-orange-600 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
             </div>
         </div>
 
@@ -143,7 +143,7 @@
                             <td class="px-4 py-3">Jawa Tengah</td>
                             <td class="px-4 py-3">
                                 <a href="/super_admin/detail-perusahaan"
-                                    class="bg-orange-500 text-xs text-white px-4 py-1 rounded-lg">View</a>
+                                    class="bg-orange-500 hover:bg-orange-600 text-xs text-white px-4 py-1 rounded-lg">View</a>
                             </td>
                         </tr>
                     @endfor

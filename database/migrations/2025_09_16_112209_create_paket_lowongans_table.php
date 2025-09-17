@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('paket_lowongans', function (Blueprint $table) {
             $table->id();
             $table->string('nama')->nullable();
-            $table->integer('publikasi')->nullable();
-            $table->integer('batas_listing')->nullable();
+            $table->integer('publikasi')->default(1);
+            $table->integer('batas_listing')->default(3);
+            $table->integer('harga');
             $table->timestamps();
         });
     }

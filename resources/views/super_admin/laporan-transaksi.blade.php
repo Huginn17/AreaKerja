@@ -67,10 +67,19 @@
         <option class="font-semibold">Bulan</option>
         <option class="font-semibold">Januari</option>
         <option class="font-semibold">Februari</option>
+        <option class="font-semibold">Maret</option>
+        <option class="font-semibold">April</option>
+        <option class="font-semibold">Mei</option>
+        <option class="font-semibold">Juni</option>
+        <option class="font-semibold">Juli</option>
+        <option class="font-semibold">Agustus</option>
       </select>
       <select
         class="w-32 bg-white text-orange-500 text-sm font-medium px-3 py-2 border rounded-lg focus:outline-none">
         <option class="font-semibold">Tahun</option>
+        <option class="font-semibold">2020</option>
+        <option class="font-semibold">2021</option>
+        <option class="font-semibold">2022</option>
         <option class="font-semibold">2023</option>
         <option class="font-semibold">2024</option>
         <option class="font-semibold">2025</option>

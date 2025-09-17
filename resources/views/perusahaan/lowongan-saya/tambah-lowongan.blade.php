@@ -16,22 +16,20 @@
             <!-- Form -->
             <div class="border border-gray-800 rounded-md p-6">
                 <h2 class="font-semibold text-lg mb-4">Tambah Lowongan</h2>
-                <form class="space-y-5">
-
+                <form action="{{ route('lowongan.saya.store') }}" method="POST" class="space-y-5">
+                    @csrf
                     <!-- Judul & Alamat -->
                     <div class="grid grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium">Judul <span class="text-red-500">*</span></label>
-                            <input type="text"
+                            <input type="text" name="nama"
                                 class="w-full border rounded-md px-3 py-2 mt-1 outline-none focus:ring-1 focus:ring-orange-500">
                         </div>
                         <div>
                             <label class="block text-sm font-medium">Alamat <span class="text-red-500">*</span></label>
-                            <select
+                            <select name="alamat"
                                 class="w-full border rounded-md px-3 py-2 mt-1 outline-none focus:ring-1 focus:ring-orange-500">
-                                <option>Pilih Alamat</option>
-                                <option>Rumah</option>
-                                
+                                <option value="rumah">Rumah</option>
                             </select>
                         </div>
                     </div>
@@ -43,11 +41,18 @@
                             <label class="text-sm font-medium">
                                 Jenis Lowongan <span class="text-red-500">*</span>
                             </label>
-                            <select
+                            <select name="jenis"
                                 class="border rounded-md px-3 py-2 mt-1 outline-none focus:ring-1 focus:ring-orange-500 w-50">
-                                <option>Full Time</option>
-                                <option>Middle Time</option>
+                                <option selected disabled value="">Pilih Jenis Lowongan</option>
+                                <option value="full_time">Full Time</option>
+                                <option value="middle_time">Middle Time</option>
                             </select>
+                        </div>
+
+                        <div>
+                            <label class="block font-medium mb-1">Kategori</label>
+                            <input type="text" name="kategori"
+                                class="w-full border-2 rounded-md px-3 py-2 focus:ring-orange-400 focus:border-orange-400">
                         </div>
 
                         <!-- Gaji -->
@@ -56,14 +61,16 @@
                                 Gaji <span class="text-red-500">*</span>
                             </label>
                             <div class="flex items-center gap-2 mt-1">
-                                <input type="number"
+                                <input type="number" name="gaji_awal"
                                     class="w-44 border rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500" />
                                 <span>-</span>
-                                <input type="number"
+                                <input type="number" name="gaji_akhir"
                                     class="w-44 border rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500" />
-                                <select class="border rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500 w-full">
+                                {{-- <label class="block font-medium mb-1">Periode</label>
+                                <select name="batas_lamaran"
+                                    class="border rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500 w-full">
                                     <option>Bulan</option>
-                                </select>
+                                </select> --}}
                             </div>
                         </div>
                     </div>
@@ -74,7 +81,7 @@
                     <!-- Deskripsi -->
                     <div>
                         <label class="block text-sm font-medium">Deskripsi <span class="text-red-500">*</span></label>
-                        <textarea rows="3"
+                        <textarea rows="3" name="deskripsi"
                             class="w-full border rounded-md px-3 py-2 mt-1 outline-none focus:ring-1 focus:ring-orange-500">Deskripsi Pekerjaan</textarea>
                     </div>
 
@@ -86,40 +93,25 @@
                             <label class="text-sm font-medium mt-2">Pendidikan <span class="text-red-500">*</span></label>
                             <div class="col-span-2">
                                 <div class="grid grid-cols-4 gap-x-4 gap-y-2 ml-12">
-                                    <label class="flex items-center gap-2 text-sm"><input class="border border-orange-500"
-                                            type="radio" name="pendidikan">
-                                        SD</label>
-                                    <label class="flex items-center gap-2 text-sm"><input class="border border-orange-500"
-                                            type="radio" name="pendidikan">
-                                        SMP</label>
-                                    <label class="flex items-center gap-2 text-sm"><input class="border border-orange-500"
-                                            type="radio" name="pendidikan">
-                                        SMA</label>
-                                    <label class="flex items-center gap-2 text-sm"><input class="border border-orange-500"
-                                            type="radio" name="pendidikan">
-                                        SMK</label>
-                                    <label class="flex items-center gap-2 text-sm"><input class="border border-orange-500"
-                                            type="radio" name="pendidikan">
-                                        S1</label>
-                                    <label class="flex items-center gap-2 text-sm"><input class="border border-orange-500"
-                                            type="radio" name="pendidikan">
-                                        S2</label>
-                                    <label class="flex items-center gap-2 text-sm"><input class="border border-orange-500"
-                                            type="radio" name="pendidikan">
-                                        S3</label>
+                                    @foreach (['SD', 'SMP', 'SMA', 'SMK', 'S1', 'S2', 'S3'] as $pend)
+                                        <label class="flex items-center gap-2 text-sm"><input
+                                                class="border border-orange-500" type="radio" value="{{ $pend }}"
+                                                name="syarat_pekerjaan">
+                                            <span>{{ $pend }}</span></label>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
-
+                        {{-- 
                         <!-- Jurusan -->
                         <div class="flex grid-cols-3 gap-4 items-center mb-3">
                             <label class="text-sm font-medium">Jurusan</label>
                             <input type="text"
                                 class="col-span-2 border rounded-md px-3 py-2 ml-20 mt-2 outline-none focus:ring-1 focus:ring-orange-500">
-                        </div>
+                        </div> --}}
 
                         <!-- Gender -->
-                        <div class="flex grid-cols-3 gap-4 items-center mb-3">
+                        {{-- <div class="flex grid-cols-3 gap-4 items-center mb-3">
                             <label class="text-sm font-medium">Gender <span class="text-red-500">*</span></label>
                             <div class="col-span-2 flex gap-6 ml-20 mt-2">
                                 <label class="flex items-center gap-2 text-sm"><input class="border border-orange-500"
@@ -129,10 +121,10 @@
                                         type="radio" name="gender">
                                     Perempuan</label>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <!-- Umur -->
-                        <div class="flex grid-cols-3 gap-4 items-center mb-3">
+                        {{-- <div class="flex grid-cols-3 gap-4 items-center mb-3">
                             <label class="text-sm font-medium">Umur <span class="text-red-500">*</span></label>
                             <div class="col-span-2 flex items-center gap-2 ml-24 mt-2">
                                 <input type="number"
@@ -141,14 +133,23 @@
                                 <input type="number"
                                     class="w-16 border rounded-md px-2 py-1 outline-none focus:ring-1 focus:ring-orange-500">
                             </div>
-                        </div>
+                        </div> --}}
 
                         <!-- Batas Waktu -->
                         <div class="flex grid-cols-3 gap-4 items-center">
                             <label class="text-sm font-medium">Batas Waktu <span class="text-red-500">*</span></label>
-                            <input type="date"
+                            <input type="date" name="batas_lamaran"
                                 class="col-span-2 w-48 border rounded-md px-3 py-2 ml-10 mt-2 outline-none focus:ring-1 focus:ring-orange-500">
                         </div>
+                    </div>
+                    <div class="flex justify-center space-x-4 pt-6">
+                        <button type="button"
+                            class="px-6 py-2 border-2 border-orange-500 rounded-md text-orange-500 hover:bg-orange-50">
+                            Batal
+                        </button>
+                        <button type="submit" class="px-6 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600">
+                            Simpan
+                        </button>
                     </div>
                 </form>
             </div>

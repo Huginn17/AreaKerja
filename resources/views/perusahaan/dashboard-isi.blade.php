@@ -43,14 +43,16 @@
                                     7.000.000 per bulan</p>
                             </div>
                         </div>
-                            <div class="flex items-center gap-4 ml-9">
-    <div class="border-2 rounded-md border-gray-400 px-11 py-2 text-sm text-gray-500 font-medium hover:bg-gray-200 transition-duration-300">
-        Silver
-    </div>
-    <button class="text-sm px-9 border-2 border-orange-500 py-2 rounded-md text-white bg-orange-500 font-medium hover:bg-orange-600 hover:text-white transition duration-300">
-        Lihat Pelamar
-    </button>
-</div>
+                        <div class="flex items-center gap-4 ml-9">
+                            <div
+                                class="border-2 rounded-md border-gray-400 px-11 py-2 text-sm text-gray-500 font-medium hover:bg-gray-200 transition-duration-300">
+                                Silver
+                            </div>
+                            <button
+                                class="text-sm px-9 border-2 border-orange-500 py-2 rounded-md text-white bg-orange-500 font-medium hover:bg-orange-600 hover:text-white transition duration-300">
+                                Lihat Pelamar
+                            </button>
+                        </div>
                     </div>
                     <div class="bg-white shadow rounded-lg p-4 mt-7 flex items-center justify-between">
                         <div class="flex items-center gap-4">
@@ -64,14 +66,16 @@
                                     7.000.000 per bulan</p>
                             </div>
                         </div>
-                            <div class="flex items-center gap-4 ml-9">
-    <div class="border-2 rounded-md border-gray-400 px-11 py-2 text-sm text-gray-500 font-medium hover:bg-gray-200 transition-duration-300">
-        Silver
-    </div>
-    <button class="text-sm px-9 border-2 border-orange-500 py-2 rounded-md text-white bg-orange-500 font-medium hover:bg-orange-600 hover:text-white transition duration-300">
-        Lihat Pelamar
-    </button>
-</div>
+                        <div class="flex items-center gap-4 ml-9">
+                            <div
+                                class="border-2 rounded-md border-gray-400 px-11 py-2 text-sm text-gray-500 font-medium hover:bg-gray-200 transition-duration-300">
+                                Silver
+                            </div>
+                            <button
+                                class="text-sm px-9 border-2 border-orange-500 py-2 rounded-md text-white bg-orange-500 font-medium hover:bg-orange-600 hover:text-white transition duration-300">
+                                Lihat Pelamar
+                            </button>
+                        </div>
                     </div>
                     <div class="bg-white shadow rounded-lg p-4 mt-7 flex items-center justify-between">
                         <div class="flex items-center gap-4">
@@ -85,19 +89,21 @@
                                     7.000.000 per bulan</p>
                             </div>
                         </div>
-                    <div class="flex items-center gap-4 ml-9">
-    <div class="border-2 rounded-md border-gray-400 px-11 py-2 text-sm text-gray-500 font-medium hover:bg-gray-200 transition-duration-300">
-        Silver
-    </div>
-    <button class="text-sm px-9 border-2 border-orange-500 py-2 rounded-md text-white bg-orange-500 font-medium hover:bg-orange-600 hover:text-white transition duration-300">
-        Lihat Pelamar
-    </button>
-</div>
+                        <div class="flex items-center gap-4 ml-9">
+                            <div
+                                class="border-2 rounded-md border-gray-400 px-11 py-2 text-sm text-gray-500 font-medium hover:bg-gray-200 transition-duration-300">
+                                Silver
+                            </div>
+                            <button
+                                class="text-sm px-9 border-2 border-orange-500 py-2 rounded-md text-white bg-orange-500 font-medium hover:bg-orange-600 hover:text-white transition duration-300">
+                                Lihat Pelamar
+                            </button>
+                        </div>
 
 
                     </div>
                     <div class="bg-white shadow rounded-lg p-4 mt-7 flex items-center justify-between">
-                        <div class="flex items-center gap-4"> 
+                        <div class="flex items-center gap-4">
                             <img src="{{ asset('/images/seven.png') }}" alt="Logo" class="w-14 h-14 object-contain">
                             <div>
                                 <h5 class="text-gray-500 text-sm">Seven Inc</h5>
@@ -108,17 +114,20 @@
                                     7.000.000 per bulan</p>
                             </div>
                         </div>
-                           <div class="flex items-center gap-4 ml-9">
-    <div class="border-2 rounded-md border-gray-400 px-11 py-2 text-sm text-gray-500 font-medium hover:bg-gray-200 transition-duration-300">
-        Silver
-    </div>
-    <button class="text-sm px-9 border-2 border-orange-500 py-2 rounded-md text-white bg-orange-500 font-medium hover:bg-orange-600 hover:text-white transition duration-300">
-        Lihat Pelamar
-    </button>
-</div>
+                        <div class="flex items-center gap-4 ml-9">
+                            <div
+                                class="border-2 rounded-md border-gray-400 px-11 py-2 text-sm text-gray-500 font-medium hover:bg-gray-200 transition-duration-300">
+                                Silver
+                            </div>
+                            <button
+                                class="text-sm px-9 border-2 border-orange-500 py-2 rounded-md text-white bg-orange-500 font-medium hover:bg-orange-600 hover:text-white transition duration-300">
+                                Lihat Pelamar
+                            </button>
+                        </div>
                     </div>
-                    <button class="block mx-auto px-12 mt-10 bg-white text-orange-500 hover:bg-gray-200 text-sm font-semibold py-3 rounded-md">
-                            Cari Kandidat
+                    <button
+                        class="block mx-auto px-12 mt-10 bg-white text-orange-500 hover:bg-gray-200 text-sm font-semibold py-3 rounded-md">
+                        Cari Kandidat
                     </button>
                 </div>
 
@@ -139,7 +148,7 @@
                     </div>
                 </div>
             </div>
-            
+
 
         </div>
     </body>

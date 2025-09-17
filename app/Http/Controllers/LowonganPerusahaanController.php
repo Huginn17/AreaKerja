@@ -6,74 +6,63 @@ use App\Models\LowonganPerusahaan;
 use App\Models\PaketLowongan;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LowonganPerusahaanController extends Controller
 {
     public function index()
     {
-        $lowongans = LowonganPerusahaan::with(['perusahaan', 'paket'])->latest()->paginate(10);
-        return view('lowongan-perusahaan.index', compact('lowongans'));
+
+        return view('perusahaan.lowongan-saya.lowongan-kosong', [
+            "Data" => LowonganPerusahaan::all(),
+        ]);
+    }
+
+    public function paketform()
+    {
+        $perusahaan = Auth::user()->perusahaan;
+        return view('perusahaan.pasang-lowongan', compact('perusahaan'));
     }
 
     public function createForm()
     {
         $pakets = PaketLowongan::all();
-        return view('perusahaan.tambah-lowongan', compact('pakets'));
+        return view('perusahaan.lowongan-saya.tambah-lowongan', compact('pakets'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'judul' => 'required|string|max:255',
-            'alamat' => 'required|string|max:255',
-            'jenis' => 'required|string',
-            'gaji-min' => 'required|numeric',
-            'gaji-max' => 'required|numeric',
-            'deskripsi' => 'required|string',
-            'pendidikan' => 'required|array',
-            'gender' => 'required|string',
-            'umur-min' => 'required|numeric',
-            'umur-max' => 'required|numeric',
-            'batas-waktu' => 'required|date',
+        // dd($request->all());
+        $valid = $request->validate([
+            "nama"    =>    "required",
+            "alamat"  =>    "required",
+            "jenis"   =>    "required",
+            "gaji_awal"  =>   "required",
+            "gaji_akhir"  =>   "required",
+            "deskripsi"   =>    "required",
+            "syarat_pekerjaan"  =>   "required",
+            "batas_lamaran"        =>   "required"
         ]);
 
-        LowonganPerusahaan::create([
-            'perusahaan_id'   => auth()->user()->perusahaan->id,
-            'nama'            => $request->judul,
-            'slug'            => Str::slug($request->judul),
-            'jenis'           => $request->jenis,
-            'gaji_awal'       => $request->input('gaji-min'),
-            'gaji_akhir'      => $request->input('gaji-max'),
-            'label_gaji'      => $request->periode ?? null,
-            'deskripsi'       => $request->deskripsi,
-            'alamat'          => $request->alamat,
-            'kategori'        => null, // bisa disesuaikan kalau mau ada kategori
-            'batas_lamaran'   => $request->{'batas-waktu'},
-            'syarat_pekerjaan' => json_encode([
-                'pendidikan' => $request->pendidikan,
-                'jurusan'    => $request->jurusan,
-                'gender'     => $request->gender,
-                'umur'       => [
-                    'min' => $request->{'umur-min'},
-                    'max' => $request->{'umur-max'},
-                ]
-            ]),
-            'tanggung_jawab'  => null,
-            'benefit'         => null,
-            'paket_id'        => null, // isi sesuai paket kalau ada
-        ]);
 
-        return redirect()->route('lowongan.index')->with('success', 'Lowongan berhasil ditambahkan!');
+        $valid['perusahaan_id'] = Auth::user()->perusahaan->id;
+        $valid['slug'] = Str::slug($request->nama . '-' . time());
+        $valid['tanggung_jawab'] = Auth::user()->perusahaan->nama_perusahaan;
+        LowonganPerusahaan::create($valid);
+        return redirect()->route('lowongan.saya.perusahaan')->with('success', 'Lowongan berhasil ditambahkan!');
     }
 
     public function show(LowonganPerusahaan $lowongan)
     {
-        return view('lowongan-perusahaan.show', compact('lowongan'));
+        return view('perusahaan.lowongan-saya.detail-lowongan', [
+            "data" => $lowongan,
+            "Data" => LowonganPerusahaan::all(),
+        ]);
     }
 
-    public function edit(LowonganPerusahaan $lowongan)
+    public function edit()
     {
-        return view('lowongan-perusahaan.edit', compact('lowongan'));
+        return view('perusahaan.lowongan-saya.edit');
     }
 
     public function update(Request $request, LowonganPerusahaan $lowongan)
@@ -97,5 +86,74 @@ class LowonganPerusahaanController extends Controller
     {
         $lowongan->delete();
         return redirect()->route('lowongan.index')->with('success', 'Lowongan berhasil dihapus.');
+    }
+
+    public function publish(Request $request, LowonganPerusahaan $lowongan)
+    {
+        $perusahaan = Auth::user()->perusahaan;
+
+        // Pastikan lowongan punya paket
+        if (!$lowongan->paket_id) {
+            return redirect()->route('paket.form')
+                ->with('error', 'Anda belum memilih paket lowongan. Silakan beli paket terlebih dahulu.');
+        }
+
+        $paket = PaketLowongan::find($lowongan->paket_id);
+
+        // Cek apakah sudah pernah publish
+        if ($lowongan->published_at) {
+            return redirect()->route('paket.form')
+                ->with('error', 'Lowongan ini sudah dipublish. Untuk publish baru silakan beli paket lagi.');
+        }
+
+        // Cek saldo koin perusahaan
+        if ($perusahaan->koin_perusahaan < $paket->harga) {
+            return redirect()->route('perusahaan.dashboard')
+                ->with('error', 'Koin Anda tidak cukup. Silakan top up terlebih dahulu.');
+        }
+
+        // Publish
+        $lowongan->update([
+            'published_at' => now(),
+            'expired_at' => now()->addDays($paket->batas_listing),
+        ]);
+
+        // Potong koin perusahaan
+        $perusahaan->decrement('koin_perusahaan', $paket->harga);
+
+        return redirect()->route('lowongan.saya.perusahaan')
+            ->with('success', 'Lowongan berhasil dipublish dan aktif selama ' . $paket->batas_listing . ' hari.');
+    }
+
+    //beli paket 
+    public function beliPaket(Request $request)
+    {
+        // dd($request->all());
+        $request->validate([
+            'paket_id'    => 'required|exists:paket_lowongans,id',
+            'lowongan_id' => 'required|exists:lowongan_perusahaans,id',
+        ]);
+
+        $perusahaan = Auth::user()->perusahaan;
+        $paket = PaketLowongan::findOrFail($request->paket_id);
+
+        // Ambil lowongan yang dipilih & pastikan milik perusahaan yang login
+        $lowongan = LowonganPerusahaan::where('perusahaan_id', $perusahaan->id)
+            ->where('id', $request->lowongan_id)
+            ->first();
+
+        if (!$lowongan) {
+            return redirect()->back()->with('error', 'Lowongan tidak ditemukan atau bukan milik perusahaan Anda.');
+        }
+
+        // Update lowongan dengan paket
+        $lowongan->update([
+            'paket_id'   => $paket->id,
+            // 'status'     => 'draft',
+            'expired_at' => now()->addDays($paket->batas_listing),
+        ]);
+
+        return redirect()->route('lowongan.saya.perusahaan')
+            ->with('success', "Paket {$paket->nama} berhasil dibeli dan dipasang ke lowongan {$lowongan->nama}. Expired dalam {$paket->batas_listing} hari.");
     }
 }

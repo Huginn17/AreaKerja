@@ -242,7 +242,7 @@ Route::prefix('finance')->middleware('auth', 'role:finance', 'CheckUserStatus')-
 
     //LAP TRANSAKSI
     Route::get('/laporan', [FinanceController::class, 'laporan'])->name('finance.laporan');
-     Route::get('/detail', [FinanceController::class, 'hal_detail'])->name('finance.detail.catatan.koin');
+    Route::get('/detail', [FinanceController::class, 'hal_detail'])->name('finance.detail.catatan.koin');
     Route::get('/detail/{id}', [FinanceController::class, 'detail'])->name('finance.detail.id');
     Route::post('/verifikasi/{id}', [FinanceController::class, 'verifikasi'])->name('finance.verifikasi');
 });
@@ -579,7 +579,9 @@ Route::get('/super_admin/paket/harga', function () {
 Route::get('/super_admin/laporan/transaksi', function () {
     return view('super_admin.laporan-transaksi');
 });
-
+Route::get('/super_admin/overlay/edit/hargakoin', function () {
+    return view('super_admin.overlay-edit-hargakoin');
+});
 
 
 
@@ -631,45 +633,30 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
 
 
     //TOP UP
-    Route::middleware('auth')->group(function () {
-        Route::post('/topup/store', [CatatanCashController::class, 'store'])->name('catatan_cash.store');
-        Route::get('/topup/{id}', [CatatanCashController::class, 'show'])->name('catatan_cash.show');
-        Route::post('/topup/{id}/upload-bukti', [CatatanCashController::class, 'uploadBukti'])->name('catatan_cash.upload_bukti');
-
-    });
+    Route::post('/topup/store', [CatatanCashController::class, 'store'])->name('catatan_cash.store');
+    Route::get('/topup/{id}', [CatatanCashController::class, 'show'])->name('catatan_cash.show');
+    Route::post('/topup/{id}/upload-bukti', [CatatanCashController::class, 'uploadBukti'])->name('catatan_cash.upload_bukti');
 
     //LOWONGAN SAYA
-Route::get('/lowongan', [LowonganPerusahaanController::class, 'index'])->name('lowongan.index');
-Route::get('/lowongan/create', [LowonganPerusahaanController::class, 'create_form'])->name('lowongan.create');
-Route::post('/lowongan', [LowonganPerusahaanController::class, 'store'])->name('lowongan.store');
-Route::get('/lowongan/{lowongan}', [LowonganPerusahaanController::class, 'show'])->name('lowongan.show');
-Route::get('/lowongan/{lowongan}/edit', [LowonganPerusahaanController::class, 'edit'])->name('lowongan.edit');
-Route::put('/lowongan/{lowongan}', [LowonganPerusahaanController::class, 'update'])->name('lowongan.update');
-Route::delete('/lowongan/{lowongan}', [LowonganPerusahaanController::class, 'destroy'])->name('lowongan.destroy');
-});
+    Route::get('/lowongan', [LowonganPerusahaanController::class,  'index'])->name('lowongan.saya.perusahaan');
+    Route::get('/createform/lowongan', [LowonganPerusahaanController::class,  'createForm'])->name('lowongan.create.form');
+    Route::post('/buat/lowongan', [LowonganPerusahaanController::class,  'store'])->name('lowongan.saya.store');
+    Route::get('/edit/lowongan', [LowonganPerusahaanController::class, 'edit'])->name('lowongan.edit.form');
+    Route::get('/lowongan/detail/{lowongan:id}', [LowonganPerusahaanController::class, 'show'])->name('lowongan.detail');
 
+    //PAKET LOWONGAN
+    Route::get('/paket/form', [LowonganPerusahaanController::class, 'paketform'])->name('paket.form');
+    Route::post('/paket/beli', [LowonganPerusahaanController::class, 'beliPaket'])->name('paket.beli');
+    Route::post('lowongan/{lowongan}/publish', [LowonganPerusahaanController::class, 'publish'])->name('lowongan.publish');
+});
 
 
 Route::get('/perusahaan/profile/baru', function () {
     return view('perusahaan.profile-baru');
 });
-
-Route::get('/perusahaan/tambah/lowongan', function () {
-    return view('perusahaan.tambah-lowongan');
-});
-
-Route::get('/perusahaan/lowongan', function () {
+Route::get('/perusahaan/lowongan/jgndihapus', function () {
     return view('perusahaan.lowongan');
 });
-
-Route::get('/perusahaan/lowongan/kosong', function () {
-    return view('perusahaan.lowongan-kosong');
-});
-
-Route::get('/perusahaan/lowongan/detail', function () {
-    return view('perusahaan.detail-lowongan');
-});
-
 Route::get('/perusahaan/terima/lamaran', function () {
     return view('perusahaan.terima-pelamar');
 });

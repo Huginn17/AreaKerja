@@ -1,84 +1,87 @@
 @extends('layouts.index-perusahaan')
 @section('content')
-<!DOCTYPE html>
-<html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Seven Inc Profile</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  </head>
-  <body class="bg-white text-gray-800">
+    <!DOCTYPE html>
+    <html lang="id">
 
-    <!-- PROFILE SECTION -->
-    <section class="p-6">
-      <div class="flex items-start gap-4">
-        <img src="{{asset('images/seven.png')}}" alt="Seven Logo" class="w-30 h-30" />
-        <div class="mt-10">
-          <h3 class="font-semibold text-xl m-2">Seven_Inc</h3>
-          <p class="text-medium font-semibold m-2">Jasa TI dan Konsultan TI</p>
-          <p class="text-sm text-gray-400 mt-1 m-2">Alamat default</p>
-        </div>
-      </div><br>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Seven Inc Profile</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    </head>
 
-      <!-- Garis dan Judul -->
-    
-       <h3 class="font-semibold text-base ml-9">Alamat</h3>
+    <body class="bg-white text-gray-800">
 
-        <div class="ml-9">
-  <svg width="1040" height="2" viewBox="0 0 1040 2" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M-0.0078125 1L1040.01 1" stroke="#FA6601" stroke-width="2" m-2 />
-  </svg>
-</div>
-<br>
+        <!-- PROFILE SECTION -->
+        <section class="p-6">
+            <div class="flex items-start gap-4">
+                <img src="{{ asset('images/seven.png') }}" alt="Seven Logo" class="w-30 h-30" />
+                <div class="mt-10">
+                    <h3 class="font-semibold text-xl m-2">Seven_Inc</h3>
+                    <p class="text-medium font-semibold m-2">Jasa TI dan Konsultan TI</p>
+                    <p class="text-sm text-gray-400 mt-1 m-2">Alamat default</p>
+                </div>
+            </div><br>
 
-      </div>
+            <!-- Garis dan Judul -->
 
-      <!-- ALAMAT KARTU -->
-      <div class="space-y-6 ml-10 max-w-3xl m-3">
-        <!-- 3x Alamat -->
-        <div class="border border-orange-500 rounded-md p-6 bg-white text-orange-600">
-          <p class="font-semibold mb-2">Rumah</p>
-          <p class="text-medium leading-relaxed mb-1">
-            Jl. Mangga dua No. 27 RT/RW 001/003, Kecamatan Mangga, Kota Jakarta Timur,<br />
-            Provinsi DKI Jakarta, 13463
-          </p>
-          <p class="text-medium leading-relaxed mb-4">Blok 3B Kanan Sebelum Lapangan Bola</p>
-          <button class="bg-orange-500 text-white text-sm px-4 py-2 rounded-md hover:bg-orange-600 transition m-3">
-            Edit alamat
-          </button>
-        </div>
+            <h3 class="font-semibold text-base ml-9">Alamat</h3>
 
-        <!-- Duplikat -->
-        <div class="border border-orange-500 rounded-md p-6 bg-white text-orange-600">
-          <p class="font-semibold mb-2">Rumah</p>
-          <p class="text-medium leading-relaxed mb-1">
-            Jl. Mangga dua No. 27 RT/RW 001/003, Kecamatan Mangga, Kota Jakarta Timur,<br />
-            Provinsi DKI Jakarta, 13463
-          </p>
-          <p class="text-medium leading-relaxed mb-4">Blok 3B Kanan Sebelum Lapangan Bola</p>
-          <button class="bg-orange-500 text-white text-sm px-4 py-2 rounded-md hover:bg-orange-600 transition">
-            Edit alamat
-          </button>
-        </div>
+            <div class="ml-9">
+                <svg width="1040" height="2" viewBox="0 0 1040 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M-0.0078125 1L1040.01 1" stroke="#FA6601" stroke-width="2" m-2 />
+                </svg>
+            </div>
+            <br>
 
-        <!-- Duplikat -->
-        <div class="border border-orange-500 rounded-md p-6 bg-white text-orange-600">
-          <p class="font-semibold mb-2">Rumah</p>
-          <p class="text-medium leading-relaxed mb-1">
-            Jl. Mangga dua No. 27 RT/RW 001/003, Kecamatan Mangga, Kota Jakarta Timur,<br />
-            Provinsi DKI Jakarta, 13463
-          </p>
-          <p class="text-medium leading-relaxed mb-4">Blok 3B Kanan Sebelum Lapangan Bola</p>
-          <button class="bg-orange-500 text-white text-sm px-4 py-2 rounded-md hover:bg-orange-600 transition">
-            Edit alamat
-          </button><br>
-        </div>
-      </div>
-    </section>
-  </body>
-</html>
-@include('layouts.footer')
+            </div>
+
+            <!-- ALAMAT KARTU -->
+            <div class="space-y-6 ml-10 max-w-3xl m-3">
+                <!-- 3x Alamat -->
+                <div class="border border-orange-500 rounded-md p-6 bg-white text-orange-600">
+                    <p class="font-semibold mb-2">Rumah</p>
+                    <p class="text-medium leading-relaxed mb-1">
+                        Jl. Mangga dua No. 27 RT/RW 001/003, Kecamatan Mangga, Kota Jakarta Timur,<br />
+                        Provinsi DKI Jakarta, 13463
+                    </p>
+                    <p class="text-medium leading-relaxed mb-4">Blok 3B Kanan Sebelum Lapangan Bola</p>
+                    <button
+                        class="bg-orange-500 text-white text-sm px-4 py-2 rounded-md hover:bg-orange-600 transition m-3">
+                        Edit alamat
+                    </button>
+                </div>
+
+                <!-- Duplikat -->
+                <div class="border border-orange-500 rounded-md p-6 bg-white text-orange-600">
+                    <p class="font-semibold mb-2">Rumah</p>
+                    <p class="text-medium leading-relaxed mb-1">
+                        Jl. Mangga dua No. 27 RT/RW 001/003, Kecamatan Mangga, Kota Jakarta Timur,<br />
+                        Provinsi DKI Jakarta, 13463
+                    </p>
+                    <p class="text-medium leading-relaxed mb-4">Blok 3B Kanan Sebelum Lapangan Bola</p>
+                    <button class="bg-orange-500 text-white text-sm px-4 py-2 rounded-md hover:bg-orange-600 transition">
+                        Edit alamat
+                    </button>
+                </div>
+
+                <!-- Duplikat -->
+                <div class="border border-orange-500 rounded-md p-6 bg-white text-orange-600">
+                    <p class="font-semibold mb-2">Rumah</p>
+                    <p class="text-medium leading-relaxed mb-1">
+                        Jl. Mangga dua No. 27 RT/RW 001/003, Kecamatan Mangga, Kota Jakarta Timur,<br />
+                        Provinsi DKI Jakarta, 13463
+                    </p>
+                    <p class="text-medium leading-relaxed mb-4">Blok 3B Kanan Sebelum Lapangan Bola</p>
+                    <button class="bg-orange-500 text-white text-sm px-4 py-2 rounded-md hover:bg-orange-600 transition">
+                        Edit alamat
+                    </button><br>
+                </div>
+            </div>
+        </section>
+    </body>
+
+    </html>
+    @include('layouts.footer')
 @endsection
-
