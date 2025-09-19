@@ -54,15 +54,15 @@
         </div>
 
         @forelse ($Data as $d)
-            @if ($d->paket_id)
-                <!-- Card Publish -->
+            @if ($d->paket_id && $d->published_at)
+                <!-- Card Published -->
                 <a href="{{ route('lowongan.detail', $d->id) }}">
                     <div class="flex shadow-md p-4">
                         <div>
                             <img src="{{ asset('Icon/seveninc.png') }}" alt="">
                         </div>
                         <div class="w-full">
-                            <p>Seven Inc</p>
+                            <p>{{ Auth::user()->perusahaan->nama_perusahaan }}</p>
                             <h1 class="font-semibold">{{ $d->nama }} - {{ $d->jenis }}</h1>
                             <span>Yogyakarta</span>
                             <div class="mt-5 block lg:flex md:flex justify-between items-center w-full">
@@ -77,9 +77,9 @@
                     </div>
                 </a>
             @else
-                <!-- Card Non Publish -->
+                <!-- Card Draft / Non Publish -->
                 <div class="flex justify-between items-end text-center gap-3 my-5">
-                    <h3 class="font-semibold text-center text-orange-500">Lowongan Non Publish</h3>
+                    <h3 class="font-semibold text-center text-orange-500">Lowongan Draft</h3>
                 </div>
                 <div class="flex shadow-md p-4">
                     <div>
@@ -245,8 +245,13 @@
             });
         });
 
-
         closeModal.addEventListener('click', function() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        });
+
+        // Tutup modal otomatis setelah submit
+        publishForm.addEventListener('submit', function() {
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         });

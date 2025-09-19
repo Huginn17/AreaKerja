@@ -18,7 +18,7 @@ class SkillController extends Controller
         $validated['pelamar_id'] = Auth::user()->pelamar->id;
 
         Skill::create($validated);
-        return redirect('/profile');
+        return redirect()->route('profile.index')->with('success', 'Pengalaman Kerja berhasil disimpan');
     }
 
     public function update(Request $request, Skill $skill)

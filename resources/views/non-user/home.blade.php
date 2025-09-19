@@ -87,52 +87,146 @@
     </div>
 
     <!-- Card Lowongan -->
-    <h3 class="px-40 mt-8 text-gray-500 font-semibold dark:text-white">
+    <h3 class="px-40 mt-8 mb-4 text-gray-500 font-semibold dark:text-white">
         Lowongan berdasarkan pada aktivitas Anda di areakerja
     </h3>
 
-    <section class="max-w-5xl mx-auto px-4 py-8 grid md:grid-cols-2 gap-6">
-        @forelse ($lowongan as $item)
-            <div class="bg-white border rounded-2xl shadow-sm p-5">
-                @if ($item->urgent)
-                    <span class="inline-block px-3 py-1 bg-red-100 text-red-600 text-xs rounded-lg mb-3">
-                        Dibutuhkan segera
-                    </span>
+    <section class="mx-2 lg:mx-0 md:mx-0 px-0 lg:px-20 md:px-20">
+        <div id="section-umpan-lowongan" class="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-3">
+            @foreach ($Data as $d)
+                @if ($d->published_at && (!$d->expired_at || $d->expired_at > now()))
+                    <div x-data="{ open: false }" @click="open = !open"
+                        class="border p-8 rounded-lg shadow-sm cursor-pointer hover:shadow-md transition bg-white">
+
+                        {{-- Header --}}
+                        <div class="flex justify-between items-start">
+                            <div>
+                                @if ($d->urgent ?? true)
+                                    <p class="bg-[#fdedf4] w-fit px-3 py-1 text-[#9d2b6b] font-semibold rounded-md text-xs">
+                                        Dibutuhkan segera
+                                    </p>
+                                @endif
+
+                                <h1 class="font-bold text-lg my-3">
+                                    {{ $d->nama }} - {{ $d->jenis }}
+                                </h1>
+                            </div>
+                            <div class="text-2xl text-gray-500">
+                                <i class="ph ph-dots-three-vertical"></i>
+                            </div>
+                        </div>
+
+                        {{-- Perusahaan & Lokasi --}}
+                        <p class="text-gray-500 font-semibold">{{ $d->perusahaan->nama_perusahaan }}</p>
+                        <p class="text-gray-500 font-semibold">{{ $d->alamat }}</p>
+
+                        {{-- Rentang Gaji --}}
+                        <p class="bg-[#d7d6d6] w-fit my-3 px-3 py-1 text-[#565656] font-semibold rounded-md text-sm">
+                            Rp. {{ number_format($d->gaji_awal, 0, ',', '.') }} – Rp.
+                            {{ number_format($d->gaji_akhir, 0, ',', '.') }} / bulan
+                        </p>
+
+                        {{-- Ringkasan --}}
+                        <div x-show="!open" class="mt-3">
+                            <div class="flex items-center justify-between my-4 text-gray-600">
+                                <div class="flex items-center gap-2">
+                                    <i class="ph-fill ph-paper-plane-right text-blue-600 text-xl"></i>
+                                    <span class="font-medium">Lamar Dengan Cepat</span>
+                                </div>
+                                {{-- Tombol Simpan Lowongan --}}
+                                @auth
+                                    @php
+                                        $sudahSimpan = Auth::user()->pelamar
+                                            ? Auth::user()
+                                                ->pelamar->simpanLowongans()
+                                                ->where('lowongan_id', $d->id)
+                                                ->exists()
+                                            : false;
+                                    @endphp
+
+                                    @if (!$sudahSimpan)
+                                        <form action="{{ route('simpan-lowongan.store') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="lowongan_id" value="{{ $d->id }}">
+                                            <button type="submit" class="text-gray-400 hover:text-blue-600"
+                                                title="Simpan Lowongan">
+                                                <i class="ph ph-bookmark-simple text-2xl"></i>
+                                            </button>
+                                        </form>
+                                    @else
+                                        <form action="{{ route('simpan-lowongan.destroy', $d->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-blue-600 hover:text-red-500"
+                                                title="Hapus dari Simpan">
+                                                <i class="ph-fill ph-bookmark-simple text-2xl"></i>
+                                            </button>
+                                        </form>
+                                    @endif
+                                @endauth
+                            </div>
+
+                            <ul class="ps-5 mt-2 space-y-1 list-disc list-inside mb-5 text-sm text-gray-600">
+                                <li>Gaji – Rp{{ $d->gaji_awal }} – Rp{{ $d->gaji_akhir }} per bulan tergantung pengalaman.
+                                </li>
+                                <li>Harus menyelesaikan penilaian pra-wawancara singkat sebelum diwawancara.</li>
+                                <li>Diminta mengirimkan video perkenalan singkat (detail diberikan nanti).</li>
+                            </ul>
+
+                            <span class="text-xs text-gray-400">Aktif {{ $d->created_at->diffForHumans() }}</span>
+                        </div>
+
+                        {{-- Detail --}}
+                        <div x-show="open" x-collapse class="mt-6 space-y-6">
+                            <a href="#"
+                                class="inline-block px-4 py-2 bg-orange-500 text-white rounded-lg text-sm font-semibold hover:bg-orange-600 transition">
+                                Lamar Cepat
+                            </a>
+
+                            <div>
+                                <h3 class="font-semibold text-lg mb-2">Detail Lowongan</h3>
+                                <p class="text-gray-600">Jenis Lowongan: {{ $d->jenis }}</p>
+                            </div>
+
+                            <div>
+                                <h3 class="font-semibold text-lg mb-2">Lokasi</h3>
+                                <p class="text-gray-600">{{ $d->alamat }}</p>
+                            </div>
+
+                            <div>
+                                <h3 class="font-semibold text-lg mb-2">Deskripsi Lowongan</h3>
+                                <p class="text-gray-700 leading-relaxed">{{ $d->deskripsi }}</p>
+                            </div>
+
+                            <div>
+                                <h3 class="font-semibold text-lg mb-2">Requirements</h3>
+                                <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                    @foreach (explode("\n", $d->syarat_pekerjaan) as $req)
+                                        <li>{{ $req }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h3 class="font-semibold text-lg mb-2">Responsibilities</h3>
+                                <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                    @foreach (explode("\n", $d->tanggung_jawab) as $res)
+                                        <li>{{ $res }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 @endif
+            @endforeach
 
-                <h3 class="font-semibold text-lg">{{ $item->judul }}</h3>
-                <p class="text-gray-500 text-sm mt-2">{{ $item->perusahaan }}</p>
-                <p class="mt-1 text-gray-500 text-sm">{{ $item->lokasi }}</p>
-
-                @if ($$item->gaji_min && $item->gaji_max)
-                    <p class="mt-4 px-3 py-1 inline-block bg-gray-300 text-gray-700 text-sm font-semibold rounded-md">
-                        Rp. {{ number_format($$item->gaji_min, 0, ',', '.') }} – Rp.
-                        {{ number_format($$item->gaji_max, 0, ',', '.') }} per bulan
-                    </p>
-                @endif
-
-                <div class="mt-4 flex items-center">
-                    <svg width="20" height="17" viewBox="0 0 20 17" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        class="mr-2">
-                        <path
-                            d="M0.798085 16.0512L19.7364 8.15646L0.798085 0.261719L0.789062 6.40207L14.3229 8.15646L0.789062 9.91084L0.798085 16.0512Z"
-                            fill="#007ABF" />
-                    </svg>
-                    <p class="text-gray-600 text-sm">
-                        Lamar dengan cepat
-                    </p>
-                </div>
-
-                <ul class="mt-4 text-sm text-gray-600 list-disc list-inside space-y-1">
-                    <li>{{ $item->benefit ?? 'Benefit tidak tersedia' }}</li>
-                </ul>
-
-                <p class="mt-4 text-xs text-gray-400">Dipublish {{ $$item->created_at->diffForHumans() }}</p>
-            </div>
-        @empty
-            <p class="col-span-2 text-center text-gray-500">Belum ada lowongan yang tersedia.</p>
-        @endforelse
+        </div>
     </section>
 
+    {{-- AlpineJS --}}
+    <script src="https://unpkg.com/alpinejs" defer></script>
+
+
+    <script src="//unpkg.com/alpinejs" defer></script>
     @include('layouts.footer')
 @endsection

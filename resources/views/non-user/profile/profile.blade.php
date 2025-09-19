@@ -94,13 +94,13 @@
 
 
             <!-- <div class="flex justify-between w-[1025px] my-5">
-                    <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
-                        Data Diri
-                    </div>
-                    <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
-                        Informasi Akun
-                    </div>
-                </div> -->
+                        <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
+                            Data Diri
+                        </div>
+                        <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
+                            Informasi Akun
+                        </div>
+                    </div> -->
 
 
             <!-- Grid: Dua Kolom -->
@@ -219,7 +219,44 @@
                         @endif
                     </div>
 
-
+                    {{-- bagian pendidikan --}}
+                    @if (Auth::user()->pelamar->riwayat_pendidikan->count() > 0)
+                        <label class="text-sm font-medium">Pendidikan</label>
+                        <div class="flex justify-between">
+                            <div class="p-4 w-full bg-gray-100 rounded-lg">
+                                @foreach (Auth::user()->pelamar->riwayat_pendidikan as $pend)
+                                    <div class="mb-6">
+                                        <h3 class="font-semibold text-gray-800 text-lg">
+                                            {{ $pend->asal_pendidikan }} - {{ $pend->pendidikan }}
+                                            ({{ $pend->tahun_awal }} - {{ $pend->tahun_akhir }})
+                                        </h3>
+                                        <p class="text-gray-600 text-sm leading-relaxed">
+                                            {{ $pend->jurusan }}
+                                        </p>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <button data-modal-target="show-pendidikan" data-modal-toggle="show-pendidikan" type="button"
+                                class="mb-20 ml-4">
+                                <svg width="18" height="16" viewBox="0 0 10 11" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M9.83752 2.87443C10.0542 2.65779 10.0542 2.29673 9.83752 2.0912L8.5377 0.791384C8.33218 0.574747 7.97112 0.574747 7.75448 0.791384L6.7324 1.80791L8.81544 3.89095M0 8.54586V10.6289H2.08304L8.22664 4.47976L6.14359 2.39672L0 8.54586Z"
+                                        fill="#FA6601" />
+                                </svg>
+                            </button>
+                        </div>
+                    @else
+                        <div class="mb-4">
+                            <label class="block text-sm font-semibold text-gray-800 mb-1">Pendidikan</label>
+                            <button data-modal-target="create_pendidikanmodal" data-modal-toggle="create_pendidikanmodal"
+                                type="button"
+                                class="flex items-center justify-between border border-orange-500 rounded-md w-full px-4 py-3 text-orange-500 font-semibold">
+                                <span>Tambahkan Pendidikan</span>
+                                <span class="text-2xl font-bold">+</span>
+                            </button>
+                        </div>
+                    @endif
 
                     <!-- Bagian Organisasi -->
                     {{-- Jika user punya data organisasi --}}
@@ -366,7 +403,7 @@
                 <!-- Kolom Kanan -->
                 <div class="flex flex-col gap-4">
                     <label class="text-lg font-medium">Informasi Akun</label>
-                        <div class="w-30 h-1 bg-orange-500 mt-1"></div><br>
+                    <div class="w-30 h-1 bg-orange-500 mt-1"></div><br>
                     <div>
                         <label class="text-sm font-medium">ID Pengguna <span class="text-red-500">*</span></label>
                         <input type="text" placeholder="ID Pengguna" value="{{ Auth::user()->id }}"
@@ -392,9 +429,9 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5"
                                     viewBox="0 0 24 24">
                                     <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
-                                                                                                    7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
-                                                                                                  1.003 0 0 0-1.42 0l-1.83 1.83 3.75
-                                                                                                3.75 1.84-1.82z" />
+                                                                                                        7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
+                                                                                                      1.003 0 0 0-1.42 0l-1.83 1.83 3.75
+                                                                                                    3.75 1.84-1.82z" />
                                 </svg>
                             </a>
                         </div>
@@ -413,9 +450,9 @@
                                     viewBox="0 0 24 24">
                                     <path
                                         d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
-                                                                                                                                                                                                                                                                                           7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
-                                                                                                                                                                                                                                                                                           1.003 0 0 0-1.42 0l-1.83 1.83 3.75
-                                                                                                                                                                                                                                                                                           3.75 1.84-1.82z" />
+                                                                                                                                                                                                                                                                                               7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
+                                                                                                                                                                                                                                                                                               1.003 0 0 0-1.42 0l-1.83 1.83 3.75
+                                                                                                                                                                                                                                                                                               3.75 1.84-1.82z" />
                                 </svg>
                             </span>
                         </div>
@@ -463,10 +500,12 @@
     @include('non-user.profile.kerja.modal-createkerja')
     @include('non-user.profile.skill.modal-create')
     @include('non-user.profile.organisasi.modal-createorganisasi')
+    @include('non-user.profile.pendidikan.modal-create')
 
     @include('non-user.profile.organisasi.modal-show')
     @include('non-user.profile.skill.modal-show')
     @include('non-user.profile.kerja.modal-show')
+    @include('non-user.profile.pendidikan.modal-show')
     <script>
         document.getElementById('fileinput').addEventListener('change', function(e) {
             const file = e.target.files[0];

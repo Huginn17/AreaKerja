@@ -27,8 +27,7 @@ class PengalamanOrgController extends Controller
         $validated['pelamar_id'] = Auth::user()->pelamar->id;
 
         Organisasi::create($validated);
-        return redirect('/profile');
-        return back();
+        return redirect()->route('profile.index')->with('success', 'Organisasi berhasil disimpan');
     }
 
     public function update(Request $request, Organisasi $organisasi)
@@ -45,8 +44,8 @@ class PengalamanOrgController extends Controller
 
 
         $organisasi->update($validated);
-        return redirect('/profile');
-        return back();
+        return redirect()->route('profile.index')->with('success', 'Organisasi berhasil diperbarui');
+        
     }
 
     public function edit(Organisasi $organisasi)

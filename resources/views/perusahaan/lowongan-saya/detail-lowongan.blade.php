@@ -29,9 +29,9 @@
 
                 <!-- Aksi -->
                 <div class="flex items-center gap-4 mb-6 ml-24">
-                    <form action="" method="post">
+                    <form action="{{ route('lowongan.destroy', $data->id) }}" method="post">
                         @csrf
-                        @method('PUT')
+                        @method('delete')
                         <div class="flex justify-between">
                             <svg width="23" height="23" viewBox="0 0 23 23" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -52,13 +52,11 @@
                                 </defs>
                             </svg>
 
-                            <a href="#" class="text-orange-600 text-xs font-medium hover:underline mt-1 ml-2">Tutup
-                                Lowongan</a>
+                            <button type="submit" class="text-orange-600 text-xs font-medium hover:underline mt-1 ml-2">Tutup
+                                Lowongan</button>
+                            </form>
                         </div>
-                    </form>
-                    <form action="" method="post">
                         <div class="flex justify-between">
-                            @csrf
                             <svg width="24" height="23" viewBox="0 0 24 23" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <mask id="mask0_643_6012" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -78,10 +76,9 @@
                                 </defs>
                             </svg>
 
-                            <a href="#" class="text-orange-600 text-xs font-medium hover:underline mt-1 ml-2">Edit
-                                Lowongan</a>
                         </div>
-                    </form>
+                        <a href="{{ route('lowongan.edit.form', $data->id) }}" class="text-orange-600 text-xs font-medium hover:underline mt-1 ml-2">Edit
+                            Lowongan</a>
                 </div>
 
                 <hr class="my-4 border-gray-300/70">

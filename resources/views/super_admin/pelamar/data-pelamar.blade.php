@@ -45,7 +45,7 @@
         <div class="flex items-center justify-between mb-6">
             <div class="flex items-center gap-4">
                 <div>
-                    <a id="btnAddPerusahaan"
+                    <a id="btnAdd"
                         class="bg-orange-500 flex justify-center items-center px-3 py-2 border border-orange-500 rounded-md"
                         href="/super_admin/tambah-kandidat"
                         class="bg-orange-500 border border-orange-600 text-white px-3 py-2 rounded-lg inline-flex items-center justify-center">
@@ -68,8 +68,8 @@
                 <div class="relative inline-block w-48">
                     <!-- Select utama -->
                     <div class="flex items-center gap-2">
-                        <select id="kategori_select_kandidat" class="bg-orange-500 text-white px-10 py-2 rounded-md"
-                            name="" id="">
+                        <select id="kategori_select" class="bg-orange-500 text-white px-10 py-2 rounded-md" name=""
+                            id="">
                             <option id="kandidat_optn" value="kandidat">Kandidat</option>
                             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -88,8 +88,8 @@
             </div>
         </div>
 
-        <!-- Table -->
-        <div class="overflow-hidden rounded-2xl border border-gray-300">
+        <!-- Table  Kandidat -->
+        <div id="kandidat" class="overflow-hidden rounded-2xl border border-gray-300">
             <table class="w-full text-left border-collapse">
                 <thead class="text-center">
                     <tr>
@@ -102,8 +102,68 @@
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    @for ($i = 0; $i < 10; $i++)
-                        <!-- Contoh isi data (bisa diulang dengan loop dari backend) -->
+                    <tr class="border-b">
+                        <td class="px-4 py-3">000001</td>
+                        <td class="px-4 py-3">Zharif Deka</td>
+                        <td class="px-4 py-3">S1</td>
+                        <td class="px-4 py-3">Front-End Developer</td>
+                        <td class="px-4 py-3">Jawa Tengah</td>
+                        <td class="px-4 py-3">
+                            <a href="/super_admin/detail-kandidat"
+                                class="bg-orange-500 text-xs text-white px-4 py-1 rounded-lg">View</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {{-- selesai tabel kandidat --}}
+
+        {{-- tabel non kandidat --}}
+        <div id="non_kandidat" class="hidden rounded-2xl border border-gray-300">
+            <table class="w-full text-left border-collapse">
+                <thead class="text-center">
+                    <tr>
+                        <th class="p-7 font-medium">ID</th>
+                        <th class="p-7 font-medium">Nama</th>
+                        <th class="p-7 font-medium">Pendidikan</th>
+                        <th class="p-7 font-medium">Skill</th>
+                        <th class="p-7 font-medium">Alamat</th>
+                        <th class="p-7 font-medium">Detail</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    @foreach ($pelamar as $p)
+                        <tr class="border-b">
+                            <td class="px-4 py-3">{{ $p->id }}</td>
+                            <td class="px-4 py-3">{{ $p->user->username }}</td>
+                            <td class="px-4 py-3">{{ $p->riwayat_pendidikan->pluck('pendidikan')->implode(', ') }}</td>
+                            <td class="px-4 py-3">{{ $p->skill->pluck('skill')->implode(', ')}}</td>
+                            <td class="px-4 py-3">{{ $p->alamat_pelamar->first()?->provinsi ?? '-' }}</td>
+                            <td class="px-4 py-3">
+                                <a href="{{ route('superadmin.detail.non.kandidat', $p->id) }}"
+                                    class="bg-orange-500 text-xs text-white px-4 py-1 rounded-lg">View</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        {{-- selesai tabel non kandidat --}}
+
+        {{-- tabel calon kandidat --}}
+        <div id="calon_kandidat" class="hidden rounded-2xl border border-gray-300">
+            <table class="w-full text-left border-collapse">
+                <thead class="text-center">
+                    <tr>
+                        <th class="p-7 font-medium">ID</th>
+                        <th class="p-7 font-medium">Nama</th>
+                        <th class="p-7 font-medium">Pendidikan</th>
+                        <th class="p-7 font-medium">Skill</th>
+                        <th class="p-7 font-medium">Alamat</th>
+                        <th class="p-7 font-medium">Detail</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
                         <tr class="border-b">
                             <td class="px-4 py-3">000001</td>
                             <td class="px-4 py-3">Zharif Deka</td>
@@ -115,10 +175,10 @@
                                     class="bg-orange-500 text-xs text-white px-4 py-1 rounded-lg">View</a>
                             </td>
                         </tr>
-                    @endfor
                 </tbody>
             </table>
         </div>
+        {{-- selesai tabel calon kandidat --}}
 
     </main>
 @endsection

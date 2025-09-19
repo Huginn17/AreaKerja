@@ -20,4 +20,9 @@ class LowonganPerusahaan extends Model
     {
         return $this->belongsTo(Perusahaan::class, 'perusahaan_id');
     }
+
+    public function simpanLowongans()
+{
+    return $this->hasMany(SimpanLowongan::class, 'lowongan_id');
+}
 }

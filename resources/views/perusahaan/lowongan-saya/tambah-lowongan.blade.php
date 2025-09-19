@@ -66,11 +66,11 @@
                                 <span>-</span>
                                 <input type="number" name="gaji_akhir"
                                     class="w-44 border rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500" />
-                                {{-- <label class="block font-medium mb-1">Periode</label>
+                                <label class="block font-medium mb-1">Periode</label>
                                 <select name="batas_lamaran"
                                     class="border rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500 w-full">
                                     <option>Bulan</option>
-                                </select> --}}
+                                </select>
                             </div>
                         </div>
                     </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DaftarBank;
 use App\Models\HargaPembayaran;
+use App\Models\LowonganPerusahaan;
 use App\Models\Pembayaran;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -41,8 +42,19 @@ class AuthController extends Controller
     //pelamar
     public function beranda()
     {
-        $firstLogin = session()->pull('first_login', false);
-        return view('non-user.home', compact('firstLogin'));
+        $Data = LowonganPerusahaan::with('perusahaan')
+            ->whereNotNull('published_at')
+            ->where(function ($q) {
+                $q->whereNull('expired_at')
+                    ->orWhere('expired_at', '>', now());
+            })
+            ->latest()
+            ->get();
+
+        // $firstLogin = session()->pull('first_login', false);
+        return view('non-user.home', [
+            "Data" => $Data,
+        ]);
     }
 
     public function loginproses(Request $request)
@@ -116,11 +128,17 @@ class AuthController extends Controller
     public function beranda_perusahaan()
     {
         $perusahaan = auth()->user()->perusahaan;
+        $lowongans = LowonganPerusahaan::where('perusahaan_id', $perusahaan->id)
+            // ->where('status', 'publish')
+            ->with('paket')
+            ->latest()
+            ->get();
 
         return view('perusahaan.dashboard', [
             'hargaPembayarans' => HargaPembayaran::all(),
             'daftarBank' => DaftarBank::all(),
-            'perusahaan' => $perusahaan, 
+            'lowongans' => $lowongans,
+            'perusahaan' => $perusahaan,
         ]);
     }
 

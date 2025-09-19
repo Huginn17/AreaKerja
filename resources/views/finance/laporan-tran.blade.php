@@ -29,7 +29,7 @@
                         <option value="12" {{ request('periode') == '12' ? 'selected' : '' }}>12 Bulan Terakhir</option>
                     </select>
                 </form>
-            </div>
+            </div>          
 
             {{-- Tabel --}}
             <div class="rounded-2xl overflow-hidden border">

@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AlamatPelamarController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CatatanCashController;
+use App\Http\Controllers\CVController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FinanceController;
@@ -53,16 +54,20 @@ use Illuminate\Support\Str;
 // });
 
 
+//DOWNLOAD CV
+Route::get('/cv/download/{id}', [CVController::class, 'download'])->name('cv.download');
+Route::get('/cv/preview/{id}', [CVController::class, 'preview'])->name('cv.preview');
+Route::get('/cv/save/{id}', [CVController::class, 'save'])->name('cv.save');
+
 
 //NON USER
-Route::get('/', function () {
-    return view('non-user.home');
-});
-Route::get('/beranda', [AuthController::class, 'beranda'])->name('beranda');
+// Route::get('/', function () {
+//     return view('non-user.home');
+// });
+Route::get('/', [AuthController::class, 'beranda'])->name('beranda');
 
 //LOGIN AUTH
 Route::middleware('guest')->group(function () {
-
     Route::get('/login', [AuthController::class, 'login_non_user'])->name('login');
     Route::post('/loginproses', [AuthController::class, 'loginproses'])->name('loginproses');
 });
@@ -108,6 +113,11 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
     Route::put('/update/alamat/{alamatpelamar:id}', [ProfileController::class, 'update_alamat'])->name('alamat.update')->middleware('auth');
     Route::delete('/delete/alamat/{alamatpelamar:id}', [ProfileController::class, 'destroy_alamat'])->name('alamat.destroy')->middleware('auth');
 
+    //RIWAYAT PENDIDIKAN
+    Route::post('/create/pendidikan', [PelamarController::class, 'storependidikan'])->name('pendidikan.store')->middleware('auth');
+    Route::get('/edit/pendidikan/{riwayatpendidikan:id}', [PelamarController::class, 'editpendidikan'])->name('pendidikan.edit')->middleware('auth');
+    Route::put('/update/pendidikan/{riwayatpendidikan:id}', [PelamarController::class, 'updatependidikan'])->name('pendidikan.update')->middleware('auth');
+    Route::delete('/delete/pendidikan/{riwayatpendidikan:id}', [PelamarController::class, 'destroypendidikan'])->name('pendidikan.destroy')->middleware('auth');
 
     //pengalaman organisasi
     Route::post('/create/organisasi', [PengalamanOrgController::class, 'store'])->name('organisasi.store')->middleware('auth');
@@ -128,6 +138,11 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
     Route::get('/edit/skill/{skill:id}', [SkillController::class, 'edit'])->name('skill.edit')->middleware('auth');
     Route::put('/update/skill/{skill:id}', [SkillController::class, 'update'])->name('skill.update')->middleware('auth');
     Route::delete('/delete/skill/{skill:id}', [SkillController::class, 'destroy'])->name('skill.destroy')->middleware('auth');
+
+    //SIMPAN LOWONGAN 
+    Route::post('/simpan-lowongan', [PelamarController::class, 'store'])->name('simpan-lowongan.store');
+    Route::delete('/simpan-lowongan/{lowongan}', [PelamarController::class, 'destroy'])->name('simpan-lowongan.destroy');
+    Route::get('/lowongan-tersimpan', [PelamarController::class, 'lowongansimpanform'])->name('lowongan.tersimpan');
 });
 
 Route::get('/lowongan', function () {
@@ -154,9 +169,7 @@ Route::get('/bantuan', function () {
     return view('non-user.faq');
 });
 
-Route::get('/lowongan-tersimpan', function () {
-    return view('non-user.lowongan-tersimpan');
-});
+
 Route::get('/lowongan-detail', function () {
     return view('non-user.lowongan-detail');
 });
@@ -199,6 +212,12 @@ Route::get('/tran-tf-qr', function () {
 });
 Route::get('/saya-rekrut', function () {
     return view('kandidat.rekrut-saya');
+});
+Route::get('/kandidat-baru-kosong', function () {
+    return view('kandidat.kandidat-baru-kosong');
+});
+Route::get('/kandidat-ak-selanjutnya', function () {
+    return view('kandidat.kandidat-ak-selanjutnya');
 });
 
 
@@ -444,7 +463,13 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
     Route::put('/update/event/{event}', [EventController::class, 'update_event'])->name('superadmin.event.update');
     Route::get('/event/{event}', [EventController::class, 'detail'])->name('superadmin.detail.event');
     Route::get('/event/{event}/edit', [EventController::class, 'edit'])->name('superadmin.edit.event');
-    Route::delete('/delete/event/{event}', [EventController::class, 'destroy'])->name('superadmin.event.destroy');
+    Route::delete('/delete/event/{event}', [EventController::class, 'destroy'])->name('superadmin.event.destroyw');
+
+    //Pelamar
+    Route::get('/pelamar', [SuperAdminController::class, 'pelamarhal'])->name('superadmin.pelamar');
+    //NON KANDIDAT
+    Route::get('/non-kandidat/{pelamar}', [SuperAdminController::class, 'detail_non_kandidat'])->name('superadmin.detail.non.kandidat');
+    Route::get('/non-kandidat/{pelamar}/edit', [SuperAdminController::class, 'edit_non_kandidat'])->name('superadmin.edit.non.kandidat');
 });
 
 
@@ -457,10 +482,6 @@ Route::get('/super_admin/verif-lupapw', [AuthController::class, 'veriflupapw_sup
 
 Route::get('/super_admin/edit-profile', function () {
     return view('super_admin.edit-profile-superadmin');
-});
-
-Route::get('/super_admin/data-pelamar', function () {
-    return view('super_admin.data-pelamar');
 });
 
 Route::get('/super_admin/data-non-kandidat', function () {
@@ -555,9 +576,6 @@ Route::get('/super_admin/edit/lowongan', function () {
 Route::get('/super_admin/finance', function () {
     return view('super_admin.finance');
 });
-Route::get('/super_admin/view/cv/pelamar', function () {
-    return view('super_admin.view-cv-pelamar');
-});
 Route::get('/super_admin/detail/data/talent/hunter', function () {
     return view('super_admin.detail-data-talent-hunter');
 });
@@ -581,6 +599,9 @@ Route::get('/super_admin/laporan/transaksi', function () {
 });
 Route::get('/super_admin/overlay/edit/hargakoin', function () {
     return view('super_admin.overlay-edit-hargakoin');
+});
+Route::get('/super_admin/overlay/edit/hargatunai', function () {
+    return view('super_admin.overlay-edit-hargatunai');
 });
 
 
@@ -613,6 +634,7 @@ Route::prefix('perusahaan')->middleware('guest')->group(function () {
     Route::post('/reset-password', [LupaPasswordController::class, 'resetPassword_perusahaan'])->name('password.update.perusahaan');
 });
 
+Route::get('/perusahaan/lowongan/detail/{lowongan:id}', [LowonganPerusahaanController::class, 'show'])->name('lowongan.detail')->middleware('auth', 'CheckUserStatus');
 
 Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserStatus')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'beranda_perusahaan'])->name('perusahaan.dashboard');
@@ -641,8 +663,10 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
     Route::get('/lowongan', [LowonganPerusahaanController::class,  'index'])->name('lowongan.saya.perusahaan');
     Route::get('/createform/lowongan', [LowonganPerusahaanController::class,  'createForm'])->name('lowongan.create.form');
     Route::post('/buat/lowongan', [LowonganPerusahaanController::class,  'store'])->name('lowongan.saya.store');
-    Route::get('/edit/lowongan', [LowonganPerusahaanController::class, 'edit'])->name('lowongan.edit.form');
-    Route::get('/lowongan/detail/{lowongan:id}', [LowonganPerusahaanController::class, 'show'])->name('lowongan.detail');
+    Route::get('/edit/lowongan/{lowongan:id}', [LowonganPerusahaanController::class, 'edit'])->name('lowongan.edit.form');
+    Route::put('/update/lowongan/{lowongan:id}', [LowonganPerusahaanController::class, 'update'])->name('lowongan.update');
+
+    Route::delete('/lowongan/{lowongan:id}', [LowonganPerusahaanController::class, 'destroy'])->name('lowongan.destroy');
 
     //PAKET LOWONGAN
     Route::get('/paket/form', [LowonganPerusahaanController::class, 'paketform'])->name('paket.form');
@@ -737,6 +761,9 @@ Route::get('perusahaan/edit/alamat/jadi', function () {
 });
 Route::get('perusahaan/alamat/kosong', function () {
     return view('perusahaan.alamat-kosong');
+});
+Route::get('perusahaan/tambah/alamat', function () {
+    return view('perusahaan.tambah-alamat');
 });
 
 
