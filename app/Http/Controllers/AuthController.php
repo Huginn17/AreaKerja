@@ -25,7 +25,7 @@ class AuthController extends Controller
             } elseif (Auth::user()->role == 'admin') {
                 return redirect()->route('admin.dashboard');
             } elseif (Auth::user()->role == 'pelamar') {
-                return redirect('/');
+                return redirect()-route('beranda');
             } elseif (Auth::user()->role == 'perusahaan') {
                 return redirect()->route('perusahaan.dashboard');
             } elseif (Auth::user()->role == 'finance') {
@@ -72,7 +72,7 @@ class AuthController extends Controller
                 } elseif (Auth::user()->role == 'admin') {
                     return redirect()->route('admin.dashboard');
                 } elseif (Auth::user()->role == 'pelamar') {
-                    return redirect('/');
+                    return redirect()->route('beranda');
                 } elseif (Auth::user()->role == 'perusahaan') {
                     return redirect()->route('perusahaan.dashboard');
                 } elseif (Auth::user()->role == 'finance') {

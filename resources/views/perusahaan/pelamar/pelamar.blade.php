@@ -9,7 +9,7 @@
             </h1>
             <h2 class="text-xl">Lihat riwayat lamar yang masuk</h2>
             <h2 class="text-xl"> Ke lowongan anda</h2><br>
-
+            
         </div>
     </section>
 

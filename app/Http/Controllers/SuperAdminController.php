@@ -132,25 +132,31 @@ class SuperAdminController extends Controller
     public function pelamarhal()
     {
         $pelamar = Pelamar::all();
-        return view('super_admin.pelamar.data-pelamar',
+        return view(
+            'super_admin.pelamar.data-pelamar',
             [
                 "pelamar" => $pelamar
-            ]);
+            ]
+        );
     }
 
     //NON KANDIDAT
     public function detail_non_kandidat(Pelamar $pelamar)
     {
-      return view('super_admin.pelamar.non-kandidat.detail', [
-        "data" => $pelamar
-      ]);
+        $logoPath = public_path('images/logoarea.png');
+        $logoBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath));
+        return view('super_admin.pelamar.non-kandidat.detail', [
+            "data" => $pelamar,
+            "logoBase64" => $logoBase64,
+            "sosmed" => $pelamar->sosmed,
+        ]);
     }
 
     public function edit_non_kandidat(Pelamar $pelamar)
     {
-      return view('super_admin.pelamar.non-kandidat.edit', [
-        "data" => $pelamar
-      ]);
+        return view('super_admin.pelamar.non-kandidat.edit', [
+            "data" => $pelamar
+        ]);
     }
 
 

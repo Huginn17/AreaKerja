@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AlamatPerusahaan;
 use App\Models\CatatanCash;
+use App\Models\LowonganPerusahaan;
 use App\Models\Perusahaan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -132,4 +133,11 @@ class PerusahaanController extends Controller
     //     $transaksi = CatatanCash::findOrFail($id);
     //     return view('perusahaan.transaksi-koin', compact('transaksi'));
     // }
+
+
+    //PELAMAR
+    public function detail_pelamar($id)
+    {
+        $lowongan = LowonganPerusahaan::with('pelamars')->findOrFail($id);
+    }
 }

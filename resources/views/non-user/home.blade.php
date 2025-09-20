@@ -87,6 +87,7 @@
     </div>
 
     <!-- Card Lowongan -->
+    <!-- Card Lowongan -->
     <h3 class="px-40 mt-8 mb-4 text-gray-500 font-semibold dark:text-white">
         Lowongan berdasarkan pada aktivitas Anda di areakerja
     </h3>
@@ -95,8 +96,8 @@
         <div id="section-umpan-lowongan" class="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-3">
             @foreach ($Data as $d)
                 @if ($d->published_at && (!$d->expired_at || $d->expired_at > now()))
-                    <div x-data="{ open: false }" @click="open = !open"
-                        class="border p-8 rounded-lg shadow-sm cursor-pointer hover:shadow-md transition bg-white">
+                    <div x-data="{ open: false, showConfirm: false, showSuccess: false }"
+                        class="border p-8 rounded-lg shadow-sm hover:shadow-md transition bg-white">
 
                         {{-- Header --}}
                         <div class="flex justify-between items-start">
@@ -133,6 +134,8 @@
                                     <i class="ph-fill ph-paper-plane-right text-blue-600 text-xl"></i>
                                     <span class="font-medium">Lamar Dengan Cepat</span>
                                 </div>
+
+
                                 {{-- Tombol Simpan Lowongan --}}
                                 @auth
                                     @php
@@ -173,15 +176,15 @@
                                 <li>Diminta mengirimkan video perkenalan singkat (detail diberikan nanti).</li>
                             </ul>
 
-                            <span class="text-xs text-gray-400">Aktif {{ $d->created_at->diffForHumans() }}</span>
+                            <span class="text-xs text-gray-400">Aktif {{ $d->published_at->diffForHumans() }}</span>
                         </div>
 
                         {{-- Detail --}}
                         <div x-show="open" x-collapse class="mt-6 space-y-6">
-                            <a href="#"
+                            <button @click.stop="showConfirm = true"
                                 class="inline-block px-4 py-2 bg-orange-500 text-white rounded-lg text-sm font-semibold hover:bg-orange-600 transition">
                                 Lamar Cepat
-                            </a>
+                            </button>
 
                             <div>
                                 <h3 class="font-semibold text-lg mb-2">Detail Lowongan</h3>
@@ -216,12 +219,80 @@
                                 </ul>
                             </div>
                         </div>
+
+                        {{-- Tombol toggle detail --}}
+                        <div class="mt-4">
+                            <button @click="open = !open" class="text-sm text-blue-600 hover:underline">
+                                <span x-show="!open">Lihat Detail</span>
+                                <span x-show="open">Tutup Detail</span>
+                            </button>
+                        </div>
+
+                        {{-- Modal Konfirmasi --}}
+                        <div x-show="showConfirm"
+                            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" x-cloak>
+                            <div class="bg-white rounded-lg p-6 text-center w-96">
+                                <h2 class="text-lg font-semibold mb-4">Konfirmasi</h2>
+                                <p class="mb-6">CV akan dikirimkan ke <b>{{ $d->perusahaan->nama_perusahaan }}</b></p>
+                                <div class="flex justify-center gap-4">
+                                    <button @click="showConfirm = false"
+                                        class="px-4 py-2 bg-gray-300 rounded-lg">Batal</button>
+
+                                    {{-- Tombol Kirim dengan AJAX --}}
+                                    <button
+                                        @click.prevent="
+        fetch('{{ route('lamar.cepat', $d->id) }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').getAttribute('content')
+            },
+            body: JSON.stringify({})
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                showConfirm = false;
+                showSuccess = true;
+            } else if (data.redirect) {
+                window.location.href = data.redirect;
+            } else {
+                alert(data.message ?? 'Gagal mengirim lamaran.');
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert('Terjadi kesalahan koneksi.');
+        })
+    "
+                                        class="px-4 py-2 bg-orange-500 text-white rounded-lg">
+                                        Kirim
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        {{-- Modal Sukses --}}
+                        <div x-show="showSuccess"
+                            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" x-cloak>
+                            <div class="bg-white rounded-lg p-6 text-center w-96">
+                                <h2 class="text-lg font-semibold mb-4">Lamaran anda telah terkirim</h2>
+                                <p class="mb-6">Silahkan menunggu informasi selanjutnya melalui sistem kami</p>
+                                <button @click="showSuccess = false"
+                                    class="px-6 py-2 bg-orange-500 text-white rounded-lg">Selesai</button>
+                            </div>
+                        </div>
                     </div>
                 @endif
             @endforeach
-
         </div>
     </section>
+
+
 
     {{-- AlpineJS --}}
     <script src="https://unpkg.com/alpinejs" defer></script>

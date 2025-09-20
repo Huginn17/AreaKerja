@@ -13,6 +13,25 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "flowbite": "^3.1.2"
-    }
+        "flowbite": "^3.1.2",
+        "puppeteer": "^24.22.0"
+    },
+    "name": "areakerja",
+    "version": "1.0.0",
+    "description": "<p align=\"center\"><a href=\"https://laravel.com\" target=\"_blank\"><img src=\"https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg\" width=\"400\" alt=\"Laravel Logo\"></a></p>",
+    "main": "postcss.config.js",
+    "directories": {
+        "test": "tests"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Huginn17/AreaKerja.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Huginn17/AreaKerja/issues"
+    },
+    "homepage": "https://github.com/Huginn17/AreaKerja#readme"
 }

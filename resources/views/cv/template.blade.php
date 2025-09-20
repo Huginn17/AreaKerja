@@ -1,10 +1,9 @@
 {{-- @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin') --}}
-
 <div class="overflow-y-auto">
     <div class="max-w-6xl mx-auto bg-white p-10 text-gray-800">
         <main class="flex-1 p-6 bg-white overflow-y-auto">
-            <div class="flex justify-between items-center mb-6">
+            {{-- <div class="flex justify-between items-center mb-6">
                 <h1 class="text-2xl font-medium"></h1>
                 <div class="flex items-center gap-3">
                     <svg width="31" height="32" viewBox="0 0 31 32" fill="none"
@@ -47,16 +46,23 @@
                     </div>
                 </div>
             </div><br>
-            <br>
+            <br> --}}
             <!-- Header -->
             <div class="flex items-center justify-between pb-6">
 
                 <!-- Foto & Nama -->
                 <div class="flex items-center gap-4 overflow-y-auto">
-                    <img src="https://avatar.iran.liara.run/public/boy" alt="Foto Profil"
-                        class="w-28 h-28 rounded-full object-cover mr-4">
+                    @if (!empty($pdf))
+                        <img src="{{ public_path('storage/' . $data->img_profile) }}" alt="Profile"
+                            class="w-32 h-32 md:w-28 md:h-28 rounded-full object-cover border-4 border-gray-300">
+                    @else
+                        <img src="{{ asset('storage/' . $data->img_profile) }}" alt="Profile"
+                            class="w-32 h-32 md:w-28 md:h-28 rounded-full object-cover border-4 border-gray-300">
+                    @endif
+                    <img hidden src="{{ public_path('storage/' . $data->img_profile) }}" alt="Profile"
+                        class="w-32 h-32 md:w-28 md:h-28 rounded-full object-cover border-4 border-gray-300">
                     <div>
-                        <h1 class="text-2xl font-bold text-orange-600 mb-1">{{ $user->username }} </h1>
+                        <h1 class="text-2xl font-bold text-orange-600 mb-1">{{ $data->user->username }} </h1>
                         <p class="text-sm font-semibold">Jl. Prapatan Dalam No. 04 Rt. 47<br>
                             Balikpapan Kota, Kota Balikpapan,<br>
                             Kalimantan Timur, ID 76111</p>
@@ -72,7 +78,7 @@
                                 fill="#FA6601" />
                         </svg>
 
-                        bambangkurnia@gmail.com
+                        {{ $data->user->email }}
                     </p>
                     <p class="flex items-center gap-2">
                         <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
@@ -81,7 +87,7 @@
                                 d="M16.5152 12.0128L12.7964 10.419C12.6375 10.3513 12.461 10.3371 12.2933 10.3784C12.1256 10.4197 11.9759 10.5144 11.8667 10.6481L10.2198 12.6603C7.63511 11.4416 5.55505 9.36157 4.3364 6.77691L6.34855 5.13C6.48258 5.02099 6.57745 4.87127 6.61879 4.70352C6.66013 4.53577 6.64569 4.35911 6.57765 4.2003L4.98388 0.481485C4.90921 0.310289 4.77714 0.170514 4.61045 0.0862606C4.44376 0.00200721 4.2529 -0.0214431 4.07077 0.0199532L0.617589 0.816842C0.441997 0.85739 0.285334 0.956258 0.173169 1.09731C0.0610036 1.23836 -4.04491e-05 1.41326 2.01088e-08 1.59348C2.01088e-08 10.1102 6.90305 17 15.4065 17C15.5868 17.0001 15.7618 16.9391 15.9029 16.8269C16.044 16.7148 16.1429 16.5581 16.1835 16.3824L16.9804 12.9292C17.0215 12.7462 16.9976 12.5546 16.9127 12.3873C16.8277 12.2201 16.6872 12.0876 16.5152 12.0128Z"
                                 fill="#FA6601" />
                         </svg>
-                        08123456789
+                        {{ $data->telepon_pelamar }}
                     </p>
                     <p class="flex items-center gap-2">
                         <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
@@ -90,7 +96,7 @@
                                 d="M8.5019 4.14141C6.08985 4.14141 4.14428 6.08742 4.14428 8.5C4.14428 10.9126 6.08985 12.8586 8.5019 12.8586C10.9139 12.8586 12.8595 10.9126 12.8595 8.5C12.8595 6.08742 10.9139 4.14141 8.5019 4.14141ZM8.5019 11.3336C6.94317 11.3336 5.66888 10.0629 5.66888 8.5C5.66888 6.93713 6.93938 5.66635 8.5019 5.66635C10.0644 5.66635 11.3349 6.93713 11.3349 8.5C11.3349 10.0629 10.0606 11.3336 8.5019 11.3336ZM14.0542 3.96313C14.0542 4.52834 13.5991 4.97975 13.0378 4.97975C12.4727 4.97975 12.0214 4.52455 12.0214 3.96313C12.0214 3.40171 12.4765 2.9465 13.0378 2.9465C13.5991 2.9465 14.0542 3.40171 14.0542 3.96313ZM16.9403 4.99492C16.8758 3.6331 16.5648 2.42681 15.5674 1.43295C14.5737 0.439083 13.3677 0.128026 12.0062 0.0597456C10.603 -0.0199152 6.39704 -0.0199152 4.99381 0.0597456C3.63609 0.124233 2.43006 0.43529 1.43263 1.42915C0.435193 2.42302 0.127998 3.62931 0.0597323 4.99113C-0.0199108 6.39468 -0.0199108 10.6015 0.0597323 12.0051C0.124205 13.3669 0.435193 14.5732 1.43263 15.5671C2.43006 16.5609 3.63229 16.872 4.99381 16.9403C6.39704 17.0199 10.603 17.0199 12.0062 16.9403C13.3677 16.8758 14.5737 16.5647 15.5674 15.5671C16.561 14.5732 16.872 13.3669 16.9403 12.0051C17.0199 10.6015 17.0199 6.39847 16.9403 4.99492ZM15.1274 13.511C14.8316 14.2545 14.259 14.8273 13.5118 15.127C12.393 15.5708 9.73826 15.4684 8.5019 15.4684C7.26553 15.4684 4.60697 15.5671 3.49197 15.127C2.74863 14.8311 2.17596 14.2583 1.87635 13.511C1.43263 12.392 1.53503 9.73664 1.53503 8.5C1.53503 7.26336 1.43642 4.60421 1.87635 3.48895C2.17217 2.74545 2.74484 2.17265 3.49197 1.87298C4.61076 1.42915 7.26553 1.53157 8.5019 1.53157C9.73826 1.53157 12.3968 1.43295 13.5118 1.87298C14.2552 2.16886 14.8278 2.74166 15.1274 3.48895C15.5712 4.608 15.4688 7.26336 15.4688 8.5C15.4688 9.73664 15.5712 12.3958 15.1274 13.511Z"
                                 fill="#FA6601" />
                         </svg>
-                        bambang_kurnia
+                        {{ $sosmed && !empty($sosmed->instagram) ? $sosmed->instagram : 'tidak ada data' }}
                     </p>
                     <p class="flex items-center gap-2">
                         <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
@@ -99,7 +105,8 @@
                                 d="M15.7857 0H1.21049C0.542634 0 0 0.550223 0 1.22567V15.7743C0 16.4498 0.542634 17 1.21049 17H15.7857C16.4536 17 17 16.4498 17 15.7743V1.22567C17 0.550223 16.4536 0 15.7857 0ZM5.13795 14.5714H2.6183V6.45848H5.14174V14.5714H5.13795ZM3.87812 5.35045C3.06987 5.35045 2.41719 4.69397 2.41719 3.88951C2.41719 3.08504 3.06987 2.42857 3.87812 2.42857C4.68259 2.42857 5.33906 3.08504 5.33906 3.88951C5.33906 4.69777 4.68638 5.35045 3.87812 5.35045ZM14.5828 14.5714H12.0632V10.625C12.0632 9.68393 12.0442 8.47344 10.754 8.47344C9.44107 8.47344 9.23996 9.49799 9.23996 10.5567V14.5714H6.72031V6.45848H9.1375V7.56652H9.17165C9.50937 6.92902 10.3328 6.25737 11.5585 6.25737C14.1085 6.25737 14.5828 7.93839 14.5828 10.1241V14.5714Z"
                                 fill="#FA6601" />
                         </svg>
-                        Bambang Kurnia
+
+                        {{ $sosmed && !empty($sosmed->linkedin) ? $sosmed->linkedin : 'tidak ada data' }}
                     </p>
                 </div>
             </div>
@@ -280,7 +287,7 @@
 
             <!-- Footer -->
             <div class="flex flex-col items-center justify-center mt-10 text-sm font-semibold text-gray-800">
-                <img src="{{ asset('images/logoarea.png') }}" alt="Logo Areakerja" class="w-20 h-auto mb-1">
+                <img src="{{ $logoBase64 }}" alt="Logo Areakerja" class="w-20 h-auto mb-1">
                 Copyright &copy; AREAKERJA.com
             </div>
 

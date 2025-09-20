@@ -2,49 +2,87 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pelamar;
 use App\Models\User;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Spatie\Browsershot\Browsershot;
+use App\Helpers\BrowserPath; // helper yang kita bikin
+use App\Models\Pelamar;
+use Illuminate\Support\Facades\View;
 
 class CVController extends Controller
 {
-    public function download($id)
+    // Preview CV di browser
+    public function preview(Pelamar $pelamar)
     {
-        $pelamar = Pelamar::with('user')->findOrFail($id);
-        $user = $pelamar->user; // relasi ke tabel users
+        $logoPath = public_path('images/logoarea.png');
+        $logoBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath)); 
+        $html = View::make('cv.template', [
+            "data" => $pelamar,
+            "logoBase64" => $logoBase64,
+           "sosmed" => $pelamar->sosmed,
+        ])->render();
 
-        $pdf = Pdf::loadView('cv.template', compact('user', 'pelamar'))
-            ->setPaper('a4', 'portrait');
+        $htmlWithCss = '
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>Preview CV Pelamar</title>
+            <script src="https://cdn.tailwindcss.com"></script>
+        </head>
+        <body>
+            ' . $html . '
+        </body>
+        </html>
+    ';
 
-        return $pdf->download('CV-' . $user->name . '.pdf');
+        return response($htmlWithCss);
     }
 
-    public function preview($id)
+
+    // Download CV sebagai PDF
+    public function downloadCv(Pelamar $pelamar)
     {
-        $pelamar = Pelamar::with('user')->findOrFail($id);
-        $user = $pelamar->user;
+        $logoPath = public_path('images/logoarea.png');
+        $logoBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath));
 
-        $pdf = Pdf::loadView('cv.template', compact('user', 'pelamar'))
-            ->setPaper('a4', 'portrait');
+        $html = View::make('cv.template', [
+            "data" => $pelamar,
+            "pdf" => true,
+            'logoBase64' => $logoBase64,
+            "sosmed" => $pelamar->sosmed,
+        ])->render();
 
-        return $pdf->stream('CV-' . $user->name . '.pdf');
-    }
 
-    public function save($id)
-    {
-        $pelamar = Pelamar::with('user')->findOrFail($id);
-        $user = $pelamar->user;
+        $htmlWithCss = '
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <title>CV Pelamar</title>
+                <script src="https://cdn.tailwindcss.com"></script>
+            </head>
+            <body>
+                ' . $html . '
+            </body>
+            </html>
+            ';
 
-        $pdf = Pdf::loadView('cv.template', compact('user', 'pelamar'))
-            ->setPaper('a4', 'portrait');
+        $browserPath = BrowserPath::detect();
+        if (!$browserPath) {
+            return response()->json([
+                "error" => "Browser Chrome/Edge tidak ditemukan. Pastikan sudah terinstall."
+            ], 500);
+        }
 
-        $fileName = 'CV-' . $user->id . '-' . now()->format('YmdHis') . '.pdf';
-        $pdf->save(storage_path('app/public/cv/' . $fileName));
+        $pdf = Browsershot::html($htmlWithCss)
+            ->setOption('executablePath', $browserPath)
+            ->format('A4')
+            ->margins(10, 10, 10, 10)
+            ->pdf();
 
-        return response()->json([
-            'message' => 'CV berhasil disimpan',
-            'file' => asset('storage/cv/' . $fileName)
-        ]);
+        return response($pdf)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'attachment; filename="cv-' . $pelamar->id . '.pdf"');
     }
 }

@@ -20,7 +20,11 @@
 
     <!-- 🔹 Opsi 2: Kalau mau CSS langsung (style regular) -->
     <!-- <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web/src/regular/style.css"> -->
-
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
     <style>
         body {
             font-family: 'Poppins', sans-serif;

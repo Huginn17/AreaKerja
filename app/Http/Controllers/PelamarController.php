@@ -12,8 +12,19 @@ class PelamarController extends Controller
 {
     public function index()
     {
+        $Data = LowonganPerusahaan::with('perusahaan')
+            ->whereNotNull('published_at')
+            ->where(function ($q) {
+                $q->whereNull('expired_at')
+                    ->orWhere('expired_at', '>', now());
+            })
+            ->latest()
+            ->get();
         $lowongan = LowonganPerusahaan::latest()->get();
-        return view('non-user.home', compact('lowongan'));
+        return view('non-user.home', [
+            "lowongan" => $lowongan,
+            "Data" => $Data,
+        ]);
     }
 
     //SIMPAN LOWONGAN 

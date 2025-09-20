@@ -53,7 +53,7 @@ class User extends Authenticatable
 
     public function pelamar()
     {
-        return $this->hasOne(Pelamar::class, 'user_id');
+        return $this->hasOne(Pelamar::class, 'user_id', 'id');
     }
 
     public function finance()

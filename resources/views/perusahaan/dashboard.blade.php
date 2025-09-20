@@ -10,6 +10,10 @@
             <!-- === Lowongan Saya === -->
             <div class="bg-orange-500 text-white p-7 rounded-xl shadow md:col-span-2">
                 <h3 class="text-lg font-semibold mb-4">Lowongan Saya</h3>
+                @php
+                    $publish = $lowongans->filter(fn($l) => !is_null($l->published_at));
+                    $draft = $lowongans->filter(fn($l) => is_null($l->published_at));
+                @endphp
 
                 @if ($lowongans->isEmpty())
                     <!-- Jika BELUM ADA lowongan -->
@@ -66,7 +70,7 @@
                         </div>
 
                     </div>
-                @elseif ($lowongans->where('is_publish', 1)->count() === 0)
+                @elseif ($publish->isEmpty() && $draft->isNotEmpty())
                     <!-- Jika SUDAH ADA lowongan tapi BELUM publish -->
                     <div class="bg-white rounded-lg flex justify-between items-center px-4 py-3">
                         <span class="text-black font-semibold">Lowongan masih draft / belum publish</span>
@@ -124,7 +128,7 @@
                     <!-- Jika SUDAH ADA yang DIPUBLISH -->
                     <div class="space-y-4">
                         @foreach ($lowongans as $lowongan)
-                            @if ($lowongan->is_publish)
+                            @if ($lowongan->published_at)
                                 <div
                                     class="bg-white rounded-lg p-5 flex flex-col md:flex-row md:items-center justify-between shadow-sm">
                                     <div class="flex items-center gap-4">

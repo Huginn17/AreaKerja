@@ -12,6 +12,7 @@ use App\Http\Controllers\HargaController;
 use App\Http\Controllers\LowonganPerusahaanController;
 use App\Http\Controllers\LupaPasswordController;
 use App\Http\Controllers\PelamarController;
+use App\Http\Controllers\PelamarLowonganController;
 use App\Http\Controllers\PengalamanKerjaController;
 use App\Http\Controllers\PengalamanOrgController;
 use App\Http\Controllers\PerusahaanController;
@@ -55,9 +56,9 @@ use Illuminate\Support\Str;
 
 
 //DOWNLOAD CV
-Route::get('/cv/download/{id}', [CVController::class, 'download'])->name('cv.download');
-Route::get('/cv/preview/{id}', [CVController::class, 'preview'])->name('cv.preview');
-Route::get('/cv/save/{id}', [CVController::class, 'save'])->name('cv.save');
+Route::get('/cv/{pelamar:id}/download', [CvController::class, 'downloadCv'])->name('cv.download');
+Route::get('/cv/{pelamar:id}/preview', [CvController::class, 'preview'])->name('cv.preview');
+
 
 
 //NON USER
@@ -65,6 +66,7 @@ Route::get('/cv/save/{id}', [CVController::class, 'save'])->name('cv.save');
 //     return view('non-user.home');
 // });
 Route::get('/', [AuthController::class, 'beranda'])->name('beranda');
+Route::get('beranda', [AuthController::class, 'beranda'])->name('beranda');
 
 //LOGIN AUTH
 Route::middleware('guest')->group(function () {
@@ -139,10 +141,13 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
     Route::put('/update/skill/{skill:id}', [SkillController::class, 'update'])->name('skill.update')->middleware('auth');
     Route::delete('/delete/skill/{skill:id}', [SkillController::class, 'destroy'])->name('skill.destroy')->middleware('auth');
 
+
     //SIMPAN LOWONGAN 
     Route::post('/simpan-lowongan', [PelamarController::class, 'store'])->name('simpan-lowongan.store');
     Route::delete('/simpan-lowongan/{lowongan}', [PelamarController::class, 'destroy'])->name('simpan-lowongan.destroy');
     Route::get('/lowongan-tersimpan', [PelamarController::class, 'lowongansimpanform'])->name('lowongan.tersimpan');
+
+    Route::post('/lamar-cepat/{lowongan}', [PelamarLowonganController::class, 'storeQuick'])->name('lamar.cepat');
 });
 
 Route::get('/lowongan', function () {
@@ -219,7 +224,6 @@ Route::get('/kandidat-baru-kosong', function () {
 Route::get('/kandidat-ak-selanjutnya', function () {
     return view('kandidat.kandidat-ak-selanjutnya');
 });
-
 
 
 
@@ -430,7 +434,6 @@ Route::middleware('auth')->group(function () {
 });
 
 
-
 Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserStatus')->group(function () {
     Route::get('/dashboard', [SuperAdminController::class, 'index'])->name('superadmin.dashboard');
 
@@ -635,7 +638,7 @@ Route::prefix('perusahaan')->middleware('guest')->group(function () {
 });
 
 Route::get('/perusahaan/lowongan/detail/{lowongan:id}', [LowonganPerusahaanController::class, 'show'])->name('lowongan.detail')->middleware('auth', 'CheckUserStatus');
-
+//PERUSAHAAN
 Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserStatus')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'beranda_perusahaan'])->name('perusahaan.dashboard');
     //PROFILE PERUSAHAAN
