@@ -14,7 +14,7 @@
     <div class="max-w-6xl mx-auto px-4 mt-10 space-y-4 mb-10">
         @forelse($simpanlowongan as $item)
             @php $lowongan = $item->lowongan; @endphp
-            <a href="{{ route('lowongan.detail', $lowongan->id) }}">
+            <a href="{{ route('detail.lowongan.non.user', $lowongan->id) }}">
                 <div class="bg-white shadow rounded-md p-4 flex items-center justify-between">
                     <div class="flex items-center gap-4">
                         <img src="{{ asset('/images/seven.png') }}" alt="Logo" class="w-14 h-14 object-contain">

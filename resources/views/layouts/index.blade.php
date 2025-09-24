@@ -33,7 +33,7 @@
 </head>
 
 
-<body>
+<body x-data="{ openNotif: false }">
     {{-- Navbar --}}
     <header class="bg-white border-b border-gray-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -56,15 +56,21 @@
             {{-- Aksi --}}
             <div class="flex items-center gap-5">
                 {{-- Notifikasi --}}
-                <button onclick="toggleModal()" class="relative">
+                <button @click="openNotif = true" class="relative">
                     <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M23.4955 17.1131C23.3918 17.006 23.29 16.8989 23.1901 16.7955C21.8162 15.3699 20.9851 14.5096 20.9851 10.474C20.9851 8.38475 20.4024 6.67047 19.254 5.38475C18.4072 4.43493 17.2626 3.7144 15.7539 3.1819C15.7344 3.17263 15.7171 3.16048 15.7027 3.146C15.16 1.58708 13.675 0.542969 12.0002 0.542969C10.3253 0.542969 8.84094 1.58708 8.29828 3.1444C8.28379 3.15834 8.2667 3.17011 8.24769 3.17922C4.72691 4.42261 3.01586 6.80815 3.01586 10.4724C3.01586 14.5096 2.18593 15.3699 0.810843 16.7939C0.710927 16.8973 0.609138 17.0023 0.505476 17.1115C0.237702 17.3886 0.0680456 17.7256 0.0165842 18.0828C-0.0348772 18.4399 0.0340108 18.8023 0.215096 19.1269C0.600396 19.8233 1.42158 20.2556 2.35891 20.2556H21.6483C22.5812 20.2556 23.3968 19.8239 23.7833 19.1306C23.9652 18.8059 24.0347 18.4433 23.9837 18.0857C23.9327 17.7282 23.7633 17.3906 23.4955 17.1131ZM12.0002 24.543C12.9025 24.5423 13.7879 24.3322 14.5623 23.9349C15.3368 23.5375 15.9714 22.9677 16.3989 22.286C16.4191 22.2533 16.429 22.2167 16.4278 22.1798C16.4266 22.1429 16.4143 22.1068 16.392 22.0752C16.3698 22.0435 16.3384 22.0173 16.3008 21.9992C16.2633 21.981 16.221 21.9715 16.1779 21.9715H7.82368C7.78054 21.9714 7.7381 21.9809 7.70049 21.999C7.66288 22.0171 7.63138 22.0433 7.60906 22.0749C7.58674 22.1066 7.57435 22.1427 7.57311 22.1797C7.57188 22.2167 7.58182 22.2533 7.60199 22.286C8.02946 22.9677 8.664 23.5374 9.43832 23.9347C10.2126 24.3321 11.0979 24.5422 12.0002 24.543Z"
                             fill="#FA6601" />
                     </svg>
-                    <span class="absolute top-0 right-0 block h-2 w-2 bg-yellow-400 rounded-full"></span>
+                    @if ($unreadCount > 0)
+                        <span
+                            class="absolute -top-1 -right-1 flex items-center justify-center h-5 w-5 text-xs font-bold text-white bg-red-500 rounded-full">
+                            {{ $unreadCount }}
+                        </span>
+                    @endif
                 </button>
+
 
                 {{-- Jika belum login tampilkan tombol Masuk --}}
                 @guest
@@ -140,9 +146,63 @@
             </div>
         </div>
     </header>
-
     {{-- Isi Halaman --}}
     @yield('content')
+
+    <!-- Modal Notifikasi -->
+    <div x-cloak x-show="openNotif" class="fixed inset-0 z-50 flex items-start justify-end p-4 "
+        @click.self="openNotif = false">
+        <div class="bg-white w-[380px] rounded-xl shadow-lg overflow-hidden">
+            <!-- Header -->
+            <div class="flex items-center justify-between px-4 py-3 border-b">
+                <h2 class="font-semibold text-lg">Notifikasi</h2>
+                <a href="{{ route('pelamar.notifikasi') }}" class="text-sm text-orange-500">Lihat semua</a>
+            </div>
+
+            <!-- Isi Notifikasi -->
+            <div class="max-h-[400px] overflow-y-auto divide-y">
+                @forelse($notifs as $notif)
+                    <a href="{{ route('pelamar.notifikasi.show', $notif->id) }}"
+                        class="flex gap-3 p-4 notif-item {{ $notif->is_read ? 'bg-gray-100' : 'bg-white' }} hover:bg-gray-50 transition">
+
+                        {{-- Foto perusahaan --}}
+                        <img src="{{ $notif->lowongan_perusahaan->perusahaan->img_profile
+                            ? asset('storage/' . $notif->lowongan_perusahaan->perusahaan->img_profile)
+                            : asset('images/default-company.png') }}"
+                            class="w-10 h-10 rounded object-cover">
+
+                        {{-- Isi notif --}}
+                        <div class="flex-1">
+                            <p class="text-sm">
+                                @if ($notif->status === 'diterima')
+                                    <b>Selamat!</b> Lamaran yang kamu ajukan ke
+                                    <span
+                                        class="font-semibold">{{ $notif->lowongan_perusahaan->perusahaan->nama_perusahaan }}</span>
+                                    divisi <span class="font-semibold">{{ $notif->lowongan_perusahaan->nama }}</span>
+                                    <span class="text-green-600">diterima</span>.
+                                @elseif($notif->status === 'ditolak')
+                                    Lamaran ke
+                                    <span
+                                        class="font-semibold">{{ $notif->lowongan_perusahaan->perusahaan->nama_perusahaan }}</span>
+                                    divisi <span class="font-semibold">{{ $notif->lowongan_perusahaan->nama }}</span>
+                                    <span class="text-red-600">ditolak</span>.
+                                @endif
+                            </p>
+                            <span class="text-xs text-gray-400">{{ $notif->updated_at->diffForHumans() }}</span>
+                        </div>
+                    </a>
+                @empty
+                    <div class="p-4 text-sm text-gray-500 text-center">Belum ada notifikasi</div>
+                @endforelse
+            </div>
+
+
+            <!-- Footer -->
+            <div class="p-3 border-t text-right">
+                <button id="markAllBtn" class="text-sm text-blue-600 hover:underline">Tandai Baca</button>
+            </div>
+        </div>
+    </div>
 
 
     {{-- Onboarding Tooltip --}}
@@ -193,9 +253,40 @@
         });
     </script>
 
+    {{-- notif baca semua --}}
+    <script>
+        document.getElementById('markAllBtn').addEventListener('click', function() {
+            fetch("{{ route('notifikasi.bacaSemua') }}", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({})
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update tampilan notif jadi "sudah dibaca"
+                        document.querySelectorAll('.notif-item').forEach(item => {
+                            item.classList.remove('bg-gray-50');
+                            item.classList.add('opacity-60'); // contoh efek kalau sudah dibaca
+                        });
+
+                        // Hilangkan tanda "dot" kuning di icon notif
+                        let dot = document.querySelector('.relative .bg-yellow-400');
+                        if (dot) dot.remove();
+                    }
+                })
+                .catch(err => console.error(err));
+        });
+    </script>
+
+
     @include('layouts.modal-logout')
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
     <script src="{{ asset('js/non_user.js') }}"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </body>
 
 </html>

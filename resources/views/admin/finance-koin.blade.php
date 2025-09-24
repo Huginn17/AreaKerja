@@ -63,7 +63,7 @@
                         <span class="text-gray-600 text-sm">No. Ref</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 hover:bg-gray-200 text-gray-600" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            <path stroke-linecap="round" stroke-linerjoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
 
@@ -80,7 +80,7 @@
             <div id="table_koin" class="rounded-2xl border border-gray-300 overflow-hidden">
                 <table class="w-full text-sm text-left">
                     <thead class="bg-white">
-                        <tr class="text-center">
+                        <tr class="text-center border-2">
                             <th class="p-7 font-semibold">No</th>
                             <th class="p-7 font-semibold">No.Refrensi</th>
                             <th class="p-7 font-semibold">Jenis</th>
@@ -93,7 +93,7 @@
                     </thead>
                     <tbody>
                         <!-- Baris -->
-                        <tr class="border-b text-center">
+                        <tr class="border-2 text-center">
                             <td class="px-4 py-2">1</td>
                             <td class="px-4 py-2">991773493631</td>
                             <td class="px-4 py-2">Open CV</td>
@@ -151,7 +151,7 @@
                              </a>
                             <td>
                         </tr>
-
+                         
                             <tr class="border-2 text-center">
                             <td class="px-4 py-2">2</td>
                             <td class="px-4 py-2">991773493631</td>

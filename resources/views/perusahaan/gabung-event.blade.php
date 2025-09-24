@@ -1,4 +1,4 @@
-@extends('layouts.index-perusahaan')
+ @extends('layouts.index-perusahaan')
 @section('content')
     <div class="bg-white text-gray-900">
 

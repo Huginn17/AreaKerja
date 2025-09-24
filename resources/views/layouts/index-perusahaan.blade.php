@@ -151,20 +151,15 @@
                             aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                             <span class="sr-only">Open user menu</span>
                             @if (Auth::user()->role == 'perusahaan')
-                                @if (Auth::user()->perusahaan->img_profile)
-                                    <img id="pa" class="w-10 h-10  object-cover rounded-full profile-img"
-                                        src="{{ asset('storage/' . Auth::user()->perusahaan->img_profile) }}"
-                                        alt="Profile">
-                                @else
-                                    <img id="pa" class="w-10 h-10 rounded-full"
-                                        src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
-                                        alt="">
-                                @endif
+                                <div class="px-6 py-2 bg-orange-500 rounded-xl text-white font-semibold text-center">
+                                    {{ Auth::user()->perusahaan->nama_perusahaan }}
+                                </div>
                             @else
-                                <img class="w-10 h-10 rounded-full"
-                                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
-                                    alt="">
+                                <div class="px-6 py-2 bg-orange-500 rounded-xl text-white font-semibold text-center">
+                                    {{ Auth::user()->username }}
+                                </div>
                             @endif
+
                         </button>
 
                         <!-- Dropdown menu -->

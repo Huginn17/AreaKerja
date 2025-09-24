@@ -58,6 +58,7 @@ class Pelamar extends Model
     //     return 
     // }
 
+
     public function lowongans()
     {
         return $this->belongsToMany(LowonganPerusahaan::class, 'pelamar_lowongans', 'pelamar_id', 'lowongan_id')->withPivot('status')->withTimestamps();

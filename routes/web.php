@@ -148,6 +148,14 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
     Route::get('/lowongan-tersimpan', [PelamarController::class, 'lowongansimpanform'])->name('lowongan.tersimpan');
 
     Route::post('/lamar-cepat/{lowongan}', [PelamarLowonganController::class, 'storeQuick'])->name('lamar.cepat');
+    //detail lowongan
+    Route::get('/detail-lowongan/{lowongan}', [PelamarController::class, 'detail_lowongan_non_user'])->name('detail.lowongan.non.user');
+
+    //NOTIFIKASI LAMARAN PELAMAR
+    Route::get('/notifikasi', [PelamarController::class, 'notifikasi'])->name('pelamar.notifikasi');
+    Route::get('/notifikasi/{notif}', [PelamarController::class, 'showNotif'])->name('pelamar.notifikasi.show');
+
+    Route::post('/notifikasi/baca/semua', [PelamarController::class, 'semuaDibaca'])->name('notifikasi.bacaSemua');
 });
 
 Route::get('/lowongan', function () {
@@ -675,6 +683,14 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
     Route::get('/paket/form', [LowonganPerusahaanController::class, 'paketform'])->name('paket.form');
     Route::post('/paket/beli', [LowonganPerusahaanController::class, 'beliPaket'])->name('paket.beli');
     Route::post('lowongan/{lowongan}/publish', [LowonganPerusahaanController::class, 'publish'])->name('lowongan.publish');
+
+    //PELAMAR
+    Route::get('pelamar/{lowongan:slug}', [PerusahaanController::class, 'pelamar'])->name('perusahaan.pelamar');
+
+    Route::get('/pelamar/{pelamarlowongan}/konfirmasihal', [PelamarController::class, 'konfirmasi_hal'])->name('pelamar.konfirmasi');
+    Route::post('/pelamar/{pelamarlowongan}/konfirmasi', [PelamarController::class, 'konfirmasi_simpan'])->name('pelamar.konfirmasi.simpan');
+    Route::post('/pelamar/{pelamarlowongan}/kirim', [PelamarController::class, 'kirim'])->name('pelamar.konfirmasi.kirim');
+    Route::get('/pelamar/{pelamarlowongan}/detail', [PelamarController::class, 'preview'])->name('pelamar.detail');
 });
 
 
@@ -685,7 +701,7 @@ Route::get('/perusahaan/lowongan/jgndihapus', function () {
     return view('perusahaan.lowongan');
 });
 Route::get('/perusahaan/terima/lamaran', function () {
-    return view('perusahaan.terima-pelamar');
+    return view('perusahaan.terima-lamaran');
 });
 
 Route::get('/perusahaan/konfirmasi/terkirim', function () {

@@ -1,6 +1,6 @@
 @extends('layouts.index')
 @section('content')
-    <div class="bg-gray-50 font-sans">
+    <div class="bg-gray-50 font-sans" x-data="{ open: true, showConfirm: false, showSuccess: false }">
         <div class="max-w-7xl mx-auto py-8 px-4 md:px-8 grid md:grid-cols-3 gap-6">
 
             <!-- Kiri: Detail Lowongan -->
@@ -10,19 +10,51 @@
                     <div class="flex items-center gap-3">
                         <img src="{{ asset('images/seven.png') }}" alt="Logo Perusahaan" class="w-12 h-12">
                         <div>
-                            <h1 class="text-xl font-semibold">UI/UX Designer</h1>
-                            <p class="text-gray-600">Seven Inc.</p>
-                            <p class="text-gray-500 text-sm">Yogyakarta</p>
+                            <h1 class="text-xl font-semibold">{{ $data->nama }}</h1>
+                            <p class="text-gray-600">{{ $data->perusahaan->nama_perusahaan }}</p>
+                            <p class="text-gray-500 text-sm">{{ $data->alamat }}</p>
                         </div>
                     </div>
-                    <p class="text-orange-600 font-medium">Rp. 7.000.000 - Rp. 15.000.000 perbulan</p>
-                    <div class="flex gap-3">
-                        <button class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg">
+                    <p class="text-orange-600 font-medium">Rp. {{ $data->gaji_awal }} - Rp. {{ $data->gaji_akhir }} perbulan
+                    </p>
+                    <div x-show="open" x-collapse class="flex gap-3">
+                        <button @click.stop="showConfirm = true"
+                            class="inline-block px-4 py-2 bg-orange-500 text-white rounded-lg text-sm font-semibold hover:bg-orange-600 transition">
                             Lamar Cepat
                         </button>
-                        <button class="border border-gray-300 px-3 py-2 rounded-lg">
-                            <img src="/assets/icon-save.svg" alt="Simpan" class="w-5 h-5">
-                        </button>
+                        {{-- Tombol Simpan Lowongan --}}
+                        @foreach ($Data as $d)
+                            @auth
+                                @php
+                                    $sudahSimpan = Auth::user()->pelamar
+                                        ? Auth::user()
+                                            ->pelamar->simpanLowongans()
+                                            ->where('lowongan_id', $d->id)
+                                            ->exists()
+                                        : false;
+                                @endphp
+
+                                @if (!$sudahSimpan)
+                                    <form action="{{ route('simpan-lowongan.store') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="lowongan_id" value="{{ $d->id }}">
+                                        <button type="submit" class="text-gray-400 hover:text-blue-600"
+                                            title="Simpan Lowongan">
+                                            <i class="ph ph-bookmark-simple text-2xl"></i>
+                                        </button>
+                                    </form>
+                                @else
+                                    <form action="{{ route('simpan-lowongan.destroy', $d->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-orange-600 hover:text-gray-500"
+                                            title="Hapus dari Simpan">
+                                            <i class="ph-fill ph-bookmark-simple text-2xl"></i>
+                                        </button>
+                                    </form>
+                                @endif
+                            @endauth
+                        @endforeach
                         <button class="border border-gray-300 px-3 py-2 rounded-lg">
                             <img src="/assets/icon-share.svg" alt="Bagikan" class="w-5 h-5">
                         </button>
@@ -35,11 +67,11 @@
                         <h2 class="font-semibold text-lg mb-2">Detail Lowongan</h2>
                         <div class="flex items-center gap-2 text-gray-700 mb-2">
                             <img src="/assets/icon-time.svg" alt="Jenis" class="w-5 h-5">
-                            <span>Jenis Lowongan: <b>Full time</b></span>
+                            <span>Jenis Lowongan: <b>{{ $data->jenis }}</b></span>
                         </div>
                         <div class="flex items-center gap-2 text-gray-700">
                             <img src="/assets/icon-location.svg" alt="Lokasi" class="w-5 h-5">
-                            <span>Lokasi: <b>Jakarta</b></span>
+                            <span>Lokasi: <b>{{ $data->alamat }}</b></span>
                         </div>
                     </div>
 
@@ -48,11 +80,7 @@
                         <h2 class="font-semibold text-lg mb-2">Deskripsi Lowongan</h2>
                         <p class="text-gray-700 mb-4"><b>Requirements</b></p>
                         <ul class="list-disc pl-6 text-gray-600 space-y-2">
-                            <li>Terbukti 2 tahun pengalaman sebagai Designer UX/UI.</li>
-                            <li>Latar belakang terkait proyek desain grafis.</li>
-                            <li>Kemampuan HTML5 & CSS3.</li>
-                            <li>Pemahaman wireframe dan komunikasi tim.</li>
-                            <li>Pengalaman desain responsif & interaktif.</li>
+                            <li>{{ $data->syarat_pekerjaan }}</li>
                         </ul>
                     </div>
 
@@ -60,14 +88,7 @@
                     <div>
                         <p class="text-gray-700 mb-4"><b>Responsibilities</b></p>
                         <ul class="list-disc pl-6 text-gray-600 space-y-2">
-                            <li>Kumpulkan dan periksa kebutuhan pengguna.</li>
-                            <li>Konsultasi dengan tim/klien terkait produk.</li>
-                            <li>Mengembangkan desain visual & prototipe.</li>
-                            <li>Buat diagram, flow, papan cerita, wireframe.</li>
-                            <li>Rancang UI interaktif (tab, widget, dll).</li>
-                            <li>Buat mockup web & aplikasi mobile.</li>
-                            <li>Presentasi desain ke stakeholder.</li>
-                            <li>Uji desain & revisi dari feedback klien.</li>
+                            <li>{{ $data->tanggung_jawab }}</li>
                         </ul>
                     </div>
                 </div>
@@ -114,6 +135,63 @@
                         </div>
                     </div>
 
+                </div>
+            </div>
+            {{-- Modal Konfirmasi --}}
+            <div x-show="showConfirm" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+                x-cloak>
+                <div class="bg-white rounded-lg p-6 text-center w-96">
+                    <h2 class="text-lg font-semibold mb-4">Konfirmasi</h2>
+                    <p class="mb-6">CV akan dikirimkan ke <b>{{ $data->perusahaan->nama_perusahaan }}</b></p>
+                    <div class="flex justify-center gap-4">
+                        <button @click="showConfirm = false" class="px-4 py-2 bg-gray-300 rounded-lg">Batal</button>
+
+                        {{-- Tombol Kirim dengan AJAX --}}
+                        <button
+                            @click.prevent="
+        fetch('{{ route('lamar.cepat', $data->id) }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').getAttribute('content')
+            },
+            body: JSON.stringify({})
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                showConfirm = false;
+                showSuccess = true;
+            } else if (data.redirect) {
+                window.location.href = data.redirect;
+            } else {
+                alert(data.message ?? 'Gagal mengirim lamaran.');
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert('Terjadi kesalahan koneksi.');
+        })
+    "
+                            class="px-4 py-2 bg-orange-500 text-white rounded-lg">
+                            Kirim
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            {{-- Modal Sukses --}}
+            <div x-show="showSuccess" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+                x-cloak>
+                <div class="bg-white rounded-lg p-6 text-center w-96">
+                    <h2 class="text-lg font-semibold mb-4">Lamaran anda telah terkirim</h2>
+                    <p class="mb-6">Silahkan menunggu informasi selanjutnya melalui sistem kami</p>
+                    <button @click="showSuccess = false"
+                        class="px-6 py-2 bg-orange-500 text-white rounded-lg">Selesai</button>
                 </div>
             </div>
         </div>

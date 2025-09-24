@@ -92,7 +92,7 @@
         Lowongan berdasarkan pada aktivitas Anda di areakerja
     </h3>
 
-    <section class="mx-2 lg:mx-0 md:mx-0 px-0 lg:px-20 md:px-20">
+    <section class="mx-2 lg:mx-0 md:mx-0 px-0 lg:px-20 md:px-20 mb-8">
         <div id="section-umpan-lowongan" class="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-3">
             @foreach ($Data as $d)
                 @if ($d->published_at && (!$d->expired_at || $d->expired_at > now()))

@@ -11,6 +11,7 @@ class PelamarLowongan extends Model
 
     protected $table = 'pelamar_lowongans';
     protected $guarded = [];
+    
 
     public function lowongan_perusahaan()
     {
@@ -20,5 +21,10 @@ class PelamarLowongan extends Model
     public function pelamar()
     {
         return $this->belongsTo(Pelamar::class, 'pelamar_id' );
+    }
+
+    public function jadwal_wawancara()
+    {
+        return $this->hasOne(JadwalWawancara::class, 'pelamar_lowongan_id');
     }
 }

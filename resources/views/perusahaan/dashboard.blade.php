@@ -2,14 +2,15 @@
 @section('content')
     <div class="w-full mx-auto bg-white min-h-screen p-6">
         <!-- Header -->
-        <h2 class="text-lg text-orange-500 font-medium">Dashboard</h2>
-        <h1 class="text-2xl font-semibold mt-1">Selamat Datang di Area Kerja {{ $perusahaan->nama_perusahaan }}</h1>
+        <h2 class="text-lg text-orange-500 font-semibold">Dashboard</h2>
+        <h1 class="text-2xl font-semibold mt-1">Selamat Datang di Area Kerja <br>
+            {{ $perusahaan->nama_perusahaan }}</h1>
 
         <!-- Grid utama -->
         <div class="grid md:grid-cols-3 gap-6 mt-6">
             <!-- === Lowongan Saya === -->
             <div class="bg-orange-500 text-white p-7 rounded-xl shadow md:col-span-2">
-                <h3 class="text-lg font-semibold mb-4">Lowongan Saya</h3>
+                <h3 class="text-xl font-semibold mb-4">Lowongan Saya</h3>
                 @php
                     $publish = $lowongans->filter(fn($l) => !is_null($l->published_at));
                     $draft = $lowongans->filter(fn($l) => is_null($l->published_at));
@@ -129,12 +130,17 @@
                     <div class="space-y-4">
                         @foreach ($lowongans as $lowongan)
                             @if ($lowongan->published_at)
+                                <a href="{{ route('lowongan.saya.perusahaan') }}"
+                                    class="border border-orange-500 text-white ml-[590px] px-3 py-1 rounded-md text-sm font-medium hover:bg-gray-200 hover:text-orange-500 transition">
+                                    Kelola Lowongan
+                                </a>
                                 <div
                                     class="bg-white rounded-lg p-5 flex flex-col md:flex-row md:items-center justify-between shadow-sm">
                                     <div class="flex items-center gap-4">
                                         <img src="{{ asset('images/logoarea.png') }}" alt="logo"
                                             class="w-12 h-12 rounded-full">
                                         <div>
+
                                             <h4 class="font-semibold text-black">{{ $perusahaan->nama_perusahaan }}</h4>
                                             <p class="text-gray-700 font-medium">{{ $lowongan->judul }}</p>
                                             <p class="text-gray-500 text-sm">{{ $lowongan->lokasi }}</p>
@@ -151,7 +157,7 @@
                                         <span class="px-3 py-1 border rounded-md text-sm text-gray-600">
                                             {{ ucfirst($lowongan->paket->nama ?? '-') }}
                                         </span>
-                                        <a href="#"
+                                        <a href="{{ route('perusahaan.pelamar', $lowongan->slug) }}"
                                             class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md text-sm font-medium transition">
                                             Lihat Pelamar
                                         </a>
@@ -161,46 +167,76 @@
                         @endforeach
                     </div>
 
-                    <!-- Tombol cari kandidat -->
+                    {{-- <!-- Tombol cari kandidat -->
                     <div class="text-center mt-6">
                         <a href="#"
                             class="bg-white text-orange-500 border border-orange-500 px-5 py-2 rounded-md font-medium hover:bg-orange-50 transition">
                             Cari Kandidat
                         </a>
-                    </div>
+                    </div> --}}
                 @endif
 
             </div>
 
             <!-- === Kandidat Saya === -->
-            <div class="bg-orange-500 rounded-2xl p-8 flex flex-col items-center text-center">
-                <h2 class="text-2xl font-bold text-white mb-6">Kandidat Saya</h2>
+            <div class="bg-orange-500 rounded-2xl p-8 flex flex-col w-full">
+                <h2 class="text-xl font-semibold text-white mb-6">Kandidat Saya</h2>
 
-                <!-- Tombol Lihat Kandidat -->
-                <button
-                    class="w-48 py-2 mb-4 border border-white text-white font-semibold rounded-lg hover:bg-white/20 transition">
-                    Lihat Kandidat
-                </button>
+                <div>
+                    @if ($publish->isNotEmpty())
+                        <!-- Tampilkan saldo koin -->
+                        <div class="mb-6">
+                            <div class="flex flex-col items-center">
+                                <span class="flex items-center">
+                                    <p class="text-yellow-300  font-semibold text-4xl">
+                                        {{ $perusahaan->koin_perusahaan ?? 0 }}
+                                    </p>
+                                    <img src="{{ asset('images/coin.png') }}" alt="coin" class="w-8 h-8 ml-3">
+                                </span>
+                                <button onclick="toggleModal()"
+                                    class="flex items-center mt-2 text-orange-500 font-medium hover:text-yellow-200">
+                                    <p class="mr-2">Top Up Koin</p>
+                                    <svg width="20" height="20" viewBox="0 0 22 22" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="0.5" y="0.5" width="20" height="20" rx="10"
+                                            fill="#42BB72" />
+                                        <path d="M11 6V16M6 11H16" stroke="white" stroke-width="2"
+                                            stroke-linecap="round" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    @endif
+                </div>
 
-                <!-- Tombol Cari Kandidat -->
-                <button class="w-48 py-2 bg-white text-black font-semibold rounded-lg hover:bg-gray-100 transition">
-                    Cari Kandidat
-                </button>
+                <div class="flex flex-col items-center">
+                    <!-- Tombol Lihat Kandidat -->
+                    <button
+                        class="w-48 py-2 mb-4 border border-white text-white font-semibold rounded-lg hover:bg-white/20 transition">
+                        Lihat Kandidat
+                    </button>
+
+                    <!-- Tombol Cari Kandidat -->
+                    <button class="w-48 py-2 bg-white text-black font-semibold rounded-lg hover:bg-gray-100 transition">
+                        Cari Kandidat
+                    </button>
+                </div>
             </div>
 
-        </div>
 
+        </div>
+        <h1 class="text-center text-3xl text-orange-500 font-bold mt-8">Tentang Area Kerja</h1>
         <!-- === Bagian Bawah === -->
         <div class="grid md:grid-cols-2 gap-8 mt-12 items-center">
             <!-- Gambar -->
             <div class="flex justify-center">
-                <img src="{{ asset('images/nari.jpg') }}" alt="Illustrasi" class="w-full max-w-md rounded-xl shadow">
+                <img src="{{ asset('images/nari.jpg') }}" alt="Illustrasi" class="w-full max-w-md">
             </div>
 
             <!-- 3 Card kecil -->
             <div class="grid md:grid-cols-2 gap-6 max-w-5xl">
                 <!-- Card 1 -->
-                <div class="bg-orange-500 text-white p-6 rounded-lg flex flex-col justify-center shadow">
+                <div class="bg-orange-500 text-white p-6 max-h-44 mt-28 rounded-lg flex flex-col justify-center shadow">
                     <div class="flex items-center space-x-3 mb-3">
                         <img src="{{ asset('images/logo_area_kerja_putih.png') }}" alt="logo" class="w-10 h-10">
                         <div>

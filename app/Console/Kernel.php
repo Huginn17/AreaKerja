@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->command('transaksi:cek-expired')->everyFiveMinutes();
         $schedule->job(new \App\Jobs\ResetExpiredLowonganJob)->dailyAt('00:00');
+        $schedule->command('pelamar:delete-expired')->daily();
     }
 
     /**

@@ -292,6 +292,6 @@
             </div>
 
     </div>
-
+    
 </div>
 {{-- @endsection --}}

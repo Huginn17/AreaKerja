@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\AlamatPerusahaan;
 use App\Models\CatatanCash;
 use App\Models\LowonganPerusahaan;
+use App\Models\Pelamar;
+use App\Models\PelamarLowongan;
 use App\Models\Perusahaan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -136,8 +138,13 @@ class PerusahaanController extends Controller
 
 
     //PELAMAR
-    public function detail_pelamar($id)
+    public function pelamar(LowonganPerusahaan $lowongan)
     {
-        $lowongan = LowonganPerusahaan::with('pelamars')->findOrFail($id);
+        $lowongan->load('pelamar');
+        return view('perusahaan.pelamar.pelamar', [
+            "data" => $lowongan,
+            "woi" => PelamarLowongan::all(),
+            "exp" => PelamarLowongan::where('lowongan_id', $lowongan->id)->get()
+        ]);
     }
 }

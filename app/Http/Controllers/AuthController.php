@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DaftarBank;
 use App\Models\HargaPembayaran;
 use App\Models\LowonganPerusahaan;
+use App\Models\PelamarLowongan;
 use App\Models\Pembayaran;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -25,7 +26,7 @@ class AuthController extends Controller
             } elseif (Auth::user()->role == 'admin') {
                 return redirect()->route('admin.dashboard');
             } elseif (Auth::user()->role == 'pelamar') {
-                return redirect()-route('beranda');
+                return redirect() - route('beranda');
             } elseif (Auth::user()->role == 'perusahaan') {
                 return redirect()->route('perusahaan.dashboard');
             } elseif (Auth::user()->role == 'finance') {
