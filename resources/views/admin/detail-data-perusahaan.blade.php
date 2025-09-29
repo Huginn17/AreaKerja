@@ -72,6 +72,7 @@
                            <li>Lorem ipsum dolor sit amet consectetur.</li>
                             <li>Lorem, ipsum dolor sit amet consectetur.</li>
                             <li>Lorem ipsum dolor sit amet consectetur.</li>
+                            <li>Lorem ipsum dolor sit amet consectetur.</li>
                         </ul>
 
                         <!-- Misi -->
@@ -79,6 +80,7 @@
                         <ul class="list-disc font-medium list-inside text-sm text-gray-800 mb-6 ">
                             <li>Lorem ipsum dolor sit amet consectetur.</li>
                             <li>Lorem, ipsum dolor sit amet consectetur.</li>
+                            <li>Lorem ipsum dolor sit amet consectetur.</li>
                             <li>Lorem ipsum dolor sit amet consectetur.</li>
                         </ul>
 

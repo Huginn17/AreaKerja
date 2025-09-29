@@ -8,12 +8,16 @@
     <title>Super Admin</title>
 
     @vite('resources/css/app.css')
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css" />
     <link rel="icon" sizes="512x512" type="image/png" href="{{ asset('images/logoarea.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/trix@2.0.0/dist/trix.css">
-    <script src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"></s cript>
+    <script src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"></script>
 
     <style>
         body {
@@ -59,7 +63,7 @@
 
                 <div class="font-semibold ml-3 mb-3">Super Admin</div>
                 <div
-                    class="{{ request()->is('super_admin/data-pelamar') || request()->is('super_admin/detail-kandidat') ? 'bg-white text-orange-500' : '' }} rounded-md">
+                    class="{{ request()->is('super_admin/pelamar') || request()->is('super_admin/detail-kandidat') ? 'bg-white text-orange-500' : '' }} rounded-md">
                     <a href="{{ route('superadmin.pelamar') }}"
                         class="flex font-semibold items-center mb-1 gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="20" height="21" viewBox="0 0 20 21" fill="currentColor"
@@ -105,7 +109,7 @@
                     </a>
                 </div>
                 <div
-                    class="{{ request()->is('super_admin/akun/freeze') || request()->is('super_admin/detail/freeze') ? 'bg-white text-orange-500' : '' }} rounded-md">
+                    class="{{ request()->is('super_admin/freeze') || request()->is('super_admin/detail/freeze') ? 'bg-white text-orange-500' : '' }} rounded-md">
                     <a href="{{ route('superadmin.freeze') }}"
                         class="flex font-semibold items-center mb-1 gap-3 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="14" height="17" viewBox="0 0 14 17" fill="currentColor"
@@ -117,7 +121,8 @@
                         Akun Freeze
                     </a>
                 </div>
-                <div class="{{ request()->is('super_admin/tips/kerja') ? 'bg-white text-orange-500' : '' }} rounded-md">
+                <div
+                    class="{{ request()->is('super_admin/tips/kerja') ? 'bg-white text-orange-500' : '' }} rounded-md">
                     <a href="/super_admin/tips/kerja"
                         class="flex font-semibold items-center mb-1 gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"
@@ -142,8 +147,8 @@
                     </a>
                 </div>
                 <div class="font-semibold mb-3 ml-3 mt-3">Manajemen Akun</div>
-                <div class="{{ request()->is('super_admin/add') ? 'bg-white text-orange-500' : '' }} rounded-md">
-                    <a href="/super_admin/add"
+                <div class="{{ request()->is('super_admin/add/user') ? 'bg-white text-orange-500' : '' }} rounded-md">
+                    <a href="{{ route('superadmin.add.user') }}"
                         class="flex font-semibold items-center mb-1 gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="16" height="17" viewBox="0 0 16 17" fill="currentColor"
                             xmlns="http://www.w3.org/2000/svg">
@@ -178,7 +183,6 @@
                         </svg>
                         Pengaturan
                     </a>
-
                 </div>
                 <div>
                     <form id="logout" action="" method="POST">
@@ -209,14 +213,25 @@
                 if (file) {
                     let reader = new FileReader();
                     reader.onload = function(event) {
-                        document.getElementById('pu').setAttribute('src', event.target.result);
+                        // update foto besar (pasti ada)
                         document.getElementById('pa').setAttribute('src', event.target.result);
+
+                        // update foto kecil (navbar) kalau memang ada
+                        const puImg = document.getElementById('pu');
+                        if (puImg) {
+                            puImg.setAttribute('src', event.target.result);
+                        }
                     }
                     reader.readAsDataURL(file);
                 }
             });
         </script>
+
         <script src="//unpkg.com/alpinejs" defer></script>
+        <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+        @stack('scripts')
+
 
 </body>
 

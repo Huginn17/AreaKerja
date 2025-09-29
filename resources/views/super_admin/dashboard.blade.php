@@ -29,9 +29,9 @@
                 <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
                     <a href="{{ route('superadmin.profile') }}">
                         @if (Auth::user()->role == 'super_admin')
-                            @if (Auth::user()->superadmin->img_profile)
-                                <img id="pu" class="w-10 h-10  object-cover rounded-full profile-img"
-                                    src="{{ asset('storage/' . Auth::user()->admin->img_profile) }}" alt="Profile">
+                            @if (Auth::user()->superadmin?->img_profile)
+                                <img id="pu" class="w-10 h-10 object-cover rounded-full profile-img"
+                                    src="{{ asset('storage/' . Auth::user()->superadmin->img_profile) }}" alt="Profile">
                             @else
                                 <img id="pu" class="w-10 h-10 rounded-full"
                                     src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
@@ -42,6 +42,7 @@
                                 src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
                                 alt="">
                         @endif
+
                     </a>
                     <div class="text-sm">
                         <span class="font-semibold">{{ Auth::user()->username }}</span>
@@ -87,5 +88,4 @@
             </div>
         </div>
     </main>
-    </div>
 @endsection

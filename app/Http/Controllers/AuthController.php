@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\DaftarBank;
+use App\Models\Finance;
 use App\Models\HargaPembayaran;
 use App\Models\LowonganPerusahaan;
 use App\Models\PelamarLowongan;
@@ -22,7 +24,7 @@ class AuthController extends Controller
         ]);
         if (Auth::attempt($valid)) {
             if (Auth::user()->role == 'super_admin') {
-                return redirect('/dashboard/superadmin');
+                return redirect()->route('superadmin.dashboard');
             } elseif (Auth::user()->role == 'admin') {
                 return redirect()->route('admin.dashboard');
             } elseif (Auth::user()->role == 'pelamar') {
@@ -400,11 +402,6 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
         return redirect()->route('superadmin.login');
     }
-
-
-
-
-
 
     //  NON USER
     public function login_non_user()

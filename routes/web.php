@@ -481,6 +481,16 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
     //NON KANDIDAT
     Route::get('/non-kandidat/{pelamar}', [SuperAdminController::class, 'detail_non_kandidat'])->name('superadmin.detail.non.kandidat');
     Route::get('/non-kandidat/{pelamar}/edit', [SuperAdminController::class, 'edit_non_kandidat'])->name('superadmin.edit.non.kandidat');
+
+
+    //CRUD ADMIN DAN FINANCE
+    Route::get('/add/user',[SuperAdminController::class, 'role'])->name('superadmin.add.user');
+    Route::get('/add/user/createForm', [SuperAdminController::class, 'createForm'])->name('superadmin.add.user.createForm');
+    Route::post('/add/user/store', [SuperAdminController::class, 'store'])->name('superadmin.add.user.store');
+    Route::get('/edit/user/{id}', [SuperAdminController::class, 'edit'])->name('superadmin.edit.user');
+    Route::put('/update/user/{id}', [SuperAdminController::class, 'update'])->name('superadmin.update.user');
+    Route::get('/detail/user/{id}', [SuperAdminController::class, 'detail'])->name('superadmin.detail.user');
+    Route::delete('/delete/user/{id}', [SuperAdminController::class, 'hapus'])->name('superadmin.destroy.user');
 });
 
 
@@ -539,9 +549,9 @@ Route::get('/super_admin/banner', function () {
 });
 
 
-Route::get('/super_admin/add', function () {
-    return view('super_admin.add-user');
-});
+// Route::get('/super_admin/add', function () {
+//     return view('super_admin.add-user');
+// });
 Route::get('/super_admin/add/edit', function () {
     return view('super_admin.edit-addprofile');
 });

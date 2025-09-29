@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
+use App\Models\Finance;
 use App\Models\Pelamar;
 use App\Models\SuperAdmin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class SuperAdminController extends Controller
@@ -167,5 +170,171 @@ class SuperAdminController extends Controller
         return view('super_admin.pelamar.cv', [
             "data" => $pelamar
         ]);
+    }
+
+
+
+
+    //  CRUD ROLE
+    public function role()
+    {
+        $users = User::whereIn('role', ['admin', 'finance'])->with(['admin', 'finance'])->get();
+        return view('super_admin.add.add-user', [
+            'users' => $users
+        ]);
+    }
+
+    public function createForm()
+    {
+        return view('super_admin.add.create');
+    }
+
+    public function store(Request $request)
+    {
+        // dd($request->all());
+        $request->validate([
+            'email'        => 'required|email|unique:users',
+            'username'     => 'required|unique:users',
+            'nama_lengkap' => 'required',
+            'role'         => 'required|in:admin,finance',
+            'password'     => 'required',
+            'img_profile'  => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        $user = User::create([
+            'email'    => $request->email,
+            'username' => $request->username,
+            'password' => Hash::make($request->password),
+            'role'     => $request->role,
+        ]);
+
+        $valid = $request->only([
+            'nama_lengkap',
+            'provinsi',
+            'kota',
+            'kecamatan',
+            'kode_pos',
+            'detail_alamat'
+        ]);
+
+        if ($request->hasFile('img_profile')) {
+            $valid['img_profile'] = $request->file('img_profile')->store('images', 'public');
+        }
+
+        if ($request->role === 'admin') {
+            $valid['user_id'] = $user->id;
+            // dd($valid);
+            Admin::create($valid);
+        } elseif ($request->role === 'finance') {
+            $valid['user_id'] = $user->id;
+            Finance::create($valid);
+        };
+
+        return redirect()->route('superadmin.add.user')->with('success', 'Data User Berhasil Ditambahkan');
+    }
+
+    public function edit($id)
+    {
+        $user = User::with(['admin', 'finance'])->findOrFail($id);
+        return view('super_admin.add.edit-addprofile', [
+            "user" => $user
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user = User::with(['admin', 'finance'])->findOrFail($id);
+
+
+        $request->validate([
+            'email'        => 'required|email|unique:users,email,' . $user->id,
+            // 'username'     => 'required|unique:users,username,' . $user->id,
+            'nama_lengkap' => 'required',
+            'role'         => 'required|in:admin,finance',
+            'img_profile'  => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        $user->update([
+            'email'    => $request->email,
+            // 'username' => $request->username,
+            'role'     => $request->role
+        ]);
+
+        $valid = $request->only([
+            'nama_lengkap',
+            'provinsi',
+            'kota',
+            'kecamatan',
+            'desa',
+            'kode_pos',
+            'detail_alamat'
+        ]);
+
+        if ($request->hasFile('img_profile')) {
+            // Hapus foto lama
+            if ($user->role === 'admin' && $user->admin && $user->admin->img_profile) {
+                Storage::delete('public/' . $user->admin->img_profile);
+            }
+            if ($user->role === 'finance' && $user->finance && $user->finance->img_profile) {
+                Storage::delete('public/' . $user->finance->img_profile);
+            }
+
+            // Simpan foto baru
+            $valid['img_profile'] = $request->file('img_profile')->store('images', 'public');
+        }
+
+        if ($user->role === 'admin') {
+            if ($user->finance) $user->finance->delete();
+
+            // ambil img lama jika tidak ada upload baru
+            if (!$request->hasFile('img_profile') && $user->admin) {
+                $valid['img_profile'] = $user->admin->img_profile;
+            }
+
+            $user->admin()->updateOrCreate(['user_id' => $user->id], $valid);
+        } elseif ($user->role === 'finance') {
+            if ($user->admin) $user->admin->delete();
+
+            if (!$request->hasFile('img_profile') && $user->finance) {
+                $valid['img_profile'] = $user->finance->img_profile;
+            }
+
+            $user->finance()->updateOrCreate(['user_id' => $user->id], $valid);
+        }
+
+
+        return redirect()->route('superadmin.add.user')->with('success', 'Data Berhasil Disimpan');
+    }
+
+    public function detail($id)
+    {
+         $user = User::with(['admin', 'finance'])->findOrFail($id);
+
+        return view('super_admin.add.detail', [
+           'user' => $user
+        ]);
+    }
+
+    public function hapus($id)
+    {
+        $user = User::with(['admin', 'finance'])->findOrFail($id);
+
+        if ($user->role === 'admin' && $user->admin && $user->admin->img_profile) {
+            Storage::delete('public/' . $user->admin->img_profile);
+        }
+        if ($user->role === 'finance' && $user->finance && $user->finance->img_profile) {
+            Storage::delete('public/' . $user->finance->img_profile);
+        }
+
+        if ($user->role === 'admin' && $user->admin) {
+            $user->admin->delete();
+        }
+        if ($user->role === 'finance' && $user->finance) {
+            $user->finance->delete();
+        }
+
+        $user->delete();
+
+        return redirect()->route('superadmin.add.user')->with('success', 'Data User Berhasil Dihapus');
     }
 }

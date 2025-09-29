@@ -30,10 +30,10 @@
                     <!-- Logo + Info -->
                     <div class="flex items-center gap-2 mr-2">
                         <a href="#">
-                            @if (Auth::user()->role == 'pelamar')
-                                @if (Auth::user()->pelamar->img_profile)
+                            @if (Auth::user()->role == 'finance')
+                                @if (Auth::user()->finance->img_profile)
                                     <img id="pi" class="w-10 h-10  object-cover rounded-full profile-img"
-                                        src="{{ asset('storage/' . Auth::user()->pelamar->img_profile) }}" alt="Profile">
+                                        src="{{ asset('storage/' . Auth::user()->finance->img_profile) }}" alt="Profile">
                                 @else
                                     <img id="pi" class="w-10 h-10 rounded-full"
                                         src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
