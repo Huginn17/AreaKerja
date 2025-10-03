@@ -1,7 +1,7 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
     <!-- Main Content -->
-    <main class="flex-1 p-6 h-screen overflow-hidden"> <!-- tambahkan h-screen + overflow-hidden -->
+    <main class="flex-1 p-6 min-h-screen overflow-y-auto pb-20 bg-gray-50">
         <!-- Header -->
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-medium">Pengaturan</h1>
@@ -29,42 +29,72 @@
             </div>
         </div>
 
+        @if (session('success'))
+            <div class="p-3 mb-4 bg-green-100 text-green-700 rounded">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="p-3 mb-4 bg-red-100 text-red-700 rounded">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="p-3 mb-4 bg-red-100 text-red-700 rounded">
+                <ul>
+                    @foreach ($errors->all() as $err)
+                        <li>{{ $err }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+
         {{-- pengaturan --}}
-        <div class="w-full h-full flex items-start justify-start p-10 mt-12">
+        <div class="w-full flex items-start justify-start p-10">
             <div class="w-full max-w-2xl space-y-6">
                 <!-- Tombol Ganti Password -->
-                <button class="w-full bg-orange-600 text-white font-medium py-4 rounded-lg text-left pl-4">
+                <button onclick="document.getElementById('passwordFormSuper').classList.toggle('hidden')"
+                    class="w-full bg-orange-600 text-white font-medium py-4 rounded-lg text-left pl-4">
                     Ganti Password
                 </button>
 
-                <!-- Form -->
-                <div class="space-y-4">
-                    <div class="flex items-center gap-6">
-                        <label class="w-72 text-gray-800">Kata Sandi Lama</label>
-                        <input type="password"
-                            class="flex-1 border border-gray-300 shadow rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" />
-                    </div>
-                    <div class="flex items-center gap-6">
-                        <label class="w-72 text-gray-800">Kata Sandi Baru</label>
-                        <input type="password"
-                            class="flex-1 border border-gray-300 shadow rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" />
-                    </div>
-                    <div class="flex items-center gap-6">
-                        <label class="w-72 text-gray-800">Masukkan Kembali Kata Sandi Baru</label>
-                        <input type="password"
-                            class="flex-1 border border-gray-300 shadow rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" />
-                    </div>
-                </div>
+                <!-- Form Ganti Password (hidden default) -->
+                <form id="passwordFormSuper" action="{{ route('superadmin.password.update') }}" method="POST"
+                    class="hidden mt-4 space-y-4 bg-white p-6 rounded-lg shadow">
+                    @csrf
 
-                <!-- Tombol Aksi -->
-                <div class="flex gap-4">
-                    <button class="flex-1 bg-orange-600 text-white font-medium py-3 rounded-lg">
-                        Simpan
+                    <div>
+                        <label class="block text-sm font-medium">Kata Sandi Lama</label>
+                        <input type="password" name="old_password" required
+                            class="mt-1 w-full border px-3 py-2 rounded focus:ring-2 focus:ring-orange-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium">Kata Sandi Baru</label>
+                        <input type="password" name="new_password" required
+                            class="mt-1 w-full border px-3 py-2 rounded focus:ring-2 focus:ring-orange-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium">Konfirmasi Kata Sandi Baru</label>
+                        <input type="password" name="new_password_confirmation" required
+                            class="mt-1 w-full border px-3 py-2 rounded focus:ring-2 focus:ring-orange-500">
+                    </div>
+
+                    <button type="submit"
+                        class="w-full bg-orange-600 hover:bg-orange-700 text-white py-2 rounded-lg font-medium">
+                        Simpan Password
                     </button>
-                    <button class="flex-1 text-orange-500 border border-orange-500 font-medium py-3 rounded-lg">
-                        Batal
-                    </button>
-                </div>
+                </form>
+
+                <!-- Ganti Email -->
+                <a href="{{ route('email.ubah') }}"
+                    class="block w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg text-left pl-5">
+                    Ganti Email
+                </a>
             </div>
         </div>
     </main>

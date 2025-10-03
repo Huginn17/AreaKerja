@@ -55,7 +55,7 @@
             <div class="flex flex-col md:flex-row items-center md:space-x-6 space-y-4 md:space-y-0">
                 <!-- Upload Icon -->
                 <div
-                    class="w-28 h-28 bg-white rounded-full flex items-center justify-center  focus:ring-gray-500  ring ring-gray-500">
+                    class="w-28 h-28 bg-white rounded-full flex items-center justify-center  focus:ring-gray-500  ring-1 ring-gray-700">
                     <svg width="47" height="47" viewBox="0 0 47 47" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -68,7 +68,7 @@
                 <!-- Input Nama -->
 
                 <input type="text" placeholder="Masukkan Nama"
-                    class="flex-1 px-4 py-3 rounded-md bg-white text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500 text-sm ring ring-gray-500" />
+                    class="flex-1 px-4 py-3 rounded-md bg-white text-gray-800 placeholder-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-700 text-sm ring-1 ring-gray-700" />
             </div>
 
             <!-- Form Fields -->
@@ -78,7 +78,7 @@
                 <div class="text-left">
                     <label class="block mb-1 text-sm font-semibold text-white">Divisi</label>
                     <select
-                        class="w-full px-4 py-3 bg-white text-gray-800 rounded-lg focus:outline-none focus:ring-none text-sm ring ring-gray-500">
+                        class="w-full px-4 py-3 bg-white text-gray-800 rounded-lg focus:outline-none focus:ring-none text-sm ring-1 ring-gray-700">
                         <option>Pilih</option>
                         <option>Programmer</option>
                         <option>UI UX Designer</option>
@@ -94,13 +94,13 @@
                 <div>
                     <label class="block mb-1 text-sm font-semibold text-white">Mulai Pelatihan</label>
                     <input type="date"
-                        class="w-full px-4 py-3 bg-white text-gray-800 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-500 text-sm ring ring-gray-500" />
+                        class="w-full px-4 py-3 bg-white text-gray-800 rounded-md focus:outline-none focus:ring-none focus:ring-gray-700 text-sm ring-1 ring-gray-700" />
                 </div>
 
                 <div>
                     <label class="block mb-1 text-sm font-semibold text-white">Selesai Pelatihan</label>
                     <input type="date"
-                        class="w-full px-4 py-3 bg-white text-gray-800 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-500 text-sm ring ring-gray-500" />
+                        class="w-full px-4 py-3 bg-white text-gray-800 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-700 text-sm ring-1 ring-gray-700" />
                 </div>
             </div>
         </div><br>

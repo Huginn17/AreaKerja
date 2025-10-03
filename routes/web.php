@@ -20,6 +20,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\TipsKerjaController;
+use App\Jobs\ExpireLamaranJob;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
@@ -54,6 +55,10 @@ use Illuminate\Support\Str;
 //     }
 // });
 
+Route::get('/test-expired', function () {
+    ExpireLamaranJob::dispatch();
+    return "✅ Job ExpireLamaran sudah dijalankan. Cek tabel notifikasis!";
+});
 
 //DOWNLOAD CV
 Route::get('/cv/{pelamar:id}/download', [CvController::class, 'downloadCv'])->name('cv.download');
@@ -65,15 +70,15 @@ Route::get('/cv/{pelamar:id}/preview', [CvController::class, 'preview'])->name('
 // Route::get('/', function () {
 //     return view('non-user.home');
 // });
-Route::get('/', [AuthController::class, 'beranda'])->name('beranda');
-Route::get('beranda', [AuthController::class, 'beranda'])->name('beranda');
+Route::get('/', [AuthController::class, 'beranda']);
+// Route::get('beranda', [AuthController::class, 'beranda'])->name('beranda');
 
 //LOGIN AUTH
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'login_non_user'])->name('login');
     Route::post('/loginproses', [AuthController::class, 'loginproses'])->name('loginproses');
 });
-Route::get('/home', [PelamarController::class, 'index'])->name('beranda')->middleware('role:pelamar');
+
 
 Route::middleware('auth')->group(function () {
 
@@ -101,6 +106,7 @@ Route::get('/email/verify/{token}', [EmailVerificationController::class, 'verify
 
 //CRUD PROFILE
 Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')->group(function () {
+    Route::get('/home', [PelamarController::class, 'index'])->name('beranda');
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index')->middleware('auth');
     Route::put('/update/profile/{pelamar:id}', [ProfileController::class, 'update_profile'])->name('profile.update')->middleware('auth');
@@ -152,29 +158,36 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
     Route::get('/detail-lowongan/{lowongan}', [PelamarController::class, 'detail_lowongan_non_user'])->name('detail.lowongan.non.user');
 
     //NOTIFIKASI LAMARAN PELAMAR
-    Route::get('/notifikasi', [PelamarController::class, 'notifikasi'])->name('pelamar.notifikasi');
-    Route::get('/notifikasi/{notif}', [PelamarController::class, 'showNotif'])->name('pelamar.notifikasi.show');
+    Route::post('/notifikasi/baca/{id}', [PelamarController::class, 'baca'])->name('notifikasi.baca');
 
-    Route::post('/notifikasi/baca/semua', [PelamarController::class, 'semuaDibaca'])->name('notifikasi.bacaSemua');
+    Route::get('/notifikasi', [PelamarController::class, 'notifikasi'])->name('pelamar.notifikasi');
+    // Route::get('/notifikasi/{notif}', [PelamarController::class, 'showNotif'])->name('pelamar.notifikasi.show');
+
+
+    //TIPS KERJA
+    Route::get('/tips-kerja', [PelamarController::class, 'tips_kerja'])->name('pelamar.tips-kerja');
+    Route::get('/tips-kerja/{id}', [PelamarController::class, 'detail'])->name('pelamar.tips-kerja.show');
+
+    //DAFTAR KANDIDAT
+    Route::get('/daftar-kandidat', [PelamarController::class, 'daftar_kandidat'])->name('pelamar.daftar-kandidat');
+    Route::post('/kandidat/pendaftaran', [PelamarController::class, 'storePendaftaran'])->name('kandidat.storePendaftaran');
+    Route::get('/kandidat/transaksi/{id}', [PelamarController::class, 'transaksi'])->name('kandidat.transaksi');
+    Route::post('/kandidat/{id}/upload-bukti', [PelamarController::class, 'uploadBukti'])->name('kandidat.catatan_cash.upload_bukti');
 });
+Route::post('/notifikasi/baca/semua', [PelamarController::class, 'bacaSemua'])->name('notifikasi.bacaSemua');
+
 
 Route::get('/lowongan', function () {
     return view('non-user.pasang-lowongan');
-}); { {
-    }
-}
-Route::get('/daftar-kandidat', function () {
-    return view('non-user.daftar-kandidat');
 });
+
 Route::get('/talent-hunter', function () {
     return view('non-user.talent-hunter');
 });
 Route::get('/tips1', function () {
     return view('non-user.tips-kerja1');
 });
-Route::get('/tips-kerja', function () {
-    return view('non-user.tips-kerja');
-});
+
 
 
 
@@ -217,9 +230,7 @@ Route::get('/konfir-qr', function () {
 Route::get('/tran-tf-kosong', function () {
     return view('kandidat.transaksi-kosong');
 });
-Route::get('/tran-tf-bank', function () {
-    return view('kandidat.transaksi-tf-bank');
-});
+
 Route::get('/tran-tf-qr', function () {
     return view('kandidat.transaksi-tf-qr');
 });
@@ -474,7 +485,7 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
     Route::put('/update/event/{event}', [EventController::class, 'update_event'])->name('superadmin.event.update');
     Route::get('/event/{event}', [EventController::class, 'detail'])->name('superadmin.detail.event');
     Route::get('/event/{event}/edit', [EventController::class, 'edit'])->name('superadmin.edit.event');
-    Route::delete('/delete/event/{event}', [EventController::class, 'destroy'])->name('superadmin.event.destroyw');
+    Route::delete('/delete/event/{event}', [EventController::class, 'destroy'])->name('superadmin.event.destroy');
 
     //Pelamar
     Route::get('/pelamar', [SuperAdminController::class, 'pelamarhal'])->name('superadmin.pelamar');
@@ -484,13 +495,16 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
 
 
     //CRUD ADMIN DAN FINANCE
-    Route::get('/add/user',[SuperAdminController::class, 'role'])->name('superadmin.add.user');
+    Route::get('/add/user', [SuperAdminController::class, 'role'])->name('superadmin.add.user');
     Route::get('/add/user/createForm', [SuperAdminController::class, 'createForm'])->name('superadmin.add.user.createForm');
     Route::post('/add/user/store', [SuperAdminController::class, 'store'])->name('superadmin.add.user.store');
     Route::get('/edit/user/{id}', [SuperAdminController::class, 'edit'])->name('superadmin.edit.user');
     Route::put('/update/user/{id}', [SuperAdminController::class, 'update'])->name('superadmin.update.user');
     Route::get('/detail/user/{id}', [SuperAdminController::class, 'detail'])->name('superadmin.detail.user');
     Route::delete('/delete/user/{id}', [SuperAdminController::class, 'hapus'])->name('superadmin.destroy.user');
+
+    //Pengaturan
+    Route::post('/ganti-password', [SuperAdminController::class, 'updatePassword'])->name('superadmin.password.update');
 });
 
 
@@ -701,6 +715,9 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
     Route::post('/pelamar/{pelamarlowongan}/konfirmasi', [PelamarController::class, 'konfirmasi_simpan'])->name('pelamar.konfirmasi.simpan');
     Route::post('/pelamar/{pelamarlowongan}/kirim', [PelamarController::class, 'kirim'])->name('pelamar.konfirmasi.kirim');
     Route::get('/pelamar/{pelamarlowongan}/detail', [PelamarController::class, 'preview'])->name('pelamar.detail');
+
+    //PENGATURAN PERUSAHAAN
+    Route::post('/ganti-password', [PerusahaanController::class, 'updatePassword'])->name('password.update');
 });
 
 

@@ -10,12 +10,19 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      */
+    protected $commands = [
+        \App\Console\Commands\TestExpireLamaran::class,
+        \App\Console\Commands\TestDeleteExpiredNotif::class,
+    ];
+    
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('transaksi:cek-expired')->everyFiveMinutes();
         $schedule->job(new \App\Jobs\ResetExpiredLowonganJob)->dailyAt('00:00');
         $schedule->command('pelamar:delete-expired')->daily();
+        $schedule->job(new \App\Jobs\ExpireLamaranJob)->dailyAt('00:00');
+        $schedule->job(new \App\Jobs\DeleteExpiredNotifJob)->dailyAt('01:00');
     }
 
     /**

@@ -30,9 +30,15 @@
                                     <td class="px-4 py-2">{{ $loop->iteration }}</td>
                                     <td class="px-4 py-2">{{ $item->no_referensi }}</td>
                                     <td class="px-4 py-2">{{ $item->pesanan ?? '-' }}</td>
-                                    <td class="px-4 py-2">{{ $item->user->username ?? '-' }}</td>
+                                    <td class="px-4 py-2">{{ $item->user->pelamar->nama_pelamar ?? $item->user->username }}</td>
                                     <td class="px-4 py-2">{{ $item->sumberDana ?? 'Koin AreaKerja' }}</td>
-                                    <td class="px-4 py-2">{{ $item->hargaPembayaran->jumlah_koin ?? 0 }} Koin</td>
+                                    <td class="px-4 py-2">
+                                        @if ($item->hargaPembayaran && $item->hargaPembayaran->jumlah_koin > 0)
+                                            {{ $item->hargaPembayaran->jumlah_koin }} Koin
+                                        @else
+                                            Rp. {{ number_format($item->hargaPembayaran->harga ?? 0, 0, ',', '.') }}
+                                        @endif
+                                    </td>
 
                                     <!-- Tombol Bukti -->
                                     <td class="px-4 py-2 text-center">

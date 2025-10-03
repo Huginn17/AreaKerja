@@ -36,15 +36,15 @@
 
                     <div class="mt-4 space-y-1">
                         <p><span class="font-semibold">Tanggal</span> :
-                            {{ \Carbon\Carbon::parse($jadwal->tanggal)->translatedFormat('d F Y') }}</p>
-                        <p><span class="font-semibold">Pukul</span> : {{ $jadwal->waktu }}</p>
-                        <p><span class="font-semibold">Tempat</span> : {{ $jadwal->tempat }}</p>
+                            {{ \Carbon\Carbon::parse($konfirmasi['tanggal'])->translatedFormat('d F Y') }}</p>
+                        <p><span class="font-semibold">Pukul</span> : {{ $konfirmasi['waktu'] }}</p>
+                        <p><span class="font-semibold">Tempat</span> : {{ $konfirmasi['tempat'] }}</p>
                         <p><span class="font-semibold">Keperluan</span> : Wawancara Kerja</p>
                     </div>
 
                     <p class="mt-8">
                         <span class="font-semibold">Catatan</span> :
-                        {{ $jadwal->catatan ?? '-' }}
+                        {{ $konfirmasi['catatan'] ?? '-' }}
                     </p>
 
                     <p class="mt-4 font-semibold">Hormat

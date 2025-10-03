@@ -11,6 +11,10 @@ class CatatanCash extends Model
     protected $table = 'catatan_cashs';
     protected $guarded = [];
 
+     protected $casts = [
+        'expired_at' => 'datetime',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

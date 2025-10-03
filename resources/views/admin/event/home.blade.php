@@ -109,7 +109,7 @@
                                         @endif
                                     </td>
                                     <td class="px-6 py-4 flex items-center gap-2">
-                                        <form action="{{ route('superadmin.event.destroy', $event->id) }}" method="post">
+                                        <form action="{{ route('admin.event.destroy', $event->id) }}" method="post">
                                             @csrf
                                             @method('delete')
                                             <button type="submit"

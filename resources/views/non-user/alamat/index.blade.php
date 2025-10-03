@@ -1,7 +1,7 @@
 @extends('layouts.index')
 @section('content')
     <div class=" flex justify-center py-8">
-        <div class="w-full max-w-4xl bg-white  p-6">
+        <div class="w-full max-w-6xl bg-white  p-6">
             <!-- Header Profil -->
             <h2 class="text-lg font-semibold mb-4">Profil Akun</h2>
             <div
@@ -50,23 +50,23 @@
                                     {{ $almt->provinsi }}
                                     {{ $almt->kode_pos }}</p>
                                 <p class="mb-10">{{ $almt->detail }}</p>
-                                <a class="w-fit px-6 py-2 bg-white rounded-lg text-orange-500 font-semibold"
-                                    href="{{ route('alamat.edit', $almt->id) }}">Edit
-                                    Alamat</a>
+                                <a class="w-fit px-6 py-2 bg-white rounded-lg text-orange-500 font-semibold hover:bg-orange-100 transition duration-300"
+                                    href="{{ route('alamat.edit', $almt->id) }}">
+                                    Edit Alamat</a>
                                 {{-- Hapus --}}
                                 <form action="{{ route('alamat.destroy', $almt->id) }}"method="POST"
                                     onsubmit="return confirm('Yakin hapus organisasi ini?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="w-fit px-6 py-2 bg-white rounded-lg text-orange-500 font-semibold">Hapus
+                                    <button class="w-fit px-6 py-2 bg-white rounded-lg text-orange-500 font-semibold mt-4 hover:bg-orange-100 transition duration-300">Hapus
                                         Alamat</button>
-                                </form>
+                                </form> 
                             </div>
                         @endforeach
                     </div>
                     <a href="{{ route('form_alamat') }}">
                         <span
-                            class="w-14 h-14 flex justify-center items-center rounded-lg bg-orange-500 text-white text-5xl"><i
+                            class="w-14 h-14 flex justify-center items-center rounded-lg bg-orange-500 text-white text-5xl ml-4"><i
                                 class="ph ph-plus"></i></span>
                     </a>
                 </div>

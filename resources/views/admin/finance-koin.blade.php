@@ -110,6 +110,7 @@
                                 </svg>
                             <td>
                         </tr>
+
                         <tr class="border-2 text-center">
                             <td class="px-4 py-2">2</td>
                             <td class="px-4 py-2">991773493631</td>
@@ -170,6 +171,25 @@
                                         stroke-linejoin="round" />
                                 </svg>
                             </a>
+                            <td>
+                        </tr>
+
+                           <!-- Baris -->
+                        <tr class="border-2 text-center">
+                            <td class="px-4 py-2">1</td>
+                            <td class="px-4 py-2">991773493631</td>
+                            <td class="px-4 py-2">Open CV</td>
+                            <td class="px-4 py-2">AppleCorp.</td>
+                            <td class="px-4 py-2">VA BCA</td>
+                            <td class="px-4 py-2">1.000 Koin</td>
+                            <td class="px-4 py-2 text-red-600 font-medium">Pending</td>
+                            <td class="px-4 py-2 text-blue-600 flex justify-center"><svg width="24" height="24"
+                                    viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M10.7077 25H4.23587C2.44874 25 0.999988 23.6568 1 22L1.00013 3.99999C1.00014 2.34314 2.44889 1 4.23601 1H18.7979C20.585 1 22.0338 2.34315 22.0338 4.00001V12.25M15.562 20.7501L18.5282 23.5001L25 17.4998M6.66331 7.00002H16.371M6.66331 11.5H16.371M6.66331 16H11.5171"
+                                        stroke="#0F0BFD" stroke-width="1.78861" stroke-linecap="round"
+                                        stroke-linejoin="round"/>
+                                </svg>
                             <td>
                         </tr>
                     </tbody>

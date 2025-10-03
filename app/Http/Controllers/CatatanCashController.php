@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
+
 class CatatanCashController extends Controller
 {
     //simpan transaksi baru
@@ -27,7 +28,7 @@ class CatatanCashController extends Controller
             'daftar_bank_id' => $request->daftar_bank_id,
             'no_referensi' => strtoupper(Str::random(10)),
             'pesanan' => "Top Up Koin - {$harga->nama}",
-            'dari' => Auth::user()->name,
+            'dari' => Auth::user()->username,
             'sumberDana' => 'Transfer Bank',
             'total' => $harga->harga,
             'status' => 'pending',

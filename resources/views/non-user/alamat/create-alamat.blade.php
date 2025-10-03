@@ -1,7 +1,7 @@
 @extends('layouts.index')
 @section('content')
     <div class=" flex justify-center py-8">
-        <div class="w-full max-w-4xl bg-white  p-6">
+        <div class="w-full max-w-6xl bg-white  p-6">
 
             <!-- Header Profil -->
             <h2 class="text-lg font-semibold mb-4">Profil Akun</h2>

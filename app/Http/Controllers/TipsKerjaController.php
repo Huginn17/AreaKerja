@@ -34,14 +34,15 @@ class TipsKerjaController extends Controller
             'title'   => 'nullable|string',
             'content' => 'nullable|string',
             'penulis' => 'nullable|string',
-            'image'   => 'nullable|file|image|mimes:png,jpg,jpeg',
-            'status'  => 'nullable',
+            'image'   => 'nullable|image|mimes:png,jpg,jpeg',
+            'status'  => 'nullable|in:terbit,belum terbit',
             'intro'   => 'nullable|string',
             'section' => 'nullable|json',
         ]);
 
         $d['penulis'] = Auth::user()->username;
         $d['status'] = 'belum terbit';
+        
         if (empty($request->intro) && !empty($request->content)) {
             $d['intro'] = Str::limit(strip_tags($request->content), 150);
         } else {
@@ -199,7 +200,4 @@ class TipsKerjaController extends Controller
         TipsKerja::where('id', $ids)->delete();
         return redirect()->route('superadmin.tips-kerja')->with('success', 'Data berhasil dihapus.');
     }
-
-
-
 }

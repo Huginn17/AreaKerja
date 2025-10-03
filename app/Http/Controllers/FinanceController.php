@@ -12,27 +12,43 @@ class FinanceController extends Controller
         $transaksi = CatatanCash::findOrFail($id);
         $perusahaan = $transaksi->user->perusahaan;
         $paket = $transaksi->hargaPembayaran;
+        $pelamar = $transaksi->user->pelamar;
 
         if ($request->action == 'terima' && $transaksi->status !== 'diterima') {
-            // Ubah status
             $transaksi->status = 'diterima';
             $transaksi->save();
 
-            // Tambah koin ke perusahaan
-            $perusahaan->koin_perusahaan += $paket->jumlah_koin;
-            $perusahaan->save();
+            // Kalau transaksi TOP UP → tambah koin
+            if ($paket && $paket->jumlah_koin > 0) {
+                $perusahaan->koin_perusahaan += $paket->jumlah_koin;
+                $perusahaan->save();
+            } else {
+                // Kalau transaksi PENDAFTARAN KANDIDAT → ubah kategori jadi kandidat aktif
+                if ($pelamar) {
+                    $pelamar->kategori = 'kandidat aktif';
+                    $pelamar->save();
+                }
+            }
         } elseif ($request->action == 'tolak' && $transaksi->status === 'diterima') {
-
             $transaksi->status = 'ditolak';
             $transaksi->save();
 
-            $perusahaan->koin_perusahaan -= $paket->jumlah_koin;
-            if ($perusahaan->koin_perusahaan < 0) {
-                $perusahaan->koin_perusahaan = 0;
+            // Kalau transaksi TOP UP → rollback koin
+            if ($paket && $paket->jumlah_koin > 0) {
+                $perusahaan->koin_perusahaan -= $paket->jumlah_koin;
+                if ($perusahaan->koin_perusahaan < 0) {
+                    $perusahaan->koin_perusahaan = 0;
+                }
+                $perusahaan->save();
+            } else {
+                // Kalau transaksi PENDAFTARAN KANDIDAT → rollback kategori jadi pelamar lagi
+                if ($pelamar) {
+                    $pelamar->kategori = 'pelamar';
+                    $pelamar->save();
+                }
             }
-            $perusahaan->save();
         } elseif ($request->action == 'tolak') {
-            // Kalau status awal masih pending
+            // Tolak langsung dari pending → hanya ubah status
             $transaksi->status = 'ditolak';
             $transaksi->save();
         }
@@ -40,6 +56,8 @@ class FinanceController extends Controller
         return redirect()->route('finance.laporan')
             ->with('success', 'Transaksi berhasil diverifikasi: ' . $transaksi->status);
     }
+
+
 
     public function laporan(Request $request)
     {

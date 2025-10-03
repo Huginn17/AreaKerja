@@ -1,118 +1,190 @@
 @extends('layouts.index')
 @section('content')
-    <div class="bg-gray-100 flex justify-center py-10">
+    <div class="max-w-4xl scale-90 mx-auto bg-white px-14 py-12 rounded-xl shadow border">
+        <!-- Header -->
+        <h2 class="text-2xl font-medium mb-2">Detail Transaksi</h2>
+        <hr class="border-b border-gray-200 mb-10">
 
-        <div class="bg-white w-full max-w-2xl rounded-2xl shadow p-8">
-            <!-- Judul -->
-            <h2 class="text-xl font-semibold mb-6">Detail Transaksi</h2>
+        <!-- Grid 2 kolom -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+            <!-- Kiri -->
+            <div class="text-sm">
+                <p class="font-medium text-gray-600">No. Transaksi</p>
+                <p class="text-lg font-semibold text-gray-800 mb-6">{{ $transaksi->no_referensi }}</p>
 
-            <!-- Info transaksi -->
-            <div class="flex justify-between items-start mb-6">
-                <div class="space-y-3 text-sm">
-                    <div>
-                        <p class="text-gray-500">No. Transaksi</p>
-                        <p class="font-medium">AK0078223327</p>
+                <p class="font-medium text-gray-600 mb-2">Status Tagihan</p>
+                <span
+                    class="inline-block mb-2 px-8 py-2 rounded-full text-sm 
+                    @if ($transaksi->status == 'pending') bg-orange-100 text-orange-600
+                    @elseif($transaksi->status == 'menunggu_verifikasi') bg-blue-100 text-blue-600
+                    @elseif($transaksi->status == 'diterima') bg-green-100 text-green-600
+                    @elseif($transaksi->status == 'expired') bg-gray-200 text-gray-600
+                    @else bg-red-100 text-red-600 @endif">
+                    {{ $transaksi->status == 'pending' ? 'Menunggu Pembayaran' : ucfirst(str_replace('_', ' ', $transaksi->status)) }}
+                </span>
+
+                @if ($transaksi->status == 'pending')
+                    <div class="mb-6">
+                        <p class="inline text-gray-800 text-sm font-semibold">Batas Pembayaran :</p>
+                        <span id="countdown" class="inline text-orange-600 font-semibold"></span>
                     </div>
-                    <div>
-                        <p class="text-gray-500 mb-2">Status Tagihan</p>
-                        <span class="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-xs font-medium">
-                            Menunggu Pembayaran
-                        </span>
-                    </div>
-                    <div>
-                        <p class="text-gray-500">Batas Pembayaran</p>
-                        <p class="text-red-500 font-medium text-sm">23 Jam 59 Menit 59 Detik</p>
-                    </div>
-                    <div>
-                        <p class="text-gray-500">Waktu</p>
-                        <p class="font-medium">25 Juni 2024</p>
-                    </div>
-                    <div>
-                        <p class="text-gray-500">Metode Pembayaran</p>
-                        <p class="font-medium">Transfer BANK BCA</p>
-                    </div>
+                @endif
+
+                <div class="mb-6">
+                    <p class="font-medium mb-1 text-gray-600">Waktu</p>
+                    <span class="text-gray-900 font-semibold">
+                        {{ $transaksi->created_at->translatedFormat('d F Y H:i') }}
+                    </span>
                 </div>
 
-                <!-- Rekening Tujuan -->
-                <div class="border rounded-lg p-4 text-center text-sm">
-                    <p class="text-gray-500 mb-2 ">Rekening Tujuan</p>
-                    <img src="{{ asset('images/bca.jpg  ') }}"
-                        alt="BCA" class="w-20 mx-auto mb-2">
-                    <p class="font-medium">Bank BCA, Yogyakarta</p>
-                    <button class="mt-1 text-xs text-gray-600 flex items-center gap-1 mx-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-4 h-4">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 16h8m-8-4h8m2 8H6a2 2 0 01-2-2V6a2
-                  2 0 012-2h7l5 5v11a2 2 0 01-2 2z" />
-                        </svg>
-                        Salin No.Rek
-                    </button>
+                <div>
+                    <p class="font-medium text-gray-600 mb-1">Metode Pembayaran</p>
+                    <span class="text-gray-900 font-semibold">
+                        Transfer {{ $transaksi->bank->nama_bank }}
+                    </span>
                 </div>
             </div>
 
-            <!-- Tabel Keterangan -->
-            <div class="border rounded-lg overflow-hidden text-sm">
-                <div class="bg-gray-100 px-4 py-2 text-gray-500">Keterangan</div>
-                <div class="px-4 py-3 flex justify-between">
-                    <span>Pendaftaran Kandidat</span>
-                    <span>Rp. 200.000</span>
+            <!-- Rekening Tujuan -->
+            <div class="border rounded-lg p-5 w-full text-left shadow-sm">
+                <p class="text-gray-500 text-sm">Rekening Tujuan</p>
+                <div class="flex justify-center items-center gap-3">
+                    <img src="{{ asset('storage/' . $transaksi->bank->logo_image) }}" alt="Bank Logo" class="w-40 h-28">
                 </div>
-            </div>
-
-            <!-- Rincian -->
-            <div class="mt-4 text-sm">
-                <div class="flex justify-between py-1">
-                    <span>Tagihan</span>
-                    <span>Rp. 200.000</span>
-                </div>
-                <div class="flex justify-between py-1">
-                    <span>Admin</span>
-                    <span>Rp. 2.000</span>
-                </div>
-                <div class="flex justify-between py-1 font-medium">
-                    <span>Total</span>
-                    <span>Rp. 222.000</span>
-                </div>
-                <div class="flex justify-between py-1 font-bold border-t mt-1 pt-2">
-                    <span>Total Tagihan</span>
-                    <span>Rp. 222.000</span>
-                </div>
-            </div>
-
-            <!-- Tombol Upload -->
-            <div class="mt-6">
-                <button class="bg-green-600 text-white px-5 py-2 rounded-lg font-medium">
-                    Upload Bukti
-                </button>
-            </div>
-
-            <!-- Accordion Petunjuk -->
-            <div class="mt-8">
-                <h3 class="text-lg font-semibold mb-3">Petunjuk Pembayaran</h3>
-
-                <details class="border rounded mb-2">
-                    <summary class="px-4 py-2 cursor-pointer">Transfer mBanking</summary>
-                    <div class="px-4 py-2 text-sm text-gray-600">
-                        Petunjuk transfer melalui mBanking.
-                    </div>
-                </details>
-
-                <details class="border rounded mb-2">
-                    <summary class="px-4 py-2 cursor-pointer">Transfer iBanking</summary>
-                    <div class="px-4 py-2 text-sm text-gray-600">
-                        Petunjuk transfer melalui iBanking.
-                    </div>
-                </details>
-
-                <details class="border rounded">
-                    <summary class="px-4 py-2 cursor-pointer">Transfer QRIS</summary>
-                    <div class="px-4 py-2 text-sm text-gray-600">
-                        Petunjuk transfer melalui QRIS.
-                    </div>
-                </details>
+                <p class="font-semibold text-lg">{{ $transaksi->bank->nama_bank }}</p>
+                <p class="text-gray-600 text-sm mt-2">a/n {{ $transaksi->bank->owner }}</p>
+                <span class="copy-rek cursor-pointer text-gray-800 text-lg font-bold mt-1"
+                    data-rek="{{ $transaksi->bank->no_rek }}">{{ $transaksi->bank->no_rek }}</span>
             </div>
         </div>
 
+        <!-- Tabel Transaksi -->
+        <div class="overflow-x-auto mb-6">
+            <table class="w-full text-sm border border-gray-100 rounded-lg overflow-hidden">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="p-3 text-left font-semibold text-gray-500">Keterangan</th>
+                        <th class="p-3 text-left font-semibold text-gray-500">Jumlah</th>
+                        <th class="p-3 text-right font-semibold text-gray-500">Tagihan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b-2 border-gray-200">
+                        <td class="p-3">{{ $transaksi->pesanan }}</td>
+                        <td class="p-3 text-left">1</td>
+                        <td class="p-3 text-right">Rp. {{ number_format($transaksi->total, 0, ',', '.') }}</td>
+                    </tr>
+                </tbody>
+                <tfoot class="text-sm">
+                    <tr>
+                        <td></td>
+                        <td class="p-3 text-left">Tagihan</td>
+                        <td class="p-3 text-right">Rp. {{ number_format($transaksi->total, 0, ',', '.') }}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="p-3 text-left">Admin</td>
+                        <td class="p-3 text-right">Rp. 2.000</td>
+                    </tr>
+                    <tr class="font-medium">
+                        <td></td>
+                        <td class="p-3 text-left">Total</td>
+                        <td class="p-3 text-right">Rp. {{ number_format($transaksi->total + 2000, 0, ',', '.') }}</td>
+                    </tr>
+                    <tr class="font-semibold border-b-4 border-gray-200">
+                        <td></td>
+                        <td class="p-3 text-left">Total Tagihan</td>
+                        <td class="p-3 text-right">Rp. {{ number_format($transaksi->total + 2000, 0, ',', '.') }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- Upload Bukti -->
+        @if ($transaksi->status == 'pending' || $transaksi->status == 'ditolak')
+            <div class="mb-6">
+
+                @if ($transaksi->status == 'ditolak')
+                    <p class="mb-2 text-sm text-red-600 font-medium">
+                        Bukti transfer ditolak. Silakan upload ulang bukti yang benar.
+                    </p>
+                @endif
+
+                <form action="{{ route('kandidat.catatan_cash.upload_bukti', $transaksi->id) }}" method="POST"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" name="bukti" required
+                        class="mb-3 border border-gray-300 rounded p-2 w-full @error('bukti') border-red-500 @enderror">
+                    @error('bukti')
+                        <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                    @enderror
+
+                    <button type="submit"
+                        class="px-5 py-3 text-sm bg-green-500 hover:bg-green-600 text-white rounded-lg shadow">
+                        {{ $transaksi->status == 'pending' ? 'Upload Bukti' : 'Upload Ulang Bukti' }}
+                    </button>
+                </form>
+            </div>
+        @endif
+
+
+
+
+        <!-- Petunjuk Pembayaran -->
+        <div class="w-full">
+            <h3 class="text-2xl font-medium mb-3">Petunjuk Pembayaran</h3>
+            <div class="flex items-center justify-between py-3 border-b-2 border-gray-300">
+                <span class="font-medium text-md">Transfer mBanking</span>
+            </div>
+            <div class="flex items-center justify-between py-3 border-b-2 border-gray-300">
+                <span class="font-medium text-md">Transfer iBanking</span>
+            </div>
+            <div class="flex items-center justify-between py-3 border-b-2 border-gray-300">
+                <span class="font-medium text-md">Transfer ATM</span>
+            </div>
+        </div>
     </div>
+
+    <script>
+        //SALIN NO REK
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll(".copy-rek").forEach(function(el) {
+                el.addEventListener("click", function() {
+                    const noRek = this.getAttribute("data-rek");
+
+                    // Copy ke clipboard
+                    navigator.clipboard.writeText(noRek).then(() => {
+                        alert("Nomor rekening berhasil disalin: " + noRek);
+                    }).catch(err => {
+                        console.error("Gagal menyalin: ", err);
+                    });
+                });
+            });
+        });
+        @if ($transaksi->status == 'pending' && $transaksi->expired_at)
+            let expireTime = new Date("{{ $transaksi->expired_at }}").getTime();
+
+            let timer = setInterval(function() {
+                let now = new Date().getTime();
+                let distance = expireTime - now;
+
+                if (distance < 0) {
+                    clearInterval(timer);
+                    document.getElementById("countdown").innerHTML = "Expired";
+
+                    // optional: auto reload untuk ubah status
+                    location.reload();
+                } else {
+                    let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    document.getElementById("countdown").innerHTML =
+                        hours + " Jam " + minutes + " Menit " + seconds + " Detik";
+                }
+            }, 1000);
+        @endif
+    </script>
+
     @include('layouts.footer')
 @endsection

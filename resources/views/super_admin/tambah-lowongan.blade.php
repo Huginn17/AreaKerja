@@ -1,6 +1,6 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
-<div class="p-2 bg-white h-screen font-sans overflow-y-auto">
+<div class="p-2 bg-white h-screen font-sans translate-x-24 overflow-y-auto">
   <!-- Header -->
   <!-- Konten utama -->
   <main class="flex-1 p-20 bg-white font-sans text-gray-900 ">
@@ -57,12 +57,12 @@
         <div class="grid grid-cols-2 gap-6">
           <div>
             <label for="judul" class="block text-sm font-bold mb-1">Judul <span class="text-red-600">*</span></label>
-            <input type="text" id="judul" name="judul" required class=" w-full border border-gray-300 rounded px-3 py-2 focus:outline-none"/>
+            <input type="text" id="judul" name="judul" required class=" w-full border border-gray-400 rounded px-3 py-2 focus:outline-none"/>
           </div>
 
           <div>
             <label for="alamat" class="block text-sm font-bold mb-1">Alamat <span class="text-red-600">*</span></label>
-            <select id="alamat" name="alamat" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none">
+            <select id="alamat" name="alamat" required class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none">
               <option value="">Pilih Alamat</option>
               <option>Jakarta</option>
               <option>Bandung</option>
@@ -79,7 +79,7 @@
         <div class="grid grid-cols-5 gap-4 items-end">
           <div class="col-span-2">
             <label for="jenis" class="block text-sm font-bold mb-1">Jenis Lowongan <span class="text-red-600">*</span></label>
-            <select id="jenis" name="jenis" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none">
+            <select id="jenis" name="jenis" required class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none">
               <option value="">Pilih Jenis</option>
               <option>Full Time</option>
               <option>Part Time</option>
@@ -90,17 +90,17 @@
 
           <div class="col-span-1">
             <label for="gaji-min" class="block text-sm font-bold mb-1">Gaji <span class="text-red-600">*</span></label>
-            <input type="number" id="gaji-min" name="gaji-min" placeholder="Min" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none" />
+            <input type="number" id="gaji-min" name="gaji-min" placeholder="Min" class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none" />
           </div>
 
           <div class="col-span-1">
             <label for="gaji-max" class="block mb-1 invisible">Max</label>
-            <input type="number" id="gaji-max" name="gaji-max" placeholder="Max" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none" />
+            <input type="number" id="gaji-max" name="gaji-max" placeholder="Max" class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none" />
           </div>
 
           <div class="col-span-1">
             <label for="periode" class="block text-sm font-bold mb-1">Bulan</label>
-            <select id="periode" name="periode" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none">
+            <select id="periode" name="periode" class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none">
               <option value="">Pilih Bulan</option>
               <option>1 Bulan</option>
               <option>3 Bulan</option>
@@ -113,7 +113,7 @@
         <!-- Deskripsi -->
         <div>
           <label for="deskripsi" class="block text-sm font-bold mb-1">Deskripsi <span class="text-red-600">*</span></label>
-          <textarea id="deskripsi" name="deskripsi" rows="5" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none"></textarea>
+          <textarea id="deskripsi" name="deskripsi" rows="5" required class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none"></textarea>
         </div>
 
         <!-- Syarat Pekerjaan -->
@@ -182,7 +182,7 @@
     type="text"
     id="jurusan"
     name="jurusan"
-    class="flex-1 border border-gray-300 rounded px-2 py-1 focus:outline-none"/>
+    class="flex-1 border border-gray-400 rounded px-2 py-1 focus:outline-none"/>
   </div>
 
 
@@ -220,8 +220,8 @@
       id="umur-min"
       name="umur-min"
       required
-      placeholder="Min"
-      class="w-11 h-10 border border-gray-300 rounded-md text-center text-sm focus:outline-none"/>
+      placeholder=""
+      class="w-11 h-10 border border-gray-400 rounded-md text-center text-sm focus:outline-none"/>
 
     <!-- Strip -->
     <span class="text-gray-500 font-semibold">-</span>
@@ -231,8 +231,8 @@
       type="number"
       id="umur-max"
       name="umur-max"
-      placeholder="Max"
-      class="w-11 h-10 border border-gray-300 rounded-md text-center text-sm focus:outline-none"/>
+      placeholder=""
+      class="w-11 h-10 border border-gray-400 rounded-md text-center text-sm focus:outline-none"/>
   </div>
 </div>
 
@@ -248,7 +248,7 @@
     type="date"
     
     required
-    class="w-30 border border-gray-300 rounded px-3 py-2 focus:outline-none  text-sm"/>
+    class="w-30 border border-gray-400 rounded px-3 py-2 focus:outline-none  text-sm"/>
 </div><br>
 
 

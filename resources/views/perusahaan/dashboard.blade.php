@@ -10,7 +10,14 @@
         <div class="grid md:grid-cols-3 gap-6 mt-6">
             <!-- === Lowongan Saya === -->
             <div class="bg-orange-500 text-white p-7 rounded-xl shadow md:col-span-2">
-                <h3 class="text-xl font-semibold mb-4">Lowongan Saya</h3>
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-semibold">Lowongan Saya</h3>
+                    <a href="{{ route('lowongan.saya.perusahaan') }}"
+                        class="border border-orange-500 bg-orange-500 text-white px-3 py-1 rounded-md text-sm font-medium hover:bg-gray-200 hover:text-orange-500 transition">
+                        Kelola Lowongan
+                    </a>
+                </div>
+
                 @php
                     $publish = $lowongans->filter(fn($l) => !is_null($l->published_at));
                     $draft = $lowongans->filter(fn($l) => is_null($l->published_at));
@@ -130,10 +137,6 @@
                     <div class="space-y-4">
                         @foreach ($lowongans as $lowongan)
                             @if ($lowongan->published_at)
-                                <a href="{{ route('lowongan.saya.perusahaan') }}"
-                                    class="border border-orange-500 text-white ml-[590px] px-3 py-1 rounded-md text-sm font-medium hover:bg-gray-200 hover:text-orange-500 transition">
-                                    Kelola Lowongan
-                                </a>
                                 <div
                                     class="bg-white rounded-lg p-5 flex flex-col md:flex-row md:items-center justify-between shadow-sm">
                                     <div class="flex items-center gap-4">
@@ -225,6 +228,7 @@
 
 
         </div>
+        
         <h1 class="text-center text-3xl text-orange-500 font-bold mt-8">Tentang Area Kerja</h1>
         <!-- === Bagian Bawah === -->
         <div class="grid md:grid-cols-2 gap-8 mt-12 items-center">

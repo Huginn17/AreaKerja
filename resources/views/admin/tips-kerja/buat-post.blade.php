@@ -9,17 +9,15 @@
                         class="w-full border border-gray-300 rounded-lg px-3 py-2">
                 </div>
 
-                <div class="mb-3">
-                    <label for="uploadMedia"
-                        class="cursor-pointer px-4 py-2 bg-gray-100 border rounded-lg shadow hover:bg-gray-200 text-sm font-medium">
-                        Tambahkan Media
-                    </label>
-                    <input id="uploadMedia" type="file" name="image" hidden>
+                <div class="mb-4">
+                    <label class="block mb-2 text-sm font-medium">Cover Image</label>
+                    <input type="file" name="image" class="w-full border border-gray-300 rounded-lg px-3 py-2">
                 </div>
 
-                <div class="">
+                <div class="mb-4">
+                    <label class="block mb-2 text-sm font-medium">Isi Artikel</label>
                     <input id="x" type="hidden" name="content">
-                    <trix-editor input="x" class="trix-content"></trix-editor>
+                    <trix-editor input="x" class="trix-content border rounded-lg p-2"></trix-editor>
                 </div>
 
                 <div class="flex justify-end gap-3 mt-4">
@@ -33,18 +31,4 @@
             </form>
         </div>
     </div>
-    {{-- Script inject gambar ke Trix --}}
-    <script>
-        document.getElementById("uploadMedia").addEventListener("change", function(e) {
-            let file = e.target.files[0];
-            if (file) {
-                let reader = new FileReader();
-                reader.onload = function(event) {
-                    const trixEditor = document.querySelector("trix-editor");
-                    trixEditor.editor.insertHTML(`<img src="${event.target.result}" class="my-3">`);
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-    </script>
 @endsection

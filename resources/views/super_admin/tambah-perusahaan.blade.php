@@ -1,6 +1,6 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
-    <main class="flex-1 p-6 bg-white overflow-y-auto">
+    <main class="flex-1 p-4 bg-white overflow-y-auto">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-medium">Tambah Perusahaan</h1>
             
@@ -30,8 +30,8 @@
                         <img src="{{ asset('images/ohim.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
                     </a>
                     <div class="text-md">
-                        <div class="font-semibold">Dj Ohim</div>
-                        <div class="text-gray-500">lutung123@gmail.com</div>
+                        <div class="font-semibold">Steve Jobs</div>
+                        <div class="text-gray-500">stevejobs@gmail.com</div>
                     </div>
 
                     <select class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-md focus:outline-none">
@@ -41,7 +41,7 @@
                     </select>
                 </div>
             </div>
-        </div>
+        </div><br>
 
         <div class="max-w-6xl mx-auto p-6 bg-white border border-gray-400 rounded-2xl shadow-md">
             <h2 class="text-lg font-semibold mb-10">Tambah Perusahaan</h2>
@@ -133,7 +133,7 @@
                 <!-- Buttons -->
                 <div class="md:col-span-2 flex justify-center items-center gap-4 mt-4">
                     <button type="submit"
-                        class="bg-orange-600 text-white font-medium px-10 py-2 rounded-md hover:bg-orange-500 border border-orange-600 transition">Upload
+                        class="bg-orange-600 text-white font-medium px-10 py-2 rounded-md hover:bg-orange-500 border border-orange-600 transition">Simpan
                     </button>
                     <a href="/super_admin/data-perusahaan"
                         class="bg-white text-orange-600 font-medium px-12 py-2 rounded-md hover:bg-orange-100 border border-orange-600 transition">Batal

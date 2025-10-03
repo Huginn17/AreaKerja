@@ -2,7 +2,7 @@
 @section('sidebarsuperadmin')
     <main class="flex-1 p-6 bg-white overflow-y-auto">
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-medium">Detail Perusahaan</h1>
+            <h1 class="text-2xl font-medium"></h1>
             <div class="flex items-center gap-3">
                 <svg width="31" height="32" viewBox="0 0 31 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_722_7956)">
@@ -135,12 +135,12 @@
                     </button>
 
                     <!-- Tombol Edit -->
-                    <button class="bg-blue-600 text-white w-full py-2 rounded-md hover:bg-blue-700">
+                    <button class="bg-blue-700 text-white w-full py-2 rounded-md hover:bg-blue-600">
                         Edit
                     </button>
 
                     <!-- Tombol Hapus -->
-                    <button class="bg-red-600 text-white w-full py-2 rounded-md hover:bg-red-700">
+                    <button class="bg-red-700 text-white w-full py-2 rounded-md hover:bg-red-600">
                         Hapus
                     </button>
                 </div>

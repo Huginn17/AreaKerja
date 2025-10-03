@@ -70,7 +70,7 @@
                 <div class="w-80 bg-orange-500 text-white rounded-md p-5 flex justify-between items-center">
                     <div>
                         <p class="text-sm">Total Omset</p>
-                        <p class="text-lg font-bold">Rp. 2.000.000</p>
+                        <p class="text-lg font-bold"> Rp. {{ number_format($totalOmset, 0, ',', '.') }}</p>
                     </div>
                     <div class="text-4xl"><svg width="52" height="53" viewBox="0 0 52 53" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -86,10 +86,11 @@
                         </svg>
                     </div>
                 </div>
+                @php $i = 1; @endphp
                 <div class="w-80 bg-orange-500 text-white rounded-md p-5 flex justify-between items-center">
                     <div>
                         <p class="text-sm">Total Transaksi Koin</p>
-                        <p class="text-lg font-bold">40.000</p>
+                        <p class="text-lg font-bold">{{ $koin->sum('total') }}</p>
                     </div>
                     <div class="text-4xl"><svg width="52" height="53" viewBox="0 0 52 53" fill="none"
                             xmlns="http://www.w3.org/2000/svg">

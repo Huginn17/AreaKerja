@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\CatatanCash;
 use App\Models\DaftarBank;
+use App\Models\Event;
 use App\Models\Finance;
 use App\Models\HargaPembayaran;
 use App\Models\LowonganPerusahaan;
@@ -77,6 +79,10 @@ class AuthController extends Controller
                 } elseif (Auth::user()->role == 'pelamar') {
                     return redirect()->route('beranda');
                 } elseif (Auth::user()->role == 'perusahaan') {
+                    $event = Event::where('status', 'buka')->latest()->take(5)->pluck('id')->toArray();
+                    if ($event) {
+                        session()->flash('event_popup', $event);
+                    }
                     return redirect()->route('perusahaan.dashboard');
                 } elseif (Auth::user()->role == 'finance') {
                     return redirect()->route('finance.dashboard');
@@ -130,6 +136,7 @@ class AuthController extends Controller
     //LOGIN PERUSAHAAN
     public function beranda_perusahaan()
     {
+        $events = collect();
         $perusahaan = auth()->user()->perusahaan;
         $lowongans = LowonganPerusahaan::where('perusahaan_id', $perusahaan->id)
             // ->where('status', 'publish')
@@ -137,11 +144,16 @@ class AuthController extends Controller
             ->latest()
             ->get();
 
+        if (session('event_popup')) {
+            $events = Event::whereIn('id', session('event_popup'))->orderBy('created_at')->get();
+        }
+
         return view('perusahaan.dashboard', [
             'hargaPembayarans' => HargaPembayaran::all(),
             'daftarBank' => DaftarBank::all(),
             'lowongans' => $lowongans,
             'perusahaan' => $perusahaan,
+            'events' => $events
         ]);
     }
 
@@ -210,7 +222,22 @@ class AuthController extends Controller
     //LOGIN FINANCE
     public function beranda_finance()
     {
-        return view('finance.dashboard');
+        $cash = CatatanCash::all();
+        $koin = CatatanCash::all();
+
+        $totalOmset = 0;
+        foreach ($cash->where('status', 'diterima') as $item) {
+            $harga = HargaPembayaran::where('jumlah_koin', $item->total)->first();
+            if ($harga) {
+                $totalOmset += $harga->harga;
+            }
+        }
+        return view('finance.dashboard',[
+            'totalOmset' => $totalOmset,
+            'koin' => $koin,
+            'cash' => $cash,
+            'totalOmset' => $totalOmset
+        ]);
     }
 
     public function loginproses_finance(Request $request)

@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\KonfirmasiLamaranMail;
+use App\Models\CatatanCash;
+use App\Models\DaftarBank;
+use App\Models\Divisi;
+use App\Models\HargaPembayaran;
 use App\Models\LowonganPerusahaan;
+use App\Models\Notifikasi;
 use App\Models\Pelamar;
 use App\Models\PelamarLowongan;
 use App\Models\RiwayatPendidikan;
 use App\Models\SimpanLowongan;
+use App\Models\TipsKerja;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use PgSql\Lob;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Mail;
 
 class PelamarController extends Controller
 {
@@ -25,14 +31,15 @@ class PelamarController extends Controller
             })
             ->latest()
             ->get();
+
         return view('non-user.lowongan-detail', [
             "data" => $lowongan,
             "Data" => $Data
         ]);
     }
+
     public function index()
     {
-
         $Data = LowonganPerusahaan::with('perusahaan')
             ->whereNotNull('published_at')
             ->where(function ($q) {
@@ -41,25 +48,13 @@ class PelamarController extends Controller
             })
             ->latest()
             ->get();
-        $notifs = collect(); // default kosong
 
-        if (auth()->check() && auth()->user()->role === 'pelamar') {
-            $pelamarId = auth()->user()->pelamar->id;
-
-            $notifs = PelamarLowongan::with(['lowongan_perusahaan.perusahaan', 'jadwal_wawancara'])
-                ->where('pelamar_id', $pelamarId)
-                ->whereIn('status', ['diterima', 'ditolak'])
-                ->orderBy('created_at', 'desc')
-                ->get();
-        }
-
-        $unreadCount = $notifs->whereStrict('is_read', 0)->count();
         $lowongan = LowonganPerusahaan::latest()->get();
+
         return view('non-user.home', [
             "lowongan" => $lowongan,
             "Data" => $Data,
-            "notifs" => $notifs,
-            "unreadCount" => $unreadCount
+
         ]);
     }
 
@@ -72,7 +67,6 @@ class PelamarController extends Controller
 
         $pelamar = Auth::user()->pelamar;
 
-        // Cek apakah sudah pernah disimpan
         $cek = SimpanLowongan::where('pelamar_id', $pelamar->id)
             ->where('lowongan_id', $request->lowongan_id)
             ->first();
@@ -89,7 +83,6 @@ class PelamarController extends Controller
         return back()->with('success', 'Lowongan berhasil disimpan.');
     }
 
-    // Hapus lowongan dari simpan
     public function destroy($lowonganId)
     {
         $pelamar = Auth::user()->pelamar;
@@ -98,7 +91,7 @@ class PelamarController extends Controller
             ->where('lowongan_id', $lowonganId)
             ->first();
 
-        if (! $simpan) {
+        if (!$simpan) {
             return redirect()->back()->with('error', 'Lowongan tidak ditemukan di daftar simpan.');
         }
 
@@ -118,10 +111,9 @@ class PelamarController extends Controller
         return view('non-user.lowongan-tersimpan', compact('simpanlowongan'));
     }
 
-    //RIWAYAT PENDIDIKAN
+    // RIWAYAT PENDIDIKAN
     public function storependidikan(Request $request)
     {
-        // dd($request->all());
         $valid = $request->validate([
             'pendidikan' => 'required',
             'jurusan' => 'nullable',
@@ -160,22 +152,20 @@ class PelamarController extends Controller
     public function destroypendidikan(RiwayatPendidikan $riwayatpendidikan)
     {
         $riwayatpendidikan->delete();
-        return redirect()->back()->with('success', 'Organisasi berhasil dihapus');
+        return redirect()->back()->with('success', 'Pendidikan berhasil dihapus');
     }
 
-
-
-    //LAMARAN PELAMAR
+    // LAMARAN PELAMAR
     public function lamar_cepat(Request $request)
     {
         $request->validate([
-            'lowongan_id' => 'required',
+            'lowongan_id' => 'required|exists:lowongan_perusahaans,id',
         ]);
 
         $pelamar = Pelamar::where('user_id', Auth::id())->firstOrFail();
 
         $pelamar->lowongans()->attach($request->lowongan_id, [
-            'status' => 'pending',
+            'status'     => 'pending',
             'created_at' => now(),
             'updated_at' => now()
         ]);
@@ -183,121 +173,231 @@ class PelamarController extends Controller
         return back()->with('success', 'Lamaran berhasil dikirim');
     }
 
+    // FORM KONFIRMASI
     public function konfirmasi_hal(PelamarLowongan $pelamarlowongan)
     {
-        $jadwal = $pelamarlowongan->jadwal_wawancara()->latest()->first();
         return view('perusahaan.pelamar.terima-pelamar', [
-            "data" => $pelamarlowongan,
-            "jadwal" => $jadwal
+            "data" => $pelamarlowongan
         ]);
     }
 
+    // SIMPAN INPUTAN FORM KE SESSION
     public function konfirmasi_simpan(Request $request, PelamarLowongan $pelamarlowongan)
     {
-        // dd($request->all());
         $val = $request->validate([
             'tanggal' => 'required|date',
-            // 'waktu' => 'required',
-            'jam' => 'required',
-            'menit' => 'required',
-            'tempat' => 'required|string',
+            'jam'     => 'required|numeric',
+            'menit'   => 'required|numeric',
+            'tempat'  => 'required|string',
             'catatan' => 'nullable|string',
         ]);
 
         $val['waktu'] = str_pad($val['jam'], 2, '0', STR_PAD_LEFT) . ':' . str_pad($val['menit'], 2, '0', STR_PAD_LEFT);
-
         unset($val['jam'], $val['menit']);
 
-        $jadwal = $pelamarlowongan->jadwal_wawancara()->updateOrCreate([
-            'pelamar_lowongan_id' => $pelamarlowongan->id
-        ], $val);
+        session(['konfirmasi' => $val]);
 
-        return redirect()->route('pelamar.detail', $pelamarlowongan->id)->with('jadwal', $jadwal);;
+        return redirect()->route('pelamar.detail', $pelamarlowongan->id);
     }
 
-    public function kirim(PelamarLowongan $pelamarlowongan)
-    {
-        $pelamarlowongan->update([
-            "status" => "diterima",
-            "expired_at" => now()->addDays(30)
-        ]);
-
-        return redirect()->route('perusahaan.pelamar', ['lowongan' => $pelamarlowongan->lowongan_perusahaan->slug]);
-    }
-
+    // PREVIEW
     public function preview(PelamarLowongan $pelamarlowongan)
     {
+        $konfirmasi = session('konfirmasi');
 
-        $jadwal = $pelamarlowongan->jadwal_wawancara()->latest()->first();
+        if (!$konfirmasi) {
+            return redirect()->route('pelamar.konfirmasi', $pelamarlowongan->id)
+                ->with('error', 'Isi form konfirmasi terlebih dahulu.');
+        }
 
         return view('perusahaan.pelamar.konfirmasi-terkirim', [
-            "data" => $pelamarlowongan,
-            "jadwal" => $jadwal
+            "data"       => $pelamarlowongan,
+            "konfirmasi" => $konfirmasi
         ]);
     }
 
-    //NOTIFIKASI LAMARAN PELAMAR
-    public function notifikasi()
-    {
-        $pelamarId = auth()->user()->pelamar->id;
 
-        $notifs = PelamarLowongan::with(['lowongan_perusahaan.perusahaan', 'jadwal_wawancara'])
-            ->where('pelamar_id', $pelamarId)
-            ->whereIn('status', ['diterima', 'ditolak'])
-            ->where(function($q){
-                $q->whereNull('expired_at')
-                ->orWhere('expired_at', '>', now());
+    
+
+    // KIRIM EMAIL + BUAT NOTIFIKASI
+    public function kirim(PelamarLowongan $pelamarlowongan)
+    {
+        $pelamar = $pelamarlowongan->pelamar;
+        $konfirmasi = session('konfirmasi');
+
+        if (!$konfirmasi) {
+            return redirect()->route('pelamar.konfirmasi', $pelamarlowongan->id)
+                ->with('error', 'Data konfirmasi tidak ditemukan.');
+        }
+
+
+        $expiredAt = now()->addDays(30);
+
+        // Update status + expired_at
+        $pelamarlowongan->update([
+            "status"      => "diterima",
+            "expired_at"  => $expiredAt,
+        ]);
+
+        Mail::to($pelamar->user->email)
+            ->send(new KonfirmasiLamaranMail(
+                $pelamar,
+                $pelamarlowongan->lowongan_perusahaan,
+                $konfirmasi
+            ));
+
+        $statusText = $pelamarlowongan->status === 'diterima' ? 'Diterima' : 'Ditolak';
+        $statusColor = $statusText === 'Diterima' ? 'green' : 'red';
+
+        Notifikasi::create([
+            'user_id' => $pelamar->user_id,
+            'pelamar_lowongan_id' => $pelamarlowongan->id,
+            'judul'   => "Lamaran {$statusText}",
+            'pesan'   => "Lamaran yang anda ajukan ke <b>{$pelamarlowongan->lowongan_perusahaan->perusahaan->nama_perusahaan}</b> 
+                  divisi <b>{$pelamarlowongan->lowongan_perusahaan->judul}</b> 
+                  <span style='color:{$statusColor}; font-weight:bold;'>{$statusText}</span>. 
+                  Masa berlaku lamaran sampai tanggal <b>{$expiredAt->format('d M Y')}</b>.",
+        ]);
+
+        session()->forget('konfirmasi');
+
+        return redirect()->route('perusahaan.pelamar', [
+            'lowongan' => $pelamarlowongan->lowongan_perusahaan->slug
+        ])->with('success', 'Lamaran diterima, email konfirmasi & notifikasi sudah dikirim.');
+    }
+
+
+
+    // NOTIFIKASI
+    public function baca($id)
+    {
+        $notif = Notifikasi::where('user_id', auth()->id())
+            ->where('id', $id)
+            ->firstOrFail();
+
+        $notif->update(['is_read' => 1]);
+
+        return response()->json(['success' => true]);
+    }
+
+
+
+    public function bacaSemua()
+    {
+        $userId = auth()->id();
+
+        $updated = Notifikasi::where('user_id', $userId)
+            ->where('is_read', 0)
+            ->update(['is_read' => 1]);
+
+        dd($userId, $updated, Notifikasi::where('user_id', $userId)->get());
+    }
+
+
+
+    //TIPS KERJA
+    public function tips_kerja()
+    {
+        $head = TipsKerja::where('status', 'terbit')
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        $others = TipsKerja::where('status', 'terbit')
+            ->when($head, function ($query) use ($head) {
+                return $query->where('id', '!=', $head->id);
             })
             ->orderBy('created_at', 'desc')
             ->get();
 
-        $unreadCount = $notifs->whereStrict('is_read', 0)->count();
-
-        return redirect()->route('pelamar.notifikasi.show', [
-            'notifs' => $notifs,
-            'unreadCount' => $unreadCount
+        return view('non-user.tips-kerja', [
+            "head" => $head,
+            "others" => $others
         ]);
     }
 
-    public function showNotif(PelamarLowongan $notif,)
+    public function detail($id)
     {
+        $artikel = TipsKerja::findOrFail($id);
 
-        $pelamarId = auth()->user()->pelamar->id;
-
-        $notifs = PelamarLowongan::with(['lowongan_perusahaan.perusahaan', 'jadwal_wawancara'])
-            ->where('pelamar_id', $pelamarId)
-            ->whereIn('status', ['diterima', 'ditolak'])
-            ->orderBy('created_at', 'desc')
+        $related = TipsKerja::where('id', '!=', $id)
+            ->where('status', 'terbit')
+            ->latest()
+            ->take(3)
             ->get();
 
-        if ($notif->pelamar_id !== auth()->user()->pelamar->id) {
-            abort(403);
-        };
+        //   $artikel->increment('views');
 
-        if (!$notif->is_read) {
-            $notif->timestamps = false;
-            $notif->is_read = true;
-            $notif->save();
-        }
-
-        return view('non-user.notifikasi.notif', [
-            'notif' => $notif,
-            'notifs' => $notifs
+        return view('non-user.tips-kerja1', [
+            "artikel" => $artikel,
+            "related" => $related
         ]);
     }
 
-
-    public function semuaDibaca()
+    //HAL DAFTAR KANDIDAT
+    public function daftar_kandidat()
     {
-        $pelamarId = auth()->user()->pelamar->id;
+        $divisis = Divisi::all();
+        return view('non-user.daftar-kandidat', [
+            "divisis" => $divisis,
+            'daftarBank' => DaftarBank::all(),
+        ]);
+    }
 
-        PelamarLowongan::where('pelamar_id', $pelamarId)
-            ->where('is_read', false)
-            ->update([
-                'is_read' => true,
-                'updated_at' => DB::raw('updated_at')
-            ]);
+    public function transaksi($id)
+    {
+        $transaksi = CatatanCash::with(['hargaPembayaran', 'bank'])->findOrFail($id);
+        return view('kandidat.transaksi-tf-bank', [
+            "transaksi" => $transaksi,
+            'daftarBank' => DaftarBank::all(),
+        ]);
+    }
 
-        return response()->json(['success' => true]);
+    public function uploadBukti(Request $request, $id)
+    {
+        $transaksi = CatatanCash::findOrFail($id);
+
+        $request->validate([
+            'bukti' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        $path = $request->file('bukti')->store('bukti-transfer', 'public');
+
+        $transaksi->update([
+            'bukti' => $path,
+            'status' => 'menunggu_verifikasi',
+        ]);
+        return redirect()->route('kandidat.transaksi', $transaksi->id)
+            ->with('success', 'Bukti transfer berhasil diupload.');
+    }
+
+    public function storePendaftaran(Request $request)
+    {
+        $request->validate([
+            'divisi' => 'required|string',
+            'daftar_bank_id' => 'required|exists:daftar_bank,id',
+        ]);
+        $user = auth()->user();
+
+        $pelamar = $user->pelamar;
+         if($pelamar){
+             $pelamar->divisi = $request->divisi;
+             $pelamar->save();
+         }
+        $harga = HargaPembayaran::where('nama', 'Pendaftaran Kandidat')->first();
+
+        $transaksi = CatatanCash::create([
+            'user_id' => Auth::id(),
+            'harga_pembayaran_id' => $harga->id,
+            'daftar_bank_id' => $request->daftar_bank_id,
+            'no_referensi' => 'INV' . strtoupper(uniqid()),
+            'pesanan' => 'Pendaftaran Kandidat',
+            'dari' => Auth::user()->pelamar->nama_pelamar ?? Auth::user()->username,
+            'sumberDana' => 'Transfer Bank',
+            'total' => $harga->harga,
+            'status' => 'pending',
+            'expired_at' => now()->addHours(24),
+        ]);
+
+        return redirect()->route('kandidat.transaksi', $transaksi->id);
     }
 }

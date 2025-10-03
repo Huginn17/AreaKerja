@@ -23,8 +23,8 @@ class PelamarLowongan extends Model
         return $this->belongsTo(Pelamar::class, 'pelamar_id' );
     }
 
-    public function jadwal_wawancara()
+    public function notifikasi()
     {
-        return $this->hasOne(JadwalWawancara::class, 'pelamar_lowongan_id');
+        return $this->hasMany(Notifikasi::class, 'pelamar_lowongan_id');
     }
 }

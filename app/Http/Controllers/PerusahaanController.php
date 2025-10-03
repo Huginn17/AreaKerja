@@ -10,6 +10,7 @@ use App\Models\PelamarLowongan;
 use App\Models\Perusahaan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class PerusahaanController extends Controller
@@ -146,5 +147,27 @@ class PerusahaanController extends Controller
             "woi" => PelamarLowongan::all(),
             "exp" => PelamarLowongan::where('lowongan_id', $lowongan->id)->get()
         ]);
+    }
+
+
+    //PENGATURAN 
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|confirmed|min:3',
+        ]);
+
+        $user = $request->user();
+          
+        //cek pw lama
+        if (!Hash::check($request->old_password, $user->password)) {
+            return back()->with('error', 'Password lama salah');
+        }
+
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return back()->with('success', 'Password berhasil diubah');
     }
 }

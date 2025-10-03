@@ -31,7 +31,7 @@
                             <img src="{{ asset('images/tangan.png') }}" class="w-8 h-8 rounded-full" alt="User">
                         </a>
                         <div class="text-sm">
-                            <div class="font-semibold">Steve Jobs</div>
+                            <div class="font-se                                                                                                                                                                                                                                                                                mibold">Steve Jobs</div>
                             <div class="text-gray-500">Stevejobs@gmail.com</div>
                         </div>
 
@@ -80,7 +80,7 @@
                         </svg>
                         Hapus Lowongan
                     </button>
-                    <button class="hover:underline flex items-center gap-1">
+                 <button class="hover:underline flex items-center gap-1 transform -translate-x-4">
                         <svg width="23" height="23" viewBox="0 0 23 23" fill="none"
                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <mask id="mask0_733_9205" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -143,12 +143,12 @@
   </div>
 
   <!-- Aktivitas Lowongan -->
-  <div class="mb-2">
-    <h3 class="font-semibold text-lg">Aktivitas Lowongan</h3>
-    <p>Lowongan dipasang 2 hari yang lalu</p><br>
-  </div>
-</div>
-   </div>
+    <div class="mb-2">
+        <h3 class="font-semibold text-lg">Aktivitas Lowongan</h3>
+        <p>Lowongan dipasang 2 hari yang lalu</p><br>
+    </div>
+    </div>
+    </div>
 
                 <!-- Tombol aksi -->
                 <div class="flex flex-col items-center space-y-3 max-w-lg mx-auto mt-8">

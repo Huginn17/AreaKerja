@@ -308,10 +308,10 @@ class SuperAdminController extends Controller
 
     public function detail($id)
     {
-         $user = User::with(['admin', 'finance'])->findOrFail($id);
+        $user = User::with(['admin', 'finance'])->findOrFail($id);
 
         return view('super_admin.add.detail', [
-           'user' => $user
+            'user' => $user
         ]);
     }
 
@@ -336,5 +336,27 @@ class SuperAdminController extends Controller
         $user->delete();
 
         return redirect()->route('superadmin.add.user')->with('success', 'Data User Berhasil Dihapus');
+    }
+
+
+    //PENGATURAN 
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|confirmed|min:3',
+        ]);
+
+        $user = $request->user();
+
+        //cek pw lama
+        if (!Hash::check($request->old_password, $user->password)) {
+            return back()->with('error', 'Password lama salah');
+        }
+
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return back()->with('success', 'Password berhasil diubah');
     }
 }

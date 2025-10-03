@@ -77,17 +77,19 @@
                     </div>
                 </div>
 
-                <!-- Tombol aksi -->
-                <div class="flex flex-col items-center space-y-3 max-w-lg mx-auto mt-8">
-                    <!-- Tombol Tambah Lowongan -->
-                    <button class="bg-gray-600 text-white w-96 p-2 rounded-md hover:bg-gray-500 transition duration-300">
-                        Jadikan Rekomendasi
-                    </button>
-                    <a href="{{ url('/admin/talenthunter') }}"
-                        class="bg-gray-600 text-white text-center w-96 p-2 rounded-md hover:bg-gray-500 transition duration-300">
-                        Kembali
-                    </a>
-                </div>
+               <!-- Tombol aksi -->
+<div class="flex justify-center space-x-4 mt-6">
+  <!-- Tombol Simpan -->
+  <button class="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded-lg shadow">
+    Simpan
+  </button>
+
+  <!-- Tombol Batal -->
+  <button class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-lg shadow">
+    Batal
+  </button>
+</div>
+
         </main>
     </div>
 
