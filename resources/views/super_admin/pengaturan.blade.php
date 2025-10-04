@@ -57,7 +57,7 @@
             <div class="w-full max-w-2xl space-y-6">
                 <!-- Tombol Ganti Password -->
                 <button onclick="document.getElementById('passwordFormSuper').classList.toggle('hidden')"
-                    class="w-full bg-orange-600 text-white font-medium py-4 rounded-lg text-left pl-4">
+                    class="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 rounded-lg text-left pl-4">
                     Ganti Password
                 </button>
 

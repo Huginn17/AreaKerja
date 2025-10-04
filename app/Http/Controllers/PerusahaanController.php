@@ -8,6 +8,7 @@ use App\Models\LowonganPerusahaan;
 use App\Models\Pelamar;
 use App\Models\PelamarLowongan;
 use App\Models\Perusahaan;
+use App\Models\Skill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -159,7 +160,7 @@ class PerusahaanController extends Controller
         ]);
 
         $user = $request->user();
-          
+
         //cek pw lama
         if (!Hash::check($request->old_password, $user->password)) {
             return back()->with('error', 'Password lama salah');
@@ -169,5 +170,60 @@ class PerusahaanController extends Controller
         $user->save();
 
         return back()->with('success', 'Password berhasil diubah');
+    }
+
+
+
+    //KANDIDAT AK
+    public function kandidat_ak(Request $request)
+    {
+        // Data dasar
+        $perusahaan = auth()->user()->perusahaan;
+        $skills = Skill::select('skill')->distinct()->pluck('skill');
+
+        // cari umur termuda - tertua
+        $minAge = Pelamar::selectRaw('MIN(TIMESTAMPDIFF(YEAR, tanggal_lahir, CURDATE())) as min_age')->value('min_age');
+        $maxAge = Pelamar::selectRaw('MAX(TIMESTAMPDIFF(YEAR, tanggal_lahir, CURDATE())) as max_age')->value('max_age');
+
+        $umurRange = [];
+        $step = 5;
+
+        for ($i = $minAge; $i <= $maxAge; $i += $step) {
+            $end = $i + $step;
+            $umurRange[] = "$i-$end";
+        }
+
+        $genders = ['L', 'P'];
+
+        // query utama hanya untuk kategori kandidat aktif
+        $query = Pelamar::where('kategori', 'kandidat aktif');
+
+        // filter skill (relasi ke tabel skill)
+        if ($request->filled('skill')) {
+            $query->whereHas('skill', function ($q) use ($request) {
+                $q->where('skill', $request->skill);
+            });
+        }
+
+        // filter umur
+        if ($request->filled('umur')) {
+            [$min, $max] = explode('-', $request->umur);
+            $query->whereRaw('TIMESTAMPDIFF(YEAR, tanggal_lahir, CURDATE()) BETWEEN ? AND ?', [$min, $max]);
+        }
+
+        // filter gender
+        if ($request->filled('gender')) {
+            $query->where('gender', $request->gender);
+        }
+
+        $pelamars = $query->get();
+
+        return view('perusahaan.kandidat-areakerja', [
+            'skills' => $skills,
+            'umurRange' => $umurRange,
+            'genders' => $genders,
+            'pelamars' => $pelamars,
+            'perusahaan' => $perusahaan
+        ]);
     }
 }

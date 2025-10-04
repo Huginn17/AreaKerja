@@ -9,6 +9,7 @@ use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\HargaController;
+use App\Http\Controllers\KandidatController;
 use App\Http\Controllers\LowonganPerusahaanController;
 use App\Http\Controllers\LupaPasswordController;
 use App\Http\Controllers\PelamarController;
@@ -55,10 +56,10 @@ use Illuminate\Support\Str;
 //     }
 // });
 
-Route::get('/test-expired', function () {
-    ExpireLamaranJob::dispatch();
-    return "✅ Job ExpireLamaran sudah dijalankan. Cek tabel notifikasis!";
-});
+// Route::get('/test-expired', function () {
+//     ExpireLamaranJob::dispatch();
+//     return "✅ Job ExpireLamaran sudah dijalankan. Cek tabel notifikasis!";
+// });
 
 //DOWNLOAD CV
 Route::get('/cv/{pelamar:id}/download', [CvController::class, 'downloadCv'])->name('cv.download');
@@ -173,6 +174,11 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
     Route::post('/kandidat/pendaftaran', [PelamarController::class, 'storePendaftaran'])->name('kandidat.storePendaftaran');
     Route::get('/kandidat/transaksi/{id}', [PelamarController::class, 'transaksi'])->name('kandidat.transaksi');
     Route::post('/kandidat/{id}/upload-bukti', [PelamarController::class, 'uploadBukti'])->name('kandidat.catatan_cash.upload_bukti');
+
+    //CALON KANDIDAT
+    Route::get('/calon/kandidat/pelatihan', [KandidatController::class, 'rekrutHalKosong'])->name('pelamar.calon-kandidat.pelatihan')->middleware('cekKategori:calon kandidat');
+    //KANDIDAT AKTIF
+    Route::get('/kandidat/aktif/pelatihan', [KandidatController::class, 'rekrutHalKunci'])->name('pelamar.kandidat.aktif.pelatihan')->middleware('cekKategori:kandidat aktif');
 });
 Route::post('/notifikasi/baca/semua', [PelamarController::class, 'bacaSemua'])->name('notifikasi.bacaSemua');
 
@@ -187,15 +193,9 @@ Route::get('/talent-hunter', function () {
 Route::get('/tips1', function () {
     return view('non-user.tips-kerja1');
 });
-
-
-
-
 Route::get('/bantuan', function () {
     return view('non-user.faq');
 });
-
-
 Route::get('/lowongan-detail', function () {
     return view('non-user.lowongan-detail');
 });
@@ -237,12 +237,7 @@ Route::get('/tran-tf-qr', function () {
 Route::get('/saya-rekrut', function () {
     return view('kandidat.rekrut-saya');
 });
-Route::get('/kandidat-baru-kosong', function () {
-    return view('kandidat.kandidat-baru-kosong');
-});
-Route::get('/kandidat-ak-selanjutnya', function () {
-    return view('kandidat.kandidat-ak-selanjutnya');
-});
+
 
 
 
@@ -353,20 +348,26 @@ Route::prefix('admin')->middleware('auth', 'role:admin', 'CheckUserStatus')->gro
     Route::get('/event/{event}', [EventController::class, 'detail_admin'])->name('admin.detail.event');
     Route::get('/event/{event}/edit', [EventController::class, 'edit_admin'])->name('admin.edit.event');
     Route::delete('/delete/event/{event}', [EventController::class, 'destroy_admin'])->name('admin.event.destroy');
+
+
+    //CALON KANDIDAT
+    Route::get('/calon/kandidat', [AdminController::class, 'halCalonKandidat'])->name('admin.calon-kandidat');
+
+    Route::get('/calon-kandidat/{id}', [AdminController::class,  'detailCalonKandidat'])->name('calon.detail');
+    Route::post('/calon-kandidat/{id}/update', [AdminController::class,  'updateTraining'])->name('calon.update');
+    Route::post('/calon-kandidat/{id}/lulus', [AdminController::class,  'lulus'])->name('calon.lulus');
+    Route::post('/calon-kandidat/{id}/gugur', [AdminController::class,  'gugur'])->name('calon.gugur');
+
+    //NON KANDIDAT
+    Route::get('/non/kandidat', [AdminController::class, 'halNonKandidat'])->name('admin.non-kandidat');
+    Route::get('/non-kandidat/{id}', [AdminController::class, 'detailNonKandidat'])->name('admin.detail.non.kandidat');
+
+    // KANDIDAT
+    Route::get('/kandidat', [AdminController::class, 'halKandidat'])->name('admin.kandidat');
+    Route::get('/kandidat/{id}', [AdminController::class, 'detailKandidat'])->name('admin.detail.kandidat');
 });
 
-Route::get('/admin/pelamar', function () {
-    return view('admin.pelamar');
-});
-Route::get('/admin/detail/data/kandidat', function () {
-    return view('admin.detail-data-kandidat');
-});
-Route::get('/admin/detail/data/non/kandidat', function () {
-    return view('admin.detail-data-non-kandidat');
-});
-Route::get('/admin/detail/data/calon/kandidat', function () {
-    return view('admin.detail-data-calon-kandidat');
-});
+
 Route::get('/admin/detail/manajemen/recruitmen', function () {
     return view('admin.detail-manajemen-recruitmen');
 });
@@ -374,17 +375,8 @@ Route::get('/admin/detail/data/talent/hunter', function () {
     return view('admin.detail-data-talent-hunter');
 });
 
-Route::get('/admin/pelamar', function () {
-    return view('admin.pelamar');
-});
 
-Route::get('/admin/non/kandidat', function () {
-    return view('admin.non-kandidat');
-});
 
-Route::get('/admin/calon/kandidat', function () {
-    return view('admin.calon-kandidat');
-});
 
 Route::get('/admin/perusahaan', function () {
     return view('admin.perusahaan');
@@ -718,6 +710,10 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
 
     //PENGATURAN PERUSAHAAN
     Route::post('/ganti-password', [PerusahaanController::class, 'updatePassword'])->name('password.update');
+
+
+    //KANDIDAT AK
+    Route::get('/kandidat/ak', [PerusahaanController::class, 'kandidat_ak'])->name('perusahaan.kandidat.ak');
 });
 
 
@@ -743,13 +739,9 @@ Route::get('/perusahaan/berlangganan', function () {
     return view('perusahaan.berlangganan');
 });
 
-Route::get('/perusahaan/kandidat/ak', function () {
-    return view('perusahaan.kandidat-ak');
-});
-
-Route::get('/perusahaan/kandidat/areakerja', function () {
-    return view('perusahaan.kandidat-areakerja');
-});
+// Route::get('/perusahaan/kandidat/ak', function () {
+//     return view('perusahaan.kandidat-ak');
+// });
 
 Route::get('/perusahaan/kandidat', function () {
     return view('perusahaan.kandidat-saya');

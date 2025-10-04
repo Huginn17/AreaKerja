@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,8 +11,26 @@ class Pelamar extends Model
     use HasFactory;
 
     protected $table = 'pelamars';
-
     protected $guarded = [];
+
+    
+    public function getUmurAttribute()
+    {
+        return Carbon::parse($this->tanggal_lahir)->age;
+    }
+
+    public function getGenderSingkatAttribute()
+    {
+        if (strtolower($this->gender) == 'laki-laki') {
+            return 'L';
+        }  
+        if (strtolower($this->gender) == 'perempuan') {
+            return 'P';
+        }
+
+        return $this->gender;
+    }
+
 
     public function user()
     {

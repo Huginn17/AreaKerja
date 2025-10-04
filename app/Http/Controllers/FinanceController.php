@@ -23,9 +23,9 @@ class FinanceController extends Controller
                 $perusahaan->koin_perusahaan += $paket->jumlah_koin;
                 $perusahaan->save();
             } else {
-                // Kalau transaksi PENDAFTARAN KANDIDAT → ubah kategori jadi kandidat aktif
+                // Kalau transaksi PENDAFTARAN KANDIDAT → ubah kategori jadi calon kandidat
                 if ($pelamar) {
-                    $pelamar->kategori = 'kandidat aktif';
+                    $pelamar->kategori = 'calon kandidat';
                     $pelamar->save();
                 }
             }

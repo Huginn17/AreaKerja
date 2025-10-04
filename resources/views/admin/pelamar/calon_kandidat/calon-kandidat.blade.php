@@ -44,16 +44,15 @@
         <!-- Header -->
         <div class="flex items-center justify-between mb-6">
             <div class="flex items-center gap-4">
-                <a href="{{ url('/admin/pelamar') }}"
-                    class="{{ request()->is('admin/pelamar') ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-500 border-gray-500 hover:bg-gray-500 hover:text-white' }} px-6 py-2 text-md font-medium border-2 rounded-lg transition duration-300">
+                <a href="{{ route('admin.kandidat') }}"
+                    class="{{ request()->is('admin/kandidat') ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-500 border-gray-500 hover:bg-gray-500 hover:text-white' }} px-6 py-2 text-md font-medium border-2 rounded-lg transition duration-300">
                     Kandidat
                 </a>
-
-                <a href="{{ url('/admin/non/kandidat') }}"
+                <a href="{{ route('admin.non-kandidat') }}"
                     class="{{ request()->is('admin/non/kandidat') ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-500 border-gray-500 hover:bg-gray-500 hover:text-white' }} px-6 py-2 text-md font-medium border-2 rounded-lg transition duration-300">
                     Non Kandidat
                 </a>
-                <a href="{{ url('/admin/calon/kandidat') }}"
+                <a href="{{ route('admin.calon-kandidat') }}"
                     class="{{ request()->is('admin/calon/kandidat') ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-500 border-gray-500 hover:bg-gray-500 hover:text-white' }} px-6 py-2 text-md font-medium border-2 rounded-lg transition duration-300">
                     Calon Kandidat
                 </a>
@@ -79,27 +78,40 @@
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    @for ($i = 0; $i < 10; $i++)
-                        <!-- Contoh isi data (bisa diulang dengan loop dari backend) -->
+                    @forelse ($pelamar as $item)
                         <tr class="border-b">
-                            <td class="px-4 py-3">000001</td>
-                            <td class="px-4 py-3">Zharif Deka</td>
-                            <td class="px-4 py-3">UI/UX Developer</td>
-                            <td class="px-4 py-3">S1</td>
-                            <td class="px-4 py-3">Jawa Tengah</td>
+                            <td class="px-4 py-3">{{ $item->id }}</td>
+                            <td class="px-4 py-3">{{ $item->nama_pelamar }}</td>
+                            <td class="px-4 py-3">
+                                @if ($item->skill->isNotEmpty())
+                                    {{ $item->skill->pluck('skill')->implode(', ') }}
+                                @else
+                                    -
+                                @endif
+                            </td>
+                            <td class="px-4 py-3">{{ $item->riwayat_pendidikan->first()->pendidikan ?? '-' }}</td>
+                            <td class="px-4 py-3">{{ $item->alamat_pelamar->first()->provinsi ?? '-' }}</td>
                             <td class="px-4 py-2 flex gap-2 justify-center">
-                                <a href="{{ url('/admin/detail/data/calon/kandidat') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-2 py-2 rounded-md">
+                                <a href="{{ route('calon.detail', $item->id) }}"
+                                    class="bg-gray-500 hover:bg-gray-600 text-white px-2 py-2 rounded-md">
                                     <svg width="20" height="20" viewBox="0 0 20 16" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
                                             d="M19.9184 7.53619C19.8885 7.45905 19.1822 5.60667 17.622 3.76381C15.5344 1.3019 12.9034 0 10.0006 0C7.09784 0 4.46681 1.3019 2.38166 3.76381C0.82143 5.60667 0.115092 7.45905 0.0828386 7.53619C0.0282128 7.68247 0 7.8406 0 8.00048C0 8.16036 0.0282128 8.31848 0.0828386 8.46476C0.112673 8.54286 0.819011 10.3943 2.38005 12.2371C4.46681 14.699 7.09784 16 10.0006 16C12.9034 16 15.5344 14.699 17.6187 12.2371C19.1798 10.3943 19.8861 8.54286 19.9159 8.46476C19.971 8.31868 19.9996 8.16066 20 8.00078C20.0004 7.8409 19.9726 7.68267 19.9184 7.53619ZM16.2044 10.679C14.4733 12.6924 12.3865 13.7143 10.0006 13.7143C7.6147 13.7143 5.52793 12.6924 3.79918 10.6781C3.11895 9.88304 2.5338 8.98203 2.05994 8C2.53395 7.01838 3.11908 6.1177 3.79918 5.32286C5.52874 3.30762 7.6147 2.28571 10.0006 2.28571C12.3865 2.28571 14.4725 3.30762 16.202 5.32286C16.8822 6.11762 17.4673 7.01831 17.9413 8C17.4673 8.98196 16.8822 9.88296 16.202 10.6781L16.2044 10.679ZM10.0006 3.80952C9.29891 3.80952 8.61298 4.05529 8.02954 4.51575C7.44611 4.9762 6.99137 5.63067 6.72285 6.39637C6.45432 7.16208 6.38406 8.00465 6.52096 8.81752C6.65785 9.63039 6.99575 10.3771 7.49192 10.9631C7.98809 11.5492 8.62025 11.9483 9.30846 12.11C9.99667 12.2716 10.71 12.1887 11.3583 11.8715C12.0066 11.5543 12.5607 11.0172 12.9505 10.3281C13.3403 9.63898 13.5484 8.8288 13.5484 8C13.5474 6.889 13.1732 5.82387 12.5081 5.03828C11.843 4.25268 10.9412 3.81078 10.0006 3.80952ZM10.0006 9.90476C9.68165 9.90476 9.36986 9.79305 9.10467 9.58375C8.83947 9.37445 8.63277 9.07697 8.51071 8.72892C8.38866 8.38087 8.35672 7.99789 8.41895 7.6284C8.48117 7.25891 8.63476 6.91952 8.86029 6.65313C9.08582 6.38674 9.37317 6.20533 9.68599 6.13184C9.99881 6.05834 10.3231 6.09606 10.6177 6.24023C10.9124 6.3844 11.1643 6.62854 11.3415 6.94177C11.5187 7.25501 11.6132 7.62327 11.6132 8C11.6132 8.50517 11.4433 8.98966 11.1409 9.34687C10.8385 9.70408 10.4283 9.90476 10.0006 9.90476Z"
                                             fill="white" />
                                     </svg>
-
                                 </a>
+                            </td>
                         </tr>
-                    @endfor
+                    @empty
+                        <tr>
+                            <td colspan="6" class="px-4 py-6 text-center text-gray-500">
+                                Belum ada data calon kandidat tersedia.
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
+
             </table>
         </div>
 

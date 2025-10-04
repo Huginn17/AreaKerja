@@ -51,7 +51,17 @@
                 <a href="{{ route('beranda') }}" class="hover:text-orange-500">Beranda</a>
                 <a href="{{ url('/talent-hunter') }}" class="hover:text-orange-500">Talent Hunter</a>
                 <a href="{{ url('/pelamar/tips-kerja') }}" class="hover:text-orange-500">Tips Kerja</a>
-                <a href="{{ route('pelamar.daftar-kandidat') }}" class="hover:text-orange-500">Daftar Kandidat</a>
+                @if (Auth::check() && Auth::user()->pelamar)
+                    @if (Auth::user()->pelamar->kategori === 'calon kandidat')
+                    <a href="{{ route('pelamar.calon-kandidat.pelatihan') }}" class="hover:text-orange-500">Rekrut Saya</a>
+                    @elseif (Auth::user()->pelamar->kategori === 'kandidat aktif')
+                    <a href="{{ route('pelamar.kandidat.aktif.pelatihan') }}" class="hover:text-orange-500">Rekrut Saya</a>
+                    @else
+                    <a href="{{ route('pelamar.daftar-kandidat') }}" class="hover:text-orange-500">Daftar Kandidat</a>
+                    @endif
+                @else
+                    <a href="{{ route('pelamar.daftar-kandidat') }}" class="hover:text-orange-500">Daftar Kandidat</a>
+                @endif
                 <a href="{{ url('/lowongan') }}" class="hover:text-orange-500">Pasang Lowongan</a>
             </nav>
 
@@ -120,8 +130,17 @@
                             </div>
                             <ul class="py-2" aria-labelledby="user-menu-button">
                                 <li>
-                                    <a href="{{ route('profile.index') }}"
-                                        class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500">Profil</a>
+                                    @php
+                                        $kategori = Auth::user()->pelamar->kategori ?? null;
+                                    @endphp
+                                    @if ($kategori === 'calon kandidat' || $kategori === 'kandidat aktif')
+                                        <a href="{{ route('profile.index') }}"
+                                            class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500"><i
+                                                class="ph ph-users ml-10"></i><span class="ml-2">Kandidat</span></a>
+                                    @else
+                                        <a href="{{ route('profile.index') }}"
+                                            class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500">Profil</a>
+                                    @endif
                                 </li>
                                 <li>
                                     <a href="{{ route('lowongan.tersimpan') }}"

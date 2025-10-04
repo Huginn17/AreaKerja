@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CatatanKoin;
 use App\Models\LowonganPerusahaan;
 use App\Models\PaketLowongan;
 use Illuminate\Support\Str;
@@ -97,6 +98,7 @@ class LowonganPerusahaanController extends Controller
     public function publish(Request $request, LowonganPerusahaan $lowongan)
     {
         $perusahaan = Auth::user()->perusahaan;
+        $user = Auth::user();
 
         // Pastikan lowongan milik perusahaan login
         if ($lowongan->perusahaan_id !== $perusahaan->id) {
@@ -126,8 +128,18 @@ class LowonganPerusahaanController extends Controller
                 ->with('error', 'Koin Anda tidak cukup. Silakan top up dulu.');
         }
 
+        
         // Potong koin perusahaan
         $perusahaan->decrement('koin_perusahaan', $paket->harga);
+
+        CatatanKoin::create([
+            'user_id'      => $user->id,
+            'no_referensi' => 'PUB-' . strtoupper(uniqid()),
+            'pesanan'      => 'Pasang Lowongan: ' . $lowongan->nama,
+            'dari'         => $perusahaan->nama_perusahaan,
+            'sumber_dana'  => 'Saldo Koin Perusahaan',
+            'total'        => '-' . $paket->harga, 
+        ]);
 
         // Publish lowongan
         $lowongan->update([

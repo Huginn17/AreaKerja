@@ -1,8 +1,5 @@
 @extends('layouts.index')
 @section('content')
-
-
-
 <div class="flex items-center justify-center min-h-screen bg-white">
   <div class="border-2 border-gray-300 rounded-xl px-30 py-20 bg-white text-center max-w-xl w-full">
     <!-- Icon Gembok -->
