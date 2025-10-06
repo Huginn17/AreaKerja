@@ -91,7 +91,7 @@
       <table class="min-w-full text-sm text-left">
         <thead class="bg-white text-orange-500">
           <tr>
-            <th class="px-4 py-3">Catatan Transaksi</th>
+            <th class="px-4 py-3 text-center">Catatan Transaksi</th>
             <th class="px-4 py-3">Pendapatan</th>
             <th class="px-4 py-3">Koin</th>
             <th class="px-4 py-3">Tanggal</th>
@@ -100,7 +100,7 @@
         </thead>
         <tbody class="divide-y  border-4">
           <tr>
-            <td class="px-4 py-3 font-semibold">Catatan_Transaksi_November</td>
+            <td class="px-4 py-3 font-semibold text-center">Catatan_Transaksi_November</td>
             <td class="px-4 py-3 font-semibold">100.000.000</td>
             <td class="px-4 py-3 font-semibold">100.000</td>
             <td class="px-4 py-3 font-semibold">25 Januari 2024</td>
@@ -112,8 +112,8 @@
           </tr>
 
 <tbody class="border-4">
-          <tr>
-            <td class="px-4 py-3 font-semibold">Catatan_Transaksi_November</td>
+          <tr> 
+            <td class="px-4 py-3 font-semibold text-center">Catatan_Transaksi_November</td>
             <td class="px-4 py-3 font-semibold">100.000.000</td>
             <td class="px-4 py-3 font-semibold">100.000</td>
             <td class="px-4 py-3 font-semibold">25 Januari 2024</td>
@@ -127,7 +127,7 @@
 
           <tbody class="border-4">
           <tr>
-            <td class="px-4 py-3 font-semibold">Catatan_Transaksi_November</td>
+            <td class="px-4 py-3 font-semibold text-center">Catatan_Transaksi_November</td>
             <td class="px-4 py-3 font-semibold">100.000.000</td>
             <td class="px-4 py-3 font-semibold">100.000</td>
             <td class="px-4 py-3 font-semibold">25 Januari 2024</td>
@@ -142,7 +142,7 @@
 
           <tbody class="border-4">
           <tr>
-            <td class="px-4 py-3 font-semibold">Catatan_Transaksi_November</td>
+            <td class="px-4 py-3 font-semibold text-center">Catatan_Transaksi_November</td>
             <td class="px-4 py-3 font-semibold">100.000.000</td>
             <td class="px-4 py-3 font-semibold">100.000</td>
             <td class="px-4 py-3 font-semibold">25 Januari 2024</td>
@@ -158,7 +158,7 @@
 
           <tbody class="border-4">
           <tr>
-            <td class="px-4 py-3 font-semibold">Catatan_Transaksi_November</td>
+            <td class="px-4 py-3 font-semibold text-center">Catatan_Transaksi_November</td>
             <td class="px-4 py-3 font-semibold">100.000.000</td>
             <td class="px-4 py-3 font-semibold">100.000</td>
             <td class="px-4 py-3 font-semibold">25 Januari 2024</td>

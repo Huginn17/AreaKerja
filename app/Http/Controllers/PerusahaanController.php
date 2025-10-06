@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AlamatPerusahaan;
 use App\Models\CatatanCash;
+use App\Models\Event;
 use App\Models\LowonganPerusahaan;
 use App\Models\Pelamar;
 use App\Models\PelamarLowongan;
@@ -226,4 +227,26 @@ class PerusahaanController extends Controller
             'perusahaan' => $perusahaan
         ]);
     }
+
+
+
+
+    //EVENT
+    public function event()
+    {
+        $events = Event::latest()->get();
+        return view('perusahaan.event.event',[
+            'events' => $events
+        ]);
+    }
+
+    public function detail($id)
+    {
+        $event = Event::with('kegiatan')->findOrFail($id);
+        return view('perusahaan.event.gabung-event',[
+            'event' => $event
+        ]);
+    }
+
+
 }

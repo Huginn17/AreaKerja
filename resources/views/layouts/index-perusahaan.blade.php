@@ -53,7 +53,7 @@
                 <a href="{{ url('/talent-hunter') }}" class="hover:text-orange-500 hover:scale-105">Talent Hunter</a>
                 <a href="{{ route('perusahaan.kandidat.ak') }}" class="hover:text-orange-500 hover:scale-105">Kandidat</a>
                 <a href="{{ route('paket.form') }}" class="hover:text-orange-500 hover:scale-105">Pasang Lowongan</a>
-                <a href="{{ url('/perusahaan/event') }}" class="hover:text-orange-500 hover:scale-105">Event</a>
+                <a href="{{ route('perusahaan.event.index') }}" class="hover:text-orange-500 hover:scale-105">Event</a>
             </nav>
 
 

@@ -118,7 +118,7 @@ class PelamarController extends Controller
             'pendidikan' => 'required',
             'jurusan' => 'nullable',
             'asal_pendidikan' => 'nullable',
-            'tahun_awal' => 'nullable',
+            '{{  }}n_awal' => 'nullable',
             'tahun_akhir' => 'nullable'
         ]);
 
@@ -243,7 +243,8 @@ class PelamarController extends Controller
             ->send(new KonfirmasiLamaranMail(
                 $pelamar,
                 $pelamarlowongan->lowongan_perusahaan,
-                $konfirmasi
+                $konfirmasi,
+                $pelamarlowongan
             ));
 
         $statusText = $pelamarlowongan->status === 'diterima' ? 'Diterima' : 'Ditolak';

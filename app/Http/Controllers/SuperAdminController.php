@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\Finance;
 use App\Models\Pelamar;
+use App\Models\Perusahaan;
 use App\Models\SuperAdmin;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -178,9 +179,17 @@ class SuperAdminController extends Controller
     //  CRUD ROLE
     public function role()
     {
-        $users = User::whereIn('role', ['admin', 'finance'])->with(['admin', 'finance'])->get();
+        $usersAdminFinance = User::whereIn('role', ['admin', 'finance'])
+            ->with(['admin', 'finance'])
+            ->get();
+
+        $usersPerusahaanPelamar = User::whereIn('role', ['perusahaan', 'pelamar'])
+            ->with(['perusahaan', 'pelamar'])
+            ->get();
+
         return view('super_admin.add.add-user', [
-            'users' => $users
+            'usersAdminFinance' => $usersAdminFinance,
+            'usersPerusahaanPelamar' => $usersPerusahaanPelamar
         ]);
     }
 
@@ -192,14 +201,19 @@ class SuperAdminController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-        $request->validate([
+        $rules = [
             'email'        => 'required|email|unique:users',
             'username'     => 'required|unique:users',
-            'nama_lengkap' => 'required',
-            'role'         => 'required|in:admin,finance',
+            'role'         => 'required|in:admin,finance,perusahaan',
             'password'     => 'required',
             'img_profile'  => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
+        ];
+
+        if (in_array($request->role, ['admin', 'finance'])) {
+            $rules['nama_lengkap'] = 'required';
+        }
+
+        $request->validate($rules);
 
         $user = User::create([
             'email'    => $request->email,
@@ -208,29 +222,74 @@ class SuperAdminController extends Controller
             'role'     => $request->role,
         ]);
 
-        $valid = $request->only([
-            'nama_lengkap',
-            'provinsi',
-            'kota',
-            'kecamatan',
-            'kode_pos',
-            'detail_alamat'
-        ]);
+        // $valid = $request->only([
+        //     'nama_lengkap',
+        //     'provinsi',
+        //     'kota',
+        //     'kecamatan',
+        //     'kode_pos',
+        //     'detail_alamat'
+        // ]);
 
+        $imgPath = null;
         if ($request->hasFile('img_profile')) {
-            $valid['img_profile'] = $request->file('img_profile')->store('images', 'public');
+            $imgPath = $request->file('img_profile')->store('images', 'public');
         }
 
-        if ($request->role === 'admin') {
-            $valid['user_id'] = $user->id;
-            // dd($valid);
-            Admin::create($valid);
-        } elseif ($request->role === 'finance') {
-            $valid['user_id'] = $user->id;
-            Finance::create($valid);
-        };
+        // if ($request->role === 'admin') {
+        //     $valid['user_id'] = $user->id;
+        //     // dd($valid);
+        //     Admin::create($valid);
+        // } elseif ($request->role === 'finance') {
+        //     $valid['user_id'] = $user->id;
+        //     Finance::create($valid);
+        // };  
 
-        return redirect()->route('superadmin.add.user')->with('success', 'Data User Berhasil Ditambahkan');
+        switch ($request->role) {
+            case 'admin':
+                Admin::create([
+                    'user_id'       => $user->id,
+                    'nama_lengkap'  => $request->nama_lengkap,
+                    'provinsi'      => $request->provinsi,
+                    'kota'          => $request->kota,
+                    'kecamatan'     => $request->kecamatan,
+                    'kode_pos'      => $request->kode_pos,
+                    'detail_alamat' => $request->detail_alamat,
+                    'img_profile'   => $imgPath,
+                ]);
+                break;
+
+            case 'finance':
+                Finance::create([
+                    'user_id'       => $user->id,
+                    'nama_lengkap'  => $request->nama_lengkap,
+                    'provinsi'      => $request->provinsi,
+                    'kota'          => $request->kota,
+                    'kecamatan'     => $request->kecamatan,
+                    'kode_pos'      => $request->kode_pos,
+                    'detail_alamat' => $request->detail_alamat,
+                    'img_profile'   => $imgPath,
+                ]);
+                break;
+
+            case 'perusahaan':
+                Perusahaan::create([
+                    'user_id'           => $user->id,
+                    'nama_perusahaan'   => $request->nama_perusahaan,
+                    'jenis_perusahaan'  => $request->jenis_perusahaan,
+                    'website_perusahaan' => $request->website_perusahaan,
+                    'telepon_perusahaan' => $request->telepon_perusahaan,
+                    'whatsapp'          => $request->whatsapp,
+                    'legalitas'         => $request->legalitas,
+                    'deskripsi'         => $request->deskripsi,
+                    'visi'              => $request->visi,
+                    'misi'              => $request->misi,
+                    'img_profile'       => $imgPath,
+                ]);
+                break;
+        }
+
+        return redirect()->route('superadmin.add.user')->with('success', 'Data Berhasil Ditambahkan');
     }
 
     public function edit($id)
@@ -243,72 +302,129 @@ class SuperAdminController extends Controller
 
     public function update(Request $request, $id)
     {
-        $user = User::with(['admin', 'finance'])->findOrFail($id);
+        $user = User::findOrFail($id);
 
-
-        $request->validate([
+        $rules = [
             'email'        => 'required|email|unique:users,email,' . $user->id,
-            // 'username'     => 'required|unique:users,username,' . $user->id,
-            'nama_lengkap' => 'required',
-            'role'         => 'required|in:admin,finance',
+            'username'     => 'required|unique:users,username,' . $user->id,
+            'role'         => 'required|in:admin,finance,perusahaan,pelamar',
             'img_profile'  => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
+        ];
 
+        if (in_array($request->role, ['admin', 'finance'])) {
+            $rules['nama_lengkap'] = 'required';
+        }
+
+        $request->validate($rules);
+
+        // Update data utama user
         $user->update([
             'email'    => $request->email,
-            // 'username' => $request->username,
-            'role'     => $request->role
+            'username' => $request->username,
+            'role'     => $request->role,
+            'password' => $request->filled('password') ? Hash::make($request->password) : $user->password,
         ]);
 
-        $valid = $request->only([
-            'nama_lengkap',
-            'provinsi',
-            'kota',
-            'kecamatan',
-            'desa',
-            'kode_pos',
-            'detail_alamat'
-        ]);
+        // Ambil foto lama dari relasi aktif
+        $imgPath = null;
+        switch ($user->role) {
+            case 'admin':
+                $imgPath = $user->admin->img_profile ?? null;
+                break;
+            case 'finance':
+                $imgPath = $user->finance->img_profile ?? null;
+                break;
+            case 'perusahaan':
+                $imgPath = $user->perusahaan->img_profile ?? null;
+                break;
+            case 'pelamar':
+                $imgPath = $user->pelamar->img_profile ?? null;
+                break;
+        }
 
+        // Jika upload baru, hapus foto lama dan simpan yang baru
         if ($request->hasFile('img_profile')) {
-            // Hapus foto lama
-            if ($user->role === 'admin' && $user->admin && $user->admin->img_profile) {
-                Storage::delete('public/' . $user->admin->img_profile);
-            }
-            if ($user->role === 'finance' && $user->finance && $user->finance->img_profile) {
-                Storage::delete('public/' . $user->finance->img_profile);
-            }
-
-            // Simpan foto baru
-            $valid['img_profile'] = $request->file('img_profile')->store('images', 'public');
+            if ($imgPath) Storage::delete('public/' . $imgPath);
+            $imgPath = $request->file('img_profile')->store('images', 'public');
         }
 
-        if ($user->role === 'admin') {
-            if ($user->finance) $user->finance->delete();
 
-            // ambil img lama jika tidak ada upload baru
-            if (!$request->hasFile('img_profile') && $user->admin) {
-                $valid['img_profile'] = $user->admin->img_profile;
-            }
+        // Update atau buat data relasi berdasarkan role
+        switch ($request->role) {
+            case 'admin':
+                $user->admin()->updateOrCreate(
+                    ['user_id' => $user->id],
+                    [
+                        'nama_lengkap'  => $request->nama_lengkap,
+                        'provinsi'      => $request->provinsi,
+                        'kota'          => $request->kota,
+                        'kecamatan'     => $request->kecamatan,
+                        'kode_pos'      => $request->kode_pos,
+                        'detail_alamat' => $request->detail_alamat,
+                        'img_profile'   => $imgPath,
+                    ]
+                );
+                break;
 
-            $user->admin()->updateOrCreate(['user_id' => $user->id], $valid);
-        } elseif ($user->role === 'finance') {
-            if ($user->admin) $user->admin->delete();
+            case 'finance':
+                $user->finance()->updateOrCreate(
+                    ['user_id' => $user->id],
+                    [
+                        'nama_lengkap'  => $request->nama_lengkap,
+                        'provinsi'      => $request->provinsi,
+                        'kota'          => $request->kota,
+                        'kecamatan'     => $request->kecamatan,
+                        'kode_pos'      => $request->kode_pos,
+                        'detail_alamat' => $request->detail_alamat,
+                        'img_profile'   => $imgPath,
+                    ]
+                );
+                break;
 
-            if (!$request->hasFile('img_profile') && $user->finance) {
-                $valid['img_profile'] = $user->finance->img_profile;
-            }
+            case 'perusahaan':
+                $user->perusahaan()->updateOrCreate(
+                    ['user_id' => $user->id],
+                    [
+                        'nama_perusahaan'   => $request->nama_perusahaan,
+                        'jenis_perusahaan'  => $request->jenis_perusahaan,
+                        'website_perusahaan' => $request->website_perusahaan,
+                        'telepon_perusahaan' => $request->telepon_perusahaan,
+                        'whatsapp'          => $request->whatsapp,
+                        'legalitas'         => $request->legalitas,
+                        'deskripsi'         => $request->deskripsi,
+                        'visi'              => $request->visi,
+                        'misi'              => $request->misi,
+                        'img_profile'       => $imgPath,
+          
+                    ]
+                );
+                break;
 
-            $user->finance()->updateOrCreate(['user_id' => $user->id], $valid);
+            case 'pelamar':
+                $user->pelamar()->updateOrCreate(
+                    ['user_id' => $user->id],
+                    [
+                        'nama_lengkap'  => $request->nama_lengkap,
+                        'telepon'       => $request->telepon,
+                        'pendidikan'    => $request->pendidikan,
+                        'provinsi'      => $request->provinsi,
+                        'kota'          => $request->kota,
+                        'kecamatan'     => $request->kecamatan,
+                        'kode_pos'      => $request->kode_pos,
+                        'detail_alamat' => $request->detail_alamat,
+                        'img_profile'   => $imgPath,
+                    ]
+                );
+                break;
         }
-
 
         return redirect()->route('superadmin.add.user')->with('success', 'Data Berhasil Disimpan');
     }
 
+
     public function detail($id)
     {
-        $user = User::with(['admin', 'finance'])->findOrFail($id);
+        $user = User::with(['admin', 'finance', 'perusahaan', 'pelamar'])->findOrFail($id);
 
         return view('super_admin.add.detail', [
             'user' => $user
@@ -317,22 +433,31 @@ class SuperAdminController extends Controller
 
     public function hapus($id)
     {
-        $user = User::with(['admin', 'finance'])->findOrFail($id);
+        $user = User::with(['admin', 'finance', 'perusahaan', 'pelamar'])->findOrFail($id);
 
-        if ($user->role === 'admin' && $user->admin && $user->admin->img_profile) {
+        // 🔹 Hapus gambar profil sesuai role
+        if ($user->role === 'admin' && $user->admin?->img_profile) {
             Storage::delete('public/' . $user->admin->img_profile);
-        }
-        if ($user->role === 'finance' && $user->finance && $user->finance->img_profile) {
+        } elseif ($user->role === 'finance' && $user->finance?->img_profile) {
             Storage::delete('public/' . $user->finance->img_profile);
+        } elseif ($user->role === 'perusahaan' && $user->perusahaan?->img_profile) {
+            Storage::delete('public/' . $user->perusahaan->img_profile);
+        } elseif ($user->role === 'pelamar' && $user->pelamar?->img_profile) {
+            Storage::delete('public/' . $user->pelamar->img_profile);
         }
 
+        // 🔹 Hapus data terkait sesuai role
         if ($user->role === 'admin' && $user->admin) {
             $user->admin->delete();
-        }
-        if ($user->role === 'finance' && $user->finance) {
+        } elseif ($user->role === 'finance' && $user->finance) {
             $user->finance->delete();
+        } elseif ($user->role === 'perusahaan' && $user->perusahaan) {
+            $user->perusahaan->delete();
+        } elseif ($user->role === 'pelamar' && $user->pelamar) {
+            $user->pelamar->delete();
         }
 
+        // 🔹 Terakhir, hapus user utamanya
         $user->delete();
 
         return redirect()->route('superadmin.add.user')->with('success', 'Data User Berhasil Dihapus');

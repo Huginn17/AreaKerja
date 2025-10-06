@@ -294,7 +294,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('finance.login');
+        return redirect()->route('login');
     }
 
 
@@ -427,7 +427,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('superadmin.login');
+        return redirect()->route('login');
     }
 
     //  NON USER

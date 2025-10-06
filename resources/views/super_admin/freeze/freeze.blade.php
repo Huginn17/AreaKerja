@@ -50,31 +50,31 @@
 
         {{-- content --}}
         <div class="flex gap-2 mb-6 mt-14 justify-end">
-            <input id="cari" type="text" placeholder="nama/username ..."
-                class="border border-gray-500 rounded-lg px-4 py-2 w-72">
-            <button type="button" onclick="searchTable()"
-                class="bg-orange-500 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
+        <input id="cari" type="text" placeholder="nama/username ..."class="border border-gray-500 rounded-lg px-4 py-2 w-72">
+        <button type="button" onclick="searchTable()"class="bg-orange-500 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
         </div>
 
         <!-- Wrapper -->
-        <div class="border border-gray-300 rounded-2xl shadow-sm overflow-hidden">
+        <div class="w-[102%] border border-gray-400 rounded-2xl shadow-sm overflow-hidden">
 
 
             <!-- Table -->
-            <table id="myTable " class="w-full text-sm text-center">
-                <thead>
-                    <tr class="text-gray-700">
-                        <th class="p-7 font-semibold">No</th>
-                        <th class="p-7 font-semibold">Username</th>
-                        <th class="p-7 font-semibold">Email</th>
-                        <th class="p-7 font-semibold">Role</th>
-                        <th class="p-7 font-semibold">Telepon</th>
-                        <th class="p-7 font-semibold">Alamat</th>
-                        <th class="p-7 font-semibold">Status</th>
-                        <th class="p-7 font-semibold">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
+        
+          <div class="w-full border border-gray-400 rounded-2xl shadow-sm overflow-hidden">
+  <table class="w-full text-sm text-center">
+    <thead class="border-b border-gray-300">
+      <tr class="text-gray-700">
+        <th class="p-4 font-semibold">No</th>
+        <th class="p-4 font-semibold">Username</th>
+        <th class="p-4 font-semibold">Email</th>
+        <th class="p-4 font-semibold">Role</th>
+        <th class="p-4 font-semibold">Telepon</th>
+        <th class="p-4 font-semibold">Alamat</th>
+        <th class="p-4 font-semibold">Status</th>
+        <th class="p-4 font-semibold">Aksi</th>
+      </tr>
+    </thead>
+                <tbody class="divide-y divide-gray-400">
                     @foreach ($data as $d)
                         <!-- Baris Data -->
                         <tr>

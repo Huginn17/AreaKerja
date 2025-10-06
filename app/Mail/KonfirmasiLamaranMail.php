@@ -16,11 +16,14 @@ class KonfirmasiLamaranMail extends Mailable
     public $lowongan;
     public $pelamar;
     public $konfirmasi;
-    public function __construct($pelamar, $lowongan, $konfirmasi)
+    public $pelamarlowongan;
+    public function __construct($pelamar, $lowongan, $konfirmasi, $pelamarlowongan)
     {
         $this->pelamar = $pelamar;
         $this->lowongan = $lowongan;
         $this->konfirmasi  = $konfirmasi;
+        $this->pelamarlowongan = $pelamarlowongan;
+       
     }
 
     /**
@@ -31,7 +34,13 @@ class KonfirmasiLamaranMail extends Mailable
     public function build()
     {
         return $this->subject('Konfirmasi Interview - ' . $this->lowongan->judul)
-            ->view('emails.konfirmasi-lamaran');
+            ->view('emails.konfirmasi-lamaran')
+            ->with([
+                'pelamar' => $this->pelamar,
+                'lowongan' => $this->lowongan,
+                'konfirmasi' => $this->konfirmasi,
+                'data' => $this->pelamarlowongan
+            ]);
     }
 
     /**

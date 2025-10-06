@@ -203,6 +203,36 @@
         </aside>
         @yield('sidebarsuperadmin')
 
+        <!-- Modal overlay -->
+        <div id="successModal" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/50">
+            <!-- Konten Modal -->
+            <div class="relative bg-white rounded-xl shadow-lg w-[90%] max-w-sm p-6 text-center">
+
+                <!-- Judul -->
+                <h2 class="text-lg font-bold mb-3">Konfimasi Keluar</h2>
+
+                <!-- Pesan -->
+                <p class="text-gray-700 mb-6">
+                    Apakah anda yakin ingin keluar
+                </p>
+
+                <!-- Tombol aksi -->
+                <div class="flex justify-center gap-4">
+                    <form action="{{ route('logout_superadmin') }}" method="POST">
+                        @csrf
+                        <button id="goLogin"
+                            class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-md font-medium">
+                            Keluar
+                        </button>
+                    </form>
+                    <button onclick="closeModal()"
+                        class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-md font-medium">
+                        Batal
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <script src="{{ asset('js/super_admin.js') }}"></script>
         @include('finance.sidebar.modal-logout')
         <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
@@ -227,12 +257,32 @@
             });
         </script>
 
+        <script>
+            // Buka modal saat klik tombol "Keluar"
+            document.querySelector('#logout button').addEventListener('click', function(e) {
+                e.preventDefault(); // jangan langsung submit
+                let modal = document.getElementById("successModal");
+                modal.classList.remove("hidden");
+                modal.classList.add("flex");
+            });
+
+            // Tombol batal → tutup modal
+            function closeModal() {
+                let modal = document.getElementById("successModal");
+                modal.classList.remove("flex");
+                modal.classList.add("hidden");
+            }
+
+            // Tombol "Keluar" di modal → submit form logout
+            document.getElementById("goLogin").addEventListener("click", function() {
+                document.getElementById("logout_admin").submit();
+            });
+        </script>
+
         <script src="//unpkg.com/alpinejs" defer></script>
         <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
         @stack('scripts')
-
-
 </body>
 
 </html>

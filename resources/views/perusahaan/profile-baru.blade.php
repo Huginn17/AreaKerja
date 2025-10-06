@@ -14,7 +14,7 @@
                     <!-- Tombol Upload & Remove -->
                     <div class="flex flex-col gap-3">
                         <button
-                            class="flex items-center gap-2 px-4 py-2 text-sm border-4 border-orange-500 text-orange-500 rounded-md hover:bg-orange-50">
+                            class="flex items-center gap-2 px-4 py-2 text-sm border-2 border-orange-500 text-orange-500 rounded-md hover:bg-orange-50">
                             <!-- Icon upload -->
                             <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.368 9.29246C7.782 9.29246 8.118 9.62846 8.118 10.0425C8.118 10.4565 7.782 10.7925 7.368 10.7925H6.435C4.816 10.7925 3.5 12.1085 3.5 13.7265V18.6015C3.5 20.2205 4.816 21.5365 6.435 21.5365H17.565C19.183 21.5365 20.5 20.2205 20.5 18.6015V13.7175C20.5 12.1045 19.188 10.7925 17.576 10.7925H16.633C16.219 10.7925 15.883 10.4565 15.883 10.0425C15.883 9.62846 16.219 9.29246 16.633 9.29246H17.576C20.015 9.29246 22 11.2775 22 13.7175V18.6015C22 21.0475 20.01 23.0365 17.565 23.0365H6.435C3.99 23.0365 2 21.0475 2 18.6015V13.7265C2 11.2815 3.99 9.29246 6.435 9.29246H7.368ZM12.5306 2.72006L15.4466 5.64806C15.7386 5.94206 15.7376 6.41606 15.4446 6.70806C15.1506 7.00006 14.6766 7.00006 14.3846 6.70606L12.749 5.06481L12.7496 16.0394H11.2496L11.249 5.06481L9.6156 6.70606C9.4696 6.85406 9.2766 6.92706 9.0846 6.92706C8.8936 6.92706 8.7016 6.85406 8.5556 6.70806C8.2626 6.41606 8.2606 5.94206 8.5536 5.64806L11.4686 2.72006C11.7496 2.43706 12.2496 2.43706 12.5306 2.72006Z" fill="#FA6601"/>
@@ -23,7 +23,7 @@
                             Upload
                         </button>
                         <button
-                            class="flex items-center gap-2 px-4 py-2 mt-1 text-sm border-4 border-gray-400 text-gray-500 rounded-md hover:bg-gray-100">
+                            class="flex items-center gap-2 px-4 py-2 mt-1 text-sm border-2 border-gray-400 text-gray-500 rounded-md hover:bg-gray-100">
                             <!-- Icon trash -->
                             <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
            <path d="M19.8238 9.96875C19.8238 9.96875 19.2808 16.7037 18.9658 19.5407C18.8158 20.8957 17.9788 21.6897 16.6078 21.7147C13.9988 21.7617 11.3868 21.7647 8.77881 21.7097C7.45981 21.6827 6.63681 20.8787 6.48981 19.5477C6.17281 16.6857 5.63281 9.96875 5.63281 9.96875" stroke="#878686" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -41,19 +41,19 @@
             <div class="space-y-4">
                 <div>
                     <label class=" text-sm font-medium">Nama Perusahaan</label>
-               <input type="text" class="w-full mt-2 border-4 border-orange-500 rounded-md p-2 focus:outline-none">
+               <input type="text" class="w-full mt-2 border-2 border-orange-500 rounded-md p-2 focus:outline-none">
 
 
                 </div>
                 <div>
                     <label class=" text-sm font-medium">Bidang Perusahaan</span></label>
-                   <input type="text" class="w-full mt-2 border-4 border-orange-500 rounded-md p-2 focus:outline-none">
+                   <input type="text" class="w-full mt-2 border-2 border-orange-500 rounded-md p-2 focus:outline-none">
 
 
                 </div>
                 <div>
                     <label class=" text-sm font-medium">Alamat Perusahaan</label>
-              <input type="text" class="w-full mt-2 border-4 border-orange-500 rounded-md p-2 focus:outline-none">
+              <input type="text" class="w-full mt-2 border-2 border-orange-500 rounded-md p-2 focus:outline-none">
 
 
                 </div>
@@ -72,7 +72,7 @@
                 <!-- Badan Usaha -->
                 <div>
                     <label class=" text-sm font-semibold mb-1">Badan Usaha</label>
-                    <select class="w-full mt-2 border-4 border-orange-500 rounded-md p-2 focus:outline-none">
+                    <select class="w-full mt-2 border-2 border-orange-500 rounded-md p-2 focus:outline-none">
 
                         <option>Pilih badan usaha</option>
                         <option>PT</option>
@@ -83,13 +83,13 @@
                 <!-- Visi -->
                 <div>
                     <label class=" text-sm font-semibold mb-1">Visi</label>
-                   <input type="text" class="w-full mt-2 border-4 border-orange-500 rounded-md p-2 focus:outline-none">
+                   <input type="text" class="w-full mt-2 border-2 border-orange-500 rounded-md p-2 focus:outline-none">
 
                 </div>
                 <!-- Deskripsi -->
                 <div>
                     <label class=" text-sm font-semibold mb-1">Deskripsi</label>
-                 <input type="text" class="w-full mt-2 border-4 border-orange-500 rounded-md p-2 focus:outline-none">
+                 <input type="text" class="w-full mt-2 border-2 border-orange-500 rounded-md p-2 focus:outline-none">
 
                 </div>
             </div>
@@ -107,7 +107,7 @@
                         </svg>
                         Website
                     </label>
-                    <input type="text" class="w-full mt-2 border-4 border-orange-500 rounded-md p-2 focus:outline-none">
+                    <input type="text" class="w-full mt-2 border-2 border-orange-500 rounded-md p-2 focus:outline-none">
 
                 </div>
                 <!-- Email -->
@@ -121,7 +121,7 @@
                         </svg>
                         Email
                     </label>
-                   <input type="text" class="w-full mt-2 border-4 border-orange-500 rounded-md p-2 focus:outline-none">
+                   <input type="text" class="w-full mt-2 border-2 border-orange-500 rounded-md p-2 focus:outline-none">
 
                 </div>
                 <!-- Whatsapp -->
@@ -135,7 +135,7 @@
                         </svg>
                         Whatsapp
                     </label>
-                  <input type="text" class="w-full mt-2 border-4 border-orange-500 rounded-md p-2 focus:outline-none">
+                  <input type="text" class="w-full mt-2 border-2 border-orange-500 rounded-md p-2 focus:outline-none">
 
                 </div>
                 <!-- Linkedin -->
@@ -149,7 +149,7 @@
                         </svg>
                         Linkedin
                     </label>
-                   <input type="text" class="w-full mt-2 border-4 border-orange-500 rounded-md p-2 focus:outline-none">
+                   <input type="text" class="w-full mt-2 border-2 border-orange-500 rounded-md p-2 focus:outline-none">
 
                 </div>
             </div>
@@ -158,8 +158,8 @@
         <!-- MISI full width -->
         <div class="mt-6 space-y-3">
             <label class=" text-sm font-semibold mb-1">Misi</label>
-           <input type="text" class="w-full mt-2 border-4 border-orange-500 rounded-md p-2 focus:outline-none">
-        <input type="text" class="w-full mt-2 border-4 border-orange-500 rounded-md p-2 focus:outline-none">
+           <input type="text" class="w-full mt-2 border-2 border-orange-500 rounded-md p-2 focus:outline-none">
+        <input type="text" class="w-full mt-2 border-2 border-orange-500 rounded-md p-2 focus:outline-none">
 
         </div>
 
@@ -171,7 +171,7 @@
         <!-- Tombol -->
         <div class="flex justify-end gap-3 mt-8">
             <button
-                class="px-10 py-2 border-4 border-orange-500 text-orange-500 rounded-md hover:bg-orange-50">Batal</button>
+                class="px-10 py-2 border-2 border-orange-500 text-orange-500 rounded-md hover:bg-orange-50">Batal</button>
             <button class="px-8 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600">Simpan</button>
         </div>
     </div>

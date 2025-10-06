@@ -291,8 +291,6 @@
         });
     </script>
 
-
-
      <script>
         // Buka modal saat klik tombol "Keluar"
         document.querySelector('#logout button').addEventListener('click', function(e) {

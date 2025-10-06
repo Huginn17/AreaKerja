@@ -49,9 +49,9 @@
         </div>
 
 
-        <div class="max-w-4xl mx-auto bg-white border border-gray-400 rounded-xl shadow-md overflow-hidden">
+        <div class="max-w-4xl mx-auto bg-white border border-gray-600 rounded-lg shadow-md overflow-hidden">
             <!-- Header dengan foto dan tombol -->
-            <div class="flex items-center p-6 border-b border-gray-300 rounded-md shadow-md">
+            <div class="flex items-center  p-6 border-b border-gray-600 rounded-lg shadow-lg">
                 @if ($data->pelamar)
                     @if ($data->pelamar->img_profile)
                         <img id="pu" class="w-10 h-10  object-cover rounded-full profile-img"
@@ -116,10 +116,14 @@
                 </form>
 
 
-                <div class="flex gap-3 mt-4 ml-24">
-                    @if ($data->status == 0)
+                 <!-- Foto Profil -->
+               
+                 <div class="bg-white  shadow-m p-6 flex items-center space-x-6">
+    <img src={{asset('images/gambar1.jpg')}} alt="User" class="w-24 h-24 rounded-full object-cover border border-gray-200" />
+
+                   @if ($data->status == 0)
                         <button type="submit" form="ban"
-                            class="bg-red-500 hover:bg-green-600 text-white px-6 py-2 rounded-xl shadow">
+                            class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-xl shadow">
                             banned
                         </button>
                     @else
@@ -129,7 +133,7 @@
                         </button>
                     @endif
                     <button form="hapus" type="submit"
-                        class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-xl shadow">
+                        class="bg-red-600 hover:bg-red-500 text-white px-6 py-2 rounded-xl shadow">
                         Hapus Akun
                     </button>
                 </div>

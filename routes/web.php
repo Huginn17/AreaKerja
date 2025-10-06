@@ -714,7 +714,12 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
 
     //KANDIDAT AK
     Route::get('/kandidat/ak', [PerusahaanController::class, 'kandidat_ak'])->name('perusahaan.kandidat.ak');
-});
+
+
+    //EVENT 
+    Route::get('/event', [PerusahaanController::class, 'event'])->name('perusahaan.event.index');
+    Route::get('/gabung/event/{id}', [PerusahaanController::class, 'detail'])->name('perusahaan.event.show');
+}); 
 
 
 Route::get('/perusahaan/profile/baru', function () {
@@ -765,13 +770,6 @@ Route::get('/perusahaan/pengaturan/gantipw', function () {
 });
 Route::get('/perusahaan/talent/hunter', function () {
     return view('perusahaan.talent-hunter');
-});
-
-Route::get('/perusahaan/event', function () {
-    return view('perusahaan.event');
-});
-Route::get('/perusahaan/gabung/event', function () {
-    return view('perusahaan.gabung-event');
 });
 Route::get('/perusahaan/event/kosong', function () {
     return view('perusahaan.event-kosong');
