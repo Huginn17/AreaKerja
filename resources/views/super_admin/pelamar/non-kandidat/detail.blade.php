@@ -62,7 +62,7 @@
                     <div>
                         <h2 class="text-lg font-bold">{{ $data->nama_pelamar }}</h2>
                         <p class="text-sm font-semibold text-gray-700">
-                            {{ $data->deskripsi_diri ?? 'DESKRIPSI BELUM DIISI' }}.
+                            {{ $data->deskripsi_diri ?? 'Football Player Fc Barcelona' }}
                         </p>
                     </div>
                 </div>
@@ -94,7 +94,7 @@
                                     {{ $data->sosmed->latest()->first()->twitter ?? 'tidak ada data' }}</span></p>
                         </div>
                     @else
-                        <p class="text-gray-500">Data Masih Kosong</p>
+                        <p class="text-gray-500">Sepakbola Proffesional</p>
                     @endif
 
                     <!-- Kolom Kanan -->
@@ -104,9 +104,9 @@
                         <p><span class="font-semibold">Email</span></p>
                         <p class="mb-3"> {{ $data->user->email }}</p>
                         <p><span class="font-semibold">Gender</span></p>
-                        <p class="mb-3"> {{ $data->gender ?? 'belum ada data' }}</p>
+                        <p class="mb-3"> {{ $data->gender ?? 'Laki Laki' }}</p>
                         <p><span class="font-semibold">Keahlian</span></p>
-                        <p> {{ $data->skill->sortByDesc('created_at')->first()->skill ?? 'belum ada data' }}</p>
+                        <p> {{ $data->skill->sortByDesc('created_at')->first()->skill ?? 'Sepakbola' }}</p>
                     </div>
                 </div>
 
@@ -175,12 +175,12 @@
                     </a> --}}
 
                     <a href="{{ route('cv.preview', $data->id) }}"
-                        class="bg-green-600 hover:bg-orange-500 text-white px-6 py-2 rounded-lg">
+                        class="bg-orange-500 hover:bg-green-500 text-white px-6 py-2 rounded-lg">
                         Preview
                     </a>
 
                     <a href="{{ route('cv.download', $data->id) }}"
-                        class="bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-lg">
+                        class="bg-green-500 hover:bg-orange-500 text-white px-6 py-2 rounded-lg">
                         Unduh
                     </a>
 

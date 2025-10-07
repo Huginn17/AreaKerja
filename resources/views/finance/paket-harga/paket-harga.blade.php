@@ -53,12 +53,12 @@
             </div>
         </header>
 
-        <div class="p-10 font-sans">
+        <div class="p-10">
 
             {{-- Paket Harga Koin --}}
             <div class="mb-10">
                 <div class="flex justify-between items-center mb-2">
-                    <h2 class="text-lg font-semibold">Paket Harga Koin</h2>
+                    <h2 class="text-lg font-medium">Paket Harga Koin</h2>
                     <a href="{{ route('finance.paket-harga.edit-koin') }}"
                         class="bg-orange-500 text-white text-sm px-5 py-1 rounded-full">Edit</a>
                 </div>
@@ -67,15 +67,15 @@
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-orange-500 text-white">
-                                <th class="px-4 py-2 font-semibold text-lg">Nama</th>
-                                <th class="px-4 py-2 font-semibold text-lg text-right">Harga</th>
+                                <th class="px-4 py-2 font-semibold text-md">Nama</th>
+                                <th class="px-4 py-2 font-semibold text-md text-right">Harga</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($koin as $k)
                                 <tr class="border-b">
-                                    <td class="px-4 py-2">{{ $k->nama }}</td>
-                                    <td class="px-4 py-2 text-right">{{ $k->harga }}</td>
+                                    <td class="px-4 py-3">{{ $k->nama }}</td>
+                                    <td class="px-4 py-3 text-right">{{ $k->harga }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -86,7 +86,7 @@
             {{-- Paket Harga Pembayaran --}}
             <div class="mb-10">
                 <div class="flex justify-between items-center mb-2">
-                    <h2 class="text-lg font-semibold">Paket Harga Pembayaran</h2>
+                    <h2 class="text-lg font-medium">Paket Harga Pembayaran</h2>
                     <a href="{{ route('finance.paket-harga.edit-pembayaran') }}" class="bg-orange-500 text-white text-sm px-5 py-1 rounded-full">Edit</a>
                 </div>
 
@@ -94,15 +94,15 @@
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-orange-500 text-white">
-                                <th class="px-4 py-2 font-semibold text-lg">Nama</th>
-                                <th class="px-4 py-2 font-semibold text-lg text-right">Harga</th>
+                                <th class="px-4 py-2 font-semibold text-md">Nama</th>
+                                <th class="px-4 py-2 font-semibold text-md text-right">Harga</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($pembayaran as $p)
                                 <tr class="border-b">
-                                    <td class="px-4 py-2">{{ $p->nama }}</td>
-                                    <td class="px-4 py-2 text-right">Rp. {{ number_format($p->harga, 0, ',', '.') }}</td>
+                                    <td class="px-4 py-3">{{ $p->nama }}</td>
+                                    <td class="px-4 py-3 text-right">Rp. {{ number_format($p->harga, 0, ',', '.') }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

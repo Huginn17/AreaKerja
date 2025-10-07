@@ -163,7 +163,7 @@
                                         {{ Auth::user()->admin->kecamatan }}</option>
                                 @else
                                     <option selected disabled class="text-left">Pilih Kecamatan</option>
-                                    <option value="Depok">Depok</option>
+                                    <option value="Depok">Langensari</option>
                                 @endif
                             </select>
                         </div>

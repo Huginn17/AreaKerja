@@ -16,5 +16,10 @@ class KandidatController extends Controller
        return view('kandidat.kandidat-ak-selanjutnya');
     }
 
+   //  public function rekruthal()
+   //  {
+   //    return view('kandidat.rekrut-saya');
+   //  }
+
 
 }

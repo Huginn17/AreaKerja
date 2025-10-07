@@ -55,7 +55,7 @@
                     @if (Auth::user()->pelamar->kategori === 'calon kandidat')
                     <a href="{{ route('pelamar.calon-kandidat.pelatihan') }}" class="hover:text-orange-500">Rekrut Saya</a>
                     @elseif (Auth::user()->pelamar->kategori === 'kandidat aktif')
-                    <a href="{{ route('pelamar.kandidat.aktif.pelatihan') }}" class="hover:text-orange-500">Rekrut Saya</a>
+                    <a href="{{ route('pelamar.tawaran') }}" class="hover:text-orange-500">Rekrut Saya</a>
                     @else
                     <a href="{{ route('pelamar.daftar-kandidat') }}" class="hover:text-orange-500">Daftar Kandidat</a>
                     @endif

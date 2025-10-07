@@ -119,7 +119,7 @@
                 </li>
 
                 <li
-                    class="{{ request()->is('admin/pelamar') || request()->is('admin/non/kandidat') || request()->is('admin/calon/kandidat') ? 'bg-white text-gray-500' : 'text-white' }} rounded-md">
+                    class="{{ request()->is('admin/pelamar') || request()->is('admin/non/kandidat') || request()->is('admin/kandidat') || request()->is('admin/calon/kandidat') ? 'bg-white text-gray-500' : 'text-white' }} rounded-md">
                     <a href="{{ route('admin.calon-kandidat') }}"
                         class="flex font-semibold items-center mb-2 gap-3 hover:bg-white hover:text-gray-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="20" height="21" viewBox="0 0 20 21" fill="none"
@@ -158,7 +158,7 @@
                         Perusahaan
                     </a>
                 </li>
-                <li class="{{ request()->is('admin/finance') ? 'bg-white text-gray-500' : 'text-white' }} rounded-md">
+                <li class="{{ request()->is('admin/finance') || request()->is('admin/finance/tunai')  ? 'bg-white text-gray-500' : 'text-white' }} rounded-md">
                     <a href="{{ url('/admin/finance') }}"
                         class="flex font-semibold items-center mb-2 gap-3 hover:bg-white hover:text-gray-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="20" height="21" viewBox="0 0 20 21" fill="none"

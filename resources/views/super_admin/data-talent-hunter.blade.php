@@ -26,11 +26,11 @@
 
                 <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
                     <a href="#">
-                        <img src="{{ asset('images/ohim.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
+                        <img src="{{ asset('images/gambar2.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
                     </a>
                     <div class="text-sm">
-                        <div class="font-semibold">Dj Ohim</div>
-                        <div class="text-gray-500">lutung123@gmail.com</div>
+                        <div class="font-semibold">steve jobs</div>
+                        <div class="text-gray-500">stevejobs@gmail.com</div>
                     </div>
 
                     <select class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
@@ -47,7 +47,7 @@
             <div class="flex items-center gap-4">
                 <div>
                     <a href="/super_admin/tambah/perusahaan"
-                        class="bg-orange-500 border border-orange-600 text-white px-3 py-2 rounded-lg inline-flex items-center justify-center">
+                        class="bg-orange-500 hover:bg-orange-600 border border-orange-600 text-white px-3 py-2 rounded-lg inline-flex items-center justify-center">
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path d="M1.35156 10.6295H19.9094M10.6305 1.35059V19.9084" stroke="white" stroke-width="2.65112"
@@ -117,7 +117,7 @@
             <div class="flex gap-2">
                 <input type="text" placeholder="nama/username ..."
                     class="border border-gray-500 rounded-lg px-4 py-2 w-72">
-                <button class="bg-orange-500 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
+                <button class="bg-orange-500 hover:bg-orange-600 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
             </div>
         </div>
 
@@ -145,7 +145,7 @@
                             <td class="px-4 py-3">Jawa Tengah</td>
                             <td class="px-4 py-3">
                                 <a href="/super_admin/detail-perusahaan"
-                                    class="bg-orange-500 text-xs text-white px-4 py-1 rounded-lg">View</a>
+                                    class="bg-orange-500 hover:bg-orange-600 text-xs text-white px-4 py-1 rounded-lg">View</a>
                             </td>
                         </tr>
                     @endfor

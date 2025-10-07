@@ -14,6 +14,7 @@ use App\Http\Controllers\LowonganPerusahaanController;
 use App\Http\Controllers\LupaPasswordController;
 use App\Http\Controllers\PelamarController;
 use App\Http\Controllers\PelamarLowonganController;
+use App\Http\Controllers\PembeliKandidatController;
 use App\Http\Controllers\PengalamanKerjaController;
 use App\Http\Controllers\PengalamanOrgController;
 use App\Http\Controllers\PerusahaanController;
@@ -179,6 +180,11 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
     Route::get('/calon/kandidat/pelatihan', [KandidatController::class, 'rekrutHalKosong'])->name('pelamar.calon-kandidat.pelatihan')->middleware('cekKategori:calon kandidat');
     //KANDIDAT AKTIF
     Route::get('/kandidat/aktif/pelatihan', [KandidatController::class, 'rekrutHalKunci'])->name('pelamar.kandidat.aktif.pelatihan')->middleware('cekKategori:kandidat aktif');
+
+    //REKRUT SAYA
+    Route::get('/tawaran', [PembeliKandidatController::class, 'tawaran'])->name('pelamar.tawaran');
+    Route::get('/kandidat/tawaran/{id}', [PembeliKandidatController::class, 'detailTawaran'])->name('kandidat.detailTawaran');
+    Route::post('/pembeli_kandidat/{id}/status', [PembeliKandidatController::class, 'updateStatus'])->name('kandidat.updateStatus');
 });
 Route::post('/notifikasi/baca/semua', [PelamarController::class, 'bacaSemua'])->name('notifikasi.bacaSemua');
 
@@ -234,9 +240,7 @@ Route::get('/tran-tf-kosong', function () {
 Route::get('/tran-tf-qr', function () {
     return view('kandidat.transaksi-tf-qr');
 });
-Route::get('/saya-rekrut', function () {
-    return view('kandidat.rekrut-saya');
-});
+
 
 
 
@@ -714,12 +718,14 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
 
     //KANDIDAT AK
     Route::get('/kandidat/ak', [PerusahaanController::class, 'kandidat_ak'])->name('perusahaan.kandidat.ak');
+    Route::post('/kandidat/beli', [PembeliKandidatController::class, 'beli'])->name('kandidat.beli');
+
 
 
     //EVENT 
     Route::get('/event', [PerusahaanController::class, 'event'])->name('perusahaan.event.index');
     Route::get('/gabung/event/{id}', [PerusahaanController::class, 'detail'])->name('perusahaan.event.show');
-}); 
+});
 
 
 Route::get('/perusahaan/profile/baru', function () {

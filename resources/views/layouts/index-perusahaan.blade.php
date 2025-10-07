@@ -51,7 +51,8 @@
             <nav class="hidden md:flex gap-6 font-semibold text-gray-800">
                 <a href="{{ url('/beranda') }}" class="hover:text-orange-500 hover:scale-105">Berlangganan</a>
                 <a href="{{ url('/talent-hunter') }}" class="hover:text-orange-500 hover:scale-105">Talent Hunter</a>
-                <a href="{{ route('perusahaan.kandidat.ak') }}" class="hover:text-orange-500 hover:scale-105">Kandidat</a>
+                <a href="{{ route('perusahaan.kandidat.ak') }}"
+                    class="hover:text-orange-500 hover:scale-105">Kandidat</a>
                 <a href="{{ route('paket.form') }}" class="hover:text-orange-500 hover:scale-105">Pasang Lowongan</a>
                 <a href="{{ route('perusahaan.event.index') }}" class="hover:text-orange-500 hover:scale-105">Event</a>
             </nav>
@@ -281,6 +282,8 @@
     </script>
     <script src="//unpkg.com/alpinejs" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </body>
 
 </html>

@@ -82,14 +82,14 @@
                         <div>
                             <label class="block mb-1 text-sm font-medium" for="">Email</label>
                             <input type="email" value="{{ Auth::user()->email }}" disabled
-                                class="w-full border border-gray-300 shadow rounded-md px-3 py-2 text-gray-500">
+                                class="w-full border border-gray-400 shadow rounded-md px-3 py-2 text-gray-500">
 
                         </div>
                         {{-- username --}}
                         <div>
                             <label for="" class="block mb-1 text-sm font-medium">Username</label>
                             <input type="text" name="username" disabled value="{{ Auth::user()->username }}"
-                                class="w-full border border-gray-300 shadow rounded-md px-3 py-2 text-gray-500">
+                                class="w-full border border-gray-400 shadow rounded-md px-3 py-2 text-gray-500">
 
                         </div>
                     </div>
@@ -98,7 +98,7 @@
                     <div>
                         <label for="" class="block mb-1 text-sm font-medium">Nama Lengkap</label>
                         <input type="text" name="nama_lengkap" disabled value="{{ Auth::user()->admin->nama_lengkap }}"
-                            class="w-full border border-gray-300 shadow rounded-md px-3 py-2 text-gray-500">
+                            class="w-full border border-gray-400 shadow rounded-md px-3 py-2 text-gray-500">
                     </div>
 
                     {{-- provinsi,kota,kec --}}
@@ -106,7 +106,7 @@
                         <div class="mr-[25px]">
                             <label for="" class="block mb-1 text-sm font-medium">Provinsi</label>
                             <select name="provinsi" id=""
-                                class="border border-gray-300 rounded-md w-48 shadow px-2 py-2 text-sm text-gray-500"
+                                class="border border-gray-400 rounded-md w-48 shadow px-2 py-2 text-sm text-gray-500"
                                 disabled>
                                 @if (Auth::user()->admin->provinsi)
                                     <option selected>{{ Auth::user()->admin->provinsi }}</option>
@@ -118,7 +118,7 @@
                         <div class="mr-[25px]">
                             <label for="" class="block mb-1 mr-10 text-sm font-medium">Kota/Kabupaten</label>
                             <select name="kota" id=""
-                                class="border border-gray-300 rounded-md shadow w-48 py-2 px-2 text-sm text-gray-500"
+                                class="border border-gray-400 rounded-md shadow w-48 py-2 px-2 text-sm text-gray-500"
                                 disabled>
                                 @if (Auth::user()->admin->kota)
                                     <option selected>{{ Auth::user()->admin->kota }}</option>
@@ -131,7 +131,7 @@
                         <div>
                             <label for="" class="block mb-1 mr-10 text-sm font-medium">Kecamatan</label>
                             <select name="kota" id=""
-                                class="border border-gray-300 rounded-md shadow w-48 py-2 px-3 text-sm text-gray-500"
+                                class="border border-gray-400 rounded-md shadow w-48 py-2 px-3 text-sm text-gray-500"
                                 disabled>
                                 @if (Auth::user()->admin->kecamatan)
                                     <option selected>{{ Auth::user()->admin->kecamatan }}</option>
@@ -146,24 +146,24 @@
                     <div class="flex">
                         <div class="mr-2">
                             <label class="block mb-1 text-sm font-medium">Desa</label>
-                            <input type="text" name="desa" value="{{ Auth::user()->admin->desa }}" disabled class="w-48 border  border-gray-300 shadow rounded-md px-3 py-2 text-gray-500">
+                            <input type="text" name="desa" value="{{ Auth::user()->admin->desa }}" disabled class="w-48 border  border-gray-400 shadow rounded-md px-3 py-2 text-gray-500">
                         </div>
                         <div class="ml-5">
                             <label class="block mb-1 text-sm font-medium">Kode Pos</label>
-                            <input type="text" name="kode_pos" value="{{ Auth::user()->admin->kode_pos }}" disabled class="w-48 border border-gray-300 shadow rounded-md px-3 py-2 text-gray-500 ">
+                            <input type="text" name="kode_pos" value="{{ Auth::user()->admin->kode_pos }}" disabled class="w-48 border border-gray-400 shadow rounded-md px-3 py-2 text-gray-500 ">
                         </div>
                     </div>
 
                     {{-- detail --}}
                     <div>
                         <label for="" class="block mb-1 text-sm font-medium">Detail Lainnya</label>
-                        <input type="text" name="detail_alamat" value="{{ Auth::user()->admin->detail_alamat }}" disabled class="w-full border border-gray-300 shadow rounded-md px-3 py-2 text-gray-500">
+                        <input type="text" name="detail_alamat" value="{{ Auth::user()->admin->detail_alamat }}" disabled class="w-full border border-gray-400 shadow rounded-md px-3 py-2 text-gray-500">
                     </div>
 
                     {{-- button --}}
                     <div class="flex justify-center mt-4">
                         <a href="{{ url('/admin/edit/profile') }}"
-                            class="bg-gray-700 text-white px-12 py-2 rounded-lg">Edit</a>
+                            class="bg-gray-600 hover:bg-gray-500 text-white px-12 py-2 rounded-lg">Edit</a>
                     </div>
             </div>
 

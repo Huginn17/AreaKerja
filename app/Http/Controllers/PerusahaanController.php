@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\AlamatPerusahaan;
 use App\Models\CatatanCash;
+use App\Models\DaftarBank;
 use App\Models\Event;
+use App\Models\HargaPembayaran;
 use App\Models\LowonganPerusahaan;
 use App\Models\Pelamar;
 use App\Models\PelamarLowongan;
@@ -220,6 +222,8 @@ class PerusahaanController extends Controller
         $pelamars = $query->get();
 
         return view('perusahaan.kandidat-areakerja', [
+            'hargaPembayarans' => HargaPembayaran::all(),
+            'daftarBank' => DaftarBank::all(),
             'skills' => $skills,
             'umurRange' => $umurRange,
             'genders' => $genders,
@@ -235,7 +239,7 @@ class PerusahaanController extends Controller
     public function event()
     {
         $events = Event::latest()->get();
-        return view('perusahaan.event.event',[
+        return view('perusahaan.event.event', [
             'events' => $events
         ]);
     }
@@ -243,10 +247,8 @@ class PerusahaanController extends Controller
     public function detail($id)
     {
         $event = Event::with('kegiatan')->findOrFail($id);
-        return view('perusahaan.event.gabung-event',[
+        return view('perusahaan.event.gabung-event', [
             'event' => $event
         ]);
     }
-
-
 }

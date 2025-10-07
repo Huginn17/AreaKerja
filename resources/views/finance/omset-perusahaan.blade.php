@@ -3,7 +3,7 @@
     <div class="p-4 sm:ml-64">
         <!-- Header -->
         <header class="w-full flex items-center justify-between px-6 py-3">
-            <p class="font-semibold text-2xl">Omset Perusahaan </p>
+            <p class="font-medium text-2xl">Omset Perusahaan </p>
             <div class="flex items-center gap-3">
                 <svg width="31" height="32" viewBox="0 0 31 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_722_7956)">
@@ -33,7 +33,7 @@
 
                         <!-- Nama + Email -->
                         <div class="flex flex-col">
-                            <span class="text-sm font-semibold text-gray-800">Seven Inc</span>
+                            <span class="text-sm font-medium text-gray-800">Seven Inc</span>
                             <span class="text-xs text-gray-500">financeseven@gmail.com</span>
                         </div>
                     </div>
@@ -54,103 +54,51 @@
         </header>
 
 
-        <div class="p-10 font-sans">
+        <div class="p-10">
 
 
             {{-- paket harga koin --}}
             <div class="mb-10">
-                <div class="flex justify-between items-center mb-2">
-                    <h2 class=" text-lg font-semibold mb-2">Tampilkan Omset Perusahaan</h2>
-                    <select class="border-2 border-orange-500 rounded-lg px-3 py-2 text-sm ml-[50%]">
-                        <option selected">Bulan</option>
-                        <option value="">1 Bulan Terakhir</option>
-                        <option value="">3 Bulan Terakhir</option>
-                    </select>
-                    <button
-                        class="bg-orange-500 hover:bg-orange-600 text-white text-sm px-10 py-3 font-medium rounded-2xl ml-auto">Cari</button>
+                <div class="flex items-center justify-between gap-4 mb-2">
+                    <h2 class="text-lg font-medium">Tampilkan Omset Perusahaan</h2>
+
+                    <div class="flex items-center gap-4">
+                        <select class="border-2 border-orange-500 rounded-lg px-3 py-2 text-sm">
+                            <option selected>Bulan</option>
+                            <option value="">1 Bulan Terakhir</option>
+                            <option value="">3 Bulan Terakhir</option>
+                        </select>
+
+                        <button
+                            class="bg-orange-500 hover:bg-orange-600 text-white text-sm px-10 py-3 font-medium rounded-2xl">
+                            Cari
+                        </button>
+                    </div>
                 </div>
+
                 <div class="border border-gray-300 rounded-2xl overflow-hidden w-full">
-
-                    {{-- header --}}
-                    <div class="flex justify-center items-center bg-orange-500 text-white px-4 py-2">
-                        <div class=" font-semibold text-lg">Daftar Omset Perusahaan</div>
+                    {{-- Header --}}
+                    <div class="flex justify-center items-center bg-orange-500 text-white px-4 py-3">
+                        <div class="font-medium text-lg">Daftar Omset Perusahaan</div>
                     </div>
 
-                    {{-- isi tabel --}}
-                    <div class="bg-white text-sm">
-                        <div class="flex px-4 py-3 border-b border-gray-400">
-                            <div class="w-1/2  border-gray-300 font-semibold text-lg">Januari 2023</div>
-                            <div class="w-1/2 text-right font-semibold text-lg">Rp. 3.000.000</div>
-                        </div>
-                    </div>
+                    {{-- Isi Tabel --}}
+                    <div class="relative bg-white text-sm">
+                        <!-- Garis vertikal penuh -->
+                        <div class="absolute left-1/2 top-0 bottom-0 w-px bg-gray-300"></div>
 
-
-
-                    {{-- isi tabel --}}
-                    <div class="bg-white text-sm">
-                        <div class="flex px-4 py-3 border-b border-gray-400">
-                            <div class="w-1/2  border-gray-300 font-semibold text-lg">Januari 2023</div>
-                            <div class="w-1/2 text-right font-semibold text-lg">Rp. 3.000.000</div>
-                        </div>
-                    </div>
-
-
-                    {{-- isi tabel --}}
-                    <div class="bg-white text-sm">
-                        <div class="flex px-4 py-3 border-b border-gray-400">
-                            <div class="w-1/2  border-gray-300 font-semibold text-lg">Januari 2023</div>
-                            <div class="w-1/2 text-right font-semibold text-lg">Rp. 3.000.000</div>
-                        </div>
-                    </div>
-
-
-                    {{-- isi tabel --}}
-                    <div class="bg-white text-sm">
-                        <div class="flex px-4 py-3 border-b border-gray-400">
-                            <div class="w-1/2  border-gray-300 font-semibold text-lg">Januari 2023</div>
-                            <div class="w-1/2 text-right font-semibold text-lg">Rp. 3.000.000</div>
-                        </div>
-                    </div>
-
-
-                    {{-- isi tabel --}}
-                    <div class="bg-white text-sm">
-                        <div class="flex px-4 py-3 border-b border-gray-400">
-                            <div class="w-1/2  border-gray-300 font-semibold text-lg">Januari 2023</div>
-                            <div class="w-1/2 text-right font-semibold text-lg">Rp. 3.000.000</div>
-                        </div>
-                    </div>
-
-
-                    {{-- isi tabel --}}
-                    <div class="bg-white text-sm">
-                        <div class="flex px-4 py-3 border-b border-gray-400">
-                            <div class="w-1/2  border-gray-300 font-semibold text-lg">Januari 2023</div>
-                            <div class="w-1/2 text-right font-semibold text-lg">Rp. 3.000.000</div>
-                        </div>
-                    </div>
-
-
-                    {{-- isi tabel --}}
-                    <div class="bg-white text-sm">
-                        <div class="flex px-4 py-3 border-b border-gray-400">
-                            <div class="w-1/2  border-gray-300 font-semibold text-lg">Januari 2023</div>
-                            <div class="w-1/2 text-right font-semibold text-lg">Rp. 3.000.000</div>
-                        </div>
-                    </div>
-
-
-                    {{-- isi tabel --}}
-                    <div class="bg-white text-sm">
-                        <div class="flex px-4 py-3 border-b border-gray-400">
-                            <div class="w-1/2  border-gray-300 font-semibold text-lg">Januari 2023</div>
-                            <div class="w-1/2 text-right font-semibold text-lg">Rp. 3.000.000</div>
-                        </div>
+                        @for ($i = 0; $i < 8; $i++)
+                            <div class="flex px-4 py-3 border-b border-gray-300 relative">
+                                <div class="w-1/2 font-medium text-lg">Januari 2023</div>
+                                <div class="w-1/2 text-right font-medium text-lg">Rp. 3.000.000</div>
+                            </div>
+                        @endfor
                     </div>
                 </div>
+
             </div>
 
-            <ul class="text-md font-semibold ">
+            <ul class="text-md font-medium ">
                 <li class="py-2 text-lg">Total Omset<span class="pl-3 text-lg">: RP. 24.000.000</span></li>
                 <li class="py-2 text-lg">Rata Rata<span class="pl-8 text-lg">: RP. 3.000.000</span></li>
             </ul>

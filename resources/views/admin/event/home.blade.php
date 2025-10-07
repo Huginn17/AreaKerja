@@ -65,20 +65,19 @@
                 </div>
 
 
-                {{-- Table --}}
-                <div class="w-full border border-gray-300 rounded-2xl shadow-md">
-                    <table class="w-full">
-                        <thead>
-                            <tr class="text-center">
-                                <th class="p-7 font-semibold text-gray-700">Status</th>
-                                <th class="p-7 font-semibold text-gray-700">Nama</th>
-                                {{-- <th class="p-7 font-semibold text-gray-700">Pendaftran</th> --}}
-                                <th class="p-7 font-semibold text-gray-700">Kuota</th>
-                                <th class="p-7 font-semibold text-gray-700">Mulai</th>
-                                <th class="p-7 font-semibold text-gray-700">Selesai</th>
-                                <th class="p-7 font-semibold text-gray-700">Aksi</th>
-                            </tr>
-                        </thead>
+               {{-- Table --}}
+          <div class="w-full border border-gray-300 rounded-3xl shadow-md overflow-hidden">
+  <table class="w-full table-fixed border-collapse">
+    <thead class="bg-gray-50">
+      <tr class="text-center">
+        <th class="p-4 font-semibold text-gray-700 text-center w-[15%]">Status</th>
+        <th class="p-4 font-semibold text-gray-700 w-[65%]">Nama</th>
+        <th class="p-4 font-semibold text-gray-700 w-[10%]">Kuota</th>
+        <th class="p-4 font-semibold text-gray-700 w-[25%]">Mulai</th>
+        <th class="p-4 font-semibold text-gray-700 w-[25%]">Selesai</th>
+        <th class="p-4 font-semibold text-gray-700 w-[10%]">Aksi</th>
+      </tr>
+    </thead>    
                         <tbody>
                             @forelse ($events as $event)
                                 <tr class="text-center">

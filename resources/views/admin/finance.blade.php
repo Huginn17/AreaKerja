@@ -28,7 +28,7 @@
 
                 <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
                     <a href="#">
-                        <img src="{{ asset('images/ohim.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
+                        <img src="{{ asset('images/ngobrol2.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
                     </a>
                     <div class="text-sm">
                         <div class="font-semibold">Ronaldo</div>
@@ -49,7 +49,8 @@
                 <!-- Toggle Buttons -->
 
                 <a href="{{ url('/admin/finance') }}" 
-                  class="{{ request()->is('admin/finance') ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-500 border-gray-500 hover:bg-gray-500 hover:text-white' }} px-8 py-2 text-md font-medium border-2 rounded-lg transition duration-300">
+                  class="{{ request()->is('admin/finance') ? 'bg-gray-500 hover:bg-gray-700
+                  text-white border-gray-500' : 'bg-white text-gray-500 border-gray-500 hover:bg-gray-500 hover:text-white' }} px-8 py-2 text-md font-medium border-2 rounded-lg transition duration-300">
                    Koin</a>
                 <a href="{{ url('/admin/finance/tunai') }}" 
                   class="{{ request()->is('admin/finance/tunai') ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-500 border-gray-500 hover:bg-gray-500 hover:text-white' }} px-8 py-2 text-md font-medium border-2 rounded-lg transition duration-300">
@@ -72,11 +73,11 @@
                 </div>
 
                 <!-- Tombol Cari -->
-                <button class="px-8 py-2 rounded-lg border border-gray-600 text-white bg-gray-600">Cari</button>
+                <button class="px-8 py-2 rounded-lg border border-gray-600 text-white bg-gray-500 hover:bg-gray-600">Cari</button>
             </div>
 
             <!-- Table -->
-            <div id="table_koin" class="rounded-2xl border border-gray-300 overflow-hidden">
+            <div id="table_koin" class="rounded-2xl border border-gray-400 overflow-hidden">
                 <table class="w-full text-sm text-left">
                     <thead class="bg-white">
                         <tr class="text-center">
@@ -92,7 +93,7 @@
                     </thead>
                     <tbody>
                         <!-- Baris -->
-                        <tr class="border-b text-center">
+                        <tr class="border-b-[2px] border-gray-300 text-center">
                             <td class="px-4 py-2">1</td>
                             <td class="px-4 py-2">991773493631</td>
                             <td class="px-4 py-2">Open CV</td>
@@ -113,7 +114,7 @@
                             <td>
                         </tr>
 
-                         <tr class="border-b text-center">
+                         <tr class="border-b-[2px] border-gray-300 text-center">
                             <td class="px-4 py-2">2</td>
                             <td class="px-4 py-2">991773493631</td>
                             <td class="px-4 py-2">Open CV</td>
@@ -132,8 +133,8 @@
                         </tr>
 
                            
-                         <tr class="border-b text-center">
-                            <td class="px-4 py-2">2</td>
+                     <tr class="border-b-[2px] border-gray-300 text-center">
+                            <td class="px-4 py-2">3</td>
                             <td class="px-4 py-2">991773493631</td>
                             <td class="px-4 py-2">Open CV</td>
                             <td class="px-4 py-2">AppleCorp.</td>
@@ -152,8 +153,8 @@
 
 
                            
-                         <tr class="border-b text-center">
-                            <td class="px-4 py-2">2</td>
+                          <tr class="border-b-[2px] border-gray-300 text-center">
+                            <td class="px-4 py-2">4</td>
                             <td class="px-4 py-2">991773493631</td>
                             <td class="px-4 py-2">Open CV</td>
                             <td class="px-4 py-2">AppleCorp.</td>
@@ -172,8 +173,8 @@
 
 
                            
-                         <tr class="border-b text-center">
-                            <td class="px-4 py-2">2</td>
+                          <tr class="border-b-[2px] border-gray-300 text-center">
+                            <td class="px-4 py-2">5</td>
                             <td class="px-4 py-2">991773493631</td>
                             <td class="px-4 py-2">Open CV</td>
                             <td class="px-4 py-2">AppleCorp.</td>
@@ -191,8 +192,8 @@
                         </tr>
 
                           <!-- Baris -->
-                        <tr class="border-1 text-center">
-                            <td class="px-4 py-2">1</td>
+                         <tr class="border-b-[2px] border-gray-300 text-center">
+                            <td class="px-4 py-2">6</td>
                             <td class="px-4 py-2">991773493631</td>
                             <td class="px-4 py-2">Open CV</td>
                             <td class="px-4 py-2">AppleCorp.</td>

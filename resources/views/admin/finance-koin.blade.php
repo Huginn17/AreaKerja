@@ -77,7 +77,7 @@
             </div>
 
             <!-- Table -->
-            <div id="table_koin" class="rounded-2xl border border-gray-300 overflow-hidden">
+            <div id="table_koin" class="rounded-2xl border border-gray-340 overflow-hidden">
                 <table class="w-full text-sm text-left">
                     <thead class="bg-white">
                         <tr class="text-center border-2">
@@ -133,7 +133,7 @@
                         </tr>
 
                               <tr class="border-2 text-center">
-                            <td class="px-4 py-2">2</td>
+                            <td class="px-4 py-2">3</td>
                             <td class="px-4 py-2">991773493631</td>
                             <td class="px-4 py-2">Open CV</td>
                             <td class="px-4 py-2">AppleCorp.</td>
@@ -154,7 +154,7 @@
                         </tr>
                          
                             <tr class="border-2 text-center">
-                            <td class="px-4 py-2">2</td>
+                            <td class="px-4 py-2">4</td>
                             <td class="px-4 py-2">991773493631</td>
                             <td class="px-4 py-2">Open CV</td>
                             <td class="px-4 py-2">AppleCorp.</td>
@@ -176,7 +176,7 @@
 
                            <!-- Baris -->
                         <tr class="border-2 text-center">
-                            <td class="px-4 py-2">1</td>
+                            <td class="px-4 py-2">5</td>
                             <td class="px-4 py-2">991773493631</td>
                             <td class="px-4 py-2">Open CV</td>
                             <td class="px-4 py-2">AppleCorp.</td>

@@ -6,7 +6,7 @@
             <p class="font-semibold text-2xl">Catatan Transaksi</p>
         </header>
 
-        <div class="p-4">
+        <div class="p-6">
             <div class="mb-8">
                 <h2 class="text-lg font-semibold mb-2">Riwayat Tunai</h2>
                 <div class="rounded-2xl overflow-hidden border">

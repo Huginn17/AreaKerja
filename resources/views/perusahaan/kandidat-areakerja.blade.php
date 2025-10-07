@@ -112,27 +112,30 @@
                     <p class="text-yellow-500 font-semibold text-4xl">{{ $perusahaan->koin_perusahaan ?? 0 }}</p>
                     <img src="{{ asset('images/coin.png') }}" alt="coin" class="w-10 h-10 ml-2">
                 </span>
-                <a href="#" class="flex items-center text-green-600 text-sm font-medium hover:text-green-500 mt-2">
+                <button onclick="toggleModal()" class="flex items-center text-green-600 text-sm font-medium">
                     <p class="mr-2">Top Up Koin</p>
-                    <svg width="21" height="21" viewBox="0 0 21 21" fill="none"
+                    <!-- icon + -->
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                        <mask id="mask0_2997_13201" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                            width="21" height="21">
-                            <rect width="20.4918" height="20.4918" fill="url(#pattern0_2997_13201)" />
+                        <mask id="mask0_614_15612" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="22" height="22">
+                            <rect x="0.53125" y="0.722656" width="20.4918" height="20.4918"
+                                fill="url(#pattern0_614_15612)" />
                         </mask>
-                        <g mask="url(#mask0_2997_13201)">
-                            <rect x="0.242188" y="0.246094" width="20" height="20" fill="#42BB72" />
+                        <g mask="url(#mask0_614_15612)">
+                            <rect x="0.773438" y="0.96875" width="20" height="20" fill="#42BB72" />
                         </g>
                         <defs>
-                            <pattern id="pattern0_2997_13201" patternContentUnits="objectBoundingBox" width="1"
+                            <pattern id="pattern0_614_15612" patternContentUnits="objectBoundingBox" width="1"
                                 height="1">
-                                <use xlink:href="#image0_2997_13201" transform="scale(0.0104167)" />
+                                <use xlink:href="#image0_614_15612" transform="scale(0.0104167)" />
                             </pattern>
-                            <image id="image0_2997_13201" width="96" height="96" preserveAspectRatio="none"
+                            <image id="image0_614_15612" width="96" height="96" preserveAspectRatio="none"
                                 xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAABmJLR0QA/wD/AP+gvaeTAAAEhUlEQVR4nO2dz48URRTHP47ouCPIL1kJRBc9AAdNIF6JhkVMjEwg/uJEOHhBvUDgjyASJRIve9UbBxU5GvGCePRHlMCGRUPWFQPyQxDwsnCoISyrs/W6q6pf9fT7JN/Mpabn9fdNdXV3Vb8GwzAMwzAMwzCaxgPaAXgYBtYDa2ZoGHgUWNz7BPgHuNz7/BMYB04Bp4HvgQuVRl2A3BLQATYDo8BG4FnCY7wN/Awc6+kr4GbgNgeKFrABGAOu4gxLqRvAYaALPFjB/mXLI8C7wFnSm95PE8A7vVgaQwfYB0yhZ/xsTQF7e7ENNF3gV/QN76dJ4M1ke6/IKuAo+gZLdQQYSeKEAtuAS+ibWlRXge0J/KiMNvAR+kaGaqy3L7ViKfAd+ubF0rfAkqgOJWQF8BP6psXWSeCpiD4lYS1wDn2zUulcbx+zZCXwG/ompdYkGZ4hLcV1UW1zqtI47qZgFrQZrAFXqhNkcnb0MfpmaOlQBP+CeAN9E7T1erCLJVkFXBEEOOi6jNKg/GWJYAdVRwK9LMy2SIEPkrpBjhagg+75vg+tuM4CQ4L47qNV9AvAe2R4IZIBTwO7Uv9IG/gd3a7uQzO2PyjYC4r2gLdxN9uM/2c5sDPVxlvoTqDXoQfcxk30i5fSFOkBL+KOc8bcPAO8IG1cJAE7isfSWMReSbvKEG6AWVgqnLj4YpYcplLzN2488K7Ak/aAl8nD/LrwGLBJ0lCagNHysTSWjZJG0gSINmbch+hPKxkDhoHzwrZVUIcxAGAaeAK4OFcjSQ9YTz7m14kWsE7SyMea8Fgai9c7S0BaoiRgdYRAmoo3AfMEG1keIZCZpB5PYjzSFAuvd5IesCBCIE3F650lIC1REjA/QiBNJUoCjIRIEnA9eRSDyzVfA0kCvBsx+mIJUCZKAs5HCGQmuc8Jx8TrnSQB4xECaSqnfQ0kCfBuxOiLJUAZr3eS+ybLcDV4cpkTqNOEzDDw11yNJD3gAq7ejlGMH/GYD/Ir4WNhsTQSkWeWgHR8I2lkC7PSEH1h1k3gs5CIGsZhhHXpitwN/bRcLI0kiVct3NJr7eXfPrTjO0Oi5enTwAcF2jeVAyQch+wRpbk1RcEKjEVnxP4FPiz4nSbxPnAr9Y900K186EMrrglKPKZallcq2KG6aUuQoyWwUgX39Hmgl6UYwRWq0N55bV1CsZZcF3d6qm2ClqaB14JdDOQQ+kZo6WAE/4Jp4+pqaptRtY4DD0fwLwoLcRMQ2qZUpV/IsJBrk8pWZlvAtQmFW7N/YmgFg3k4Ogk8GdGnpCzB1dXUNi2WjpPhMd/HQ8B+6n+dMEZGZztl2Ep9X+DwVgI/VBihXveOviDjM50QuuRRdaufJoBXk+19JnSAPejPrM3UJLCbCu/n50Ab9xI1zYn+CVypySyqoGvyPO6FPxdJb/oV4BPgJTJYcKwewCyGcJWmRnt6jvAnOadx77S5+zLPr6lg3lZKbgmYzeO4cjmrcbc57r7OdgGwiHvPMF/H/bOv8d/X2f6Ap2aPYRiGYRiGYRhGldwBFK9RwjpRCLwAAAAASUVORK5CYII=" />
                         </defs>
                     </svg>
-                </a>
+
+                </button>
             </div>
         </div>
     </div>
@@ -175,9 +178,17 @@
                             </button>
                         </td>
                         <td class="py-3 px-4">
+                            @php
+                                $sudahPernahDibeli = \App\Models\PembeliKandidat::where('pelamar_id', $p->id)
+                                    ->whereHas('lowonganPerusahaan', function ($q) use ($perusahaan) {
+                                        $q->where('perusahaan_id', $perusahaan->id);
+                                    })
+                                    ->exists();
+                            @endphp
                             <button
-                                class="bg-green-500 hover:bg-green-600 text-white px-10 py-2 rounded-md text-xs font-medium">
-                                Beli
+                                class="btn-beli {{ $sudahPernahDibeli ? 'bg-gray-600 hover:bg-gray-700' : 'bg-green-500 hover:bg-green-600' }} text-white px-10 py-2 rounded-md text-xs font-medium"
+                                data-id="{{ $p->id }}">
+                                {{ $sudahPernahDibeli ? 'Beli Lagi' : 'Beli' }}
                             </button>
                         </td>
                     </tr>
@@ -220,6 +231,98 @@
         </div>
     </div>
 
+    <!-- Modal Pilih Lowongan -->
+    <div id="modalPilihLowongan"
+        class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 transition-all">
+        <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-md text-center animate-fade-in">
+            <h3 class="text-xl font-semibold mb-4 text-gray-800">Pilih Lowongan</h3>
+            <select id="selectLowongan"
+                class="w-full border rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:outline-none">
+                @foreach (auth()->user()->perusahaan->lowonganPerusahaans as $low)
+                    <option value="{{ $low->id }}">{{ $low->nama }}</option>
+                @endforeach
+            </select>
+            <div class="flex justify-center gap-4 mt-6">
+                <button id="btnLanjut"
+                    class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-md transition-all">Lanjutkan</button>
+                <button id="btnCancel1"
+                    class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-5 py-2 rounded-md transition-all">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ Modal Pilih Lowongan -->
+    <div id="modalPilihLowongan"
+        class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 transition-all">
+        <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-md text-center animate-fade-in">
+            <h3 class="text-xl font-semibold mb-4 text-gray-800">Pilih Lowongan</h3>
+            <select id="selectLowongan"
+                class="w-full border rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:outline-none">
+                <option value="">-- Pilih Lowongan --</option>
+                @foreach (auth()->user()->perusahaan->lowonganPerusahaans as $low)
+                    <option value="{{ $low->id }}">{{ $low->nama }}</option>
+                @endforeach
+            </select>
+            <div class="flex justify-center gap-4 mt-6">
+                <button id="btnLanjut"
+                    class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-md transition-all">
+                    Lanjutkan
+                </button>
+                <button id="btnCancel1"
+                    class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-5 py-2 rounded-md transition-all">
+                    Batal
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Konfirmasi -->
+    <div id="modalKonfirmasi"
+        class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 transition-all">
+        <div
+            class="bg-white p-10 rounded-2xl shadow-xl w-[360px] text-center animate-fade-in flex flex-col items-center justify-center space-y-5">
+
+            <!-- Nominal Koin -->
+            <div class="flex items-center justify-center space-x-2">
+                <span class="text-4xl font-bold text-yellow-500">100</span>
+                <img src="{{ asset('images/coin.png') }}" alt="coin" class="w-8 h-8">
+            </div>
+
+            <!-- Teks -->
+            <p class="text-gray-800 font-medium">Beli kandidat area kerja</p>
+
+            <!-- Tombol -->
+            <div class="flex items-center justify-center space-x-4">
+                <button id="btnKonfirmasiBeli"
+                    class="bg-green-500 hover:bg-green-600 text-white font-medium px-8 py-2 rounded-full transition-all">
+                    Beli
+                </button>
+                <button id="btnKonfirmasiBatal"
+                    class="bg-red-500 hover:bg-red-600 text-white font-medium px-8 py-2 rounded-full transition-all">
+                    Batal
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ Modal Top Up -->
+    <div id="modalTopUp"
+        class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 transition-all">
+        <div
+            class="bg-white p-10 rounded-2xl shadow-xl w-[360px] text-center animate-fade-in flex flex-col items-center justify-center space-y-5">
+            <h2 class="text-2xl font-semibold italic text-gray-800">Upss!!</h2>
+            <p class="text-gray-600 leading-relaxed text-sm">
+                Koin anda kurang silahkan <br> Top Up terlebih dahulu.
+            </p>
+            <a href="{{ route('perusahaan.kandidat.ak') }}"
+                class="bg-orange-500 hover:bg-orange-600 text-white font-medium px-8 py-2 rounded-full transition-all text-sm">
+                Top Up
+            </a>
+        </div>
+    </div>
+
+    @include('perusahaan.modal-topup')
+
     <script>
         let selectedId = null;
 
@@ -247,6 +350,156 @@
             document.getElementById('successModal').classList.add('hidden');
         }
     </script>
+
+    <script>
+        const harga = 100;
+        let selectedPelamarId = null;
+        let selectedLowonganId = null;
+
+        const modalPilih = document.getElementById('modalPilihLowongan');
+        const modalKonfirmasi = document.getElementById('modalKonfirmasi');
+        const modalTopUp = document.getElementById('modalTopUp');
+        const selectLowongan = document.getElementById('selectLowongan');
+
+        // 🔸 Buka modal pilih lowongan
+        document.querySelectorAll('.btn-beli').forEach(btn => {
+            btn.addEventListener('click', function() {
+                selectedPelamarId = this.dataset.id;
+                modalPilih.classList.remove('hidden');
+            });
+        });
+
+        // 🔸 Tombol lanjut dari modal pilih lowongan
+        document.getElementById('btnLanjut').addEventListener('click', () => {
+            selectedLowonganId = selectLowongan.value;
+            if (!selectedLowonganId) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Pilih Lowongan',
+                    text: '⚠️ Pilih lowongan terlebih dahulu!',
+                    confirmButtonColor: '#3085d6',
+                });
+                return;
+            }
+            modalPilih.classList.add('hidden');
+            modalKonfirmasi.classList.remove('hidden');
+            document.getElementById('hargaKoin').textContent = harga;
+        });
+
+        // 🔸 Tombol batal di modal pilih lowongan
+        document.getElementById('btnCancel1').addEventListener('click', () => {
+            modalPilih.classList.add('hidden');
+        });
+
+        // 🔸 Tombol konfirmasi beli
+        document.getElementById('btnKonfirmasiBeli').addEventListener('click', async () => {
+            modalKonfirmasi.classList.add('hidden');
+
+            try {
+                const res = await fetch("{{ route('kandidat.beli') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({
+                        pelamar_id: selectedPelamarId,
+                        lowongan_perusahaan_id: selectedLowonganId
+                    })
+                });
+
+                let data = {};
+                try {
+                    data = await res.json();
+                } catch (jsonErr) {
+                    console.warn('Respon bukan JSON:', jsonErr);
+                }
+
+                if (!res.ok) {
+                    throw new Error(data.message || `HTTP Error ${res.status}`);
+                }
+
+                // --- jika sukses ---
+                if (data.status === 'success' || data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Pembelian Berhasil!',
+                        text: 'Data kandidat berhasil dibeli.',
+                        confirmButtonColor: '#22c55e',
+                    });
+
+                    const btn = document.querySelector(`.btn-beli[data-id="${selectedPelamarId}"]`);
+                    if (btn) {
+                        btn.textContent = 'Beli Lagi';
+                        btn.classList.remove('bg-green-500', 'hover:bg-green-600');
+                        btn.classList.add('bg-gray-600', 'hover:bg-gray-700');
+                        // ❌ jangan pakai btn.disabled = true
+                    }
+
+                    return;
+                }
+
+
+                // --- jika gagal karena koin ---
+                if (data.message && data.message.toLowerCase().includes('koin')) {
+                    // langsung buka modal top up
+                    modalTopUp.classList.remove('hidden');
+                    return;
+                }
+
+
+                // --- fallback error lainnya ---
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: data.message || 'Terjadi kesalahan.',
+                    confirmButtonColor: '#d33'
+                });
+
+            } catch (err) {
+                console.error('Fetch Error:', err);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Koneksi Bermasalah',
+                    text: '⚠️ Terjadi kesalahan koneksi, coba lagi nanti.',
+                    confirmButtonColor: '#d33'
+                });
+            }
+        });
+
+        // 🔸 Tombol batal di modal konfirmasi
+        document.getElementById('btnKonfirmasiBatal').addEventListener('click', () => {
+            modalKonfirmasi.classList.add('hidden');
+        });
+
+        // 🔸 Tutup modal Top Up jika klik di luar
+        modalTopUp.addEventListener('click', e => {
+            if (e.target === modalTopUp) {
+                modalTopUp.classList.add('hidden');
+            }
+        });
+    </script>
+
+    <style>
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fade-in 0.25s ease-out;
+        }
+    </style>
+
+
 
     @include('layouts.footer')
 @endsection

@@ -25,4 +25,27 @@ class Perusahaan extends Model
     {
         return $this->hasMany(LowonganPerusahaan::class, 'perusahaan_id');
     }
+
+    public function lowonganPerusahaans()
+    {
+        return $this->hasMany(LowonganPerusahaan::class, 'perusahaan_id');
+    }
+
+
+    public function pembelianKandidats()
+    {
+        return $this->hasManyThrough(
+            PembeliKandidat::class,
+            LowonganPerusahaan::class,
+            'perusahaan_id',            // FK di lowongan_perusahaans
+            'lowongan_perusahaan_id',   // FK di pembeli_kandidats
+            'id',                       // PK di perusahaans
+            'id'                        // PK di lowongan_perusahaans
+        );
+    }
+
+    public function catatanKoins()
+    {
+        return $this->hasMany(CatatanKoin::class, 'user_id', 'user_id');
+    }
 }

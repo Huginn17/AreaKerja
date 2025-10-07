@@ -82,7 +82,7 @@
                                <tr class="text-center">
                                 <td class="px-6 py-3 text-white">
                                     @if ($event->status == 'buka')
-                                        <span class="bg-green-500 hover:bg-green-700 px-5 py-1 rounded-lg whitespace-nowrap">Buka</span>
+                                        <span class="bg-green-500 px-5 py-1 rounded-lg whitespace-nowrap">Buka</span>
                                     @elseif ($event->status == 'tutup')
                                         <span class="bg-red-500 px-5 py-1 rounded-lg whitespace-nowrap">Tutup</span>
                                     @else

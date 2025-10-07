@@ -14,4 +14,9 @@ class CatatanKoin extends Model
     public function user() {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function pembelikandidat()
+    {
+        return $this->belongsTo(PembeliKandidat::class, 'no_referensi', 'no_referensi');
+    }
 }

@@ -33,10 +33,15 @@ class LowonganPerusahaan extends Model
 
     public function pelamar()
     {
-        return $this->belongsToMany(Pelamar::class, 'pelamar_lowongans', 'lowongan_id', 'pelamar_id')->withPivot('status','created_at','updated_at');
+        return $this->belongsToMany(Pelamar::class, 'pelamar_lowongans', 'lowongan_id', 'pelamar_id')->withPivot('status', 'created_at', 'updated_at');
     }
 
-     protected $casts = [
+    public function pembelianKandidat()
+    {
+        return $this->hasMany(PembeliKandidat::class, 'lowongan_perusahaan_id');
+    }
+
+    protected $casts = [
         'published_at' => 'datetime',
         'expired_at'   => 'datetime',
     ];

@@ -72,6 +72,11 @@ class Pelamar extends Model
         return $this->hasMany(SimpanLowongan::class, 'pelamar_id');
     }
 
+    public function pembelianKandidat()
+    {
+        return $this->hasMany(PembeliKandidat::class, 'pelamar_id');
+    }
+
     // public function pelamar_lowongan()
     // {
     //     return 

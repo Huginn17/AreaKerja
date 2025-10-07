@@ -26,11 +26,11 @@
 
                 <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
                     <a href="#">
-                        <img src="{{ asset('images/ohim.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
+                        <img src="{{ asset('images/ngobrol2.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
                     </a>
                     <div class="text-sm">
-                        <div class="font-semibold">Dj Ohim</div>
-                        <div class="text-gray-500">lutung123@gmail.com</div>
+                        <div class="font-semibold">steve jobs</div>
+                        <div class="text-gray-500">stevejobs@gmail.com</div>
                     </div>
 
                     <select class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
@@ -84,12 +84,12 @@
             <div class="flex gap-2">
                 <input type="text" placeholder="nama/username ..."
                     class="border border-gray-500 rounded-lg px-4 py-2 w-72">
-                <button class="bg-orange-500 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
+                <button class="bg-orange-500 hover:bg-orange-600 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
             </div>
         </div>
 
         <!-- Table  Kandidat -->
-        <div id="kandidat" class="overflow-hidden rounded-2xl border border-gray-300">
+        <div id="kandidat" class="overflow-hidden rounded-2xl border border-gray-400">
             <table class="w-full text-left border-collapse">
                 <thead class="text-center">
                     <tr>
@@ -102,15 +102,15 @@
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    <tr class="border-b">
+                    <tr class="border-b-2">
                         <td class="px-4 py-3">000001</td>
-                        <td class="px-4 py-3">Zharif Deka</td>
+                        <td class="px-4 py-3">Holis Nugraha</td>
                         <td class="px-4 py-3">S1</td>
                         <td class="px-4 py-3">Front-End Developer</td>
                         <td class="px-4 py-3">Jawa Tengah</td>
                         <td class="px-4 py-3">
                             <a href="/super_admin/detail-kandidat"
-                                class="bg-orange-500 text-xs text-white px-4 py-1 rounded-lg">View</a>
+                                class="bg-orange-500 hover:bg-orange-600 text-xs text-white px-4 py-2 rounded-lg">View</a>
                         </td>
                     </tr>
                 </tbody>
@@ -119,7 +119,7 @@
         {{-- selesai tabel kandidat --}}
 
         {{-- tabel non kandidat --}}
-        <div id="non_kandidat" class="hidden rounded-2xl border border-gray-300">
+        <div id="non_kandidat" class="hidden rounded-2xl border border-gray-400">
             <table class="w-full text-left border-collapse">
                 <thead class="text-center">
                     <tr>
@@ -133,7 +133,7 @@
                 </thead>
                 <tbody class="text-center">
                     @foreach ($pelamar as $p)
-                        <tr class="border-b">
+                        <tr class="border-b-2">
                             <td class="px-4 py-3">{{ $p->id }}</td>
                             <td class="px-4 py-3">{{ $p->user->username }}</td>
                             <td class="px-4 py-3">{{ $p->riwayat_pendidikan->pluck('pendidikan')->implode(', ') }}</td>
@@ -141,7 +141,7 @@
                             <td class="px-4 py-3">{{ $p->alamat_pelamar->first()?->provinsi ?? '-' }}</td>
                             <td class="px-4 py-3">
                                 <a href="{{ route('superadmin.detail.non.kandidat', $p->id) }}"
-                                    class="bg-orange-500 text-xs text-white px-4 py-1 rounded-lg">View</a>
+                                    class="bg-orange-500 hover:bg-orange-600 text-xs text-white px-4 py-2 rounded-lg">View</a>
                             </td>
                         </tr>
                     @endforeach
@@ -166,13 +166,13 @@
                 <tbody class="text-center">
                         <tr class="border-b">
                             <td class="px-4 py-3">000001</td>
-                            <td class="px-4 py-3">Zharif Deka</td>
+                            <td class="px-4 py-3">Holis Nugraha</td>
                             <td class="px-4 py-3">S1</td>
                             <td class="px-4 py-3">Front-End Developer</td>
                             <td class="px-4 py-3">Jawa Tengah</td>
                             <td class="px-4 py-3">
                                 <a href="/super_admin/detail-kandidat"
-                                    class="bg-orange-500 text-xs text-white px-4 py-1 rounded-lg">View</a>
+                                    class="bg-orange-500 hover:bg-orange-600 text-xs text-white px-4 py-1 rounded-lg">View</a>
                             </td>
                         </tr>
                 </tbody>

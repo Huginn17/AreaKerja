@@ -63,29 +63,29 @@
                     </div>
 
                     <a href="{{ route('superadmin.tips-kerja.createForm') }}"
-                        class="bg-blue-400 text-white px-4 py-2 rounded-lg mb-3">Buat Post</a>
+                        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg mb-3">Buat Post</a>
                 </div>
 
                 {{-- filter bawah --}}
                 <div class="flex justify-between items-center mb-4">
                     <div class="flex space-x-4">
                         <select id="filter_select" onchange="searchTable()"
-                            class="border-2 border-gray-400 rounded-lg px-8 py-2 text-sm">
+                            class="border-2 border-gray-300 hover:bg-gray-300 rounded-lg px-8 py-2 text-sm">
                             <option value="title">Judul</option>
                             <option value="penulis">Penulis</option>
                             <option value="created_at">Tanggal</option>
                         </select>
                         <button type="button" onclick="setAction('update')"
-                            class="bg-gray-700 px-8 py-1 rounded-lg text-white">Terapkan</button>
+                            class="bg-gray-700 hover:bg-gray-500 px-8 py-1 rounded-lg text-white">Terapkan</button>
                         <button type="button" onclick="setAction('delete')"
-                            class="bg-red-600 text-white px-6 py-1 rounded-lg">Hapus</button>
+                            class="bg-red-600 hover:bg-red-500 text-white px-6 py-1 rounded-lg">Hapus</button>
                     </div>
 
                     <div class="flex space-x-4">
                         <input id="search_input" type="text" placeholder="nama/tanggal..."
                             class="border-2 border-gray-400 rounded-lg px-2 py-1 text-sm">
                         <button type="button" onclick="searchTable()"
-                            class="bg-gray-700 text-white px-9 py-2 rounded-lg">Cari</button>
+                            class="bg-gray-700 hover:bg-gray-500 text-white px-9 py-2 rounded-lg">Cari</button>
                     </div>
                 </div>
                 {{-- table --}}

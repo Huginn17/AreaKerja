@@ -29,8 +29,8 @@
                         <img src="{{ asset('images/ohim.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
                     </a>
                     <div class="text-sm">
-                        <div class="font-semibold">Dj Ohim</div>
-                        <div class="text-gray-500">lutung123@gmail.com</div>
+                        <div class="font-semibold">steve jobs</div>
+                        <div class="text-gray-500">stevejobs@gmail.com</div>
                     </div>
 
                     <select class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
@@ -65,7 +65,7 @@
         </div>
 
         <!-- Table -->
-        <div class="overflow-hidden rounded-2xl border border-gray-300">
+        <div class="overflow-hidden rounded-2xl border border-gray-400">
             <table class="w-full text-left border-collapse">
                 <thead class="text-center">
                     <tr>

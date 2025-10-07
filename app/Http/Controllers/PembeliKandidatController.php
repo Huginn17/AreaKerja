@@ -1,0 +1,158 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\LowonganPerusahaan;
+use App\Models\Pelamar;
+use App\Models\PembeliKandidat;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use App\Models\User;
+
+class PembeliKandidatController extends Controller
+{
+    public function beli(Request $request)
+    {
+
+        $request->validate([
+            'pelamar_id' => 'required|exists:pelamars,id',
+            'lowongan_perusahaan_id' => 'required|exists:lowongan_perusahaans,id'
+        ]);
+
+        $user = auth()->user();
+        $perusahaan = $user->perusahaan;
+        if (!$perusahaan) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Perusahaan tidak ditemukan'
+            ], 403);
+        }
+
+        $pelamar = Pelamar::FindOrFail($request->pelamar_id);
+        $lowongan = LowonganPerusahaan::FindOrFail($request->lowongan_perusahaan_id);
+
+        if ($lowongan->perusahaan_id != $perusahaan->id) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Lowongan tidak ditemukan'
+            ], 403);
+        }
+
+        $harga = 100;
+
+        $exists = PembeliKandidat::where('pelamar_id', $pelamar->id)
+            ->where('lowongan_perusahaan_id', $lowongan->id)
+            ->whereIn('status', ['pending', 'diterima'])
+            ->exists();
+
+        if ($exists) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Kandidat ini sudah dibeli untuk lowongan ' . $lowongan->nama,
+            ]);
+        }
+
+
+        if ($perusahaan->koin_perusahaan < $harga) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Koin tidak cukup'
+            ]);
+        }
+
+        //kurangi koin
+        $perusahaan->decrement('koin_perusahaan', $harga);
+
+        $noReferensi = 'TRX-' . now()->format('YmdHis') . '-' . Str::upper(Str::random(6));
+
+        $pembelian = $pelamar->pembelianKandidat()->create([
+            'no_referensi' => $noReferensi,
+            'lowongan_perusahaan_id' => $lowongan->id,
+            'status' => 'pending',
+        ]);
+
+        // dd(get_class($user));
+        $user->catatanKoins()->create([
+            'no_referensi' => $noReferensi,
+            'pesanan' => 'Pembelian Kandidat: ' . ($pelamar->nama_pelamar ?? 'kandidat'),
+            'dari' => $perusahaan->nama_perusahaan,
+            'sumber_dana' => 'Saldo Koin Perusahaan',
+            'total' => '-' . $harga,
+            // 'tipe' => 'keluar',
+        ]);
+
+        return response()->json(['status' => 'success', 'message' => 'Pembelian berhasil', 'pembelian' => $pembelian]);
+    }
+
+    public function tawaran()
+    {
+        $pelamar = auth()->user()->pelamar ?? null;
+        if (!$pelamar) abort(403);
+
+        $tawaran = PembeliKandidat::with(['lowonganPerusahaan', 'catatanKoin', 'pelamar'])
+            ->where('pelamar_id', $pelamar->id)
+            ->where('status', 'pending')
+            ->get();
+
+        return view('kandidat.rekrut-saya', [
+            'tawaran' => $tawaran
+        ]);
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $request->merge(['status' => strtolower($request->status ?? '')]);
+        $request->validate([
+            'status' => 'required|in:diterima,ditolak'
+        ]);
+
+        $pembelian = PembeliKandidat::FindOrFail($id);
+
+        $pelamar = auth()->user()->pelamar ?? null;
+        if (!$pelamar || $pembelian->pelamar_id != $pelamar->id) {
+            abort(403);
+        }
+
+        $pembelian->update([
+            'status' => $request->status
+        ]);
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Status berhasil diperbarui'
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Status berhasil diperbarui');
+    }
+
+    public function detailTawaran($id)
+    {
+        // Debug dulu
+        // dd([
+        //     'id_diterima_dari_button' => $id,
+        //     'data_ada' => PembeliKandidat::find($id),
+        // ]);
+        $pelamar = auth()->user()->pelamar ?? null;
+        if (!$pelamar) abort(403);
+
+        // Cari berdasarkan lowongan_perusahaan_id
+        $tawaran = PembeliKandidat::with(['lowonganPerusahaan.perusahaan'])
+            ->where('pelamar_id', $pelamar->id)
+            ->where('lowongan_perusahaan_id', $id)
+            ->firstOrFail();
+
+        $lowonganLain = LowonganPerusahaan::where('perusahaan_id', $tawaran->lowonganPerusahaan->perusahaan_id)
+            ->where('id', '!=', $tawaran->lowongan_perusahaan_id)
+            ->whereNotNull('published_at')
+            ->latest()
+            ->take(3)
+            ->get();
+
+        return view('kandidat.detail_rekrut', [
+            'tawaran' => $tawaran,
+            'lowonganLain' => $lowonganLain,
+        ]);
+    }
+}

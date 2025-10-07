@@ -26,11 +26,11 @@
 
                 <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
                     <a href="#">
-                        <img src="{{ asset('images/ohim.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
+                        <img src="{{ asset('images/seven.png') }}" class="w-8 h-8 rounded-full" alt="User">
                     </a>
                     <div class="text-md">
-                        <div class="font-semibold">Dj Ohim</div>
-                        <div class="text-gray-500">lutung123@gmail.com</div>
+                        <div class="font-semibold">steve jobs</div>
+                        <div class="text-gray-500">stevejobs@gmail.com</div>
                     </div>
 
                     <select class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-md focus:outline-none">
@@ -47,9 +47,9 @@
             <!-- Header -->
             <div class="flex items-center justify-between mb-10">
                 <div class="flex items-center gap-2">
-                    <img src="{{ asset('images/ohim.jpg') }}" alt="avatar" class="w-24 h-24 rounded-full border mr-4" />
+                    <img src="{{ asset('images/ngobrol2.jpg') }}" alt="avatar" class="w-24 h-24 rounded-full border mr-4" />
                     <button
-                        class="flex items-center gap-2 px-4 py-2 text-md border-2 border-orange-600 bg-orange-600 text-white rounded-md scale-90">
+                        class="flex items-center gap-2 px-4 py-2 text-md border-2 border-orange-600 bg-orange-500 hover:bg-orange-600 text-white rounded-md scale-90">
                         <!-- Icon upload -->
                         <svg width="13" height="13" viewBox="0 0 13 13" fill="none"
                             xmlns="http://www.w3.org/2000/svg">

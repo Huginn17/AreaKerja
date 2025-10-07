@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="register-finance-url" content="{{ route('registerproses_finance') }}">
-    <title>Document</title>
+    <title>Finance</title>
 
     @vite('resources/css/app.css')
     <script src="//unpkg.com/alpinejs" defer></script>
@@ -117,7 +117,7 @@
                 </li>
                 <li>
                     <div
-                        class="{{ request()->is('/laporan') ? 'bg-white text-orange-500' : 'text-white' }} rounded-md">
+                        class="{{ request()->is('finance/laporan') ? 'bg-white text-orange-500' : 'text-white' }} rounded-md">
                         <a href="{{ route('finance.laporan') }}"
                             class="flex font-semibold items-center gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
                             <svg width="20" height="21" viewBox="0 0 20 21" fill="currentColor" class="-ml-1"
