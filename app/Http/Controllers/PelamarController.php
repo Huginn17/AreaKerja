@@ -217,7 +217,7 @@ class PelamarController extends Controller
     }
 
 
-    
+
 
     // KIRIM EMAIL + BUAT NOTIFIKASI
     public function kirim(PelamarLowongan $pelamarlowongan)
@@ -255,7 +255,7 @@ class PelamarController extends Controller
             'pelamar_lowongan_id' => $pelamarlowongan->id,
             'judul'   => "Lamaran {$statusText}",
             'pesan'   => "Lamaran yang anda ajukan ke <b>{$pelamarlowongan->lowongan_perusahaan->perusahaan->nama_perusahaan}</b> 
-                  divisi <b>{$pelamarlowongan->lowongan_perusahaan->judul}</b> 
+                  divisi <b>{$pelamarlowongan->lowongan_perusahaan->nama}</b> 
                   <span style='color:{$statusColor}; font-weight:bold;'>{$statusText}</span>. 
                   Masa berlaku lamaran sampai tanggal <b>{$expiredAt->format('d M Y')}</b>.",
         ]);
@@ -266,6 +266,41 @@ class PelamarController extends Controller
             'lowongan' => $pelamarlowongan->lowongan_perusahaan->slug
         ])->with('success', 'Lamaran diterima, email konfirmasi & notifikasi sudah dikirim.');
     }
+
+    public function tolak(PelamarLowongan $pelamarlowongan)
+    {
+        $pelamar = $pelamarlowongan->pelamar;
+
+        $pelamarlowongan->update([
+            'status' => 'ditolak',
+            'expired_at' => null,
+        ]);
+
+        Mail::to($pelamar->user->email)
+            ->send(new KonfirmasiLamaranMail(
+                $pelamar,
+                $pelamarlowongan->lowongan_perusahaan,
+                null,
+                $pelamarlowongan
+            ));
+
+        Notifikasi::create([
+            'user_id' => $pelamar->user_id,
+            'pelamar_lowongan_id' => $pelamarlowongan->id,
+            'judul'   => "Lamaran Ditolak",
+            'pesan'   => "Lamaran anda ke <b>{$pelamarlowongan->lowongan_perusahaan->perusahaan->nama_perusahaan}</b> 
+              divisi <b>{$pelamarlowongan->lowongan_perusahaan->nama}</b> 
+              <span style='color:red; font-weight:bold;'>Ditolak</span>. 
+              Terima kasih telah melamar, semoga sukses di kesempatan berikutnya.",
+        ]);
+
+        session()->forget('konfirmasi');
+
+        return redirect()->route('perusahaan.pelamar', [
+            'lowongan' => $pelamarlowongan->lowongan_perusahaan->slug
+        ])->with('success', 'Lamaran ditolak, email & notifikasi sudah dikirim.');
+    }
+
 
 
 
@@ -380,10 +415,10 @@ class PelamarController extends Controller
         $user = auth()->user();
 
         $pelamar = $user->pelamar;
-         if($pelamar){
-             $pelamar->divisi = $request->divisi;
-             $pelamar->save();
-         }
+        if ($pelamar) {
+            $pelamar->divisi = $request->divisi;
+            $pelamar->save();
+        }
         $harga = HargaPembayaran::where('nama', 'Pendaftaran Kandidat')->first();
 
         $transaksi = CatatanCash::create([

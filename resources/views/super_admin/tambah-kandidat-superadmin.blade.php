@@ -78,23 +78,23 @@
                 <!-- User Info -->
                 <div>
                     <label class="block text-md font-medium mb-1">User ID <span class="text-red-500">*</span></label>
-                    <input type="text" class="w-full mt-1 border border-gray-300 shadow rounded-lg px-3 py-2" placeholder="User ID" />
+                    <input type="text" class="w-full mt-1 border border-gray-400 shadow rounded-lg px-3 py-2" placeholder="User ID" />
                 </div>
                 <div>
                     <label class="block text-md font-medium mb-1">Email <span class="text-red-500">*</span></label>
-                    <input type="email" class="w-full mt-1 border border-gray-300 shadow rounded-lg px-3 py-2" placeholder="Email" />
+                    <input type="email" class="w-full mt-1 border border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Email" />
                 </div>
                 <div>
                     <label class="block text-md font-medium mb-1">Username <span class="text-red-500">*</span></label>
-                    <input type="text" class="w-full mt-1 border border-gray-300 shadow rounded-lg px-3 py-2" placeholder="Username" />
+                    <input type="text" class="w-full mt-1 border border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Username" />
                 </div>
                 <div>
                     <label class="block text-md font-medium mb-1">Nama Lengkap <span class="text-red-500">*</span></label>
-                    <input type="text" class="w-full mt-1 border border-gray-300 shadow rounded-lg px-3 py-2" placeholder="Nama Lengkap" />
+                    <input type="text" class="w-full mt-1 border border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Nama Lengkap" />
                 </div>
                 <div>
                     <label class="block text-md font-medium mb-1">Kata Sandi <span class="text-red-500">*</span></label>
-                    <input type="text" class="w-full mt-1 border border-gray-300 shadow rounded-lg px-3 py-2" placeholder="Kata Sandi" />
+                    <input type="text" class="w-full mt-1 border border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Kata Sandi" />
                 </div>
 
                 <!-- Gender -->
@@ -103,11 +103,11 @@
                         <label class="block text-md font-medium mb-1 mr-12">Gender <span
                                 class="text-red-500">*</span></label>
                         <label class="flex items-center gap-3">
-                            <input type="radio" name="gender" class="accent-orange-500 border border-orange-600" />
+                            <input type="radio" name="gender" class="accent-orange-500 border border-orange-500" />
                             Laki-Laki
                         </label>
                         <label class="flex items-center gap-3">
-                            <input type="radio" name="gender" class="accent-orange-500 border border-orange-600" />
+                            <input type="radio" name="gender" class="accent-orange-500 border border-orange-500" />
                             Perempuan
                         </label>
                     </div>
@@ -116,13 +116,13 @@
                 <!-- Alamat -->
                 <div>
                     <label class="block text-md font-medium mb-1">Alamat <span class="text-red-500">*</span></label>
-                    <input type="text" class="w-full mt-1 border border-gray-300 shadow rounded-lg px-3 py-2" placeholder="Alamat" />
+                    <input type="text" class="w-full mt-1 border border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Alamat" />
                 </div>
 
                 <!-- No. Telepon -->
                 <div>
                     <label class="block text-md font-medium mb-1">No. Telepon <span class="text-red-500">*</span></label>
-                    <input type="text" class="w-full mt-1 border border-gray-300 shadow rounded-lg px-3 py-2" placeholder="No Telepon" />
+                    <input type="text" class="w-full mt-1 border border-gray-400 shadow rounded-lg px-3 py-2" placeholder="No Telepon" />
                 </div>
 
                 <!-- Pendidikan -->
@@ -189,13 +189,13 @@
                 <div>
                     <label class="block text-lg font-medium mb-5">Social Media</label>
                     <label class="block text-md font-medium">Instagram</label>
-                    <input type="text" class="w-full mt-1 mb-5 border border-gray-300 shadow rounded-lg px-3 py-2" placeholder="Instagram" />
+                    <input type="text" class="w-full mt-1 mb-5 border border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Instagram" />
                     <label class="block text-md font-medium">Linkedln</label>
-                    <input type="text" class="w-full mt-1 mb-5 border border-gray-300 shadow rounded-lg px-3 py-2" placeholder="LinkedIn" />
+                    <input type="text" class="w-full mt-1 mb-5 border border-gray-400 shadow rounded-lg px-3 py-2" placeholder="LinkedIn" />
                      <label class="block text-md font-medium">Website</label>
-                    <input type="text" class="w-full mt-1 mb-5 border border-gray-300 shadow rounded-lg px-3 py-2" placeholder="Website" />
+                    <input type="text" class="w-full mt-1 mb-5 border border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Website" />
                     <label class="block text-md font-medium">Twitter</label>
-                    <input type="text" class="w-full mt-1 mb-5 border border-gray-300 shadow rounded-lg px-3 py-2" placeholder="Twitter" />
+                    <input type="text" class="w-full mt-1 mb-5 border border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Twitter" />
                 </div>
 
                 <!-- Buttons -->

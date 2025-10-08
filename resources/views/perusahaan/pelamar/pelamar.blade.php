@@ -73,8 +73,10 @@
                                         @else
                                             <a href="{{ route('pelamar.konfirmasi', $p->id) }}"
                                                 class="bg-green-500 hover:bg-green-600 text-white px-5 py-1 rounded">Terima</a>
-                                            <button
-                                                class="bg-red-500 hover:bg-red-600 text-white px-5 py-1 rounded">Tolak</button>
+                                            <button onclick="openTolakModal({{ $p->id }})"
+                                                class="bg-red-500 hover:bg-red-600 text-white px-5 py-1 rounded ml-2">
+                                                Tolak
+                                            </button>
                                         @endif
                                     </td>
                                     <td class="px-11 py-6">
@@ -149,6 +151,39 @@
             <button onclick="closeSuccessModal()" class="mt-4 px-4 py-2 bg-orange-500 text-white rounded">Tutup</button>
         </div>
     </div>
+
+    <!-- Modal Tolak -->
+    <div id="modalTolak" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 class="text-lg font-bold mb-4">Konfirmasi Tolak Lamaran</h2>
+            <p class="mb-4">Apakah anda yakin ingin menolak lamaran ini?</p>
+
+            <form id="tolakForm" method="POST" action="">
+                @csrf
+                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded">
+                    Tolak
+                </button>
+                <button type="button" onclick="closeTolakModal()" class="ml-2 bg-gray-300 px-5 py-2 rounded">
+                    Batal
+                </button>
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+        function openTolakModal(id) {
+            let form = document.getElementById('tolakForm');
+            let url = "{{ route('pelamar.tolak', ':id') }}";
+            form.action = url.replace(':id', id);
+            document.getElementById('modalTolak').classList.remove('hidden');
+        }
+
+        function closeTolakModal() {
+            document.getElementById('modalTolak').classList.add('hidden');
+        }
+    </script>
+
 
     <script>
         let selectedId = null;

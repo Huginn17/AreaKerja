@@ -124,7 +124,7 @@
                 <div
                     class="{{ request()->is('super_admin/tips/kerja') ? 'bg-white text-orange-500' : '' }} rounded-md">
                     <a href="/super_admin/tips/kerja"
-                        class="flex font-semibold items-center mb-1 gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
+                        class="flex font-semibold items-center mb-1 gap-3 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"
                             xmlns="http://www.w3.org/2000/svg">
                             <path

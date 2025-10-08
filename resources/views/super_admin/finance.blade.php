@@ -167,7 +167,6 @@
 
         <!-- Konten Riwayat -->
         <div id="riwayat" class="mt-4 hidden">
-
             <div class="p-4">
                 {{-- riwayat transaksi --}}
                 <div class="mb-8">

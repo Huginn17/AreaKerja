@@ -710,6 +710,7 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
     Route::get('/pelamar/{pelamarlowongan}/konfirmasihal', [PelamarController::class, 'konfirmasi_hal'])->name('pelamar.konfirmasi');
     Route::post('/pelamar/{pelamarlowongan}/konfirmasi', [PelamarController::class, 'konfirmasi_simpan'])->name('pelamar.konfirmasi.simpan');
     Route::post('/pelamar/{pelamarlowongan}/kirim', [PelamarController::class, 'kirim'])->name('pelamar.konfirmasi.kirim');
+    Route::post('/pelamar/{pelamarlowongan}/tolak', [PelamarController::class, 'tolak'])->name('pelamar.tolak');
     Route::get('/pelamar/{pelamarlowongan}/detail', [PelamarController::class, 'preview'])->name('pelamar.detail');
 
     //PENGATURAN PERUSAHAAN
