@@ -96,7 +96,7 @@
 
                     <div id="sudah_terbit" class="rounded-lg overflow-hidden hidden">
                         <table class="w-full text-sm text-left">
-                            <thead class="bg-orange-600 text-white">
+                            <thead class="bg-orange-500 text-white">
                                 <tr>
                                     <th class="px-4 py-3 w-10"><input id="checkAllTerbit" type="checkbox"></th>
                                     <th class="px-4 py-3 font-semibold">Judul</th>

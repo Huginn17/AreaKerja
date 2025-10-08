@@ -203,7 +203,7 @@
                     <button type="submit"
                         class="bg-orange-600 text-white font-medium px-10 py-2 rounded-md hover:bg-orange-500 border border-orange-600 transition">Upload
                     </button>
-                    <a href="/super_admin/data-pelamar"
+                    <a href="/super_admin/pelamar"
                         class="bg-white text-orange-600 font-medium px-12 py-2 rounded-md hover:bg-gray-100 border border-orange-600 transition">Batal
                     </a>
                 </div>

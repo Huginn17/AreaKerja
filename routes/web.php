@@ -489,7 +489,7 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
     Route::get('/non-kandidat/{pelamar}', [SuperAdminController::class, 'detail_non_kandidat'])->name('superadmin.detail.non.kandidat');
     Route::get('/non-kandidat/{pelamar}/edit', [SuperAdminController::class, 'edit_non_kandidat'])->name('superadmin.edit.non.kandidat');
 
-
+    
     //CRUD ADMIN DAN FINANCE
     Route::get('/add/user', [SuperAdminController::class, 'role'])->name('superadmin.add.user');
     Route::get('/add/user/createForm', [SuperAdminController::class, 'createForm'])->name('superadmin.add.user.createForm');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\LowonganPerusahaan;
+use App\Models\Notifikasi;
 use App\Models\Pelamar;
 use App\Models\PembeliKandidat;
 use Illuminate\Http\Request;
@@ -114,8 +115,26 @@ class PembeliKandidatController extends Controller
         }
 
         $pembelian->update([
-            'status' => $request->status
+            'status' => $request->status,
+            'alasan_penolakan' => $request->status == 'ditolak' ? $request->alasan_penolakan : null
         ]);
+
+        $perusahaanUserId = $pembelian->lowonganPerusahaan->perusahaan->user_id ?? null;
+
+        if ($perusahaanUserId) {
+            $judul = $request->status === 'diterima'  ? 'Kandidat Menerima Tawaran'
+                : 'Kandidat Menolak Tawaran';
+
+            $pesan = $request->status === 'diterima'  ? "Kandidat {$pelamar->nama} menerima tawaran pada lowongan {$pembelian->lowonganPerusahaan->judul}."
+                : "Kandidat {$pelamar->nama} menolak tawaran pada lowongan {$pembelian->lowonganPerusahaan->judul}. "
+                . "Alasan: " . ($request->alasan_penolakan ?? '-');
+
+            Notifikasi::create([
+               'user_id' => $perusahaanUserId,
+               'judul' => $judul,
+               'pesan' => $pesan
+            ]);
+        }
 
         if ($request->expectsJson()) {
             return response()->json([

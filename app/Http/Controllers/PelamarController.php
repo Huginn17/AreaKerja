@@ -11,6 +11,7 @@ use App\Models\LowonganPerusahaan;
 use App\Models\Notifikasi;
 use App\Models\Pelamar;
 use App\Models\PelamarLowongan;
+use App\Models\PembeliKandidat;
 use App\Models\RiwayatPendidikan;
 use App\Models\SimpanLowongan;
 use App\Models\TipsKerja;
@@ -32,9 +33,27 @@ class PelamarController extends Controller
             ->latest()
             ->get();
 
+        $pelamar = auth()->user()->pelamar ?? null;
+        if (!$pelamar) abort(403);
+
+        // Cari berdasarkan lowongan_perusahaan_id
+        $tawaran = PembeliKandidat::with(['lowonganPerusahaan.perusahaan'])
+            ->where('pelamar_id', $pelamar->id)
+            ->where('lowongan_perusahaan_id', $lowongan->id)
+            ->firstOrFail();
+
+        $lowonganLain = LowonganPerusahaan::where('perusahaan_id', $tawaran->lowonganPerusahaan->perusahaan_id)
+            ->where('id', '!=', $tawaran->lowongan_perusahaan_id)
+            ->whereNotNull('published_at')
+            ->latest()
+            ->take(3)
+            ->get();
+
         return view('non-user.lowongan-detail', [
             "data" => $lowongan,
-            "Data" => $Data
+            "Data" => $Data,
+            'lowonganLain' => $lowonganLain,
+            'tawaran' => $tawaran,
         ]);
     }
 

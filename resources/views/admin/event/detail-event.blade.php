@@ -68,7 +68,7 @@
             <div class="flex justify-end items-center space-x-4 mb-4">
                 <span class="font-medium">Status</span>
                 @if ($event->status == 'buka')
-                    <span class="bg-green-500 text-white px-4 py-2 rounded text-sm">Buka</span>
+                    <span class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm">Buka</span>
                 @elseif ($event->status == 'tutup')
                     <span class="bg-red-500 text-white px-4 py-2 rounded text-sm">Tutup</span>
                 @else
@@ -77,13 +77,13 @@
                 <form action="{{ route('admin.event.destroy', $event->id) }}" method="post">
                     @csrf
                     @method('delete')
-                    <button class="bg-red-500 text-white px-14 py-2 rounded text-sm">Hapus</button>
+                    <button class="bg-red-500 hover:bg-red-600  text-white px-14 py-2 rounded-lg text-sm">Hapus</button>
                 </form>
             </div>
 
             <div class="flex justify-end items-center space-x-4 mb-6">
-                <a href="{{ route('admin.edit.event', $event->id) }}" class="bg-blue-500 text-white px-12 py-2 rounded text-sm">Edit Event</a>
-                <a href="#" class="bg-blue-500 text-white px-6 py-2 rounded text-sm">Lihat Partisipan</a>
+                <a href="{{ route('admin.edit.event', $event->id) }}" class="bg-blue-500 hover:bg-blue-600 text-white px-12 py-2 rounded-lg text-sm">Edit Event</a>
+                <a href="#" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg text-sm">Lihat Partisipan</a>
             </div>
 
             {{-- tanggal --}}
@@ -113,7 +113,7 @@
 
 
             {{-- detail acara --}}
-            <h3 class="font-semibold text-orange-600 mt-6 mb-2">Detail Acara</h3>
+            <h3 class="font-semibold text-orange-500 mt-6 mb-2">Detail Acara</h3>
             <div class="space-y-2">
                 <div class="flex items-center space-x-2">
                     <svg width="22" height="22" viewBox="0 0 22 22" fill="none"

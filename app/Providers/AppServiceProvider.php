@@ -47,6 +47,28 @@ class AppServiceProvider extends ServiceProvider
             ]);
         });
 
+        View::composer('*', function ($view) {
+            if (Auth::check() && Auth::user()->role === 'perusahaan') {
+                $notifikasis = Notifikasi::where('user_id', Auth::id())
+                    ->orderBy('created_at', 'desc')
+                    ->take(5)
+                    ->get();
+
+                $jumlahBelumDibaca = Notifikasi::where('user_id', Auth::id())
+                    ->where('is_read', false)
+                    ->count();
+            } else {
+                // default kosong kalau bukan perusahaan
+                $notifikasis = collect();
+                $jumlahBelumDibaca = 0;
+            }
+
+            $view->with([
+                'global_notifikasis' => $notifikasis,
+                'global_notifikasi_unread' => $jumlahBelumDibaca,
+            ]);
+        });
+
 
         // View::composer('layouts.index', function ($view) {
         //     $unreadCount = 0;

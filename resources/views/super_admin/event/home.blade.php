@@ -74,7 +74,7 @@
         <th class="p-4 font-semibold text-gray-700 w-[10%]">Kuota</th>
         <th class="p-4 font-semibold text-gray-700 w-[25%]">Mulai</th>
         <th class="p-4 font-semibold text-gray-700 w-[25%]">Selesai</th>
-        <th class="p-4 font-semibold text-gray-700 w-[10%]">Aksi</th>
+        <th class="px-6 py-4 font-semibold text-gray-700 w-[12%] text-right">Aksi</th>
       </tr>
     </thead>    
                     <tbody>

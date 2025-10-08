@@ -63,7 +63,7 @@
 
                 <div class="font-semibold ml-3 mb-3">Super Admin</div>
                 <div
-                    class="{{ request()->is('super_admin/pelamar') || request()->is('super_admin/detail-kandidat') ? 'bg-white text-orange-500' : '' }} rounded-md">
+                    class="{{ request()->is('super_admin/pelamar') || request()->is('super_admin/detail-kandidat') || request()->is('super_admin/tambah-kandidat') ? 'bg-white text-orange-500' : '' }} rounded-md">
                     <a href="{{ route('superadmin.pelamar') }}"
                         class="flex font-semibold items-center mb-1 gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="20" height="21" viewBox="0 0 20 21" fill="currentColor"

@@ -22,4 +22,5 @@ class KandidatController extends Controller
    //  }
 
 
+
 }
