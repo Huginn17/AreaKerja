@@ -126,7 +126,7 @@ class PembeliKandidatController extends Controller
                 : 'Kandidat Menolak Tawaran';
 
             $pesan = $request->status === 'diterima'  ? "Kandidat {$pelamar->nama} menerima tawaran pada lowongan {$pembelian->lowonganPerusahaan->judul}."
-                : "Kandidat {$pelamar->nama} menolak tawaran pada lowongan {$pembelian->lowonganPerusahaan->judul}. "
+                : "Kandidat {$pelamar->nama} menolak tawaran pada lowongan {$pembelian->lowonganPerusahaan->nama}. "
                 . "Alasan: " . ($request->alasan_penolakan ?? '-');
 
             Notifikasi::create([

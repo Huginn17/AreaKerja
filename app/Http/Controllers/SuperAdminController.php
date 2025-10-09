@@ -135,13 +135,27 @@ class SuperAdminController extends Controller
 
     public function pelamarhal()
     {
-        $pelamar = Pelamar::all();
-        return view(
-            'super_admin.pelamar.data-pelamar',
-            [
-                "pelamar" => $pelamar
-            ]
-        );
+        $kandidat = Pelamar::where('kategori', 'kandidat aktif')->get();
+        $nonKandidat = Pelamar::where('kategori', 'pelamar')->get();
+        $calonKandidat = Pelamar::where('kategori', 'calon kandidat')->get();
+
+        return view('super_admin.pelamar.data-pelamar', [
+            'kandidat' => $kandidat,
+            'nonKandidat' => $nonKandidat,
+            'calonKandidat' => $calonKandidat,
+        ]);
+    }
+
+    //KANDIDAT
+    public function detail_kandidat(Pelamar $pelamar)
+    {
+        $logoPath = public_path('images/logoarea.png');
+        $logoBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath));
+        return view('super_admin.pelamar.kandidat.detail', [
+            "data" => $pelamar,
+            "logoBase64" => $logoBase64,
+            "sosmed" => $pelamar->sosmed,
+        ]);
     }
 
     //NON KANDIDAT
@@ -162,6 +176,51 @@ class SuperAdminController extends Controller
             "data" => $pelamar
         ]);
     }
+
+    //CALON KANDIDAT
+    public function detailCalonKandidat($id)
+    {
+        $pelamar = Pelamar::findOrFail($id);
+        return view('super_admin.pelamar.calon-kandidat.detail', [
+            'pelamar' => $pelamar
+        ]);
+    }
+
+    public function updateTraining(Request $request, $id)
+    {
+        $request->validate([
+            'mulai_pelatihan' => 'required|date',
+            'selesai_pelatihan' => 'required|date|after:mulai_pelatihahn',
+        ]);
+
+        $pelamar = Pelamar::findOrFail($id);
+        $pelamar->mulai_pelatihan = $request->mulai_pelatihan;
+        $pelamar->selesai_pelatihan = $request->selesai_pelatihan;
+        $pelamar->save();
+
+        return back()->with('success', '');
+    }
+
+    public function lulus($id)
+    {
+        $pelamar = Pelamar::findOrFail($id);
+        $pelamar->kategori = 'kandidat aktif';
+        $pelamar->save();
+
+        return redirect()->route('superadmin.pelamar')->with('success', 'Kandidat berhasil diluluskan.');
+    }
+
+    public function gugur($id)
+    {
+        $pelamar = Pelamar::findOrFail($id);
+        $pelamar->kategori = 'pelamar';
+        $pelamar->save();
+
+        return redirect()->route('superadmin.pelamar')->with('success', 'Kandidat dinyatakan gugur.');
+    }
+
+
+
 
 
 
@@ -395,7 +454,7 @@ class SuperAdminController extends Controller
                         'visi'              => $request->visi,
                         'misi'              => $request->misi,
                         'img_profile'       => $imgPath,
-          
+
                     ]
                 );
                 break;

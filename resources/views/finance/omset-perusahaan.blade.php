@@ -55,25 +55,47 @@
 
 
         <div class="p-10">
-
-
-            {{-- paket harga koin --}}
             <div class="mb-10">
                 <div class="flex items-center justify-between gap-4 mb-2">
                     <h2 class="text-lg font-medium">Tampilkan Omset Perusahaan</h2>
 
-                    <div class="flex items-center gap-4">
-                        <select class="border-2 border-orange-500 rounded-lg px-3 py-2 text-sm">
-                            <option selected>Bulan</option>
-                            <option value="">1 Bulan Terakhir</option>
-                            <option value="">3 Bulan Terakhir</option>
-                        </select>
+                    <form method="GET" action="{{ route('finance.omset') }}" class="flex items-center gap-4">
+                        <div class="relative inline-block text-left">
+                            <select name="periode"
+                                class="appearance-none border-2 border-orange-500 text-orange-500 rounded-lg px-4 py-2 pr-10 text-sm font-medium bg-white focus:outline-none focus:ring-2 focus:ring-orange-400 cursor-pointer">
+                                <option value="current" {{ $periodeDipilih == 'current' ? 'selected' : '' }}>Bulan ini
+                                </option>
+                                <option value="1" {{ $periodeDipilih == '1' ? 'selected' : '' }}>1 Bulan Terakhir
+                                </option>
+                                <option value="3" {{ $periodeDipilih == '3' ? 'selected' : '' }}>3 Bulan Terakhir
+                                </option>
+                                <option value="5" {{ $periodeDipilih == '5' ? 'selected' : '' }}>5 Bulan Terakhir
+                                </option>
+                                <option value="7" {{ $periodeDipilih == '7' ? 'selected' : '' }}>7 Bulan Terakhir
+                                </option>
+                                <option value="9" {{ $periodeDipilih == '9' ? 'selected' : '' }}>9 Bulan Terakhir
+                                </option>
+                                <option value="12" {{ $periodeDipilih == '12' ? 'selected' : '' }}>12 Bulan Terakhir
+                                </option>
+                                <option value="24" {{ $periodeDipilih == '24' ? 'selected' : '' }}>2 Tahun Terakhir
+                                </option>
+                            </select>
+
+                            <!-- Ikon panah -->
+                            <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-orange-500">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+                        </div>
 
                         <button
-                            class="bg-orange-500 hover:bg-orange-600 text-white text-sm px-10 py-3 font-medium rounded-2xl">
+                            class="bg-orange-500 hover:bg-orange-600 text-white text-sm px-8 py-2 font-medium rounded-lg transition">
                             Cari
                         </button>
-                    </div>
+                    </form>
+
                 </div>
 
                 <div class="border border-gray-300 rounded-2xl overflow-hidden w-full">
@@ -82,32 +104,44 @@
                         <div class="font-medium text-lg">Daftar Omset Perusahaan</div>
                     </div>
 
-                    {{-- Isi Tabel --}}
+                    {{-- Isi --}}
                     <div class="relative bg-white text-sm">
-                        <!-- Garis vertikal penuh -->
                         <div class="absolute left-1/2 top-0 bottom-0 w-px bg-gray-300"></div>
 
-                        @for ($i = 0; $i < 8; $i++)
+                        @forelse ($omsetPerBulan as $item)
                             <div class="flex px-4 py-3 border-b border-gray-300 relative">
-                                <div class="w-1/2 font-medium text-lg">Januari 2023</div>
-                                <div class="w-1/2 text-right font-medium text-lg">Rp. 3.000.000</div>
+                                <div class="w-1/2 font-medium text-lg">
+                                    {{ $item['nama_bulan'] }} {{ $item['tahun'] }}
+                                </div>
+                                <div class="w-1/2 text-right font-medium text-lg">
+                                    Rp. {{ number_format($item['total'], 0, ',', '.') }}
+                                </div>
                             </div>
-                        @endfor
+                        @empty
+                            <div class="text-center py-4 text-gray-500">Belum ada data omset</div>
+                        @endforelse
                     </div>
                 </div>
-
             </div>
 
-            <ul class="text-md font-medium ">
-                <li class="py-2 text-lg">Total Omset<span class="pl-3 text-lg">: RP. 24.000.000</span></li>
-                <li class="py-2 text-lg">Rata Rata<span class="pl-8 text-lg">: RP. 3.000.000</span></li>
+            <ul class="text-md font-medium">
+                <li class="py-2 text-lg">
+                    Total Omset
+                    <span class="pl-3 text-lg">: Rp. {{ number_format($totalOmset, 0, ',', '.') }}</span>
+                </li>
+                <li class="py-2 text-lg">
+                    Rata-Rata
+                    <span class="pl-8 text-lg">: Rp. {{ number_format($rataRata, 0, ',', '.') }}</span>
+                </li>
             </ul>
+
             <div class="border border-orange-500 mt-2"></div>
             <div class="mt-5">
-                <button
-                    class="bg-orange-500 hover:bg-orange-600 text-white text-sm px-8 py-2 font-medium rounded-full ml-auto"
-                    type="submit">Unduh</button>
+                <a href="{{ route('finance.omset.unduh') }}"
+                    class="bg-orange-500 hover:bg-orange-600 text-white text-sm px-8 py-2 font-medium rounded-full ml-auto inline-block">
+                    Unduh
+                </a>
+
             </div>
         </div>
-    </div>
-@endsection
+    @endsection

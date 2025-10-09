@@ -71,9 +71,10 @@
             <ul class="space-y-2 font-medium">
                 <li class="mt-7">
                     <select id="kota"
-                        class="w-52 p-2 text-gray-500 border rounded-lg text-center bg-white appearance-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                        class="w-full p-2 text-gray-500 border rounded-md text-center bg-white appearance-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                         <option selected>Yogyakarta</option>
                         <option value="PG">Semarang</option>
+                        <option value="PG">Surabaya</option>
                     </select>
                 </li>
                 <p class="flex items-center p-2 text-white rounded-lg dark:text-white">
@@ -200,7 +201,7 @@
                     </a>
                 </li>
                 <li
-                    class="{{ request()->is('admin/event/home') ? 'bg-white text-gray-500' : 'text-white' }} rounded-md">
+                    class="{{ request()->is('admin/event') ? 'bg-white text-gray-500' : 'text-white' }} rounded-md">
                     <a href="{{ route('admin.eventform') }}"
                         class="flex font-semibold items-center mb-2 gap-3 hover:bg-white hover:text-gray-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="20" height="21" viewBox="0 0 20 21" fill="none"

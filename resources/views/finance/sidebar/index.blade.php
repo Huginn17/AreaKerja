@@ -99,7 +99,7 @@
                 <li>
                     <div
                         class="{{ request()->is('finance/omset/perusahaan') ? 'bg-white text-orange-500' : 'text-white' }} rounded-md">
-                        <a href="{{ route('finance.omset-perusahaan') }}"
+                        <a href="{{ route('finance.omset') }}"
                             class="flex  font-semibold items-center gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
                             <svg width="20" height="21" viewBox="0 0 20 21" fill="currentColor" class="-ml-1"
                                 xmlns="http://www.w3.org/2000/svg">

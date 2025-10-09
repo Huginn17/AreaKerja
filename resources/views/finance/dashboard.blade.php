@@ -70,7 +70,7 @@
                 <div class="w-80 bg-orange-500 text-white rounded-md p-5 flex justify-between items-center">
                     <div>
                         <p class="text-sm">Total Omset</p>
-                        <p class="text-lg font-bold"> Rp. {{ number_format($totalOmset, 0, ',', '.') }}</p>
+                        <p class="text-lg font-bold"> Rp {{ number_format($totalOmset, 0, ',', '.') }}</p>
                     </div>
                     <div class="text-4xl"><svg width="52" height="53" viewBox="0 0 52 53" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -90,7 +90,7 @@
                 <div class="w-80 bg-orange-500 text-white rounded-md p-5 flex justify-between items-center">
                     <div>
                         <p class="text-sm">Total Transaksi Koin</p>
-                        <p class="text-lg font-bold">{{ $koin->sum('total') }}</p>
+                        <p class="text-lg font-bold"> {{ number_format($totalTransaksiKoin, 0, ',', '.') }}</p>
                     </div>
                     <div class="text-4xl"><svg width="52" height="53" viewBox="0 0 52 53" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -107,7 +107,7 @@
 
             <!-- Table 1 -->
             <section>
-                <h2 class="text-md font-semibold mb-2">Riwayat Transaksi Koin Terbaru</h2>
+                <h2 class="text-md font-semibold mb-2">Riwayat Transaksi Cash Terbaru</h2>
                 <div class="overflow-x-auto border rounded-2xl">
                     <table class="w-full border-collapse">
                         <thead>
@@ -118,61 +118,32 @@
                                 <th class="font-medium px-3 py-2">Dari</th>
                                 <th class="font-medium px-3 py-2">Sumber Dana</th>
                                 <th class="font-medium px-3 py-2">Tanggal</th>
-                                <th class="font-medium px-3 py-2">Koin</th>
+                                <th class="font-medium px-3 py-2">Nominal</th>
                                 <th class="font-medium px-3 py-2">Status</th>
                             </tr>
                         </thead>
                         <tbody class="text-sm text-gray-700">
-                            <tr class="border-b">
-                                <td class="px-3 py-2 text-center">1</td>
-                                <td class="px-3 py-2 text-center">991773493631</td>
-                                <td class="px-3 py-2 text-center">Open CV</td>
-                                <td class="px-3 py-2 text-center">AppleCorp.</td>
-                                <td class="px-3 py-2 text-center">Koin AreaKerja</td>
-                                <td class="px-3 py-2 text-center">17 Juni 2024</td>
-                                <td class="px-3 py-2 text-center">10 Koin</td>
-                                <td class="px-3 py-2 text-red-500 font-medium text-center">Gagal</td>
-                            </tr>
-                            {{-- <tr class="border-b">
-                            <td class="px-3 py-2 text-center">1</td>
-                            <td class="px-3 py-2 text-center">991773493631</td>
-                            <td class="px-3 py-2 text-center">Open CV</td>
-                            <td class="px-3 py-2 text-center">AppleCorp.</td>
-                            <td class="px-3 py-2 text-center">Koin AreaKerja</td>
-                            <td class="px-3 py-2 text-center">17 Juni 2024</td>
-                            <td class="px-3 py-2 text-center">10 Koin</td>
-                            <td class="px-3 py-2 text-green-500 font-medium text-center">Sukses</td>
-                        </tr>
-                        <tr class="border-b">
-                            <td class="px-3 py-2 text-center">1</td>
-                            <td class="px-3 py-2 text-center">991773493631</td>
-                            <td class="px-3 py-2 text-center">Open CV</td>
-                            <td class="px-3 py-2 text-center">AppleCorp.</td>
-                            <td class="px-3 py-2 text-center">Koin AreaKerja</td>
-                            <td class="px-3 py-2 text-center">17 Juni 2024</td>
-                            <td class="px-3 py-2 text-center">10 Koin</td>
-                            <td class="px-3 py-2 text-green-500 font-medium text-center">Sukses</td>
-                        </tr>
-                        <tr class="border-b">
-                            <td class="px-3 py-2 text-center">1</td>
-                            <td class="px-3 py-2 text-center">991773493631</td>
-                            <td class="px-3 py-2 text-center">Open CV</td>
-                            <td class="px-3 py-2 text-center">AppleCorp.</td>
-                            <td class="px-3 py-2 text-center">Koin AreaKerja</td>
-                            <td class="px-3 py-2 text-center">17 Juni 2024</td>
-                            <td class="px-3 py-2 text-center">10 Koin</td>
-                            <td class="px-3 py-2 text-green-500 font-medium text-center">Sukses</td>
-                        </tr>
-                        <tr>
-                            <td class="px-3 py-2 text-center">1</td>
-                            <td class="px-3 py-2 text-center">991773493631</td>
-                            <td class="px-3 py-2 text-center">Open CV</td>
-                            <td class="px-3 py-2 text-center">AppleCorp.</td>
-                            <td class="px-3 py-2 text-center">Koin AreaKerja</td>
-                            <td class="px-3 py-2 text-center">17 Juni 2024</td>
-                            <td class="px-3 py-2 text-center">10 Koin</td>
-                            <td class="px-3 py-2 text-red-500 font-medium text-center">Gagal</td>
-                        </tr> --}}
+                            @forelse ($cashTerbaru as $index => $cash)
+                                <tr class="border-b">
+                                    <td class="py-3 px-2">{{ $index + 1 }}</td>
+                                    <td class="py-3 px-2">{{ $cash->no_referensi ?? '-' }}</td>
+                                    <td class="py-3 px-2">{{ $cash->pesanan ?? '-' }}</td>
+                                    <td class="py-3 px-2">{{ $cash->dari ?? '-' }}</td>
+                                    <td class="py-3 px-2">{{ $cash->sumberDana ?? '-' }}</td>
+                                    <td class="py-3 px-4">
+                                        {{ \Carbon\Carbon::parse($cash->created_at)->translatedFormat('d F Y') }}</td>
+                                    <td class="py-3 px-2">Rp {{ number_format($cash->total, 0, ',', '.') }}</td>
+                                    <td class="py-3 px-4">
+                                        <span class="{{ $cash->status == 'diterima' ? 'text-green-500' : 'text-red-500' }}">
+                                            {{ ucfirst($cash->status) }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="text-center py-4 text-gray-500">Belum ada transaksi</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -192,60 +163,26 @@
                                 <th class="font-medium px-3 py-2">Sumber Dana</th>
                                 <th class="font-medium px-3 py-2">Tanggal</th>
                                 <th class="font-medium px-3 py-2">Koin</th>
-                                <th class="font-medium px-3 py-2">Status</th>
+                                {{-- <th class="font-medium px-3 py-2">Status</th> --}}
                             </tr>
                         </thead>
-                        <tbody class="text-sm text-gray-700">
-                            <tr class="border-b">
-                                <td class="px-3 py-2 text-center">1</td>
-                                <td class="px-3 py-2 text-center">991773493631</td>
-                                <td class="px-3 py-2 text-center">Open CV</td>
-                                <td class="px-3 py-2 text-center">AppleCorp.</td>
-                                <td class="px-3 py-2 text-center">Koin AreaKerja</td>
-                                <td class="px-3 py-2 text-center">17 Juni 2024</td>
-                                <td class="px-3 py-2 text-center">10 Koin</td>
-                                <td class="px-3 py-2 text-red-500 font-medium text-center">Gagal</td>
-                            </tr>
-                            {{-- <tr class="border-b">
-                            <td class="px-3 py-2 text-center">1</td>
-                            <td class="px-3 py-2 text-center">991773493631</td>
-                            <td class="px-3 py-2 text-center">Open CV</td>
-                            <td class="px-3 py-2 text-center">AppleCorp.</td>
-                            <td class="px-3 py-2 text-center">Koin AreaKerja</td>
-                            <td class="px-3 py-2 text-center">17 Juni 2024</td>
-                            <td class="px-3 py-2 text-center">10 Koin</td>
-                            <td class="px-3 py-2 text-green-500 font-medium text-center">Sukses</td>
-                        </tr>
-                        <tr class="border-b">
-                            <td class="px-3 py-2 text-center">1</td>
-                            <td class="px-3 py-2 text-center">991773493631</td>
-                            <td class="px-3 py-2 text-center">Open CV</td>
-                            <td class="px-3 py-2 text-center">AppleCorp.</td>
-                            <td class="px-3 py-2 text-center">Koin AreaKerja</td>
-                            <td class="px-3 py-2 text-center">17 Juni 2024</td>
-                            <td class="px-3 py-2 text-center">10 Koin</td>
-                            <td class="px-3 py-2 text-green-500 font-medium text-center">Sukses</td>
-                        </tr>
-                        <tr class="border-b">
-                            <td class="px-3 py-2 text-center">1</td>
-                            <td class="px-3 py-2 text-center">991773493631</td>
-                            <td class="px-3 py-2 text-center">Open CV</td>
-                            <td class="px-3 py-2 text-center">AppleCorp.</td>
-                            <td class="px-3 py-2 text-center">Koin AreaKerja</td>
-                            <td class="px-3 py-2 text-center">17 Juni 2024</td>
-                            <td class="px-3 py-2 text-center">10 Koin</td>
-                            <td class="px-3 py-2 text-green-500 font-medium text-center">Sukses</td>
-                        </tr>
-                        <tr>
-                            <td class="px-3 py-2 text-center">1</td>
-                            <td class="px-3 py-2 text-center">991773493631</td>
-                            <td class="px-3 py-2 text-center">Open CV</td>
-                            <td class="px-3 py-2 text-center">AppleCorp.</td>
-                            <td class="px-3 py-2 text-center">Koin AreaKerja</td>
-                            <td class="px-3 py-2 text-center">17 Juni 2024</td>
-                            <td class="px-3 py-2 text-center">10 Koin</td>
-                            <td class="px-3 py-2 text-green-500 font-medium text-center">Sukses</td>
-                        </tr> --}}
+                        <tbody class="text-sm text-gray-700 ">
+                            @forelse ($koinTerbaru as $index => $koin)
+                                <tr class="border-b text-center">
+                                    <td class="py-3 px-2">{{ $index + 1 }}</td>
+                                    <td class="py-3 px-2">{{ $koin->no_referensi ?? '-' }}</td>
+                                    <td class="py-3 px-2">{{ $koin->pesanan ?? '-' }}</td>
+                                    <td class="py-3 px-2">{{ $koin->dari ?? '-' }}</td>
+                                    <td class="py-3 px-2">{{ $koin->sumber_dana ?? '-' }}</td>
+                                    <td class="py-3 px-2">
+                                        {{ \Carbon\Carbon::parse($koin->created_at)->translatedFormat('d F Y') }}</td>
+                                    <td class="py-3 px-4">{{ $koin->total }} Koin</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="8" class="text-center py-4 text-gray-500">Belum ada transaksi</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

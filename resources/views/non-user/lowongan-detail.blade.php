@@ -45,7 +45,7 @@
                                 {{-- Simpan Lowongan --}}
                                 <button
                                     @click="
-                                    fetch('{{ route('lowongan.simpan', $data->id) }}', {
+                                    fetch('{{ route('simpan-lowongan.store', $data->id) }}', {
                                         method: 'POST',
                                         headers: {
                                             'Content-Type': 'application/json',

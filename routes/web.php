@@ -160,7 +160,6 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
     Route::get('/detail-lowongan/{lowongan}', [PelamarController::class, 'detail_lowongan_non_user'])->name('detail.lowongan.non.user');
 
     //NOTIFIKASI LAMARAN PELAMAR
-    Route::post('/notifikasi/baca/{id}', [PelamarController::class, 'baca'])->name('notifikasi.baca');
 
     Route::get('/notifikasi', [PelamarController::class, 'notifikasi'])->name('pelamar.notifikasi');
     // Route::get('/notifikasi/{notif}', [PelamarController::class, 'showNotif'])->name('pelamar.notifikasi.show');
@@ -186,8 +185,11 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
     Route::get('/kandidat/tawaran/{id}', [PembeliKandidatController::class, 'detailTawaran'])->name('kandidat.detailTawaran');
     Route::post('/pembeli_kandidat/{id}/status', [PembeliKandidatController::class, 'updateStatus'])->name('kandidat.updateStatus');
 });
-Route::post('/notifikasi/baca/semua', [PelamarController::class, 'bacaSemua'])->name('notifikasi.bacaSemua');
 
+//NOTIFIKASI
+Route::post('/notifikasi/baca/semua', [PelamarController::class, 'bacaSemua'])->name('notifikasi.bacaSemua');
+Route::post('/notifikasi/baca/{id}', [PelamarController::class, 'baca'])->name('notifikasi.baca');
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Route::get('/lowongan', function () {
     return view('non-user.pasang-lowongan');
@@ -281,6 +283,11 @@ Route::prefix('finance')->middleware('auth', 'role:finance', 'CheckUserStatus')-
     Route::get('/paketharga/edit/harga', [HargaController::class, 'edit_pembayaran'])->name('finance.paket-harga.edit-pembayaran');
     Route::put('/update/harga/harga', [HargaController::class, 'update_pembayaran'])->name('finance.paket-harga.update-pembayaran');
 
+    //OMSET PERUSAHAAN PERBULAN
+    Route::get('/omset', [FinanceController::class, 'omset_perusahaan'])->name('finance.omset');
+    Route::get('/finance/omset/unduh', [FinanceController::class, 'unduh_omset'])->name('finance.omset.unduh');
+
+
     //LAP TRANSAKSI
     Route::get('/laporan', [FinanceController::class, 'laporan'])->name('finance.laporan');
     Route::get('/detail', [FinanceController::class, 'hal_detail'])->name('finance.detail.catatan.koin');
@@ -288,9 +295,9 @@ Route::prefix('finance')->middleware('auth', 'role:finance', 'CheckUserStatus')-
     Route::post('/verifikasi/{id}', [FinanceController::class, 'verifikasi'])->name('finance.verifikasi');
 });
 
-Route::get('/finance/omset/perusahaan', function () {
-    return view('finance.omset-perusahaan');
-})->name('finance.omset-perusahaan');
+// Route::get('/finance/omset/perusahaan', function () {
+//     return view('finance.omset-perusahaan');
+// })->name('finance.omset-perusahaan');
 
 Route::get('/finance/page/unduh/omset', function () {
     return view('finance.page-unduh-omset');
@@ -485,11 +492,18 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
 
     //Pelamar
     Route::get('/pelamar', [SuperAdminController::class, 'pelamarhal'])->name('superadmin.pelamar');
+    //KANDIDAT
+    Route::get('/kandidat/{pelamar}', [SuperAdminController::class, 'detail_kandidat'])->name('superadmin.detail.kandidat');
     //NON KANDIDAT
     Route::get('/non-kandidat/{pelamar}', [SuperAdminController::class, 'detail_non_kandidat'])->name('superadmin.detail.non.kandidat');
     Route::get('/non-kandidat/{pelamar}/edit', [SuperAdminController::class, 'edit_non_kandidat'])->name('superadmin.edit.non.kandidat');
+    //CALON KANDIDAT
+    Route::get('/calon-kandidat/{id}', [SuperAdminController::class,  'detailCalonKandidat'])->name('superadmin.calon.detail');
+    Route::post('/calon-kandidat/{id}/update', [SuperAdminController::class,  'updateTraining'])->name('superadmin.calon.update');
+    Route::post('/calon-kandidat/{id}/lulus', [SuperAdminController::class,  'lulus'])->name('superadmin.calon.lulus');
+    Route::post('/calon-kandidat/{id}/gugur', [SuperAdminController::class,  'gugur'])->name('superadmin.calon.gugur');
 
-    
+
     //CRUD ADMIN DAN FINANCE
     Route::get('/add/user', [SuperAdminController::class, 'role'])->name('superadmin.add.user');
     Route::get('/add/user/createForm', [SuperAdminController::class, 'createForm'])->name('superadmin.add.user.createForm');

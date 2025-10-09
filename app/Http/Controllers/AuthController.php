@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\CatatanCash;
+use App\Models\CatatanKoin;
 use App\Models\DaftarBank;
 use App\Models\Event;
 use App\Models\Finance;
@@ -222,23 +223,31 @@ class AuthController extends Controller
     //LOGIN FINANCE
     public function beranda_finance()
     {
-        $cash = CatatanCash::all();
-        $koin = CatatanCash::all();
+        // Ambil semua transaksi cash yang sudah diterima
+        $cash = CatatanCash::where('status', 'diterima')->get();
 
-        $totalOmset = 0;
-        foreach ($cash->where('status', 'diterima') as $item) {
-            $harga = HargaPembayaran::where('jumlah_koin', $item->total)->first();
-            if ($harga) {
-                $totalOmset += $harga->harga;
-            }
-        }
-        return view('finance.dashboard',[
+        // Total Omset = total uang masuk nyata dari transaksi cash diterima
+        $totalOmset = $cash->sum('total');
+
+        // Ambil semua transaksi koin
+        $koin = CatatanKoin::all();
+
+        // Total Transaksi Koin = jumlah absolut dari semua pergerakan koin
+        $totalTransaksiKoin = $koin->sum(fn($item) => abs($item->total));
+
+        $cashTerbaru = CatatanCash::orderBy('created_at', 'desc')->take(5)->get();
+        $koinTerbaru = CatatanKoin::orderBy('created_at', 'desc')->take(5)->get();
+
+        return view('finance.dashboard', [
             'totalOmset' => $totalOmset,
-            'koin' => $koin,
+            'totalTransaksiKoin' => $totalTransaksiKoin,
             'cash' => $cash,
-            'totalOmset' => $totalOmset
+            'koin' => $koin,
+            'cashTerbaru' => $cashTerbaru,
+            'koinTerbaru' => $koinTerbaru
         ]);
     }
+
 
     public function loginproses_finance(Request $request)
     {

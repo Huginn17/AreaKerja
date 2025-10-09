@@ -1,123 +1,70 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Laporan Omset</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <title>Laporan Omset Perusahaan</title>
+    <link rel="stylesheet" href="{{ public_path('build/assets/app.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
-<body class="max-w-3xl mx-auto p-10 font-sans text-black text-sm">
+<body class="text-[12px] text-black font-sans mx-8 my-6">
 
     <!-- Header -->
-    <div class="flex justify-between items-center mb-2">
-        <div class="space-y-1">
-            <p class="text-lg font-semibold"><span class="inline-block w-20 font-semibold text-lg">Email</span>:
-                Areakerja@gmail.com</p>
-            <p class="text-lg font-semibold"><span class="inline-block w-20 font-semibold text-lg">Telepon</span>:
-                081234567009</p>
+    <div class="flex justify-between items-start mb-1">
+        <div>
+            <p><span class="font-bold">Email :</span> Areakerja@gmail.com</p>
+            <p><span class="font-bold">Telepon :</span> 081234567009</p>
         </div>
-        <div class="flex items-center space-x-2 text-orange-500 font-bold text-lg">
-            <img src="{{ asset('images/logoarea.png') }}" alt="logo" class="h-10" />
-            <span class="text-xl">areakerja.com</span>
+        <div class="flex items-center justify-end gap-1 font-bold text-[#f97316] text-lg">
+           <img src="{{ $logoBase64 }}" alt="Logo Areakerja" class="w-9 h-auto mb-1">
+            <span>areakerja.com</span>
         </div>
     </div>
 
-    <!-- Orange underline -->
-    <hr class="border-t-4 border-orange-500 mb-5" />
+    <!-- Garis oranye -->
+    <div class="border-t-2 border-[#f97316] my-2"></div>
 
-    <!-- Title -->
-    <h2 class="text-center font-bold mb-5 text-xl">LAPORAN OMSET PERUSAHAAN</h2>
+    <!-- Judul -->
+    <h2 class="text-center font-bold mb-4">LAPORAN OMSET PERUSAHAAN</h2>
 
-    <!-- Table -->
-    <table class="w-full border-2 border-black border-collapse text-xs">
+    <!-- Tabel -->
+    <table class="w-full border border-black border-collapse text-[12px]">
         <thead>
-            <tr class="bg-orange-500 text-white text-center">
-                <th class="border-2 border-black px-3 py-1 w-12  text-lg">No.</th>
-                <th class="border-2 border-black px-3 py-1  text-lg">Bulan</th>
-                <th class="border-2 border-black px-3 py-1 text-lg">Nominal</th>
+            <tr class="bg-[#f97316] text-white text-center font-bold">
+                <th class="border border-black py-1 px-2 w-[40px]">No.</th>
+                <th class="border border-black py-1 px-2">Bulan</th>
+                <th class="border border-black py-1 px-2">Nominal</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td class="border-2 border-black px-3 py-1 text-center font-semibold text-lg">1.</td>
-                <td class="border-2 border-black px-3 py-1  text-lg font-semibold">Januari 2023</td>
-                <td class="border-2 border-black px-3 py-1 text-center text-lg font-semibold">Rp 3.000.000,00</td>
-            </tr>
-            <tr>
-                <td class="border-2 border-black px-3 py-1 text-center font-semibold text-lg">2.</td>
-                <td class="border-2 border-black px-3 py-1  text-lg font-semibold">Februari 2023</td>
-                <td class="border-2 border-black px-3 py-1 text-center text-lg font-semibold">Rp 3.000.000,00</td>
-            </tr>
-            <tr>
-                <td class="border-2 border-black px-3 py-1 text-center font-semibold text-lg">3.</td>
-                <td class="border-2 border-black px-3 py-1  text-lg font-semibold">Maret 2023</td>
-                <td class="border-2 border-black px-3 py-1 text-center text-lg font-semibold">Rp 3.000.000,00</td>
-            </tr>
-            <tr>
-                <td class="border-2 border-black px-3 py-1 text-center font-semibold text-lg">4.</td>
-                <td class="border-2 border-black px-3 py-1  text-lg font-semibold">April 2023</td>
-                <td class="border-2 border-black px-3 py-1 text-center text-lg font-semibold">Rp 3.000.000,00</td>
-            </tr>
-            <tr>
-                <td class="border-2 border-black px-3 py-1 text-center font-semibold text-lg">5.</td>
-                <td class="border-2 border-black px-3 py-1  text-lg font-semibold">Mei 2023</td>
-                <td class="border-2 border-black px-3 py-1 text-center text-lg font-semibold">Rp 3.000.000,00</td>
-            </tr>
-            <tr>
-                <td class="border-2 border-black px-3 py-1 text-center font-semibold text-lg">6.</td>
-                <td class="border-2 border-black px-3 py-1  text-lg font-semibold">Juni 2023</td>
-                <td class="border-2 border-black px-3 py-1 text-center text-lg font-semibold">Rp 3.000.000,00</td>
-            </tr>
-            <tr>
-                <td class="border-2 border-black px-3 py-1 text-center  font-semibold text-lg">7.</td>
-                <td class="border-2 border-black px-3 py-1  text-lg font-semibold">Juli 2023</td>
-                <td class="border-2 border-black px-3 py-1 text-center text-lg font-semibold">Rp 3.000.000,00</td>
-            </tr>
-            <tr>
-                <td class="border-2 border-black px-3 py-1 text-center font-semibold text-lg">8.</td>
-                <td class="border-2 border-black px-3 py-1  text-lg font-semibold">Agustus 2023</td>
-                <td class="border-2 border-black px-3 py-1 text-center text-lg font-semibold">Rp 3.000.000,00</td>
-            </tr>
-            <tr>
-                <td class="border-2 border-black px-3 py-1 text-center font-semibold text-lg">9.</td>
-                <td class="border-2 border-black px-3 py-1  text-lg font-semibold">September 2023</td>
-                <td class="border-2 border-black px-3 py-1 text-center text-lg font-semibold">Rp 3.000.000,00</td>
-            </tr>
-            <tr>
-                <td class="border-2 border-black px-3 py-1 text-center font-semibold text-lg">10.</td>
-                <td class="border-2 border-black px-3 py-1 text-lg font-semibold">Oktober 2023</td>
-                <td class="border-2 border-black px-3 py-1 text-center text-lg font-semibold">Rp 3.000.000,00</td>
-            </tr>
-            <tr>
-                <td class="border-2 border-black px-3 py-1 text-center font-semibold  text-lg">11.</td>
-                <td class="border-2 border-black px-3 py-1 text-lg font-semibold">November 2023</td>
-                <td class="border-2 border-black px-3 py-1 text-center text-lg font-semibold">Rp 3.000.000,00</td>
-            </tr>
+            @foreach ($omsetPerBulan as $index => $item)
+                <tr>
+                    <td class="border border-black text-center py-1 px-2">{{ $index + 1 }}</td>
+                    <td class="border border-black py-1 px-2">{{ $item['bulan'] }}</td>
+                    <td class="border border-black text-right py-1 px-2">Rp
+                        {{ number_format($item['total'], 2, ',', '.') }}</td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
 
-
-    <!-- Summary -->
-    <div class="mt-6 text-sm space-y-1">
-        <p class="text-lg font-semibold"><span class="inline-block w-28 text-lg font-semibold"">Jumlah Bulan</span> : 11
-        </p>
-        <p class="text-lg font-semibold""><span class="inline-block w-28 text-lg font-semibold"">Total Omset</span> : Rp
-            33.000.000,00</p>
-        <p class="text-lg font-semibold""><span class="inline-block w-28 text-lg font-semibold"">Rata-rata</span> : Rp
-            3.000.000,00</p>
-    </div><br>
+    <!-- Ringkasan -->
+    <div class="mt-4 space-y-1">
+        <p><span class="font-bold">Jumlah Bulan</span> : {{ $jumlahBulan }}</p>
+        <p><span class="font-bold">Total Omset</span> : Rp {{ number_format($totalOmset, 2, ',', '.') }}</p>
+        <p><span class="font-bold">Rata-rata</span> : Rp {{ number_format($rataRata, 2, ',', '.') }}</p>
+    </div>
 
     <!-- Footer -->
-    <div class="mt-10 pt-4 border-t-2 border-black w-full text-lg">
-        <div class="flex justify-between items-start">
+    <div class="border-t border-black mt-10 pt-2 text-[12px]">
+        <div class="flex justify-between">
             <div>
-                <p class="font-bold text-lg">Areakerja.com</p>
-                <p class="text-gray-500 text-lg">Alamat dari Areakerja.com</p>
+                <p class="font-bold">Areakerja.com</p>
+                <p class="text-gray-500">Alamat dari Areakerja.com</p>
             </div>
             <div class="text-right">
-                <p class="text-lg">July 30, 2023, 10.35 am</p>
+                <p>{{ $tanggal }}</p>
             </div>
         </div>
     </div>

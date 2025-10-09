@@ -15,6 +15,7 @@
                     <table class="w-full text-sm">
                         <thead>
                             <tr class="bg-orange-500 text-white">
+                          
                                 <th class="px-4 py-2 text-left">No</th>
                                 <th class="px-4 py-2 text-left">No. Referensi</th>
                                 <th class="px-4 py-2 text-left">User</th>
@@ -30,6 +31,7 @@
                         <tbody>
                             @foreach ($transaksi as $item)
                                 <tr class="border-t">
+                                         <tr class="border-b-[2px] border-gray-300">
                                     <td class="px-4 py-2">{{ $loop->iteration }}</td>
                                     <td class="px-4 py-2">{{ $item->no_referensi }}</td>
                                     <td class="px-4 py-2">{{ $item->user->username ?? '-' }}</td>

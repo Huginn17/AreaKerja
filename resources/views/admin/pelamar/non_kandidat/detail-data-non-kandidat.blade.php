@@ -55,13 +55,13 @@
                         <div class="flex items-center gap-4 overflow-y-auto">
                             @if (!empty($pdf))
                                 <img src="{{ public_path('storage/' . $pelamar->img_profile) }}" alt="Profile"
-                                    class="w-32 h-32 md:w-28 md:h-28 rounded-full object-cover border-4 border-gray-300">
+                                    class="w-32 h-32 md:w-28 md:h-28 rounded-full object-cover border-2 border-gray-300">
                             @else
                                 <img src="{{ asset('storage/'. $pelamar->img_profile) }}" alt="Profile"
-                                    class="w-32 h-32 md:w-28 md:h-28 rounded-full object-cover border-4 border-gray-300">
+                                    class="w-32 h-32 md:w-28 md:h-28 rounded-full object-cover border-2 border-gray-300">
                             @endif
                             <img hidden src="{{ public_path('storage/' . $pelamar->img_profile) }}" alt="Profile"
-                                class="w-32 h-32 md:w-28 md:h-28 rounded-full object-cover border-4 border-gray-300">
+                                class="w-32 h-32 md:w-28 md:h-28 rounded-full object-cover border-2 border-gray-300">
                             <div>
                                 <h1 class="text-2xl font-bold text-orange-600 mb-1">{{ $pelamar->user->username }} </h1>
                                 <p class="text-sm font-semibold">Jl. Prapatan Dalam No. 04 Rt. 47<br>

@@ -45,7 +45,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($transaksis as $transaksi)
+                        {{-- @forelse ( as )
                             <tr class="text-center border-b font-medium">
                                 <td class="px-4 py-2">{{ $transaksi->created_at->format('d M Y') }}</td>
                                 <td class="px-4 py-2">{{ ucfirst($transaksi->jenis) }}</td>
@@ -77,7 +77,7 @@
                                     Tidak ada transaksi
                                 </td>
                             </tr>
-                        @endforelse
+                        @endforelse --}}
                     </tbody>
                 </table>
             </div>

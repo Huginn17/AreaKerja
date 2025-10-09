@@ -102,20 +102,27 @@
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    <tr class="border-b-2">
-                        <td class="px-4 py-3">000001</td>
-                        <td class="px-4 py-3">Holis Nugraha</td>
-                        <td class="px-4 py-3">S1</td>
-                        <td class="px-4 py-3">Front-End Developer</td>
-                        <td class="px-4 py-3">Jawa Tengah</td>
-                        <td class="px-4 py-3">
-                            <a href="/super_admin/detail-kandidat"
-                                class="bg-orange-500 hover:bg-orange-600 text-xs text-white px-4 py-2 rounded-lg">View</a>
-                        </td>
-                    </tr>
+                    @forelse ($kandidat as $p)
+                        <tr class="border-b-2">
+                            <td class="px-4 py-3">{{ $p->id }}</td>
+                            <td class="px-4 py-3">{{ $p->user->username }}</td>
+                            <td class="px-4 py-3">{{ $p->riwayat_pendidikan->pluck('pendidikan')->implode(', ') }}</td>
+                            <td class="px-4 py-3">{{ $p->skill->pluck('skill')->implode(', ') }}</td>
+                            <td class="px-4 py-3">{{ $p->alamat_pelamar->first()?->provinsi ?? '-' }}</td>
+                            <td class="px-4 py-3">
+                                <a href="{{ route('superadmin.detail.kandidat', $p->id) }}"
+                                    class="bg-orange-500 hover:bg-orange-600 text-xs text-white px-4 py-2 rounded-lg">View</a>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6" class="py-4 text-gray-500 italic">Tidak ada data kandidat aktif</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
+
         {{-- selesai tabel kandidat --}}
 
         {{-- tabel non kandidat --}}
@@ -132,22 +139,27 @@
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    @foreach ($pelamar as $p)
+                    @forelse ($nonKandidat as $p)
                         <tr class="border-b-2">
                             <td class="px-4 py-3">{{ $p->id }}</td>
                             <td class="px-4 py-3">{{ $p->user->username }}</td>
                             <td class="px-4 py-3">{{ $p->riwayat_pendidikan->pluck('pendidikan')->implode(', ') }}</td>
-                            <td class="px-4 py-3">{{ $p->skill->pluck('skill')->implode(', ')}}</td>
+                            <td class="px-4 py-3">{{ $p->skill->pluck('skill')->implode(', ') }}</td>
                             <td class="px-4 py-3">{{ $p->alamat_pelamar->first()?->provinsi ?? '-' }}</td>
                             <td class="px-4 py-3">
                                 <a href="{{ route('superadmin.detail.non.kandidat', $p->id) }}"
                                     class="bg-orange-500 hover:bg-orange-600 text-xs text-white px-4 py-2 rounded-lg">View</a>
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="6" class="py-4 text-gray-500 italic">Tidak ada data non kandidat</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
+
         {{-- selesai tabel non kandidat --}}
 
         {{-- tabel calon kandidat --}}
@@ -164,20 +176,27 @@
                     </tr>
                 </thead>
                 <tbody class="text-center">
+                    @forelse ($calonKandidat as $p)
                         <tr class="border-b">
-                            <td class="px-4 py-3">000001</td>
-                            <td class="px-4 py-3">Holis Nugraha</td>
-                            <td class="px-4 py-3">S1</td>
-                            <td class="px-4 py-3">Front-End Developer</td>
-                            <td class="px-4 py-3">Jawa Tengah</td>
+                            <td class="px-4 py-3">{{ $p->id }}</td>
+                            <td class="px-4 py-3">{{ $p->user->username }}</td>
+                            <td class="px-4 py-3">{{ $p->riwayat_pendidikan->pluck('pendidikan')->implode(', ') }}</td>
+                            <td class="px-4 py-3">{{ $p->skill->pluck('skill')->implode(', ') }}</td>
+                            <td class="px-4 py-3">{{ $p->alamat_pelamar->first()?->provinsi ?? '-' }}</td>
                             <td class="px-4 py-3">
-                                <a href="/super_admin/detail-kandidat"
+                                <a href="{{ route('superadmin.calon.detail', $p->id) }}"
                                     class="bg-orange-500 hover:bg-orange-600 text-xs text-white px-4 py-1 rounded-lg">View</a>
                             </td>
                         </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6" class="py-4 text-gray-500 italic">Tidak ada data calon kandidat</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
+
         {{-- selesai tabel calon kandidat --}}
 
     </main>
