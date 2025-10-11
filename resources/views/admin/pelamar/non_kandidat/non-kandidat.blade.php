@@ -26,11 +26,24 @@
 
                 <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
                     <a href="#">
-                        <img src="{{ asset('images/ohim.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
+                        @if (Auth::user()->role == 'admin')
+                            @if (Auth::user()->admin->img_profile)
+                                <img id="pu" class="w-10 h-10  object-cover rounded-full profile-img"
+                                    src="{{ asset('storage/' . Auth::user()->admin->img_profile) }}" alt="Profile">
+                            @else
+                                <img id="pu" class="w-10 h-10 rounded-full"
+                                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                    alt="">
+                            @endif
+                        @else
+                            <img class="w-10 h-10 rounded-full"
+                                src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                alt="">
+                        @endif
                     </a>
-                    <div class="text-sm">
-                        <div class="font-semibold">ronaldo</div>
-                        <div class="text-gray-500">ronaldo@gmail.com</div>
+                    <div class="text-sm mr-14">
+                        <span class="font-semibold">{{ Auth::user()->username }}</span>
+                        <p class="text-gray-500 text-sm">{{ Auth::user()->email }}</p>
                     </div>
 
                     <select class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
@@ -79,7 +92,7 @@
                 </thead>
                 <tbody class="text-center">
                     @forelse ($pelamar as $item)
-                       <tr class="border-b-[2px] border-gray-300">
+                        <tr class="border-b-[2px] border-gray-300">
                             <td class="px-4 py-3">{{ $item->id }}</td>
                             <td class="px-4 py-3">{{ $item->nama_pelamar ?? $item->user->username }}</td>
                             <td class="px-4 py-3">

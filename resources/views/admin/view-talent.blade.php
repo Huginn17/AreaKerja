@@ -27,11 +27,24 @@
 
                     <div class="flex items-center gap-2 bg-white px-0 py-1 border border-gray-200 shadow-md rounded-2xl">
                         <a href="#">
-                            <img src="{{ asset('images/tangan.png') }}" class="w-8 h-8 rounded-full" alt="User">
+                            @if (Auth::user()->role == 'admin')
+                                @if (Auth::user()->admin->img_profile)
+                                    <img id="pu" class="w-10 h-10  object-cover rounded-full profile-img"
+                                        src="{{ asset('storage/' . Auth::user()->admin->img_profile) }}" alt="Profile">
+                                @else
+                                    <img id="pu" class="w-10 h-10 rounded-full"
+                                        src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                        alt="">
+                                @endif
+                            @else
+                                <img class="w-10 h-10 rounded-full"
+                                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                    alt="">
+                            @endif
                         </a>
-                        <div class="text-sm">
-                            <div class="font-semibold">Steve Jobs</div>
-                            <div class="text-gray-500">Stevejobs@gmail.com</div>
+                        <div class="text-sm mr-14">
+                            <span class="font-semibold">{{ Auth::user()->username }}</span>
+                            <p class="text-gray-500 text-sm">{{ Auth::user()->email }}</p>
                         </div>
 
                         <select class="appearance-none px-6 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
@@ -78,7 +91,7 @@
                 <!-- Tombol aksi -->
                 <div class="flex flex-col items-center space-y-3 max-w-lg mx-auto mt-8">
                     <!-- Tombol Tambah Lowongan -->
-                  
+
                     <a href="{{ url('/admin/talenthunter') }}"
                         class="bg-gray-600 text-white text-center w-96 p-2 rounded-md hover:bg-gray-500 transition duration-300">
                         Kembali

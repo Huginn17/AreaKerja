@@ -24,17 +24,30 @@
                         </clipPath>
                     </defs>
                 </svg>
-                <div
-                    class="flex items-center justify-between w-[290px] h-[50px] bg-white border border-orange-500 shadow-md rounded-2xl px-4 py-2">
-                    <!-- Kiri: Logo + Teks -->
-                    <div class="flex items-center space-x-2">
-                        <!-- Logo -->
-                        <img src="{{ asset('images/seven.png') }}" alt="Logo" class="w-15 h-10 object-contain" />
 
-                        <!-- Nama + Email -->
-                        <div class="flex flex-col">
-                            <span class="text-sm font-semibold text-gray-800">Seven Inc</span>
-                            <span class="text-xs text-gray-500">financeseven@gmail.com</span>
+                <div
+                    class="flex items-center justify-between w-96 h-14 bg-white border border-orange-500 shadow-md rounded-2xl px-3 py-2">
+                    <!-- Logo + Info -->
+                    <div class="flex items-center gap-2 mr-2">
+                        <a href="#">
+                            @if (Auth::user()->role == 'finance')
+                                @if (Auth::user()->finance->img_profile)
+                                    <img id="pi" class="w-10 h-10  object-cover rounded-full profile-img"
+                                        src="{{ asset('storage/' . Auth::user()->finance->img_profile) }}" alt="Profile">
+                                @else
+                                    <img id="pi" class="w-10 h-10 rounded-full"
+                                        src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                        alt="">
+                                @endif
+                            @else
+                                <img class="w-10 h-10 rounded-full"
+                                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                    alt="">
+                            @endif
+                        </a>
+                        <div class="text-sm">
+                            <span class="font-semibold">{{ Auth::user()->username }}</spam>
+                                <p class="text-gray-500 text-sm">{{ Auth::user()->email }}</p>
                         </div>
                     </div>
 
@@ -87,7 +100,8 @@
             <div class="mb-10">
                 <div class="flex justify-between items-center mb-2">
                     <h2 class="text-lg font-medium">Paket Harga Pembayaran</h2>
-                    <a href="{{ route('finance.paket-harga.edit-pembayaran') }}" class="bg-orange-500 text-white text-sm px-5 py-1 rounded-full">Edit</a>
+                    <a href="{{ route('finance.paket-harga.edit-pembayaran') }}"
+                        class="bg-orange-500 text-white text-sm px-5 py-1 rounded-full">Edit</a>
                 </div>
 
                 <div class="overflow-hidden border border-gray-300 rounded-2xl">

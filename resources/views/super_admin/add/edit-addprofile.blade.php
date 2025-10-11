@@ -99,6 +99,12 @@
                             <input type="text" name="kecamatan" value="{{ old('kecamatan', $detail->kecamatan ?? '') }}"
                                 class="w-full border rounded-md px-3 py-2">
                         </div>
+
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Desa</label>
+                            <input type="text" name="desa" value="{{ old('desa', $detail->desa ?? '') }}"
+                                class="w-full border rounded-md px-3 py-2">
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
@@ -197,6 +203,12 @@
             const formAlamat = document.getElementById("form-alamat");
             const formPerusahaan = document.getElementById("form-perusahaan");
 
+            // Pastikan semua elemen ditemukan sebelum lanjut
+            if (!roleSelect || !profileImg || !fileInput || !formAlamat || !formPerusahaan) {
+                console.warn("⚠️ Beberapa elemen form tidak ditemukan di halaman edit user.");
+                return; // hentikan script agar tidak error
+            }
+
             const roleImages = {
                 "admin": "{{ asset('images/admin-default.png') }}",
                 "finance": "{{ asset('images/finance-default.png') }}",
@@ -214,17 +226,21 @@
                 }
             }
 
+            // Jalankan pertama kali
             toggleForms(roleSelect.value);
 
+            // Event: ubah form sesuai role
             roleSelect.addEventListener("change", function() {
                 const selectedRole = this.value;
                 toggleForms(selectedRole);
+
                 if (fileInput.files.length === 0) {
                     profileImg.src = roleImages[selectedRole] ||
                         "https://ui-avatars.com/api/?name=Default&background=random&color=fff&size=128";
                 }
             });
 
+            // Event: preview foto profil baru
             fileInput.addEventListener("change", function() {
                 const file = this.files[0];
                 if (file) {

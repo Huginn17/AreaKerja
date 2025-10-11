@@ -65,7 +65,7 @@
 
 
             {{-- Table --}}
-          <div class="w-full border border-gray-300 rounded-3xl shadow-md overflow-hidden">
+          <div class="w-full border-2 border-gray-400 rounded-3xl shadow-md overflow-hidden">
   <table class="w-full table-fixed border-collapse">
     <thead class="bg-gray-50">
       <tr class="text-center">
@@ -80,6 +80,7 @@
                     <tbody>
                         @forelse ($events as $event)
                                <tr class="text-center">
+                                
                                 <td class="px-6 py-3 text-white">
                                     @if ($event->status == 'buka')
                                         <span class="bg-green-500 px-5 py-1 rounded-lg whitespace-nowrap">Buka</span>

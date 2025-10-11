@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\BrowserPath;
 use App\Models\CatatanCash;
+use App\Models\CatatanKoin;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -66,16 +67,22 @@ class FinanceController extends Controller
 
     public function laporan(Request $request)
     {
-        $query = CatatanCash::with(['user', 'hargaPembayaran', 'bank']);
 
+        $queryCash = CatatanCash::with(['user', 'hargaPembayaran', 'bank']);
         if ($request->periode) {
-            $query->where('created_at', '>=', now()->subMonths($request->periode));
+            $queryCash->where('created_at', '>=', now()->subMonths($request->periode));
         }
+        $catatanCash = $queryCash->orderBy('created_at', 'desc')->take(6)->get();
 
-        $transaksi = $query->orderBy('created_at', 'desc')->take(10)->get();
+        $queryKoin = CatatanKoin::with(['user']);
+        if ($request->periode) {
+            $queryKoin->where('created_at', '>=', now()->subMonths($request->periode));
+        }
+        $catatanKoin = $queryKoin->orderBy('created_at', 'desc')->take(6)->get();
 
-        return view('finance.catatan-tran', compact('transaksi'));
+        return view('finance.catatan-tran', compact('catatanCash', 'catatanKoin'));
     }
+
 
     public function detail($id)
     {
@@ -96,9 +103,12 @@ class FinanceController extends Controller
 
     public function hal_detail()
     {
-        $transaksi = CatatanCash::with(['user', 'bank', 'hargaPembayaran'])->latest()->get();
-        return view('finance.detail-cat-koin', compact('transaksi'));
+        $catatanKoins = CatatanKoin::with('user')->latest()->get();
+        $catatanCashs = CatatanCash::with(['user', 'bank', 'hargaPembayaran'])->latest()->get();
+
+        return view('finance.detail-cat-koin', compact('catatanKoins', 'catatanCashs'));
     }
+
 
 
     public function omset_perusahaan(Request $request)
@@ -160,7 +170,7 @@ class FinanceController extends Controller
             ->where('status', 'diterima')
             ->get();
 
-      
+
         $omsetPerBulan = $cashData
             ->groupBy(fn($item) => Carbon::parse($item->created_at)->format('Y-m'))
             ->map(function ($group) {
@@ -178,7 +188,7 @@ class FinanceController extends Controller
                     'total' => $total,
                 ];
             })
-            ->sortBy('bulan_angka') 
+            ->sortBy('bulan_angka')
             ->values();
 
         $totalOmset = $omsetPerBulan->sum('total');

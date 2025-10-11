@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\CatatanCash;
+use App\Models\CatatanKoin;
 use App\Models\Pelamar;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -78,7 +80,7 @@ class AdminController extends Controller
         $admin->save();
         return redirect()->route('admin.edit.profile')->with('success', 'Profile berhasil dihapus');
     }
-    
+
 
     //CALON KANDIDAT
     public function halCalonKandidat()
@@ -172,5 +174,75 @@ class AdminController extends Controller
             'logoBase64' => $logoBase64,
             'sosmed' => $pelamar->sosmed
         ]);
+    }
+
+
+
+
+    //FINANCE
+    public function koinHal(Request $request)
+    {
+        $query = CatatanKoin::query();
+
+        if ($request->filled('no_referensi')) {
+            $query->where('no_referensi', $request->no_referensi);
+        }
+
+        $koin = $query->get();
+        $noReferensiList = catatanKoin::select('no_referensi')->distinct()->pluck('no_referensi');
+        return view('admin.finance.finance', [
+            'koin' => $koin,
+            'noReferensiList' => $noReferensiList,
+            'selectedRef' => $request->no_referensi
+        ]);
+    }
+
+    public function cashHal(Request $request)
+    {
+
+        $query = CatatanCash::query();
+
+
+        if ($request->no_referensi) {
+            $query->where('no_referensi', $request->no_referensi);
+        }
+
+
+        $cash = $query->orderBy('created_at', 'desc')->get();
+
+
+        $noReferensiList = CatatanCash::whereNotNull('no_referensi')
+            ->distinct()
+            ->pluck('no_referensi');
+
+        return view('admin.finance.finance-tunai', [
+            'cash' => $cash,
+            'noReferensiList' => $noReferensiList,
+            'selectedRef' => $request->no_referensi, 
+        ]);
+    }
+
+
+    public function detail($id)
+    {
+        $transaksi = CatatanCash::with(['user', 'hargaPembayaran', 'bank'])->findOrFail($id);
+
+        return response()->json([
+            'id' => $transaksi->id,
+            'user' => $transaksi->user->name ?? '-',
+            'email' => $transaksi->user->email ?? '-',
+            'bank' => $transaksi->bank->nama_bank ?? '-',
+            'nomor_rekening' => $transaksi->bank->nomor_rekening ?? '-',
+            'harga' => number_format($transaksi->hargaPembayaran->harga ?? 0, 0, ',', '.'),
+            'jumlah_koin' => $transaksi->hargaPembayaran->jumlah_koin ?? 0,
+            'status' => ucfirst($transaksi->status),
+            'created_at' => $transaksi->created_at->format('d M Y H:i')
+        ]);
+    }
+
+    public function hal_detail()
+    {
+        $transaksi = CatatanCash::with(['user', 'bank', 'hargaPembayaran'])->latest()->get();
+        return view('admin.finance.detail', compact('transaksi'));
     }
 }

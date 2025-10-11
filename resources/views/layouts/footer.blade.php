@@ -25,10 +25,10 @@
         <div>
             <h3 class="mb-4 text-xl">Kategori</h3>
             <ul class="grid grid-cols-2 gap-y-3 text-sm">
-                <li><a href="#" class="hover:text-orange-200 transition">Beranda</a></li>
-                <li><a href="#" class="hover:text-orange-200 transition">Tips Kerja</a></li>
-                <li><a href="#" class="hover:text-orange-200 transition">Provinsi Lainnya</a></li>
-                <li><a href="#" class="hover:text-orange-200 transition">Pasang Lowongan</a></li>
+                <li><a href="#" class="hover:text-orange-200 transition hover:scale-105">Beranda</a></li>
+                <li><a href="#" class="hover:text-orange-200 transition hover:scale-105">Tips Kerja</a></li>
+                <li><a href="#" class="hover:text-orange-200 transition hover:scale-105">Provinsi Lainnya</a></li>
+                <li><a href="#" class="hover:text-orange-200 transition hover:scale-105">Pasang Lowongan</a></li>
             </ul>
         </div>
 

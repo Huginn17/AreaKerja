@@ -110,7 +110,9 @@
                 <h2 class="text-md font-semibold mb-2">Riwayat Transaksi Cash Terbaru</h2>
                 <div class="overflow-x-auto border rounded-2xl">
                     <table class="w-full border-collapse">
+
                         <thead>
+                            <tr class="border-b-[2px] border-gray-300">
                             <tr class="bg-orange-500 text-white text-sm">
                                 <th class="font-medium px-3 py-2">No</th>
                                 <th class="font-medium px-3 py-2">No. Refrensi</th>
@@ -125,6 +127,7 @@
                         <tbody class="text-sm text-gray-700">
                             @forelse ($cashTerbaru as $index => $cash)
                                 <tr class="border-b">
+                                <tr class="border-b-[2px] border-gray-300">
                                     <td class="py-3 px-2">{{ $index + 1 }}</td>
                                     <td class="py-3 px-2">{{ $cash->no_referensi ?? '-' }}</td>
                                     <td class="py-3 px-2">{{ $cash->pesanan ?? '-' }}</td>
@@ -134,7 +137,8 @@
                                         {{ \Carbon\Carbon::parse($cash->created_at)->translatedFormat('d F Y') }}</td>
                                     <td class="py-3 px-2">Rp {{ number_format($cash->total, 0, ',', '.') }}</td>
                                     <td class="py-3 px-4">
-                                        <span class="{{ $cash->status == 'diterima' ? 'text-green-500' : 'text-red-500' }}">
+                                        <span
+                                            class="{{ $cash->status == 'diterima' ? 'text-green-500' : 'text-red-500' }}">
                                             {{ ucfirst($cash->status) }}
                                         </span>
                                     </td>
@@ -149,12 +153,13 @@
                 </div>
             </section>
 
-            <!-- Table 2 (copy) -->
+            <!-- Table 2  -->
             <section>
                 <h2 class="text-md font-semibold mb-2">Riwayat Transaksi Koin Terbaru</h2>
                 <div class="overflow-x-auto border rounded-2xl">
                     <table class="w-full border-collapse">
                         <thead>
+                            <tr class="border-b-[2px] border-gray-300">
                             <tr class="bg-orange-500 text-white text-sm">
                                 <th class="font-medium px-3 py-2">No</th>
                                 <th class="font-medium px-3 py-2">No. Refrensi</th>
@@ -169,6 +174,7 @@
                         <tbody class="text-sm text-gray-700 ">
                             @forelse ($koinTerbaru as $index => $koin)
                                 <tr class="border-b text-center">
+                                <tr class="border-b-[2px] border-gray-300">
                                     <td class="py-3 px-2">{{ $index + 1 }}</td>
                                     <td class="py-3 px-2">{{ $koin->no_referensi ?? '-' }}</td>
                                     <td class="py-3 px-2">{{ $koin->pesanan ?? '-' }}</td>

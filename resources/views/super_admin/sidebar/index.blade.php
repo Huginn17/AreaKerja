@@ -33,7 +33,7 @@
 </head>
 
 <body>
-    <div class="flex h-screen">
+    <div class="flex">
         <!-- Sidebar -->
         <aside class="w-64 bg-orange-600 text-white">
             <!-- Logo -->
@@ -188,7 +188,7 @@
                     <form id="logout" action="" method="POST">
                         @csrf
                         <button onclick="openModal()"
-                            class="flex font-semibold text-white items-center gap-2 rounded-md px-3 py-2 transition duration-300">
+                            class="flex font-semibold text-white items-center gap-2 mb-4 rounded-md px-3 py-2 transition duration-300">
                             <svg width="18" height="19" viewBox="0 0 18 19" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path

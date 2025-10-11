@@ -43,7 +43,7 @@
                         ?
                         'text-orange-600 border-b-4 border-orange-500 bg-orange-50' :
                         'text-gray-500 hover:text-orange-500 hover:bg-orange-50'"
-                    class="px-6 py-3 font-semibold rounded-t-lg transition-all duration-200 focus:outline-none">
+                    class="px-6 py-3 font-semibold rounded-t-lg transition-all duration-300 focus:outline-none">
                     Admin & Finance
                 </button>
 
@@ -52,7 +52,7 @@
                         ?
                         'text-orange-600 border-b-4 border-orange-500 bg-orange-50' :
                         'text-gray-500 hover:text-orange-500 hover:bg-orange-50'"
-                    class="px-6 py-3 font-semibold rounded-t-lg transition-all duration-200 focus:outline-none">
+                    class="px-6 py-3 font-semibold rounded-t-lg transition-all duration-300 focus:outline-none">
                     Perusahaan & Pelamar
                 </button>
             </div>

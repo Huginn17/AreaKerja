@@ -29,11 +29,24 @@
                         <!-- Logo + Info -->
                         <div class="flex items-center gap-2 mr-2">
                             <a href="#">
-                                <img src="{{ asset('images/seven.png') }}" class="w-16 h-16 object-contain" alt="User">
+                                @if (Auth::user()->role == 'admin')
+                                    @if (Auth::user()->admin->img_profile)
+                                        <img id="pu" class="w-10 h-10  object-cover rounded-full profile-img"
+                                            src="{{ asset('storage/' . Auth::user()->admin->img_profile) }}" alt="Profile">
+                                    @else
+                                        <img id="pu" class="w-10 h-10 rounded-full"
+                                            src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                            alt="">
+                                    @endif
+                                @else
+                                    <img class="w-10 h-10 rounded-full"
+                                        src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                        alt="">
+                                @endif
                             </a>
-                            <div class="text-sm">
-                                <div class="font-semibold">Seven Inc</div>
-                                <div class="text-gray-500 text-xs">financeseven@gmail.com</div>
+                            <div class="text-sm mr-14">
+                                <span class="font-semibold">{{ Auth::user()->username }}</span>
+                                <p class="text-gray-500 text-sm">{{ Auth::user()->email }}</p>
                             </div>
                         </div>
 
@@ -65,24 +78,24 @@
                 </div>
 
 
-               {{-- Table --}}
-          <div class="w-full border border-gray-300 rounded-3xl shadow-md overflow-hidden">
-  <table class="w-full table-fixed border-collapse">
-    <thead class="bg-gray-50">
-      <tr class="text-center">
-        <th class="p-4 font-semibold text-gray-700 text-center w-[15%]">Status</th>
-        <th class="p-4 font-semibold text-gray-700 w-[65%]">Nama</th>
-        <th class="p-4 font-semibold text-gray-700 w-[10%]">Kuota</th>
-        <th class="p-4 font-semibold text-gray-700 w-[25%]">Mulai</th>
-        <th class="p-4 font-semibold text-gray-700 w-[25%]">Selesai</th>
-       <!-- Lebarkan kolom Aksi -->
-        <th class="px-6 py-4 font-semibold text-gray-700 w-[12%] text-right">Aksi</th>
-      </tr>
-    </thead>    
+                {{-- Table --}}
+                <div class="w-full border border-gray-300 rounded-3xl shadow-md overflow-hidden">
+                    <table class="w-full table-fixed border-collapse">
+                        <thead class="bg-gray-50">
+                            <tr class="text-center">
+                                <th class="p-4 font-semibold text-gray-700 text-center w-[15%]">Status</th>
+                                <th class="p-4 font-semibold text-gray-700 w-[65%]">Nama</th>
+                                <th class="p-4 font-semibold text-gray-700 w-[10%]">Kuota</th>
+                                <th class="p-4 font-semibold text-gray-700 w-[25%]">Mulai</th>
+                                <th class="p-4 font-semibold text-gray-700 w-[25%]">Selesai</th>
+                                <!-- Lebarkan kolom Aksi -->
+                                <th class="px-6 py-4 font-semibold text-gray-700 w-[12%] text-right">Aksi</th>
+                            </tr>
+                        </thead>
                         <tbody>
                             @forelse ($events as $event)
                                 <tr class="text-center">
-                                    
+
                                     <td class="px-6 py-3 text-white">
                                         @if ($event->status == 'buka')
                                             <span class="bg-green-500 px-5 py-1 rounded-lg whitespace-nowrap">Buka</span>

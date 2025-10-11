@@ -35,4 +35,5 @@ class CatatanCash extends Model
     return $this->user->perusahaan; 
 }
 
+
 }

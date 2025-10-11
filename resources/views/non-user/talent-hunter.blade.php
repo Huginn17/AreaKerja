@@ -118,5 +118,23 @@
         </div>
 
     </section>
+    
+    <a href="#top"
+        class="fixed bottom-6 right-6 bg-orange-500 text-white px-3 py-3 rounded-full shadow-lg hover:bg-orange-600 transition">
+        <svg width="24" height="23" viewBox="0 0 31 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_231_4417)">
+                <path
+                    d="M26.6695 18.25L15.532 7.31684L4.3945 18.25L0.973172 14.8841L15.532 0.561196L30.0908 14.8841L26.6695 18.25Z"
+                    fill="white" />
+            </g>
+            <defs>
+                <clipPath id="clip0_231_4417">
+                    <rect width="29.1176" height="26.9608" fill="white"
+                        transform="translate(30.0586 27.2148) rotate(-180)" />
+                </clipPath>
+            </defs>
+        </svg>
+
+    </a>
     @include('layouts.footer')
 @endsection

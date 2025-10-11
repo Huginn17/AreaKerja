@@ -376,6 +376,17 @@ Route::prefix('admin')->middleware('auth', 'role:admin', 'CheckUserStatus')->gro
     // KANDIDAT
     Route::get('/kandidat', [AdminController::class, 'halKandidat'])->name('admin.kandidat');
     Route::get('/kandidat/{id}', [AdminController::class, 'detailKandidat'])->name('admin.detail.kandidat');
+
+
+    //FINANCE
+    Route::get('/finance', [AdminController::class, 'koinHal'])->name('admin.finance');
+    Route::get('/finance/koin/detail/{id}', function ($id) {
+        $data = App\Models\CatatanKoin::findOrFail($id);
+        return response()->json($data);
+    });
+
+
+    Route::get('/finance/tunai', [AdminController::class, 'cashHal'])->name('admin.finance.cash');
 });
 
 
@@ -400,12 +411,6 @@ Route::get('/admin/talenthunter', function () {
 });
 Route::get('/admin/finance/koin', function () {
     return view('admin.finance-koin');
-});
-Route::get('/admin/finance/tunai', function () {
-    return view('admin.finance-tunai');
-});
-Route::get('/admin/finance', function () {
-    return view('admin.finance');
 });
 Route::get('/admin/bukti/koin', function () {
     return view('admin.bukti-koin');
@@ -692,6 +697,10 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
     //ALAMAT PERUSAHAAN
     Route::get('/alamat', [PerusahaanController::class, 'alamat_perusahaan'])->name('alamat.perusahaan');
     Route::get('/form/alamat', [PerusahaanController::class, 'form_alamat'])->name('form.alamat.perusahaan');
+    Route::get('/provinsi', [PerusahaanController::class, 'provinsi']);
+    Route::get('/kota/{provinsi_id}', [PerusahaanController::class, 'kota']);
+    Route::get('/kecamatan/{kota_id}', [PerusahaanController::class, 'kecamatan']);
+
 
     Route::post('/create/alamat', [PerusahaanController::class, 'store_alamat'])->name('alamat.store.perusahaan');
     Route::get('/edit/alamat/{alamatperusahaan:id}', [PerusahaanController::class, 'edit_alamat'])->name('alamat.edit.perusahaan');

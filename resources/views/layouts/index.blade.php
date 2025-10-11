@@ -48,21 +48,21 @@
 
             {{-- Menu --}}
             <nav class="hidden md:flex gap-6 font-semibold text-orange-500">
-                <a href="{{ route('beranda') }}" class="hover:text-orange-500">Beranda</a>
-                <a href="{{ url('/talent-hunter') }}" class="hover:text-orange-500">Talent Hunter</a>
-                <a href="{{ url('/pelamar/tips-kerja') }}" class="hover:text-orange-500">Tips Kerja</a>
+                <a href="{{ route('beranda') }}" class="hover:text-orange-500 hover:scale-105 transition duration-400">Beranda</a>
+                <a href="{{ url('/talent-hunter') }}" class="hover:text-orange-500 hover:scale-105 transition duration-400">Talent Hunter</a>
+                <a href="{{ url('/pelamar/tips-kerja') }}" class="hover:text-orange-500 hover:scale-105 transition duration-400">Tips Kerja</a>
                 @if (Auth::check() && Auth::user()->pelamar)
                     @if (Auth::user()->pelamar->kategori === 'calon kandidat')
-                    <a href="{{ route('pelamar.calon-kandidat.pelatihan') }}" class="hover:text-orange-500">Rekrut Saya</a>
+                    <a href="{{ route('pelamar.calon-kandidat.pelatihan') }}" class="hover:text-orange-500 hover:scale-105 transition duration-400">Rekrut Saya</a>
                     @elseif (Auth::user()->pelamar->kategori === 'kandidat aktif')
-                    <a href="{{ route('pelamar.tawaran') }}" class="hover:text-orange-500">Rekrut Saya</a>
+                    <a href="{{ route('pelamar.tawaran') }}" class="hover:text-orange-500 hover:scale-105 transition duration-400">Rekrut Saya</a>
                     @else
-                    <a href="{{ route('pelamar.daftar-kandidat') }}" class="hover:text-orange-500">Daftar Kandidat</a>
+                    <a href="{{ route('pelamar.daftar-kandidat') }}" class="hover:text-orange-500 hover:scale-105 transition duration-400">Daftar Kandidat</a>
                     @endif
                 @else
-                    <a href="{{ route('pelamar.daftar-kandidat') }}" class="hover:text-orange-500">Daftar Kandidat</a>
+                    <a href="{{ route('pelamar.daftar-kandidat') }}" class="hover:text-orange-500 hover:scale-105 transition duration-400">Daftar Kandidat</a>
                 @endif
-                <a href="{{ url('/lowongan') }}" class="hover:text-orange-500">Pasang Lowongan</a>
+                <a href="{{ url('/lowongan') }}" class="hover:text-orange-500 hover:scale-105 transition duration-400">Pasang Lowongan</a>
             </nav>
 
             {{-- Aksi --}}

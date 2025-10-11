@@ -48,7 +48,7 @@
     <aside id="logo-sidebar"
         class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar">
-        <div class="h-full px-3 py-4 overflow-y-auto bg-orange-600 dark:bg-gray-800 ">
+        <div class="h-full px-3 py-4 overflow-y-auto bg-orange-600">
             <div class="px-4 py-2">
                 <div class="inline-flex items-center -ml-2 gap-1 border-b-2 border-orange-300 pb-2">
                     <img src="{{ asset('images/logo_area_kerja_putih.png') }}" alt="logo" class="w-14 h-14">
@@ -208,6 +208,21 @@
 
     @include('finance.sidebar.modal-logout')
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+
+    {{-- Liat Gambar --}}
+    <script>
+        document.getElementById('fileinput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('pp').setAttribute('src', event.target.result);
+                    document.getElementById('pi').setAttribute('src', event.target.result);
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
     <script>
         // Buka modal saat klik tombol "Keluar"
         document.querySelector('#logout button').addEventListener('click', function(e) {

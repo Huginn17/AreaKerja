@@ -67,22 +67,22 @@
             <div class="flex justify-end items-center space-x-4 mb-4">
                 <span class="font-medium">Status</span>
                 @if ($event->status == 'buka')
-                    <span class="bg-green-500 text-white px-4 py-2 rounded text-sm">Buka</span>
+                    <span class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm">Buka</span>
                 @elseif ($event->status == 'tutup')
-                    <span class="bg-red-500 text-white px-4 py-2 rounded text-sm">Tutup</span>
+                    <span class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm">Tutup</span>
                 @else
                     <span class="bg-gray-500 text-white px-4 py-2 rounded text-sm">Draft</span>
                 @endif
                 <form action="{{ route('superadmin.event.destroy', $event->id) }}" method="post">
                     @csrf
                     @method('delete')
-                    <button class="bg-red-500 text-white px-14 py-2 rounded text-sm">Hapus</button>
+                    <button class="bg-red-500 hover:bg-red-600 text-white px-14 py-2 rounded-lg text-sm">Hapus</button>
                 </form>
             </div>
 
             <div class="flex justify-end items-center space-x-4 mb-6">
-                <a href="{{ route('superadmin.edit.event', $event->id) }}" class="bg-blue-500 text-white px-12 py-2 rounded text-sm">Edit Event</a>
-                <button class="bg-blue-500 text-white px-6 py-2 rounded text-sm">Lihat Partisipan</button>
+                <a href="{{ route('superadmin.edit.event', $event->id) }}" class="bg-blue-500 hover:bg-blue-600 text-white px-12 py-2 rounded-lg text-sm">Edit Event</a>
+                <button class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg text-sm">Lihat Partisipan</button>
             </div>
 
             {{-- tanggal --}}

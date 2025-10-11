@@ -7,10 +7,13 @@ use App\Models\CatatanCash;
 use App\Models\DaftarBank;
 use App\Models\Event;
 use App\Models\HargaPembayaran;
+use App\Models\Kecamatan;
+use App\Models\Kota;
 use App\Models\LowonganPerusahaan;
 use App\Models\Pelamar;
 use App\Models\PelamarLowongan;
 use App\Models\Perusahaan;
+use App\Models\Provinsi;
 use App\Models\Skill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -87,17 +90,32 @@ class PerusahaanController extends Controller
         return view('perusahaan.alamat.buat-alamat');
     }
 
+    public function provinsi()
+    {
+        return response()->json(Provinsi::all());
+    }
+
+    public function kota($provinsi_id)
+    {
+        return response()->json(Kota::where('provinsi_id', $provinsi_id)->get());
+    }
+
+    public function kecamatan($kota_id)
+    {
+        return response()->json(Kecamatan::where('kota_id', $kota_id)->get());
+    }
+
     public function store_alamat(Request $request)
     {
         $validated = $request->validate([
-            'label'  => 'nullable',
-            'desa'   => 'nullable',
-            'kecamatan' => 'nullable',
-            'kota'  =>  'nullable',
-            'provinsi' => 'nullable',
-            'kode_pos' => 'nullable',
-            'detail' =>   'nullable'
-        ]);
+        'label'        => 'nullable|string|max:255',
+        'desa'         => 'nullable|string|max:255',
+        'provinsi_id'  => 'nullable|exists:provinsis,id',
+        'kota_id'      => 'nullable|exists:kotas,id',
+        'kecamatan_id' => 'nullable|exists:kecamatans,id',
+        'kode_pos'     => 'nullable|string|max:10',
+        'detail'       => 'nullable|string|max:500',
+    ]);
 
         $validated['perusahaan_id'] = Auth::user()->perusahaan->id;
         AlamatPerusahaan::create($validated);

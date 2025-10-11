@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('alamat_perusahaan', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('perusahaan_id')->constrained('perusahaans')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('label')->nullable();
+            $table->foreignId('perusahaan_id')->constrained('perusahaans')->cascadeOnDelete();
+            $table->foreignId('provinsi_id')->nullable()->constrained('provinsis')->nullOnDelete();
+            $table->foreignId('kota_id')->nullable()->constrained('kotas')->nullOnDelete();
+            $table->foreignId('kecamatan_id')->nullable()->constrained('kecamatans')->nullOnDelete();
             $table->string('desa')->nullable();
-            $table->string('kecamatan')->nullable();
-            $table->string('kota')->nullable();
-            $table->string('provinsi')->nullable();
             $table->string('kode_pos')->nullable();
             $table->string('detail')->nullable();
-            $table->string('utama')->nullable();
+            $table->string('label')->nullable();
+            $table->boolean('utama')->default(0);
             $table->timestamps();
         });
     }

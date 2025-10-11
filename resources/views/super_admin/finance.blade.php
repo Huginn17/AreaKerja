@@ -44,7 +44,7 @@
                         <button onclick="bukaModal()"
                             class="bg-orange-500 hover:bg-orange-600 text-white text-lg px-7 py-1 rounded-full ml-auto">Edit</button>
                     </div>
-                    <div class="border border-gray-300 rounded-2xl overflow-hidden w[500px]">
+                    <div class="border-2 border-gray-400 rounded-2xl overflow-hidden w[500px]">
 
                         {{-- header --}}
                         <div class="flex justify-between items-center bg-orange-500 text-white px-4 py-3">
@@ -53,8 +53,8 @@
                         </div>
 
                         {{-- isi tabel --}}
-                        <div class="divider-y divide-gray-300 bg-white">
-                            <div class="flex justify-between items-center px-4 py-3 border-2">
+                        <div class="divider-y divide-gray-400 bg-white">
+                            <div class="flex justify-between items-center px-4 py-3 border-2 border-gray-400">
                                 <div>Pasang Lowongan Bronze</div>
                                 <div>150 Koin</div>
                             </div>

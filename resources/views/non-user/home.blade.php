@@ -30,8 +30,8 @@
 
     <!-- Kategori Populer -->
     <section class="max-w-5xl mx-auto px-4 py-8">
-        <h4 class="mb-4 text-lg font-semibold text-gray-900 dark:text-white">KATEGORI PEKERJAAN POPULER </h4>
-        <div class="grid grid-cols-5 gap-4 font-semibold text-xl transition-duration-300 py-4">
+        <h4 class="mb-4 text-lg font-semibold text-gray-900">KATEGORI PEKERJAAN POPULER </h4>
+        <div class="grid grid-cols-5 gap-4 font-semibold text-xs transition-duration-300 py-1">
             @foreach (['Teknologi', 'Pelayanan', 'Administrasi', 'Pemasaran', '🔥 Full Time', 'Pendidik', 'Customer Service', 'Keuangan', 'Kasir', '🌐 WFO/WFH', 'Admin', 'Programmer', 'Marketing', 'Multimedia', '🎓 Graduate'] as $kategori)
                 @php
                     $isFullTime = $kategori === '🔥 Full Time';
@@ -47,11 +47,11 @@
                                 : 'text-orange'));
 
                     $borderClass = $isFullTime
-                        ? 'border-l-4 border-red-600'
+                        ? 'border-l-4 border-red-600 hover:bg-red-100'
                         : ($isWfoWfh
-                            ? 'border-l-4 border-blue-600'
+                            ? 'border-l-4 border-blue-600 hover:bg-blue-100'
                             : ($isGraduate
-                                ? 'border-l-4 border-orange-500'
+                                ? 'border-l-4 border-orange-500 hover:bg-orange-100'
                                 : ''));
                 @endphp
 
@@ -78,17 +78,17 @@
     <div class="flex justify-center border-b">
         <div class="max-w-5xl mx-auto flex gap-6 px-4 text">
             <a href="#" class="py-3 border-b-4 border-orange-600  text-gray-800 font-bold">
-                Umpan Lowongan
+                UMPAN LOWONGAN
             </a>
             <a href="#" class="py-3 text-gray-700 hover:text-gray-800 font-bold">
-                Pencarian Baru-Baru Ini
+                PENCARIAN BARU-BARU INI
             </a>
         </div>
     </div>
 
+
     <!-- Card Lowongan -->
-    <!-- Card Lowongan -->
-    <h3 class="px-40 mt-8 mb-4 text-gray-500 font-semibold dark:text-white">
+    <h3 class="ml-24 mt-8 mb-8 text-gray-500 font-semibold">
         Lowongan berdasarkan pada aktivitas Anda di areakerja
     </h3>
 
@@ -97,7 +97,7 @@
             @foreach ($Data as $d)
                 @if ($d->published_at && (!$d->expired_at || $d->expired_at > now()))
                     <div x-data="{ open: false, showConfirm: false, showSuccess: false }"
-                        class="border p-8 rounded-lg shadow-sm hover:shadow-md transition bg-white">
+                        class="border p-6 rounded-lg shadow-sm hover:shadow-md transition bg-white">
 
                         {{-- Header --}}
                         <div class="flex justify-between items-start">

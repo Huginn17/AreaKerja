@@ -434,6 +434,7 @@ class SuperAdminController extends Controller
                         'kota'          => $request->kota,
                         'kecamatan'     => $request->kecamatan,
                         'kode_pos'      => $request->kode_pos,
+                        'desa'           => $request->desa,
                         'detail_alamat' => $request->detail_alamat,
                         'img_profile'   => $imgPath,
                     ]

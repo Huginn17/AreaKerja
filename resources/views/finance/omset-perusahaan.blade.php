@@ -24,17 +24,30 @@
                         </clipPath>
                     </defs>
                 </svg>
-                <div
-                    class="flex items-center justify-between w-[290px] h-[50px] bg-white border border-orange-500 shadow-md rounded-2xl px-4 py-2">
-                    <!-- Kiri: Logo + Teks -->
-                    <div class="flex items-center space-x-2">
-                        <!-- Logo -->
-                        <img src="{{ asset('images/seven.png') }}" alt="Logo" class="w-15 h-10 object-contain" />
 
-                        <!-- Nama + Email -->
-                        <div class="flex flex-col">
-                            <span class="text-sm font-medium text-gray-800">Seven Inc</span>
-                            <span class="text-xs text-gray-500">financeseven@gmail.com</span>
+                <div
+                    class="flex items-center justify-between w-96 h-14 bg-white border border-orange-500 shadow-md rounded-2xl px-3 py-2">
+                    <!-- Logo + Info -->
+                    <div class="flex items-center gap-2 mr-2">
+                        <a href="#">
+                            @if (Auth::user()->role == 'finance')
+                                @if (Auth::user()->finance->img_profile)
+                                    <img id="pi" class="w-10 h-10  object-cover rounded-full profile-img"
+                                        src="{{ asset('storage/' . Auth::user()->finance->img_profile) }}" alt="Profile">
+                                @else
+                                    <img id="pi" class="w-10 h-10 rounded-full"
+                                        src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                        alt="">
+                                @endif
+                            @else
+                                <img class="w-10 h-10 rounded-full"
+                                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                    alt="">
+                            @endif
+                        </a>
+                        <div class="text-sm">
+                            <span class="font-semibold">{{ Auth::user()->username }}</spam>
+                                <p class="text-gray-500 text-sm">{{ Auth::user()->email }}</p>
                         </div>
                     </div>
 
@@ -105,21 +118,22 @@
                     </div>
 
                     {{-- Isi --}}
+
                     <div class="relative bg-white text-sm">
                         <div class="absolute left-1/2 top-0 bottom-0 w-px bg-gray-300"></div>
-
-                        @forelse ($omsetPerBulan as $item)
-                            <div class="flex px-4 py-3 border-b border-gray-300 relative">
-                                <div class="w-1/2 font-medium text-lg">
-                                    {{ $item['nama_bulan'] }} {{ $item['tahun'] }}
+                        <tr class="border-b-[2px] border-gray-300">
+                            @forelse ($omsetPerBulan as $item)
+                                <div class="flex px-4 py-3 border-b border-gray-300 relative">
+                                    <div class="w-1/2 font-medium text-lg">
+                                        {{ $item['nama_bulan'] }} {{ $item['tahun'] }}
+                                    </div>
+                                    <div class="w-1/2 text-right font-medium text-lg">
+                                        Rp. {{ number_format($item['total'], 0, ',', '.') }}
+                                    </div>
                                 </div>
-                                <div class="w-1/2 text-right font-medium text-lg">
-                                    Rp. {{ number_format($item['total'], 0, ',', '.') }}
-                                </div>
-                            </div>
-                        @empty
-                            <div class="text-center py-4 text-gray-500">Belum ada data omset</div>
-                        @endforelse
+                            @empty
+                                <div class="text-center py-4 text-gray-500">Belum ada data omset</div>
+                            @endforelse
                     </div>
                 </div>
             </div>

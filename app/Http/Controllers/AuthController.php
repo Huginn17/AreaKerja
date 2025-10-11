@@ -104,26 +104,41 @@ class AuthController extends Controller
 
     public function regis_proses(Request $request)
     {
-        $valid = $request->validate([
-            'username' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'role' => 'required'
-        ]);
+        try {
+            $valid = $request->validate([
+                'username' => 'required|unique:users,username',
+                'email' => 'required|email',
+                'password' => 'required|min:3',
+                'role' => 'required'
+            ], [
+                'username.required' => 'Username wajib diisi.',
+                'username.unique' => 'Username sudah digunakan.',
+                'email.required' => 'Email wajib diisi.',
+                'email.email' => 'Format email tidak valid.',
+                'password.required' => 'Password wajib diisi.',
+                'password.min' => 'Password minimal 3 karakter.',
+                'role.required' => 'Role wajib diisi.'
+            ]);
 
-        $valid['password'] = Hash::make($request->password);
-        $user = User::create($valid);
+            $valid['password'] = Hash::make($request->password);
+            $user = User::create($valid);
 
-        $valid_datapelamar = $request->validate([
-            'telepon_pelamar' => 'required'
-        ]);
+            $valid_datapelamar = $request->validate([
+                'telepon_pelamar' => 'required'
+            ], [
+                'telepon_pelamar.required' => 'Nomor telepon wajib diisi.'
+            ]);
 
-        $user->pelamar()->create($valid_datapelamar);
+            $user->pelamar()->create($valid_datapelamar);
 
-        return response()->json([
-            'success' => true,
-        ]);
+            return response()->json(['success' => true]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'errors' => $e->errors()
+            ], 422);
+        }
     }
+
 
     public function logout_pelamar(Request $request)
     {
@@ -185,29 +200,43 @@ class AuthController extends Controller
 
     public function regis_proses_perusahaan(Request $request)
     {
-        $valid = $request->validate([
-            'username' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'role' => 'required'
-        ]);
+        try {
+            $valid = $request->validate([
+                'username' => 'required|unique:users,username',
+                'email' => 'required|email',
+                'password' => 'required|min:3',
+                'role' => 'required'
+            ], [
+                'username.required' => 'Username wajib diisi.',
+                'username.unique' => 'Username sudah digunakan.',
+                'email.required' => 'Email wajib diisi.',
+                'email.email' => 'Format email tidak valid.',
+                'password.required' => 'Password wajib diisi.',
+                'password.min' => 'Password minimal 3 karakter.',
+                'role.required' => 'Role wajib diisi.'
+            ]);
 
-        $valid['password'] = Hash::make($request->password);
-        $user = User::create($valid);
+            $valid['password'] = Hash::make($request->password);
+            $user = User::create($valid);
 
-        $valid_dataperusahaan = $request->validate([
-            'telepon_perusahaan' => 'required',
-            'nama_perusahaan' => 'nullable'
-        ]);
+            $valid_dataperusahaan = $request->validate([
+                'telepon_perusahaan' => 'required'
+            ], [
+                'telepon_perusahaan.required' => 'Nomor telepon perusahaan wajib diisi.'
+            ]);
 
-        $valid_dataperusahaan['nama_perusahaan'] = $request->username;
+            $valid_dataperusahaan['nama_perusahaan'] = $request->username;
 
-        $user->perusahaan()->create($valid_dataperusahaan);
+            $user->perusahaan()->create($valid_dataperusahaan);
 
-        return response()->json([
-            'success' => true,
-        ]);
+            return response()->json(['success' => true]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'errors' => $e->errors()
+            ], 422);
+        }
     }
+
 
 
     public function logout_perusahaan(Request $request)
