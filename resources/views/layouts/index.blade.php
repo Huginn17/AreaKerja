@@ -47,7 +47,7 @@
             </div>
 
             {{-- Menu --}}
-            <nav class="hidden md:flex gap-6 font-semibold text-orange-500">
+            <nav class="hidden md:flex gap-6 font-semibold text-sm text-orange-500">
                 <a href="{{ route('beranda') }}" class="hover:text-orange-500 hover:scale-105 transition duration-400">Beranda</a>
                 <a href="{{ url('/talent-hunter') }}" class="hover:text-orange-500 hover:scale-105 transition duration-400">Talent Hunter</a>
                 <a href="{{ url('/pelamar/tips-kerja') }}" class="hover:text-orange-500 hover:scale-105 transition duration-400">Tips Kerja</a>

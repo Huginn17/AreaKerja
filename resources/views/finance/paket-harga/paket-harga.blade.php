@@ -76,7 +76,7 @@
                         class="bg-orange-500 text-white text-sm px-5 py-1 rounded-full">Edit</a>
                 </div>
 
-                <div class="overflow-hidden border border-gray-300 rounded-2xl">
+                <div class="overflow-hidden border-2 border-gray-400 rounded-2xl">
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-orange-500 text-white">
@@ -86,7 +86,7 @@
                         </thead>
                         <tbody>
                             @foreach ($koin as $k)
-                                <tr class="border-b">
+                                <tr class="border-b border-gray-400">
                                     <td class="px-4 py-3">{{ $k->nama }}</td>
                                     <td class="px-4 py-3 text-right">{{ $k->harga }}</td>
                                 </tr>
@@ -104,7 +104,7 @@
                         class="bg-orange-500 text-white text-sm px-5 py-1 rounded-full">Edit</a>
                 </div>
 
-                <div class="overflow-hidden border border-gray-300 rounded-2xl">
+                <div class="overflow-hidden border-2 border-gray-400 rounded-2xl">
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-orange-500 text-white">
@@ -114,7 +114,7 @@
                         </thead>
                         <tbody>
                             @foreach ($pembayaran as $p)
-                                <tr class="border-b">
+                                <tr class="border-b border-gray-400">
                                     <td class="px-4 py-3">{{ $p->nama }}</td>
                                     <td class="px-4 py-3 text-right">Rp. {{ number_format($p->harga, 0, ',', '.') }}</td>
                                 </tr>

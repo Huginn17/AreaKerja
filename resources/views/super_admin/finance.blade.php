@@ -44,7 +44,7 @@
                         <button onclick="bukaModal()"
                             class="bg-orange-500 hover:bg-orange-600 text-white text-lg px-7 py-1 rounded-full ml-auto">Edit</button>
                     </div>
-                    <div class="border-2 border-gray-400 rounded-2xl overflow-hidden w[500px]">
+                    <div class="border-2 border-gray-300 rounded-2xl overflow-hidden w[500px]">
 
                         {{-- header --}}
                         <div class="flex justify-between items-center bg-orange-500 text-white px-4 py-3">

@@ -385,8 +385,17 @@ Route::prefix('admin')->middleware('auth', 'role:admin', 'CheckUserStatus')->gro
         return response()->json($data);
     });
 
-
     Route::get('/finance/tunai', [AdminController::class, 'cashHal'])->name('admin.finance.cash');
+
+    //PROVINSI KOTA KECAMATAN
+    Route::get('/get-kota/{provinsi_id}', [AdminController::class, 'getKota'])->name('admin.get.kota')->middleware('auth');
+    Route::get('/get-kecamatan/{kota_id}', [AdminController::class, 'getKecamatan'])->name('admin.get.kecamatan')->middleware('auth');
+
+
+    //PERUSAHAAN
+    Route::get('/perusahaan', [AdminController::class, 'halPerusahaan'])->name('admin.perusahaan');
+    Route::post('/user/freeze/{id}', [AdminController::class, 'bekukan'])->name('admin.freeze');
+    Route::post('/user/unfreeze/{id}', [AdminController::class, 'aktifkan'])->name('admin.unfreeze');
 });
 
 
@@ -400,9 +409,7 @@ Route::get('/admin/detail/data/talent/hunter', function () {
 
 
 
-Route::get('/admin/perusahaan', function () {
-    return view('admin.perusahaan');
-});
+
 Route::get('/admin/recruitment', function () {
     return view('admin.recruitment');
 });
@@ -684,6 +691,8 @@ Route::prefix('perusahaan')->middleware('guest')->group(function () {
     Route::post('/reset-password', [LupaPasswordController::class, 'resetPassword_perusahaan'])->name('password.update.perusahaan');
 });
 
+
+
 Route::get('/perusahaan/lowongan/detail/{lowongan:id}', [LowonganPerusahaanController::class, 'show'])->name('lowongan.detail')->middleware('auth', 'CheckUserStatus');
 //PERUSAHAAN
 Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserStatus')->group(function () {
@@ -697,10 +706,6 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
     //ALAMAT PERUSAHAAN
     Route::get('/alamat', [PerusahaanController::class, 'alamat_perusahaan'])->name('alamat.perusahaan');
     Route::get('/form/alamat', [PerusahaanController::class, 'form_alamat'])->name('form.alamat.perusahaan');
-    Route::get('/provinsi', [PerusahaanController::class, 'provinsi']);
-    Route::get('/kota/{provinsi_id}', [PerusahaanController::class, 'kota']);
-    Route::get('/kecamatan/{kota_id}', [PerusahaanController::class, 'kecamatan']);
-
 
     Route::post('/create/alamat', [PerusahaanController::class, 'store_alamat'])->name('alamat.store.perusahaan');
     Route::get('/edit/alamat/{alamatperusahaan:id}', [PerusahaanController::class, 'edit_alamat'])->name('alamat.edit.perusahaan');
@@ -750,6 +755,9 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
     Route::get('/event', [PerusahaanController::class, 'event'])->name('perusahaan.event.index');
     Route::get('/gabung/event/{id}', [PerusahaanController::class, 'detail'])->name('perusahaan.event.show');
 });
+//PROVINSI KOTA KECAMATAN
+Route::get('/get-kota/{provinsi_id}', [PerusahaanController::class, 'getKota'])->name('get.kota')->middleware('auth');
+Route::get('/get-kecamatan/{kota_id}', [PerusahaanController::class, 'getKecamatan'])->name('get.kecamatan')->middleware('auth');
 
 
 Route::get('/perusahaan/profile/baru', function () {

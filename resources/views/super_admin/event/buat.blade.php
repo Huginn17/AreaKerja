@@ -48,17 +48,18 @@
 
                 <!-- Judul -->
                 <input type="text" placeholder="Masukkan judul artikel" name="title"
-                    class="w-full bg-gray-200 border border-gray-400 rounded-md px-4 py-2 mb-8">
+                    class="w-full bg-gray-200 border-2 border-gray-400 rounded-md px-4 py-2 mb-8"><br>
 
                 <!-- Upload Media -->
                 <div class="mb-4">
                     <label for="uploadMedia"
-                        class="cursor-pointer px-4 py-2 bg-gray-100 border rounded-lg shadow hover:bg-gray-200 text-sm font-medium">
+                        class="cursor-pointer px-4 py-2 bg-gray-100 border-2 border-gray-400 rounded-lg shadow hover:bg-gray-200 text-sm font-medium">
                         Tambahkan Media
-                    </label>
-                    <input id="uploadMedia" type="file" name="image" accept="image/*" hidden>
+                    </label><br>
+
+                    <input id="uploadMedia" type="file" name="image" accept="image/*" hidden><br>
                     <!-- Preview Gambar -->
-                    <div class="mt-3 w-64 h-40 border rounded-md overflow-hidden">
+                    <div class="mt-3 w-64 h-40 border-2 border-gray-400 rounded-md overflow-hidden">
                         <img id="previewImage"
                             src="{{ isset($event) && $event->image ? asset('storage/' . $event->image) : asset('images/no images.jpg') }}"
                             class="w-full h-full object-contain">
@@ -69,7 +70,7 @@
                 <!-- Editor -->
                 <div class="rounded-md overflow-hidden mt-4">
                     <input id="x" type="hidden" name="content" value="{{ old('content', $event->content ?? '') }}">
-                    <trix-editor input="x" class="trix-content"></trix-editor>
+                    <trix-editor input="x" class="border-2 border-gray-400 trix-content"></trix-editor>
                 </div>
 
                 <div class="space-y-4 mt-4">
@@ -78,14 +79,14 @@
                         <label class="block font-medium mb-1">Waktu Acara</label>
                         <div class="flex items-center gap-2">
                             <input type="date" name="tgl_mulai" id="tgl_mulai"
-                                class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-40" value="{{ old('tgl_mulai') }}">
+                                class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-40" value="{{ old('tgl_mulai') }}">
                             <input type="date" name="tgl_akhir" id="tgl_akhir"
-                                class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-40" value="{{ old('tgl_akhir') }}">
+                                class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-40" value="{{ old('tgl_akhir') }}">
                             <input type="time" name="jam_mulai"
-                                class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-24">
+                                class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-24">
                             <span>Sampai</span>
                             <input type="time" name="jam_akhir"
-                                class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-24">
+                                class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-24">
                         </div>
                     </div>
 
@@ -93,21 +94,21 @@
                     <div>
                         <label class="block font-medium mb-1">Penutupan Pendaftaran</label>
                         <input type="date" name="penutupan_pendaftaran" id="penutupan_pendaftaran"
-                            class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-40"
+                            class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-40"
                             value="{{ old('penutupan_pendaftaran') }}">
                     </div>
 
                     <!-- Kuota -->
                     <div>
                         <label class="block font-medium mb-1">Kuota Partisipasi</label>
-                        <input type="number" name="kuota" class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-24"
+                        <input type="number" name="kuota" class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-24"
                             placeholder="000">
                     </div>
 
                     <!-- Lokasi -->
                     <div>
                         <label class="block font-medium mb-1">Lokasi</label>
-                        <textarea name="lokasi" class="w-96 bg-gray-200 border rounded-md px-3 py-2 text-sm h-32 max-h-64"
+                        <textarea name="lokasi" class="w-96 bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm h-32 max-h-64"
                             placeholder="Isi Detail Alamat Acara"></textarea>
                     </div>
 
@@ -132,7 +133,7 @@
                     <!-- Tombol Tambah Acara -->
                     <div>
                         <button type="button" @click="openModal = true"
-                            class="bg-green-600 text-white px-4 py-2 rounded-md shadow">Tambah Acara</button>
+                            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md shadow">Tambah Acara</button>
                     </div>
 
                     <!-- Modal -->
@@ -159,7 +160,7 @@
                                     Batal
                                 </button>
                                 <button type="button" onclick="tambahKegiatan(); openModal=false"
-                                    class="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-md">
+                                    class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md">
                                     Simpan
                                 </button>
                             </div>
@@ -169,9 +170,9 @@
                     <!-- Submit -->
                     <div class="flex gap-4 mt-6">
                         <button type="submit"
-                            class="bg-green-600 text-white px-14 py-2 text-lg rounded-md shadow hover:bg-green-500">Simpan</button>
+                            class="bg-green-600 text-white px-14 py-2 text-lg rounded-md shadow hover:bg-green-700">Simpan</button>
                         <a href="/super_admin/event"
-                            class="bg-red-600 hover:bg-red-500 text-white px-16 py-2 text-lg rounded-md shadow">Batal</a>
+                            class="bg-red-600 hover:bg-red-700 text-white px-16 py-2 text-lg rounded-md shadow">Batal</a>
                     </div>
                 </div>
             </form>

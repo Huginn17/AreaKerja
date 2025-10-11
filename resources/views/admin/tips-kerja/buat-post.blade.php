@@ -6,18 +6,18 @@
                 @csrf
                 <div class="mb-4">
                     <input type="text" name="title" placeholder="Judul artikel..."
-                        class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                        class="w-full border-2 border-gray-400 rounded-lg px-3 py-2">
                 </div>
 
                 <div class="mb-4">
-                    <label class="block mb-2 text-sm font-medium">Cover Image</label>
-                    <input type="file" name="image" class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                    <label class="block mb-2 text-lg font-medium">Cover Image</label>
+                    <input type="file" name="image" class="w-full border-2 border-gray-400 rounded-lg px-3 py-2">
                 </div>
 
                 <div class="mb-4">
-                    <label class="block mb-2 text-sm font-medium">Isi Artikel</label>
+                    <label class="block mb-2 text-lg font-medium">Isi Artikel</label>
                     <input id="x" type="hidden" name="content">
-                    <trix-editor input="x" class="trix-content border rounded-lg p-2"></trix-editor>
+                    <trix-editor input="x" class="trix-content border-2 border-gray-400 rounded-lg p-2"></trix-editor>
                 </div>
 
                 <div class="flex justify-end gap-3 mt-4">

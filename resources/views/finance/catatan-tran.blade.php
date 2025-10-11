@@ -63,6 +63,7 @@
                         <thead>
 
                             <tr class="bg-orange-500 text-white">
+                                
                                 <th class="px-4 py-2 text-left">No</th>
                                 <th class="px-4 py-2 text-left">No. Referensi</th>
                                 <th class="px-4 py-2 text-left">Jenis</th>
@@ -122,7 +123,7 @@
             {{-- ======================= --}}
             <div class="mb-8">
                 <h2 class="text-lg font-semibold mb-2">Riwayat Koin</h2>
-                <div class="rounded-2xl overflow-hidden border">
+                <div class="rounded-2xl overflow-hidden border-2 border-gray-400">
                     <table class="w-full text-sm">
                         <thead>
 

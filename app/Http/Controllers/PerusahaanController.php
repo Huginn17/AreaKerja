@@ -87,35 +87,34 @@ class PerusahaanController extends Controller
 
     public function form_alamat()
     {
-        return view('perusahaan.alamat.buat-alamat');
+        $provinsis = Provinsi::all();
+        return view('perusahaan.alamat.buat-alamat', [
+            'provinsis' => $provinsis
+        ]);
     }
 
-    public function provinsi()
-    {
-        return response()->json(Provinsi::all());
-    }
-
-    public function kota($provinsi_id)
+    public function getKota($provinsi_id)
     {
         return response()->json(Kota::where('provinsi_id', $provinsi_id)->get());
     }
 
-    public function kecamatan($kota_id)
+    public function getKecamatan($kota_id)
     {
         return response()->json(Kecamatan::where('kota_id', $kota_id)->get());
     }
 
+
     public function store_alamat(Request $request)
     {
         $validated = $request->validate([
-        'label'        => 'nullable|string|max:255',
-        'desa'         => 'nullable|string|max:255',
-        'provinsi_id'  => 'nullable|exists:provinsis,id',
-        'kota_id'      => 'nullable|exists:kotas,id',
-        'kecamatan_id' => 'nullable|exists:kecamatans,id',
-        'kode_pos'     => 'nullable|string|max:10',
-        'detail'       => 'nullable|string|max:500',
-    ]);
+            'label'        => 'nullable|string|max:255',
+            'desa'         => 'nullable|string|max:255',
+            'provinsi_id'  => 'nullable|exists:provinsis,id',
+            'kota_id'      => 'nullable|exists:kotas,id',
+            'kecamatan_id' => 'nullable|exists:kecamatans,id',
+            'kode_pos'     => 'nullable|string|max:10',
+            'detail'       => 'nullable|string|max:500',
+        ]);
 
         $validated['perusahaan_id'] = Auth::user()->perusahaan->id;
         AlamatPerusahaan::create($validated);
@@ -124,21 +123,23 @@ class PerusahaanController extends Controller
 
     public function edit_alamat(AlamatPerusahaan $alamatperusahaan)
     {
+        $provinsis = Provinsi::all();
         return view('perusahaan.alamat.edit', [
-            "data" => $alamatperusahaan
+            "data" => $alamatperusahaan,
+            'provinsis' => $provinsis
         ]);
     }
 
     public function update_alamat(Request $request, AlamatPerusahaan $alamatperusahaan)
     {
         $validated = $request->validate([
-            'label'  => 'nullable',
-            'desa'   => 'nullable',
-            'kecamatan' => 'nullable',
-            'kota'  =>  'nullable',
-            'provinsi' => 'nullable',
-            'kode_pos' => 'nullable',
-            'detail' =>   'nullable'
+            'label'        => 'nullable|string|max:255',
+            'desa'         => 'nullable|string|max:255',
+            'provinsi_id'  => 'nullable|exists:provinsis,id',
+            'kota_id'      => 'nullable|exists:kotas,id',
+            'kecamatan_id' => 'nullable|exists:kecamatans,id',
+            'kode_pos'     => 'nullable|string|max:10',
+            'detail'       => 'nullable|string|max:500',
         ]);
 
         $validated['perusahaan_id'] = Auth::user()->perusahaan->id;

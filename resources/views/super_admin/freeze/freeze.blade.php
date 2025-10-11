@@ -1,6 +1,6 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
-    <main class="flex-1 p-6 bg-white overflow-y-auto">
+    <main class="flex-1 p-6 bg-white overflow-hidden">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-medium">Akun Freeze</h1>
             <div class="flex items-center gap-3">
@@ -60,7 +60,7 @@
 
             <!-- Table -->
         
-          <div class="w-full border border-gray-400 rounded-2xl shadow-sm overflow-hidden">
+          <div class="w-full border border-gray-400 rounded-2xl shadow-sm overflow-y-auto">
   <table class="w-full text-sm text-center">
     <thead class="border-b border-gray-300">
       <tr class="text-gray-700">

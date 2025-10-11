@@ -111,7 +111,7 @@
 
                 </div>
 
-                <div class="border border-gray-300 rounded-2xl overflow-hidden w-full">
+                <div class="border-2 border-gray-400 rounded-2xl overflow-hidden w-full">
                     {{-- Header --}}
                     <div class="flex justify-center items-center bg-orange-500 text-white px-4 py-3">
                         <div class="font-medium text-lg">Daftar Omset Perusahaan</div>
@@ -119,9 +119,9 @@
 
                     {{-- Isi --}}
 
-                    <div class="relative bg-white text-sm">
+                    <div class="border-2 border-gray-400 relative bg-white text-sm">
                         <div class="absolute left-1/2 top-0 bottom-0 w-px bg-gray-300"></div>
-                        <tr class="border-b-[2px] border-gray-300">
+                        <tr class="border-b-[2px] border-gray-400">
                             @forelse ($omsetPerBulan as $item)
                                 <div class="flex px-4 py-3 border-b border-gray-300 relative">
                                     <div class="w-1/2 font-medium text-lg">

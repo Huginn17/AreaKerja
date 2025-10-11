@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\CatatanCash;
 use App\Models\CatatanKoin;
+use App\Models\Kecamatan;
+use App\Models\Kota;
 use App\Models\Pelamar;
+use App\Models\Perusahaan;
+use App\Models\Provinsi;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,10 +29,25 @@ class AdminController extends Controller
 
     public function edit_profile(Admin $admin)
     {
+        $provinsis = Provinsi::all();
+        $admin->load(['kota', 'kecamatan', 'provinsi']);
         return view(
             'admin.profile.edit-profile',
-            ["data" => $admin]
+            [
+                "data" => $admin,
+                'provinsis' => $provinsis
+            ]
         );
+    }
+
+    public function getKota($provinsi_id)
+    {
+        return response()->json(Kota::where('provinsi_id', $provinsi_id)->get());
+    }
+
+    public function getKecamatan($kota_id)
+    {
+        return response()->json(Kecamatan::where('kota_id', $kota_id)->get());
     }
 
     public function update_profile_admin(Request $request, Admin $admin)
@@ -45,9 +64,9 @@ class AdminController extends Controller
         $valid = $request->validate([
             "nama_lengkap"  => 'nullable|string',
             "img_profile"   => 'nullable|file|image|mimes:png,jpg,jpeg',
-            "provinsi"      => 'nullable|string',
-            "kota"          => 'nullable|string',
-            "kecamatan"     => 'nullable|string',
+            'provinsi_id'  => 'nullable|exists:provinsis,id',
+            'kota_id'      => 'nullable|exists:kotas,id',
+            'kecamatan_id' => 'nullable|exists:kecamatans,id',
             "desa"          => 'nullable|string',
             "kode_pos"      => 'nullable',
             "detail_alamat" => 'nullable|string'
@@ -218,7 +237,7 @@ class AdminController extends Controller
         return view('admin.finance.finance-tunai', [
             'cash' => $cash,
             'noReferensiList' => $noReferensiList,
-            'selectedRef' => $request->no_referensi, 
+            'selectedRef' => $request->no_referensi,
         ]);
     }
 
@@ -245,4 +264,52 @@ class AdminController extends Controller
         $transaksi = CatatanCash::with(['user', 'bank', 'hargaPembayaran'])->latest()->get();
         return view('admin.finance.detail', compact('transaksi'));
     }
+
+
+
+
+    //PERUSAHAAN
+    public function halPerusahaan()
+    {
+        $perusahaan = Perusahaan::all();
+        return view('admin.perusahaan.perusahaan', [
+            'perusahaan' => $perusahaan
+        ]);
+    }
+
+    public function bekukan(Request $request, $id)
+    {
+        $request->validate([
+            'alasan' => 'required|string|max:255',
+        ]);
+
+        if (auth()->id() == $id) {
+            return response()->json(['message' => 'Anda tidak dapat membekukan akun sendiri'], 403);
+        }
+
+        $user = User::findOrFail($id);
+
+        $user->update([
+            'alasan_freeze_akun' => $request->alasan,
+            'status' => 1,
+        ]);
+
+        return response()->json(['message' => 'Akun berhasil dibekukan']);
+    }
+
+    public function aktifkan($id)
+{
+    if (auth()->id() == $id) {
+        return response()->json(['message' => 'Anda tidak dapat mengubah status akun sendiri'], 403);
+    }
+
+    $user = User::findOrFail($id);
+
+    $user->update([
+        'alasan_freeze_akun' => null,
+        'status' => 0, 
+    ]);
+
+    return response()->json(['message' => 'Akun berhasil diaktifkan kembali']);
+}
 }

@@ -102,7 +102,7 @@ class SuperAdminController extends Controller
 
     public function ban(Request $request, User $user)
     {
-        // dd($request->all());
+        dd($request->all());
         $data = $request->validate([
             'status' => 'required|boolean'
         ]);

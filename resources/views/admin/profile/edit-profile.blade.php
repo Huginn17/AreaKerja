@@ -126,44 +126,36 @@
                     <div class="flex">
                         <div class="mr-[25px]">
                             <label for="" class="block mb-1 text-sm font-medium">Provinsi</label>
-                            <select name="provinsi" id=""
-                                class="border border-gray-400 rounded-md w-48 shadow px-2 py-2 text-sm text-gray-500 ">
-                                @if (Auth::user()->admin->provinsi)
-                                    <option value="{{ Auth::user()->admin->provinsi }}">
-                                        {{ Auth::user()->admin->provinsi }}
+                            <select id="provinsiSelect" name="provinsi_id"
+                                class="w-full border border-gray-400 rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-gray-500">
+                                <option value="">Pilih Provinsi</option>
+                                @foreach ($provinsis as $prov)
+                                    <option value="{{ $prov->id }}"
+                                        {{ $data->provinsi_id == $prov->id ? 'selected' : '' }}>
+                                        {{ $prov->nama }}
                                     </option>
-                                @else
-                                    <option selected disabled>Pilihan Provinsi</option>
-                                    <div class="text-gray-800">
-                                        <option value="Yogyakarta">Yogyakarta</option>
-                                    </div>
-                                @endif
+                                @endforeach
                             </select>
                         </div>
                         <div class="mr-[25px]">
                             <label for="" class="block mb-1 mr-10 text-sm font-medium">Kota/Kabupaten</label>
-                            <select name="kota" id=""
-                                class="border border-gray-400 rounded-md shadow w-48 py-2 px-2 text-sm text-gray-500">
-                                @if (Auth::user()->admin->kota)
-                                    <option value="{{ Auth::user()->admin->kota }}">{{ Auth::user()->admin->kota }}
-                                    </option>
-                                @else
-                                    <option selected disabled class="text-left">Pilih Kota</option>
-                                    <option value="Banjar">Banjar</option>
+                            <select id="kotaSelect" name="kota_id"
+                                class="w-full border border-gray-400 rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-gray-500">
+                                <option value="">Pilih Kota</option>
+                                @if ($data->kota)
+                                    <option value="{{ $data->kota_id }}" selected>{{ $data->kota->nama }}</option>
                                 @endif
                             </select>
                         </div>
 
                         <div>
                             <label for="" class="block mb-1 mr-10 text-sm font-medium">Kecamatan</label>
-                            <select name="kecamatan" id=""
-                                class="border border-gray-400 rounded-md shadow w-48 py-2 px-3 text-sm text-gray-500">
-                                @if (Auth::user()->admin->kecamatan)
-                                    <option value="{{ Auth::user()->admin->kecamatan }}">
-                                        {{ Auth::user()->admin->kecamatan }}</option>
-                                @else
-                                    <option selected disabled class="text-left">Pilih Kecamatan</option>
-                                    <option value="Depok">Langensari</option>
+                            <select id="kecamatanSelect" name="kecamatan_id"
+                                class="w-full border border-gray-400 rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-gray-500">
+                                <option value="">Pilih Kecamatan</option>
+                                @if ($data->kecamatan)
+                                    <option value="{{ $data->kecamatan_id }}" selected>{{ $data->kecamatan->nama }}
+                                    </option>
                                 @endif
                             </select>
                         </div>
@@ -178,8 +170,7 @@
                         </div>
                         <div class="ml-5">
                             <label class="block mb-1 text-sm font-medium">Kode Pos</label>
-                            <input type="text" name="kode_pos"
-                                value="{{ Auth::user()->admin->kode_pos }}"
+                            <input type="text" name="kode_pos" value="{{ Auth::user()->admin->kode_pos }}"
                                 class="w-48 border-gray-400 shadow p-2 border rounded-lg text-sm" />
                         </div>
                     </div>
@@ -215,4 +206,43 @@
     </div>
 
     </div>
+
+
+    {{-- Script AJAX Dinamis --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const provinsiSelect = document.getElementById('provinsiSelect');
+            const kotaSelect = document.getElementById('kotaSelect');
+            const kecamatanSelect = document.getElementById('kecamatanSelect');
+
+            // Saat provinsi berubah
+            provinsiSelect.addEventListener('change', function() {
+                const provinsiId = this.value;
+                kotaSelect.innerHTML = '<option>Memuat...</option>';
+                kecamatanSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
+
+                fetch(`{{ route('admin.get.kota', '') }}/${provinsiId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        kotaSelect.innerHTML = '<option value="">Pilih Kota</option>';
+                        const options = data.map(k => `<option value="${k.id}">${k.nama}</option>`);
+                        kotaSelect.insertAdjacentHTML('beforeend', options.join(''));
+                    });
+            });
+
+            // Saat kota berubah
+            kotaSelect.addEventListener('change', function() {
+                const kotaId = this.value;
+                kecamatanSelect.innerHTML = '<option>Memuat...</option>';
+
+                fetch(`{{ route('admin.get.kecamatan', '') }}/${kotaId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        kecamatanSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
+                        const options = data.map(k => `<option value="${k.id}">${k.nama}</option>`);
+                        kecamatanSelect.insertAdjacentHTML('beforeend', options.join(''));
+                    });
+            });
+        });
+    </script>
 @endsection

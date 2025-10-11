@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Admin</title>
 
     @vite('resources/css/app.css')
@@ -145,7 +146,7 @@
                 </li>
                 <li
                     class="{{ request()->is('admin/perusahaan') || request()->is('admin/recruitment') || request()->is('admin/talenthunter') ? 'bg-white text-gray-500' : 'text-white' }} rounded-md">
-                    <a href="{{ url('/admin/perusahaan') }}"
+                    <a href="{{ route('admin.perusahaan') }}"
                         class="flex font-semibold items-center mb-2 gap-3 hover:bg-white hover:text-gray-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="20" height="21" viewBox="0 0 20 21" fill="none"
                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">

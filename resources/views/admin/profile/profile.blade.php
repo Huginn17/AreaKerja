@@ -109,7 +109,7 @@
                                 class="border border-gray-400 rounded-md w-48 shadow px-2 py-2 text-sm text-gray-500"
                                 disabled>
                                 @if (Auth::user()->admin->provinsi)
-                                    <option selected>{{ Auth::user()->admin->provinsi }}</option>
+                                    <option selected>{{ Auth::user()->admin->provinsi->nama }}</option>
                                 @else
                                     <option selected>Data Belum Dilengakapi</option>
                                 @endif
@@ -121,7 +121,7 @@
                                 class="border border-gray-400 rounded-md shadow w-48 py-2 px-2 text-sm text-gray-500"
                                 disabled>
                                 @if (Auth::user()->admin->kota)
-                                    <option selected>{{ Auth::user()->admin->kota }}</option>
+                                    <option selected>{{ Auth::user()->admin->kota->nama }}</option>
                                 @else
                                     <option selected>Data Belum Dilengakapi</option>
                                 @endif
@@ -134,7 +134,7 @@
                                 class="border border-gray-400 rounded-md shadow w-48 py-2 px-3 text-sm text-gray-500"
                                 disabled>
                                 @if (Auth::user()->admin->kecamatan)
-                                    <option selected>{{ Auth::user()->admin->kecamatan }}</option>
+                                    <option selected>{{ Auth::user()->admin->kecamatan->nama }}</option>
                                 @else
                                     <option selected>Data Belum Dilengakapi</option>
                                 @endif

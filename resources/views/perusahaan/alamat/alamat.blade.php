@@ -30,8 +30,8 @@
                 <div class="mt-6 ml-12 border border-orange-400 rounded-md p-6 w-[500px]">
                     <h3 class="font-semibold text-orange-500">{{ $almtp->label }}</h3>
                     <p class="text-orange-600 text-sm mt-1">
-                        {{ $almtp->desa }}, {{ $almtp->kecamatan }}, {{ $almtp->kota }},
-                        {{ $almtp->provinsi }}, {{ $almtp->kode_pos }}
+                        {{ $almtp->desa }}, {{ $almtp->kecamatan->nama }}, {{ $almtp->kota->nama }},
+                        {{ $almtp->provinsi->nama }}, {{ $almtp->kode_pos }}
                     </p>
                     <p class="text-orange-500 text-sm mt-1 mb-5">
                         {{ $almtp->detail }}

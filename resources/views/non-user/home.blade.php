@@ -20,7 +20,7 @@
             </div>
 
             <div class="mt-8">
-                <p class="text-center text-lg">
+                <p class="text-center text-sm">
                     <span class="text-orange-500 font-semibold">Lamar Pekerjaan Kamu</span>
                     <span class="font-semibold text-gray-500">- Dengan waktu dan langkah yang cepat</span>
                 </p>

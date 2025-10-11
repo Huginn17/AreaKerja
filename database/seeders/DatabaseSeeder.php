@@ -8,7 +8,10 @@ use App\Models\DaftarBank;
 use App\Models\Finance;
 use App\Models\Hargakoin;
 use App\Models\HargaPembayaran;
+use App\Models\Kecamatan;
+use App\Models\Kota;
 use App\Models\PaketLowongan;
+use App\Models\Provinsi;
 use App\Models\SuperAdmin;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -50,10 +53,13 @@ class DatabaseSeeder extends Seeder
             "alasan_freeze_akun" =>     null
         ]);
 
+
         Admin::create([
             "user_id"            =>     2,
             "nama_lengkap"       =>    "Prabowo Subianto",
-            "provinsi"           =>    "Jawa Barat"
+            'provinsi_id'    => Provinsi::inRandomOrder()->first()?->id,
+            'kota_id'        => Kota::inRandomOrder()->first()?->id,
+            'kecamatan_id'   => Kecamatan::inRandomOrder()->first()?->id,
         ]);
 
         User::create([
@@ -103,10 +109,10 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         HargaPembayaran::create([
-           "nama"     =>    "Pendaftaran Kandidat",
-           "jumlah_koin" =>  0,
-           "harga"       => 200000,
-           'icon'        => 'null'
+            "nama"     =>    "Pendaftaran Kandidat",
+            "jumlah_koin" =>  0,
+            "harga"       => 200000,
+            'icon'        => 'null'
         ]);
 
         HargaPembayaran::create([
@@ -196,5 +202,10 @@ class DatabaseSeeder extends Seeder
                 $paket
             );
         }
+
+
+        $this->call(WilayahSeeder::class);
+        $this->call(DivisiSeeder::class);
+        $this->call(AlasanPenolakanSeeder::class);
     }
 }
