@@ -54,7 +54,7 @@
 
                         {{-- isi tabel --}}
                         <div class="divider-y divide-gray-400 bg-white">
-                            <div class="flex justify-between items-center px-4 py-3 border-2 border-gray-400">
+                            <div class="flex justify-between items-center px-4 py-3 border-2 border-gray-300">
                                 <div>Pasang Lowongan Bronze</div>
                                 <div>150 Koin</div>
                             </div>
