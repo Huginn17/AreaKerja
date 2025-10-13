@@ -19,7 +19,7 @@
 
       <!-- Table -->
 <div class="px-15 pb-5">
-  <div class="overflow-hidden rounded-lg border border-gray-300">
+  <div class="overflow-hidden rounded-lg border-2 border-gray-400">
     <table class="min-w-full text-base">
       <!-- Table Head -->
       <thead>

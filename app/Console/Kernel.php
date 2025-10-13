@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\TestExpireLamaran::class,
         \App\Console\Commands\TestDeleteExpiredNotif::class,
     ];
-    
+
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
@@ -23,6 +23,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('pelamar:delete-expired')->daily();
         $schedule->job(new \App\Jobs\ExpireLamaranJob)->dailyAt('00:00');
         $schedule->job(new \App\Jobs\DeleteExpiredNotifJob)->dailyAt('01:00');
+        $schedule->command('langganan:cek-expired')->dailyAt('00:00');
     }
 
     /**

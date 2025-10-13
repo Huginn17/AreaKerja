@@ -56,7 +56,8 @@
 
                 </div>
                 <div>
-                    <button class="bg-white border border-orange-600 text-orange-600 px-4 py-3 rounded-lg">
+                    <button
+                        class="bg-white hover:bg-gray-100 border border-orange-600 text-orange-600 px-4 py-3 rounded-lg">
                         <svg width="20" height="15" viewBox="0 0 20 15" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -82,7 +83,7 @@
                         class="absolute hidden mt-2 w-full bg-white rounded-md shadow-lg overflow-hidden z-10">
                         <ul class="text-orange-500">
                             <li>
-                                <a href="/super_admin/data-perusahaan"
+                                <a href="{{ route('superadmin.perusahaan') }}"
                                     class="block px-4 py-2 hover:bg-orange-500 hover:text-white transition">Perusahaan</a>
                             </li>
                             <li>
@@ -91,7 +92,8 @@
                             </li>
                             <li>
                                 <a href="/super_admin/data-talent-hunter"
-                                    class="block px-4 py-2 hover:bg-orange-500 hover:text-white transition">Talent Hunter</a>
+                                    class="block px-4 py-2 hover:bg-orange-500 hover:text-white transition">Talent
+                                    Hunter</a>
                             </li>
                             <li>
                                 <a href="/super_admin/data-panggilan"
@@ -114,16 +116,16 @@
 
             <div class="flex gap-2">
                 <input type="text" placeholder="nama/username ..."
-                    class="border border-gray-500 rounded-lg px-4 py-2 w-72">
+                    class="border-2 border-gray-400 rounded-lg px-4 py-2 w-72">
                 <button class="bg-orange-500 hover:bg-orange-600 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
             </div>
         </div>
 
         <!-- Table -->
-        <div class="overflow-hidden rounded-2xl border border-gray-300">
+        <div class="overflow-hidden rounded-2xl border-2 border-gray-400">
             <table class="w-full text-left border-collapse">
                 <thead class="text-center">
-                         <tr class="border-b-[2px] border-gray-300">
+                    <tr class="border-b-[2px] border-gray-400">
                     <tr>
                         <th class="p-7 font-medium">ID</th>
                         <th class="p-7 font-medium">Nama Perusahaan</th>
@@ -134,22 +136,25 @@
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    @for ($i = 0; $i < 10; $i++)
-                        <!-- Contoh isi data (bisa diulang dengan loop dari backend) -->
-                             <tr class="border-b-[2px] border-gray-300">
-                        <tr class="border-b">
-                                 <tr class="border-b-[2px] border-gray-300">
-                            <td class="px-4 py-3">000001</td>
-                            <td class="px-4 py-3">Seven INC</td>
-                            <td class="px-4 py-3">seveninc@gmail.com</td>
-                            <td class="px-4 py-3">(0351)-123456</td>
-                            <td class="px-4 py-3">Jawa Tengah</td>
+                    @forelse ($perusahaan as $p)
+                        <tr class="border-b-[2px] border-gray-400">
+                        <tr class="border-2-gray-400">
+                        <tr class="border-b-[2px] border-gray-400">
+                            <td class="px-4 py-3">{{ $p->id }}</td>
+                            <td class="px-4 py-3">{{ $p->nama_perusahaan }}</td>
+                            <td class="px-4 py-3">{{ $p->user->email }}</td>
+                            <td class="px-4 py-3">{{ $p->telepon_perusahaan }}</td>
+                            <td class="px-4 py-3">{{ $p->alamat_perusahaan->first()?->kota?->nama ?? '-' }}</td>
                             <td class="px-4 py-3">
-                                <a href="/super_admin/detail-perusahaan"
+                                   <a href="{{ route('superadmin.perusahaan.detail', $p->id) }}"
                                     class="bg-orange-500 hover:bg-orange-600 text-xs text-white px-4 py-1 rounded-lg">View</a>
                             </td>
                         </tr>
-                    @endfor
+                    @empty
+                        <tr>
+                            <td colspan="6" class="py-6 text-gray-500">Belum ada data perusahaan.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

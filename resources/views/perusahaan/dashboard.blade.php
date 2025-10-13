@@ -14,7 +14,7 @@
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-xl font-semibold">Lowongan Saya</h3>
                         <a href="{{ route('lowongan.saya.perusahaan') }}"
-                            class="border border-orange-500 bg-orange-500 text-white px-3 py-1 rounded-md text-sm font-medium hover:bg-gray-200 hover:text-orange-500 transition">
+                            class="border border-orange-500 bg-orange-500 text-white px-3 py-1 rounded-md text-md font-medium hover:bg-white hover:text-orange-500 transition duration-300">
                             Kelola Lowongan
                         </a>
                     </div>

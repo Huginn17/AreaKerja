@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\Finance;
+use App\Models\LowonganPerusahaan;
 use App\Models\Pelamar;
 use App\Models\Perusahaan;
 use App\Models\SuperAdmin;
@@ -544,4 +545,32 @@ class SuperAdminController extends Controller
 
         return back()->with('success', 'Password berhasil diubah');
     }
+
+
+    public function halPerusahaan()
+    {
+        $perusahaan = Perusahaan::all();
+        return view('super_admin.perusahaan.data-perusahaan', [
+            'perusahaan' => $perusahaan
+        ]);
+    }
+
+     public function detailPerusahaan($id)
+    {
+        $perusahaan = Perusahaan::with(['user', 'lowonganPerusahaans'])->findOrFail($id);
+        return view('super_admin.perusahaan.detail-perusahaan', [
+            'perusahaan' => $perusahaan
+        ]);
+    }
+
+    public function detailLowongan($id)
+    {
+          $lowongan =LowonganPerusahaan::with(['perusahaan'])->findOrFail($id);
+
+        return view('super_admin.perusahaan.detail-lowongan', [
+            'lowongan' => $lowongan
+        ]); 
+    }
+
+
 }

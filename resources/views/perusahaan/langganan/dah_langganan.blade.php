@@ -27,7 +27,7 @@
                         Dapatkan akses untuk bisa melihat statistik para pekerja seperti list <br>
                         pekerja yang bermasalah, list pekerja yang terdaftar, hingga <br> membuat laporan harian pekerja.
                     </p>
-                    <a href="#" class="block text-orange-500 text-sm font-medium hover:underline text-right"> < Lebih Detail</a>
+                    <a href="{{ route('perusahaan.data.pekerja') }}" class="block text-orange-500 text-sm font-medium hover:underline text-right"> < Lebih Detail</a>
                 </div>
                 <!-- Image -->
                 <div class="md:w-1/3">

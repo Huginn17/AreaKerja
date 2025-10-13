@@ -11,6 +11,11 @@ class Perusahaan extends Model
     protected $table = 'perusahaans';
     protected $guarded = [];
 
+    protected $casts = [
+    // 'tanggal_berlangganan' => 'datetime',
+    'tanggal_expired' => 'datetime',
+];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

@@ -49,7 +49,10 @@
 
             {{-- menu --}}
             <nav class="hidden md:flex gap-6 font-semibold text-gray-800">
-                <a href="{{ url('/beranda') }}" class="hover:text-orange-500 hover:scale-105">Berlangganan</a>
+                <a href="{{ route('perusahaan.dashboard') }}"
+                    class="hover:text-orange-500 hover:scale-105">Beranda</a>
+                <a href="{{ route('perusahaan.berlangganan') }}"
+                    class="hover:text-orange-500 hover:scale-105">Berlangganan</a>
                 <a href="{{ url('/talent-hunter') }}" class="hover:text-orange-500 hover:scale-105">Talent Hunter</a>
                 <a href="{{ route('perusahaan.kandidat.ak') }}"
                     class="hover:text-orange-500 hover:scale-105">Kandidat</a>

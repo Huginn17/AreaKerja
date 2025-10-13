@@ -109,7 +109,7 @@
 
                             <td class="px-4 py-3 flex items-center justify-center gap-2">
                                 <!-- Tombol Lihat Lowongan -->
-                                <a href="{{ url('/admin/view/data/lowongan/' . $p->id) }}"
+                                <a href="{{ route('admin.perusahaan.detail', $p->id) }}"
                                     class="bg-gray-500 hover:bg-gray-600 text-white p-2 rounded-md" title="Lihat Lowongan">
                                     <svg width="20" height="20" viewBox="0 0 20 16" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -135,7 +135,7 @@
                                     </button>
                                 @else
                                     <button <button
-                                        class="bg-green-500 hover:bg-green-600 text-white p-2 rounded-md open-unfreeze-modal"
+                                        class="bg-green-500 hover:bg-green-600 text-white p-2 rounded-md open-unfreeze-modal"   
                                         title="Nonaktifkan" data-id="{{ $p->user->id }}">
 
                                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"

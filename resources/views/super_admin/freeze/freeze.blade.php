@@ -77,7 +77,8 @@
                 <tbody class="divide-y divide-gray-400">
                     @foreach ($data as $d)
                         <!-- Baris Data -->
-                        <tr>
+                       
+                            <tr class="border-2 border-gray-400"></tr>
                             <td class="px-6 py-4">{{ $d->id }}</td>
                             <td class="px-6 py-4">{{ $d->username }}</td>
                             <td class="px-6 py-4">{{ $d->email }}</td>

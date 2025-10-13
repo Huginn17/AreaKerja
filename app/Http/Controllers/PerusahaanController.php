@@ -2,22 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AlamatPerusahaan;
-use App\Models\CatatanCash;
-use App\Models\DaftarBank;
-use App\Models\Event;
-use App\Models\HargaPembayaran;
-use App\Models\Kecamatan;
 use App\Models\Kota;
-use App\Models\LowonganPerusahaan;
-use App\Models\Pelamar;
-use App\Models\PelamarLowongan;
-use App\Models\Perusahaan;
-use App\Models\Provinsi;
+use App\Models\Event;
 use App\Models\Skill;
+use App\Models\Pelamar;
+use App\Models\Provinsi;
+use App\Models\Kecamatan;
+use App\Models\DaftarBank;
+use App\Models\Perusahaan;
+use App\Models\CatatanCash;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\HargaPembayaran;
+use App\Models\PelamarLowongan;
+use App\Models\AlamatPerusahaan;
+use App\Models\CatatanKoin;
+use App\Models\LowonganPerusahaan;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class PerusahaanController extends Controller
@@ -268,6 +272,98 @@ class PerusahaanController extends Controller
         $event = Event::with('kegiatan')->findOrFail($id);
         return view('perusahaan.event.gabung-event', [
             'event' => $event
+        ]);
+    }
+
+
+
+
+    //BERLANGGANAN
+    public function halLangganan()
+    {
+        $user = auth()->user();
+        $perusahaan = Perusahaan::where('user_id', $user->id)->first();
+
+        if (!$perusahaan) {
+            abort(404, 'Data perusahaan tidak ditemukan.');
+        }
+
+        if ($perusahaan->is_berlangganan == 1 && \Carbon\Carbon::now()->lt($perusahaan->tanggal_expired)) {
+            return view('perusahaan.langganan.dah_langganan', [
+                'perusahaan' => $perusahaan
+            ]);
+        }
+
+        return view('perusahaan.langganan.berlangganan', [
+            'perusahaan' => $perusahaan,
+            'hargaPembayarans' => HargaPembayaran::all(),
+            'daftarBank' => DaftarBank::all(),
+        ]);
+    }
+
+    public function storeLangganan(Request $request)
+    {
+        $user = Auth::user();
+        $perusahaan = Perusahaan::where('user_id', $user->id)->first();
+
+        if ($perusahaan->koin_perusahaan < 1000) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Koin tidak cukup untuk berlangganan.'
+            ], 400);
+        }
+
+        $perusahaan->koin_perusahaan -= 1000;
+        $perusahaan->is_berlangganan = 1;
+        $perusahaan->tanggal_berlangganan = Carbon::now();
+        $perusahaan->tanggal_expired = Carbon::now()->addYear();
+        $perusahaan->save();
+
+        CatatanKoin::create([
+            'user_id' => $user->id,
+            'no_referensi' => 'SUB-' . strtoupper(Str::random(8)),
+            'pesanan' => 'Berlangganan Tahunan',
+            'dari' => 'Saldo Koin',
+            'sumber_dana' => 'Pembayaran Langganan',
+            'total' => '-1000',
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Berlangganan berhasil! Terima kasih telah berlangganan.'
+        ]);
+    }
+
+    public function kirimEmail()
+    {
+        $user = auth()->user();
+        $perusahaan = $user->perusahaan;
+        $admineEmail = env('ADMIN_EMAIL', 'admin@silohugra.com');
+
+        $data = [
+            'nama_perusahaan' => $perusahaan->nama_perusahaan,
+            'email_perusahaan' => $user->email,
+            'tanggal' => now()->translatedFormat('d F Y'),
+            'jumlah' => '1.000 Koin',
+            'expired' => optional($perusahaan->tanggal_expired)->translatedFormat('d F Y'),
+        ];
+
+        Mail::send('emails.langganan_sukses_admin', $data, function ($message) use ($data, $admineEmail) {
+            $message->to($admineEmail)
+                ->subject('Pemberitahuan Pembayaran Langganan - Areakerja.com');
+        });
+
+        return response()->json([
+            'success' => true
+        ]);
+    }
+
+    public function halDaftarPekerja()
+    {
+        $user = auth()->user();
+        $perusahaan = Perusahaan::where('user_id', $user->id)->first();
+        return view('perusahaan.langganan.request-data',[
+            'perusahaan' => $perusahaan
         ]);
     }
 }

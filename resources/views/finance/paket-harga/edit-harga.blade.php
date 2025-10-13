@@ -11,7 +11,7 @@
                 @csrf
                 @method('PUT')
 
-                <div class="overflow-hidden border border-gray-300 rounded-2xl shadow-sm">
+                <div class="overflow-hidden border-2 border-gray-400 rounded-2xl shadow-sm">
                     <table class="w-full border-collapse">
                         <thead>
                             <tr class="bg-orange-500 text-white">
@@ -19,7 +19,7 @@
                                 <th class="px-6 py-3 text-right font-semibold text-lg">Harga</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-200">
+                        <tbody class="divide-y divide-gray-400">
                             @foreach ($pembayaran as $p)
                                 <tr class="hover:bg-gray-50">
                                     <td class="py-3 px-6 text-gray-700">{{ $p->nama }}</td>

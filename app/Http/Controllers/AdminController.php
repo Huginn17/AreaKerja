@@ -7,6 +7,7 @@ use App\Models\CatatanCash;
 use App\Models\CatatanKoin;
 use App\Models\Kecamatan;
 use App\Models\Kota;
+use App\Models\LowonganPerusahaan;
 use App\Models\Pelamar;
 use App\Models\Perusahaan;
 use App\Models\Provinsi;
@@ -298,18 +299,35 @@ class AdminController extends Controller
     }
 
     public function aktifkan($id)
-{
-    if (auth()->id() == $id) {
-        return response()->json(['message' => 'Anda tidak dapat mengubah status akun sendiri'], 403);
+    {
+        if (auth()->id() == $id) {
+            return response()->json(['message' => 'Anda tidak dapat mengubah status akun sendiri'], 403);
+        }
+
+        $user = User::findOrFail($id);
+
+        $user->update([
+            'alasan_freeze_akun' => null,
+            'status' => 0,
+        ]);
+
+        return response()->json(['message' => 'Akun berhasil diaktifkan kembali']);
     }
 
-    $user = User::findOrFail($id);
+    public function detailPerusahaan($id)
+    {
+        $perusahaan = Perusahaan::with(['user', 'lowonganPerusahaans'])->findOrFail($id);
+        return view('admin.perusahaan.detail-data-perusahaan', [
+            'perusahaan' => $perusahaan
+        ]);
+    }
+ 
+    public function detailLowongan($id)
+    {
+          $lowongan =LowonganPerusahaan::with(['perusahaan'])->findOrFail($id);
 
-    $user->update([
-        'alasan_freeze_akun' => null,
-        'status' => 0, 
-    ]);
-
-    return response()->json(['message' => 'Akun berhasil diaktifkan kembali']);
-}
+        return view('admin.perusahaan.view-data-lowongan', [
+            'lowongan' => $lowongan
+        ]); 
+    }
 }

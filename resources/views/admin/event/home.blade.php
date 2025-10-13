@@ -79,7 +79,7 @@
 
 
                 {{-- Table --}}
-                <div class="w-full border border-gray-300 rounded-3xl shadow-md overflow-hidden">
+                <div class="w-full border-2 border-gray-400 rounded-3xl shadow-md overflow-hidden">
                     <table class="w-full table-fixed border-collapse">
                         <thead class="bg-gray-50">
                             <tr class="text-center">

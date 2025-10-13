@@ -23,6 +23,7 @@ use App\Http\Controllers\SkillController;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\TipsKerjaController;
 use App\Jobs\ExpireLamaranJob;
+use App\Models\SuperAdmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
@@ -394,6 +395,10 @@ Route::prefix('admin')->middleware('auth', 'role:admin', 'CheckUserStatus')->gro
 
     //PERUSAHAAN
     Route::get('/perusahaan', [AdminController::class, 'halPerusahaan'])->name('admin.perusahaan');
+    Route::get('/admin/perusahaan/{id}', [AdminController::class, 'detailPerusahaan'])->name('admin.perusahaan.detail');
+    Route::get('/admin/lowongan/{id}', [AdminController::class, 'detailLowongan'])->name('admin.lowongan.detail');
+
+
     Route::post('/user/freeze/{id}', [AdminController::class, 'bekukan'])->name('admin.freeze');
     Route::post('/user/unfreeze/{id}', [AdminController::class, 'aktifkan'])->name('admin.unfreeze');
 });
@@ -527,6 +532,11 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
 
     //Pengaturan
     Route::post('/ganti-password', [SuperAdminController::class, 'updatePassword'])->name('superadmin.password.update');
+
+    //PERUSAHAAN
+    Route::get('/perusahaan', [SuperAdminController::class, 'halPerusahaan'])->name('superadmin.perusahaan');
+    Route::get('/perusahaan/{id}', [SuperAdminController::class, 'detailPerusahaan'])->name('superadmin.perusahaan.detail');
+    Route::get('/lowongan/{id}', [SuperAdminController::class, 'detailLowongan'])->name('superadmin.lowongan.detail');
 });
 
 
@@ -555,10 +565,6 @@ Route::get('/super_admin/tambah-kandidat', function () {
 
 Route::get('/super_admin/detail-kandidat', function () {
     return view('super_admin.detail-kandidat');
-});
-
-Route::get('/super_admin/data-perusahaan', function () {
-    return view('super_admin.data-perusahaan');
 });
 
 Route::get('/super_admin/data-talent-hunter', function () {
@@ -677,6 +683,10 @@ Route::get('/perusahaan/pelamar', function () {
     return view('perusahaan.pelamar');
 });
 
+Route::get('/perusahaan/request-data', function () {
+    return view('perusahaan.request-data');
+});
+
 Route::prefix('perusahaan')->middleware('guest')->group(function () {
 
 
@@ -754,6 +764,19 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
     //EVENT 
     Route::get('/event', [PerusahaanController::class, 'event'])->name('perusahaan.event.index');
     Route::get('/gabung/event/{id}', [PerusahaanController::class, 'detail'])->name('perusahaan.event.show');
+
+
+
+    //BERLANGGANAN
+    Route::get('/berlangganan', [PerusahaanController::class, 'halLangganan'])->name('perusahaan.berlangganan');
+    Route::post('/berlangganan', [PerusahaanController::class, 'storeLangganan'])->name('berlangganan.store');
+    //kirim email langganan
+    Route::post('/send-email', [PerusahaanController::class, 'kirimEmail'])->name('send.email')->middleware('auth');
+    //DAFTAR PEKERJA BERMASALAH
+    Route::get('/data/pekerja', [PerusahaanController::class, 'halDaftarPekerja'])->name('perusahaan.data.pekerja');
+    // Route::get('/daftar/pekerja/{id}', [PerusahaanController::class, 'detail_daftar_pekerja'])->name('perusahaan.daftar.pekerja.detail');
+
+
 });
 //PROVINSI KOTA KECAMATAN
 Route::get('/get-kota/{provinsi_id}', [PerusahaanController::class, 'getKota'])->name('get.kota')->middleware('auth');
@@ -778,9 +801,9 @@ Route::get('/perusahaan/jadi/alamat', function () {
     return view('perusahaan.alamat-jadi');
 });
 
-Route::get('/perusahaan/berlangganan', function () {
-    return view('perusahaan.berlangganan');
-});
+// Route::get('/perusahaan/berlangganan', function () {
+//     return view('perusahaan.berlangganan');
+// });
 
 // Route::get('/perusahaan/kandidat/ak', function () {
 //     return view('perusahaan.kandidat-ak');

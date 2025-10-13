@@ -34,23 +34,24 @@
                     </div>
 
                     <select class="appearance-none px-6 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
-                           <option value=""></option>
+                        <option value=""></option>
                         <option>Text 1</option>
                         <option>Text 2</option>
                         <option>Text 3</option>
                     </select>
                 </div>
             </div>
-        </div>
+        </div>  
 
         <!-- Konten utama -->
         <div class="max-w-6xl mx-auto bg-white rounded-xl p-6 relative">
             <div class="max-w-5xl mx-auto">
                 <!-- Header -->
                 <div class="flex items-center border border-gray-400 rounded-xl shadow-lg py-1 gap-4 mb-4">
-                    <img src="{{ asset('images/seven.png') }}" alt="foto kandidat" class="w-68 h-64 mr-4">
+                    <img src="{{ $perusahaan->img_profile ? asset('storage/' . $perusahaan->img_profile) : asset('images/seven.png') }}"
+                        alt="foto kandidat" class="w-68 h-64 mr-4">
                     <div class="ml-20">
-                        <h2 class="text-xl font-bold uppercase">seven inc</h2>
+                        <h2 class="text-xl font-bold uppercase">{{ $perusahaan->nama_perusahaan }}</h2>
                     </div>
                 </div>
 
@@ -59,71 +60,68 @@
                     <!-- Deskripsi -->
                     <h2 class="text-lg font-semibold mb-2">Deskripsi</h2>
                     <p class="text-sm font-medium text-gray-800 mb-6">
-                        SEVEN INC adalah perusahaan yang bergerak di bidang teknologi dan inovasi digital.
-                        Fokus utama perusahaan ini adalah mengembangkan solusi teknologi yang mendukung berbagai sektor,
-                        seperti pengembangan aplikasi, layanan digital, dan konsultasi teknologi.
+                        {{ $perusahaan->deskripsi ?? 'Belum Ada Data' }}
                     </p>
 
                     <!-- Visi -->
                     <h2 class="text-lg font-semibold mb-2">Visi</h2>
                     <ul class="list-disc font-medium list-inside text-sm text-gray-800 mb-6">
-                        <li>Menjadi perusahaan teknologi terdepan yang menciptakan solusi digital inovatif dan berkelanjutan
+                        <li>
+                            {{ $perusahaan->visi ?? 'Belum Ada Data' }}
                         </li>
                     </ul>
 
                     <!-- Misi -->
                     <h2 class="text-lg font-semibold mb-2">Misi</h2>
                     <ul class="list-disc font-medium list-inside text-sm text-gray-800 mb-6 ">
-                        <li>Mengembangkan produk dan layanan teknologi yang mengutamakan kualitas & kebutuhan</li>
-                        <li>Mendorong inovasi di setiap aspek pengembangan solusi digital untuk membantu klien</li>
-                        <li>Menyediakan lingkungan kerja yang mendukung pengembangan profesional tim</li>
+                        <li>{{ $perusahaan->misi ?? 'Belum Ada Data' }}</li>
                     </ul>
 
                     <!-- Data Perusahaan -->
                     <h2 class="text-lg font-semibold mb-2">Data Perusahaan</h2>
                     <div class="grid grid-cols-2 font-medium text-sm text-gray-800 mb-6 gap-y-2">
                         <p>User ID</p>
-                        <p>: 7413580000</p>
+                        <p>: {{ $perusahaan->user->id }}</p>
 
                         <p>Username</p>
-                        <p>: Seven_inc</p>
+                        <p>: {{ $perusahaan->user->username }}</p>
 
                         <p>Email</p>
-                        <p>: seveninc@gmail.com</p>
+                        <p>: {{ $perusahaan->user->email }}</p>
 
                         <p>Kata Sandi</p>
                         <p>: ********</p>
-                        
+
                         <p>Nama Perusahaan</p>
-                        <p>: Seven INC</p>
-                        
+                        <p>: {{ $perusahaan->nama_perusahaan }}</p>
+
                         <p>Legalitas</p>
-                        <p>: PT</p>
+                        <p>: {{ $perusahaan->legalitas ?? 'Belum Ada Data' }}</p>
                     </div>
 
                     <!-- Kontak -->
                     <h2 class="text-lg font-semibold mb-2">Kontak</h2>
                     <div class="grid grid-cols-2 font-medium text-sm text-gray-800 mb-6 gap-y-2">
                         <p>Perusahaan</p>
-                        <p class="font-semibold">: (0274) 123456</p>
+                        <p class="font-semibold">: {{ $perusahaan->telepon_perusahaan }}</p>
                         <p>Whatsapp</p>
-                        <p class="font-semibold">: 08123456789</p>
+                        <p class="font-semibold">: {{ $perusahaan->whatsapp ?? 'Belum Ada Data' }}</p>
                     </div>
 
                     <!-- Lowongan -->
                     <h2 class="text-lg font-semibold mb-2">Lowongan</h2>
-                    <div class="text-sm font-medium space-y-2">
-                        <div>
-                            <a href="#" class="text-blue-500 text-sm font-semibold hover:underline mb-1">Front-End Developer</a>
-                            <p class="text-gray-400 mb-1">Yogyakarta </p>
-                            <p class="text-gray-400"> 2 hari yang lalu </p>
+                    @if ($perusahaan->lowonganPerusahaans->count())
+                        <div class="text-sm font-medium space-y-2">
+                            @foreach ($perusahaan->lowonganPerusahaans as $l)
+                                <div>
+                                     <a href="{{ route('superadmin.lowongan.detail', $l->id) }}"
+                                        class="text-blue-500 text-sm font-semibold hover:underline mb-1">{{ $l->nama }}</a>
+                                    <p class="text-gray-400 mb-1">{{ $l->alamat }} </p>
+                                    <p class="text-gray-400"> {{ $l->published_at ?? $lowongan->created_at }} </p>
+                                </div>
+                            @endforeach
                         </div>
-                        <div>
-                            <a href="#" class="text-blue-500 text-sm font-semibold hover:underline mb-1">Back-End Developer</a>
-                            <p class="text-gray-400 mb-1">Yogyakarta </p>
-                            <p class="text-gray-400"> 2 hari yang lalu</p>
-                        </div>
-                    </div>
+                    @endif
                 </div>
 
 

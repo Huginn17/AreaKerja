@@ -1,16 +1,6 @@
-@extends('layouts.index')
+@extends('layouts.index-perusahaan')
 @section('content')
-    <!DOCTYPE html>
-    <html lang="en">
-
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://cdn.tailwindcss.com"></script>
-        <title>Request Data</title>
-    </head>
-
-    <body class="bg-white">
+    <div class="bg-white">
 
         <!-- Hero Section -->
         <div class="relative w-full h-[300px] flex items-center bg-cover bg-center"
@@ -100,17 +90,12 @@
                 <button class="bg-white text-orange-500 hover:bg-gray-200 text-sm font-medium px-4 py-2 rounded-lg">
                     lebih Detail
                 </button>
-                
+
             </div>
 
         </div>
-        </div>
+    </div>
 
-    </body>
-
-    </html>
-
-
-
+    </div>
     @include('layouts.footer')
 @endsection
