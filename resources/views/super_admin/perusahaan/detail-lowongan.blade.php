@@ -1,7 +1,7 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
     <div class="w-4/5 h-screen translate-x-4 overflow-y-auto">
-        <main class="flex-1 p-6 bg-white">
+        <main class="flex-1 p-6 bg-white sm:ml-64">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-2xl font-medium"></h1>
                 <div class="flex items-center gap-3">

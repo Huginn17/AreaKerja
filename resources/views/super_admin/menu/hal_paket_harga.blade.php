@@ -1,4 +1,4 @@
-<div class="p-4 border rounded-lg shadow">
+<div class="p-4 sm:ml-64 border rounded-lg shadow">
     {{-- paket harga koin --}}
     <div class="mb-10">
         <div class="flex justify-between items-center mb-2">

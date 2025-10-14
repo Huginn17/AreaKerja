@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('nama')->nullable();
             $table->integer('publikasi')->default(1);
             $table->integer('batas_listing')->default(3);
-            $table->integer('harga');
             $table->timestamps();
         });
     }

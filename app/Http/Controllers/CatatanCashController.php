@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CatatanCash;
+use App\Models\DaftarBank;
 use App\Models\HargaPembayaran;
 use App\Models\Perusahaan;
 use Illuminate\Http\Request;
@@ -20,16 +21,22 @@ class CatatanCashController extends Controller
             'daftar_bank_id' => 'required|exists:daftar_bank,id',
         ]);
 
+        $user = auth()->user();
         $harga = HargaPembayaran::findOrFail($request->harga_pembayaran_id);
+        $bank = DaftarBank::findOrFail($request->daftar_bank_id);
+
+        $sumberDana = (strtolower($bank->nama_bank) === 'qris')
+            ? 'Qris'
+            : 'Transfer Bank';
 
         $transaksi = CatatanCash::create([
-            'user_id' => Auth::id(),
-            'harga_pembayaran_id' => $request->harga_pembayaran_id,
-            'daftar_bank_id' => $request->daftar_bank_id,
+            'user_id' => $user->id,
+            'harga_pembayaran_id' => $harga->id,
+            'daftar_bank_id' => $bank->id,
             'no_referensi' => strtoupper(Str::random(10)),
             'pesanan' => "Top Up Koin - {$harga->nama}",
-            'dari' => Auth::user()->username,
-            'sumberDana' => 'Transfer Bank',
+            'dari' => $user->username,
+            'sumberDana' => $sumberDana,
             'total' => $harga->harga,
             'status' => 'pending',
             'expired_at' => now()->addHours(24),

@@ -69,10 +69,15 @@
                     Talent Hunter
                 </a>
             </div>
-            <div class="flex gap-2">
-                <input type="text" placeholder="nama/username ..."
-                    class="border border-gray-500 rounded-lg px-4 py-2 w-72">
-                <button class="bg-gray-500 hover:bg-gray-400 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
+            <div class="flex gap-2 mb-4">
+                <form action="{{ route('admin.perusahaan') }}" method="GET" class="flex gap-2">
+                    <input type="text" name="search" value="{{ $search }}" placeholder="nama/username ..."
+                        class="border border-gray-500 rounded-lg px-4 py-2 w-72">
+                    <button type="submit"
+                        class="bg-gray-500 hover:bg-gray-600 text-white font-medium px-10 py-2 rounded-xl">
+                        Cari
+                    </button>
+                </form>
             </div>
         </div>
 
@@ -135,7 +140,7 @@
                                     </button>
                                 @else
                                     <button <button
-                                        class="bg-green-500 hover:bg-green-600 text-white p-2 rounded-md open-unfreeze-modal"   
+                                        class="bg-green-500 hover:bg-green-600 text-white p-2 rounded-md open-unfreeze-modal"
                                         title="Nonaktifkan" data-id="{{ $p->user->id }}">
 
                                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"

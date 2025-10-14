@@ -1,4 +1,4 @@
-<div class="p-4 border rounded-lg shadow">
+<div class="p-4 sm:ml-64 border rounded-lg shadow">
     <div class="ml-[24px]">
         <h4 class="font-semibold text-lg ">Laporan Transaksi Penghasilan</h4>
         <p class="text-sm mt-3">Hanya catatan transaksi dalam 12 bulan terakhir akan dipertahankan. silahkan download

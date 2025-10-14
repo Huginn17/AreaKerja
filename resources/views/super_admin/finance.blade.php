@@ -1,6 +1,6 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
-    <div class="flex-1 p-6 bg-white overflow-y-auto">
+    <div class="flex-1 p-6 sm:ml-64 bg-white overflow-y-auto">
         {{-- Header --}}
         <div class="flex justify-between items-center mb-6">
     <h1 class="text-2xl font-medium">Paket Harga</h1>
@@ -108,7 +108,7 @@
 
                         {{-- header --}}
                         <div class="flex justify-between items-center bg-orange-500 text-white px-4 py-3">
-                            <div class="flex-1 font-semibold ">Nama</div>
+                            <div class="flex-1 font-semibold">Nama</div>
                             <div class="font-semibold">Harga</div>
                         </div>
 

@@ -17,6 +17,7 @@ use App\Models\HargaPembayaran;
 use App\Models\PelamarLowongan;
 use App\Models\AlamatPerusahaan;
 use App\Models\CatatanKoin;
+use App\Models\Hargakoin;
 use App\Models\LowonganPerusahaan;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -283,6 +284,7 @@ class PerusahaanController extends Controller
     {
         $user = auth()->user();
         $perusahaan = Perusahaan::where('user_id', $user->id)->first();
+        $hargaLangganan = Hargakoin::where('nama', 'Berlangganan')->value('harga');
 
         if (!$perusahaan) {
             abort(404, 'Data perusahaan tidak ditemukan.');
@@ -298,6 +300,7 @@ class PerusahaanController extends Controller
             'perusahaan' => $perusahaan,
             'hargaPembayarans' => HargaPembayaran::all(),
             'daftarBank' => DaftarBank::all(),
+            'hargaLangganan' => $hargaLangganan
         ]);
     }
 
@@ -306,14 +309,23 @@ class PerusahaanController extends Controller
         $user = Auth::user();
         $perusahaan = Perusahaan::where('user_id', $user->id)->first();
 
-        if ($perusahaan->koin_perusahaan < 1000) {
+        $hargaLangganan = Hargakoin::where('nama', 'Berlangganan')->value('harga');
+
+        if (!$hargaLangganan) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Harga berlangganan tidak ditemukan.'
+            ], 400);
+        }
+
+        if ($perusahaan->koin_perusahaan < $hargaLangganan) {
             return response()->json([
                 'success' => false,
                 'message' => 'Koin tidak cukup untuk berlangganan.'
             ], 400);
         }
 
-        $perusahaan->koin_perusahaan -= 1000;
+        $perusahaan->koin_perusahaan -= $hargaLangganan;
         $perusahaan->is_berlangganan = 1;
         $perusahaan->tanggal_berlangganan = Carbon::now();
         $perusahaan->tanggal_expired = Carbon::now()->addYear();
@@ -323,9 +335,9 @@ class PerusahaanController extends Controller
             'user_id' => $user->id,
             'no_referensi' => 'SUB-' . strtoupper(Str::random(8)),
             'pesanan' => 'Berlangganan Tahunan',
-            'dari' => 'Saldo Koin',
+            'dari' => $perusahaan->nama_perusahaan,
             'sumber_dana' => 'Pembayaran Langganan',
-            'total' => '-1000',
+            'total' => '-' . $hargaLangganan,
         ]);
 
         return response()->json([
@@ -362,7 +374,7 @@ class PerusahaanController extends Controller
     {
         $user = auth()->user();
         $perusahaan = Perusahaan::where('user_id', $user->id)->first();
-        return view('perusahaan.langganan.request-data',[
+        return view('perusahaan.langganan.request-data', [
             'perusahaan' => $perusahaan
         ]);
     }

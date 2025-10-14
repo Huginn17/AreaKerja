@@ -360,7 +360,7 @@
                                 <label
                                     class="pembayaranWrapper flex justify-between items-center px-4 py-3 cursor-pointer hover:bg-gray-50 transition">
                                     <div class="flex items-center gap-3">
-                                        <img src="{{ asset($bank->logo ?? 'default-bank.png') }}" class="w-8 h-8">
+                                        <img src="{{ asset($bank->logo_image ?? 'default-bank.png') }}" class="w-8 h-8">
                                         <span class="font-medium">{{ $bank->nama_bank }}</span>
                                     </div>
                                     <input type="radio" name="bank" value="{{ $bank->id }}"
@@ -381,7 +381,7 @@
                         <label
                             class="pembayaranWrapper mt-3 flex justify-between items-center px-4 py-3 border rounded-xl cursor-pointer hover:bg-gray-50 transition">
                             <div class="flex items-center gap-3">
-                                <img src="{{ asset($bank->logo ?? 'default-bank.png') }}" class="w-8 h-8">
+                                <img src="{{ asset($bank->logo_image ?? 'default-bank.png') }}" class="w-8 h-8">
                                 <span class="font-medium">{{ $bank->nama_bank }}</span>
                             </div>
                             <input type="radio" name="bank" value="{{ $bank->id }}"

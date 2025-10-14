@@ -51,50 +51,57 @@
         </header>
 
 
-        <div class="flex gap-6 mt-6 px-5 ">
-            <!-- Card Perusahaan -->
+        <div class="flex gap-6 mt-6 px-5">
+
+            <!-- PERUSAHAAN -->
             <div class="bg-white shadow-lg rounded-md p-5 w-60 hover:bg-gray-50 hover:scale-105 transition duration-300">
                 <h3 class="text-gray-700 text-sm font-medium mb-2">Perusahaan</h3>
                 <div class="flex items-center gap-2">
-                    <span class="text-2xl font-bold text-gray-900">27</span>
-                    <span class="text-green-600 text-sm font-semibold">+1.3%</span>
+                    <span class="text-2xl font-bold text-gray-900">{{ $totalPerusahaan }}</span>
+                    <span class="{{ $growthPerusahaan >= 0 ? 'text-green-600' : 'text-red-600' }} text-sm font-semibold">
+                        {{ $growthPerusahaan >= 0 ? '+' : '' }}{{ $growthPerusahaan }}%
+                    </span>
                 </div>
-                <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail
-                    &gt;</a>
+                <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a>
             </div>
 
-            <!-- Card Kandidat -->
+            <!-- KANDIDAT -->
             <div class="bg-white shadow-lg rounded-md p-5 w-60 hover:bg-gray-50 hover:scale-105 transition duration-300">
                 <h3 class="text-gray-700 text-sm font-medium mb-2">Kandidat</h3>
                 <div class="flex items-center gap-2">
-                    <span class="text-2xl font-bold text-gray-900">15</span>
-                    <span class="text-green-600 text-sm font-semibold">+2.3%</span>
+                    <span class="text-2xl font-bold text-gray-900">{{ $totalKandidat }}</span>
+                    <span class="{{ $growthKandidat >= 0 ? 'text-green-600' : 'text-red-600' }} text-sm font-semibold">
+                        {{ $growthKandidat >= 0 ? '+' : '' }}{{ $growthKandidat }}%
+                    </span>
                 </div>
-                <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail
-                    &gt;</a>
+                <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a>
             </div>
 
-            <!-- Card Non Kandidat -->
+            <!-- NON KANDIDAT -->
             <div class="bg-white shadow-lg rounded-md p-5 w-60 hover:bg-gray-50 hover:scale-105 transition duration-300">
                 <h3 class="text-gray-700 text-sm font-medium mb-2">Non Kandidat</h3>
                 <div class="flex items-center gap-2">
-                    <span class="text-2xl font-bold text-gray-900">14</span>
-                    <span class="text-green-600 text-sm font-semibold">+0.7%</span>
+                    <span class="text-2xl font-bold text-gray-900">{{ $totalNonKandidat }}</span>
+                    <span class="{{ $growthNonKandidat >= 0 ? 'text-green-600' : 'text-red-600' }} text-sm font-semibold">
+                        {{ $growthNonKandidat >= 0 ? '+' : '' }}{{ $growthNonKandidat }}%
+                    </span>
                 </div>
-                <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail
-                    &gt;</a>
+                <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a>
             </div>
 
-            <!-- Card Lowongan -->
+            <!-- LOWONGAN -->
             <div class="bg-white shadow-lg rounded-md p-5 w-60 hover:bg-gray-50 hover:scale-105 transition duration-300">
                 <h3 class="text-gray-700 text-sm font-medium mb-2">Lowongan</h3>
                 <div class="flex items-center gap-2">
-                    <span class="text-2xl font-bold text-gray-900">37</span>
-                    <span class="text-green-600 text-sm font-semibold">+5.3%</span>
+                    <span class="text-2xl font-bold text-gray-900">{{ $totalLowongan }}</span>
+                    <span class="{{ $growthLowongan >= 0 ? 'text-green-600' : 'text-red-600' }} text-sm font-semibold">
+                        {{ $growthLowongan >= 0 ? '+' : '' }}{{ $growthLowongan }}%
+                    </span>
                 </div>
-                <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail
-                    &gt;</a>
+                <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a>
             </div>
+
         </div>
+
     </div>
 @endsection

@@ -1,6 +1,6 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
-    <main class="flex-1 p-4 bg-white overflow-y-auto">
+    <main class="flex-1 p-4 sm:ml-64 bg-white overflow-y-auto">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-medium">Tambah Perusahaan</h1>
             

@@ -1,7 +1,7 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
     {{-- <div class="p-4 sm:ml-64"> --}}
-    <div class="flex-1 p-6 bg-white overflow-y-auto" x-data="{ openModal: false }">
+    <div class="flex-1 p-6 sm:ml-64 bg-white overflow-y-auto" x-data="{ openModal: false }">
         <div class="flex justify-between items-center mb-10">
             <h1 class="text-2xl font-medium">Edit Event</h1>
         </div>

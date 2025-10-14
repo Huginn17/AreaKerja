@@ -52,8 +52,9 @@
                                                 id: {{ $item->id }},
                                                 user: '{{ $item->user->username ?? '-' }}',
                                                 email: '{{ $item->user->email ?? '-' }}',
+                                                sumber_dana: '{{ $item->sumberDana ?? '-' }}',
                                                 bank: '{{ $item->bank->nama_bank ?? '-' }}',
-                                                rekening: '{{ $item->bank->no_rek ?? '-' }}',
+                                                rekening: '{{ $item->bank->no_rekening ?? '-' }}',
                                                 harga: '{{ number_format($item->hargaPembayaran->harga ?? 0, 0, ',', '.') }}',
                                                 koin: '{{ $item->hargaPembayaran->jumlah_koin ?? 0 }}',
                                                 status: '{{ ucfirst($item->status) }}',
@@ -146,7 +147,7 @@
                             </div>
                             <div class="flex justify-between">
                                 <span class="font-semibold">Metode Pembayaran</span>
-                                <span x-text="detail.bank"></span>
+                                <span x-text="detail.sumber_dana"></span>
                             </div>
                             <div class="flex justify-between">
                                 <span class="font-semibold">Tgl/Waktu</span>

@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\Finance;
+use App\Models\Hargakoin;
+use App\Models\HargaPembayaran;
 use App\Models\LowonganPerusahaan;
 use App\Models\Pelamar;
 use App\Models\Perusahaan;
 use App\Models\SuperAdmin;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -18,7 +21,59 @@ class SuperAdminController extends Controller
 {
     public function index()
     {
-        return view('super_admin.dashboard');
+        $now = Carbon::now();
+        $lastMonth = Carbon::now()->subMonth();
+
+        $totalPelamar = Pelamar::count();
+        $lastPelamar = Pelamar::whereMonth('created_at', $lastMonth->month)
+            ->whereYear('created_at', $lastMonth->year)
+            ->count();
+        $growthPelamar = $this->calcGrowth($lastPelamar, $totalPelamar);
+
+        $totalPerusahaan = Perusahaan::count();
+        $lastPerusahaan = Perusahaan::whereMonth('created_at', $lastMonth->month)
+            ->whereYear('created_at', $lastMonth->year)
+            ->count();
+        $growthPerusahaan = $this->calcGrowth($lastPerusahaan, $totalPerusahaan);
+
+        $totalAdmin = User::where('role', 'admin')->count();
+        $lastAdmin = User::where('role', 'admin')
+            ->whereMonth('created_at', $lastMonth->month)
+            ->whereYear('created_at', $lastMonth->year)
+            ->count();
+        $growthAdmin = $this->calcGrowth($lastAdmin, $totalAdmin);
+
+        $totalSuperAdmin = User::where('role', 'super_admin')->count();
+        $lastSuperAdmin = User::where('role', 'super_admin')
+            ->whereMonth('created_at', $lastMonth->month)
+            ->whereYear('created_at', $lastMonth->year)
+            ->count();
+        $growthSuperAdmin = $this->calcGrowth($lastSuperAdmin, $totalSuperAdmin);
+
+        return view('super_admin.dashboard', [
+            "title" => "Dashboard",
+            'totalPerusahaan' => $totalPerusahaan,
+            'growthPerusahaan' => $growthPerusahaan,
+            'totalPelamar' => $totalPelamar,
+            'growthPelamar' => $growthPelamar,
+            'totalAdmin' => $totalAdmin,
+            'growthAdmin' => $growthAdmin,
+            'totalSuperAdmin' => $totalSuperAdmin,
+            'growthSuperAdmin' => $growthSuperAdmin,
+        ]);
+    }
+
+    /**
+     * Hitung pertumbuhan dalam persen (%)
+     * @param int $last jumlah bulan lalu
+     * @param int $current jumlah sekarang
+     * @return float
+     */
+    private function calcGrowth($last, $current)
+    {
+        if ($last == 0 && $current > 0) return 100; // dari 0 ke ada = +100%
+        if ($last == 0 && $current == 0) return 0;  // tetap 0
+        return round((($current - $last) / $last) * 100, 1);
     }
 
 
@@ -555,7 +610,7 @@ class SuperAdminController extends Controller
         ]);
     }
 
-     public function detailPerusahaan($id)
+    public function detailPerusahaan($id)
     {
         $perusahaan = Perusahaan::with(['user', 'lowonganPerusahaans'])->findOrFail($id);
         return view('super_admin.perusahaan.detail-perusahaan', [
@@ -565,12 +620,66 @@ class SuperAdminController extends Controller
 
     public function detailLowongan($id)
     {
-          $lowongan =LowonganPerusahaan::with(['perusahaan'])->findOrFail($id);
+        $lowongan = LowonganPerusahaan::with(['perusahaan'])->findOrFail($id);
 
         return view('super_admin.perusahaan.detail-lowongan', [
             'lowongan' => $lowongan
-        ]); 
+        ]);
     }
 
 
+
+
+    //FINANCE
+    public function halFinance()
+    {
+        return view('super_admin.finance.paket-harga', [
+            'title' => 'Paket Harga',
+            'koin' => Hargakoin::all(),
+            'pembayaran' => HargaPembayaran::all(),
+        ]);
+    }
+
+    //HARGA KOIN
+    public function edit_koin()
+    {
+        return view('super_admin.finance.edit-koin', [
+            'title' => 'Edit Harga Koin',
+            'koin' => Hargakoin::all(),
+        ]);
+    }
+    public function update_koin(Request $request)
+    {
+        foreach ($request->id as $i => $id) {
+            $koin = Hargakoin::find($id);
+            if ($koin) {
+                $koin->harga = $request->harga[$i];
+                $koin->save();
+            }
+        }
+
+        return redirect()->route('superadmin.paket-harga');
+    }
+
+
+    //HARGA PEMBAYARAN
+    public function edit_pembayaran()
+    {
+        return view('super_admin.finance.edit-harga', [
+            'title' => 'Edit Harga Pembayaran',
+            'pembayaran' => HargaPembayaran::all(),
+        ]);
+    }
+    public function update_pembayaran(Request $request)
+    {
+        foreach ($request->id as $i => $id) {
+            $pembayaran = HargaPembayaran::find($id);
+            if ($pembayaran) {
+                $pembayaran->harga = $request->harga[$i];
+                $pembayaran->save();
+            }
+        }
+
+        return redirect()->route('superadmin.paket-harga');
+    }
 }

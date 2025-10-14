@@ -157,42 +157,42 @@ class DatabaseSeeder extends Seeder
             "nama_bank"  =>    "Bank BCA",
             "owner"      =>     "Areakerja",
             "no_rek"     =>     "009912212",
-            "logo_image"   =>     "bitcoin.png"
+            "logo_image"   =>     "icon/bcaaa.png"
         ]);
         DaftarBank::create([
             "nama_bank"  =>    "Bank BNI",
             "owner"      =>     "Areakerja",
             "no_rek"     =>     "099123212",
-            "logo_image"   =>     "topup_icon/Bca.png"
+            "logo_image"   =>     "icon/bni.png"
         ]);
         DaftarBank::create([
             "nama_bank"  =>    " Bank BRI",
             "owner"      =>     "Areakerja",
             "no_rek"     =>     "0021222112",
-            "logo_image"   =>     "topup_icon/Bri.png"
+            "logo_image"   =>     "icon/bri.png"
         ]);
         DaftarBank::create([
             "nama_bank"  =>    "Qris",
             "owner"      =>     "Areakerja",
             "no_rek"     =>     "0021092829",
-            "logo_image"   =>     "topup_icon/Bri.png"
+            "logo_image"   =>     "images/qrrrr-removebg-preview.png"
         ]);
 
         $pakets = [
             [
                 'nama' => 'Gold',
                 'batas_listing' => 5,   // aktif 7 hari
-                'harga' => 50,          // harga 50 koin
+                'harga' => 200          // harga 50 koin
             ],
             [
                 'nama' => 'Silver',
                 'batas_listing' => 3,   // aktif 3 hari
-                'harga' => 30,          // harga 30 koin
+                'harga' => 150,          // harga 30 koin
             ],
             [
                 'nama' => 'Bronze',
                 'batas_listing' => 1,   // aktif 1 hari
-                'harga' => 10,          // harga 10 koin
+                'harga' => 100,          // harga 10 koin
             ],
         ];
 

@@ -1,5 +1,5 @@
 
-<div class="p-4 border rounded-lg shadow">
+<div class="p-4 sm:ml-64 border rounded-lg shadow">
     {{-- riwayat transaksi --}}
     <div class="mb-8">
         <h2 class="text-lg font-semibold mb-2">Riwayat Tunai</h2>

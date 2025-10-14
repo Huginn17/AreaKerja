@@ -1,6 +1,6 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
-    <main class="flex-1 p-6 bg-white overflow-y-auto">
+    <main class="flex-1 p-6 sm:ml-64 bg-white overflow-y-auto">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-medium">Data Perusahaan</h1>
             <div class="flex items-center gap-3">
@@ -122,11 +122,10 @@
         </div>
 
         <!-- Table -->
-        <div class="overflow-hidden rounded-2xl border-2 border-gray-400">
+        <div class="overflow-hidden rounded-2xl border-2 border-gray-400 shaadow-md">
             <table class="w-full text-left border-collapse">
                 <thead class="text-center">
-                    <tr class="border-b-[2px] border-gray-400">
-                    <tr>
+                    <tr class="border-b-2 border-gray-400">
                         <th class="p-7 font-medium">ID</th>
                         <th class="p-7 font-medium">Nama Perusahaan</th>
                         <th class="p-7 font-medium">Email</th>
@@ -136,10 +135,8 @@
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    @forelse ($perusahaan as $p)
-                        <tr class="border-b-[2px] border-gray-400">
-                        <tr class="border-2-gray-400">
-                        <tr class="border-b-[2px] border-gray-400">
+                    @forelse ($perusahaan as $p) 
+                        <tr class="border-gray-400">
                             <td class="px-4 py-3">{{ $p->id }}</td>
                             <td class="px-4 py-3">{{ $p->nama_perusahaan }}</td>
                             <td class="px-4 py-3">{{ $p->user->email }}</td>

@@ -174,7 +174,7 @@
                         </div>
                         <div class="flex justify-between">
                             <span class="font-semibold">Metode Pembayaran</span>
-                            <span x-text="selected?.bank ?? '-'"></span>
+                            <span x-text="selected?.sumberDana ?? '-'"></span>
                         </div>
                         <div class="flex justify-between">
                             <span class="font-semibold">Tgl/Waktu</span>

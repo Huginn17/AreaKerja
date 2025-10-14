@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CatatanKoin;
+use App\Models\Hargakoin;
 use App\Models\LowonganPerusahaan;
 use App\Models\PaketLowongan;
 use Illuminate\Support\Str;
@@ -22,9 +23,28 @@ class LowonganPerusahaanController extends Controller
     public function paketform()
     {
         $perusahaan = Auth::user()->perusahaan;
+
+        // Ambil semua paket (Gold, Silver, Bronze)
         $pakets = PaketLowongan::whereIn('nama', ['Gold', 'Silver', 'Bronze'])->get();
+
+        // Ambil semua harga berdasarkan nama paket
+        $hargaKoins = HargaKoin::whereIn('nama', [
+            'Pasang Lowongan Bronze',
+            'Pasang Lowongan Silver',
+            'Pasang Lowongan Gold'
+        ])->get()->keyBy('nama');
+
+        foreach ($pakets as $paket) {
+            $namaHarga = 'Pasang Lowongan ' . $paket->nama;
+            $paket->harga = $hargaKoins[$namaHarga]->harga ?? 0;
+        }
+
         return view('perusahaan.pasang-lowongan', compact('perusahaan', 'pakets'));
     }
+
+
+
+
 
     public function createForm()
     {
@@ -122,26 +142,7 @@ class LowonganPerusahaanController extends Controller
             return redirect()->back()->with('error', 'Lowongan ini sudah dipublish.');
         }
 
-        // Cek saldo koin perusahaan cukup
-        if ($perusahaan->koin_perusahaan < $paket->harga) {
-            return redirect()->route('perusahaan.dashboard')
-                ->with('error', 'Koin Anda tidak cukup. Silakan top up dulu.');
-        }
-
-        
-        // Potong koin perusahaan
-        $perusahaan->decrement('koin_perusahaan', $paket->harga);
-
-        CatatanKoin::create([
-            'user_id'      => $user->id,
-            'no_referensi' => 'PUB-' . strtoupper(uniqid()),
-            'pesanan'      => 'Pasang Lowongan: ' . $lowongan->nama,
-            'dari'         => $perusahaan->nama_perusahaan,
-            'sumber_dana'  => 'Saldo Koin Perusahaan',
-            'total'        => '-' . $paket->harga, 
-        ]);
-
-        // Publish lowongan
+        // 🔹 Cukup update status publish & tanggal aktif
         $lowongan->update([
             'published_at' => now(),
             'expired_at'   => now()->addDays($paket->batas_listing),
@@ -150,6 +151,8 @@ class LowonganPerusahaanController extends Controller
         return redirect()->route('lowongan.saya.perusahaan')
             ->with('success', 'Lowongan berhasil dipublish dan aktif selama ' . $paket->batas_listing . ' hari.');
     }
+
+
 
 
 
@@ -167,7 +170,18 @@ class LowonganPerusahaanController extends Controller
         $perusahaan = Auth::user()->perusahaan;
         $paket = PaketLowongan::findOrFail($request->paket_id);
 
-        // Ambil lowongan yang dipilih & pastikan milik perusahaan
+        // 🔹 Ambil harga dari relasi harga_koins berdasarkan nama paket
+        $namaHarga = 'Pasang Lowongan ' . $paket->nama;
+        $hargaKoin = HargaKoin::where('nama', $namaHarga)->first();
+
+        if (!$hargaKoin) {
+            return redirect()->back()->with('error', 'Harga untuk paket ini belum diatur.');
+        }
+
+        // Simpan harga ke variabel
+        $harga = $hargaKoin->harga;
+
+        // 🔹 Pastikan lowongan milik perusahaan
         $lowongan = LowonganPerusahaan::where('perusahaan_id', $perusahaan->id)
             ->where('id', $request->lowongan_id)
             ->first();
@@ -176,19 +190,18 @@ class LowonganPerusahaanController extends Controller
             return redirect()->back()->with('error', 'Lowongan tidak ditemukan atau bukan milik Anda.');
         }
 
-        // Cek saldo koin perusahaan
-        if ($perusahaan->koin_perusahaan < $paket->harga) {
+        // 🔹 Cek saldo koin perusahaan
+        if ($perusahaan->koin_perusahaan < $harga) {
             return redirect()->route('paket.form')
                 ->with('koin_kurang', true);
         }
 
-        // Potong koin
-        $perusahaan->decrement('koin_perusahaan', $paket->harga);
+        // 🔹 Potong koin
+        $perusahaan->decrement('koin_perusahaan', $harga);
 
-        // Ikatkan paket ke lowongan (belum publish)
+        // 🔹 Ikatkan paket ke lowongan (belum publish)
         $lowongan->update([
             'paket_id'   => $paket->id,
-            // 'status'     => 'draft', // tetap draft sampai publish
             'expired_at' => now()->addDays($paket->batas_listing),
         ]);
 

@@ -1,24 +1,24 @@
 @extends('finance.sidebar.index')
 @section('sidebar')
-    <div class="p-4 sm:ml-64">
+    <div class="p-4 sm:ml-64 ">
         <!-- Header -->
-     <header class="w-full flex items-center justify-between px-6 py-3">
-  <!-- Kiri: Judul + Button -->
-  <div>
-    <p class="font-semibold text-2xl mb-2">Riwayat</p><br>
-  
- <form action="/submit" method="POST" class="flex items-center gap-3">
-  <!-- Dropdown -->
-  <select id="menu_select" name="menu_select"
-          class="w-48 bg-orange-500 text-white font-medium px-4 py-2 border border-orange-500 rounded-lg focus:outline-none">
-      <option value="riwayat">Riwayat</option>
-      <option value="paket_harga">Paket Harga</option>
-      <option value="laporan">Laporan</option>
-  </select>
-</form>
-    </button>
-    
-  </div>
+        <header class="w-full flex items-center justify-between px-6 py-3">
+            <!-- Kiri: Judul + Button -->
+            <div>
+                <p class="font-semibold text-2xl mb-2">Riwayat</p><br>
+
+                <form action="/submit" method="POST" class="flex items-center gap-3">
+                    <!-- Dropdown -->
+                    <select id="menu_select" name="menu_select"
+                        class="w-48 bg-orange-500 text-white font-medium px-4 py-2 border border-orange-500 rounded-lg focus:outline-none">
+                        <option value="riwayat">Riwayat</option>
+                        <option value="paket_harga">Paket Harga</option>
+                        <option value="laporan">Laporan</option>
+                    </select>
+                </form>
+                </button>
+
+            </div>
             <div class="flex items-center gap-3">
                 <svg width="31" height="32" viewBox="0 0 31 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_722_7956)">
@@ -67,243 +67,243 @@
 
         {{-- riwayat transaksi --}}
         <div class="p-4">
-                <div class="mb-8">
-                    <h2 class="text-lg font-semibold mb-2">Riwayat Tunai</h2>
-                    <div class="rounded-2xl overflow-hidden border">
-                        <table class="w-full text-sm">
-                            <thead>
-                                <tr class="bg-orange-500 text-white">
-                                    <th class="px-4 py-2 text-left">No</th>
-                                    <th class="px-4 py-2 text-left">No. Refrensi</th>
-                                    <th class="px-4 py-2 text-left">Jenis</th>
-                                    <th class="px-4 py-2 text-left">Dari</th>
-                                    <th class="px-4 py-2 text-left">Sumber Dana</th>
-                                    <th class="px-4 py-2 text-left">Total Koin</th>
-                                    <th class="px-4 py-2 text-center">Detail</th>
-                                    <th class="px-4 py-2 text-left">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Baris -->
-                                <tr class="border-t">
-                                    <td class="px-4 py-3">1</td>
-                                    <td class="px-4 py-3">991773493631</td>
-                                    <td class="px-4 py-3">Open CV</td>
-                                    <td class="px-4 py-3">AppleCorp.</td>
-                                    <td class="px-4 py-3">Koin AreaKerja</td>
-                                    <td class="px-4 py-3">Rp. 10.000</td>
-                                    <td class="px-4 py-2 text-orange-500 flex items-center justify-center"><svg
-                                            width="19" height="24" viewBox="0 0 19 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
-                                                fill="#FA6601" />
-                                        </svg>
+            <div class="mb-8">
+                <h2 class="text-lg font-semibold mb-2">Riwayat Tunai</h2>
+                <div class="rounded-2xl overflow-hidden border">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="bg-orange-500 text-white">
+                                <th class="px-4 py-2 text-left">No</th>
+                                <th class="px-4 py-2 text-left">No. Refrensi</th>
+                                <th class="px-4 py-2 text-left">Jenis</th>
+                                <th class="px-4 py-2 text-left">Dari</th>
+                                <th class="px-4 py-2 text-left">Sumber Dana</th>
+                                <th class="px-4 py-2 text-left">Total Koin</th>
+                                <th class="px-4 py-2 text-center">Detail</th>
+                                <th class="px-4 py-2 text-left">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Baris -->
+                            <tr class="border-t">
+                                <td class="px-4 py-3">1</td>
+                                <td class="px-4 py-3">991773493631</td>
+                                <td class="px-4 py-3">Open CV</td>
+                                <td class="px-4 py-3">AppleCorp.</td>
+                                <td class="px-4 py-3">Koin AreaKerja</td>
+                                <td class="px-4 py-3">Rp. 10.000</td>
+                                <td class="px-4 py-2 text-orange-500 flex items-center justify-center"><svg width="19"
+                                        height="24" viewBox="0 0 19 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
+                                            fill="#FA6601" />
+                                    </svg>
 
-                                    </td>
-                                    <td class="px-4 py-2 text-green-600 font-semibold">Sukses</td>
-                                </tr>
+                                </td>
+                                <td class="px-4 py-2 text-green-600 font-semibold">Sukses</td>
+                            </tr>
 
-                                <tr class="border-t">
-                                    <td class="px-4 py-3">2</td>
-                                    <td class="px-4 py-3">991773493631</td>
-                                    <td class="px-4 py-3">Open CV</td>
-                                    <td class="px-4 py-3">AppleCorp.</td>
-                                    <td class="px-4 py-3">Koin AreaKerja</td>
-                                    <td class="px-4 py-3">Rp. 10.000</td>
-                                    <td class="px-4 py-2 text-orange-500 flex items-center justify-center"><svg
-                                            width="19" height="24" viewBox="0 0 19 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
-                                                fill="#FA6601" />
-                                        </svg>
+                            <tr class="border-t">
+                                <td class="px-4 py-3">2</td>
+                                <td class="px-4 py-3">991773493631</td>
+                                <td class="px-4 py-3">Open CV</td>
+                                <td class="px-4 py-3">AppleCorp.</td>
+                                <td class="px-4 py-3">Koin AreaKerja</td>
+                                <td class="px-4 py-3">Rp. 10.000</td>
+                                <td class="px-4 py-2 text-orange-500 flex items-center justify-center"><svg width="19"
+                                        height="24" viewBox="0 0 19 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
+                                            fill="#FA6601" />
+                                    </svg>
 
-                                    </td>
-                                    <td class="px-4 py-2 text-green-600 font-semibold">Sukses</td>
-                                </tr>
+                                </td>
+                                <td class="px-4 py-2 text-green-600 font-semibold">Sukses</td>
+                            </tr>
+
+                            <tr class="border-t">
+                                <td class="px-4 py-3">3</td>
+                                <td class="px-4 py-3">991773493631</td>
+                                <td class="px-4 py-3">Open CV</td>
+                                <td class="px-4 py-3">AppleCorp.</td>
+                                <td class="px-4 py-3">Koin AreaKerja</td>
+                                <td class="px-4 py-3">Rp. 10.000</td>
+                                <td class="px-4 py-3 text-orange-500 flex items-center justify-center"><svg width="19"
+                                        height="24" viewBox="0 0 19 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
+                                            fill="#FA6601" />
+                                    </svg>
+
+                                </td>
+                                <td class="px-4 py-2 text-green-600 font-semibold">Sukses</td>
+                            </tr>
+
+                            <tr class="border-b border-2">
+                                <td class="px-4 py-2">4</td>
+                                <td class="px-4 py-2">991773493631</td>
+                                <td class="px-4 py-2">Open CV</td>
+                                <td class="px-4 py-2">AppleCorp.</td>
+                                <td class="px-4 py-2">Koin AreaKerja</td>
+                                <td class="px-4 py-2">Rp. 10.000</td>
+                                <td class="px-4 py-2 text-orange-500 flex items-center justify-center"><svg width="19"
+                                        height="24" viewBox="0 0 19 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
+                                            fill="#FA6601" />
+                                    </svg>
+                                </td>
+                                <td class="px-4 py-2 text-green-600 font-semibold">Sukses</td>
+                            </tr>
+
+                            <tr class="border-b">
+                                <td class="px-4 py-3">5</td>
+                                <td class="px-4 py-3">991773493631</td>
+                                <td class="px-4 py-3">Open CV</td>
+                                <td class="px-4 py-3">AppleCorp.</td>
+                                <td class="px-4 py-3">Koin AreaKerja</td>
+                                <td class="px-4 py-3">Rp. 10.000</td>
+                                <td class="px-4 py-2 text-orange-500 flex items-center justify-center"><svg width="19"
+                                        height="24" viewBox="0 0 19 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
+                                            fill="#FA6601" />
+                                    </svg>
+                                </td>
+                                <td class="px-4 py-2 text-green-600 font-semibold">Sukses</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                {{-- riwayat transaksi koin --}}
+                <div class="w-full">
+                    <div class="mt-6">
+                        <h2 class="text-lg font-semibold mb-2">Riwayat Koin</h2>
+                        <div class="rounded-2xl overflow-hidden border">
+                            <table class="w-full text-sm">
+                                <thead>
+                                    <tr class="bg-orange-500 text-white">
+                                        <th class="px-4 py-2 text-left">No</th>
+                                        <th class="px-4 py-2 text-left">No. Refrensi</th>
+                                        <th class="px-4 py-2 text-left">Jenis</th>
+                                        <th class="px-4 py-2 text-left">Dari</th>
+                                        <th class="px-4 py-2 text-left">Sumber Dana</th>
+                                        <th class="px-4 py-2 text-left">Total Koin</th>
+                                        <th class="px-4 py-2 text-center">Detail</th>
+                                        <th class="px-4 py-2 text-left">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Baris -->
+                                    <tr class="border-t">
+                                        <td class="px-4 py-2">1</td>
+                                        <td class="px-4 py-2">991773493631</td>
+                                        <td class="px-4 py-2">Open CV</td>
+                                        <td class="px-4 py-2">AppleCorp.</td>
+                                        <td class="px-4 py-2">Koin AreaKerja</td>
+                                        <td class="px-4 py-2">10 Koin</td>
+                                        <td class="px-4 py-2 text-orange-500 flex items-center justify-center"><svg
+                                                width="19" height="24" viewBox="0 0 19 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
+                                                    fill="#FA6601" />
+                                            </svg>
+
+                                        </td>
+                                        <td class="px-4 py-2 text-green-600 font-semibold">Sukses</td>
+                                    </tr>
 
                                     <tr class="border-t">
-                                    <td class="px-4 py-3">3</td>
-                                    <td class="px-4 py-3">991773493631</td>
-                                    <td class="px-4 py-3">Open CV</td>
-                                    <td class="px-4 py-3">AppleCorp.</td>
-                                    <td class="px-4 py-3">Koin AreaKerja</td>
-                                    <td class="px-4 py-3">Rp. 10.000</td>
-                                    <td class="px-4 py-3 text-orange-500 flex items-center justify-center"><svg
-                                            width="19" height="24" viewBox="0 0 19 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
-                                                fill="#FA6601" />
-                                        </svg>
+                                        <td class="px-4 py-2">2</td>
+                                        <td class="px-4 py-2">991773493631</td>
+                                        <td class="px-4 py-2">Open CV</td>
+                                        <td class="px-4 py-2">AppleCorp.</td>
+                                        <td class="px-4 py-2">Koin AreaKerja</td>
+                                        <td class="px-4 py-2">10 Koin</td>
+                                        <td class="px-4 py-2 text-orange-500 flex items-center justify-center"><svg
+                                                width="19" height="24" viewBox="0 0 19 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
+                                                    fill="#FA6601" />
+                                            </svg>
 
-                                    </td>
-                                    <td class="px-4 py-2 text-green-600 font-semibold">Sukses</td>
-                                </tr>
+                                        </td>
+                                        <td class="px-4 py-2 text-green-600 font-semibold">Sukses</td>
+                                    </tr>
 
-                                    <tr class="border-b border-2">
-                                    <td class="px-4 py-2">4</td>
-                                    <td class="px-4 py-2">991773493631</td>
-                                    <td class="px-4 py-2">Open CV</td>
-                                    <td class="px-4 py-2">AppleCorp.</td>
-                                    <td class="px-4 py-2">Koin AreaKerja</td>
-                                    <td class="px-4 py-2">Rp. 10.000</td>
-                                    <td class="px-4 py-2 text-orange-500 flex items-center justify-center"><svg
-                                            width="19" height="24" viewBox="0 0 19 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
-                                                fill="#FA6601" />
-                                        </svg>
-                                    </td>
-                                    <td class="px-4 py-2 text-green-600 font-semibold">Sukses</td>
-                                </tr>
+                                <tbody>
+                                    <!-- Baris -->
+                                    <tr class="border-t">
+                                        <td class="px-4 py-2">3</td>
+                                        <td class="px-4 py-2">991773493631</td>
+                                        <td class="px-4 py-2">Open CV</td>
+                                        <td class="px-4 py-2">AppleCorp.</td>
+                                        <td class="px-4 py-2">Koin AreaKerja</td>
+                                        <td class="px-4 py-2">10 Koin</td>
+                                        <td class="px-4 py-2 text-orange-500 flex items-center justify-center"><svg
+                                                width="19" height="24" viewBox="0 0 19 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
+                                                    fill="#FA6601" />
+                                            </svg>
 
-                                   <tr class="border-b">
-                                    <td class="px-4 py-3">5</td>
-                                    <td class="px-4 py-3">991773493631</td>
-                                    <td class="px-4 py-3">Open CV</td>
-                                    <td class="px-4 py-3">AppleCorp.</td>
-                                    <td class="px-4 py-3">Koin AreaKerja</td>
-                                    <td class="px-4 py-3">Rp. 10.000</td>
-                                    <td class="px-4 py-2 text-orange-500 flex items-center justify-center"><svg
-                                            width="19" height="24" viewBox="0 0 19 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
-                                                fill="#FA6601" />
-                                        </svg>
-                                    </td>
-                                    <td class="px-4 py-2 text-green-600 font-semibold">Sukses</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                        </td>
+                                        <td class="px-4 py-2 text-green-600 font-semibold">Sukses</td>
+                                    </tr>
+
+                                <tbody>
+                                    <!-- Baris -->
+                                    <tr class="border-t">
+                                        <td class="px-4 py-2">4</td>
+                                        <td class="px-4 py-2">991773493631</td>
+                                        <td class="px-4 py-2">Open CV</td>
+                                        <td class="px-4 py-2">AppleCorp.</td>
+                                        <td class="px-4 py-2">Koin AreaKerja</td>
+                                        <td class="px-4 py-2">10 Koin</td>
+                                        <td class="px-4 py-2 text-orange-500 flex items-center justify-center"><svg
+                                                width="19" height="24" viewBox="0 0 19 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
+                                                    fill="#FA6601" />
+                                            </svg>
+
+                                        </td>
+                                        <td class="px-4 py-2 text-green-600 font-semibold">Sukses</td>
+                                    </tr>
+
+                                <tbody>
+                                    <!-- Baris -->
+                                    <tr class="border-t">
+                                        <td class="px-4 py-2">5</td>
+                                        <td class="px-4 py-2">991773493631</td>
+                                        <td class="px-4 py-2">Open CV</td>
+                                        <td class="px-4 py-2">AppleCorp.</td>
+                                        <td class="px-4 py-2">Koin AreaKerja</td>
+                                        <td class="px-4 py-2">10 Koin</td>
+                                        <td class="px-4 py-2 text-orange-500 flex items-center justify-center"><svg
+                                                width="19" height="24" viewBox="0 0 19 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
+                                                    fill="#FA6601" />
+                                            </svg>
+
+                                        </td>
+                                        <td class="px-4 py-2 text-green-600 font-semibold">Sukses</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-
-            {{-- riwayat transaksi koin --}}
-            <div class="w-full">
-                <div class="mt-6">
-                    <h2 class="text-lg font-semibold mb-2">Riwayat Koin</h2>
-                    <div class="rounded-2xl overflow-hidden border">
-                        <table class="w-full text-sm">
-                            <thead>
-                                <tr class="bg-orange-500 text-white">
-                                    <th class="px-4 py-2 text-left">No</th>
-                                    <th class="px-4 py-2 text-left">No. Refrensi</th>
-                                    <th class="px-4 py-2 text-left">Jenis</th>
-                                    <th class="px-4 py-2 text-left">Dari</th>
-                                    <th class="px-4 py-2 text-left">Sumber Dana</th>
-                                    <th class="px-4 py-2 text-left">Total Koin</th>
-                                    <th class="px-4 py-2 text-center">Detail</th>
-                                    <th class="px-4 py-2 text-left">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Baris -->
-                                <tr class="border-t">
-                                    <td class="px-4 py-2">1</td>
-                                    <td class="px-4 py-2">991773493631</td>
-                                    <td class="px-4 py-2">Open CV</td>
-                                    <td class="px-4 py-2">AppleCorp.</td>
-                                    <td class="px-4 py-2">Koin AreaKerja</td>
-                                    <td class="px-4 py-2">10 Koin</td>
-                                    <td class="px-4 py-2 text-orange-500 flex items-center justify-center"><svg
-                                            width="19" height="24" viewBox="0 0 19 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
-                                                fill="#FA6601" />
-                                        </svg>
-
-                                    </td>
-                                    <td class="px-4 py-2 text-green-600 font-semibold">Sukses</td>
-                                </tr>
-
-                                <tr class="border-t">
-                                    <td class="px-4 py-2">2</td>
-                                    <td class="px-4 py-2">991773493631</td>
-                                    <td class="px-4 py-2">Open CV</td>
-                                    <td class="px-4 py-2">AppleCorp.</td>
-                                    <td class="px-4 py-2">Koin AreaKerja</td>
-                                    <td class="px-4 py-2">10 Koin</td>
-                                    <td class="px-4 py-2 text-orange-500 flex items-center justify-center"><svg
-                                            width="19" height="24" viewBox="0 0 19 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
-                                                fill="#FA6601" />
-                                        </svg>
-
-                                    </td>
-                                    <td class="px-4 py-2 text-green-600 font-semibold">Sukses</td>
-                                </tr>
-
-                                <tbody>
-                                <!-- Baris -->
-                                <tr class="border-t">
-                                    <td class="px-4 py-2">3</td>
-                                    <td class="px-4 py-2">991773493631</td>
-                                    <td class="px-4 py-2">Open CV</td>
-                                    <td class="px-4 py-2">AppleCorp.</td>
-                                    <td class="px-4 py-2">Koin AreaKerja</td>
-                                    <td class="px-4 py-2">10 Koin</td>
-                                    <td class="px-4 py-2 text-orange-500 flex items-center justify-center"><svg
-                                            width="19" height="24" viewBox="0 0 19 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
-                                                fill="#FA6601" />
-                                        </svg>
-
-                                    </td>
-                                    <td class="px-4 py-2 text-green-600 font-semibold">Sukses</td>
-                                </tr>
-
-                                <tbody>
-                                <!-- Baris -->
-                                <tr class="border-t">
-                                    <td class="px-4 py-2">4</td>
-                                    <td class="px-4 py-2">991773493631</td>
-                                    <td class="px-4 py-2">Open CV</td>
-                                    <td class="px-4 py-2">AppleCorp.</td>
-                                    <td class="px-4 py-2">Koin AreaKerja</td>
-                                    <td class="px-4 py-2">10 Koin</td>
-                                    <td class="px-4 py-2 text-orange-500 flex items-center justify-center"><svg
-                                            width="19" height="24" viewBox="0 0 19 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
-                                                fill="#FA6601" />
-                                        </svg>
-
-                                    </td>
-                                    <td class="px-4 py-2 text-green-600 font-semibold">Sukses</td>
-                                </tr>
-
-                                <tbody>
-                                <!-- Baris -->
-                                <tr class="border-t">
-                                    <td class="px-4 py-2">5</td>
-                                    <td class="px-4 py-2">991773493631</td>
-                                    <td class="px-4 py-2">Open CV</td>
-                                    <td class="px-4 py-2">AppleCorp.</td>
-                                    <td class="px-4 py-2">Koin AreaKerja</td>
-                                    <td class="px-4 py-2">10 Koin</td>
-                                    <td class="px-4 py-2 text-orange-500 flex items-center justify-center"><svg
-                                            width="19" height="24" viewBox="0 0 19 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
-                                                fill="#FA6601" />
-                                        </svg>
-
-                                    </td>
-                                    <td class="px-4 py-2 text-green-600 font-semibold">Sukses</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-        </div>
-    </div>
-@endsection
+                </div>
+            @endsection

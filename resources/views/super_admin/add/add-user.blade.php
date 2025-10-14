@@ -1,10 +1,10 @@
 @extends('super_admin.sidebar.index')
 
 @section('sidebarsuperadmin')
-    <main class="flex-1 p-6 bg-gray-50 overflow-y-auto min-h-screen">
+    <main class="flex-1 p-6 sm:ml-64 bg-gray-50 overflow-y-auto min-h-screen">
         <!-- Header -->
         <div class="flex justify-between items-center mb-8">
-            <h1 class="text-3xl font-semibold text-gray-800">Kelola Akun</h1>
+            <h1 class="text-2xl font-semibold text-gray-800">Kelola Akun</h1>
 
             <!-- Profil Admin -->
             <div class="flex items-center gap-3 bg-white px-4 py-2 border border-orange-500 shadow-md rounded-2xl">
@@ -59,19 +59,19 @@
 
             <!-- Tab: Admin & Finance -->
             <div x-transition x-show="tab === 'adminFinance'" class="space-y-4">
-                <div class="overflow-x-auto border border-gray-200 rounded-xl shadow-md bg-white">
+                <div class="overflow-x-auto border border-gray-400 rounded-lg shadow-md bg-white">
                     <table class="min-w-full text-sm">
                         <thead class="bg-orange-500 text-white text-center">
                             <tr>
-                                <th class="px-4 py-3">User</th>
-                                <th class="px-4 py-3">Email</th>
-                                <th class="px-4 py-3">Username</th>
-                                <th class="px-4 py-3">Aksi</th>
+                                <th class="px-4 py-3 font-semibold">User</th>
+                                <th class="px-4 py-3 font-semibold">Email</th>
+                                <th class="px-4 py-3 font-semibold">Username</th>
+                                <th class="px-4 py-3 font-semibold">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($usersAdminFinance as $user)
-                                <tr class="text-center font-medium border-b hover:bg-orange-50 transition">
+                                <tr class="text-center font-medium border-2 hover:bg-orange-50 transition">
                                     <td class="px-4 py-3 capitalize">{{ $user->role }}</td>
                                     <td class="px-4 py-3">{{ $user->email }}</td>
                                     <td class="px-4 py-3">{{ $user->username }}</td>
@@ -107,7 +107,7 @@
 
             <!-- Tab: Perusahaan & Pelamar -->
             <div x-transition x-show="tab === 'perusahaanPelamar'" class="space-y-4">
-                <div class="overflow-x-auto border border-gray-200 rounded-xl shadow-md bg-white">
+                <div class="overflow-x-auto  rounded-lg shadow-md bg-white">
                     <table class="min-w-full text-sm">
                         <thead class="bg-orange-500 text-white text-center">
                             <tr>

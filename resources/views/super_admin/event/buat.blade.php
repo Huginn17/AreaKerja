@@ -1,6 +1,6 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
-    <main class="flex-1 p-6 bg-white overflow-y-auto" x-data="{ openModal: false }">
+    <main class="flex-1 p-6 sm:ml-64 bg-white overflow-y-auto" x-data="{ openModal: false }">
         <div class="flex justify-between items-center mb-10">
             <h1 class="text-2xl font-medium">Buat Event Baru</h1>
             <!-- Profil Admin -->

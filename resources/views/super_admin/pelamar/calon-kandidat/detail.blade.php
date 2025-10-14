@@ -1,7 +1,6 @@
 @extends('super_admin.sidebar.index')
-
 @section('sidebarsuperadmin')
-    <div class="ml-44 p-10 bg-white min-h-screen font-[Poppins]">
+    <div class="sm:ml-64 p-10 bg-white min-h-screen font-[Poppins]">
 
         <!-- Header -->
         <h1 class="text-2xl font-semibold mb-8 text-gray-800">Detail Calon Kandidat</h1>

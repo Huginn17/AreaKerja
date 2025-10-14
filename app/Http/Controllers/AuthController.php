@@ -10,9 +10,12 @@ use App\Models\Event;
 use App\Models\Finance;
 use App\Models\HargaPembayaran;
 use App\Models\LowonganPerusahaan;
+use App\Models\Pelamar;
 use App\Models\PelamarLowongan;
 use App\Models\Pembayaran;
+use App\Models\Perusahaan;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -344,8 +347,62 @@ class AuthController extends Controller
     }
     public function beranda_admin()
     {
-        return view('admin.dashboard');
+        $now = Carbon::now();
+        $lastMonth = $now->subMonth();
+
+        $totalPerusahaan = Perusahaan::count();
+        $lastPerusahaan = Perusahaan::whereMonth('created_at', $lastMonth->month)
+            ->whereYear('created_at', $lastMonth->year)
+            ->count();
+        $growthPerusahaan = $this->calcGrowth($lastPerusahaan, $totalPerusahaan);
+
+        $totalKandidat = Pelamar::where('kategori', 'kandidat aktif')->count();
+        $lastKandidat = Pelamar::where('kategori', 'kandidat aktif')
+            ->whereMonth('created_at', $lastMonth->month)
+            ->whereYear('created_at', $lastMonth->year)
+            ->count();
+        $growthKandidat = $this->calcGrowth($lastKandidat, $totalKandidat);
+
+        $totalNonKandidat = Pelamar::where('kategori', 'pelamar')->count();
+        $lastNonKandidat = Pelamar::where('kategori', 'pelamar')
+            ->whereMonth('created_at', $lastMonth->month)
+            ->whereYear('created_at', $lastMonth->year)
+            ->count();
+        $growthNonKandidat = $this->calcGrowth($lastNonKandidat, $totalNonKandidat);
+
+        $totalLowongan = LowonganPerusahaan::count();
+        $lastLowongan = LowonganPerusahaan::whereMonth('created_at', $lastMonth->month)
+            ->whereYear('created_at', $lastMonth->year)
+            ->count();
+        $growthLowongan = $this->calcGrowth($lastLowongan, $totalLowongan);
+
+
+        return view('admin.dashboard', [
+            'totalPerusahaan' => $totalPerusahaan,
+            'growthPerusahaan' => $growthPerusahaan,
+            'totalKandidat' => $totalKandidat,
+            'growthKandidat' => $growthKandidat,
+            'totalNonKandidat' => $totalNonKandidat,
+            'growthNonKandidat' => $growthNonKandidat,
+            'totalLowongan' => $totalLowongan,
+            'growthLowongan' => $growthLowongan,
+        ]);
     }
+
+    /**
+     * Hitung pertumbuhan dalam persen (%)
+     * @param int $last jumlah bulan lalu
+     * @param int $current jumlah sekarang
+     * @return float
+     */
+    private function calcGrowth($last, $current)
+    {
+        if ($last == 0 && $current > 0) return 100; // dari 0 ke ada = +100%
+        if ($last == 0 && $current == 0) return 0;  // tetap 0
+        return round((($current - $last) / $last) * 100, 1);
+    }
+
+
 
     public function loginproses_admin(Request $request)
     {

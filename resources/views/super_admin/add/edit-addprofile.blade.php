@@ -1,7 +1,7 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
-    <main class="flex-1 p-6 bg-white overflow-y-auto">
-        <div class="max-w-4xl mx-auto border rounded-lg p-6 shadow-sm">
+    <main class="flex-1 p-6 sm:ml-64 bg-white overflow-y-auto">
+        <div class="max-w-4xl mx-auto border-2 border-gray-400 rounded-lg p-6 shadow-sm">
             <h2 class="text-center text-xl font-semibold mb-6">Edit User</h2>
 
             @php
@@ -41,19 +41,19 @@
                     <div>
                         <label class="block text-sm font-medium mb-1">Email</label>
                         <input type="email" name="email" value="{{ old('email', $user->email) }}"
-                            class="w-full border rounded-md px-3 py-2" required>
+                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2" required>
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-1">Username</label>
                         <input type="text" name="username" value="{{ old('username', $user->username) }}"
-                            class="w-full border rounded-md px-3 py-2" required>
+                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2" required>
                     </div>
                 </div>
 
                 <!-- Role -->
                 <div>
                     <label class="block text-sm font-medium mb-1">Role</label>
-                    <select name="role" id="roleSelect" class="w-full border rounded-md px-3 py-2" required>
+                    <select name="role" id="roleSelect" class="w-full border-2 border-gray-400 rounded-md px-3 py-2" required>
                         <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
                         <option value="finance" {{ old('role', $user->role) == 'finance' ? 'selected' : '' }}>Finance
                         </option>
@@ -70,13 +70,13 @@
                         <label class="block text-sm font-medium mb-1">Nama Lengkap</label>
                         <input type="text" name="nama_lengkap"
                             value="{{ old('nama_lengkap', $detail->nama_lengkap ?? '') }}"
-                            class="w-full border rounded-md px-3 py-2">
+                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
                     </div>
 
                     <div class="grid grid-cols-3 gap-4">
                         <div>
                             <label class="block text-sm font-medium mb-1">Provinsi</label>
-                            <select name="provinsi" class="w-full border rounded-md px-3 py-2">
+                            <select name="provinsi" class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
                                 <option value="">-- Pilih Provinsi --</option>
                                 <option value="Yogyakarta"
                                     {{ old('provinsi', $detail->provinsi ?? '') == 'Yogyakarta' ? 'selected' : '' }}>
@@ -92,18 +92,18 @@
                         <div>
                             <label class="block text-sm font-medium mb-1">Kota/Kabupaten</label>
                             <input type="text" name="kota" value="{{ old('kota', $detail->kota ?? '') }}"
-                                class="w-full border rounded-md px-3 py-2">
+                                class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-1">Kecamatan</label>
                             <input type="text" name="kecamatan" value="{{ old('kecamatan', $detail->kecamatan ?? '') }}"
-                                class="w-full border rounded-md px-3 py-2">
+                                class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium mb-1">Desa</label>
                             <input type="text" name="desa" value="{{ old('desa', $detail->desa ?? '') }}"
-                                class="w-full border rounded-md px-3 py-2">
+                                class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
                         </div>
                     </div>
 
@@ -111,11 +111,11 @@
                         <div>
                             <label class="block text-sm font-medium mb-1">Kode Pos</label>
                             <input type="text" name="kode_pos" value="{{ old('kode_pos', $detail->kode_pos ?? '') }}"
-                                class="w-full border rounded-md px-3 py-2">
+                                class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-1">Alamat Lengkap</label>
-                            <textarea name="detail_alamat" class="w-full border rounded-md px-3 py-2" rows="2">{{ old('detail_alamat', $detail->detail_alamat ?? '') }}</textarea>
+                            <textarea name="detail_alamat" class="w-full border-2 border-gray-400 rounded-md px-3 py-2" rows="2">{{ old('detail_alamat', $detail->detail_alamat ?? '') }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -128,42 +128,42 @@
                         <label class="block text-sm font-medium mb-1">Nama Perusahaan</label>
                         <input type="text" name="nama_perusahaan"
                             value="{{ old('nama_perusahaan', $detail->nama_perusahaan ?? '') }}"
-                            class="w-full border rounded-md px-3 py-2">
+                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Jenis Perusahaan</label>
                         <input type="text" name="jenis_perusahaan"
                             value="{{ old('jenis_perusahaan', $detail->jenis_perusahaan ?? '') }}"
-                            class="w-full border rounded-md px-3 py-2">
+                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Legalitas</label>
                         <input type="text" name="legalitas" value="{{ old('legalitas', $detail->legalitas ?? '') }}"
-                            class="w-full border rounded-md px-3 py-2">
+                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Website</label>
                         <input type="text" name="website_perusahaan"
                             value="{{ old('website_perusahaan', $detail->website_perusahaan ?? '') }}"
-                            class="w-full border rounded-md px-3 py-2">
+                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Deskripsi</label>
-                        <textarea name="deskripsi" class="w-full border rounded-md px-3 py-2" rows="2">{{ old('deskripsi', $detail->deskripsi ?? '') }}</textarea>
+                        <textarea name="deskripsi" class="w-full border-2 border-gray-400 rounded-md px-3 py-2" rows="2">{{ old('deskripsi', $detail->deskripsi ?? '') }}</textarea>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Visi</label>
-                        <textarea name="visi" class="w-full border rounded-md px-3 py-2" rows="2">{{ old('visi', $detail->visi ?? '') }}</textarea>
+                        <textarea name="visi" class="w-full border-2 border-gray-400 rounded-md px-3 py-2" rows="2">{{ old('visi', $detail->visi ?? '') }}</textarea>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Misi</label>
-                        <textarea name="misi" class="w-full border rounded-md px-3 py-2" rows="2">{{ old('misi', $detail->misi ?? '') }}</textarea>
+                        <textarea name="misi" class="w-full border-2 border-gray-400 rounded-md px-3 py-2" rows="2">{{ old('misi', $detail->misi ?? '') }}</textarea>
                     </div>
 
                     <h3 class="font-semibold text-gray-700 mt-4">Kontak</h3>
@@ -172,12 +172,12 @@
                             <label class="block text-sm font-medium mb-1">No. Telepon Perusahaan</label>
                             <input type="text" name="telepon_perusahaan"
                                 value="{{ old('telepon_perusahaan', $detail->telepon_perusahaan ?? '') }}"
-                                class="w-full border rounded-md px-3 py-2">
+                                class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-1">No. Whatsapp</label>
                             <input type="text" name="whatsapp" value="{{ old('whatsapp', $detail->whatsapp ?? '') }}"
-                                class="w-full border rounded-md px-3 py-2">
+                                class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
                         </div>
                     </div>
                 </div>

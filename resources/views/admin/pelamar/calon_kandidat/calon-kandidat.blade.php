@@ -94,7 +94,7 @@
                     @forelse ($pelamar as $item)
                         <tr class="border-b">
                             <td class="px-4 py-3">{{ $item->id }}</td>
-                            <td class="px-4 py-3">{{ $item->nama_pelamar }}</td>
+                            <td class="px-4 py-3">{{ $item->nama_pelamar ?? $item->user->username }}</td>
                             <td class="px-4 py-3">
                                 @if ($item->skill->isNotEmpty())
                                     {{ $item->skill->pluck('skill')->implode(', ') }}

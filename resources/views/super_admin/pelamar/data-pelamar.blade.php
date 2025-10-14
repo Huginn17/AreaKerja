@@ -1,6 +1,6 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
-    <main class="flex-1 p-6 bg-white overflow-y-auto">
+    <main class="flex-1 sm:ml-64 p-6 bg-white overflow-y-auto">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-medium">Data Kandidat</h1>
             <div class="flex items-center gap-3">

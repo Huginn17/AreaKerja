@@ -1,6 +1,6 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
-    <div class=" flex-items-center bg-white w-full h-screen">
+    <div class="flex-items-center sm:ml-64 bg-white w-full h-screen">
 
         <!-- Header -->
         <div class="flex justify-between items-center px-12 pt-6 pb-4">

@@ -176,13 +176,29 @@ class AdminController extends Controller
     }
 
     //KANDIDAT 
-    public function halKandidat()
+    public function halKandidat(Request $request)
     {
-        $pelamar = Pelamar::where('kategori', 'kandidat aktif')->get();
+        $query = Pelamar::join('users', 'pelamars.user_id', '=', 'users.id')
+            ->where('pelamars.kategori', 'kandidat aktif')
+            ->select('pelamars.*', 'users.username');
+
+        // Jika ada input pencarian username
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('users.username', 'like', "%{$search}%")
+                    ->orWhere('pelamars.nama_pelamar', 'like', "%{$search}%"); // ubah ke nama_pelamar
+            });
+        }
+
+        $pelamar = $query->get();
+
         return view('admin.pelamar.kandidat.pelamar', [
-            'pelamar' => $pelamar
+            'pelamar' => $pelamar,
+            'search' => $request->search ?? ''
         ]);
     }
+
 
     public function detailKandidat($id)
     {
@@ -219,17 +235,13 @@ class AdminController extends Controller
 
     public function cashHal(Request $request)
     {
-
-        $query = CatatanCash::query();
-
+        $query = CatatanCash::with('user'); 
 
         if ($request->no_referensi) {
             $query->where('no_referensi', $request->no_referensi);
         }
 
-
         $cash = $query->orderBy('created_at', 'desc')->get();
-
 
         $noReferensiList = CatatanCash::whereNotNull('no_referensi')
             ->distinct()
@@ -249,16 +261,23 @@ class AdminController extends Controller
 
         return response()->json([
             'id' => $transaksi->id,
-            'user' => $transaksi->user->name ?? '-',
-            'email' => $transaksi->user->email ?? '-',
-            'bank' => $transaksi->bank->nama_bank ?? '-',
-            'nomor_rekening' => $transaksi->bank->nomor_rekening ?? '-',
+            'user' => [
+                'username' => $transaksi->user->username ?? '-',
+                'email' => $transaksi->user->email ?? '-',
+            ],
+            'bank' => [
+                'nama_bank' => $transaksi->bank->nama_bank ?? '-',
+                'nomor_rekening' => $transaksi->bank->no_rek ?? '-', // disesuaikan dengan field di seeder
+            ],
+            'sumber_dana' => $transaksi->sumberDana ?? '-', // ✅ ambil langsung dari tabel catatan_cashs
+            'total' => $transaksi->total ?? 0,
             'harga' => number_format($transaksi->hargaPembayaran->harga ?? 0, 0, ',', '.'),
             'jumlah_koin' => $transaksi->hargaPembayaran->jumlah_koin ?? 0,
             'status' => ucfirst($transaksi->status),
-            'created_at' => $transaksi->created_at->format('d M Y H:i')
+            'created_at' => $transaksi->created_at->format('Y-m-d H:i:s'), // kirim format standar agar JS bisa parse
         ]);
     }
+
 
     public function hal_detail()
     {
@@ -270,11 +289,24 @@ class AdminController extends Controller
 
 
     //PERUSAHAAN
-    public function halPerusahaan()
+    public function halPerusahaan(Request $request)
     {
-        $perusahaan = Perusahaan::all();
+        $query = Perusahaan::join('users', 'perusahaans.user_id', '=', 'users.id')
+            ->select('perusahaans.*', 'users.username');
+
+        // Jika ada input pencarian username
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('users.username', 'like', "%{$search}%")
+                    ->orWhere('perusahaans.nama_perusahaan', 'like', "%{$search}%"); // ubah ke nama_pelamar
+            });
+        }
+
+        $perusahaan = $query->get();
         return view('admin.perusahaan.perusahaan', [
-            'perusahaan' => $perusahaan
+            'perusahaan' => $perusahaan,
+            'search' => $request->search ?? ''
         ]);
     }
 
@@ -321,13 +353,13 @@ class AdminController extends Controller
             'perusahaan' => $perusahaan
         ]);
     }
- 
+
     public function detailLowongan($id)
     {
-          $lowongan =LowonganPerusahaan::with(['perusahaan'])->findOrFail($id);
+        $lowongan = LowonganPerusahaan::with(['perusahaan'])->findOrFail($id);
 
         return view('admin.perusahaan.view-data-lowongan', [
             'lowongan' => $lowongan
-        ]); 
+        ]);
     }
 }

@@ -16,4 +16,9 @@ class PaketLowongan extends Model
     {
         return $this->hasMany(LowonganPerusahaan::class, 'paket_id');
     }
+
+    public function hargakoin()
+    {
+        return $this->hasOne(Hargakoin::class);
+    }
 }

@@ -89,7 +89,7 @@
                 <p class="text-sm font-medium text-blue-900 mb-6">
                     Hanya Dengan <span class="text-orange-500 font-bold">
                         <img src="{{ asset('images/coin.png') }}" alt="" class="inline w-4 h-4">
-                        1.000</span> Per Tahun
+                        {{ $hargaLangganan }}</span> Per Tahun
                 </p>
                 @if ($perusahaan->is_berlangganan && \Carbon\Carbon::now()->lt($perusahaan->tanggal_expired))
                     <p class="text-green-600 font-semibold">
@@ -126,14 +126,14 @@
                 <p class="text-sm font-medium text-gray-700 mb-2">Berlangganan</p>
                 <div class="flex items-center gap-2">
                     <img src="/images/coin.png" alt="coin" class="w-8 h-8">
-                    <p class="text-2xl font-bold text-orange-500">1.000</p>
+                    <p class="text-2xl font-bold text-orange-500">{{ $hargaLangganan }}</p>
                 </div>
             </div>
 
             <!-- Tagihan -->
             <div class="flex justify-between items-center text-sm font-medium text-gray-800 mb-6">
                 <p>Tagihan Tahunan</p>
-                <p>1000 Koin</p>
+                <p>{{ $hargaLangganan }} Koin</p>
             </div>
 
             <!-- Koin Saya -->

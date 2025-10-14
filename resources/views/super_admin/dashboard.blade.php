@@ -1,7 +1,7 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
     <!-- Main Content -->
-    <main class="flex-1 p-6">
+    <main class="flex-1 p-6 sm:ml-64">
         <!-- Header -->
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-medium">Dashboard</h1>
@@ -60,31 +60,53 @@
 
         <!-- Cards -->
         <div class="grid grid-cols-4 gap-6">
-            <div
-                class="bg-white p-5 rounded-lg shadow-lg hover:bg-gray-50 transition duration-300 hover:shadow-xl hover:scale-105">
-                <div class="text-black mb-2">Pelamar</div>
-                <div class="text-2xl font-semibold mb-1">27 <span class="text-gray-500 text-sm">+1.3%</span></div>
-                <a href="#" class="text-sm font-medium text-gray-500">Lihat Detail ></a>
+
+            <!-- KANDIDAT -->
+            <div class="bg-white shadow-lg rounded-md p-5 w-60 hover:bg-gray-50 hover:scale-105 transition duration-300">
+                <h3 class="text-gray-700 text-sm font-medium mb-2">Pelamar</h3>
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl font-bold text-gray-900">{{ $totalPelamar }}</span>
+                    <span class="{{ $growthPelamar >= 0 ? 'text-green-600' : 'text-red-600' }} text-sm font-semibold">
+                        {{ $growthPelamar >= 0 ? '+' : '' }}{{ $growthPelamar }}%
+                    </span>
+                </div>
+                <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a>
             </div>
 
-            <div
-                class="bg-white p-5 rounded-lg shadow-lg hover:bg-gray-50 transition duration-300 hover:shadow-xl hover:scale-105">
-                <div class="text-black mb-2">Perusahaan</div>
-                <div class="text-2xl font-semibold mb-1">15 <span class="text-gray-500 text-sm">+2.2%</span></div>
-                <a href="#" class="text-sm font-medium text-gray-500">Lihat Detail ></a>
+            <!-- PERUSAHAAN -->
+            <div class="bg-white shadow-lg rounded-md p-5 w-60 hover:bg-gray-50 hover:scale-105 transition duration-300">
+                <h3 class="text-gray-700 text-sm font-medium mb-2">Perusahaan</h3>
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl font-bold text-gray-900">{{ $totalPerusahaan }}</span>
+                    <span class="{{ $growthPerusahaan >= 0 ? 'text-green-600' : 'text-red-600' }} text-sm font-semibold">
+                        {{ $growthPerusahaan >= 0 ? '+' : '' }}{{ $growthPerusahaan }}%
+                    </span>
+                </div>
+                <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a>
             </div>
 
-            <div
-                class="bg-white p-5 rounded-lg shadow-lg hover:bg-gray-50 transition duration-300 hover:shadow-xl hover:scale-105">
-                <div class="text-black mb-2">Admin</div>
-                <div class="text-2xl font-semibold mb-1">14 <span class="text-gray-500 text-sm">+0.7%</span></div>
-                <a href="#" class="text-sm font-medium text-gray-500">Lihat Detail ></a>
+            <!-- NON KANDIDAT -->
+            <div class="bg-white shadow-lg rounded-md p-5 w-60 hover:bg-gray-50 hover:scale-105 transition duration-300">
+                <h3 class="text-gray-700 text-sm font-medium mb-2">Admin</h3>
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl font-bold text-gray-900">{{ $totalAdmin }}</span>
+                    <span class="{{ $growthAdmin >= 0 ? 'text-green-600' : 'text-red-600' }} text-sm font-semibold">
+                        {{ $growthAdmin >= 0 ? '+' : '' }}{{ $growthAdmin }}%
+                    </span>
+                </div>
+                <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a>
             </div>
 
-            <div class="bg-white p-5 rounded-lg shadow-lg hover:bg-gray-50 transition duration-300 hover:scale-105">
-                <div class="text-black mb-2">Super Admin</div>
-                <div class="text-2xl font-semibold mb-1">37 <span class="text-gray-500 text-sm">+3.3%</span></div>
-                <a href="#" class="text-sm font-medium text-gray-500">Lihat Detail ></a>
+            <!-- SUPERADMIN-->
+            <div class="bg-white shadow-lg rounded-md p-5 w-60 hover:bg-gray-50 hover:scale-105 transition duration-300">
+                <h3 class="text-gray-700 text-sm font-medium mb-2">Super Admin</h3>
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl font-bold text-gray-900">{{ $totalSuperAdmin }}</span>
+                    <span class="{{ $growthSuperAdmin >= 0 ? 'text-green-600' : 'text-red-600' }} text-sm font-semibold">
+                        {{ $growthSuperAdmin >= 0 ? '+' : '' }}{{ $growthSuperAdmin }}%
+                    </span>
+                </div>
+                <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a>
             </div>
         </div>
     </main>

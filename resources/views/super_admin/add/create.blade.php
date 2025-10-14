@@ -1,7 +1,7 @@
 @extends('super_admin.sidebar.index')
 
 @section('sidebarsuperadmin')
-    <main class="flex-1 p-6 bg-white overflow-y-auto">
+    <main class="flex-1 p-6 sm:ml-64 bg-white overflow-y-auto">
         <div class="max-w-3xl mx-auto border rounded-lg p-6 shadow-sm">
             <h2 class="text-center text-xl font-semibold mb-6">Tambah User</h2>
 

@@ -1,7 +1,7 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
     <!-- Main Content -->
-    <main class="flex-1 p-6 min-h-screen overflow-y-auto pb-20 bg-gray-50">
+    <main class="flex-1 p-6 sm:ml-64 min-h-screen overflow-y-auto pb-20 bg-gray-50">
         <!-- Header -->
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-medium">Pengaturan</h1>

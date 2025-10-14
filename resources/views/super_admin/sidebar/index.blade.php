@@ -35,7 +35,7 @@
 <body>
     <div class="flex">
         <!-- Sidebar -->
-        <aside class="w-64 bg-orange-600 text-white">
+        <aside class="w-64 bg-orange-600 text-white fixed">
             <!-- Logo -->
             <div class="px-4 py-2">
                 <div class="inline-flex items-center gap-1 border-b-2 border-orange-300">
@@ -79,7 +79,7 @@
                     </a>
                 </div>
                 <div
-                    class="{{ request()->is('super_admin/data-perusahaan') || request()->is('super_admin/tambah/perusahaan') ? 'bg-white text-orange-500' : '' }} rounded-md">
+                    class="{{ request()->is('super_admin/perusahaan') || request()->is('super_admin/tambah/perusahaan') ? 'bg-white text-orange-500' : '' }} rounded-md">
                     <a href={{ route('superadmin.perusahaan') }}
                         class="flex font-semibold items-center mb-1 gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="20" height="21" viewBox="0 0 20 21" fill="currentColor"
@@ -97,8 +97,8 @@
                         Data Perusahaan
                     </a>
                 </div>
-                <div class="{{ request()->is('super_admin/finance') ? 'bg-white text-orange-500' : '' }} rounded-md">
-                    <a href="/super_admin/finance"
+                <div class="{{ request()->is('super_admin/paket/harga') ? 'bg-white text-orange-500' : '' }} rounded-md">
+                    <a href="{{ route('superadmin.paket-harga') }}"
                         class="flex font-semibold items-center mb-1 gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" fill="none"
                             viewBox="0 0 20 21" stroke="currentColor" stroke-width="2" class="text-inherit">

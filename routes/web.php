@@ -537,6 +537,16 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
     Route::get('/perusahaan', [SuperAdminController::class, 'halPerusahaan'])->name('superadmin.perusahaan');
     Route::get('/perusahaan/{id}', [SuperAdminController::class, 'detailPerusahaan'])->name('superadmin.perusahaan.detail');
     Route::get('/lowongan/{id}', [SuperAdminController::class, 'detailLowongan'])->name('superadmin.lowongan.detail');
+
+
+    //PAKET HARGA
+    Route::get('/paket/harga', [SuperAdminController::class, 'halFinance'])->name('superadmin.paket-harga');
+
+    Route::get('/paket/harga/edit/koin', [SuperAdminController::class, 'edit_koin'])->name('superadmin.paket-harga.edit-koin');
+    Route::put('/update/harga/koin', [SuperAdminController::class, 'update_koin'])->name('superadmin.paket-harga.update-koin');
+
+    Route::get('/paket/harga/edit/harga', [SuperAdminController::class, 'edit_pembayaran'])->name('superadmin.paket-harga.edit-pembayaran');
+    Route::put('/update/harga/harga', [SuperAdminController::class, 'update_pembayaran'])->name('superadmin.paket-harga.update-pembayaran');
 });
 
 
@@ -636,9 +646,7 @@ Route::get('/super_admin/edit/lowongan', function () {
     return view('super_admin.edit-lowongan');
 });
 
-Route::get('/super_admin/finance', function () {
-    return view('super_admin.finance');
-});
+
 Route::get('/super_admin/detail/data/talent/hunter', function () {
     return view('super_admin.detail-data-talent-hunter');
 });
@@ -654,9 +662,9 @@ Route::get('/super_admin/update/pelamar/kandidat', function () {
 Route::get('/super_admin/riwayat/tunai/koin', function () {
     return view('super_admin.riwayat-tunai-koin');
 });
-Route::get('/super_admin/paket/harga', function () {
-    return view('super_admin.paket-harga');
-});
+// Route::get('/super_admin/paket/harga', function () {
+//     return view('super_admin.paket-harga');
+// });
 Route::get('/super_admin/laporan/transaksi', function () {
     return view('super_admin.laporan-transaksi');
 });
