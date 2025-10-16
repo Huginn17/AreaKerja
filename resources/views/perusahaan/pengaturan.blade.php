@@ -45,7 +45,7 @@
                 </button>
                 <!-- Form Ganti Password (hidden default) -->
                 <form id="passwordForm" action="{{ route('password.update') }}" method="POST"
-                    class="hidden mt-4 space-y-4 bg-gray-50 p-6 rounded-lg shadow">
+                    class="hidden mt-4 space-y-4 bg-gray-50 p-6 border-2 border-gray-400 rounded-lg shadow">
                     @csrf
 
                     <div>

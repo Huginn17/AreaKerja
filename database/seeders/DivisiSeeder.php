@@ -17,7 +17,7 @@ class DivisiSeeder extends Seeder
             ['divisi' => 'UI UX Designer'],
             ['divisi' => 'Design Grafis'],
             ['divisi' => 'UX Designer'],
-        ['divisi' => 'UX Research'],
+            ['divisi' => 'UX Research'],
         ]);
     }
 }

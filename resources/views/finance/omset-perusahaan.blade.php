@@ -111,7 +111,7 @@
 
                 </div>
 
-                <div class="border-2 border-gray-400 rounded-2xl overflow-hidden w-full">
+                <div class="border border-gray-400 rounded-2xl overflow-hidden w-full shadow-md">
                     {{-- Header --}}
                     <div class="flex justify-center items-center bg-orange-500 text-white px-4 py-3">
                         <div class="font-medium text-lg">Daftar Omset Perusahaan</div>
@@ -119,11 +119,11 @@
 
                     {{-- Isi --}}
 
-                    <div class="border-2 border-gray-400 relative bg-white text-sm">
+                    <div class="relative bg-white text-sm ">
                         <div class="absolute left-1/2 top-0 bottom-0 w-px bg-gray-300"></div>
-                        <tr class="border-b-[2px] border-gray-400">
+                        <tr class="border-b border-gray-300">
                             @forelse ($omsetPerBulan as $item)
-                                <div class="flex px-4 py-3 border-b border-gray-300 relative">
+                                <div class="flex px-4 py-3  relative">
                                     <div class="w-1/2 font-medium text-lg">
                                         {{ $item['nama_bulan'] }} {{ $item['tahun'] }}
                                     </div>
@@ -141,7 +141,7 @@
             <ul class="text-md font-medium">
                 <li class="py-2 text-lg">
                     Total Omset
-                    <span class="pl-3 text-lg">: Rp. {{ number_format($totalOmset, 0, ',', '.') }}</span>
+                    <span class="pl-4 text-lg">: Rp. {{ number_format($totalOmset, 0, ',', '.') }}</span>
                 </li>
                 <li class="py-2 text-lg">
                     Rata-Rata

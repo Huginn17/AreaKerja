@@ -54,4 +54,61 @@ class PengalamanKerjaController extends Controller
         $kerja->delete();
         return redirect()->back()->with('success', 'Pengalaman Kerja berhasil dihapus');
     }
+
+    public function storeSuper(Request $request)
+    {
+        $validated = $request->validate([
+            'posisi_pekerjaan' => 'required|string|max:255',
+            'nama_perusahaan' => 'required|string|max:255',
+            'jabatan_pekerjaan' => 'nullable|string|max:255',
+            'tahun_awal' => 'required|digits:4|integer',
+            'tahun_akhir' => 'nullable|digits:4|integer|gte:tahun_awal',
+            'deskripsi' => 'nullable|string',
+        ]);
+
+        $pelamar_id = session('pelamar_terakhir_id');
+
+        if (!$pelamar_id) {
+            return back()->with('error', 'Pelamar belum dibuat. Harap buat pelamar terlebih dahulu sebelum menambahkan pendidikan.');
+        }
+
+        $validated['pelamar_id'] = $pelamar_id;
+
+        PengalamanKerja::create($validated);
+
+        $pelamar = Pelamar::find($pelamar_id);
+        $kategori = str_replace(' ', '_', $pelamar->kategori);
+
+        return redirect()->route('superadmin.pelamar.create', ['kategori' => $kategori])
+            ->with('success', 'Organisasi berhasil disimpan');
+    }
+
+    public function updateSuper(Request $request, PengalamanKerja $kerja)
+    {
+        $validated = $request->validate([
+            'posisi_pekerjaan' => 'required|string|max:255',
+            'nama_perusahaan' => 'required|string|max:255',
+            'jabatan_pekerjaan' => 'nullable|string|max:255',
+            'tahun_awal' => 'required|digits:4|integer',
+            'tahun_akhir' => 'nullable|digits:4|integer|gte:tahun_awal',
+            'deskripsi' => 'nullable|string',
+        ]);
+
+        $validated['pelamar_id'] = Auth::user()->pelamar->id;
+
+
+        $kerja->update($validated);
+        return redirect()->route('superadmin.pelamar.create')->with('success', 'Pengalaman Kerja berhasil diperbarui');
+    }
+
+    public function editSuper(PengalamanKerja $kerja)
+    {
+        return view('non-user.profile.kerja.edit', ['DK' => $kerja]);
+    }
+
+    public function destroySuper(PengalamanKerja $kerja)
+    {
+        $kerja->delete();
+        return redirect()->back()->with('success', 'Pengalaman Kerja berhasil dihapus');
+    }
 }

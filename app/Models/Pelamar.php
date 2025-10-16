@@ -13,7 +13,12 @@ class Pelamar extends Model
     protected $table = 'pelamars';
     protected $guarded = [];
 
-    
+    protected $casts = [
+        'divisi' => 'array',
+    ];
+
+
+
     public function getUmurAttribute()
     {
         return Carbon::parse($this->tanggal_lahir)->age;
@@ -23,7 +28,7 @@ class Pelamar extends Model
     {
         if (strtolower($this->gender) == 'laki-laki') {
             return 'L';
-        }  
+        }
         if (strtolower($this->gender) == 'perempuan') {
             return 'P';
         }
@@ -76,6 +81,12 @@ class Pelamar extends Model
     {
         return $this->hasMany(PembeliKandidat::class, 'pelamar_id');
     }
+
+    public function divisi_pelamars()
+    {
+        return $this->hasMany(DivisiPelamar::class, 'pelamar_id');
+    }
+
 
     // public function pelamar_lowongan()
     // {

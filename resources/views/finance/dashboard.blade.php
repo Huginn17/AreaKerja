@@ -107,12 +107,11 @@
 
             <!-- Table 1 -->
             <section>
-                <h2 class="text-md font-semibold mb-2">Riwayat Transaksi Cash Terbaru</h2>
-                <div class="overflow-x-auto border-2 border-gray-400 rounded-2xl">
+                <h2 class="text-lg font-medium mb-2">Riwayat Transaksi Cash Terbaru</h2>
+                <div class="overflow-x-auto border border-gray-300 shadow-md rounded-2xl">
                     <table class="w-full border-collapse">
 
                         <thead>
-                            <tr class="border-b-[2px] border-gray-400">
                             <tr class="bg-orange-500 text-white text-sm">
                                 <th class="font-medium px-3 py-2">No</th>
                                 <th class="font-medium px-3 py-2">No. Refrensi</th>
@@ -126,8 +125,7 @@
                         </thead>
                         <tbody class="text-sm text-gray-700">
                             @forelse ($cashTerbaru as $index => $cash)
-                                <tr class="border-b border-gray-400">
-                                <tr class="border-b-[2px] border-gray-400">
+                                <tr class="border-b border-gray-300 text-center">
                                     <td class="py-3 px-2">{{ $index + 1 }}</td>
                                     <td class="py-3 px-2">{{ $cash->no_referensi ?? '-' }}</td>
                                     <td class="py-3 px-2">{{ $cash->pesanan ?? '-' }}</td>
@@ -155,11 +153,10 @@
 
             <!-- Table 2  -->
             <section>
-                <h2 class="text-md font-semibold mb-2">Riwayat Transaksi Koin Terbaru</h2>
-                <div class="overflow-x-auto border-2 border-gray-400 rounded-2xl">
+                <h2 class="text-lg font-medium mb-2">Riwayat Transaksi Koin Terbaru</h2>
+                <div class="overflow-x-auto border border-gray-300 shadow-md rounded-2xl">
                     <table class="w-full border-collapse">
                         <thead>
-                            <tr class="border-b-[2px] border-gray-400">
                             <tr class="bg-orange-500 text-white text-sm">
                                 <th class="font-medium px-3 py-2">No</th>
                                 <th class="font-medium px-3 py-2">No. Refrensi</th>
@@ -173,8 +170,7 @@
                         </thead>
                         <tbody class="text-sm text-gray-700 ">
                             @forelse ($koinTerbaru as $index => $koin)
-                                <tr class="border-b text-center">
-                                <tr class="border-b-[2px] border-gray-400">
+                                <tr class="border-b text-center border-gray-300">
                                     <td class="py-3 px-2">{{ $index + 1 }}</td>
                                     <td class="py-3 px-2">{{ $koin->no_referensi ?? '-' }}</td>
                                     <td class="py-3 px-2">{{ $koin->pesanan ?? '-' }}</td>

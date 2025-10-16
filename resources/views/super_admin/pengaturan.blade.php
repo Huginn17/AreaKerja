@@ -1,7 +1,7 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
     <!-- Main Content -->
-    <main class="flex-1 p-6 sm:ml-64 min-h-screen overflow-y-auto pb-20 bg-gray-50">
+    <main class="flex-1 p-6 sm:ml-64 min-h-screen overflow-y-auto pb-20">
         <!-- Header -->
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-medium">Pengaturan</h1>
@@ -13,11 +13,11 @@
 
                 <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
                     <a href="/super_admin/profile">
-                        <img src="{{ asset('images/ohim.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
+                        <img src="{{ asset('images/seven.png') }}" class="w-8 h-8 rounded-full" alt="User">
                     </a>
                     <div class="text-sm">
-                        <div class="font-semibold">Dj Ohim</div>
-                        <div class="text-gray-500">Lutung123@gmail.com</div>
+                        <div class="font-semibold">Seven Inc</div>
+                        <div class="text-gray-500">seveninc@gmail.com</div>
                     </div>
 
                     <select class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
@@ -63,25 +63,25 @@
 
                 <!-- Form Ganti Password (hidden default) -->
                 <form id="passwordFormSuper" action="{{ route('superadmin.password.update') }}" method="POST"
-                    class="hidden mt-4 space-y-4 bg-white p-6 rounded-lg shadow">
+                    class="hidden mt-4 space-y-4 border-2 border-gray-600 bg-white p-6 rounded-lg shadow">
                     @csrf
 
                     <div>
                         <label class="block text-sm font-medium">Kata Sandi Lama</label>
                         <input type="password" name="old_password" required
-                            class="mt-1 w-full border px-3 py-2 rounded focus:ring-2 focus:ring-orange-500">
+                            class="mt-1 w-full border-2 border-gray-400 px-3 py-2 rounded">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium">Kata Sandi Baru</label>
                         <input type="password" name="new_password" required
-                            class="mt-1 w-full border px-3 py-2 rounded focus:ring-2 focus:ring-orange-500">
+                            class="mt-1 w-full border-2 border-gray-400 px-3 py-2 rounded">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium">Konfirmasi Kata Sandi Baru</label>
                         <input type="password" name="new_password_confirmation" required
-                            class="mt-1 w-full border px-3 py-2 rounded focus:ring-2 focus:ring-orange-500">
+                            class="mt-1 w-full border-2 border-gray-400 px-3 py-2 rounded">
                     </div>
 
                     <button type="submit"
@@ -92,7 +92,7 @@
 
                 <!-- Ganti Email -->
                 <a href="{{ route('email.ubah') }}"
-                    class="block w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg text-left pl-5">
+                    class="block w-full bg-orange-600 hover:bg-orange-700 text-white py-3 rounded-lg text-left pl-5">
                     Ganti Email
                 </a>
             </div>

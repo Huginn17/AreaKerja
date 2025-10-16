@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('tanggal_lahir')->nullable();;
             $table->enum('gender',['laki-laki','perempuan'])->nullable();
             $table->string('telepon_pelamar')->nullable();
-            $table->string('divisi')->nullable();
+            $table->text('divisi')->nullable();
             $table->date('mulai_pelatihan')->nullable();
             $table->date('selesai_pelatihan')->nullable();
             $table->string('img_profile')->nullable();

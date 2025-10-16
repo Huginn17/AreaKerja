@@ -123,7 +123,7 @@
             {{-- ======================= --}}
             <div class="mb-8">
                 <h2 class="text-lg font-semibold mb-2">Riwayat Koin</h2>
-                <div class="rounded-2xl overflow-hidden border-2 border-gray-400">
+                <div class="rounded-2xl overflow-hidden border border-gray-300">
                     <table class="w-full text-sm">
                         <thead>
 
@@ -139,7 +139,7 @@
                         </thead>
                         <tbody>
                             @forelse ($catatanKoin as $item)
-                                <tr class="border-b-[2px] border-gray-300">
+                                <tr class="border-b border-gray-300">
                                     <td class="px-4 py-2">{{ $loop->iteration }}</td>
                                     <td class="px-4 py-2">{{ $item->no_referensi ?? '-' }}</td>
                                     <td class="px-4 py-2">{{ $item->user->pelamar->nama_pelamar ?? $item->user->username }}

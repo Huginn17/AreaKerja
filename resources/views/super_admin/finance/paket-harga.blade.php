@@ -27,11 +27,11 @@
 
                 <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
                     <a href="#">
-                        <img src="{{ asset('images/ohim.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
+                        <img src="{{ asset('images/seven.png') }}" class="w-8 h-8 rounded-full" alt="User">
                     </a>
                     <div class="text-md">
-                        <div class="font-semibold">Dj Ohim</div>
-                        <div class="text-gray-500">lutung123@gmail.com</div>
+                        <div class="font-semibold">Seven inc</div>
+                        <div class="text-gray-500">seveninc@gmail.com</div>
                     </div>
 
                     <select class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-md focus:outline-none">
@@ -44,7 +44,7 @@
         </div>
 
         {{-- Konten scrollable --}}
-        <main class="flex-1 overflow-y-auto p-8 bg-white">
+        <main class="flex-1 overflow-hidden p-8 bg-white">
             {{-- Dropdown Menu --}}
             <form action="/submit" method="POST" class="flex items-center gap-3 mb-8">
                 @csrf
@@ -67,14 +67,14 @@
             </div>
             <div class="mb-10 bg-white">
                 <div class="overflow-x-auto rounded-lg shadow">
-                    <table class="min-w-full text-sm border">
+                    <table class="min-w-full text-sm border-2 border-gray-400">
                         <thead>
                             <tr>
-                                <th class="bg-orange-500 text-white text-left px-4 py-3 font-medium">Nama</th>
-                                <th class="bg-orange-500 text-white text-right px-4 py-3 font-medium">Koin</th>
+                                <th class="bg-orange-500 text-white text-left px-4 py-3 font-semibold">Nama</th>
+                                <th class="bg-orange-500 text-white text-right px-4 py-3 font-semibold">Koin</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-200">
+                        <tbody class="divide-y divide-gray-400">
                             @foreach ($koin as $k)
                                 <tr>
                                     <td class="px-4 py-3">{{ $k->nama }}</td>
@@ -98,14 +98,14 @@
             </div>
              <div class="mb-10 bg-white">
                 <div class="overflow-x-auto rounded-lg shadow">
-                    <table class="min-w-full text-sm border">
+                    <table class="min-w-full text-sm border-2 border-gray-400">
                         <thead>
                             <tr>
-                                <th class="bg-orange-500 text-white text-left px-4 py-3">Nama</th>
-                                <th class="bg-orange-500 text-white text-right px-4 py-3">Harga</th>
+                                <th class="bg-orange-500 text-white text-left px-4 py-3 font-semibold">Nama</th>
+                                <th class="bg-orange-500 text-white text-right px-4 py-3 font-semibold">Harga</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-200">
+                        <tbody class="divide-y divide-gray-400">
                             @foreach ($pembayaran as $p)
                                 <tr>
                                     <td class="px-4 py-3">{{ $p->nama }}</td>

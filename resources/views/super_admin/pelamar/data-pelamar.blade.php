@@ -45,15 +45,14 @@
         <div class="flex items-center justify-between mb-6">
             <div class="flex items-center gap-4">
                 <div>
-                    <a id="btnAdd"
-                        class="bg-orange-500 flex justify-center items-center px-3 py-2 border border-orange-500 rounded-md"
-                        href="/super_admin/tambah-kandidat"
-                        class="bg-orange-500 border border-orange-600 text-white px-3 py-2 rounded-lg inline-flex items-center justify-center">
+                    <a id="btnAdd" href="{{ route('superadmin.pelamar.create', ['kategori' => 'kandidat']) }}"
+                        class="bg-orange-500 flex justify-center items-center px-3 py-2 border border-orange-500 rounded-md text-white hover:bg-orange-600 transition">
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path d="M1.35156 10.6295H19.9094M10.6305 1.35059V19.9084" stroke="white" stroke-width="2.65112"
                                 stroke-linecap="round" stroke-linejoin="round" />
-                        </svg></a>
+                        </svg>
+                    </a>
                 </div>
                 <div>
                     <button class="bg-white border border-orange-600 text-orange-600 px-4 py-3 rounded-lg">
@@ -67,17 +66,15 @@
                 </div>
                 <div class="relative inline-block w-48">
                     <!-- Select utama -->
-                    <div class="flex items-center gap-2">
-                        <select id="kategori_select" class="bg-orange-500 text-white px-10 py-2 rounded-md" name=""
-                            id="">
-                            <option id="kandidat_optn" value="kandidat">Kandidat</option>
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                            <option id="non_kandidat_optn" value="non_kandidat">Non Kandidat</option>
-                            <option id="calon_kandidat_opt" value="calon_kandidat">Calon Kandidat</option>
+                    <div class="relative inline-block">
+                        <select id="kategori_select"
+                            class="appearance-none bg-orange-500 text-white px-10 py-2 rounded-md pr-8 focus:outline-none cursor-pointer">
+                            <option value="kandidat">Kandidat</option>
+                            <option value="non_kandidat">Non Kandidat</option>
+                            <option value="calon_kandidat">Calon Kandidat</option>
                         </select>
 
+                        
                     </div>
                 </div>
             </div>

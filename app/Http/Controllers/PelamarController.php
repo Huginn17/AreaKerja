@@ -174,6 +174,60 @@ class PelamarController extends Controller
         return redirect()->back()->with('success', 'Pendidikan berhasil dihapus');
     }
 
+    // RIWAYAT PENDIDIKAN SUper ADmin
+    public function storependidikanSuper(Request $request)
+    {
+        $valid = $request->validate([
+            'pendidikan' => 'required',
+            'jurusan' => 'nullable',
+            'asal_pendidikan' => 'nullable',
+            'tahun_awal' => 'nullable',
+            'tahun_akhir' => 'nullable'
+        ]);
+        $pelamar_id = session('pelamar_terakhir_id');
+
+        if (!$pelamar_id) {
+            return back()->with('error', 'Pelamar belum dibuat. Harap buat pelamar terlebih dahulu sebelum menambahkan pendidikan.');
+        }
+
+        $valid['pelamar_id'] = $pelamar_id;
+
+        RiwayatPendidikan::create($valid);
+
+        $pelamar = Pelamar::find($pelamar_id);
+        $kategori = str_replace(' ', '_', $pelamar->kategori);
+
+        return redirect()->route('superadmin.pelamar.create', ['kategori' => $kategori])
+            ->with('success', 'Organisasi berhasil disimpan');
+    }
+
+    public function updatependidikanSuper(Request $request, RiwayatPendidikan $riwayatpendidikan)
+    {
+        $valid = $request->validate([
+            'pendidikan' => 'required',
+            'jurusan' => 'nullable',
+            'asal_pendidikan' => 'nullable',
+            'tahun_awal' => 'nullable',
+            'tahun_akhir' => 'nullable'
+        ]);
+
+        $valid['pelamar_id'] = Auth::user()->pelamar->id;
+
+        $riwayatpendidikan->update($valid);
+        return redirect()->route('profile.index')->with('success', 'Pendidikan berhasil diperbarui');
+    }
+
+    public function editpendidikanSuper(RiwayatPendidikan $riwayatpendidikan)
+    {
+        return view('non-user.profile.pendidikan.edit', ['DT' => $riwayatpendidikan]);
+    }
+
+    public function destroypendidikanSuper(RiwayatPendidikan $riwayatpendidikan)
+    {
+        $riwayatpendidikan->delete();
+        return redirect()->back()->with('success', 'Pendidikan berhasil dihapus');
+    }
+
     // LAMARAN PELAMAR
     public function lamar_cepat(Request $request)
     {
