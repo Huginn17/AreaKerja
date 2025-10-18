@@ -195,27 +195,61 @@ class PelamarController extends Controller
         RiwayatPendidikan::create($valid);
 
         $pelamar = Pelamar::find($pelamar_id);
-        $kategori = str_replace(' ', '_', $pelamar->kategori);
+
+
+        $mapKategori = [
+            'pelamar' => 'non_kandidat',
+            'calon kandidat' => 'calon_kandidat',
+            'kandidat aktif' => 'kandidat',
+            'kandidat nonaktif' => 'kandidat_nonaktif',
+        ];
+
+        $kategori = $mapKategori[strtolower($pelamar->kategori)] ?? 'non_kandidat';
 
         return redirect()->route('superadmin.pelamar.create', ['kategori' => $kategori])
             ->with('success', 'Organisasi berhasil disimpan');
     }
 
-    public function updatependidikanSuper(Request $request, RiwayatPendidikan $riwayatpendidikan)
-    {
-        $valid = $request->validate([
-            'pendidikan' => 'required',
-            'jurusan' => 'nullable',
-            'asal_pendidikan' => 'nullable',
-            'tahun_awal' => 'nullable',
-            'tahun_akhir' => 'nullable'
-        ]);
+   public function updatependidikanSuper(Request $request, ?RiwayatPendidikan $riwayatpendidikan = null)
+{
+   
+    $valid = $request->validate([
+        'pelamar_id' => 'required|exists:pelamars,id',
+        'pendidikan' => 'required',
+        'jurusan' => 'nullable',
+        'asal_pendidikan' => 'nullable',
+        'tahun_awal' => 'nullable',
+        'tahun_akhir' => 'nullable'
+    ]);
 
-        $valid['pelamar_id'] = Auth::user()->pelamar->id;
+    // Tidak perlu ambil dari session, karena sudah dari request
+    $pelamar_id = $valid['pelamar_id'];
 
+    if ($riwayatpendidikan && $riwayatpendidikan->exists) {
         $riwayatpendidikan->update($valid);
-        return redirect()->route('profile.index')->with('success', 'Pendidikan berhasil diperbarui');
+    } else {
+        $riwayatpendidikan = RiwayatPendidikan::create($valid);
     }
+
+    $pelamar = Pelamar::find($pelamar_id);
+
+    $mapKategori = [
+        'pelamar' => 'non_kandidat',
+        'calon kandidat' => 'calon_kandidat',
+        'kandidat aktif' => 'kandidat',
+        'kandidat nonaktif' => 'kandidat_nonaktif',
+    ];
+
+    $kategori = $mapKategori[strtolower($pelamar->kategori)] ?? 'non_kandidat';
+
+   return redirect()->route('superadmin.pelamar.edit', [
+    'kategori' => $kategori,
+    'id' => $pelamar_id
+])->with('success', 'Data pendidikan berhasil disimpan.');
+
+}
+
+
 
     public function editpendidikanSuper(RiwayatPendidikan $riwayatpendidikan)
     {

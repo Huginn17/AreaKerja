@@ -71,7 +71,7 @@
                         </thead>
                         <tbody>
                             @forelse ($usersAdminFinance as $user)
-                                <tr class="text-center font-medium border-b border-gray-300 hover:bg-orange-50 transition">
+                                <tr class="text-center font-medium border-2 border-gray-400 hover:bg-orange-50 transition">
                                     <td class="px-4 py-3 capitalize">{{ $user->role }}</td>
                                     <td class="px-4 py-3">{{ $user->email }}</td>
                                     <td class="px-4 py-3">{{ $user->username }}</td>

@@ -81,7 +81,7 @@
                 {{-- Table --}}
                 <div class="w-full border-2 border-gray-400 rounded-3xl shadow-md overflow-hidden">
                     <table class="w-full table-fixed border-collapse">
-                        <thead class="bg-gray-50">
+                        <thead>
                             <tr class="text-center">
                                 <th class="p-4 font-semibold text-gray-700 text-center w-[15%]">Status</th>
                                 <th class="p-4 font-semibold text-gray-700 w-[65%]">Nama</th>

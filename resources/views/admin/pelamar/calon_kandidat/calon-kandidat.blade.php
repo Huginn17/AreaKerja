@@ -78,7 +78,7 @@
         </div>
 
         <!-- Table -->
-        <div class="overflow-hidden rounded-2xl border border-gray-400">
+        <div class="overflow-hidden rounded-2xl border-2 border-gray-400">
             <table class="w-full text-left border-collapse">
                 <thead class="text-center">
                     <tr>
@@ -92,7 +92,7 @@
                 </thead>
                 <tbody class="text-center">
                     @forelse ($pelamar as $item)
-                        <tr class="border-b">
+                        <tr class="border-b border-gray-300 hover:bg-gray-100">
                             <td class="px-4 py-3">{{ $item->id }}</td>
                             <td class="px-4 py-3">{{ $item->nama_pelamar ?? $item->user->username }}</td>
                             <td class="px-4 py-3">

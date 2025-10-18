@@ -145,18 +145,18 @@
                                 <div>
                                     <label class="block text-sm font-medium">Waktu</label>
                                     <input type="time" id="modal-waktu"
-                                        class="w-full border rounded-md px-3 py-2 bg-gray-100">
+                                        class="w-full border-2 border-gray-400 rounded-md px-3 py-2 bg-gray-100">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium">Kegiatan</label>
                                     <input type="text" id="modal-kegiatan"
-                                        class="w-full border rounded-md px-3 py-2 bg-gray-100"
+                                        class="w-full border-2 border-gray-400 rounded-md px-3 py-2 bg-gray-100"
                                         placeholder="Nama kegiatan">
                                 </div>
                             </div>
                             <div class="mt-6 flex justify-end gap-3">
                                 <button type="button" @click="openModal = false"
-                                    class="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-md">
+                                    class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md">
                                     Batal
                                 </button>
                                 <button type="button" onclick="tambahKegiatan(); openModal=false"

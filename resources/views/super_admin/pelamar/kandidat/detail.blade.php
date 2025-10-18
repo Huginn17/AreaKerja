@@ -2,7 +2,7 @@
 @section('sidebarsuperadmin')
     <main class="flex-1 p-6 sm:ml-64 bg-white overflow-y-auto">
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-medium">Detail Non Kandidat</h1>
+            <h1 class="text-2xl font-medium">Detail Kandidat</h1>
             <div class="flex items-center gap-3">
                 <svg width="31" height="32" viewBox="0 0 31 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_722_7956)">
@@ -60,9 +60,9 @@
                     @endif
 
                     <div>
-                        <h2 class="text-lg font-bold">{{ $data->nama_pelamar }}</h2>
+                        <h2 class="text-lg font-bold">{{ $data->nama_pelamar ?? 'Data Belum Diisi' }}</h2>
                         <p class="text-sm font-semibold text-gray-700">
-                            {{ $data->deskripsi_diri ?? 'Football Player Fc Barcelona' }}
+                            {{ $data->deskripsi_diri ?? 'Data Belum Diisi' }}
                         </p>
                     </div>
                 </div>
@@ -94,7 +94,7 @@
                                     {{ $data->sosmed->latest()->first()->twitter ?? 'tidak ada data' }}</span></p>
                         </div>
                     @else
-                        <p class="text-gray-500">Sepakbola Proffesional</p>
+                        <p class="text-gray-500">Data Belum Dilengkapi</p>
                     @endif
 
                     <!-- Kolom Kanan -->
@@ -167,26 +167,37 @@
 
             <!-- Tombol aksi -->
             <div class="grid grid-cols-1 space-y-3 mx-auto max-w-72 mt-20">
-                <a href="{{ route('superadmin.edit.non.kandidat', $data->id) }}"
-                    class="bg-blue-500 hover:bg-blue-400 text-white px-6 py-2 rounded-lg text-center transition duration-300">Edit</a>
-                    {{-- <a href="{{ route('cv.save', $data->id) }}"
+                @php
+                    $mapKategori = [
+                        'pelamar' => 'non_kandidat',
+                        'calon kandidat' => 'calon_kandidat',
+                        'kandidat aktif' => 'kandidat',
+                    ];
+                    $kategori = $mapKategori[strtolower($data->kategori)] ?? 'non_kandidat';
+                @endphp
+
+                <a href="{{ route('superadmin.pelamar.edit', ['kategori' => $kategori, 'id' => $data->id]) }}"
+                    class="bg-blue-500 hover:bg-blue-400 text-white px-6 py-2 rounded-lg text-center transition duration-300">
+                    Edit
+                </a>
+                {{-- <a href="{{ route('cv.save', $data->id) }}"
                         class="bg-green-600 hover:bg-navy-500 text-white px-6 py-2 rounded-lg">
                         Simpan CV Ke Server
                     </a> --}}
 
-                    <a href="{{ route('cv.preview', $data->id) }}"
-                        class="bg-orange-500 hover:bg-orange-400 text-white px-6 py-2 rounded-lg text-center transition duration-300">
-                        Preview
-                    </a>
+                <a href="{{ route('cv.preview', $data->id) }}"
+                    class="bg-orange-500 hover:bg-orange-400 text-white px-6 py-2 rounded-lg text-center transition duration-300">
+                    Preview
+                </a>
 
-                    <a href="{{ route('cv.download', $data->id) }}"
-                        class="bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-lg text-center transition duration-300">
-                        Unduh
-                    </a>
+                <a href="{{ route('cv.download', $data->id) }}"
+                    class="bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-lg text-center transition duration-300">
+                    Unduh
+                </a>
 
-                    <button
-                        class="bg-red-600 hover:bg-red-500 text-white px-6 py-2 rounded-lg transition duration-300">Hapus</button>
-               
+                <button
+                    class="bg-red-600 hover:bg-red-500 text-white px-6 py-2 rounded-lg transition duration-300">Hapus</button>
+
             </div><br>
 
 

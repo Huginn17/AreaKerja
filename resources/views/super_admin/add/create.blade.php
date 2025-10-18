@@ -2,7 +2,7 @@
 
 @section('sidebarsuperadmin')
     <main class="flex-1 p-6 sm:ml-64 bg-white overflow-y-auto">
-        <div class="max-w-3xl mx-auto border rounded-lg p-6 shadow-sm">
+        <div class="max-w-3xl mx-auto border-2 border-gray-400 rounded-lg p-6 shadow-sm">
             <h2 class="text-center text-xl font-semibold mb-6">Tambah User</h2>
 
             <!-- Form Create -->
@@ -27,25 +27,25 @@
                     <div>
                         <label class="block text-sm font-medium mb-1">Email</label>
                         <input type="email" name="email" value="{{ old('email') }}"
-                            class="w-full border rounded-md px-3 py-2" required>
+                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2" required>
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-1">Username</label>
                         <input type="text" name="username" value="{{ old('username') }}"
-                            class="w-full border rounded-md px-3 py-2" required>
+                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2" required>
                     </div>
                 </div>
 
                 <!-- Password -->
                 <div>
                     <label class="block text-sm font-medium mb-1">Password</label>
-                    <input type="password" name="password" class="w-full border rounded-md px-3 py-2" required>
+                    <input type="password" name="password" class="w-full border-2 border-gray-400 rounded-md px-3 py-2" required>
                 </div>
 
                 <!-- Role -->
                 <div>
                     <label class="block text-sm font-medium mb-1">Role</label>
-                    <select name="role" id="roleSelect" class="w-full border rounded-md px-3 py-2" required>
+                    <select name="role" id="roleSelect" class="w-full border-2 border-gray-400 rounded-md px-3 py-2" required>
                         <option value="">-- Pilih Role --</option>
                         <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
                         <option value="finance" {{ old('role') == 'finance' ? 'selected' : '' }}>Finance</option>
@@ -58,13 +58,13 @@
                     <div>
                         <label class="block text-sm font-medium mb-1">Nama Lengkap</label>
                         <input type="text" name="nama_lengkap" value="{{ old('nama_lengkap') }}"
-                            class="w-full border rounded-md px-3 py-2" required>
+                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2" required>
                     </div>
 
                     <div class="grid grid-cols-3 gap-4">
                         <div>
                             <label class="block text-sm font-medium mb-1">Provinsi</label>
-                            <select name="provinsi" class="w-full border rounded-md px-3 py-2">
+                            <select name="provinsi" class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
                                 <option value="">-- Pilih Provinsi --</option>
                                 <option value="Yogyakarta" {{ old('provinsi') == 'Yogyakarta' ? 'selected' : '' }}>
                                     Yogyakarta</option>
@@ -77,12 +77,12 @@
                         <div>
                             <label class="block text-sm font-medium mb-1">Kota/Kabupaten</label>
                             <input type="text" name="kota" value="{{ old('kota') }}"
-                                class="w-full border rounded-md px-3 py-2">
+                                class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-1">Kecamatan</label>
                             <input type="text" name="kecamatan" value="{{ old('kecamatan') }}"
-                                class="w-full border rounded-md px-3 py-2">
+                                class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
                         </div>
                     </div>
 
@@ -90,11 +90,11 @@
                         <div>
                             <label class="block text-sm font-medium mb-1">Kode Pos</label>
                             <input type="text" name="kode_pos" value="{{ old('kode_pos') }}"
-                                class="w-full border rounded-md px-3 py-2">
+                                class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-1">Alamat Lengkap</label>
-                            <textarea name="detail_alamat" class="w-full border rounded-md px-3 py-2" rows="2">{{ old('detail_alamat') }}</textarea>
+                            <textarea name="detail_alamat" class="w-full border-2 border-gray-400 rounded-md px-3 py-2" rows="2">{{ old('detail_alamat') }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -155,7 +155,7 @@
                 <!-- Tombol -->
                 <div class="flex justify-center gap-4 mt-6">
                     <button type="submit"
-                        class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-md">Simpan</button>
+                        class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md">Simpan</button>
                     <a href="{{ route('superadmin.add.user') }}"
                         class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-md">Batal</a>
                 </div>

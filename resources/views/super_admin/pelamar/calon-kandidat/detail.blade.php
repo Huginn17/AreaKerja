@@ -1,6 +1,6 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
-    <div class="sm:ml-64 p-10 bg-white min-h-screen font-[Poppins]">
+    <div class="sm:ml-64 p-10 bg-white min-h-screen font-[Poppins] translate-x-24">
 
         <!-- Header -->
         <h1 class="text-2xl font-semibold mb-8 text-gray-800">Detail Calon Kandidat</h1>
@@ -24,13 +24,16 @@
             </div>
 
             <!-- Form Input Tanggal -->
-            <form method="POST" action="{{ route('calon.update', $pelamar->id) }}"
+            <form method="POST" action="{{ route('superadmin.calon.update', $pelamar->id) }}"
                 class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 @csrf
 
                 <div>
                     <label class="block text-sm text-orange-100 mb-1">Divisi</label>
-                    <p class="text-orange-600 bg-white px-3 py-2 rounded-md">{{ $pelamar->divisi ?? '-' }}</p>
+                    <p class="text-orange-600 bg-white px-3 py-2 rounded-md">
+                        {{ is_array($pelamar->divisi) ? implode(', ', $pelamar->divisi) : $pelamar->divisi ?? '-' }}
+                    </p>
+
                 </div>
 
                 <div>

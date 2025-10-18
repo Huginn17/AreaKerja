@@ -70,14 +70,16 @@
             <!-- Form -->
             @if (!$pelamar)
                 <div class="bg-yellow-100 text-yellow-800 p-3 rounded-lg mb-4">
-                    ⚠️ Harap buat data pelamar terlebih dahulu sebelum mengisi Sosmed, Alamat, Pendidikan, Organisasi, Pengalaman,
+                    ⚠️ Harap buat data pelamar terlebih dahulu sebelum mengisi Sosmed, Alamat, Pendidikan, Organisasi,
+                    Pengalaman,
                     dan Skill.
                 </div>
             @endif
 
-            <form action="{{ route('superadmin.pelamar.store') }}" method="POST" enctype="multipart/form-data"
-                class="space-y-4">
+            <form action="{{ route('superadmin.pelamar.update', $pelamar->id) }}" method="POST"
+                enctype="multipart/form-data" class="space-y-4">
                 @csrf
+                @method('PUT')
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-10">
                     <div class="flex items-center gap-2">
@@ -141,7 +143,7 @@
                 </div>
                 <div>
                     <label class="block text-md font-medium mb-1">Kata Sandi <span class="text-red-500">*</span></label>
-                    <input type="password" name="password"
+                    <input type="password" name="password" value="{{ $pelamar?->user?->password }}"
                         class="w-full mt-1 border-2 border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Kata Sandi" />
                 </div>
 
@@ -269,8 +271,8 @@
                             class="w-full flex justify-between items-center bg-orange-500 text-white px-4 py-2 rounded-lg"
                             @if (!$pelamarSudahAda) onclick="alert('Harap buat data pelamar terlebih dahulu sebelum menambahkan pendidikan.')"
         @else
-            data-modal-target="create_pendidikanmodal" 
-            data-modal-toggle="create_pendidikanmodal" @endif>
+            data-modal-target="create_pendidikanmodal2" 
+            data-modal-toggle="create_pendidikanmodal2" @endif>
                             <span>Tambahkan Pendidikan</span>
                             <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -445,45 +447,40 @@
     @endswitch">
 
                 {{-- Bidang yang Diminati --}}
-                <div id="divisi-wrapper"
-                    class="mt-4 {{ in_array($kategori, ['calon_kandidat', 'kandidat']) ? '' : 'hidden' }}">
-                    <label class="block text-md font-medium mb-1">Bidang yang Diminati <span
-                            class="text-red-500">*</span></label>
-                    <select id="divisi" name="divisi[]" multiple
-                        class="w-full border-2 border-gray-400 shadow rounded-lg px-3 py-2">
-                        @foreach ($divisis as $divisi)
-                            <option value="{{ $divisi->divisi }}">{{ $divisi->divisi }}</option>
-                        @endforeach
-                    </select>
-                </div>
+                <select id="divisi" name="divisi[]" multiple
+                    class="w-full border-2 border-gray-400 shadow rounded-lg px-3 py-2">
+                    @foreach ($divisis as $divisi)
+                        <option value="{{ $divisi->divisi }}"
+                            {{ in_array($divisi->divisi, (array) $pelamar->divisi) ? 'selected' : '' }}>
+                            {{ $divisi->divisi }}
+                        </option>
+                    @endforeach
+                </select>
+
 
                 <!-- Social Media -->
-                @php
-                    $disabled = !session('pelamar_terakhir_id') ? 'disabled' : '';
-                @endphp
-
                 <div>
                     <label class="block text-lg font-medium mb-5">Social Media</label>
 
                     <label class="block text-md font-medium">Instagram</label>
                     <input type="text" name="social_media[instagram]" value="{{ $pelamar?->sosmed?->instagram }}"
                         class="w-full mt-1 mb-5 border-2 border-gray-400 shadow rounded-lg px-3 py-2"
-                        placeholder="Instagram" {{ $disabled }} />
+                        placeholder="Instagram" />
 
                     <label class="block text-md font-medium">LinkedIn</label>
                     <input type="text" name="social_media[linkedin]" value="{{ $pelamar?->sosmed?->linkedin }}"
                         class="w-full mt-1 mb-5 border-2 border-gray-400 shadow rounded-lg px-3 py-2"
-                        placeholder="LinkedIn" {{ $disabled }} />
+                        placeholder="LinkedIn" />
 
                     <label class="block text-md font-medium">Website</label>
                     <input type="text" name="social_media[website]" value="{{ $pelamar?->sosmed?->website }}"
                         class="w-full mt-1 mb-5 border-2 border-gray-400 shadow rounded-lg px-3 py-2"
-                        placeholder="Website" {{ $disabled }} />
+                        placeholder="Website" />
 
                     <label class="block text-md font-medium">Twitter</label>
                     <input type="text" name="social_media[twitter]" value="{{ $pelamar?->sosmed?->twitter }}"
                         class="w-full mt-1 mb-5 border-2 border-gray-400 shadow rounded-lg px-3 py-2"
-                        placeholder="Twitter" {{ $disabled }} />
+                        placeholder="Twitter" />
                 </div>
 
 
@@ -500,7 +497,7 @@
         </div>
 
         @include('super_admin.pelamar.modal.alamat')
-        @include('super_admin.pelamar.modal.pendidikan')
+        @include('super_admin.pelamar.modal.pendidikan2')
         @include('super_admin.pelamar.modal.organisasi')
         @include('super_admin.pelamar.modal.pengalaman')
         @include('super_admin.pelamar.modal.skill')
@@ -510,6 +507,8 @@
         @include('super_admin.pelamar.modal.detail_organisasi')
         @include('super_admin.pelamar.modal.detail_pengalaman')
         @include('super_admin.pelamar.modal.detail_skill')
+
+        {{-- edit --}}
 
         {{-- Tom Select CSS --}}
         <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">

@@ -69,7 +69,7 @@
                     Talent Hunter
                 </a>
             </div>
-            <div class="flex gap-2 mb-4">
+            <div class="flex gap-2">
                 <form action="{{ route('admin.perusahaan') }}" method="GET" class="flex gap-2">
                     <input type="text" name="search" value="{{ $search }}" placeholder="nama/username ..."
                         class="border border-gray-500 rounded-lg px-4 py-2 w-72">
@@ -84,25 +84,25 @@
         <!-- Table -->
         <div class="overflow-hidden rounded-2xl border border-gray-400">
             <table class="w-full text-left border-collapse">
-                <thead class="text-center bg-gray-100">
+                <thead class="text-center">
                     <tr>
-                        <th class="p-4 font-semibold">ID</th>
-                        <th class="p-4 font-semibold">Nama Perusahaan</th>
-                        <th class="p-4 font-semibold">Email</th>
-                        <th class="p-4 font-semibold">Telepon</th>
-                        <th class="p-4 font-semibold">Alamat</th>
-                        <th class="p-4 font-semibold">Aksi</th>
+                        <th class="p-7 font-semibold">ID</th>
+                        <th class="p-7 font-semibold">Nama Perusahaan</th>
+                        <th class="p-7 font-semibold">Email</th>
+                        <th class="p-7 font-semibold">Telepon</th>
+                        <th class="p-7 font-semibold">Alamat</th>
+                        <th class="p-7 font-semibold">Aksi</th>
                     </tr>
                 </thead>
 
                 <tbody class="text-center">
                     @forelse ($perusahaan as $p)
                         <tr
-                            class="border-b border-gray-300 hover:bg-gray-50 {{ $p->user->status == '1' ? 'opacity-50' : '' }}">
+                            class="border-b border-gray-300 hover:bg-gray-100 {{ $p->user->status == '1' ? 'opacity-50' : '' }}">
                             <td class="px-4 py-3">{{ $p->id }}</td>
 
                             <td class="px-4 py-3">
-                                <a href="{{ url('/admin/detail/data/perusahaan/' . $p->id) }}"
+                                <a href="{{ url('/admin/detail/data/perusahaan' . $p->id) }}"
                                     class="text-blue-600 hover:underline">
                                     {{ $p->nama_perusahaan }}
                                 </a>
@@ -139,7 +139,7 @@
                                         </svg>
                                     </button>
                                 @else
-                                    <button <button
+                                    <button 
                                         class="bg-green-500 hover:bg-green-600 text-white p-2 rounded-md open-unfreeze-modal"
                                         title="Nonaktifkan" data-id="{{ $p->user->id }}">
 

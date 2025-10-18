@@ -55,7 +55,7 @@
             </div>
         </div>
         <!-- Header -->
-        <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center justify-between mb-4">
             <div class="flex items-center gap-4">
                 <a href="{{ route('admin.kandidat') }}"
                     class="{{ request()->is('admin/kandidat') ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-500 border-gray-500 hover:bg-gray-500 hover:text-white' }} px-6 py-2 text-md font-medium border-2 rounded-lg transition duration-300">
@@ -70,7 +70,7 @@
                     Calon Kandidat
                 </a>
             </div>
-            <div class="flex gap-2 mb-4">
+            <div class="flex gap-2">
                 <form action="{{ route('admin.kandidat') }}" method="GET" class="flex gap-2">
                     <input type="text" name="search" value="{{ $search }}" placeholder="nama/username ..."
                         class="border border-gray-500 rounded-lg px-4 py-2 w-72">
@@ -85,7 +85,7 @@
 
         <!-- Table -->
         <div class="overflow-hidden rounded-2xl border border-gray-400">
-            <table class="w-full text-left border-collapse">
+            <table class="w-full text-left">
                 <thead class="text-center">
                     <tr>
                         <th class="p-7 font-medium">ID</th>
@@ -98,7 +98,7 @@
                 </thead>
                 <tbody class="text-center">
                     @forelse ($pelamar as $item)
-                        <tr class="border-b-[2px] border-gray-300">
+                        <tr class="border-b border-gray-300 hover:bg-gray-100">
                             <td class="px-4 py-3">{{ $item->id }}</td>
                             <td class="px-4 py-3">{{ $item->nama_pelamar ?? $item->user->username }}</td>
                             <td class="px-4 py-3">

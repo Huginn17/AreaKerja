@@ -89,8 +89,6 @@
                                 <div>: Memiliki pengalaman lebih dari 1 tahun</div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
 

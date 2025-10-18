@@ -58,7 +58,7 @@
             {{-- ======================= --}}
             <div class="mb-12">
                 <h2 class="text-lg font-semibold mb-2">Riwayat Tunai</h2>
-                <div class="rounded-2xl overflow-hidden border">
+                <div class="rounded-2xl overflow-hidden border-2 border-gray-400">
                     <table class="w-full text-sm">
                         <thead>
 
@@ -123,7 +123,7 @@
             {{-- ======================= --}}
             <div class="mb-8">
                 <h2 class="text-lg font-semibold mb-2">Riwayat Koin</h2>
-                <div class="rounded-2xl overflow-hidden border border-gray-300">
+                <div class="rounded-2xl overflow-hidden border-2 border-gray-400">
                     <table class="w-full text-sm">
                         <thead>
 

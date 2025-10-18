@@ -86,7 +86,7 @@
         </div>
 
         <!-- Table  Kandidat -->
-        <div id="kandidat" class="overflow-hidden rounded-2xl border border-gray-400">
+        <div id="kandidat" class="overflow-hidden rounded-2xl border-2 border-gray-400">
             <table class="w-full text-left border-collapse">
                 <thead class="text-center">
                     <tr>
@@ -123,7 +123,7 @@
         {{-- selesai tabel kandidat --}}
 
         {{-- tabel non kandidat --}}
-        <div id="non_kandidat" class="hidden rounded-2xl border border-gray-400">
+        <div id="non_kandidat" class="hidden rounded-2xl border-2 border-gray-400">
             <table class="w-full text-left border-collapse">
                 <thead class="text-center">
                     <tr>
@@ -160,7 +160,7 @@
         {{-- selesai tabel non kandidat --}}
 
         {{-- tabel calon kandidat --}}
-        <div id="calon_kandidat" class="hidden rounded-2xl border border-gray-300">
+        <div id="calon_kandidat" class="hidden rounded-2xl border-2 border-gray-400">
             <table class="w-full text-left border-collapse">
                 <thead class="text-center">
                     <tr>

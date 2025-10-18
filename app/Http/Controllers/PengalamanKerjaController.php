@@ -77,7 +77,16 @@ class PengalamanKerjaController extends Controller
         PengalamanKerja::create($validated);
 
         $pelamar = Pelamar::find($pelamar_id);
-        $kategori = str_replace(' ', '_', $pelamar->kategori);
+
+
+        $mapKategori = [
+            'pelamar' => 'non_kandidat',
+            'calon kandidat' => 'calon_kandidat',
+            'kandidat aktif' => 'kandidat',
+            'kandidat nonaktif' => 'kandidat_nonaktif',
+        ];
+
+        $kategori = $mapKategori[strtolower($pelamar->kategori)] ?? 'non_kandidat';
 
         return redirect()->route('superadmin.pelamar.create', ['kategori' => $kategori])
             ->with('success', 'Organisasi berhasil disimpan');

@@ -5,13 +5,14 @@
             <form action="{{ route('admin.tips-kerja.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-4">
-                    <input type="text" name="title" placeholder="Judul artikel..."
+                    <label class="block mb-2 text-lg font-medium">Judul Artikel</label>
+                    <input type="text" name="title" placeholder="Tulis judul artikel..."
                         class="w-full border-2 border-gray-400 rounded-lg px-3 py-2">
                 </div>
 
                 <div class="mb-4">
                     <label class="block mb-2 text-lg font-medium">Cover Image</label>
-                    <input type="file" name="image" class="w-full border-2 border-gray-400 rounded-lg px-3 py-2">
+                    <input type="file" name="image" class="w-full border-2 border-gray-400 rounded-lg px-3">
                 </div>
 
                 <div class="mb-4">

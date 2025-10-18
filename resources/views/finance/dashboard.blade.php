@@ -108,7 +108,7 @@
             <!-- Table 1 -->
             <section>
                 <h2 class="text-lg font-medium mb-2">Riwayat Transaksi Cash Terbaru</h2>
-                <div class="overflow-x-auto border border-gray-300 shadow-md rounded-2xl">
+                <div class="overflow-x-auto border-2 border-gray-400 shadow-md rounded-2xl">
                     <table class="w-full border-collapse">
 
                         <thead>
@@ -154,7 +154,7 @@
             <!-- Table 2  -->
             <section>
                 <h2 class="text-lg font-medium mb-2">Riwayat Transaksi Koin Terbaru</h2>
-                <div class="overflow-x-auto border border-gray-300 shadow-md rounded-2xl">
+                <div class="overflow-x-auto border-2 border-gray-400 shadow-md rounded-2xl">
                     <table class="w-full border-collapse">
                         <thead>
                             <tr class="bg-orange-500 text-white text-sm">

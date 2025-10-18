@@ -5,8 +5,8 @@
         selected: null
     }">
         <!-- Header -->
-        <header class="w-full flex items-center justify-between px-6 py-2 border-b shadow-sm">
-            <h1 class="text-2xl font-semibold">Data Transaksi Tunai</h1>
+        <header class="w-full flex items-center justify-between">
+            <h1 class="text-2xl font-medium">Data Transaksi Tunai</h1>
             <div class="flex items-center gap-2">
                 <a href="#">
                     @if (Auth::user()->role == 'admin')
@@ -32,7 +32,7 @@
         </header>
 
         <!-- Filter dan tombol -->
-        <div class="p-6">
+        <div class="mt-8">
             <div class="flex items-center gap-4 mb-4">
                 <a href="{{ url('/admin/finance') }}"
                     class="px-8 py-2 rounded-lg border-2 {{ request()->is('admin/finance') ? 'bg-white text-gray-500 border-gray-500' : 'bg-white text-gray-500 border-gray-300 hover:bg-gray-100' }}">Koin</a>
@@ -41,9 +41,9 @@
                     class="px-8 py-2 rounded-lg border-2 {{ request()->is('admin/finance/tunai') ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-500 border-gray-500 hover:bg-gray-600 hover:text-white' }}">Tunai</a>
 
                 <!-- Filter No Referensi -->
-                <form method="GET" class="flex items-center gap-3 mb-6 ml-auto" x-cloak>
+                <form method="GET" class="flex items-center gap-3 ml-auto" x-cloak>
                     <div class="flex items-center border-2 overflow-hidden rounded-lg border-gray-400">
-                        <select name="no_referensi" class="px-3 py-2 text-sm focus:outline-none">
+                        <select name="no_referensi" class="px-8 py-2 text-sm focus:outline-none">
                             <option value="">Semua No. Referensi</option>
                             @foreach ($noReferensiList as $ref)
                                 <option value="{{ $ref }}" {{ $selectedRef == $ref ? 'selected' : '' }}>
@@ -64,19 +64,19 @@
                 <table class="w-full text-sm text-left">
                     <thead class="bg-white">
                         <tr class="text-center">
-                            <th class="p-4 font-semibold">No</th>
-                            <th class="p-4 font-semibold">No. Referensi</th>
-                            <th class="p-4 font-semibold">Pesanan</th>
-                            <th class="p-4 font-semibold">Dari</th>
-                            <th class="p-4 font-semibold">Sumber Dana</th>
-                            <th class="p-4 font-semibold">Total</th>
-                            <th class="p-4 font-semibold">Status</th>
-                            <th class="p-4 font-semibold">Aksi</th>
+                            <th class="p-7 font-semibold">No</th>
+                            <th class="p-7 font-semibold">No. Referensi</th>
+                            <th class="p-7 font-semibold">Pesanan</th>
+                            <th class="p-7 font-semibold">Dari</th>
+                            <th class="p-7 font-semibold">Sumber Dana</th>
+                            <th class="p-7 font-semibold">Total</th>
+                            <th class="p-7 font-semibold">Status</th>
+                            <th class="p-7 font-semibold">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($cash as $index => $item)
-                            <tr class="border text-center">
+                            <tr class="border-b-[2px] border-gray-300 text-center">
                                 <td class="py-2">{{ $index + 1 }}</td>
                                 <td class="py-2">{{ $item->no_referensi ?? '-' }}</td>
                                 <td class="py-2">{{ $item->pesanan ?? '-' }}</td>

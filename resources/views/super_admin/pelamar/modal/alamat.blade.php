@@ -1,59 +1,81 @@
-<!-- Modal Alamat -->
-<div id="modalAlamat" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-40">
-    <div class="bg-white rounded-2xl p-6 w-[450px] relative">
-        <!-- Tombol X -->
-        <button type="button" onclick="closeModal('modalAlamat')"
-            class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-2xl font-bold">
-            &times;
-        </button>
-
-        <h2 class="text-lg font-bold mb-4">Tambah Alamat</h2>
-
-        <form onsubmit="event.preventDefault(); closeModal('modalAlamat');">
-            <div class="mb-3">
-                <label class="block text-sm font-medium mb-1">Label</label>
-                <input type="text" name="label" class="w-full border rounded-lg p-2"
-                    placeholder="Masukkan Provinsi">
-            </div>
-            <div class="mb-3">
-                <label class="block text-sm font-medium mb-1">Desa</label>
-                <input type="text" name="desa" class="w-full border rounded-lg p-2"
-                    placeholder="Masukkan Provinsi">
-            </div>
-            <div class="mb-3">
-                <label class="block text-sm font-medium mb-1">Provinsi</label>
-                <input type="text" name="provinsi" class="w-full border rounded-lg p-2"
-                    placeholder="Masukkan Provinsi">
-            </div>
-            <div class="mb-3">
-                <label class="block text-sm font-medium mb-1">Kota</label>
-                <input type="text" name="kota" class="w-full border rounded-lg p-2" placeholder="Masukkan Kota">
-            </div>
-            <div class="mb-3">
-                <label class="block text-sm font-medium mb-1">Kecamatan</label>
-                <input type="text" name="kecamatan" class="w-full border rounded-lg p-2"
-                    placeholder="Masukkan Kecamatan">
-            </div>
-            <div class="mb-3">
-                <label class="block text-sm font-medium mb-1">Kode Pos</label>
-                <input type="text" name="kode_pos" class="w-full border rounded-lg p-2"
-                    placeholder="Masukkan Kelurahan">
-            </div>
-            <div class="mb-3">
-                <label class="block text-sm font-medium mb-1">Alamat Lengkap</label>
-                <textarea name="detail" class="w-full border rounded-lg p-2" rows="3"
-                    placeholder="Masukkan Alamat Lengkap"></textarea>
-            </div>
-
-            <div class="flex justify-end mt-4">
-                <button type="button" onclick="closeModal('modalAlamat')"
-                    class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 mr-2">
-                    Batal
-                </button>
-                <button type="submit" class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
-                    Simpan
+<!-- Main modal -->
+<div id="create_alamatmodal" tabindex="-1" aria-hidden="true"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+            <!-- Modal header -->
+            <div
+                class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+                <h3 class="text-lg font-semibold">Tambah Alamat</h3>
+                <button type="button"
+                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                    data-modal-toggle="create_alamatmodal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                    <span class="sr-only">Close modal</span>
                 </button>
             </div>
-        </form>
+            <!-- Modal body -->
+            <div class="max-w-lg mx-auto bg-white shadow-lg rounded-xl p-6">
+                <form id="formkerja" action="{{ route('superadmin.alamat.store') }}" method="POST">
+                    @csrf
+                    <div>
+                        <label class="block text-sm font-medium text-gray-900 mb-1">Label</label>
+                        <input type="text" name="label"
+                            class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 mb-3"
+                            required>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-900 mb-1">Desa</label>
+                        <input type="text" name="desa"
+                            class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 mb-3"
+                            required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-900 mb-1">Kecamatan</label>
+                        <input type="text" name="kecamatan"
+                            class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 mb-3"
+                            required>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-900 mb-1">Kota/Kabupaten</label>
+                            <input type="text" name="kota"
+                                class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 mb-3"
+                                required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-900 mb-1">Provinsi</label>
+                            <input type="text" name="provinsi"
+                                class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 mb-3">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-900 mb-1">Kode Pos</label>
+                            <input type="text" name="kode_pos"
+                                class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 mb-3">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-900 mb-1">Detaik Alamat</label>
+                        <textarea name="detail" rows="4"
+                            class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 mb-3"></textarea>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button type="submit"
+                            class="bg-orange-500 font-medium hover:bg-orange-600 text-white px-5 py-2 rounded-lg shadow-md transition">
+                            Simpan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>

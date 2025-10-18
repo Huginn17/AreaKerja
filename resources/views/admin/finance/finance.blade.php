@@ -14,8 +14,8 @@
     }" class="p-4 sm:ml-64" x-cloak>
 
         <!-- Header -->
-        <header class="w-full flex items-center justify-between px-6 py-3 border-b shadow-sm" x-cloak>
-            <h1 class="text-2xl font-semibold">Data Transaksi Koin</h1>
+        <header class="w-full flex items-center justify-between" x-cloak>
+            <h1 class="text-2xl font-medium">Data Transaksi Koin</h1>
             <div class="flex items-center gap-3">
                 <!-- Profil kanan atas -->
                 <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
@@ -43,7 +43,7 @@
             </div>
         </header>
 
-        <div class="p-6" x-cloak>
+        <div class="mt-8" x-cloak>
             <div class="flex items-center gap-4 mb-4">
                 <!-- Toggle Buttons -->
                 <a href="{{ url('/admin/finance') }}"
@@ -55,9 +55,9 @@
                     Tunai</a>
 
                 <!-- Filter No Referensi -->
-                <form method="GET" class="flex items-center gap-3 mb-6 ml-auto" x-cloak>
+                <form method="GET" class="flex items-center gap-3 ml-auto" x-cloak>
                     <div class="flex items-center border-2 overflow-hidden rounded-lg border-gray-400">
-                        <select name="no_referensi" class="px-3 py-2 text-sm focus:outline-none">
+                        <select name="no_referensi" class="px-8 py-2 text-sm focus:outline-none">
                             <option value="">Semua No. Referensi</option>
                             @foreach ($noReferensiList as $ref)
                                 <option value="{{ $ref }}" {{ $selectedRef == $ref ? 'selected' : '' }}>

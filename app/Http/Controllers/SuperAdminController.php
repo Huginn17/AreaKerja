@@ -197,6 +197,7 @@ class SuperAdminController extends Controller
         $nonKandidat = Pelamar::where('kategori', 'pelamar')->get();
         $calonKandidat = Pelamar::where('kategori', 'calon kandidat')->get();
 
+        session()->forget(['pelamar_terakhir_id', 'kategori_terakhir']);
 
         return view('super_admin.pelamar.data-pelamar', [
             'kandidat' => $kandidat,
@@ -205,6 +206,8 @@ class SuperAdminController extends Controller
         ]);
     }
 
+
+    //CRUD KANDIDAT CALON KANDIDAT NON KANDIDAT
     public function createKategori($kategori)
     {
 
@@ -218,12 +221,28 @@ class SuperAdminController extends Controller
         // Ambil data divisi hanya jika kategori = calon_kandidat atau kandidat
         $divisis = collect();
         if (in_array($kategori, ['calon_kandidat', 'kandidat'])) {
-            $divisis = \App\Models\Divisi::all();
+            $divisis = Divisi::all();
         }
 
         $pelamar = null;
+
         if (session('pelamar_terakhir_id')) {
-            $pelamar = \App\Models\Pelamar::find(session('pelamar_terakhir_id'));
+            $pelamarSession = Pelamar::find(session('pelamar_terakhir_id'));
+
+            // Pastikan hanya pakai data dari session kalau kategorinya sama
+            if ($pelamarSession) {
+                $mapKategori = [
+                    'pelamar' => 'non_kandidat',
+                    'calon kandidat' => 'calon_kandidat',
+                    'kandidat aktif' => 'kandidat',
+                ];
+
+                $kategoriPelamar = $mapKategori[strtolower($pelamarSession->kategori)] ?? null;
+
+                if ($kategoriPelamar === $kategori) {
+                    $pelamar = $pelamarSession;
+                }
+            }
         }
 
         // Kirim data ke view
@@ -239,6 +258,7 @@ class SuperAdminController extends Controller
 
     public function storeUser(Request $request)
     {
+        // dd($request->all());
         // 1️⃣ Cek apakah user sudah ada berdasarkan email
         $user = User::where('email', $request->email)->first();
 
@@ -252,8 +272,14 @@ class SuperAdminController extends Controller
             ]);
         }
 
+
         // 2️⃣ Cek apakah pelamar sudah ada berdasarkan user_id
         $pelamar = Pelamar::where('user_id', $user->id)->first();
+
+        $path = null;
+        if ($request->hasFile('img_profile')) {
+            $path = $request->file('img_profile')->store('images', 'public');
+        }
 
         if (!$pelamar) {
             $pelamar = Pelamar::create([
@@ -265,8 +291,19 @@ class SuperAdminController extends Controller
                 'telepon_pelamar' => $request->telepon_pelamar,
                 'divisi'          => $request->divisi,
                 'kategori'        => $request->kategori,
+                'img_profile'     => $path,
             ]);
+        } else {
+            // Jika pelamar sudah ada dan upload foto baru, ganti
+            if ($request->hasFile('img_profile')) {
+                if ($pelamar->img_profile && Storage::exists('public/' . $pelamar->img_profile)) {
+                    Storage::delete('public/' . $pelamar->img_profile);
+                }
+                $pelamar->update(['img_profile' => $path]);
+            }
         }
+
+
 
         // 3️⃣ Simpan session
         session([
@@ -310,40 +347,73 @@ class SuperAdminController extends Controller
             $pelamar->sosmed()->updateOrCreate([], $request->social_media);
         }
 
+        $isComplete =
+            $pelamar->alamat_pelamar()->exists() &&
+            $pelamar->riwayat_pendidikan()->exists() &&
+            $pelamar->pengalaman_organisasi()->exists() &&
+            $pelamar->pengalaman_kerja()->exists() &&
+            $pelamar->skill()->exists();
+
         $mapKategori = [
-            'kandidat aktif' => 'kandidat',
             'pelamar' => 'non_kandidat',
             'calon kandidat' => 'calon_kandidat',
+            'kandidat aktif' => 'kandidat',
         ];
 
-        $kategoriUrl = $mapKategori[$pelamar->kategori] ?? 'non_kandidat'; // fallback aman
+        $kategori = $mapKategori[strtolower($pelamar->kategori)] ?? 'non_kandidat';
 
-        return redirect()
-            ->route('superadmin.pelamar.create', ['kategori' => $kategoriUrl])
-            ->with('success', 'Kandidat berhasil ditambahkan.');
+        if ($isComplete) {
+            return redirect()->route('superadmin.pelamar')
+                ->with('success', 'Data pelamar berhasil disimpan dan semua data sudah lengkap.');
+        }
+
+        return redirect()->route('superadmin.pelamar.create', ['kategori' => $kategori])
+            ->with('success', 'Data pendidikan berhasil disimpan.');
     }
 
-    public function editUser($id)
+    public function editUser($kategori, $id)
     {
+
         $pelamar = Pelamar::with([
+            'user',
             'alamat_pelamar',
             'riwayat_pendidikan',
             'pengalaman_organisasi',
             'pengalaman_kerja',
             'skill',
             'sosmed',
-            'divisi_pelamars'
-        ])->findOrFail($id);
+        ])->find($id);
+
+        if (!$pelamar) {
+            abort(404, "Pelamar ID kandidat tidak ditemukan");
+        }
 
         $divisis = Divisi::all();
 
-        return view('pelamar.edit', compact('pelamar', 'divisis'));
+        $mapKategori = [
+            'pelamar' => 'non_kandidat',
+            'calon kandidat' => 'calon_kandidat',
+            'kandidat aktif' => 'kandidat',
+        ];
+
+        $kategori = $mapKategori[strtolower($pelamar->kategori)] ?? 'non_kandidat';
+
+        return view('super_admin.pelamar.edit-kandidat-superadmin', compact('pelamar', 'divisis', 'kategori'));
     }
 
 
     public function updateUser(Request $request, $id)
     {
         $pelamar = Pelamar::findOrFail($id);
+
+        // Update foto profil
+        $path = $pelamar->img_profile;
+        if ($request->hasFile('img_profile')) {
+            if ($pelamar->img_profile && Storage::exists('public/' . $pelamar->img_profile)) {
+                Storage::delete('public/' . $pelamar->img_profile);
+            }
+            $path = $request->file('img_profile')->store('images', 'public');
+        }
 
         // Update data utama
         $pelamar->update([
@@ -352,66 +422,68 @@ class SuperAdminController extends Controller
             'tanggal_lahir'   => $request->tanggal_lahir,
             'gender'          => $request->gender,
             'telepon_pelamar' => $request->telepon_pelamar,
+            'divisi'          => $request->divisi,
             'kategori'        => $request->kategori,
             'gaji_minimal'    => $request->gaji_minimal,
             'gaji_maksimal'   => $request->gaji_maksimal,
+            'img_profile'     => $path,
         ]);
 
-        // Hapus relasi lama
-        $pelamar->alamat_pelamar()->delete();
-        $pelamar->riwayat_pendidikan()->delete();
-        $pelamar->pengalaman_organisasi()->delete();
-        $pelamar->pengalaman_kerja()->delete();
-        $pelamar->skill()->delete();
-        $pelamar->divisi_pelamars()->delete();
-        $pelamar->sosmed()?->delete();
 
         // Tambahkan data baru relasi
-        if ($request->alamat) {
+        if ($request->filled('alamat')) {
+            $pelamar->alamat_pelamar()->delete();
             foreach ($request->alamat as $data) {
                 $pelamar->alamat_pelamar()->create($data);
             }
         }
 
-        if ($request->pendidikan) {
+        if ($request->filled('pendidikan')) {
+            $pelamar->riwayat_pendidikan()->delete();
             foreach ($request->pendidikan as $data) {
                 $pelamar->riwayat_pendidikan()->create($data);
             }
         }
 
-        if ($request->organisasi) {
+        if ($request->filled('organisasi')) {
+            $pelamar->pengalaman_organisasi()->delete();
             foreach ($request->organisasi as $data) {
                 $pelamar->pengalaman_organisasi()->create($data);
             }
         }
 
-        if ($request->pengalaman_kerja) {
+        if ($request->filled('pengalaman_kerja')) {
+            $pelamar->pengalaman_kerja()->delete();
             foreach ($request->pengalaman_kerja as $data) {
                 $pelamar->pengalaman_kerja()->create($data);
             }
         }
 
-        if ($request->skill) {
+        if ($request->filled('skill')) {
+            $pelamar->skill()->delete();
             foreach ($request->skill as $data) {
                 $pelamar->skill()->create($data);
             }
         }
 
-        if ($request->sosmed) {
-            $pelamar->sosmed()->create($request->sosmed);
+        // Sosial media
+        if ($request->has('social_media') && is_array($request->social_media)) {
+            $pelamar->sosmed()->updateOrCreate([], $request->social_media);
         }
 
-        if ($request->divisi_ids) {
-            foreach ($request->divisi_ids as $divisiId) {
-                $pelamar->divisi_pelamars()->create([
-                    'divisi_id' => $divisiId,
-                ]);
-            }
-        }
+        // Mapping kategori ke slug untuk redirect
+        $mapKategori = [
+            'pelamar' => 'non_kandidat',
+            'calon kandidat' => 'calon_kandidat',
+            'kandidat aktif' => 'kandidat',
+        ];
+
+        $kategori = $mapKategori[strtolower($pelamar->kategori)] ?? 'non_kandidat';
 
         return redirect()->route('superadmin.pelamar')
             ->with('success', 'Data pelamar berhasil diperbarui.');
     }
+
 
 
 

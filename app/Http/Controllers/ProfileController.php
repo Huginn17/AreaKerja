@@ -59,7 +59,7 @@ class ProfileController extends Controller
     }
     public function destroy_profile(Pelamar $pelamar)
     {
-     
+
         if ($pelamar->img_profile && Storage::exists('public/' . $pelamar->img_profile)) {
             Storage::delete('public/' . $pelamar->img_profile);
         }
@@ -68,6 +68,7 @@ class ProfileController extends Controller
         $pelamar->save();
         return redirect()->route('profile.index')->with('success', 'Profile berhasil dihapus');
     }
+
 
 
     public function alamat()
@@ -120,7 +121,74 @@ class ProfileController extends Controller
 
     public function destroy_alamat(AlamatPelamar $alamatpelamar)
     {
-        
+
+        $alamatpelamar->delete();
+        return redirect()->route('alamat')->with('success', 'Alamat berhasil dihapus');
+    }
+
+
+
+    //SUPER ADMIN
+    public function store_alamatSuper(Request $request)
+    {
+        $validated = $request->validate([
+            'label'  => 'nullable',
+            'desa'   => 'nullable',
+            'kecamatan' => 'nullable',
+            'kota'  =>  'nullable',
+            'provinsi' => 'nullable',
+            'kode_pos' => 'nullable',
+            'detail' =>   'nullable'
+        ]);
+
+        $pelamar_id = session('pelamar_terakhir_id');
+
+        if (!$pelamar_id) {
+            return back()->with('error', 'Pelamar belum dibuat. Harap buat pelamar terlebih dahulu sebelum menambahkan pendidikan.');
+        }
+
+        $validated['pelamar_id'] = $pelamar_id;
+        AlamatPelamar::create($validated);
+        $pelamar = Pelamar::find($pelamar_id);
+
+
+        $mapKategori = [
+            'pelamar' => 'non_kandidat',
+            'calon kandidat' => 'calon_kandidat',
+            'kandidat aktif' => 'kandidat',
+            'kandidat nonaktif' => 'kandidat_nonaktif',
+        ];
+
+        $kategori = $mapKategori[strtolower($pelamar->kategori)] ?? 'non_kandidat';
+
+        return redirect()->route('superadmin.pelamar.create', ['kategori' => $kategori])
+            ->with('success', 'Organisasi berhasil disimpan');
+    }
+
+    public function edit_alamatSuper(AlamatPelamar $alamatpelamar)
+    {
+        return view('non-user.alamat.edit', ["data" => $alamatpelamar]);
+    }
+    public function update_alamatSuper(Request $request, AlamatPelamar $alamatpelamar)
+    {
+        $validated = $request->validate([
+            'label'  => 'nullable',
+            'desa'   => 'nullable',
+            'kecamatan' => 'nullable',
+            'kota'  =>  'nullable',
+            'provinsi' => 'nullable',
+            'kode_pos' => 'nullable',
+            'detail' =>   'nullable'
+        ]);
+
+        $validated['pelamar_id'] = Auth::user()->pelamar->id;
+        $alamatpelamar->update($validated);
+        return redirect()->route('alamat')->with('success', 'Alamat berhasil diupdate');
+    }
+
+    public function destroy_alamatSuper(AlamatPelamar $alamatpelamar)
+    {
+
         $alamatpelamar->delete();
         return redirect()->route('alamat')->with('success', 'Alamat berhasil dihapus');
     }

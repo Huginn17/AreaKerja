@@ -80,7 +80,7 @@
                 <tbody class="text-center">
                     @for ($i = 0; $i < 10; $i++)
                         <!-- Contoh isi data (bisa diulang dengan loop dari backend) -->
-                    <tr class="border-b-[2px] border-gray-300">
+                    <tr class="border-b-[2px] border-gray-300 hover:bg-gray-100">
                             <td class="px-4 py-3">000001</td>
                             <td class="px-4 py-3">Seven INC</td>
                             <td class="px-4 py-3">seveninc@gmail.com</td>

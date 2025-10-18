@@ -25,7 +25,7 @@
                     </defs>
                 </svg>
 
-                <div class="flex items-center gap-2 bg-white px-2 py-2 border border-gray-700 shadow-md rounded-2xl">
+                <div class="flex items-center gap-2 bg-white px-2 py-2 border-2 border-2-gray-700 shadow-md rounded-2xl">
                     <a href="#">
                         <img src="{{ asset('images/ohim.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
                     </a>
@@ -43,14 +43,14 @@
             </div>
         </div><br>
 
-        <div class="max-w-6xl mx-auto p-6 bg-white border border-gray-400 rounded-2xl shadow-md">
+        <div class="max-w-6xl mx-auto p-6 bg-white border-2 border-2-gray-400 rounded-2xl shadow-md">
             <h2 class="text-lg font-semibold mb-10">Tambah Perusahaan</h2>
             <!-- Header -->
             <div class="flex items-center justify-between mb-10">
                 <div class="flex items-center gap-2">
                     <img src="{{ asset('images/seven.png') }}" alt="avatar" class="w-30 h-24"/>
                     <button
-                        class="flex items-center gap-2 px-4 py-2 text-md border-2 border-orange-600 bg-orange-500 hover:bg-orange-600 text-white rounded-md scale-90">
+                        class="flex items-center gap-2 px-4 py-2 text-md border-2-2 border-2-orange-600 bg-orange-500 hover:bg-orange-600 text-white rounded-md scale-90">
                         <!-- Icon upload -->
                         <svg width="13" height="13" viewBox="0 0 13 13" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -61,7 +61,7 @@
                         Upload
                     </button>
                     <button
-                        class="flex items-center gap-2 px-4 py-2 mt-1 text-md border-2 border-orange-600 text-orange-600 rounded-md hover:bg-gray-100 scale-90">
+                        class="flex items-center gap-2 px-4 py-2 mt-1 text-md border-2-2 border-2-orange-600 text-orange-600 rounded-md hover:bg-gray-100 scale-90">
                         <!-- Icon trash -->
                         <svg width="13" height="14" viewBox="0 0 13 14" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -79,64 +79,64 @@
                 <!-- User Info -->
                 <div>
                     <label class="block text-md font-medium mb-1">User ID <span class="text-red-500">*</span></label>
-                    <input type="text" class="w-full mt-1 border border-gray-400 shadow rounded-lg px-3 py-2" placeholder="User ID" />
+                    <input type="text" class="w-full mt-1 border-2 border-gray-400 shadow rounded-lg px-3 py-2" placeholder="User ID" />
                 </div>
                 <div>
                     <label class="block text-md font-medium mb-1">Email <span class="text-red-500">*</span></label>
-                    <input type="email" class="w-full mt-1 border border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Email" />
+                    <input type="email" class="w-full mt-1 border-2 border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Email" />
                 </div>
                 <div>
                     <label class="block text-md font-medium mb-1">Username <span class="text-red-500">*</span></label>
-                    <input type="text" class="w-full mt-1 border border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Username" />
+                    <input type="text" class="w-full mt-1 border-2 border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Username" />
                 </div>
                 <div>
                     <label class="block text-md font-medium mb-1">Nama Lengkap <span class="text-red-500">*</span></label>
-                    <input type="text" class="w-full mt-1 border border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Nama Lengkap" />
+                    <input type="text" class="w-full mt-1 border-2 border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Nama Lengkap" />
                 </div>
                 <div>
                     <label class="block text-md font-medium mb-1">Kata Sandi <span class="text-red-500">*</span></label>
-                    <input type="text" class="w-full mt-1 border border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Kata Sandi" />
+                    <input type="text" class="w-full mt-1 border-2 border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Kata Sandi" />
                 </div>
 
                 <h2 class="text-lg font-semibold">Data Perusahaan</h2>
                 
                 <div>
                     <label class="block text-md font-medium mb-1">Nama Perusahaan <span class="text-red-500">*</span></label>
-                    <input type="text" class="w-full mt-1 border border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Nama Perusahaan" />
+                    <input type="text" class="w-full mt-1 border-2 border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Nama Perusahaan" />
                 </div>
                 <div>
                     <label class="block text-md font-medium mb-1">Legalitas <span class="text-red-500">*</span></label>
-                    <input type="text" class="w-full mt-1 border border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Legalitas" />
+                    <input type="text" class="w-full mt-1 border-2 border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Legalitas" />
                 </div>
                 <div>
                     <label class="block text-md font-medium mb-1">Deskripsi Perusahaan <span class="text-red-500">*</span></label>
-                    <textarea class="w-full mt-1 border border-gray-400 shadow rounded-lg px-3 py-2" rows="4" placeholder="Deskripsi Perusahaan"></textarea>
+                    <textarea class="w-full mt-1 border-2 border-gray-400 shadow rounded-lg px-3 py-2" rows="4" placeholder="Deskripsi Perusahaan"></textarea>
                 </div>
                 <div>
                     <label class="block text-md font-medium mb-1">Visi <span class="text-red-500">*</span></label>
-                    <textarea class="w-full mt-1 border border-gray-400 shadow rounded-lg px-3 py-2" rows="4" placeholder="Visi"></textarea>
+                    <textarea class="w-full mt-1 border-2 border-gray-400 shadow rounded-lg px-3 py-2" rows="4" placeholder="Visi"></textarea>
                 </div>
                 <div>
                     <label class="block text-md font-medium mb-1">Misi <span class="text-red-500">*</span></label>
-                    <textarea class="w-full mt-1 border border-gray-400 shadow rounded-lg px-3 py-2" rows="4" placeholder="Misi"></textarea>
+                    <textarea class="w-full mt-1 border-2 border-gray-400 shadow rounded-lg px-3 py-2" rows="4" placeholder="Misi"></textarea>
                 </div>
 
                 <!-- Social Media -->
                 <div>
                      <h2 class="text-lg font-semibold mb-5">Nomor Telepon</h2>
                     <label class="block text-md font-medium">No Perusahaan</label>
-                    <input type="text" class="w-full mt-1 mb-5 border border-gray-400 shadow rounded-lg px-3 py-2" placeholder="No Perusahaan" />
+                    <input type="text" class="w-full mt-1 mb-5 border-2 border-gray-400 shadow rounded-lg px-3 py-2" placeholder="No Perusahaan" />
                     <label class="block text-md font-medium">No Whatsapp</label>
-                    <input type="text" class="w-full mt-1 mb-5 border border-gray-400 shadow rounded-lg px-3 py-2" placeholder="No Whatsapp" />
+                    <input type="text" class="w-full mt-1 mb-5 border-2 border-gray-400 shadow rounded-lg px-3 py-2" placeholder="No Whatsapp" />
                 </div>
 
                 <!-- Buttons -->
                 <div class="md:col-span-2 flex justify-center items-center gap-4 mt-4">
                     <button type="submit"
-                        class="bg-orange-600 text-white font-medium px-10 py-2 rounded-md hover:bg-orange-500 border border-orange-600 transition">Simpan
+                        class="bg-orange-600 text-white font-medium px-10 py-2 rounded-md hover:bg-orange-500 border-2 border-2-orange-600 transition">Simpan
                     </button>
                     <a href="/super_admin/data-perusahaan"
-                        class="bg-white text-orange-600 font-medium px-12 py-2 rounded-md hover:bg-orange-100 border border-orange-600 transition">Batal
+                        class="bg-white text-orange-600 font-medium px-12 py-2 rounded-md hover:bg-orange-100 border-2 border-2-orange-600 transition">Batal
                     </a>
                 </div>
             </form>
