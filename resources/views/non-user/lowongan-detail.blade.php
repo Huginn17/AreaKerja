@@ -10,7 +10,7 @@
 
         <div class="max-w-7xl mx-auto py-8 px-4 md:px-8 grid md:grid-cols-3 gap-6">
 
-            <!-- KIRI: DETAIL LOWONGAN -->
+            <!-- KIRI: DETAIL LOWONGAN -->  
             <div class="md:col-span-2 space-y-6">
                 <div class="bg-white rounded-lg shadow p-6 space-y-4">
                     <div class="flex items-center gap-3">
@@ -35,8 +35,11 @@
                         @endphp
 
                         @auth
-                            {{-- Jika kategori pelamar --}}
-                            @if (Auth::user()->pelamar && Auth::user()->pelamar->kategori === 'pelamar')
+                            @php
+                                $kategori = Auth::user()->pelamar->kategori ?? null;
+                            @endphp
+                        
+                            @if ($kategori === 'pelamar' || ($kategori === 'kandidat aktif' && !$tawaran))
                                 <button @click="showConfirm = true"
                                     class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-lg transition">
                                     Lamar Cepat
@@ -45,26 +48,26 @@
                                 {{-- Simpan Lowongan --}}
                                 <button
                                     @click="
-                                    fetch('{{ route('simpan-lowongan.store', $data->id) }}', {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                            'Accept': 'application/json',
-                                            'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
-                                        },
-                                        body: JSON.stringify({})
-                                    })
-                                    .then(res => res.json())
-                                    .then(data => alert(data.message ?? 'Lowongan disimpan.'))
-                                    .catch(err => alert('Terjadi kesalahan.'))
-                                "
+                fetch('{{ route('simpan-lowongan.store', $data->id) }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
+                    },
+                    body: JSON.stringify({})
+                })
+                .then(res => res.json())
+                .then(data => alert(data.message ?? 'Lowongan disimpan.'))
+                .catch(err => alert('Terjadi kesalahan.'))
+            "
                                     class="border border-orange-500 text-orange-500 px-5 py-2 rounded-lg hover:bg-orange-50">
                                     Simpan
                                 </button>
                             @endif
 
-                            {{-- Jika kategori kandidat aktif --}}
-                            @if (Auth::user()->pelamar && Auth::user()->pelamar->kategori === 'kandidat aktif')
+                            {{-- Jika kandidat aktif dan ADA tawaran --}}   
+                            @if ($kategori === 'kandidat aktif' && $tawaran)
                                 <button @click="if(!{{ $disabled ? 'true' : 'false' }}) showConfirmTerima=true"
                                     :disabled="{{ $disabled ? 'true' : 'false' }}"
                                     class="px-5 py-2 rounded-md text-white transition"
@@ -82,7 +85,7 @@
                                 {{-- Tombol Love --}}
                                 @auth
                                     @php
-                                        $lowongan = $tawaran->lowonganPerusahaan;
+                                        $lowongan = $tawaran ? $tawaran->lowonganPerusahaan : $data; // fallback ke $data kalau gak ada tawaran
                                         $sudahSimpan = Auth::user()->pelamar
                                             ? Auth::user()
                                                 ->pelamar->simpanLowongans()
@@ -90,6 +93,7 @@
                                                 ->exists()
                                             : false;
                                     @endphp
+
 
                                     <div>
                                         @if (!$sudahSimpan)
@@ -169,8 +173,8 @@
             </div>
         </div>
 
-        {{-- ===================== MODALS ===================== --}}
-
+        {{-- ===================== MODAL ===================== --}}
+        
         {{-- Lamar Cepat --}}
         <div x-show="showConfirm" x-cloak
             class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">

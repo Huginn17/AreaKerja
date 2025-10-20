@@ -88,7 +88,7 @@
                     <div class="rounded-md overflow-hidden mt-4">
                         <input id="x" type="hidden" name="content"
                             value="{{ old('content', $event->content ?? '') }}">
-                        <trix-editor input="x" class="border-2 order-gray-400 trix-content"></trix-editor>
+                        <trix-editor input="x" class="border-2 border-gray-400 trix-content"></trix-editor>
                     </div>
 
                     <div class="space-y-4 mt-4">

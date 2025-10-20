@@ -167,11 +167,13 @@ class ProfileController extends Controller
 
     public function edit_alamatSuper(AlamatPelamar $alamatpelamar)
     {
-        return view('non-user.alamat.edit', ["data" => $alamatpelamar]);
+        return view('super_admin.pelamar.modal.edit.edit_alamat', ["data" => $alamatpelamar]);
     }
-    public function update_alamatSuper(Request $request, AlamatPelamar $alamatpelamar)
+    public function update_alamatSuper(Request $request, ?AlamatPelamar $alamatpelamar = null)
     {
+        // dd($request->all());
         $validated = $request->validate([
+            'pelamar_id' => 'required|exists:pelamars,id',
             'label'  => 'nullable',
             'desa'   => 'nullable',
             'kecamatan' => 'nullable',
@@ -181,11 +183,30 @@ class ProfileController extends Controller
             'detail' =>   'nullable'
         ]);
 
-        $validated['pelamar_id'] = Auth::user()->pelamar->id;
-        $alamatpelamar->update($validated);
-        return redirect()->route('alamat')->with('success', 'Alamat berhasil diupdate');
-    }
+        $pelamar_id = $validated['pelamar_id'];
 
+        if ($alamatpelamar && $alamatpelamar->exists) {
+            $alamatpelamar->update($validated);
+        } else {
+            $alamatpelamar = AlamatPelamar::create($validated);
+        }
+
+        $pelamar = Pelamar::find($pelamar_id);
+
+        $mapKategori = [
+            'pelamar' => 'non_kandidat',
+            'calon kandidat' => 'calon_kandidat',
+            'kandidat aktif' => 'kandidat',
+            'kandidat nonaktif' => 'kandidat_nonaktif',
+        ];
+
+        $kategori = $mapKategori[strtolower($pelamar->kategori)] ?? 'non_kandidat';
+        // $alamatpelamar->update($validated);
+        return redirect()->route('superadmin.pelamar.edit', [
+            'kategori' => $kategori,
+            'id' => $pelamar_id
+        ])->with('success', 'Data organisasi berhasil disimpan.');
+    }
     public function destroy_alamatSuper(AlamatPelamar $alamatpelamar)
     {
 

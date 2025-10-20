@@ -45,7 +45,7 @@
         <div class="flex items-center justify-between mb-6">
             <div class="flex items-center gap-4">
                 <div>
-                    <a href="/super_admin/tambah/perusahaan"
+                    <a href="{{ route('superadmin.add.user.createForm') }}"
                         class="bg-orange-500 hover:bg-orange-600 border border-orange-600 text-white px-3 py-2 rounded-lg inline-flex items-center justify-center">
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -122,10 +122,10 @@
         </div>
 
         <!-- Table -->
-        <div class="overflow-hidden rounded-2xl border-2 border-gray-400 shaadow-md">
+        <div class="overflow-hidden rounded-2xl border-2 border-gray-400 shadow-md">
             <table class="w-full text-left border-collapse">
                 <thead class="text-center">
-                    <tr class="border-b-2 border-gray-400">
+                    <tr>
                         <th class="p-7 font-medium">ID</th>
                         <th class="p-7 font-medium">Nama Perusahaan</th>
                         <th class="p-7 font-medium">Email</th>
@@ -135,15 +135,15 @@
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    @forelse ($perusahaan as $p) 
-                        <tr class="border-gray-400">
+                    @forelse ($perusahaan as $p)
+                        <tr class="border-b border-gray-300">
                             <td class="px-4 py-3">{{ $p->id }}</td>
                             <td class="px-4 py-3">{{ $p->nama_perusahaan }}</td>
                             <td class="px-4 py-3">{{ $p->user->email }}</td>
                             <td class="px-4 py-3">{{ $p->telepon_perusahaan }}</td>
                             <td class="px-4 py-3">{{ $p->alamat_perusahaan->first()?->kota?->nama ?? '-' }}</td>
                             <td class="px-4 py-3">
-                                   <a href="{{ route('superadmin.perusahaan.detail', $p->id) }}"
+                                <a href="{{ route('superadmin.perusahaan.detail', $p->id) }}"
                                     class="bg-orange-500 hover:bg-orange-600 text-xs text-white px-4 py-1 rounded-lg">View</a>
                             </td>
                         </tr>

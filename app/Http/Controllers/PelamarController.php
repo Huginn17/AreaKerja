@@ -36,26 +36,37 @@ class PelamarController extends Controller
         $pelamar = auth()->user()->pelamar ?? null;
         if (!$pelamar) abort(403);
 
-        // Cari berdasarkan lowongan_perusahaan_id
+        // Ambil tawaran (bisa null)
         $tawaran = PembeliKandidat::with(['lowonganPerusahaan.perusahaan'])
             ->where('pelamar_id', $pelamar->id)
             ->where('lowongan_perusahaan_id', $lowongan->id)
-            ->firstOrFail();
-
-        $lowonganLain = LowonganPerusahaan::where('perusahaan_id', $tawaran->lowonganPerusahaan->perusahaan_id)
-            ->where('id', '!=', $tawaran->lowongan_perusahaan_id)
-            ->whereNotNull('published_at')
-            ->latest()
-            ->take(3)
-            ->get();
+            ->first();
+ 
+        // Kalau tawaran ada, ambil lowongan lain dari perusahaan yang sama
+        if ($tawaran && $tawaran->lowonganPerusahaan) {
+            $lowonganLain = LowonganPerusahaan::where('perusahaan_id', $tawaran->lowonganPerusahaan->perusahaan_id)
+                ->where('id', '!=', $tawaran->lowongan_perusahaan_id)
+                ->whereNotNull('published_at')
+                ->latest()
+                ->take(3)
+                ->get();
+        } else {
+            // Jika tidak ada tawaran, tampilkan 3 lowongan terbaru (bebas)
+            $lowonganLain = LowonganPerusahaan::where('id', '!=', $lowongan->id)
+                ->whereNotNull('published_at')
+                ->latest()
+                ->take(3)
+                ->get();
+        }
 
         return view('non-user.lowongan-detail', [
-            "data" => $lowongan,
-            "Data" => $Data,
+            'data' => $lowongan,
+            'Data' => $Data,
             'lowonganLain' => $lowonganLain,
             'tawaran' => $tawaran,
         ]);
     }
+
 
     public function index()
     {
@@ -137,11 +148,11 @@ class PelamarController extends Controller
             'pendidikan' => 'required',
             'jurusan' => 'nullable',
             'asal_pendidikan' => 'nullable',
-            '{{  }}n_awal' => 'nullable',
+            'tahun_awal' => 'nullable',
             'tahun_akhir' => 'nullable'
         ]);
 
-        $valid['pelamar_id'] = Auth::user()->pelamar->id;
+        $valid['pelamar_id'] = Auth::user()->pelamar->id;   
 
         RiwayatPendidikan::create($valid);
         return redirect()->route('profile.index')->with('success', 'Pendidikan berhasil disimpan');
@@ -210,50 +221,49 @@ class PelamarController extends Controller
             ->with('success', 'Organisasi berhasil disimpan');
     }
 
-   public function updatependidikanSuper(Request $request, ?RiwayatPendidikan $riwayatpendidikan = null)
-{
-   
-    $valid = $request->validate([
-        'pelamar_id' => 'required|exists:pelamars,id',
-        'pendidikan' => 'required',
-        'jurusan' => 'nullable',
-        'asal_pendidikan' => 'nullable',
-        'tahun_awal' => 'nullable',
-        'tahun_akhir' => 'nullable'
-    ]);
+    public function updatependidikanSuper(Request $request, ?RiwayatPendidikan $riwayatpendidikan = null)
+    {
+      
+        $valid = $request->validate([
+            'pelamar_id' => 'required|exists:pelamars,id',
+            'pendidikan' => 'required',
+            'jurusan' => 'nullable',
+            'asal_pendidikan' => 'nullable',
+            'tahun_awal' => 'nullable',
+            'tahun_akhir' => 'nullable'
+        ]);
 
-    // Tidak perlu ambil dari session, karena sudah dari request
-    $pelamar_id = $valid['pelamar_id'];
+        // Tidak perlu ambil dari session, karena sudah dari request
+        $pelamar_id = $valid['pelamar_id'];
 
-    if ($riwayatpendidikan && $riwayatpendidikan->exists) {
-        $riwayatpendidikan->update($valid);
-    } else {
-        $riwayatpendidikan = RiwayatPendidikan::create($valid);
+        if ($riwayatpendidikan && $riwayatpendidikan->exists) {
+            $riwayatpendidikan->update($valid);
+        } else {
+            $riwayatpendidikan = RiwayatPendidikan::create($valid);
+        }
+
+        $pelamar = Pelamar::find($pelamar_id);
+
+        $mapKategori = [
+            'pelamar' => 'non_kandidat',
+            'calon kandidat' => 'calon_kandidat',
+            'kandidat aktif' => 'kandidat',
+            'kandidat nonaktif' => 'kandidat_nonaktif',
+        ];
+
+        $kategori = $mapKategori[strtolower($pelamar->kategori)] ?? 'non_kandidat';
+
+        return redirect()->route('superadmin.pelamar.edit', [
+            'kategori' => $kategori,
+            'id' => $pelamar_id
+        ])->with('success', 'Data pendidikan berhasil disimpan.');
     }
-
-    $pelamar = Pelamar::find($pelamar_id);
-
-    $mapKategori = [
-        'pelamar' => 'non_kandidat',
-        'calon kandidat' => 'calon_kandidat',
-        'kandidat aktif' => 'kandidat',
-        'kandidat nonaktif' => 'kandidat_nonaktif',
-    ];
-
-    $kategori = $mapKategori[strtolower($pelamar->kategori)] ?? 'non_kandidat';
-
-   return redirect()->route('superadmin.pelamar.edit', [
-    'kategori' => $kategori,
-    'id' => $pelamar_id
-])->with('success', 'Data pendidikan berhasil disimpan.');
-
-}
 
 
 
     public function editpendidikanSuper(RiwayatPendidikan $riwayatpendidikan)
     {
-        return view('non-user.profile.pendidikan.edit', ['DT' => $riwayatpendidikan]);
+        return view('super_admin.pelamar.modal.edit.edit_pendidikan', ['DT' => $riwayatpendidikan]);
     }
 
     public function destroypendidikanSuper(RiwayatPendidikan $riwayatpendidikan)
@@ -320,7 +330,7 @@ class PelamarController extends Controller
         return view('perusahaan.pelamar.konfirmasi-terkirim', [
             "data"       => $pelamarlowongan,
             "konfirmasi" => $konfirmasi
-        ]);
+        ]); 
     }
 
 
@@ -336,7 +346,6 @@ class PelamarController extends Controller
             return redirect()->route('pelamar.konfirmasi', $pelamarlowongan->id)
                 ->with('error', 'Data konfirmasi tidak ditemukan.');
         }
-
 
         $expiredAt = now()->addDays(30);
 

@@ -60,7 +60,7 @@
             </div>
 
             <!-- Tabel -->
-            <div id="table_cash" class="rounded-2xl border-2 border-gray-200 overflow-hidden">
+            <div id="table_cash" class="rounded-2xl border-2 border-gray-400 overflow-hidden">
                 <table class="w-full text-sm text-left">
                     <thead class="bg-white">
                         <tr class="text-center">

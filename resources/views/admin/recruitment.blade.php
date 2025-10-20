@@ -26,7 +26,7 @@
 
                 <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
                     <a href="#">
-                        <img src="{{ asset('images/gabar1.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
+                        <img src="{{ asset('images/gambar1.jpg') }}" class="w-8 h-8 rounded-full" alt="User">
                     </a>
                     <div class="text-sm">
                         <div class="font-semibold">steve jobs</div>
@@ -65,7 +65,7 @@
         </div>
 
         <!-- Table -->
-        <div class="overflow-hidden rounded-2xl border border-gray-400">
+        <div class="overflow-hidden rounded-2xl border-2 border-gray-400">
             <table class="w-full text-left border-collapse">
                 <thead class="text-center">
                     <tr>

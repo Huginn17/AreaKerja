@@ -95,9 +95,10 @@ class PengalamanOrgController extends Controller
             ->with('success', 'Organisasi berhasil disimpan');
     }
 
-    public function updateSuper(Request $request, Organisasi $organisasi)
+    public function updateSuper(Request $request, ?Organisasi $organisasi = null)
     {
         $validated = $request->validate([
+            'pelamar_id' => 'required|exists:pelamars,id',
             'nama_organisasi' => 'required|string|max:255',
             'jabatan' => 'required|string|max:255',
             'tahun_awal' => 'required|digits:4|integer',
@@ -105,16 +106,36 @@ class PengalamanOrgController extends Controller
             'deskripsi' => 'nullable|string',
         ]);
 
-        $validated['pelamar_id'] = Auth::user()->pelamar->id;
+        $pelamar_id = $validated['pelamar_id'];
+
+        if ($organisasi && $organisasi->exists) {
+            $organisasi->update($validated);
+        } else {
+            $organisasi = Organisasi::create($validated);
+        }
 
 
-        $organisasi->update($validated);
-        return redirect()->route('superadmin.pelamar.create')->with('success', 'Organisasi berhasil diperbarui');
+        $pelamar = Pelamar::find($pelamar_id);
+
+        $mapKategori = [
+            'pelamar' => 'non_kandidat',
+            'calon kandidat' => 'calon_kandidat',
+            'kandidat aktif' => 'kandidat',
+            'kandidat nonaktif' => 'kandidat_nonaktif',
+        ];
+
+        $kategori = $mapKategori[strtolower($pelamar->kategori)] ?? 'non_kandidat';
+
+        // $organisasi->update($validated);
+        return redirect()->route('superadmin.pelamar.edit', [
+            'kategori' => $kategori,
+            'id' => $pelamar_id
+        ])->with('success', 'Data organisasi berhasil disimpan.');
     }
 
     public function editSuper(Organisasi $organisasi)
     {
-        return view('non-user.profile.organisasi.edit', ['DT' => $organisasi]);
+        return view('super_admin.pelamar.modal.edit.edit_organisasi', ['DT' => $organisasi]);
     }
 
     public function destroySuper(Organisasi $organisasi)

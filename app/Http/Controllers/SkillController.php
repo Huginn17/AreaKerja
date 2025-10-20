@@ -81,23 +81,45 @@ class SkillController extends Controller
             ->with('success', 'Organisasi berhasil disimpan');
     }
 
-    public function updateSuper(Request $request, Skill $skill)
+    public function updateSuper(Request $request, ?Skill $skill = null)
     {
         $validated = $request->validate([
+            'pelamar_id' => 'required|exists:pelamars,id',
             'skill' => 'required|string|max:255',
             'experience_level' => 'nullable|string|max:255',
         ]);
 
-        $validated['pelamar_id'] = Auth::user()->pelamar->id;
+        $pelamar_id = $validated['pelamar_id'];
+
+        if ($skill && $skill->exists) {
+            $skill->update($validated);
+        } else {
+            $skill = Skill::create($validated);
+        }
+
+        $pelamar = Pelamar::find($pelamar_id);
+
+        $mapKategori = [
+            'pelamar' => 'non_kandidat',
+            'calon kandidat' => 'calon_kandidat',
+            'kandidat aktif' => 'kandidat',
+            'kandidat nonaktif' => 'kandidat_nonaktif',
+        ];
+
+        $kategori = $mapKategori[strtolower($pelamar->kategori)] ?? 'non_kandidat';
 
 
-        $skill->update($validated);
-        return redirect()->route('superadmin.pelamar.create')->with('success', 'Pengalaman Kerja berhasil diperbarui');
+
+        // $skill->update($validated);
+        return redirect()->route('superadmin.pelamar.edit', [
+            'kategori' => $kategori,
+            'id' => $pelamar_id
+        ])->with('success', 'Data organisasi berhasil disimpan.');
     }
 
     public function editSuper(Skill $skill)
     {
-        return view('non-user.profile.skill.edit', ['DS' => $skill]);
+        return view('super_admin.pelamar.modal.edit.edit_skill', ['DS' => $skill]);
     }
 
     public function destroySuper(Skill $skill)

@@ -16,7 +16,7 @@
                         <thead>
                             <tr class="bg-orange-500 text-white">
                                 <th class="px-6 py-3 text-left font-semibold text-lg">Nama</th>
-                                <th class="px-6 py-3 text-right font-semibold text-lg">Harga</th>
+                                <th class="px-6 py-3 text-right font-semibold text-lg">Koin</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-400">

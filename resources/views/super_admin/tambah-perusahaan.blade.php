@@ -50,7 +50,7 @@
                 <div class="flex items-center gap-2">
                     <img src="{{ asset('images/seven.png') }}" alt="avatar" class="w-30 h-24"/>
                     <button
-                        class="flex items-center gap-2 px-4 py-2 text-md border-2-2 border-2-orange-600 bg-orange-500 hover:bg-orange-600 text-white rounded-md scale-90">
+                        class="flex items-center gap-2 px-4 py-2 text-md border-2 border-orange-600 bg-orange-500 hover:bg-orange-600 text-white rounded-md scale-90">
                         <!-- Icon upload -->
                         <svg width="13" height="13" viewBox="0 0 13 13" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -61,7 +61,7 @@
                         Upload
                     </button>
                     <button
-                        class="flex items-center gap-2 px-4 py-2 mt-1 text-md border-2-2 border-2-orange-600 text-orange-600 rounded-md hover:bg-gray-100 scale-90">
+                        class="flex items-center gap-2 px-4 py-2 mt-1 text-md  border-2 border-orange-600 text-orange-600 rounded-md hover:bg-gray-100 scale-90">
                         <!-- Icon trash -->
                         <svg width="13" height="14" viewBox="0 0 13 14" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -136,7 +136,7 @@
                         class="bg-orange-600 text-white font-medium px-10 py-2 rounded-md hover:bg-orange-500 border-2 border-2-orange-600 transition">Simpan
                     </button>
                     <a href="/super_admin/data-perusahaan"
-                        class="bg-white text-orange-600 font-medium px-12 py-2 rounded-md hover:bg-orange-100 border-2 border-2-orange-600 transition">Batal
+                        class="bg-white text-orange-600 font-medium px-12 py-2 rounded-md hover:bg-gray-100 border-2 border-orange-600 transition">Batal
                     </a>
                 </div>
             </form>

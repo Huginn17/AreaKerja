@@ -37,7 +37,7 @@
 
 <body x-data="{ openNotif: false, openAllNotif: false }">
     {{-- Navbar --}}
-    <header class="bg-white border-b border-gray-300">
+    <header class="bg-white border-b py-2 border-gray-300 fixed top-0 left-0 w-full z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
 
             {{-- Logo --}}
@@ -47,22 +47,22 @@
             </div>
 
             {{-- Menu --}}
-            <nav class="hidden md:flex gap-6 font-semibold text-sm text-orange-500">
-                <a href="{{ route('beranda') }}" class="hover:text-orange-500 hover:scale-105 transition duration-400">Beranda</a>
-                <a href="{{ url('/talent-hunter') }}" class="hover:text-orange-500 hover:scale-105 transition duration-400">Talent Hunter</a>
-                <a href="{{ url('/pelamar/tips-kerja') }}" class="hover:text-orange-500 hover:scale-105 transition duration-400">Tips Kerja</a>
+            <nav class="hidden md:flex font-semibold text-sm text-orange-500">
+                <a href="{{ route('beranda') }}" class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400">Beranda</a>
+                <a href="{{ url('/talent-hunter') }}" class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400">Talent Hunter</a>
+                <a href="{{ url('/pelamar/tips-kerja') }}" class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:scale-105 hover:font-bold transition-all duration-400">Tips Kerja</a>
                 @if (Auth::check() && Auth::user()->pelamar)
                     @if (Auth::user()->pelamar->kategori === 'calon kandidat')
-                    <a href="{{ route('pelamar.calon-kandidat.pelatihan') }}" class="hover:text-orange-500 hover:scale-105 transition duration-400">Rekrut Saya</a>
+                    <a href="{{ route('pelamar.calon-kandidat.pelatihan') }}" class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400">Rekrut Saya</a>
                     @elseif (Auth::user()->pelamar->kategori === 'kandidat aktif')
-                    <a href="{{ route('pelamar.tawaran') }}" class="hover:text-orange-500 hover:scale-105 transition duration-400">Rekrut Saya</a>
+                    <a href="{{ route('pelamar.tawaran') }}" class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:scale-105 hover:font-bold transition-all duration-400">Rekrut Saya</a>
                     @else
-                    <a href="{{ route('pelamar.daftar-kandidat') }}" class="hover:text-orange-500 hover:scale-105 transition duration-400">Daftar Kandidat</a>
+                    <a href="{{ route('pelamar.daftar-kandidat') }}" class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400">Daftar Kandidat</a>
                     @endif
                 @else
-                    <a href="{{ route('pelamar.daftar-kandidat') }}" class="hover:text-orange-500 hover:scale-105 transition duration-400">Daftar Kandidat</a>
+                    <a href="{{ route('pelamar.daftar-kandidat') }}" class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400">Daftar Kandidat</a>
                 @endif
-                <a href="{{ url('/lowongan') }}" class="hover:text-orange-500 hover:scale-105 transition duration-400">Pasang Lowongan</a>
+                <a href="{{ url('/lowongan') }}" class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400">Pasang Lowongan</a>
             </nav>
 
             {{-- Aksi --}}

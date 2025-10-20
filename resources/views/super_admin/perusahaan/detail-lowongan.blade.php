@@ -26,14 +26,27 @@
                     </svg>
 
                     <div class="flex items-center gap-2 bg-white px-0 py-1 border border-gray-600 shadow-md rounded-2xl">
-                        <a href="#">
-                            <img src="{{ asset('images/tangan.png') }}" class="w-8 h-8 rounded-full" alt="User">
+                        <a href="{{ route('superadmin.profile') }}">
+                            @if (Auth::user()->role == 'super_admin')
+                                @if (Auth::user()->superadmin?->img_profile)
+                                    <img id="pu" class="w-10 h-10 object-cover rounded-full profile-img"
+                                        src="{{ asset('storage/' . Auth::user()->superadmin->img_profile) }}"
+                                        alt="Profile">
+                                @else
+                                    <img id="pu" class="w-10 h-10 rounded-full"
+                                        src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                        alt="">
+                                @endif
+                            @else
+                                <img class="w-10 h-10 rounded-full"
+                                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                    alt="">
+                            @endif
+
                         </a>
                         <div class="text-sm">
-                            <div
-                                class="font-se                                                                                                                                                                                                                                                                                mibold">
-                                Steve Jobs</div>
-                            <div class="text-gray-500">Stevejobs@gmail.com</div>
+                            <span class="font-semibold">{{ Auth::user()->username }}</span>
+                            <p class="text-gray-500 text-sm">{{ Auth::user()->email }}</p>
                         </div>
 
                         <select class="appearance-none px-6 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
@@ -60,29 +73,36 @@
 
                     <!-- Aksi Lowongan -->
                     <div class="flex justify-end gap-6 text-xs text-orange-600 mb-6">
-                        <button class="hover:underline flex items-center gap-1">
-                            <svg width="21" height="20" viewBox="0 0 21 20" fill="none"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <mask id="mask0_733_9200" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                                    width="21" height="20">
-                                    <rect width="20.0843" height="19.8054" fill="url(#pattern0_733_9200)" />
-                                </mask>
-                                <g mask="url(#mask0_733_9200)">
-                                    <rect width="20.0843" height="19.8054" fill="#FF6109" />
-                                </g>
-                                <defs>
-                                    <pattern id="pattern0_733_9200" patternContentUnits="objectBoundingBox" width="1"
-                                        height="1">
-                                        <use xlink:href="#image0_733_9200"
-                                            transform="matrix(0.010272 0 0 0.0104167 0.00694319 0)" />
-                                    </pattern>
-                                    <image id="image0_733_9200" width="96" height="96" preserveAspectRatio="none"
-                                        xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAABmJLR0QA/wD/AP+gvaeTAAABZ0lEQVR4nO3dMU7DQBBG4R+k3AVySkoKQHAb4BrcgCOQMkihcApEA3Fm8tbhfdK2q/W8xHLkIokkSZIkjeUmye7IdXvyU5+JiuEbYabK4RvhQB3DHzbCRcEeu4I9luyoGV5WnULzGABmAJgBYAaAGQBmAEmSJEk6sYr3AT+d+/uB0pn5SxhmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYB0BNg17juKjesOOAO8Ne46i/No6Arw27DmKZ/oAf7FO8pm+/wKj1jbJVeGcWj2FH1j1eiidULNVplsRPbSq9bK/pkVZJXnM9NWlBzh3bTN98hc3/O/WSe6TvGV6RKWH+tva7M96l+S6YR6SJEmS/rkvrDJThoEm4u8AAAAASUVORK5CYII=" />
-                                </defs>
-                            </svg>
-                            Hapus Lowongan
-                        </button>
-                        <button class="hover:underline flex items-center gap-1 transform -translate-x-4">
+                        <form action="{{ route('superadmin.lowongan.destroy', $lowongan->id) }}" method="POST"
+                            onsubmit="return confirm('Yakin ingin menghapus lowongan ini?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="hover:underline flex items-center gap-1 text-red-600">
+                                <svg width="21" height="20" viewBox="0 0 21 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <mask id="mask0_733_9200" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                                        width="21" height="20">
+                                        <rect width="20.0843" height="19.8054" fill="url(#pattern0_733_9200)" />
+                                    </mask>
+                                    <g mask="url(#mask0_733_9200)">
+                                        <rect width="20.0843" height="19.8054" fill="#FF6109" />
+                                    </g>
+                                    <defs>
+                                        <pattern id="pattern0_733_9200" patternContentUnits="objectBoundingBox"
+                                            width="1" height="1">
+                                            <use xlink:href="#image0_733_9200"
+                                                transform="matrix(0.010272 0 0 0.0104167 0.00694319 0)" />
+                                        </pattern>
+                                        <image id="image0_733_9200" width="96" height="96" preserveAspectRatio="none"
+                                            xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAABmJLR0QA/wD/AP+gvaeTAAABZ0lEQVR4nO3dMU7DQBBG4R+k3AVySkoKQHAb4BrcgCOQMkihcApEA3Fm8tbhfdK2q/W8xHLkIokkSZIkjeUmye7IdXvyU5+JiuEbYabK4RvhQB3DHzbCRcEeu4I9luyoGV5WnULzGABmAJgBYAaAGQBmAEmSJEk6sYr3AT+d+/uB0pn5SxhmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYAaAGQBmAJgBYB0BNg17juKjesOOAO8Ne46i/No6Arw27DmKZ/oAf7FO8pm+/wKj1jbJVeGcWj2FH1j1eiidULNVplsRPbSq9bK/pkVZJXnM9NWlBzh3bTN98hc3/O/WSe6TvGV6RKWH+tva7M96l+S6YR6SJEmS/rkvrDJThoEm4u8AAAAASUVORK5CYII=" />
+                                    </defs>
+                                </svg>
+                                Hapus Lowongan
+                            </button>
+                        </form>
+
+                        <a href="{{ route('superadmin.lowongan.edit.form', $lowongan->id) }}"
+                            class="hover:underline flex items-center gap-1 transform -translate-x-4">
                             <svg width="23" height="23" viewBox="0 0 23 23" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <mask id="mask0_733_9205" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -93,8 +113,8 @@
                                     <rect x="0.0859375" width="22.6236" height="22.3094" fill="#FF6109" />
                                 </g>
                                 <defs>
-                                    <pattern id="pattern0_733_9205" patternContentUnits="objectBoundingBox" width="1"
-                                        height="1">
+                                    <pattern id="pattern0_733_9205" patternContentUnits="objectBoundingBox"
+                                        width="1" height="1">
                                         <use xlink:href="#image0_733_9205"
                                             transform="matrix(0.010272 0 0 0.0104167 0.00694314 0)" />
                                     </pattern>
@@ -103,7 +123,7 @@
                                 </defs>
                             </svg>
                             Edit Lowongan
-                        </button>
+                        </a>
                     </div>
 
 
@@ -121,7 +141,7 @@
                             <h3 class="font-semibold text-lg">Jenis Lowongan</h3>
                             <p>{{ $lowongan->jenis }}</p>
                         </div>
-
+  
                         <!-- Deskripsi Pekerjaan -->
                         <div class="mb-4">
                             <h3 class="font-semibold text-lg mb-2">Deskripsi Pekerjaan</h3>
@@ -149,11 +169,23 @@
                 <!-- Tombol aksi -->
                 <div class="flex flex-col items-center space-y-3 max-w-lg mx-auto mt-8">
                     <!-- Tombol Tambah Lowongan -->
-                    <button
-                        class="bg-orange-500 text-white w-96 p-2 rounded-md hover:bg-orange-600 transition duration-300">
-                        Jadikan Rekomendasi
-                    </button>
-
+                    <div class="border rounded-md p-4 mb-4 flex justify-between items-center">
+                        <form action="{{ route('superadmin.lowongan.toggleRekomendasi', $lowongan->id) }}"
+                            method="POST">
+                            @csrf
+                            @if ($lowongan->rekomendasi == 1)
+                                <button type="submit"
+                                    class="bg-gray-500 text-white w-48 p-2 rounded-md hover:bg-gray-600 transition duration-300">
+                                    Hapus Rekomendasi
+                                </button>
+                            @else
+                                <button type="submit"
+                                    class="bg-orange-500 text-white w-48 p-2 rounded-md hover:bg-orange-600 transition duration-300">
+                                    Jadikan Rekomendasi
+                                </button>
+                            @endif
+                        </form>
+                    </div>
                     <div
                         class="bg-orange-500 text-white text-center w-96 p-2 rounded-md hover:bg-orange-600 transition duration-300">
                         Kembali

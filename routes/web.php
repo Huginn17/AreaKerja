@@ -397,7 +397,8 @@ Route::prefix('admin')->middleware('auth', 'role:admin', 'CheckUserStatus')->gro
     Route::get('/perusahaan', [AdminController::class, 'halPerusahaan'])->name('admin.perusahaan');
     Route::get('/admin/perusahaan/{id}', [AdminController::class, 'detailPerusahaan'])->name('admin.perusahaan.detail');
     Route::get('/admin/lowongan/{id}', [AdminController::class, 'detailLowongan'])->name('admin.lowongan.detail');
-
+    //REKOMENDASI
+    Route::post('/lowongan/{id}/rekomendasi', [LowonganPerusahaanController::class, 'toggleRekomendasi'])->name('admin.lowongan.toggleRekomendasi');
 
     Route::post('/user/freeze/{id}', [AdminController::class, 'bekukan'])->name('admin.freeze');
     Route::post('/user/unfreeze/{id}', [AdminController::class, 'aktifkan'])->name('admin.unfreeze');
@@ -515,6 +516,7 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
         ->where('kategori', '(non_kandidat|calon_kandidat|kandidat)')
         ->name('superadmin.pelamar.edit');
     Route::put('/pelamar/update/{id}', [SuperAdminController::class, 'updateUser'])->name('superadmin.pelamar.update');
+    Route::delete('/pelamar/{id}', [SuperadminController::class, 'destroyUser'])->name('superadmin.pelamar.destroy');
     //KANDIDAT
     Route::get('/kandidat/{pelamar}', [SuperAdminController::class, 'detail_kandidat'])->name('superadmin.detail.kandidat');
     //NON KANDIDAT
@@ -544,6 +546,16 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
     Route::get('/perusahaan/{id}', [SuperAdminController::class, 'detailPerusahaan'])->name('superadmin.perusahaan.detail');
     Route::get('/lowongan/{id}', [SuperAdminController::class, 'detailLowongan'])->name('superadmin.lowongan.detail');
 
+    //LOWONGAN
+    Route::get('/perusahaan/{id}/createform/lowongan', [LowonganPerusahaanController::class,  'createFormSuper'])->name('superadmin.lowongan.create.form');
+    Route::post('/perusahaan/{id}/buat/lowongan', [LowonganPerusahaanController::class,  'storeSuper'])->name('superadmin.lowongan.saya.store');
+    Route::get('/edit/lowongan/{lowongan}', [LowonganPerusahaanController::class, 'editSuper'])->name('superadmin.lowongan.edit.form');
+    Route::put('/update/lowongan/{lowongan}', [LowonganPerusahaanController::class, 'updateSuper'])->name('superadmin.lowongan.update');
+    Route::delete('/lowongan/{lowongan}', [LowonganPerusahaanController::class, 'destroySuper'])->name('superadmin.lowongan.destroy');
+
+
+    //REKOMENDASI
+    Route::post('/lowongan/{id}/rekomendasi', [LowonganPerusahaanController::class, 'toggleRekomendasi'])->name('superadmin.lowongan.toggleRekomendasi');
 
     //PAKET HARGA
     Route::get('/paket/harga', [SuperAdminController::class, 'halFinance'])->name('superadmin.paket-harga');
@@ -556,7 +568,7 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
 
     Route::post('/create/alamat', [ProfileController::class, 'store_alamatSuper'])->name('superadmin.alamat.store')->middleware('auth');
     Route::get('/edit/alamat/{alamatpelamar:id}', [ProfileController::class, 'edit_alamatSuper'])->name('superadmin.alamat.edit')->middleware('auth');
-    Route::put('/update/alamat/{alamatpelamar:id}', [ProfileController::class, 'update_alamatSuper'])->name('superadmin.alamat.update')->middleware('auth');
+    Route::put('/update/alamat/{alamatpelamar?}', [ProfileController::class, 'update_alamatSuper'])->name('superadmin.alamat.update')->middleware('auth');
     Route::delete('/delete/alamat/{alamatpelamar:id}', [ProfileController::class, 'destroy_alamatSuper'])->name('superadmin.alamat.destroy')->middleware('auth');
 
     //RIWAYAT PENDIDIKAN
@@ -568,23 +580,25 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
     //pengalaman organisasi
     Route::post('/create/organisasi', [PengalamanOrgController::class, 'storeSuper'])->name('superadmin.organisasi.store')->middleware('auth');
     Route::get('/edit/organisasi/{organisasi:id}', [PengalamanOrgController::class, 'editSuper'])->name('superadmin.organisasi.edit')->middleware('auth');
-    Route::put('/update/organisasi/{organisasi:id}', [PengalamanOrgController::class, 'updateSuper'])->name('superadmin.organisasi.update')->middleware('auth');
+    Route::put('/update/organisasi/{organisasi?}', [PengalamanOrgController::class, 'updateSuper'])->name('superadmin.organisasi.update')->middleware('auth');
     Route::delete('/delete/organisasi/{organisasi:id}', [PengalamanOrgController::class, 'destroySuper'])->name('superadmin.organisasi.destroy')->middleware('auth');
 
 
     //pengalaman kerja
     Route::post('/create/kerja', [PengalamanKerjaController::class, 'storeSuper'])->name('superadmin.kerja.store')->middleware('auth');
     Route::get('/edit/kerja/{kerja:id}', [PengalamanKerjaController::class, 'editSuper'])->name('superadmin.kerja.edit')->middleware('auth');
-    Route::put('/update/kerja/{kerja:id}', [PengalamanKerjaController::class, 'updateSuper'])->name('superadmin.kerja.update')->middleware('auth');
+    Route::put('/update/kerja/{kerja?}', [PengalamanKerjaController::class, 'updateSuper'])->name('superadmin.kerja.update')->middleware('auth');
     Route::delete('/delete/kerja/{kerja:id}', [PengalamanKerjaController::class, 'destroySuper'])->name('superadmin.kerja.destroy')->middleware('auth');
 
 
     //SKILL
     Route::post('/create/skill', [SkillController::class, 'storeSuper'])->name('superadmin.skill.store')->middleware('auth');
     Route::get('/edit/skill/{skill:id}', [SkillController::class, 'editSuper'])->name('superadmin.skill.edit')->middleware('auth');
-    Route::put('/update/skill/{skill:id}', [SkillController::class, 'updateSuper'])->name('superadmin.skill.update')->middleware('auth');
+    Route::put('/update/skill/{skill?}', [SkillController::class, 'updateSuper'])->name('superadmin.skill.update')->middleware('auth');
     Route::delete('/delete/skill/{skill:id}', [SkillController::class, 'destroySuper'])->name('superadmin.skill.destroy')->middleware('auth');
 
+
+    //PANGGILAN
 
 });
 
@@ -618,10 +632,6 @@ Route::get('/super_admin/detail-kandidat', function () {
 
 Route::get('/super_admin/data-talent-hunter', function () {
     return view('super_admin.data-talent-hunter');
-});
-
-Route::get('/super_admin/data-panggilan', function () {
-    return view('super_admin.data-panggilan');
 });
 
 Route::get('/super_admin/data-recruitment', function () {

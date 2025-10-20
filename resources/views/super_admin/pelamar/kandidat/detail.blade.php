@@ -195,9 +195,13 @@
                     Unduh
                 </a>
 
-                <button
-                    class="bg-red-600 hover:bg-red-500 text-white px-6 py-2 rounded-lg transition duration-300">Hapus</button>
-
+                <form action="{{ route('superadmin.pelamar.destroy', $data->id) }}" method="POST"
+                    onsubmit="return confirm('Yakin ingin menghapus pelamar ini?');">
+                    @csrf
+                    @method('DELETE')
+                    <button
+                        class="bg-red-600 hover:bg-red-500 text-white px-[120px] py-2 rounded-lg transition duration-300">Hapus</button>
+                </form>
             </div><br>
 
 

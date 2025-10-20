@@ -167,8 +167,19 @@
 
             <!-- Tombol aksi -->
             <div class="grid grid-cols-1 space-y-3 mx-auto max-w-72 mt-20">
-                <a href="{{ route('superadmin.edit.non.kandidat', $data->id) }}"
-                    class="bg-blue-500 hover:bg-blue-400 text-white px-6 py-2 rounded-lg">Edit</a>
+                @php
+                    $mapKategori = [
+                        'pelamar' => 'non_kandidat',
+                        'calon kandidat' => 'calon_kandidat',
+                        'kandidat aktif' => 'kandidat',
+                    ];
+                    $kategori = $mapKategori[strtolower($data->kategori)] ?? 'non_kandidat';
+                @endphp
+
+                <a href="{{ route('superadmin.pelamar.edit', ['kategori' => $kategori, 'id' => $data->id]) }}"
+                    class="bg-blue-500 hover:bg-blue-400 text-white px-6 py-2 rounded-lg text-center transition duration-300">
+                    Edit
+                </a>
                 {{-- <a href="{{ route('cv.save', $data->id) }}"
                         class="bg-green-600 hover:bg-navy-500 text-white px-6 py-2 rounded-lg">
                         Simpan CV Ke Server
@@ -184,7 +195,12 @@
                     Unduh
                 </a>
 
-                <button class="bg-red-600 hover:bg-red-500 text-white px-6 py-2 rounded-lg">Hapus</button>
+                <form action="{{ route('superadmin.pelamar.destroy', $data->id) }}" method="POST"
+                    onsubmit="return confirm('Yakin ingin menghapus pelamar ini?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="bg-red-600 hover:bg-red-500 text-white px-[120px] py-2 rounded-lg">Hapus</button>
+                </form>
             </div><br>
 
 

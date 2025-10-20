@@ -406,6 +406,16 @@ class SuperAdminController extends Controller
     {
         $pelamar = Pelamar::findOrFail($id);
 
+        $user = $pelamar->user ?? null;
+
+        $request->validate([
+            'nama_pelamar' => 'required|string|max:255',
+            'email'        => 'required|email',
+            'username'     => 'required|string|max:255',
+            'password'     => 'nullable|min:3',
+            'img_profile'  => 'nullable|image',
+        ]);
+
         // Update foto profil
         $path = $pelamar->img_profile;
         if ($request->hasFile('img_profile')) {
@@ -428,6 +438,17 @@ class SuperAdminController extends Controller
             'gaji_maksimal'   => $request->gaji_maksimal,
             'img_profile'     => $path,
         ]);
+
+
+        if ($user) {
+            $user->update([
+                'username' => $request->username,
+                'email'    => $request->email,
+                'password' => $request->filled('password')
+                    ? bcrypt($request->password)
+                    : $user->password, // kalau password kosong, jangan diubah
+            ]);
+        }
 
 
         // Tambahkan data baru relasi
@@ -482,6 +503,39 @@ class SuperAdminController extends Controller
 
         return redirect()->route('superadmin.pelamar')
             ->with('success', 'Data pelamar berhasil diperbarui.');
+    }
+
+
+    public function destroyUser($id)
+    {
+        try {
+           
+            $pelamar = Pelamar::findOrFail($id);
+
+         
+            $pelamar->alamat_pelamar()->delete();
+            $pelamar->riwayat_pendidikan()->delete();
+            $pelamar->pengalaman_organisasi()->delete();
+            $pelamar->pengalaman_kerja()->delete();
+            $pelamar->skill()->delete();
+            $pelamar->sosmed()->delete();
+
+       
+            if ($pelamar->img_profile && Storage::exists('public/' . $pelamar->img_profile)) {
+                Storage::delete('public/' . $pelamar->img_profile);
+            }
+
+            $user = $pelamar->user;
+            $pelamar->delete();
+
+            if ($user && !Pelamar::where('user_id', $user->id)->exists()) {
+                $user->delete();
+            }
+
+            return redirect()->route('superadmin.pelamar')->with('success', 'Data pelamar berhasil dihapus.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menghapus data: ' . $e->getMessage());
+        }
     }
 
 
@@ -967,5 +1021,11 @@ class SuperAdminController extends Controller
         }
 
         return redirect()->route('superadmin.paket-harga');
+    }
+
+
+    public function panggilan()
+    {
+        return view('super_admin.panggilan.data-panggilan');
     }
 }

@@ -97,7 +97,7 @@
                 </a>
             </div>
              <div class="mb-10 bg-white">
-                <div class="overflow-x-auto rounded-lg shadow">
+                <div class="overflow-x-auto rounded-lg shadow-md">
                     <table class="min-w-full text-sm border-2 border-gray-400">
                         <thead>
                             <tr>

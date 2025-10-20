@@ -26,7 +26,12 @@
                 @csrf
                 <div>
                     <label class="block text-sm text-gray-300 mb-1">Divisi</label>
-                    <p class="text-white">{{ $pelamar->divisi }}</p>
+                    <ul class="list-disc list-inside text-white">
+                        @foreach ((array) $pelamar->divisi as $d)
+                            <li>{{ $d }}</li>
+                        @endforeach
+                    </ul>
+
                 </div>
 
                 <div>

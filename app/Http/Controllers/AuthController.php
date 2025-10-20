@@ -57,6 +57,7 @@ class AuthController extends Controller
                 $q->whereNull('expired_at')
                     ->orWhere('expired_at', '>', now());
             })
+        ->orderBy('rekomendasi', 'desc')
             ->latest()
             ->get();
 

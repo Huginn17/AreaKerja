@@ -41,7 +41,7 @@
                     </select>
                 </div>
             </div>
-        </div>  
+        </div>
 
         <!-- Konten utama -->
         <div class="max-w-6xl mx-auto bg-white rounded-xl p-6 relative">
@@ -114,10 +114,10 @@
                         <div class="text-sm font-medium space-y-2">
                             @foreach ($perusahaan->lowonganPerusahaans as $l)
                                 <div>
-                                     <a href="{{ route('superadmin.lowongan.detail', $l->id) }}"
+                                    <a href="{{ route('superadmin.lowongan.detail', $l->id) }}"
                                         class="text-blue-500 text-sm font-semibold hover:underline mb-1">{{ $l->nama }}</a>
                                     <p class="text-gray-400 mb-1">{{ $l->alamat }} </p>
-                                    <p class="text-gray-400"> {{ $l->published_at ?? $lowongan->created_at }} </p>
+                                    <p class="text-gray-400"> {{ $l->published_at ?? $l->created_at }} </p>
                                 </div>
                             @endforeach
                         </div>
@@ -128,21 +128,27 @@
                 <!-- Tombol aksi -->
                 <div class="flex flex-col items-center space-y-3 w-full max-w-lg mx-auto mt-44">
                     <!-- Tombol Tambah Lowongan -->
-                    <button class="bg-orange-500 text-white px-24 py-2 rounded-md hover:bg-orange-600 mb-12">
+                    <a href="{{ route('superadmin.lowongan.create.form', $perusahaan->id) }}"
+                        class="bg-orange-500 text-white px-24 py-2 rounded-md hover:bg-orange-600 mb-12">
                         Tambah Lowongan
-                    </button>
+                    </a>
+
 
                     <!-- Tombol Edit -->
-                    <button class="bg-blue-700 text-white w-full py-2 rounded-md hover:bg-blue-600">
+                    <a href="{{ route('superadmin.edit.user', $perusahaan->user->id) }}"
+                        class="bg-blue-700 text-white text-center w-full px-24 py-2 rounded-md hover:bg-blue-600">
                         Edit
-                    </button>
+                    </a>
 
                     <!-- Tombol Hapus -->
-                    <button class="bg-red-700 text-white w-full py-2 rounded-md hover:bg-red-600">
-                        Hapus
-                    </button>
+                    <form action="{{ route('superadmin.delete.akun', $perusahaan->user->id) }}" method="POST"
+                        onsubmit="return confirm('Yakin ingin menghapus user ini? Data tidak bisa dikembalikan!')">
+                        @csrf @method('DELETE')
+                        <button type="submit" class="bg-red-700 text-white w-full px-24 py-2 rounded-md hover:bg-red-600">
+                            Hapus
+                        </button>
+                    </form>
                 </div>
-
             </div>
     </main>
 @endsection

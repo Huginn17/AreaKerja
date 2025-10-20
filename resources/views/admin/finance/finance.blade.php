@@ -74,7 +74,7 @@
             </div>
 
             <!-- Table -->
-            <div id="table_koin" class="rounded-2xl border border-gray-400 overflow-hidden" x-cloak>
+            <div id="table_koin" class="rounded-2xl border-2 border-gray-400 overflow-hidden" x-cloak>
                 <table class="w-full text-sm text-left">
                     <thead class="bg-white">
                         <tr class="text-center">

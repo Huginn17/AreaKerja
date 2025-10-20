@@ -70,12 +70,74 @@
                                     Rp.{{ $d->gaji_awal }} - Rp.{{ $d->gaji_akhir }} per bulan
                                 </span>
                                 <span class="block mt-3 text-[#565656] pl-0 lg:pl-10 md:pl-10">
-                                    <p id="countdown" class="text-red-500 font-medium"></p>
+                                    <p id="countdown-{{ $d->id }}" class="text-red-500 font-medium"></p>
                                 </span>
                             </div>
                         </div>
                     </div>
                 </a>
+
+                <!-- 🔹 Script Countdown per Lowongan -->
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const countdownEl = document.getElementById('countdown-{{ $d->id }}');
+                        const expiredAt = new Date("{{ \Carbon\Carbon::parse($d->expired_at)->format('Y-m-d H:i:s') }}")
+                            .getTime();
+
+                        if (countdownEl) {
+                            const interval = setInterval(function() {
+                                const now = new Date().getTime();
+                                const distance = expiredAt - now;
+
+                                if (distance < 0) {
+                                    clearInterval(interval);
+                                    countdownEl.innerHTML = "Lowongan telah kadaluarsa";
+                                } else {
+                                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+                                    countdownEl.innerHTML = `${days}h ${hours}j ${minutes}m lagi`;
+                                }
+                            }, 1000);
+                        }
+                    });
+                </script>
+                @if ($d->expired_at && $d->expired_at < now())
+                    <!-- Tombol Publish Ulang -->
+                    <button type="button"
+                        class="block mt-3 pl-0 lg:pl-10 md:pl-10 bg-orange-500 px-10 py-2 rounded-md text-white hover:bg-orange-600 transition"
+                        data-modal-target="modal-expired-{{ $d->id }}"
+                        data-modal-toggle="modal-expired-{{ $d->id }}">
+                        Publish Ulang
+                    </button>
+
+                    <!-- Modal Konfirmasi -->
+                    <div id="modal-expired-{{ $d->id }}" tabindex="-1" aria-hidden="true"
+                        class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                        <div class="bg-white rounded-xl shadow-lg w-96 p-6 text-center relative">
+                            <h2 class="text-lg font-semibold text-gray-800 mb-2">Lowongan Expired</h2>
+                            <p class="text-gray-600 mb-6">
+                                Maaf, lowongan Anda sudah <span class="font-semibold text-red-500">expired</span>.<br>
+                                Silakan beli paket baru untuk mempublish ulang.
+                            </p>
+
+                            <div class="flex justify-center gap-4">
+                                <!-- Tombol ke Halaman Pembelian Paket -->
+                                <a href="{{ route('paket.form') }}"
+                                    class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md transition">
+                                    Beli Paket Baru
+                                </a>
+
+                                <!-- Tombol Tutup -->
+                                <button type="button" data-modal-hide="modal-expired-{{ $d->id }}"
+                                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md transition">
+                                    Batal
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                @endif
             @else
                 <!-- Card Draft / Non Publish -->
                 <div class="flex justify-between items-end text-center gap-3 my-5">
@@ -225,6 +287,8 @@
     </div>
 
     @include('layouts.footer')
+
+
 
     <script>
         const modal = document.getElementById('publishModal');

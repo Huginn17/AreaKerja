@@ -35,12 +35,26 @@
                 </svg>
 
                 <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
-                    <a href="#">
-                        <img src="{{ asset('images/seven.png') }}" class="w-8 h-8 rounded-full" alt="User">
+                    <a href="{{ route('superadmin.profile') }}">
+                        @if (Auth::user()->role == 'super_admin')
+                            @if (Auth::user()->superadmin?->img_profile)
+                                <img id="pu" class="w-10 h-10 object-cover rounded-full profile-img"
+                                    src="{{ asset('storage/' . Auth::user()->superadmin->img_profile) }}" alt="Profile">
+                            @else
+                                <img id="pu" class="w-10 h-10 rounded-full"
+                                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                    alt="">
+                            @endif
+                        @else
+                            <img class="w-10 h-10 rounded-full"
+                                src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                alt="">
+                        @endif
+
                     </a>
-                    <div class="text-md">
-                        <div class="font-semibold">steve jobs</div>
-                        <div class="text-gray-500">stevejobs@gmail.com</div>
+                    <div class="text-sm">
+                        <span class="font-semibold">{{ Auth::user()->username }}</span>
+                        <p class="text-gray-500 text-sm">{{ Auth::user()->email }}</p>
                     </div>
 
                     <select class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-md focus:outline-none">
@@ -143,8 +157,9 @@
                 </div>
                 <div>
                     <label class="block text-md font-medium mb-1">Kata Sandi <span class="text-red-500">*</span></label>
-                    <input type="password" name="password" value="{{ $pelamar?->user?->password }}"
-                        class="w-full mt-1 border-2 border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Kata Sandi" />
+                    <input type="password" name="password" value="{{ $pelamar?->user?->password }}" disabled
+                        class="w-full mt-1 border-2 border-gray-400 shadow rounded-lg px-3 py-2"
+                        placeholder="Kata Sandi" />
                 </div>
 
                 <!-- Gender -->
@@ -194,7 +209,7 @@
                             @endforeach
 
                         </div>
-                        <button data-modal-target="show-org" data-modal-toggle="show-org" type="button"
+                        <button data-modal-target="show-alamat" data-modal-toggle="show-alamat" type="button"
                             class="mb-20 ml-4">
                             <svg width="18" height="16" viewBox="0 0 10 11" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -214,8 +229,8 @@
                             class="w-full flex justify-between items-center bg-orange-500 text-white px-4 py-2 rounded-lg"
                             @if (!$pelamarSudahAda) onclick="alert('Harap buat data pelamar terlebih dahulu sebelum menambahkan Alamat.')"
         @else
-            data-modal-target="create_alamatmodal" 
-            data-modal-toggle="create_alamatmodal" @endif>
+            data-modal-target="create_alamatmodal2" 
+            data-modal-toggle="create_alamatmodal2" @endif>
                             <span>Alamat</span>
                             <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -251,7 +266,7 @@
                                 </div>
                             @endforeach
                         </div>
-                        <button data-modal-target="show-pendidikan" data-modal-toggle="show-pendidikan" type="button"
+                        <button data-modal-target="show-pendidikan2" data-modal-toggle="show-pendidikan2" type="button"
                             class="mb-20 ml-4">
                             <svg width="18" height="16" viewBox="0 0 10 11" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -302,7 +317,7 @@
                                 </div>
                             @endforeach
                         </div>
-                        <button data-modal-target="show-org" data-modal-toggle="show-org" type="button"
+                        <button data-modal-target="show-org2" data-modal-toggle="show-org2" type="button"
                             class="mb-20 ml-4">
                             <svg width="18" height="16" viewBox="0 0 10 11" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -322,8 +337,8 @@
                             class="w-full flex justify-between items-center bg-orange-500 text-white px-4 py-2 rounded-lg"
                             @if (!$pelamarSudahAda) onclick="alert('Harap buat data pelamar terlebih dahulu sebelum menambahkan Organisasi.')"
         @else
-            data-modal-target="create_organisasimodal" 
-            data-modal-toggle="create_organisasimodal" @endif>
+            data-modal-target="create_organisasimodal2" 
+            data-modal-toggle="create_organisasimodal2" @endif>
                             <span>Tambahkan Organisasi</span>
                             <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -352,7 +367,7 @@
                                 </div>
                             @endforeach
                         </div>
-                        <button data-modal-target="show-kerja" data-modal-toggle="show-kerja" type="button"
+                        <button data-modal-target="show-kerja2" data-modal-toggle="show-kerja2" type="button"
                             class="mb-20 ml-4">
                             <svg width="18" height="16" viewBox="0 0 10 11" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -372,8 +387,8 @@
                             class="w-full flex justify-between items-center bg-orange-500 text-white px-4 py-2 rounded-lg"
                             @if (!$pelamarSudahAda) onclick="alert('Harap buat data pelamar terlebih dahulu sebelum menambahkan PEngalaman Kerja.')"
         @else
-            data-modal-target="create_kerjamodal" 
-            data-modal-toggle="create_kerjamodal" @endif>
+            data-modal-target="create_kerjamodal2" 
+            data-modal-toggle="create_kerjamodal2" @endif>
                             <span>Tambahkan Pengalaman</span>
                             <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -391,7 +406,7 @@
                     <label class="text-sm font-medium">Skill</label>
                     <div class="flex justify-between">
                         <div class="p-4 w-full bg-gray-100 rounded-lg">
-                            @foreach ($pelamar->pelamar->skill ?? [] as $sk)
+                            @foreach ($pelamar->skill as $sk)
                                 <div class="mb-6">
                                     <h3 class="font-semibold text-gray-800 text-lg">
                                         {{ $sk->skill }}
@@ -402,7 +417,7 @@
                                 </div>
                             @endforeach
                         </div>
-                        <button data-modal-target="show-skill" data-modal-toggle="show-skill" type="button"
+                        <button data-modal-target="show-skill2" data-modal-toggle="show-skill2" type="button"
                             class="mb-20 ml-4">
                             <svg width="18" height="16" viewBox="0 0 10 11" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -422,8 +437,8 @@
                             class="w-full flex justify-between items-center bg-orange-500 text-white px-4 py-2 rounded-lg"
                             @if (!$pelamarSudahAda) onclick="alert('Harap buat data pelamar terlebih dahulu sebelum menambahkan Skill.')"
         @else
-            data-modal-target="create_skillmodal" 
-            data-modal-toggle="create_skillmodal" @endif>
+            data-modal-target="create_skillmodal2" 
+            data-modal-toggle="create_skillmodal2" @endif>
                             <span>Tambahkan Skill</span>
                             <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -447,15 +462,17 @@
     @endswitch">
 
                 {{-- Bidang yang Diminati --}}
-                <select id="divisi" name="divisi[]" multiple
-                    class="w-full border-2 border-gray-400 shadow rounded-lg px-3 py-2">
-                    @foreach ($divisis as $divisi)
-                        <option value="{{ $divisi->divisi }}"
-                            {{ in_array($divisi->divisi, (array) $pelamar->divisi) ? 'selected' : '' }}>
-                            {{ $divisi->divisi }}
-                        </option>
-                    @endforeach
-                </select>
+                @if (in_array($kategori, ['calon_kandidat', 'kandidat']))
+                    <select id="divisi" name="divisi[]" multiple
+                        class="w-full border-2 border-gray-400 shadow rounded-lg px-3 py-2">
+                        @foreach ($divisis as $divisi)
+                            <option value="{{ $divisi->divisi }}"
+                                {{ in_array($divisi->divisi, (array) $pelamar->divisi) ? 'selected' : '' }}>
+                                {{ $divisi->divisi }}
+                            </option>
+                        @endforeach
+                    </select>
+                @endif
 
 
                 <!-- Social Media -->
@@ -496,17 +513,18 @@
             </form>
         </div>
 
-        @include('super_admin.pelamar.modal.alamat')
+        @include('super_admin.pelamar.modal.alamat2')
         @include('super_admin.pelamar.modal.pendidikan2')
-        @include('super_admin.pelamar.modal.organisasi')
-        @include('super_admin.pelamar.modal.pengalaman')
-        @include('super_admin.pelamar.modal.skill')
+        @include('super_admin.pelamar.modal.organisasi2')
+        @include('super_admin.pelamar.modal.pengalaman2')
+        @include('super_admin.pelamar.modal.skill2')
 
         {{-- detail --}}
-        @include('super_admin.pelamar.modal.detail_pendidikan')
-        @include('super_admin.pelamar.modal.detail_organisasi')
-        @include('super_admin.pelamar.modal.detail_pengalaman')
-        @include('super_admin.pelamar.modal.detail_skill')
+        @include('super_admin.pelamar.modal.detail_pendidikan2')
+        @include('super_admin.pelamar.modal.detail_organisasi2')
+        @include('super_admin.pelamar.modal.detail_pengalaman2')
+        @include('super_admin.pelamar.modal.detail_skill2')
+        @include('super_admin.pelamar.modal.detail_alamat')
 
         {{-- edit --}}
 

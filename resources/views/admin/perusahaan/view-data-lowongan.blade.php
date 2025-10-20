@@ -86,7 +86,7 @@
                                 <li>{{ $lowongan->syarat_pekerjaan }}</li>
                             </ul>
                         </div>
- 
+
                         <!-- Aktivitas Lowongan -->
                         <div class="mb-2">
                             <h3 class="font-semibold text-lg">Aktivitas Lowongan</h3>
@@ -97,16 +97,31 @@
 
 
                 <!-- Tombol aksi -->
-                <div class="flex flex-col items-center space-y-3 max-w-lg mx-auto mt-8">
-                    <!-- Tombol Tambah Lowongan -->
-                    <button class="bg-gray-600 text-white w-96 p-2 rounded-md hover:bg-gray-500 transition duration-300">
-                        Jadikan Rekomendasi
-                    </button>
+                <div class="flex flex-col items-center space-y-4 max-w-md mx-auto mt-10 bg-white shadow-md p-6 rounded-xl">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-2">Pengaturan Rekomendasi Lowongan</h2>
+
+                    <form action="{{ route('admin.lowongan.toggleRekomendasi', $lowongan->id) }}" method="POST"
+                        class="w-full">
+                        @csrf
+                        @if ($lowongan->rekomendasi == 1)
+                            <button type="submit"
+                                class="w-full bg-orange-600 text-white font-medium py-2 rounded-lg hover:bg-orange-500 transition duration-300">
+                                Hapus dari Rekomendasi
+                            </button>
+                        @else
+                            <button type="submit"
+                                class="w-full bg-gray-700 text-white font-medium py-2 rounded-lg hover:bg-gray-600 transition duration-300">
+                                Jadikan Rekomendasi
+                            </button>
+                        @endif
+                    </form>
+
                     <a href="{{ url('/admin/perusahaan') }}"
-                        class="bg-gray-600 text-white text-center w-96 p-2 rounded-md hover:bg-gray-500 transition duration-300">
+                        class="w-full text-center bg-gray-500 text-white font-medium py-2 rounded-lg hover:bg-gray-400 transition duration-300">
                         Kembali
                     </a>
                 </div>
+
         </main>
     </div>
 @endsection

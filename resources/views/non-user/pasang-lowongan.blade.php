@@ -22,7 +22,7 @@
             <div class="flex flex-col md:flex-row justify-center gap-6">
 
                 <!-- GOLD -->
-                <div class="bg-white rounded-2xl shadow-lg w-72 overflow-hidden flex flex-col transition hover:scale-105">
+                <div class="bg-white rounded-2xl shadow-md hover:shadow-xl w-72 overflow-hidden flex flex-col transition duration-500 hover:scale-105">
                     <div class="py-3 text-center" style="background: linear-gradient(to right,#eab308, #facc15);">
                         <h3 class="text-xl font-semibold text-white">Gold</h3>
                     </div>
@@ -76,7 +76,7 @@
                 </div>
 
                 <!-- SILVER -->
-                <div class="bg-white rounded-2xl shadow-lg w-72 overflow-hidden flex flex-col transition hover:scale-105">
+                <div class="bg-white rounded-2xl shadow-md hover:shadow-xl w-72 overflow-hidden flex flex-col transition duration-500 hover:scale-105">
                     <div class="py-3 text-center" style="background: linear-gradient(to right, #81858b, #c2c4c7);">
                         <h3 class="text-xl font-semibold text-white">Silver</h3>
                     </div>
@@ -131,7 +131,7 @@
                 </div>
 
                 <!-- BRONZE -->
-                <div class="bg-white rounded-2xl shadow-lg w-72 overflow-hidden flex flex-col transition hover:scale-105">
+                <div class="bg-white rounded-2xl shadow-md hover:shadow-xl w-72 overflow-hidden flex flex-col transition duration-500 hover:scale-105">
                     <div class="py-3 text-center"
                         style="background: linear-gradient(to right, rgb(99, 86, 79),rgb(172, 161, 161));">
                         <h3 class="text-xl font-semibold text-white">Bronze</h3>

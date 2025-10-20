@@ -58,30 +58,31 @@
                 <h2 class="font-bold mb-6 text-gray-600 text-lg px-6 py-2 ">Tambah Data Lowongan</h2>
 
                 <!-- Form -->
-                <form class="space-y-6">
+                <form action="{{ route('superadmin.lowongan.saya.store', $perusahaan->id) }}" method="POST" class="space-y-6">
+                    @csrf
 
                     <!-- Baris 1: Judul & Alamat -->
                     <div class="grid grid-cols-2 gap-6">
                         <div>
                             <label for="judul" class="block text-sm font-bold mb-1">Judul <span
                                     class="text-red-600">*</span></label>
-                            <input type="text" id="judul" name="judul" required
+                            <input type="text" id="judul" name="nama" required
                                 class=" w-full border border-gray-400 rounded px-3 py-2 focus:outline-none" />
                         </div>
 
                         <div>
                             <label for="alamat" class="block text-sm font-bold mb-1">Alamat <span
                                     class="text-red-600">*</span></label>
-                            <select id="alamat" name="alamat" required
+                            <select id="alamat" name="alamat"
                                 class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none">
-                                <option value="">Pilih Alamat</option>
-                                <option>Jakarta</option>
-                                <option>Bandung</option>
-                                <option>Ciamis</option>
-                                <option>Yogyakarta</option>
-                                <option>Solo</option>
-                                <option>Semarang</option>
-                                <option>Surabaya</option>
+                                <option selected disabled value="">Pilih Alamat</option>
+                                <option value="jakarta">Jakarta</option>
+                                <option value="bandung">Bandung</option>
+                                <option value="ciamis">Ciamis</option>
+                                <option value="yogyakarta">Yogyakarta</option>
+                                <option value="solo">Solo</option>
+                                <option value="semarang">Semarang</option>
+                                <option value="surabaya">Surabaya</option>
                             </select>
                         </div>
                     </div>
@@ -91,30 +92,35 @@
                         <div class="col-span-2">
                             <label for="jenis" class="block text-sm font-bold mb-1">Jenis Lowongan <span
                                     class="text-red-600">*</span></label>
-                            <select id="jenis" name="jenis" required
+                            <select id="jenis" name="jenis"
                                 class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none">
-                                <option value="">Pilih Jenis</option>
-                                <option>Full Time</option>
-                                <option>Part Time</option>
-                                <option>Middle Time</option>
-                                <option>Freelance</option>
+                                <option selected disabled value="">Pilih Jenis</option>
+                                <option value="full_time">Full Time</option>
+                                <option value="part_time">Part Time</option>
+                                <option value="middle_time">Middle Time</option>
+                                <option value="freelance">Freelance</option>
                             </select>
                         </div>
 
                         <div class="col-span-1">
-                            <label for="gaji-min" class="block text-sm font-bold mb-1">Gaji <span
+                            <label for="gaji_awal" class="block text-sm font-bold mb-1">Gaji <span
                                     class="text-red-600">*</span></label>
-                            <input type="number" id="gaji-min" name="gaji-min" placeholder="Min"
+                            <input type="number" id="gaji_awal" name="gaji_awal" placeholder="Min"
                                 class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none" />
                         </div>
 
                         <div class="col-span-1">
-                            <label for="gaji-max" class="block mb-1 invisible">Max</label>
-                            <input type="number" id="gaji-max" name="gaji-max" placeholder="Max"
+                            <label for="gaji_akhir" class="block mb-1 invisible">Max</label>
+                            <input type="number" id="gaji_akhir" name="gaji_akhir" placeholder="Max"
                                 class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none" />
                         </div>
 
-                        <div class="col-span-1">
+                        <div>
+                            <label class="block font-medium mb-1">Kategori</label>
+                            <input type="text" name="kategori"
+                                class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none" />
+                        </div>
+                        {{-- <div class="col-span-1">
                             <label for="periode" class="block text-sm font-bold mb-1">Bulan</label>
                             <select id="periode" name="periode"
                                 class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none">
@@ -124,7 +130,7 @@
                                 <option>6 Bulan</option>
                                 <option>8 Bulan</option>
                             </select>
-                        </div>
+                        </div> --}}
                     </div>
 
                     <!-- Deskripsi -->
@@ -143,56 +149,20 @@
                         <div class="mb-4 flex items-start">
                             <label class="w-32 text-sm font-medium pt-1">Pendidikan <span
                                     class="text-red-600">*</span></label>
-
-                            <fieldset class="flex flex-col gap-2 text-sm">
-                                <!-- Baris 1 -->
-                                <div class="flex gap-4">
-                                    <label class="flex items-center gap-2 font-semibold">
-
-                                        <input type="checkbox" name="pendidikan[]" value="SD"
-                                            class="h-4 w-4 rounded-full border border-orange-500 text-orange-500 focus:ring-1 focus:ring-orange-500 font-semibold" />
-                                        SD
-                                    </label>
-                                    <label class="flex items-center gap-2 font-semibold">
-                                        <input type="checkbox" name="pendidikan[]" value="SMP"
-                                            class="h-4 w-4 rounded-full border border-orange-500 text-orange-500 focus:ring-1 focus:ring-orange-500 font-semibold" />
-                                        SMP
-                                    </label>
-                                    <label class="flex items-center gap-2 font-semibold">
-                                        <input type="checkbox" name="pendidikan[]" value="SMA"
-                                            class="h-4 w-4 rounded-full border border-orange-500 text-orange-500 focus:ring-1 focus:ring-orange-500 font-semibold" />
-                                        SMA
-                                    </label>
-                                    <label class="flex items-center gap-2 font-semibold">
-                                        <input type="checkbox" name="pendidikan[]" value="SMK"
-                                            class="h-4 w-4 rounded-full border border-orange-500 text-orange-500 focus:ring-1 focus:ring-orange-500 font-semibold" />
-                                        SMK
-                                    </label>
+                            <div class="col-span-2">
+                                <div class="grid grid-cols-4 gap-x-4 gap-y-2 ml-12">
+                                    @foreach (['SD', 'SMP', 'SMA', 'SMK', 'S1', 'S2', 'S3'] as $pend)
+                                        <label class="flex items-center gap-2 text-sm"><input
+                                                class="border border-orange-500" type="radio"
+                                                value="{{ $pend }}" name="syarat_pekerjaan">
+                                            <span>{{ $pend }}</span></label>
+                                    @endforeach
                                 </div>
-
-                                <!-- Baris 2 -->
-                                <div class="flex gap-4">
-                                    <label class="flex items-center gap-2 font-semibold">
-                                        <input type="checkbox" name="pendidikan[]" value="S1"
-                                            class="h-4 w-4 rounded-full border border-orange-500 text-orange-500 focus:ring-1 focus:ring-orange-500 font-semibold" />
-                                        S1
-                                    </label>
-                                    <label class="flex items-center gap-2 font-semibold">
-                                        <input type="checkbox" name="pendidikan[]" value="S2"
-                                            class="h-4 w-4 rounded-full border border-orange-500 text-orange-500 focus:ring-1 focus:ring-orange-500 font-semibold" />
-                                        S2
-                                    </label>
-                                    <label class="flex items-center gap-2 font-semibold">
-                                        <input type="checkbox" name="pendidikan[]" value="S3"
-                                            class="h-4 w-4 rounded-full border border-orange-500 text-orange-500 focus:ring-1 focus:ring-orange-500 font-semibold" />
-                                        S3
-                                    </label>
-                                </div>
-                            </fieldset>
+                            </div>
                         </div>
 
 
-                        <!-- Jurusan -->
+                        {{-- <!-- Jurusan -->
                         <div class="mb-4 flex items-center">
                             <!-- Label -->
                             <label for="jurusan" class="w-32 text-sm font-medium">Jurusan</label>
@@ -200,11 +170,11 @@
                             <!-- Input -->
                             <input type="text" id="jurusan" name="jurusan"
                                 class="flex-1 border border-gray-400 rounded px-2 py-1 focus:outline-none" />
-                        </div>
+                        </div> --}}
 
 
                         <!-- Gender -->
-                        <div class="mb-4 flex items-start">
+                        {{-- <div class="mb-4 flex items-start">
                             <!-- Label -->
                             <label class="w-32 text-sm font-medium pt-1">Gender <span
                                     class="text-red-600">*</span></label>
@@ -224,11 +194,11 @@
                                     Perempuan
                                 </label>
                             </fieldset>
-                        </div>
+                        </div> --}}
 
 
                         <!-- Umur -->
-                        <div class="mb-4 flex items-center">
+                        {{-- <div class="mb-4 flex items-center">
                             <!-- Label -->
                             <label for="umur-min" class="w-32 text-sm font-medium">Umur <span
                                     class="text-red-600">*</span></label>
@@ -246,17 +216,17 @@
                                 <input type="number" id="umur-max" name="umur-max" placeholder=""
                                     class="w-11 h-10 border border-gray-400 rounded-md text-center text-sm focus:outline-none" />
                             </div>
-                        </div>
+                        </div> --}}
 
                         <!-- Batas Waktu -->
                         <div class="mb-4 flex items-center">
                             <!-- Label -->
-                            <label for="batas-waktu" class="w-32 text-sm font-medium">
+                            <label for="batas_lamaran" class="w-32 text-sm font-medium">
                                 Batas Waktu <span class="text-red-600">*</span>
                             </label>
 
                             <!-- Input Date -->
-                            <input type="date" required
+                            <input type="date" name="batas_lamaran"
                                 class="w-30 border border-gray-400 rounded px-3 py-2 focus:outline-none  text-sm" />
                         </div><br>
 

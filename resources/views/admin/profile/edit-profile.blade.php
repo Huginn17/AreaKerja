@@ -49,7 +49,7 @@
 
         <div class="p-4">
 
-            <div class="p-6 rounded-lg border border-gray-400 shadow">
+            <div class="p-6 rounded-lg border-2 border-gray-400 shadow">
                 {{-- header --}}
                 <h2 class="text-lg font-semibold mb-6">Edit Profile</h2>
 
@@ -75,7 +75,7 @@
                         <div class="flex flex-col gap-3 scale-90">
                             <input type="file" name="img_profile" id="fileinputadmin" accept="image/*" class="hidden">
                             <button type="button" onclick="document.getElementById('fileinputadmin').click();"
-                                class="flex items-center gap-2 px-4 py-2 text-sm border-2 border-gray-500 bg-gray-500 text-white rounded-md">
+                                class="flex items-center gap-2 px-4 py-2 text-sm border-2 border-gray-400 bg-green-600 hover:bg-green-700 text-white rounded-md">
                                 <!-- Icon upload -->
                                 <svg width="13" height="13" viewBox="0 0 13 13" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -87,7 +87,7 @@
                             </button>
                             <button type="button"
                                 onclick="event.preventDefault(); document.getElementById('removeadminForm').submit();"
-                                class="flex items-center gap-2 px-4 py-2 mt-1 text-sm border-2 border-gray-500 text-gray-600 rounded-md hover:bg-gray-100">
+                                class="flex items-center gap-2 px-4 py-2 mt-1 text-sm border-2 border-gray-400 text-white rounded-md bg-red-500 hover:bg-red-600">
                                 <!-- Icon trash -->
                                 <svg width="13" height="14" viewBox="0 0 13 14" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -104,13 +104,13 @@
                         <div>
                             <label class="block mb-1 text-sm font-medium" for="">Email</label>
                             <input type="email" name="email" value="{{ Auth::user()->email }}" readonly
-                                class="w-full p-2 border border-gray-400 shadow rounded-md text-sm " placeholder="Email">
+                                class="w-full p-2 border-2 border-gray-400 shadow rounded-md text-sm " placeholder="Email">
                         </div>
                         {{-- username --}}
                         <div>
                             <label for="" class="block mb-1 text-sm font-medium">Username</label>
                             <input type="text" name="username" value="{{ Auth::user()->username }}"
-                                class="w-full p-2 border border-gray-400 shadow rounded-md text-sm" placeholder="Username">
+                                class="w-full p-2 border-2 border-gray-400 shadow rounded-md text-sm" placeholder="Username">
                         </div>
                     </div>
 
@@ -118,7 +118,7 @@
                     <div>
                         <label for="" class="block mb-1 text-sm font-medium">Nama Lengkap</label>
                         <input type="text" name="nama_lengkap" value="{{ Auth::user()->admin->nama_lengkap }}"
-                            class="w-[455px] p-2 border border-gray-400 shadow rounded-md text-sm"
+                            class="w-[455px] p-2 border-2 border-gray-400 shadow rounded-md text-sm"
                             placeholder="Nama Lengkap">
                     </div>
 
@@ -127,7 +127,7 @@
                         <div class="mr-[25px]">
                             <label for="" class="block mb-1 text-sm font-medium">Provinsi</label>
                             <select id="provinsiSelect" name="provinsi_id"
-                                class="w-full border border-gray-400 rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-gray-500">
+                                class="w-full border-2 border-gray-400 rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-gray-500">
                                 <option value="">Pilih Provinsi</option>
                                 @foreach ($provinsis as $prov)
                                     <option value="{{ $prov->id }}"
@@ -140,7 +140,7 @@
                         <div class="mr-[25px]">
                             <label for="" class="block mb-1 mr-10 text-sm font-medium">Kota/Kabupaten</label>
                             <select id="kotaSelect" name="kota_id"
-                                class="w-full border border-gray-400 rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-gray-500">
+                                class="w-full border-2 border-gray-400 rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-gray-500">
                                 <option value="">Pilih Kota</option>
                                 @if ($data->kota)
                                     <option value="{{ $data->kota_id }}" selected>{{ $data->kota->nama }}</option>
@@ -151,7 +151,7 @@
                         <div>
                             <label for="" class="block mb-1 mr-10 text-sm font-medium">Kecamatan</label>
                             <select id="kecamatanSelect" name="kecamatan_id"
-                                class="w-full border border-gray-400 rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-gray-500">
+                                class="w-full border-2 border-gray-400 rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-gray-500">
                                 <option value="">Pilih Kecamatan</option>
                                 @if ($data->kecamatan)
                                     <option value="{{ $data->kecamatan_id }}" selected>{{ $data->kecamatan->nama }}
@@ -166,12 +166,12 @@
                         <div class="mr-2">
                             <label class="block mb-1 text-sm font-medium">Desa</label>
                             <input type="text" name="desa" value="{{ Auth::user()->admin->desa }}"
-                                class="w-48 p-2 shadow border border-gray-400 rounded-md text-sm" placeholder="-">
+                                class="w-48 p-2 shadow border-2 border-gray-400 rounded-md text-sm" placeholder="-">
                         </div>
                         <div class="ml-5">
                             <label class="block mb-1 text-sm font-medium">Kode Pos</label>
                             <input type="text" name="kode_pos" value="{{ Auth::user()->admin->kode_pos }}"
-                                class="w-48 border-gray-400 shadow p-2 border rounded-lg text-sm" />
+                                class="w-48 border-2 border-gray-400 shadow p-2 border rounded-lg text-sm" />
                         </div>
                     </div>
 
@@ -179,17 +179,17 @@
                     <div>
                         <label for="" class="block mb-1 text-sm font-medium">Detail Lainnya</label>
                         <input type="text" name="detail_alamat" value="{{ Auth::user()->admin->detail_alamat }}"
-                            class="w-full p-2 shadow border border-gray-400 rounded-md text-sm"
+                            class="w-full p-2 shadow border-2 border-gray-400 rounded-md text-sm"
                             placeholder="Detail Lainnya">
                     </div>
 
                     <!-- Button -->
                     <div class="md:col-span-2 flex justify-center items-center gap-4">
                         <a href="{{ route('admin.profile') }}"
-                            class="bg-red-500 text-white font-medium px-12 py-1 rounded-md hover:bg-red-600 border border-red-500 transition">Batal
+                            class="bg-red-600 text-white font-medium px-12 py-1 rounded-md hover:bg-red-700 border border-red-500 transition">Batal
                         </a>
                         <button type="submit"
-                            class="bg-green-500 text-white font-medium px-10 py-1 rounded-md hover:bg-green-600 border border-green-500 transition">Simpan
+                            class="bg-green-600 text-white font-medium px-10 py-1 rounded-md hover:bg-green-700 border border-green-500 transition">Simpan
                         </button>
                     </div>
             </div>

@@ -6,6 +6,7 @@ use App\Models\CatatanKoin;
 use App\Models\Hargakoin;
 use App\Models\LowonganPerusahaan;
 use App\Models\PaketLowongan;
+use App\Models\Perusahaan;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -125,6 +126,10 @@ class LowonganPerusahaanController extends Controller
             return redirect()->back()->with('error', 'Lowongan tidak valid.');
         }
 
+        if ($lowongan->expired_at && $lowongan->expired_at > now()) {
+            return redirect()->back()->with('error', 'Lowongan ini masih aktif dan belum bisa dipublish ulang.');
+        }
+
         // Pastikan lowongan punya paket
         if (!$lowongan->paket_id) {
             return redirect()->route('paket.form')
@@ -132,17 +137,19 @@ class LowonganPerusahaanController extends Controller
         }
 
         $paket = PaketLowongan::find($lowongan->paket_id);
-
         if (!$paket) {
             return redirect()->back()->with('error', 'Paket tidak ditemukan.');
         }
 
-        // Sudah pernah publish?
-        if ($lowongan->published_at) {
-            return redirect()->back()->with('error', 'Lowongan ini sudah dipublish.');
+        if ($lowongan->expired_at && $lowongan->expired_at < now() && $lowongan->published_at !== null) {
+            $lowongan->update(['paket_id' => null]);
+
+            return redirect()
+                ->route('paket.form')
+                ->with('error', 'Masa aktif paket sebelumnya telah habis. Silakan beli paket baru untuk mempublish ulang lowongan ini.');
         }
 
-        // 🔹 Cukup update status publish & tanggal aktif
+
         $lowongan->update([
             'published_at' => now(),
             'expired_at'   => now()->addDays($paket->batas_listing),
@@ -199,13 +206,119 @@ class LowonganPerusahaanController extends Controller
         // 🔹 Potong koin
         $perusahaan->decrement('koin_perusahaan', $harga);
 
+        // 🔹 Reset paket lama jika sudah expired atau ada paket baru
+        $lowongan->update([
+            'paket_id'     => $paket->id,
+            'published_at' => null, // reset agar bisa publish ulang
+            'expired_at'   => null, // akan diisi saat publish
+        ]);
+
         // 🔹 Ikatkan paket ke lowongan (belum publish)
         $lowongan->update([
             'paket_id'   => $paket->id,
-            'expired_at' => now()->addDays($paket->batas_listing),
+            'published_at' => null,
+            'expired_at'   => null,
         ]);
 
         return redirect()->route('lowongan.saya.perusahaan')
             ->with('success', "Paket {$paket->nama} berhasil dibeli dan diikatkan ke lowongan {$lowongan->nama}. Silakan klik Publish untuk mengaktifkan.");
+    }
+
+
+    //REKOMENDASI
+    public function toggleRekomendasi($id)
+    {
+        $lowongan = LowonganPerusahaan::findOrFail($id);
+
+        $lowongan->rekomendasi = $lowongan->rekomendasi ? 0 : 1;
+        $lowongan->save();
+
+        $pesan = $lowongan->rekomendasi
+            ? 'Lowongan berhasil dijadikan rekomendasi.'
+            : 'Lowongan berhasil dihapus dari rekomendasi.';
+
+        return redirect()->back()->with('success', $pesan);
+    }
+
+
+
+    //SUPER ADMIN
+    public function createFormSuper($id)
+    {
+        $pakets = PaketLowongan::all();
+        $perusahaan = Perusahaan::findOrFail($id);
+        return view('super_admin.perusahaan.tambah-lowongan', [
+            'perusahaan' => $perusahaan,
+            'pakets' => $pakets
+        ]);
+    }
+
+    public function storeSuper(Request $request, $id)
+    {
+        // dd($request->all());
+        $valid = $request->validate([
+            "nama"    =>    "required",
+            "alamat"  =>    "required",
+            "jenis"   =>    "required",
+            "gaji_awal"  =>   "required",
+            "gaji_akhir"  =>   "required",
+            "deskripsi"   =>    "required",
+            "syarat_pekerjaan"  =>   "required",
+            "batas_lamaran"        =>   "required",
+            'kategori' => 'required'
+        ]);
+
+        $perusahaan = Perusahaan::findOrFail($id);
+
+        $valid['perusahaan_id'] = $perusahaan->id;
+        $valid['slug'] = Str::slug($request->nama . '-' . time());
+        $valid['tanggung_jawab'] = $perusahaan->nama_perusahaan;
+        LowonganPerusahaan::create($valid);
+        return redirect()->route('superadmin.perusahaan.detail', $perusahaan->id)->with('success', 'Lowongan berhasil ditambahkan!');
+    }
+
+    // public function showSuper(LowonganPerusahaan $lowongan)
+    // {
+    //     return view('super_admin.perusahaan.detail-lowongan', [
+    //         "data" => $lowongan,
+    //         "Data" => LowonganPerusahaan::all(),
+    //     ]);
+    // }
+
+    public function editSuper(LowonganPerusahaan $lowongan)
+    {
+        return view('super_admin.perusahaan.edit-lowongan', [
+            "lowongan" => $lowongan
+        ]);
+    }
+
+    public function updateSuper(Request $request, LowonganPerusahaan $lowongan)
+    {
+        $valid = $request->validate([
+            'nama' => 'nullable|string|max:255',
+            'jenis' => 'nullable|string',
+            'gaji_awal' => 'nullable|numeric',
+            'gaji_akhir' => 'nullable|numeric',
+            'alamat' => 'nullable|string',
+            'kategori' => 'nullable|string',
+            'batas_lamaran' => 'nullable|date',
+            'deskripsi' => 'nullable|string',
+            'syarat_pekerjaan' => 'nullable|string',
+        ]);
+
+        $valid['perusahaan_id'] = $lowongan->perusahaan->id;
+        if ($request->filled('nama')) {
+            $valid['slug'] = Str::slug($request->nama . '-' . time());
+        }
+        $lowongan->update($valid);
+        return redirect()->route('superadmin.lowongan.detail', $lowongan->id)->with('success', 'Lowongan berhasil diperbarui.');
+    }
+
+
+    public function destroySuper(LowonganPerusahaan $lowongan)
+    {
+        $perusahaanId = $lowongan->perusahaan_id;
+        $lowongan->delete();
+        return redirect()->route('superadmin.perusahaan.detail',$perusahaanId)->with('success', 'Lowongan berhasil dihapus.');
     }
 }

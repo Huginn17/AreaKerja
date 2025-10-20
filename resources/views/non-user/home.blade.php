@@ -1,7 +1,7 @@
 @extends('layouts.index')
 
 @section('content')
-    <section class="bg-white py-8">
+    <section class="bg-white py-8 mt-20">
         <div class="max-w-5xl mx-auto px-5">
             {{-- Search Bar --}}
             <div
@@ -99,12 +99,19 @@
                     <div x-data="{ open: false, showConfirm: false, showSuccess: false }"
                         class="border p-6 rounded-lg shadow-sm hover:shadow-md transition bg-white">
 
+
                         {{-- Header --}}
                         <div class="flex justify-between items-start">
+                            {{-- 🔹 Label Direkomendasikan --}}
                             <div>
+                                @if ($d->rekomendasi == 1)
+                                    <p class="bg-[#fdedf4] w-fit px-3 py-1 text-blue-500 font-semibold rounded-md text-xs">
+                                        Direkomendasikan
+                                    </P>
+                                @endif
                                 @if ($d->urgent ?? true)
-                                    <p class="bg-[#fdedf4] w-fit px-3 py-1 text-[#9d2b6b] font-semibold rounded-md text-xs">
-                                        Dibutuhkan segera
+                                    <p class="bg-[#fdedf4] w-fit px-3 py-1 text-[#9d2b6b] font-semibold rounded-md text-xs mt-3">
+                                     Dibutuhkan segera
                                     </p>
                                 @endif
 
