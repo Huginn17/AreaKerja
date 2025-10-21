@@ -50,8 +50,10 @@
 
         {{-- content --}}
         <div class="flex gap-2 mb-6 mt-14 justify-end">
-        <input id="cari" type="text" placeholder="nama/username ..."class="border border-gray-600 rounded-lg px-4 py-2 w-72">
-        <button type="button" onclick="searchTable()"class="bg-orange-500 hover:bg-orange-600 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
+            <input id="cari" type="text"
+                placeholder="nama/username ..."class="border border-gray-600 rounded-lg px-4 py-2 w-72">
+            <button type="button"
+                onclick="searchTable()"class="bg-orange-500 hover:bg-orange-600 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
         </div>
 
         <!-- Wrapper -->
@@ -59,25 +61,25 @@
 
 
             <!-- Table -->
-        
-          <div class="w-full border border-gray-400 rounded-2xl shadow-sm overflow-y-auto">
-  <table class="w-full text-sm text-center">
-    <thead class="border-b border-gray-300">
-      <tr class="text-gray-700">
-        <th class="p-4 font-semibold">No</th>
-        <th class="p-4 font-semibold">Username</th>
-        <th class="p-4 font-semibold">Email</th>
-        <th class="p-4 font-semibold">Role</th>
-        <th class="p-4 font-semibold">Telepon</th>
-        <th class="p-4 font-semibold">Alamat</th>
-        <th class="p-4 font-semibold">Status</th>
-        <th class="p-4 font-semibold">Aksi</th>
-      </tr>
-    </thead>
-                <tbody class="divide-y divide-gray-400">
-                    @foreach ($data as $d)
-                        <!-- Baris Data -->
-                       
+
+            <div class="w-full border border-gray-400 rounded-2xl shadow-sm overflow-y-auto">
+                <table class="w-full text-sm text-center">
+                    <thead class="border-b border-gray-300">
+                        <tr class="text-gray-700">
+                            <th class="p-4 font-semibold">No</th>
+                            <th class="p-4 font-semibold">Username</th>
+                            <th class="p-4 font-semibold">Email</th>
+                            <th class="p-4 font-semibold">Role</th>
+                            <th class="p-4 font-semibold">Telepon</th>
+                            <th class="p-4 font-semibold">Alamat</th>
+                            <th class="p-4 font-semibold">Status</th>
+                            <th class="p-4 font-semibold">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-400">
+                        @foreach ($data as $d)
+                            <!-- Baris Data -->
+
                             <tr class="border-2 border-gray-400"></tr>
                             <td class="px-6 py-4">{{ $d->id }}</td>
                             <td class="px-6 py-4">{{ $d->username }}</td>
@@ -97,18 +99,49 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4">
-                                @if ($d->role == 'pelamar')
-                                    {{ $d->pelamar()->latest()->first()->alamat_pelamar()->latest()->first()->provinsi ?? '-' }}
-                                @elseif ($d->role == 'perusahaan')
-                                    {{ $d->perusahaan()->latest()->first()->alamat_perusahaan()->latest()->first()->provinsi ?? '-' }}
-                                @elseif ($d->role == 'finance')
-                                    {{ $d->finance->provinsi ?? '-' }}
-                                @elseif ($d->role == 'admin')
-                                    {{ $d->admin->provinsi ?? '-' }}
-                                @elseif ($d->role == 'super_admin')
-                                    {{ $d->super_admin->provinsi ?? '-' }}
-                                @endif
+                                @php
+                                    $provinsi = '-';
+
+                                    if ($d->role == 'pelamar') {
+                                        $alamat = $d
+                                            ->pelamar()
+                                            ->latest()
+                                            ->first()
+                                            ?->alamat_pelamar()
+                                            ->latest()
+                                            ->first();
+                                        $provinsi = is_object($alamat?->provinsi)
+                                            ? $alamat->provinsi->nama
+                                            : $alamat?->provinsi ?? '-';
+                                    } elseif ($d->role == 'perusahaan') {
+                                        $alamat = $d
+                                            ->perusahaan()
+                                            ->latest()
+                                            ->first()
+                                            ?->alamat_perusahaan()
+                                            ->latest()
+                                            ->first();
+                                        $provinsi = is_object($alamat?->provinsi)
+                                            ? $alamat->provinsi->nama
+                                            : $alamat?->provinsi ?? '-';
+                                    } elseif ($d->role == 'finance') {
+                                        $provinsi = is_object($d->finance?->provinsi)
+                                            ? $d->finance->provinsi->nama
+                                            : $d->finance?->provinsi ?? '-';
+                                    } elseif ($d->role == 'admin') {
+                                        $provinsi = is_object($d->admin?->provinsi)
+                                            ? $d->admin->provinsi->nama
+                                            : $d->admin?->provinsi ?? '-';
+                                    } elseif ($d->role == 'super_admin') {
+                                        $provinsi = is_object($d->super_admin?->provinsi)
+                                            ? $d->super_admin->provinsi->nama
+                                            : $d->super_admin?->provinsi ?? '-';
+                                    }
+                                @endphp
+
+                                {{ $provinsi }}
                             </td>
+
                             <td class="px-6 py-4">
                                 @if ($d->status == 0)
                                     <span
@@ -141,21 +174,21 @@
                                     </svg>
                                 </a>
                             </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-        <script>
-            document.getElementById("cari").addEventListener("keyup", function() {
-                let input = this.value.toLowerCase();
-                let rows = document.querySelectorAll("#myTable tbody tr");
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <script>
+                document.getElementById("cari").addEventListener("keyup", function() {
+                    let input = this.value.toLowerCase();
+                    let rows = document.querySelectorAll("#myTable tbody tr");
 
-                rows.forEach(row => {
-                    let rowText = row.innerText.toLowerCase();
-                    row.style.display = rowText.includes(input) ? "" : "none";
+                    rows.forEach(row => {
+                        let rowText = row.innerText.toLowerCase();
+                        row.style.display = rowText.includes(input) ? "" : "none";
+                    });
                 });
-            });
-        </script>
+            </script>
     </main>
 @endsection

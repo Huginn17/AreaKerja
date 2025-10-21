@@ -53,7 +53,8 @@
                 <!-- Role -->
                 <div>
                     <label class="block text-sm font-medium mb-1">Role</label>
-                    <select name="role" id="roleSelect" class="w-full border-2 border-gray-400 rounded-md px-3 py-2" required>
+                    <select name="role" id="roleSelect" class="w-full border-2 border-gray-400 rounded-md px-3 py-2"
+                        required>
                         <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
                         <option value="finance" {{ old('role', $user->role) == 'finance' ? 'selected' : '' }}>Finance
                         </option>
@@ -119,6 +120,86 @@
                         </div>
                     </div>
                 </div>
+
+                {{-- ----------------- FORM PELAMAR -------------------- --}}
+                <div id="form-pelamar" class="{{ old('role', $user->role ?? '') == 'pelamar' ? '' : 'hidden' }} space-y-4">
+                    <h3 class="font-semibold text-gray-700 mt-4">Data Pelamar</h3>
+
+                    <input type="hidden" name="kategori" value="pelamar">
+
+                    {{-- Nama Pelamar --}}
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Nama Pelamar</label>
+                        <input type="text" name="nama_pelamar"
+                            value="{{ old('nama_pelamar', $detail->nama_pelamar ?? '') }}"
+                            class="w-full border rounded-md px-3 py-2" required>
+                    </div>
+
+                    {{-- Gender --}}
+                    <div>
+                        <label class="block text-md font-medium mb-1">Gender <span class="text-red-500">*</span></label>
+                        <div class="flex gap-6 mt-1">
+                            <label class="flex items-center gap-2">
+                                <input type="radio" name="gender" value="laki-laki"
+                                    class="accent-orange-500 border-2 border-orange-500"
+                                    {{ old('gender', $detail->gender ?? '') == 'laki-laki' ? 'checked' : '' }}>
+                                <span>Laki-Laki</span>
+                            </label>
+                            <label class="flex items-center gap-2">
+                                <input type="radio" name="gender" value="perempuan"
+                                    class="accent-orange-500 border-2 border-orange-500"
+                                    {{ old('gender', $detail->gender ?? '') == 'perempuan' ? 'checked' : '' }}>
+                                <span>Perempuan</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    {{-- Tanggal Lahir --}}
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Tanggal Lahir</label>
+                        <input type="date" name="tanggal_lahir"
+                            value="{{ old('tanggal_lahir', $detail->tanggal_lahir ?? '') }}"
+                            class="w-full border rounded-md px-3 py-2">
+                    </div>
+
+                    {{-- Deskripsi Diri --}}
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Deskripsi Diri</label>
+                        <textarea name="deskripsi_diri" class="w-full border rounded-md px-3 py-2" rows="2">{{ old('deskripsi_diri', $detail->deskripsi_diri ?? '') }}</textarea>
+                    </div>
+
+                    {{-- Kontak --}}
+                    <h3 class="font-semibold text-gray-700 mt-4">Kontak</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">No. Telepon Pelamar</label>
+                            <input type="text" name="telepon_pelamar"
+                                value="{{ old('telepon_pelamar', $detail->telepon_pelamar ?? '') }}"
+                                class="w-full border rounded-md px-3 py-2">
+                        </div>
+                    </div>
+
+                    {{-- Ekspektasi Gaji --}}
+                    <div>
+                        <label class="text-lg font-medium">Ekspektasi Gaji</label>
+                        <div class="flex items-center gap-2 mt-1">
+                            <div class="border border-black rounded-md px-4 py-2 text-orange-500 w-29">
+                                <span class="text-orange-500">Rp.</span>
+                                <input type="number" name="gaji_minimal"
+                                    value="{{ old('gaji_minimal', $detail->gaji_minimal ?? '') }}"
+                                    class="outline-none border-none w-24">
+                            </div>
+                            <span>-</span>
+                            <div class="border border-black rounded-md px-4 py-2 w-29">
+                                <span>Rp.</span>
+                                <input type="number" name="gaji_maksimal"
+                                    value="{{ old('gaji_maksimal', $detail->gaji_maksimal ?? '') }}"
+                                    class="outline-none border-none w-24">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
                 <!-- ================= FORM PERUSAHAAN ================= -->
                 <div id="form-perusahaan" class="hidden space-y-4">
@@ -202,34 +283,51 @@
             const fileInput = document.getElementById("fileinputrole");
             const formAlamat = document.getElementById("form-alamat");
             const formPerusahaan = document.getElementById("form-perusahaan");
-
-            // Pastikan semua elemen ditemukan sebelum lanjut
-            if (!roleSelect || !profileImg || !fileInput || !formAlamat || !formPerusahaan) {
-                console.warn("⚠️ Beberapa elemen form tidak ditemukan di halaman edit user.");
-                return; // hentikan script agar tidak error
-            }
+            const formPelamar = document.getElementById("form-pelamar");
 
             const roleImages = {
                 "admin": "{{ asset('images/admin-default.png') }}",
                 "finance": "{{ asset('images/finance-default.png') }}",
                 "perusahaan": "{{ asset('images/company-default.png') }}",
-                "pelamar": "{{ asset('images/user-default.png') }}"
+                "pelamar": "{{ asset('images/pelamar-default.png') }}"
             };
 
             function toggleForms(role) {
+                // ambil semua input dari setiap form
+                const alamatInputs = formAlamat.querySelectorAll('input, textarea, select');
+                const perusahaanInputs = formPerusahaan.querySelectorAll('input, textarea, select');
+                const pelamarInputs = formPelamar.querySelectorAll('input, textarea, select');
+
+                // sembunyikan semua form dulu
+                formAlamat.classList.add("hidden");
+                formPerusahaan.classList.add("hidden");
+                formPelamar.classList.add("hidden");
+
+                // hapus atribut required dari semua input (biar tidak error saat hidden)
+                alamatInputs.forEach(input => input.removeAttribute('required'));
+                perusahaanInputs.forEach(input => input.removeAttribute('required'));
+                pelamarInputs.forEach(input => input.removeAttribute('required'));
+
+                // tampilkan dan atur required sesuai role
                 if (role === "perusahaan") {
                     formPerusahaan.classList.remove("hidden");
-                    formAlamat.classList.add("hidden");
+                    formPerusahaan.querySelector('[name="nama_perusahaan"]').setAttribute('required', true);
+                } else if (role === "pelamar") {
+                    formPelamar.classList.remove("hidden");
+                    formPelamar.querySelector('[name="nama_pelamar"]').setAttribute('required', true);
                 } else {
-                    formPerusahaan.classList.add("hidden");
                     formAlamat.classList.remove("hidden");
+                    const namaLengkap = formAlamat.querySelector('[name="nama_lengkap"]');
+                    if (namaLengkap) {
+                        namaLengkap.setAttribute('required', true);
+                    }
                 }
             }
 
-            // Jalankan pertama kali
+            // Jalankan sekali saat halaman selesai dimuat
             toggleForms(roleSelect.value);
 
-            // Event: ubah form sesuai role
+            // Ubah form & gambar profil ketika role berubah
             roleSelect.addEventListener("change", function() {
                 const selectedRole = this.value;
                 toggleForms(selectedRole);
@@ -240,7 +338,7 @@
                 }
             });
 
-            // Event: preview foto profil baru
+            // Preview gambar upload
             fileInput.addEventListener("change", function() {
                 const file = this.files[0];
                 if (file) {

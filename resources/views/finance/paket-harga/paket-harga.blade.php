@@ -76,7 +76,7 @@
                         class="bg-orange-500 text-white text-sm px-5 py-1 rounded-full">Edit</a>
                 </div>
 
-                <div class="overflow-hidden border-2 border-gray-400 rounded-2xl">
+                <div class="overflow-hidden border shadow-md rounded-2xl">
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-orange-500 text-white">
@@ -104,7 +104,7 @@
                         class="bg-orange-500 text-white text-sm px-5 py-1 rounded-full">Edit</a>
                 </div>
 
-                <div class="overflow-hidden border-2 border-gray-400 rounded-2xl">
+                <div class="overflow-hidden border shadow-md rounded-2xl">
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-orange-500 text-white">

@@ -3,7 +3,7 @@
 @section('sidebarsuperadmin')
     <main class="flex-1 p-6 sm:ml-64 bg-white overflow-y-auto">
         <div class="flex items-center justify-center min-h-screen">
-            <div class="w-full max-w-4xl p-6 rounded-lg border border-gray-400 shadow-sm bg-white">
+            <div class="w-full max-w-4xl p-6 rounded-lg border-2 border-gray-400 shadow-sm bg-white">
                 <h2 class="text-center text-xl font-semibold mb-6">View Profile</h2>
 
                 {{-- Foto Profil --}}
@@ -66,16 +66,18 @@
                     </div>
 
                     {{-- Alamat --}}
-                    @if (in_array($user->role, ['admin', 'finance', 'pelamar']))
+                    @if (in_array($user->role, ['admin', 'finance']))
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium mb-1">Provinsi</label>
-                                <input type="text" class="w-full border-2 border-gray-400 rounded-md px-3 py-2 bg-gray-100"
+                                <input type="text"
+                                    class="w-full border-2 border-gray-400 rounded-md px-3 py-2 bg-gray-100"
                                     value="{{ $user->{$user->role}?->provinsi }}" disabled>
                             </div>
                             <div>
                                 <label class="block text-sm font-medium mb-1">Kota</label>
-                                <input type="text" class="w-full border-2 border-gray-400 rounded-md px-3 py-2 bg-gray-100"
+                                <input type="text"
+                                    class="w-full border-2 border-gray-400 rounded-md px-3 py-2 bg-gray-100"
                                     value="{{ $user->{$user->role}?->kota }}" disabled>
                             </div>
                         </div>
@@ -92,6 +94,27 @@
                             <label class="block text-sm font-medium mb-1">Website</label>
                             <input type="text" class="w-full border-2 border-gray-400 rounded-md px-3 py-2 bg-gray-100"
                                 value="{{ $user->perusahaan?->website_perusahaan }}" disabled>
+                        </div>
+                    @endif
+
+                    {{-- Detail Pelamar --}}
+                    @if ($user->role === 'pelamar')
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Deskripsi Diri</label>
+                            <textarea name="deskripsi_diri" class="w-full border-2 border-gray-400 rounded-md px-3 py-2 bg-gray-100" rows="2"
+                                disabled>{{ old('deskripsi_diri', $user->pelamar?->deskripsi_diri ?? '') }}</textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Tanggal Lahir</label>
+                            <input type="date" name="tanggal_lahir"
+                                value="{{ old('tanggal_lahir', $user->pelamar?->tanggal_lahir ?? '') }}"
+                                class="w-full border-2 border-gray-400 rounded-md px-3 py-2 bg-gray-100" disabled>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">No Telepon Pelamar</label>
+                            <input type="text" name="telepon_pelamar"
+                                value="{{ old('telepon_pelamar', $user->pelamar?->telepon_pelamar ?? '') }}"
+                                class="w-full border-2 border-gray-400 rounded-md px-3 py-2 bg-gray-100" disabled>
                         </div>
                     @endif
 

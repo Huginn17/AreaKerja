@@ -79,7 +79,7 @@ class DatabaseSeeder extends Seeder
 
         Hargakoin::create([
             "nama"     =>      "Pasang Lowongan Bronze",
-            "harga"    =>      150
+            "harga"    =>      100
         ]);
 
         Hargakoin::create([
@@ -88,7 +88,7 @@ class DatabaseSeeder extends Seeder
         ]);
         Hargakoin::create([
             "nama"     =>      "Pasang Lowongan Gold",
-            "harga"    =>      150
+            "harga"    =>      200
         ]);
         Hargakoin::create([
             "nama"     =>      "Open Talent Hunter",
@@ -182,17 +182,17 @@ class DatabaseSeeder extends Seeder
             [
                 'nama' => 'Gold',
                 'batas_listing' => 5,   // aktif 7 hari
-                'harga' => 200          // harga 50 koin
+                // 'harga' => 200          // harga 50 koin
             ],
             [
                 'nama' => 'Silver',
                 'batas_listing' => 3,   // aktif 3 hari
-                'harga' => 150,          // harga 30 koin
+                // 'harga' => 150,          // harga 30 koin
             ],
             [
                 'nama' => 'Bronze',
                 'batas_listing' => 1,   // aktif 1 hari
-                'harga' => 100,          // harga 10 koin
+                // 'harga' => 100,          // harga 10 koin
             ],
         ];
 

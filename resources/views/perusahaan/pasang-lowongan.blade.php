@@ -7,7 +7,7 @@
 
                 @foreach ($pakets as $paket)
                     <div class="w-72">
-                        <div class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col">
+                        <div class="bg-white border border-gray-400 rounded-xl shadow-md overflow-hidden flex flex-col hover:scale-105">
                             <!-- Warna header sesuai nama paket -->
                             <div
                                 class="py-3 text-center 
@@ -71,7 +71,7 @@
                 </p>
 
                 <label class="block mb-2 text-sm">Pilih Lowongan</label>
-                <select name="lowongan_id" required class="w-full border rounded-md px-2 py-1 mb-4">
+                <select name="lowongan_id" required class="w-full border-2 border-gray-400 rounded-md px-2 py-1 mb-4">
                     <option value="">-- Pilih Lowongan --</option>
                     @foreach ($perusahaan->pasanglowongan as $lowongan)
                         <option value="{{ $lowongan->id }}">{{ $lowongan->nama }}</option>
@@ -80,7 +80,7 @@
 
                 <div class="flex justify-end gap-2">
                     <button type="button" onclick="closeModal()"
-                        class="px-4 py-2 bg-gray-400 text-white rounded-lg">Batal</button>
+                        class="px-4 py-2 bg-gray-400 hover:bg-gray-500 text-white rounded-lg">Batal</button>
                     <button type="submit"
                         class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">Konfirmasi</button>
                 </div>

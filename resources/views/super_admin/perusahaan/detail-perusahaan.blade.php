@@ -144,7 +144,7 @@
                     <form action="{{ route('superadmin.delete.akun', $perusahaan->user->id) }}" method="POST"
                         onsubmit="return confirm('Yakin ingin menghapus user ini? Data tidak bisa dikembalikan!')">
                         @csrf @method('DELETE')
-                        <button type="submit" class="bg-red-700 text-white w-full px-24 py-2 rounded-md hover:bg-red-600">
+                        <button type="submit" class="bg-red-700 text-center text-white w-full px-24 py-2 rounded-md hover:bg-red-600">
                             Hapus
                         </button>
                     </form>

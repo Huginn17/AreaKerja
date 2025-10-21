@@ -122,7 +122,7 @@
         </div>
 
         <!-- Table -->
-        <div class="overflow-hidden rounded-2xl border border-gray-300">
+        <div class="overflow-hidden rounded-2xl border-2 border-gray-400">
             <table class="w-full text-left border-collapse">
                 <thead class="text-center">
                          <tr class="border-b-[2px] border-gray-300">

@@ -237,7 +237,7 @@
         <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-md text-center animate-fade-in">
             <h3 class="text-xl font-semibold mb-4 text-gray-800">Pilih Lowongan</h3>
             <select id="selectLowongan"
-                class="w-full border rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:outline-none">
+                class="w-full border-2 border-gray-400 rounded-lg px-4 py-2 text-sm  focus:outline-none">
                 @foreach (auth()->user()->perusahaan->lowonganPerusahaans as $low)
                     <option value="{{ $low->id }}">{{ $low->nama }}</option>
                 @endforeach

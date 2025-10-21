@@ -43,7 +43,7 @@
             </div>
         </div><br>
 
-        <div class="max-w-6xl mx-auto p-6 bg-white border-2 border-2-gray-400 rounded-2xl shadow-md">
+        <div class="max-w-6xl mx-auto p-6 bg-white border-2 border-gray-400 rounded-2xl shadow-md">
             <h2 class="text-lg font-semibold mb-10">Tambah Perusahaan</h2>
             <!-- Header -->
             <div class="flex items-center justify-between mb-10">

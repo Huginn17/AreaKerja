@@ -62,7 +62,7 @@
                     <div>
                         <h2 class="text-lg font-bold">{{ $data->nama_pelamar }}</h2>
                         <p class="text-sm font-semibold text-gray-700">
-                            {{ $data->deskripsi_diri ?? 'Football Player Fc Barcelona' }}
+                            {{ $data->deskripsi_diri ?? 'Data Belum Diisi' }}
                         </p>
                     </div>
                 </div>
@@ -94,7 +94,7 @@
                                     {{ $data->sosmed->latest()->first()->twitter ?? 'tidak ada data' }}</span></p>
                         </div>
                     @else
-                        <p class="text-gray-500">Sepakbola Proffesional</p>
+                        <p class="text-gray-500">Data Belum Diisi</p>
                     @endif
 
                     <!-- Kolom Kanan -->

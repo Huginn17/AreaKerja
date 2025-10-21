@@ -174,6 +174,8 @@ class LowonganPerusahaanController extends Controller
             'lowongan_id' => 'required|exists:lowongan_perusahaans,id',
         ]);
 
+
+        $user = Auth::user();
         $perusahaan = Auth::user()->perusahaan;
         $paket = PaketLowongan::findOrFail($request->paket_id);
 
@@ -218,6 +220,17 @@ class LowonganPerusahaanController extends Controller
             'paket_id'   => $paket->id,
             'published_at' => null,
             'expired_at'   => null,
+        ]);
+
+        $noReferensi = 'KOIN-' . now()->format('YmdHis') . '-' . $user->id;
+
+        CatatanKoin::create([
+            'user_id'      => $user->id,
+            'no_referensi' => $noReferensi,
+            'pesanan'      => 'Pembelian Paket ' . $paket->nama,
+            'dari'         => $perusahaan->nama_perusahaan ?? 'Perusahaan',
+            'sumber_dana'  => 'Saldo Koin Perusahaan',
+            'total'        => '-' . $harga, 
         ]);
 
         return redirect()->route('lowongan.saya.perusahaan')
@@ -319,6 +332,6 @@ class LowonganPerusahaanController extends Controller
     {
         $perusahaanId = $lowongan->perusahaan_id;
         $lowongan->delete();
-        return redirect()->route('superadmin.perusahaan.detail',$perusahaanId)->with('success', 'Lowongan berhasil dihapus.');
+        return redirect()->route('superadmin.perusahaan.detail', $perusahaanId)->with('success', 'Lowongan berhasil dihapus.');
     }
 }

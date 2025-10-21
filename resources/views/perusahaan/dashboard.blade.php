@@ -17,6 +17,7 @@
                             class="border border-orange-500 bg-orange-500 text-white px-3 py-1 rounded-md text-md font-medium hover:bg-white hover:text-orange-500 transition duration-300">
                             Kelola Lowongan
                         </a>
+                        
                     </div>
 
                     @php
@@ -27,6 +28,7 @@
                     @if ($lowongans->isEmpty())
                         <!-- Jika BELUM ADA lowongan -->
                         <div class="bg-white rounded-lg flex justify-between items-center px-4 py-3">
+                            
                             <span class="text-black font-semibold">Lowongan Belum Terpasang</span>
                             <a href="{{ route('lowongan.saya.perusahaan') }}"
                                 class="border border-orange-500 text-orange-500 px-3 py-1 rounded-md text-sm font-medium hover:bg-orange-50 transition">
@@ -162,7 +164,7 @@
                                             </div>
                                         </div>
                                         <div class="flex items-center gap-3 mt-3 md:mt-0">
-                                            <span class="px-3 py-1 border rounded-md text-sm text-gray-600">
+                                            <span class="px-3 py-1 border border-gray-400 rounded-md text-sm text-gray-600">
                                                 {{ ucfirst($lowongan->paket->nama ?? '-') }}
                                             </span>
                                             <a href="{{ route('perusahaan.pelamar', $lowongan->slug) }}"

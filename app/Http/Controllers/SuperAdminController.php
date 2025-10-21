@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\AlamatPelamar;
+use App\Models\CatatanCash;
+use App\Models\CatatanKoin;
 use App\Models\Divisi;
 use App\Models\Finance;
 use App\Models\Hargakoin;
@@ -110,7 +112,7 @@ class SuperAdminController extends Controller
             "kecamatan"     => 'nullable|string',
             "desa"          => 'nullable|string',
             "kode_pos"      => 'nullable',
-            "detail_alamat" => 'nullable|string'
+            "detail_alamat" => 'nullable|string'    
         ]);
 
         $user = User::where('id', Auth::user()->id);
@@ -160,7 +162,7 @@ class SuperAdminController extends Controller
 
     public function ban(Request $request, User $user)
     {
-        dd($request->all());
+        // dd($request->all());
         $data = $request->validate([
             'status' => 'required|boolean'
         ]);
@@ -196,7 +198,7 @@ class SuperAdminController extends Controller
         $kandidat = Pelamar::where('kategori', 'kandidat aktif')->get();
         $nonKandidat = Pelamar::where('kategori', 'pelamar')->get();
         $calonKandidat = Pelamar::where('kategori', 'calon kandidat')->get();
-
+                    
         session()->forget(['pelamar_terakhir_id', 'kategori_terakhir']);
 
         return view('super_admin.pelamar.data-pelamar', [
@@ -373,7 +375,7 @@ class SuperAdminController extends Controller
 
     public function editUser($kategori, $id)
     {
-
+              
         $pelamar = Pelamar::with([
             'user',
             'alamat_pelamar',
@@ -509,10 +511,10 @@ class SuperAdminController extends Controller
     public function destroyUser($id)
     {
         try {
-           
+
             $pelamar = Pelamar::findOrFail($id);
 
-         
+
             $pelamar->alamat_pelamar()->delete();
             $pelamar->riwayat_pendidikan()->delete();
             $pelamar->pengalaman_organisasi()->delete();
@@ -520,7 +522,7 @@ class SuperAdminController extends Controller
             $pelamar->skill()->delete();
             $pelamar->sosmed()->delete();
 
-       
+
             if ($pelamar->img_profile && Storage::exists('public/' . $pelamar->img_profile)) {
                 Storage::delete('public/' . $pelamar->img_profile);
             }
@@ -659,7 +661,7 @@ class SuperAdminController extends Controller
         $rules = [
             'email'        => 'required|email|unique:users',
             'username'     => 'required|unique:users',
-            'role'         => 'required|in:admin,finance,perusahaan',
+            'role'         => 'required|in:admin,finance,perusahaan,pelamar',
             'password'     => 'required',
             'img_profile'  => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ];
@@ -742,6 +744,19 @@ class SuperAdminController extends Controller
                     'img_profile'       => $imgPath,
                 ]);
                 break;
+            case 'pelamar':
+                Pelamar::create([
+                    'user_id'           => $user->id,
+                    'nama_pelamar'      => $request->nama_pelamar,
+                    'telepon_pelamar'   => $request->telepon_pelamar,
+                    'img_profile'       => $imgPath,
+                    'deskripsi_diri'    => $request->deskripsi_diri,
+                    'kategori'          => $request->kategori,
+                    'gender'            => $request->gender,
+                    'gaji_minimal'      => $request->gaji_minimal,
+                    'gaji_maksimal'     => $request->gaji_maksimal,
+                    'tanggal_lahir'     => $request->tanggal_lahir,
+                ]);
         }
 
         return redirect()->route('superadmin.add.user')->with('success', 'Data Berhasil Ditambahkan');
@@ -860,14 +875,14 @@ class SuperAdminController extends Controller
                 $user->pelamar()->updateOrCreate(
                     ['user_id' => $user->id],
                     [
-                        'nama_lengkap'  => $request->nama_lengkap,
-                        'telepon'       => $request->telepon,
-                        'pendidikan'    => $request->pendidikan,
-                        'provinsi'      => $request->provinsi,
-                        'kota'          => $request->kota,
-                        'kecamatan'     => $request->kecamatan,
-                        'kode_pos'      => $request->kode_pos,
-                        'detail_alamat' => $request->detail_alamat,
+                        'nama_pelamar'  => $request->nama_pelamar,
+                        'telepon_pelamar'   => $request->telepon_pelamar,
+                        'deskripsi_diri'    => $request->deskripsi_diri,
+                        'tanggal_lahir'      => $request->tanggal_lahir,
+                        'gender'          => $request->gender,
+                        'kategori'      => $request->kategori,
+                        'gaji_minimal'  => $request->gaji_minimal,
+                        'gaji_maksimal' => $request->gaji_maksimal,
                         'img_profile'   => $imgPath,
                     ]
                 );
@@ -973,10 +988,18 @@ class SuperAdminController extends Controller
     //FINANCE
     public function halFinance()
     {
+        $cash = CatatanCash::where('status', 'diterima')->get();
+        $koin1 = CatatanKoin::all();
+        $cashTerbaru = CatatanCash::orderBy('created_at', 'desc')->get();
+        $koinTerbaru = CatatanKoin::orderBy('created_at', 'desc')->get();
         return view('super_admin.finance.paket-harga', [
             'title' => 'Paket Harga',
             'koin' => Hargakoin::all(),
             'pembayaran' => HargaPembayaran::all(),
+            'cashTerbaru' => $cashTerbaru,
+            'koinTerbaru' => $koinTerbaru,
+            'cash' => $cash,
+            'koin1' => $koin1
         ]);
     }
 

@@ -3,7 +3,7 @@
     <main class="flex-1 p-6 sm:ml-64 bg-white overflow-y-auto">
 
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-medium">Paket Harga</h1>
+            <h1 class="text-2xl font-medium ml-[40px]">Finance</h1>
             <div class="flex items-center gap-3">
                 <svg width="31" height="32" viewBox="0 0 31 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_722_7956)">
@@ -46,75 +46,488 @@
         {{-- Konten scrollable --}}
         <main class="flex-1 overflow-hidden p-8 bg-white">
             {{-- Dropdown Menu --}}
-            <form action="/submit" method="POST" class="flex items-center gap-3 mb-8">
-                @csrf
+            <div class="flex items-center gap-3 mb-8">
                 <select id="menu_select" name="menu_select"
                     class="w-48 bg-orange-500 text-white font-medium px-4 py-2 border border-orange-500 rounded-lg focus:outline-none">
+                    <option value="paket_harga">Paket Harga</option>
                     <option value="riwayat">Riwayat</option>
-                    <option value="paket_harga" selected>Paket Harga</option>
                     <option value="laporan">Laporan</option>
                 </select>
-            </form>
+            </div>
 
             {{-- Paket Harga Koin --}}
-
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-base font-semibold">Paket Harga Koin</h2>
-                <a href="{{ route('superadmin.paket-harga.edit-koin') }}"
-                    class="bg-orange-500 text-white text-sm font-medium px-7 py-1 rounded-lg hover:bg-orange-600">
-                    Edit
-                </a>
-            </div>
-            <div class="mb-10 bg-white">
-                <div class="overflow-x-auto rounded-lg shadow">
-                    <table class="min-w-full text-sm border-2 border-gray-400">
-                        <thead>
-                            <tr>
-                                <th class="bg-orange-500 text-white text-left px-4 py-3 font-semibold">Nama</th>
-                                <th class="bg-orange-500 text-white text-right px-4 py-3 font-semibold">Koin</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-400">
-                            @foreach ($koin as $k)
+            <div id="paket_harga">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-base font-semibold">Paket Harga Koin</h2>
+                    <a href="{{ route('superadmin.paket-harga.edit-koin') }}"
+                        class="bg-orange-500 text-white text-sm font-medium px-7 py-1 rounded-lg hover:bg-orange-600">
+                        Edit
+                    </a>
+                </div>
+                <div class="mb-10 bg-white">
+                    <div class="overflow-x-auto rounded-lg shadow">
+                        <table class="min-w-full text-sm border-2 border-gray-400">
+                            <thead>
                                 <tr>
-                                    <td class="px-4 py-3">{{ $k->nama }}</td>
-                                    <td class="px-4 py-3 text-right"> {{ number_format($k->harga, 0, ',', '.') }} koin
-                                    </td>
+                                    <th class="bg-orange-500 text-white text-left px-4 py-3 font-semibold">Nama</th>
+                                    <th class="bg-orange-500 text-white text-right px-4 py-3 font-semibold">Koin</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody class="divide-y divide-gray-400">
+                                @foreach ($koin as $k)
+                                    <tr>
+                                        <td class="px-4 py-3">{{ $k->nama }}</td>
+                                        <td class="px-4 py-3 text-right"> {{ number_format($k->harga, 0, ',', '.') }} koin
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                {{-- Paket Harga Pembayaran --}}
+
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-base font-semibold">Paket Harga Pembayaran</h2>
+                    <a href="{{ route('superadmin.paket-harga.edit-pembayaran') }}"
+                        class="bg-orange-500 text-white text-sm font-medium px-7 py-1 rounded-lg hover:bg-orange-600">
+                        Edit
+                    </a>
+                </div>
+                <div class="mb-10 bg-white">
+                    <div class="overflow-x-auto rounded-lg shadow-md">
+                        <table class="min-w-full text-sm border-2 border-gray-400">
+                            <thead>
+                                <tr>
+                                    <th class="bg-orange-500 text-white text-left px-4 py-3 font-semibold">Nama</th>
+                                    <th class="bg-orange-500 text-white text-right px-4 py-3 font-semibold">Harga</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-400">
+                                @foreach ($pembayaran as $p)
+                                    <tr>
+                                        <td class="px-4 py-3">{{ $p->nama }}</td>
+                                        <td class="px-4 py-3 text-right">Rp. {{ number_format($p->harga, 0, ',', '.') }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
+            {{-- Selesai paket harga --}}
 
-            {{-- Paket Harga Pembayaran --}}
-
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-base font-semibold">Paket Harga Pembayaran</h2>
-                <a href="{{ route('superadmin.paket-harga.edit-pembayaran') }}"
-                    class="bg-orange-500 text-white text-sm font-medium px-7 py-1 rounded-lg hover:bg-orange-600">
-                    Edit
-                </a>
-            </div>
-             <div class="mb-10 bg-white">
-                <div class="overflow-x-auto rounded-lg shadow-md">
-                    <table class="min-w-full text-sm border-2 border-gray-400">
-                        <thead>
-                            <tr>
-                                <th class="bg-orange-500 text-white text-left px-4 py-3 font-semibold">Nama</th>
-                                <th class="bg-orange-500 text-white text-right px-4 py-3 font-semibold">Harga</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-400">
-                            @foreach ($pembayaran as $p)
+            {{-- RIWAYAT --}}
+            {{-- riwayat transaksi --}}
+            <div id="riwayat" class="hidden">
+                <div class="mb-8">
+                    <h2 class="text-lg font-semibold mb-2">Riwayat Tunai</h2>
+                    <div x-data="{ openDetail: false, selected: {} }" class="rounded-2xl overflow-hidden border">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="bg-orange-500 text-white">
+                                    <th class="px-4 py-2 text-left">No</th>
+                                    <th class="px-4 py-2 text-left">No. Refrensi</th>
+                                    <th class="px-4 py-2 text-left">Jenis Pesanan</th>
+                                    <th class="px-4 py-2 text-left">Dari</th>
+                                    <th class="px-4 py-2 text-left">Sumber Dana</th>
+                                    <th class="px-4 py-2 text-left">Nominal</th>
+                                    <th class="px-4 py-2 text-center">Detail</th>
+                                    <th class="px-4 py-2 text-left">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Baris -->
+                                <tr class="border-t">
+                                    @forelse ($cashTerbaru as $index => $cash)
+                                        <td class="px-4 py-3">{{ $index + 1 }}</td>
+                                        <td class="px-4 py-3">{{ $cash->no_referensi ?? '-' }}</td>
+                                        <td class="px-4 py-3">{{ $cash->pesanan ?? '-' }}</td>
+                                        <td class="px-4 py-3">{{ $cash->dari ?? '-' }}</td>
+                                        <td class="px-4 py-3">{{ $cash->sumberDana ?? '-' }}</td>
+                                        <td class="px-4 py-3">Rp {{ number_format($cash->total, 0, ',', '.') }}</td>
+                                        <td class="px-4 py-2 text-orange-500 flex items-center justify-center">
+                                            <button
+                                                @click="selected = {
+                                                no_referensi: '{{ $cash->no_referensi }}',
+                                                status: '{{ ucfirst($cash->status) }}',
+                                                jenis: '{{ $cash->pesanan }}',
+                                                pengirim: '{{ $cash->dari }}',
+                                                penerima: 'Area Kerja',
+                                                metode: '{{ $cash->sumberDana }}',
+                                                waktu: '{{ $cash->created_at->format('d M Y H:i') }} WIB',
+                                                nominal: '{{ number_format($cash->total, 0, ',', '.') }}'
+                                            }; openDetail = true">
+                                                <svg width="19" height="24" viewBox="0 0 19 24" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
+                                                        fill="#FA6601" />
+                                                </svg>
+                                            </button>
+                                        </td>
+                                        <td class="px-4 py-2 text-green-600 font-semibold">
+                                            <span
+                                                class="{{ $cash->status == 'diterima' ? 'text-green-500' : 'text-red-500' }}">
+                                                {{ ucfirst($cash->status) }}
+                                            </span>
+                                        </td>
+                                </tr>
+                            @empty
                                 <tr>
-                                    <td class="px-4 py-3">{{ $p->nama }}</td>
-                                    <td class="px-4 py-3 text-right">Rp. {{ number_format($p->harga, 0, ',', '.') }}
+                                    <td colspan="8" class="text-center py-4 text-gray-500">Belum ada transaksi</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                        {{-- ==================== MODAL DETAIL ==================== --}}
+                        <div x-show="openDetail"
+                            class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50" x-cloak>
+                            <div class="bg-white rounded-2xl shadow-lg w-[400px] p-6 relative">
+                                <button @click="openDetail = false"
+                                    class="absolute top-3 right-4 text-gray-500 hover:text-black text-lg">✕</button>
+
+                                <!-- Judul & Icon -->
+                                <div class="text-center mb-6">
+                                    <template x-if="selected.status == 'Diterima'">
+                                        <div
+                                            class="w-16 h-16 mx-auto rounded-full bg-orange-100 flex items-center justify-center mb-3">
+                                            <svg class="w-8 h-8 text-orange-500" fill="none" stroke="currentColor"
+                                                stroke-width="2" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                            </svg>
+                                        </div>
+                                    </template>
+
+                                    <template x-if="selected.status == 'Ditolak'">
+                                        <div
+                                            class="w-16 h-16 mx-auto rounded-full bg-red-100 flex items-center justify-center mb-3">
+                                            <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor"
+                                                stroke-width="2" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </div>
+                                    </template>
+
+                                    <template x-if="selected.status == 'Pending'">
+                                        <div
+                                            class="w-16 h-16 mx-auto rounded-full bg-gray-100 flex items-center justify-center mb-3">
+                                            <svg class="w-8 h-8 text-gray-500 animate-spin" fill="none"
+                                                stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <circle class="opacity-25" cx="12" cy="12" r="10"
+                                                    stroke="currentColor" stroke-width="4"></circle>
+                                                <path class="opacity-75" fill="currentColor"
+                                                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                                            </svg>
+                                        </div>
+                                    </template>
+
+                                    <h2 class="text-xl font-semibold"
+                                        x-text="selected.status == 'Diterima' ? 'Top Up Berhasil' :
+                                    (selected.status == 'Ditolak' ? 'Top Up Ditolak' : 'Menunggu Verifikasi')">
+                                    </h2>
+                                </div>
+
+                                <!-- Detail -->
+                                <div class="text-sm space-y-2">
+                                    <div class="flex justify-between"><span class="font-semibold">No.Transaksi</span><span
+                                            x-text="selected.no_referensi"></span></div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="font-semibold">Status</span>
+                                        <span class="text-xs px-3 py-1 rounded-full text-white"
+                                            :class="selected.status == 'Diterima' ? 'bg-orange-500' :
+                                                (selected.status == 'Ditolak' ? 'bg-red-500' : 'bg-gray-500')"
+                                            x-text="selected.status"></span>
+                                    </div>
+                                    <div class="flex justify-between"><span class="font-semibold">Jenis
+                                            Transaksi</span><span x-text="selected.jenis"></span></div>
+                                    <div class="flex justify-between"><span class="font-semibold">Nama
+                                            Pengirim</span><span x-text="selected.pengirim"></span></div>
+                                    <div class="flex justify-between"><span class="font-semibold">Nama
+                                            Penerima</span><span x-text="selected.penerima"></span></div>
+                                    <div class="flex justify-between"><span class="font-semibold">Metode
+                                            Pembayaran</span><span x-text="selected.metode"></span></div>
+                                    <div class="flex justify-between"><span class="font-semibold">Tgl/Waktu</span><span
+                                            x-text="selected.waktu"></span></div>
+                                    <div class="flex justify-between"><span class="font-semibold">Nominal</span><span
+                                            x-text=" 'Rp. ' + selected.nominal "></span></div>
+                                    <div class="flex justify-between">
+                                        <span class="font-semibold">Biaya Admin</span>
+                                        <span>Rp 2.000</span>
+                                    </div>
+
+                                    <div class="border-t border-dashed my-2"></div>
+
+                                    <div class="flex justify-between font-semibold">
+                                        <span>Total Pembayaran</span>
+                                        <span
+                                            x-text="'Rp ' + (Number(selected.nominal.replaceAll('.', '')) + 2000).toLocaleString('id-ID')">
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                                <div class="flex justify-center mt-6">
+                                    <img src="{{ asset('images/logoarea.png') }}" alt="Logo" class="w-16">
+                                </div>
+
+                                <div class="mt-6 flex justify-end">
+                                    <button @click="openDetail = false"
+                                        class="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg">Tutup</button>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- ================ END MODAL ================= --}}
+                    </div>
+
+                    {{-- riwayat transaksi koin --}}
+                    <div class="w-full">
+                        <div class="mt-6">
+                            <h2 class="text-lg font-semibold mb-2">Riwayat Koin</h2>
+                            <div x-data="{ openDetailKoin: false, selectedKoin: {} }" class="rounded-2xl overflow-hidden border">
+                                <table class="w-full text-sm">
+                                    <thead>
+                                        <tr class="bg-orange-500 text-white">
+                                            <th class="px-4 py-2 text-left">No</th>
+                                            <th class="px-4 py-2 text-left">No. Referensi</th>
+                                            <th class="px-4 py-2 text-left">Jenis Pesanan</th>
+                                            <th class="px-4 py-2 text-left">Dari</th>
+                                            <th class="px-4 py-2 text-left">Sumber Dana</th>
+                                            <th class="px-4 py-2 text-left">Total Koin</th>
+                                            <th class="px-4 py-2 text-center">Detail</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($koinTerbaru as $index => $koin)
+                                            <tr class="border-t">
+                                                <td class="px-4 py-2">{{ $index + 1 }}</td>
+                                                <td class="px-4 py-2">{{ $koin->no_referensi ?? '-' }}</td>
+                                                <td class="px-4 py-2">{{ $koin->pesanan ?? '-' }}</td>
+                                                <td class="px-4 py-2">{{ $koin->dari ?? '-' }}</td>
+                                                <td class="px-4 py-2">{{ $koin->sumber_dana ?? '-' }}</td>
+                                                <td class="px-4 py-2">{{ $koin->total }} Koin</td>
+                                                <td class="px-4 py-2 text-orange-500 flex items-center justify-center">
+                                                    <button
+                                                        @click="selectedKoin = {
+                                no_referensi: '{{ $koin->no_referensi }}',
+                                jenis: '{{ $koin->pesanan }}',
+                                dari: '{{ $koin->dari }}',
+                                sumber_dana: '{{ $koin->sumber_dana }}',
+                                nominal: '{{ number_format((int) str_replace('-', '', $koin->total), 0, ',', '.') }}',
+                                waktu: '{{ $koin->created_at->format('d M Y H:i') }} WIB'
+                            }; openDetailKoin = true">
+                                                        <svg width="19" height="24" viewBox="0 0 19 24"
+                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
+                                                                fill="#FA6601" />
+                                                        </svg>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="8" class="text-center py-4 text-gray-500">Belum ada
+                                                    transaksi</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+
+                                <!-- Modal Detail Riwayat Koin -->
+                                <div x-show="openDetailKoin" x-cloak
+                                    class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+                                    <div class="bg-white rounded-2xl shadow-xl w-[360px] relative">
+                                        <button @click="openDetailKoin = false"
+                                            class="absolute top-3 right-3 text-gray-500 hover:text-black">✕</button>
+
+                                        <div class="text-center py-6">
+                                            <div
+                                                class="bg-orange-100 w-14 h-14 mx-auto rounded-full flex items-center justify-center">
+                                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                                                    <path d="M9 12l2 2 4-4" stroke="#FA6601" stroke-width="2"
+                                                        stroke-linecap="round" stroke-linejoin="round" />
+                                                </svg>
+                                            </div>
+                                            <h2 class="text-lg font-semibold mt-4">Detail Transaksi Koin</h2>
+                                        </div>
+
+                                        <div class="px-6 pb-6 text-sm text-gray-700 space-y-1">
+                                            <div class="flex justify-between"><span>No. Referensi</span><span
+                                                    x-text="selectedKoin.no_referensi"></span></div>
+                                            <div class="flex justify-between"><span>Jenis Pesanan</span><span
+                                                    x-text="selectedKoin.jenis"></span></div>
+                                            <div class="flex justify-between"><span>Dari</span><span
+                                                    x-text="selectedKoin.dari"></span></div>
+                                            <div class="flex justify-between"><span>Sumber Dana</span><span
+                                                    x-text="selectedKoin.sumber_dana"></span></div>
+                                            <div class="flex justify-between"><span>Tgl/Waktu</span><span
+                                                    x-text="selectedKoin.waktu"></span></div>
+                                            <hr class="my-2 border-dashed border-gray-300">
+                                            <div class="flex justify-between font-semibold"><span>Total</span>
+                                                <span x-text="selectedKoin.nominal + ' Koin'"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-center pb-4">
+                                            <img src="{{ asset('images/logoarea.png') }}" alt="Logo"
+                                                class="mx-auto w-20 opacity-70">
+                                            <p class="text-xs text-gray-400 mt-1">Copyright ©2024 areakerja</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- SELESAI RIWAYAT --}}
+
+            {{-- -------------------- LAPORAN --------------------------- --}}
+            <div id="laporan" class="hidden">
+                <!-- Description -->
+                <h3 class="font-semibold text-lg">Catatan Transaksi Penghasilan</h3>
+                <p class="text-gray-600 mb-6 text-sm">
+
+                    Hanya catatan transaksi dalam 12 bulan terakhir akan dipertahankan. Silahkan download salinan PDF anda.
+                </p>
+
+                <!-- Riwayat Koin Box -->
+                <div class="bg-orange-500 rounded-lg p-9">
+                    <h2 class="text-white font-semibold text-lg mb-4">Riwayat Koin</h2>
+
+                    <!-- Filters -->
+                    <div class="flex gap-3 mb-4">
+                        <select
+                            class="w-32 bg-white text-orange-500 text-sm font-medium px-3 py-2 border rounded-lg focus:outline-none">
+                            <option class="font-semibold">Bulan</option>
+                            <option class="font-semibold">Januari</option>
+                            <option class="font-semibold">Februari</option>
+                            <option class="font-semibold">Maret</option>
+                            <option class="font-semibold">April</option>
+                            <option class="font-semibold">Mei</option>
+                            <option class="font-semibold">Juni</option>
+                            <option class="font-semibold">Juli</option>
+                            <option class="font-semibold">Agustus</option>
+                        </select>
+                        <select
+                            class="w-32 bg-white text-orange-500 text-sm font-medium px-3 py-2 border rounded-lg focus:outline-none">
+                            <option class="font-semibold">Tahun</option>
+                            <option class="font-semibold">2020</option>
+                            <option class="font-semibold">2021</option>
+                            <option class="font-semibold">2022</option>
+                            <option class="font-semibold">2023</option>
+                            <option class="font-semibold">2024</option>
+                            <option class="font-semibold">2025</option>
+                        </select>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="bg-white rounded-lg shadow overflow-hidden">
+                        <table class="min-w-full text-sm text-left">
+                            <thead class="bg-white text-orange-500">
+                                <tr>
+                                    <th class="px-4 py-3 text-center">Catatan Transaksi</th>
+                                    <th class="px-4 py-3">Pendapatan</th>
+                                    <th class="px-4 py-3">Koin</th>
+                                    <th class="px-4 py-3">Tanggal</th>
+                                    <th class="px-4 py-3">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y  border-4">
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold text-center">Catatan_Transaksi_November</td>
+                                    <td class="px-4 py-3 font-semibold">100.000.000</td>
+                                    <td class="px-4 py-3 font-semibold">100.000</td>
+                                    <td class="px-4 py-3 font-semibold">25 Januari 2024</td>
+                                    <td class="px-4 py-3 text-orange-500">
+                                        <svg width="19" height="24" viewBox="0 0 19 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
+                                                fill="#FA6601" />
+                                        </svg>
                                     </td>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+
+                            <tbody class="border-4">
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold text-center">Catatan_Transaksi_November</td>
+                                    <td class="px-4 py-3 font-semibold">100.000.000</td>
+                                    <td class="px-4 py-3 font-semibold">100.000</td>
+                                    <td class="px-4 py-3 font-semibold">25 Januari 2024</td>
+                                    <td class="px-4 py-3 text-orange-500">
+                                        <svg width="19" height="24" viewBox="0 0 19 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
+                                                fill="#FA6601" />
+                                        </svg>
+
+                                    </td>
+                                </tr>
+
+                            <tbody class="border-4">
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold text-center">Catatan_Transaksi_November</td>
+                                    <td class="px-4 py-3 font-semibold">100.000.000</td>
+                                    <td class="px-4 py-3 font-semibold">100.000</td>
+                                    <td class="px-4 py-3 font-semibold">25 Januari 2024</td>
+                                    <td class="px-4 py-3 text-orange-500">
+                                        <svg width="19" height="24" viewBox="0 0 19 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
+                                                fill="#FA6601" />
+                                        </svg>
+
+                                    </td>
+                                </tr>
+
+
+                            <tbody class="border-4">
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold text-center">Catatan_Transaksi_November</td>
+                                    <td class="px-4 py-3 font-semibold">100.000.000</td>
+                                    <td class="px-4 py-3 font-semibold">100.000</td>
+                                    <td class="px-4 py-3 font-semibold">25 Januari 2024</td>
+                                    <td class="px-4 py-3 text-orange-500">
+                                        <svg width="19" height="24" viewBox="0 0 19 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
+                                                fill="#FA6601" />
+                                        </svg>
+
+                                    </td>
+                                </tr>
+
+
+
+                            <tbody class="border-4">
+                                <tr>
+                                    <td class="px-4 py-3 font-semibold text-center">Catatan_Transaksi_November</td>
+                                    <td class="px-4 py-3 font-semibold">100.000.000</td>
+                                    <td class="px-4 py-3 font-semibold">100.000</td>
+                                    <td class="px-4 py-3 font-semibold">25 Januari 2024</td>
+                                    <td class="px-4 py-3 text-orange-500">
+                                        <svg width="19" height="24" viewBox="0 0 19 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
+                                                fill="#FA6601" />
+                                        </svg>
+
+                                    </td>
+                                </tr>
+                                <!-- duplikat baris sesuai kebutuhan -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </main>
