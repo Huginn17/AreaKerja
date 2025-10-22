@@ -290,7 +290,13 @@ Route::prefix('finance')->middleware('auth', 'role:finance', 'CheckUserStatus')-
 
 
     //LAP TRANSAKSI
-    Route::get('/laporan', [FinanceController::class, 'laporan'])->name('finance.laporan');
+    Route::get('/laporan/transaksi', [FinanceController::class, 'laporan'])->name('finance.catatan');
+
+    Route::get('/laporan', [FinanceController::class, 'laporan_transaksi'])->name('finance.laporan');
+    Route::get('/finance/laporan/detail/{tanggal}', [FinanceController::class, 'detail_laporan'])->name('finance.laporan.detail');
+    Route::get('/finance/laporan/{tanggal}/unduh', [FinanceController::class, 'unduh_laporan_harian'])->name('finance.laporan.unduh');
+
+
     Route::get('/detail', [FinanceController::class, 'hal_detail'])->name('finance.detail.catatan.koin');
     Route::get('/detail/{id}', [FinanceController::class, 'detail'])->name('finance.detail.id');
     Route::post('/verifikasi/{id}', [FinanceController::class, 'verifikasi'])->name('finance.verifikasi');
@@ -308,9 +314,9 @@ Route::get('/finance/unduh/data/omset', function () {
     return view('finance.unduh-data-omset');
 })->name('finance.unduh-data-omset');
 
-Route::get('/finance/laporan/transaksi', function () {
-    return view('finance.laporan-tran');
-})->name('finance.laporan-tran');
+// Route::get('/finance/laporan/transaksi', function () {
+//     return view('finance.laporan-tran');
+// })->name('finance.laporan-tran');
 
 
 
@@ -537,6 +543,10 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
     Route::put('/update/user/{id}', [SuperAdminController::class, 'update'])->name('superadmin.update.user');
     Route::get('/detail/user/{id}', [SuperAdminController::class, 'detail'])->name('superadmin.detail.user');
     Route::delete('/delete/user/{id}', [SuperAdminController::class, 'hapus'])->name('superadmin.destroy.user');
+
+    //KECAMATAN KOTA
+    Route::get('/get-kota/{provinsi_id}', [AdminController::class, 'getKota'])->name('superadmin.get.kota')->middleware('auth');
+    Route::get('/get-kecamatan/{kota_id}', [AdminController::class, 'getKecamatan'])->name('superadmin.get.kecamatan')->middleware('auth');
 
     //Pengaturan
     Route::post('/ganti-password', [SuperAdminController::class, 'updatePassword'])->name('superadmin.password.update');

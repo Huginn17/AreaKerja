@@ -91,36 +91,48 @@
                                 </defs>
                             </svg>
                         </span>
-                        <span><svg width="29" height="28" viewBox="0 0 29 28" fill="none"
-                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <mask id="mask0_680_18808" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                                    width="29" height="28">
-                                    <rect x="0.890625" y="0.15625" width="27.3438" height="27.3438"
-                                        fill="url(#pattern0_680_18808)" />
-                                </mask>
-                                <g mask="url(#mask0_680_18808)">
-                                    <rect x="-3.96875" y="-1.66992" width="35.2431" height="31.5972" fill="#FA6601" />
-                                </g>
-                                <defs>
-                                    <pattern id="pattern0_680_18808" patternContentUnits="objectBoundingBox" width="1"
-                                        height="1">
-                                        <use xlink:href="#image0_680_18808" transform="scale(0.0078125)" />
-                                    </pattern>
-                                    <image id="image0_680_18808" width="128" height="128"
-                                        preserveAspectRatio="none"
-                                        xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAACxQAAAsUBidZ/7wAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAJ2SURBVHic7d1NaiphEEbh6iwpa8nsbiqZZa8JJINLQxDE/vmq6rPPOdAzpbXfR8WBuASrn423W1IfxUS9dD8A600A8AQATwDwBABPAPAEAE8A8AQATwDwBABPAPAEAE8A8AQATwDwBABPAPAEAE8A8AQATwDwBABPAPAEAE8A8AQATwDwBABPAPAEAE8A8AQATwDwBABPAPAEAE8A8AQATwDwBABPAPAEAE8A8AQATwDwBABPAPAEAE8A8AQATwDwBABPAPAEAE8A8AQATwDwBABPAPAEAG8GAK8B+rfuPy3x/7mje4uIr4j4jBoEPxuP7JaI+IiI74j4V3C+KVvHXy96BYIZAKzjr+dCIrgdvwpBN4Db8ZEI7o1fgaATwL3xUQgejZ+NoAvAo/ERCLaOn4mgA8DW8S+N4DX2jb8eHzEWQTWAveOvx1dc7CviEhHvsf9CjH4nqARwdPzMj8DWZkBQBcDx79SNoAKA4z+oE0E2AMffWBeCTACOv7MOBFkAHP9g1QgyADj+ySoRjAbg+IOqQjASgOMPrgLBKACOn1Q2ghEAHD+5TARnATh+UVkIzgBw/OIyEBwF4PhNjUZwBIDjNzcSwV4Ajj9JoxDsAeD4kzUCwdbbO/6knRlmz/3OnMPxkzvzTpB5+MovbDYEjt/QLAgcv7FuBI4/QV0IHH+iqhE4/oRVIXD8ictG4PhPUBYCx3+iRiNw/CdsFALHf+LOInD8C3QUgeNfqL0IHP+CbUXg+BfuEQLHB3QPgeODukXg+MBWBI4PbgnHNzMzMzMzMzMzQutPpg3aDH8caY0JAJ4A4AkAngDgCQCeAOAJAJ4A4P0COZz3WnwdFnYAAAAASUVORK5CYII=" />
-                                </defs>
-                            </svg>
+                        <span>
+                            <a href="{{ route('finance.laporan.unduh', ['tanggal' => $tanggal]) }}">
+                                <svg width="29" height="28" viewBox="0 0 29 28" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <mask id="mask0_680_18808" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
+                                        y="0" width="29" height="28">
+                                        <rect x="0.890625" y="0.15625" width="27.3438" height="27.3438"
+                                            fill="url(#pattern0_680_18808)" />
+                                    </mask>
+                                    <g mask="url(#mask0_680_18808)">
+                                        <rect x="-3.96875" y="-1.66992" width="35.2431" height="31.5972" fill="#FA6601" />
+                                    </g>
+                                    <defs>
+                                        <pattern id="pattern0_680_18808" patternContentUnits="objectBoundingBox"
+                                            width="1" height="1">
+                                            <use xlink:href="#image0_680_18808" transform="scale(0.0078125)" />
+                                        </pattern>
+                                        <image id="image0_680_18808" width="128" height="128"
+                                            preserveAspectRatio="none"
+                                            xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAACxQAAAsUBidZ/7wAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAJ2SURBVHic7d1NaiphEEbh6iwpa8nsbiqZZa8JJINLQxDE/vmq6rPPOdAzpbXfR8WBuASrn423W1IfxUS9dD8A600A8AQATwDwBABPAPAEAE8A8AQATwDwBABPAPAEAE8A8AQATwDwBABPAPAEAE8A8AQATwDwBABPAPAEAE8A8AQATwDwBABPAPAEAE8A8AQATwDwBABPAPAEAE8A8AQATwDwBABPAPAEAE8A8AQATwDwBABPAPAEAE8A8AQATwDwBABPAPAEAE8A8AQATwDwBABPAPAEAG8GAK8B+rfuPy3x/7mje4uIr4j4jBoEPxuP7JaI+IiI74j4V3C+KVvHXy96BYIZAKzjr+dCIrgdvwpBN4Db8ZEI7o1fgaATwL3xUQgejZ+NoAvAo/ERCLaOn4mgA8DW8S+N4DX2jb8eHzEWQTWAveOvx1dc7CviEhHvsf9CjH4nqARwdPzMj8DWZkBQBcDx79SNoAKA4z+oE0E2AMffWBeCTACOv7MOBFkAHP9g1QgyADj+ySoRjAbg+IOqQjASgOMPrgLBKACOn1Q2ghEAHD+5TARnATh+UVkIzgBw/OIyEBwF4PhNjUZwBIDjNzcSwV4Ajj9JoxDsAeD4kzUCwdbbO/6knRlmz/3OnMPxkzvzTpB5+MovbDYEjt/QLAgcv7FuBI4/QV0IHH+iqhE4/oRVIXD8ictG4PhPUBYCx3+iRiNw/CdsFALHf+LOInD8C3QUgeNfqL0IHP+CbUXg+BfuEQLHB3QPgeODukXg+MBWBI4PbgnHNzMzMzMzMzMzQutPpg3aDH8caY0JAJ4A4AkAngDgCQCeAOAJAJ4A4P0COZz3WnwdFnYAAAAASUVORK5CYII=" />
+                                    </defs>
+                                </svg>
+                            </a>
                         </span>
                     </div><br>
-                    <p class="pr-[103px]">Username : <span class="font-medium">Finance</span></p>
-                    <p>Email : finance.group@gmail.com</p>
-                    <p class="pr-[70px]">No.Telp : 0816342825322</p>
+                    <div class="text-sm leading-relaxed space-y-1">
+                        <p>
+                            <span class="font-semibold">Username :</span>
+                            <span class="font-medium">{{ Auth::user()->username ?? '-' }}</span>
+                        </p>
+                        <p>
+                            <span class="font-semibold">Email :</span>
+                            <span>{{ Auth::user()->email ?? '-' }}</span>
+                        </p>
+                        <p>
+                            <span class="font-semibold">No. Telp :</span>
+                            <span>0816-3428-25322</span>
+                        </p>
+                    </div>
+
                 </div>
             </div>
-
-
-
 
 
             {{-- riwayat transaksi --}}
@@ -134,86 +146,42 @@
                         <thead>
                             <tr class="bg-orange-500 text-white text-left">
                                 <th class="py-2 px-3">Transaksi</th>
-                                <th class="py-2 px-3">Perusahaan</th>
+                                <th class="py-2 px-3">Dari</th>
                                 <th class="py-2 px-3">Jenis Transaksi</th>
                                 <th class="py-2 px-3">Sumber Dana</th>
-                                <th class="py-2 px-3">Nominal IDR</th>
+                                <th class="py-2 px-3">Nominal IDR</th>  
                                 <th class="py-2 px-3">Transaksi Koin</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr class="border-t">
-                                <td class="px-3 py-2">691174849221</td>
-                                <td class="px-3 py-2">Applecorp.</td>
-                                <td class="px-3 py-2">Pasang Lowongan</td>
-                                <td class="px-3 py-2">BCA</td>
-                                <td class="px-3 py-2">Rp. 1.000.000</td>
-                                <td class="px-3 py-2 text-center">-</td>
+                                @forelse ($transaksi as $t)
+                                    <td class="px-3 py-2">{{ $t->no_referensi ?? '-' }}</td>
+                                    <td class="px-3 py-2">{{ $t->dari ?? '-' }}</td>
+                                    <td class="px-3 py-2">{{ $t->pesanan ?? '-' }}</td>
+                                    <td class="px-3 py-2">{{ $t->sumber_dana ?? ($t->sumberDana ?? '-') }}</td>
+                                    <td class="px-3 py-2">
+                                        @if ($t->tipe == 'cash')
+                                            Rp{{ number_format($t->total, 0, ',', '.') }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td class="px-3 py-2 text-center">
+                                        @if ($t->tipe == 'koin')
+                                            {{ $t->total_koin }} Koin
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                             </tr>
-                            <tr class="border-t">
-                                <td class="px-3 py-2">691174849221</td>
-                                <td class="px-3 py-2">Applecorp.</td>
-                                <td class="px-3 py-2">Pasang Lowongan</td>
-                                <td class="px-3 py-2">BCA</td>
-                                <td class="px-3 py-2">Rp. 1.000.000</td>
-                                <td class="px-3 py-2 text-center">-</td>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="text-center py-4 text-gray-500">
+                                    Tidak ada transaksi pada tanggal ini
+                                </td>
                             </tr>
-                            <tr class="border-t">
-                                <td class="px-3 py-2">691174849221</td>
-                                <td class="px-3 py-2">Applecorp.</td>
-                                <td class="px-3 py-2">Pasang Lowongan</td>
-                                <td class="px-3 py-2">BCA</td>
-                                <td class="px-3 py-2">Rp. 1.000.000</td>
-                                <td class="px-3 py-2 text-center">-</td>
-                            </tr>
-                            <tr class="border-t">
-                                <td class="px-3 py-2">691174849221</td>
-                                <td class="px-3 py-2">Applecorp.</td>
-                                <td class="px-3 py-2">Pasang Lowongan</td>
-                                <td class="px-3 py-2">BCA</td>
-                                <td class="px-3 py-2">Rp. 1.000.000</td>
-                                <td class="px-3 py-2 text-center">-</td>
-                            </tr>
-                            <tr class="border-t">
-                                <td class="px-3 py-2">691174849221</td>
-                                <td class="px-3 py-2">Applecorp.</td>
-                                <td class="px-3 py-2">Pasang Lowongan</td>
-                                <td class="px-3 py-2">Koin</td>
-                                <td class="px-3 py-2">-</td>
-                                <td class="px-3 py-2 text-center">30</td>
-                            </tr>
-                            <tr class="border-t">
-                                <td class="px-3 py-2">691174849221</td>
-                                <td class="px-3 py-2">Applecorp.</td>
-                                <td class="px-3 py-2">Pasang Lowongan</td>
-                                <td class="px-3 py-2">Koin</td>
-                                <td class="px-3 py-2">-</td>
-                                <td class="px-3 py-2 text-center">30</td>
-                            </tr>
-                            <tr class="border-t">
-                                <td class="px-3 py-2">691174849221</td>
-                                <td class="px-3 py-2">Applecorp.</td>
-                                <td class="px-3 py-2">Pasang Lowongan</td>
-                                <td class="px-3 py-2">Koin</td>
-                                <td class="px-3 py-2">-</td>
-                                <td class="px-3 py-2 text-center">30</td>
-                            </tr>
-                            <tr class="border-t">
-                                <td class="px-3 py-2">691174849221</td>
-                                <td class="px-3 py-2">Applecorp.</td>
-                                <td class="px-3 py-2">Pasang Lowongan</td>
-                                <td class="px-3 py-2">Koin</td>
-                                <td class="px-3 py-2">-</td>
-                                <td class="px-3 py-2 text-center">30</td>
-                            </tr>
-                            <tr class="border-t">
-                                <td class="px-3 py-2">691174849221</td>
-                                <td class="px-3 py-2">Applecorp.</td>
-                                <td class="px-3 py-2">Pasang Lowongan</td>
-                                <td class="px-3 py-2">Koin</td>
-                                <td class="px-3 py-2">-</td>
-                                <td class="px-3 py-2 text-center">30</td>
-                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -221,8 +189,8 @@
 
             {{-- footer --}}
             <div class="mt-4 text-sm text-gray-800 font-semibold">
-                <p>Total Tunai <span class="ml-14">: RP. 1.000.000</span></p>
-                <p>Total Koin <span class="ml-[65px]">: 150 Koin</span></p>
+                <p>Total Tunai <span class="ml-14">: Rp{{ number_format($totalCash, 0, ',', '.') }}</span></p>
+                <p>Total Koin <span class="ml-[65px]">: {{ $totalKoin }} Koin</span></p>
             </div>
         </div>
     </div>

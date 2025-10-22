@@ -156,21 +156,12 @@ class SuperAdminController extends Controller
 
 
     //AKUN FREEZE
-    public function freezeForm(Request $request)
+    public function freezeForm()
     {
-        $search = $request->input('search');
-
-        $data = User::when($search, function ($query, $search) {
-            $query->where('username', 'like', "%{$search}%")
-                ->orWhere('role', 'like', "%{$search}%");
-        })->get();
-
         return view('super_admin.freeze.freeze', [
-            'data' => $data,
-            'search' => $search
+            "data" => User::all()
         ]);
     }
-
 
     public function ban(Request $request, User $user)
     {
@@ -205,40 +196,11 @@ class SuperAdminController extends Controller
     }
 
 
-    public function pelamarhal(Request $request)
+    public function pelamarhal()
     {
-        $search = $request->input('search');
-
-        $kandidatQuery = Pelamar::where('kategori', 'kandidat aktif');
-        $nonKandidatQuery = Pelamar::where('kategori', 'pelamar');
-        $calonKandidatQuery = Pelamar::where('kategori', 'calon kandidat');
-
-        if ($search) {
-            $kandidatQuery->where(function ($q) use ($search) {
-                $q->where('nama_pelamar', 'like', "%{$search}%")
-                    ->orWhereHas('user', function ($u) use ($search) {
-                        $u->where('username', 'like', "%{$search}%");
-                    });
-            });
-
-            $nonKandidatQuery->where(function ($q) use ($search) {
-                $q->where('nama_pelamar', 'like', "%{$search}%")
-                    ->orWhereHas('user', function ($u) use ($search) {
-                        $u->where('username', 'like', "%{$search}%");
-                    });
-            });
-
-            $calonKandidatQuery->where(function ($q) use ($search) {
-                $q->where('nama_pelamar', 'like', "%{$search}%")
-                    ->orWhereHas('user', function ($u) use ($search) {
-                        $u->where('username', 'like', "%{$search}%");
-                    });
-            });
-        }
-
-        $kandidat = $kandidatQuery->get();
-        $nonKandidat = $nonKandidatQuery->get();
-        $calonKandidat = $calonKandidatQuery->get();
+        $kandidat = Pelamar::where('kategori', 'kandidat aktif')->get();
+        $nonKandidat = Pelamar::where('kategori', 'pelamar')->get();
+        $calonKandidat = Pelamar::where('kategori', 'calon kandidat')->get();
 
         session()->forget(['pelamar_terakhir_id', 'kategori_terakhir']);
 
@@ -723,12 +685,6 @@ class SuperAdminController extends Controller
 
         if (in_array($request->role, ['admin', 'finance'])) {
             $rules['nama_lengkap'] = 'required';
-            $rules['provinsi_id']   = 'nullable|exists:provinsis,id';
-            $rules['kota_id']       = 'nullable|exists:kotas,id';
-            $rules['kecamatan_id']  = 'nullable|exists:kecamatans,id';
-            $rules['desa']          = 'nullable|string';
-            $rules['kode_pos']      = 'nullable|string';
-            $rules['detail_alamat'] = 'nullable|string';
         }
 
         $request->validate($rules);
@@ -768,9 +724,9 @@ class SuperAdminController extends Controller
                 Admin::create([
                     'user_id'       => $user->id,
                     'nama_lengkap'  => $request->nama_lengkap,
-                    'provinsi_id'      => $request->provinsi_id,
-                    'kota_id'          => $request->kota_id,
-                    'kecamatan_id'     => $request->kecamatan_id,
+                    'provinsi'      => $request->provinsi,
+                    'kota'          => $request->kota,
+                    'kecamatan'     => $request->kecamatan,
                     'kode_pos'      => $request->kode_pos,
                     'detail_alamat' => $request->detail_alamat,
                     'img_profile'   => $imgPath,
@@ -781,9 +737,9 @@ class SuperAdminController extends Controller
                 Finance::create([
                     'user_id'       => $user->id,
                     'nama_lengkap'  => $request->nama_lengkap,
-                    'provinsi_id'      => $request->provinsi_id,
-                    'kota_id'          => $request->kota_id,
-                    'kecamatan_id'     => $request->kecamatan_id,
+                    'provinsi'      => $request->provinsi,
+                    'kota'          => $request->kota,
+                    'kecamatan'     => $request->kecamatan,
                     'kode_pos'      => $request->kode_pos,
                     'detail_alamat' => $request->detail_alamat,
                     'img_profile'   => $imgPath,
@@ -825,25 +781,16 @@ class SuperAdminController extends Controller
 
     public function edit($id)
     {
-        $user = User::with([
-            'admin.provinsi',
-            'admin.kota',
-            'admin.kecamatan',
-            'finance.provinsi',
-            'finance.kota',
-            'finance.kecamatan'
-        ])->findOrFail($id);
-        $provinsis = Provinsi::all();
+        $user = User::with(['admin', 'finance'])->findOrFail($id);
         return view('super_admin.add.edit-addprofile', [
-            "user" => $user,
-            'provinsis' => $provinsis
+            "user" => $user
         ]);
     }
 
     public function update(Request $request, $id)
     {
-        // dd($request->all());
         $user = User::findOrFail($id);
+
         $rules = [
             'email'        => 'required|email|unique:users,email,' . $user->id,
             'username'     => 'required|unique:users,username,' . $user->id,
@@ -853,12 +800,6 @@ class SuperAdminController extends Controller
 
         if (in_array($request->role, ['admin', 'finance'])) {
             $rules['nama_lengkap'] = 'required';
-            $rules['provinsi_id']   = 'nullable|exists:provinsis,id';
-            $rules['kota_id']       = 'nullable|exists:kotas,id';
-            $rules['kecamatan_id']  = 'nullable|exists:kecamatans,id';
-            $rules['desa']          = 'nullable|string';
-            $rules['kode_pos']      = 'nullable|string';
-            $rules['detail_alamat'] = 'nullable|string';
         }
 
         $request->validate($rules);
@@ -899,12 +840,12 @@ class SuperAdminController extends Controller
         switch ($request->role) {
             case 'admin':
                 $user->admin()->updateOrCreate(
-                    [],
+                    ['user_id' => $user->id],
                     [
                         'nama_lengkap'  => $request->nama_lengkap,
-                        'provinsi_id'   => $request->provinsi_id,
-                        'kota_id'       => $request->kota_id,
-                        'kecamatan_id'  => $request->kecamatan_id,
+                        'provinsi'      => $request->provinsi,
+                        'kota'          => $request->kota,
+                        'kecamatan'     => $request->kecamatan,
                         'kode_pos'      => $request->kode_pos,
                         'detail_alamat' => $request->detail_alamat,
                         'img_profile'   => $imgPath,
@@ -914,14 +855,14 @@ class SuperAdminController extends Controller
 
             case 'finance':
                 $user->finance()->updateOrCreate(
-                    [],
+                    ['user_id' => $user->id],
                     [
                         'nama_lengkap'  => $request->nama_lengkap,
-                        'provinsi_id'   => $request->provinsi_id,
-                        'kota_id'       => $request->kota_id,
-                        'kecamatan_id'  => $request->kecamatan_id,
+                        'provinsi'      => $request->provinsi,
+                        'kota'          => $request->kota,
+                        'kecamatan'     => $request->kecamatan,
                         'kode_pos'      => $request->kode_pos,
-                        'desa'          => $request->desa,
+                        'desa'           => $request->desa,
                         'detail_alamat' => $request->detail_alamat,
                         'img_profile'   => $imgPath,
                     ]
@@ -1033,17 +974,9 @@ class SuperAdminController extends Controller
     }
 
 
-    public function halPerusahaan(Request $request)
+    public function halPerusahaan()
     {
-        $search = $request->input('search');
-        $perusahaan = Perusahaan::with('user')
-            ->when($search, function ($query, $search) {
-                $query->where('nama_perusahaan', 'like', "%{$search}%")
-                    ->orWhereHas('user', function ($q) use ($search) {
-                        $q->where('username', 'like', "%{$search}%");
-                    });
-            })
-            ->get();
+        $perusahaan = Perusahaan::all();
         return view('super_admin.perusahaan.data-perusahaan', [
             'perusahaan' => $perusahaan
         ]);

@@ -67,25 +67,27 @@
                     <div class="grid grid-cols-3 gap-4">
                         <div>
                             <label class="block text-sm font-medium mb-1">Provinsi</label>
-                            <select name="provinsi" class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
-                                <option value="">-- Pilih Provinsi --</option>
-                                <option value="Yogyakarta" {{ old('provinsi') == 'Yogyakarta' ? 'selected' : '' }}>
-                                    Yogyakarta</option>
-                                <option value="Jakarta" {{ old('provinsi') == 'Jakarta' ? 'selected' : '' }}>Jakarta
-                                </option>
-                                <option value="Jawa Barat" {{ old('provinsi') == 'Jawa Barat' ? 'selected' : '' }}>Jawa
-                                    Barat</option>
+                            <select name="provinsi_id" id="provinsi"
+                                class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
+                                <option value="">Pilih Provinsi</option>
+                                @foreach ($provinsis as $provinsi)
+                                    <option value="{{ $provinsi->id }}">{{ $provinsi->nama }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-1">Kota/Kabupaten</label>
-                            <input type="text" name="kota" value="{{ old('kota') }}"
+                            <select name="kota_id" id="kota"
                                 class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
+                                <option value="">Pilih Kota</option>
+                            </select>
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-1">Kecamatan</label>
-                            <input type="text" name="kecamatan" value="{{ old('kecamatan') }}"
+                            <select name="kecamatan_id" id="kecamatan"
                                 class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
+                                <option value="">Pilih Kecamatan</option>
+                            </select>
                         </div>
                     </div>
 
@@ -231,6 +233,47 @@
             </form>
         </div>
     </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const provinsiSelect = document.getElementById('provinsi');
+            const kotaSelect = document.getElementById('kota');
+            const kecamatanSelect = document.getElementById('kecamatan');
+
+            provinsiSelect.addEventListener('change', function() {
+                const provinsiId = this.value;
+                kotaSelect.innerHTML = '<option value="">Memuat...</option>';
+                kecamatanSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
+
+                console.time('loadKota'); // mulai ukur waktu
+                fetch(`/get-kota/${provinsiId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        console.timeEnd('loadKota'); // tampilkan waktu di console
+                        kotaSelect.innerHTML = '<option value="">Pilih Kota</option>';
+                        data.forEach(kota => {
+                            kotaSelect.innerHTML +=
+                                `<option value="${kota.id}">${kota.nama}</option>`;
+                        });
+                    });
+            });
+
+
+            kotaSelect.addEventListener('change', function() {
+                const kotaId = this.value;
+                kecamatanSelect.innerHTML = '<option value="">Memuat...</option>';
+
+                fetch(`/get-kecamatan/${kotaId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        kecamatanSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
+                        data.forEach(kec => {
+                            kecamatanSelect.innerHTML +=
+                                `<option value="${kec.id}">${kec.nama}</option>`;
+                        });
+                    });
+            });
+        });
+    </script>
 @endsection
 @push('scripts')
     <script>

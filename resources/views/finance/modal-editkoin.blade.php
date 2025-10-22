@@ -31,15 +31,11 @@
                     <div class="bg-gray-400">150 Koin</div>
                 </div>
 
-
                 <div class="divider-y divide-gray-300 bg-white">
                 <div class="flex justify-between items-center px-4 py-3">
                     <div>Pasang Lowongan Silver</div>
                     <div class="bg-gray-400">150 Koin</div>
                 </div>
- 
-
-
             </div>
         </div>
 

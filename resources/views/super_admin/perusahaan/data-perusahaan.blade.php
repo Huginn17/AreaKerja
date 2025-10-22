@@ -115,9 +115,10 @@
             </div>
 
             <div class="flex gap-2">
-                <input type="text" placeholder="nama/username ..."
+                <form action="{{ route('superadmin.perusahaan') }}" method="GET">
+                <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="nama/username ..."
                     class="border-2 border-gray-400 rounded-lg px-4 py-2 w-72">
-                <button class="bg-orange-500 hover:bg-orange-600 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
+                <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
             </div>
         </div>
 

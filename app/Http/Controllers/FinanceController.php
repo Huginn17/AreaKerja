@@ -8,6 +8,7 @@ use App\Models\CatatanKoin;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use Spatie\Browsershot\Browsershot;
 
@@ -59,7 +60,7 @@ class FinanceController extends Controller
             $transaksi->save();
         }
 
-        return redirect()->route('finance.laporan')
+        return redirect()->route('finance.catatan')
             ->with('success', 'Transaksi berhasil diverifikasi: ' . $transaksi->status);
     }
 
@@ -254,5 +255,215 @@ class FinanceController extends Controller
         return response($pdf)
             ->header('Content-Type', 'application/pdf')
             ->header('Content-Disposition', 'attachment; filename="Laporan_Omset_Perusahaan.pdf"');
+    }
+
+
+
+    //LAPORAN TRANSAKSI
+    public function laporan_transaksi(Request $request)
+    {
+        // Ambil bulan yang dipilih (default: bulan ini)
+        $bulan = $request->input('bulan', now()->format('m'));
+        $tahun = now()->format('Y');
+
+        // Ambil data 12 bulan terakhir
+        $startDate = now()->subMonths(11)->startOfMonth();
+        $endDate = now()->endOfMonth();
+
+        $cashData = DB::table('catatan_cashs')
+            ->select(
+                DB::raw('DATE(created_at) as tanggal'),
+                DB::raw('SUM(ABS(total)) as total_cash'),
+                DB::raw('COUNT(id) as jumlah_transaksi_cash')
+            )
+            ->where('status', 'diterima')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->groupBy(DB::raw('DATE(created_at)'));
+
+        $koinData = DB::table('catatan_koins')
+            ->select(
+                DB::raw('DATE(created_at) as tanggal'),
+                DB::raw('SUM(ABS(total)) as total_koin'),
+                DB::raw('COUNT(id) as jumlah_transaksi_koin')
+            )
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->groupBy(DB::raw('DATE(created_at)'));
+
+        $laporan = DB::query()
+            ->fromSub($cashData, 'cash')
+            ->leftJoinSub($koinData, 'koin', function ($join) {
+                $join->on('cash.tanggal', '=', 'koin.tanggal');
+            })
+            ->select(
+                'cash.tanggal',
+                DB::raw('COALESCE(cash.total_cash, 0) as total_cash'),
+                DB::raw('COALESCE(koin.total_koin, 0) as total_koin'),
+                DB::raw('COALESCE(cash.total_cash, 0) as total_penghasilan'),
+                DB::raw('(COALESCE(cash.jumlah_transaksi_cash, 0) + COALESCE(koin.jumlah_transaksi_koin, 0)) as total_transaksi')
+            )
+            ->whereMonth('cash.tanggal', $bulan)
+            ->orderBy('cash.tanggal', 'desc')
+            ->get();
+
+        $bulanList = [
+            '01' => 'Januari',
+            '02' => 'Februari',
+            '03' => 'Maret',
+            '04' => 'April',
+            '05' => 'Mei',
+            '06' => 'Juni',
+            '07' => 'Juli',
+            '08' => 'Agustus',
+            '09' => 'September',
+            '10' => 'Oktober',
+            '11' => 'November',
+            '12' => 'Desember'
+        ];
+
+        return view('finance.laporan-tran', [
+            'laporan' => $laporan,
+            'bulanList' => $bulanList,
+            'bulan' => $bulan
+        ]);
+    }
+
+    public function detail_laporan($tanggal)
+    {
+        // Ambil data dari catatan_cashs
+        $cashs = CatatanCash::select(
+            'id',
+            'no_referensi',
+            'dari',
+            'pesanan',
+            'sumberDana as sumber_dana',
+            'total',
+            DB::raw('NULL as total_koin'),
+            DB::raw('"cash" as tipe')
+        )
+            ->whereDate('created_at', $tanggal)
+            ->where('status', 'diterima');
+
+        // Ambil data dari catatan_koins
+        $koins = CatatanKoin::select(
+            'id',
+            'no_referensi',
+            'dari',
+            'pesanan',
+            'sumber_dana',
+            DB::raw('NULL as total'),
+            DB::raw('ABS(total) as total_koin'),
+            DB::raw('"koin" as tipe')
+        )
+            ->whereDate('created_at', $tanggal);
+
+        // Gabungkan keduanya jadi satu koleksi
+        $transaksi = $cashs->unionAll($koins)
+            ->orderBy('id', 'asc')
+            ->get();
+
+        // Hitung total
+        $totalCash = $transaksi->where('tipe', 'cash')->sum('total');
+        $totalKoin = $transaksi->where('tipe', 'koin')->sum('total_koin');
+
+        return view('finance.laporan-tran2', [
+            'transaksi' => $transaksi,
+            'totalCash' => $totalCash,
+            'totalKoin' => $totalKoin,
+            'tanggal' => $tanggal
+        ]);
+    }
+
+    public function unduh_laporan_harian($tanggal)
+    {
+        // Ambil data transaksi cash & koin
+        $cashs = CatatanCash::whereDate('created_at', $tanggal)
+            ->where('status', 'diterima')
+            ->get();
+
+        $koins = CatatanKoin::whereDate('created_at', $tanggal)->get();
+
+        // Gabungkan dua jenis transaksi jadi satu tabel
+        $transaksi = collect();
+
+        foreach ($cashs as $c) {
+            $transaksi->push((object)[
+                'no_referensi' => $c->no_referensi ?? '-',
+                'dari' => $c->dari ?? '-',
+                'pesanan' => $c->pesanan ?? '-',
+                'sumber_dana' => $c->sumberDana ?? 'BCA',
+                'nominal' => $c->total,
+                'koin' => '-',
+            ]);
+        }
+
+        foreach ($koins as $k) {
+            $transaksi->push((object)[
+                'no_referensi' => $k->no_referensi ?? '-',
+                'dari' => $k->dari ?? '-',
+                'pesanan' => $k->pesanan ?? '-',
+                'sumber_dana' => $k->sumber_dana ?? 'Koin',
+                'nominal' => '-',
+                'koin' => $k->total,
+            ]);
+        }
+
+        $totalTunai = $cashs->sum('total');
+        $totalKoin = $koins->sum('total');
+
+        // Konversi logo jadi base64
+        $logoPath = public_path('images/logoarea.png');
+        $logoBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath));
+
+        // Data untuk view
+        $data = [
+            'tanggal' => Carbon::parse($tanggal)->translatedFormat('d F Y'),
+            'transaksi' => $transaksi,
+            'totalTunai' => $totalTunai,
+            'totalKoin' => $totalKoin,
+            'logoBase64' => $logoBase64,
+            'tanggalCetak' => Carbon::now()->translatedFormat('F d, Y, H:i a'),
+        ];
+
+        // Render view
+        $html = View::make('finance.page-unduh-laporan-harian', $data)->render();
+
+        // Tambahkan HTML wrapper + Tailwind
+        $htmlWithCss = '
+    <!DOCTYPE html>
+    <html lang="id">
+    <head>
+        <meta charset="UTF-8">
+        <title>Laporan Transaksi Harian</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            body { font-family: "Inter", sans-serif; }
+        </style>
+    </head>
+    <body class="text-[12px] text-black font-sans mx-8 my-6">
+        ' . $html . '
+    </body>
+    </html>
+    ';
+
+        // Generate PDF pakai Browsershot
+        $browserPath = BrowserPath::detect();
+        if (!$browserPath) {
+            return response()->json([
+                "error" => "Browser Chrome/Edge tidak ditemukan. Pastikan sudah terinstall."
+            ], 500);
+        }
+
+        $pdf = Browsershot::html($htmlWithCss)
+            ->setOption('executablePath', $browserPath)
+            ->noSandbox()
+            ->showBackground()
+            ->format('A4')
+            ->margins(10, 15, 10, 15)
+            ->pdf();
+
+        // Kembalikan file PDF
+        return response($pdf)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'attachment; filename="Laporan_Transaksi_Harian_' . $tanggal . '.pdf"');
     }
 }

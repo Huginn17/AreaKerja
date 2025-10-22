@@ -61,7 +61,7 @@
                 </div>
 
 
-                <div class="font-semibold ml-3 mb-3">Super Admin</div>
+                <div class="font-bold ml-3 mb-3">Super Admin</div>
                 <div
                     class="{{ request()->is('super_admin/pelamar') || request()->is('super_admin/detail-kandidat') || request()->is('super_admin/tambah-kandidat') ? 'bg-white text-orange-500' : '' }} rounded-md">
                     <a href="{{ route('superadmin.pelamar') }}"
@@ -146,7 +146,7 @@
                         Event
                     </a>
                 </div>
-                <div class="font-semibold mb-3 ml-3 mt-3">Manajemen Akun</div>
+                <div class="font-bold mb-3 ml-3 mt-3">Manajemen Akun</div>
                 <div class="{{ request()->is('super_admin/add/user') ? 'bg-white text-orange-500' : '' }} rounded-md">
                     <a href="{{ route('superadmin.add.user') }}"
                         class="flex font-semibold items-center mb-1 gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">

@@ -74,7 +74,9 @@ class DatabaseSeeder extends Seeder
         Finance::create([
             "user_id"            =>   3,
             "nama_lengkap"       =>  'Joko Widodo',
-            "provinsi"           =>  'Jawa Barat'
+            'provinsi_id'    => Provinsi::inRandomOrder()->first()?->id,
+            'kota_id'        => Kota::inRandomOrder()->first()?->id,
+            'kecamatan_id'   => Kecamatan::inRandomOrder()->first()?->id,
         ]);
 
         Hargakoin::create([

@@ -19,17 +19,36 @@
         {{-- Filter Periode --}}
         <div class="p-4">
             <div class="flex justify-end mb-3">
-                <form method="GET" action="{{ route('finance.laporan') }}">
-                    <select name="periode"
-                        class="border border-orange-500 rounded-lg px-2 py-2 text-sm text-orange-500 hover:bg-orange-500 hover:text-white"
-                        onchange="this.form.submit()">
-                        <option value="">Pilih Periode</option>
-                        <option value="1" {{ request('periode') == '1' ? 'selected' : '' }}>1 Bulan Terakhir</option>
-                        <option value="3" {{ request('periode') == '3' ? 'selected' : '' }}>3 Bulan Terakhir</option>
-                        <option value="12" {{ request('periode') == '12' ? 'selected' : '' }}>12 Bulan Terakhir</option>
-                    </select>
-                </form>
-            </div>          
+                <div x-data="{ open: false }" class="relative inline-block text-left">
+                    <button @click="open = !open"
+                        class="bg-orange-500 text-white font-semibold px-3 py-1.5 rounded-t-md w-40 flex items-center justify-between">
+                        {{-- Tampilkan nama bulan yang dipilih --}}
+                        <span>
+                            {{ $bulanList[$bulan] ?? 'Periode' }}
+                        </span>
+
+                        {{-- Panah atas/bawah --}}
+                        <span>
+                            <template x-if="!open">▼</template>
+                            <template x-if="open">▲</template>
+                        </span>
+                    </button>
+
+                    {{-- Dropdown --}}
+                    <div x-show="open" @click.outside="open = false"
+                        class="absolute left-0 mt-1 w-40 bg-white shadow-lg rounded-b-md overflow-hidden z-10">
+                        @foreach ($bulanList as $key => $nama)
+                            <a href="{{ route('finance.laporan', ['bulan' => $key]) }}"
+                                class="block px-4 py-2 text-gray-900 hover:bg-orange-500 hover:text-white 
+                {{ $bulan == $key ? 'bg-orange-500 text-white' : '' }}">
+                                {{ $nama }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+
+
+            </div>
 
             {{-- Tabel --}}
             <div class="rounded-2xl overflow-hidden border">
@@ -37,37 +56,24 @@
                     <thead>
                         <tr class="bg-orange-500 text-white">
                             <th class="px-4 py-2 text-center font-semibold">Tanggal</th>
-                            <th class="px-4 py-2 text-center font-semibold">Jenis Transaksi</th>
-                            <th class="px-4 py-2 text-center font-semibold">Nominal</th>
+                            {{-- <th class="px-4 py-2 text-center font-semibold">Jenis Transaksi</th> --}}
+                            <th class="px-4 py-2 text-center font-semibold">Penghasilan</th>
                             <th class="px-4 py-2 text-center font-semibold">Koin</th>
-                            <th class="px-4 py-2 text-center font-semibold">Status</th>
+                            <th class="px-4 py-2 text-center font-semibold">Total Transaksi</th>
                             <th class="px-4 py-2 text-center font-semibold">Detail</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @forelse ( as )
+                        @forelse ($laporan as $l)
                             <tr class="text-center border-b font-medium">
-                                <td class="px-4 py-2">{{ $transaksi->created_at->format('d M Y') }}</td>
-                                <td class="px-4 py-2">{{ ucfirst($transaksi->jenis) }}</td>
-                                <td class="px-4 py-2">Rp. {{ number_format($transaksi->nominal, 0, ',', '.') }}</td>
-                                <td class="px-4 py-2">{{ $transaksi->hargaPembayaran->jumlah_koin ?? '-' }}</td>
-                                <td class="px-4 py-2">
-                                    @if ($transaksi->status == 'menunggu_verifikasi')
-                                        <span class="px-3 py-1 text-xs rounded bg-yellow-100 text-yellow-700">
-                                            Menunggu Verifikasi
-                                        </span>
-                                    @elseif ($transaksi->status == 'diterima')
-                                        <span class="px-3 py-1 text-xs rounded bg-green-100 text-green-700">
-                                            Diterima
-                                        </span>
-                                    @elseif ($transaksi->status == 'ditolak')
-                                        <span class="px-3 py-1 text-xs rounded bg-red-100 text-red-700">
-                                            Ditolak
-                                        </span>
-                                    @endif
+                                <td class="px-4 py-2">{{ \Carbon\Carbon::parse($l->tanggal)->translatedFormat('d F Y') }}
                                 </td>
+                                {{-- <td class="px-4 py-2">{{ ucfirst($transaksi->jenis) }}</td> --}}
+                                <td class="px-4 py-2">Rp{{ number_format($l->total_penghasilan, 0, ',', '.') }}</td>
+                                <td class="px-4 py-2">{{ $l->total_koin }}</td>
+                                <td class="px-4 py-2">{{ $l->total_transaksi }}</td>
                                 <td class="px-4 py-2">
-                                    <a href="{{ route('finance.transaksi.show', $transaksi->id) }}"
+                                    <a href="{{ route('finance.laporan.detail', ['tanggal' => $l->tanggal]) }}"
                                         class="text-orange-500 hover:underline">Lihat</a>
                                 </td>
                             </tr>
@@ -77,7 +83,7 @@
                                     Tidak ada transaksi
                                 </td>
                             </tr>
-                        @endforelse --}}
+                        @endforelse
                     </tbody>
                 </table>
             </div>

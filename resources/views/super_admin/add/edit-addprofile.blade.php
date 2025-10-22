@@ -65,7 +65,7 @@
                     </select>
                 </div>
 
-                <!-- ================= FORM ADMIN / FINANCE / PELAMAR ================= -->
+                <!-- ================= FORM ADMIN / FINANCE /  ================= -->
                 <div id="form-alamat" class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium mb-1">Nama Lengkap</label>
@@ -77,28 +77,37 @@
                     <div class="grid grid-cols-3 gap-4">
                         <div>
                             <label class="block text-sm font-medium mb-1">Provinsi</label>
-                            <select name="provinsi" class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
-                                <option value="">-- Pilih Provinsi --</option>
-                                <option value="Yogyakarta"
-                                    {{ old('provinsi', $detail->provinsi ?? '') == 'Yogyakarta' ? 'selected' : '' }}>
-                                    Yogyakarta</option>
-                                <option value="Jakarta"
-                                    {{ old('provinsi', $detail->provinsi ?? '') == 'Jakarta' ? 'selected' : '' }}>Jakarta
-                                </option>
-                                <option value="Jawa Barat"
-                                    {{ old('provinsi', $detail->provinsi ?? '') == 'Jawa Barat' ? 'selected' : '' }}>Jawa
-                                    Barat</option>
+                            <select id="provinsiSelect" name="provinsi_id"
+                                class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
+                                <option value="">Pilih Provinsi</option>
+                                @foreach ($provinsis as $prov)
+                                    <option value="{{ $prov->id }}"
+                                        {{ $user->provinsi_id == $prov->id ? 'selected' : '' }}>
+                                        {{ $prov->nama }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-1">Kota/Kabupaten</label>
-                            <input type="text" name="kota" value="{{ old('kota', $detail->kota ?? '') }}"
+                            <select id="kotaSelect" name="kota_id"
                                 class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
+                                <option value="">Pilih Kota</option>
+                                @if ($user->kota)
+                                    <option value="{{ $user->kota_id }}" selected>{{ $user->kota->nama }}</option>
+                                @endif
+                            </select>
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-1">Kecamatan</label>
-                            <input type="text" name="kecamatan" value="{{ old('kecamatan', $detail->kecamatan ?? '') }}"
+                            <select id="kecamatanSelect" name="kecamatan_id"
                                 class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
+                                <option value="">Pilih Kecamatan</option>
+                                @if ($user->kecamatan)
+                                    <option value="{{ $user->kecamatan_id }}" selected>{{ $user->kecamatan->nama }}
+                                    </option>
+                                @endif
+                            </select>
                         </div>
 
                         <div>
@@ -125,7 +134,11 @@
                 <div id="form-pelamar" class="{{ old('role', $user->role ?? '') == 'pelamar' ? '' : 'hidden' }} space-y-4">
                     <h3 class="font-semibold text-gray-700 mt-4">Data Pelamar</h3>
 
-                    <input type="hidden" name="kategori" value="pelamar">
+
+                    @if (Auth::user()->role === 'pelamar')
+                        <input type="hidden" name="kategori" value="pelamar">
+                    @endif
+
 
                     {{-- Nama Pelamar --}}
                     <div>
@@ -273,6 +286,44 @@
             </form>
         </div>
     </main>
+
+    {{-- Script AJAX Dinamis --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const provinsiSelect = document.getElementById('provinsiSelect');
+            const kotaSelect = document.getElementById('kotaSelect');
+            const kecamatanSelect = document.getElementById('kecamatanSelect');
+
+            // Saat provinsi berubah
+            provinsiSelect.addEventListener('change', function() {
+                const provinsiId = this.value;
+                kotaSelect.innerHTML = '<option>Memuat...</option>';
+                kecamatanSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
+
+                fetch(`{{ route('superadmin.get.kota', '') }}/${provinsiId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        kotaSelect.innerHTML = '<option value="">Pilih Kota</option>';
+                        const options = data.map(k => `<option value="${k.id}">${k.nama}</option>`);
+                        kotaSelect.insertAdjacentHTML('beforeend', options.join(''));
+                    });
+            });
+
+            // Saat kota berubah
+            kotaSelect.addEventListener('change', function() {
+                const kotaId = this.value;
+                kecamatanSelect.innerHTML = '<option>Memuat...</option>';
+
+                fetch(`{{ route('superadmin.get.kecamatan', '') }}/${kotaId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        kecamatanSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
+                        const options = data.map(k => `<option value="${k.id}">${k.nama}</option>`);
+                        kecamatanSelect.insertAdjacentHTML('beforeend', options.join(''));
+                    });
+            });
+        });
+    </script>
 @endsection
 
 @push('scripts')

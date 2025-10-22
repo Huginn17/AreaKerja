@@ -50,10 +50,11 @@
 
         {{-- content --}}
         <div class="flex gap-2 mb-6 mt-14 justify-end">
-            <input id="cari" type="text"
-                placeholder="nama/username ..."class="border border-gray-600 rounded-lg px-4 py-2 w-72">
-            <button type="button"
-                onclick="searchTable()"class="bg-orange-500 hover:bg-orange-600 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
+            <form action="{{ route('superadmin.freeze') }}" method="get">
+            <input type="text" name="search" value="{{ $search ?? '' }}"
+                placeholder="username/role ..."class="border border-gray-600 rounded-lg px-4 py-2 w-72">
+            <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
+            </form>
         </div>
 
         <!-- Wrapper -->

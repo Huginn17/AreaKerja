@@ -49,22 +49,22 @@
                     $borderClass = $isFullTime
                         ? 'border-l-4 border-red-600 hover:bg-red-100'
                         : ($isWfoWfh
-                            ? 'border-l-4 border-blue-600 hover:bg-blue-100'
+                            ? 'border-l-4 border-blue-600 hover:bg-blue-700'
                             : ($isGraduate
                                 ? 'border-l-4 border-orange-500 hover:bg-orange-100'
                                 : ''));
                 @endphp
 
                 <span
-                    class="h-14 w-full px-4 py-3 border border-gray-300 rounded text-sm bg-white hover:bg-gray-50 cursor-pointer flex items-center justify-center text-center shadow-sm {{ $textClass }} {{ $borderClass }}">
+                    class="h-14 w-full px-4 py-3 border-2 border-gray-400 rounded text-sm bg-white hover:bg-gray-50 cursor-pointer flex items-center justify-center text-center shadow-sm {{ $textClass }} {{ $borderClass }}">
                     @if ($isFullTime)
                         <span class="mr-2">🔥</span>
                         <span>Full Time</span>
                     @elseif ($isWfoWfh)
-                        <span class="mr-2">🌐</span>
+                        <span class="mr-2 hover:bg-gray-50">🌐</span>
                         <span>WFO/WFH</span>
                     @elseif ($isGraduate)
-                        <span class="mr-2">🎓</span>
+                        <span class="mr-2 hover:bg-gray-100">🎓</span>
                         <span>Graduate</span>
                     @else
                         {{ $kategori }}
@@ -77,10 +77,10 @@
     <!-- Tabs -->
     <div class="flex justify-center border-b">
         <div class="max-w-5xl mx-auto flex gap-6 px-4 text">
-            <a href="#" class="py-3 border-b-4 border-orange-600  text-gray-800 font-bold">
+            <a href="#" class="py-3 border-b-4 border-orange-600  text-gray-800 font-bold hover:scale-105">
                 UMPAN LOWONGAN
             </a>
-            <a href="#" class="py-3 text-gray-700 hover:text-gray-800 font-bold">
+            <a href="#" class="py-3 text-gray-700 hover:text-gray-800 font-bold hover:scale-105">
                 PENCARIAN BARU-BARU INI
             </a>
         </div>
@@ -97,7 +97,7 @@
             @foreach ($Data as $d)
                 @if ($d->published_at && (!$d->expired_at || $d->expired_at > now()))
                     <div x-data="{ open: false, showConfirm: false, showSuccess: false }"
-                        class="border p-6 rounded-lg shadow-sm hover:shadow-md transition bg-white">
+                        class="border-2 border-gray-400 p-6 rounded-lg shadow-sm hover:shadow-md transition bg-white">
 
 
                         {{-- Header --}}

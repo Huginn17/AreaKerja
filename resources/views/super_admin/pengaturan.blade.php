@@ -57,7 +57,7 @@
             <div class="w-full max-w-2xl space-y-6">
                 <!-- Tombol Ganti Password -->
                 <button onclick="document.getElementById('passwordFormSuper').classList.toggle('hidden')"
-                    class="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 rounded-lg text-left pl-4">
+                    class="w-full bg-orange-500 transition duration-300 hover:bg-orange-600 text-white font-medium py-3 rounded-lg text-left pl-4">
                     Ganti Password
                 </button>
 
@@ -92,7 +92,7 @@
 
                 <!-- Ganti Email -->
                 <a href="{{ route('email.ubah') }}"
-                    class="block w-full bg-orange-600 hover:bg-orange-700 text-white py-3 rounded-lg text-left pl-5">
+                    class="block w-full bg-orange-500 transition duration-300 hover:bg-orange-600 text-white py-3 rounded-lg text-left pl-5">
                     Ganti Email
                 </a>
             </div>
