@@ -48,9 +48,9 @@
                         class="w-full px-3 py-2 rounded-md text-black border border-gray-300 focus:ring-2 focus:ring-orange-400 focus:outline-none">
                 </div>
 
-                <div class="col-span-3 flex justify-end">
+                <div class="col-span-3 flex mx-auto mt-6">
                     <button type="submit"
-                        class="bg-white text-orange-600 hover:bg-orange-100 transition font-semibold px-6 py-2 rounded-lg shadow">
+                        class="bg-orange-400 text-white hover:bg-orange-500 transition duration-300 font-semibold px-6 py-2 rounded-lg shadow">
                         Simpan Tanggal
                     </button>
                 </div>

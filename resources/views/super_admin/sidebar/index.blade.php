@@ -63,7 +63,7 @@
 
                 <div class="font-bold ml-3 mb-3">Super Admin</div>
                 <div
-                    class="{{ request()->is('super_admin/pelamar') || request()->is('super_admin/detail-kandidat') || request()->is('super_admin/tambah-kandidat') ? 'bg-white text-orange-500' : '' }} rounded-md">
+                    class="{{ request()->is('super_admin/pelamar') || request()->is('super_admin/pelamar/tambah/kandidat') || request()->is('super_admin/kandidat/1') ? 'bg-white text-orange-500' : '' }} rounded-md">
                     <a href="{{ route('superadmin.pelamar') }}"
                         class="flex font-semibold items-center mb-1 gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="20" height="21" viewBox="0 0 20 21" fill="currentColor"
@@ -97,7 +97,8 @@
                         Data Perusahaan
                     </a>
                 </div>
-                <div class="{{ request()->is('super_admin/paket/harga') ? 'bg-white text-orange-500' : '' }} rounded-md">
+                <div
+                    class="{{ request()->is('super_admin/paket/harga') ? 'bg-white text-orange-500' : '' }} rounded-md">
                     <a href="{{ route('superadmin.paket-harga') }}"
                         class="flex font-semibold items-center mb-1 gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" fill="none"
@@ -159,8 +160,9 @@
                         Akun
                     </a>
                 </div>
-                <div class=" {{ request()->is('super_admin/banner') ? 'bg-white text-orange-500' : '' }} rounded-md">
-                    <a href="/super_admin/banner"
+                <div
+                    class=" {{ request()->is('super_admin/social-links') ? 'bg-white text-orange-500' : '' }} rounded-md">
+                    <a href="{{ route('superadmin.social.index') }}"
                         class="flex font-semibold items-center mb-1 gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-2 transition duration-300">
                         <svg width="16" height="17" viewBox="0 0 16 17" fill="currentColor"
                             xmlns="http://www.w3.org/2000/svg">

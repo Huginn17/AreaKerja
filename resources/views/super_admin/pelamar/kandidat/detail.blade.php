@@ -43,7 +43,7 @@
         </div>
 
         <!-- Konten utama -->
-        <div class="max-w-6xl mx-auto bg-white rounded-xl shadow-md border p-6 relative">
+        <div class="max-w-6xl mx-auto bg-white rounded-xl shadow-md border-2 border-gray-400 p-6 relative">
             <div class="max-w-3xl mx-auto">
                 <!-- Tombol close -->
                 <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl">&times;</button>

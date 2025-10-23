@@ -114,6 +114,37 @@
                                             fill="white" />
                                     </svg>
                                 </a>
+                                @if ($item->user->status === 0)
+                                    <!-- Tombol Nonaktifkan / Hapus -->
+                                    <button class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-md open-freeze-modal"
+                                        title="Nonaktifkan" data-id="{{ $item->user->id }}">
+
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M10 2.5C8.01088 2.5 6.10322 3.29018 4.6967 4.6967C3.29018 6.10322 2.5 8.01088 2.5 10C2.5 11.9891 3.29018 13.8968 4.6967 15.3033C6.10322 16.7098 8.01088 17.5 10 17.5C11.9891 17.5 13.8968 16.7098 15.3033 15.3033C16.7098 13.8968 17.5 11.9891 17.5 10C17.5 8.01088 16.7098 6.10322 15.3033 4.6967C13.8968 3.29018 11.9891 2.5 10 2.5ZM0 10C0 7.34784 1.05357 4.8043 2.92893 2.92893C4.8043 1.05357 7.34784 0 10 0C12.6522 0 15.1957 1.05357 17.0711 2.92893C18.9464 4.8043 20 7.34784 20 10C20 12.6522 18.9464 15.1957 17.0711 17.0711C15.1957 18.9464 12.6522 20 10 20C7.34784 20 4.8043 18.9464 2.92893 17.0711C1.05357 15.1957 0 12.6522 0 10Z"
+                                                fill="white" />
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M17.0711 2.92893C17.3054 3.16334 17.4372 3.48105 17.4372 3.8125C17.4372 4.14396 17.3056 4.46184 17.0712 4.69625L4.69625 17.0712C4.4605 17.2989 4.14474 17.4249 3.817 17.4221C3.48925 17.4192 3.17574 17.2878 2.94398 17.056C2.71222 16.8243 2.58076 16.5107 2.57791 16.183C2.57506 15.8553 2.70105 15.5395 2.92875 15.3038L15.3038 2.92875C15.5382 2.69441 15.856 2.56277 16.1875 2.56277C16.519 2.56277 16.8367 2.69459 17.0711 2.92893Z"
+                                                fill="white" />
+                                        </svg>
+                                    </button>
+                                @else
+                                    <button
+                                        class="bg-green-500 hover:bg-green-600 text-white p-2 rounded-md open-unfreeze-modal"
+                                        title="Nonaktifkan" data-id="{{ $item->user->id }}">
+
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M10 2.5C8.01088 2.5 6.10322 3.29018 4.6967 4.6967C3.29018 6.10322 2.5 8.01088 2.5 10C2.5 11.9891 3.29018 13.8968 4.6967 15.3033C6.10322 16.7098 8.01088 17.5 10 17.5C11.9891 17.5 13.8968 16.7098 15.3033 15.3033C16.7098 13.8968 17.5 11.9891 17.5 10C17.5 8.01088 16.7098 6.10322 15.3033 4.6967C13.8968 3.29018 11.9891 2.5 10 2.5ZM0 10C0 7.34784 1.05357 4.8043 2.92893 2.92893C4.8043 1.05357 7.34784 0 10 0C12.6522 0 15.1957 1.05357 17.0711 2.92893C18.9464 4.8043 20 7.34784 20 10C20 12.6522 18.9464 15.1957 17.0711 17.0711C15.1957 18.9464 12.6522 20 10 20C7.34784 20 4.8043 18.9464 2.92893 17.0711C1.05357 15.1957 0 12.6522 0 10Z"
+                                                fill="white" />
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M17.0711 2.92893C17.3054 3.16334 17.4372 3.48105 17.4372 3.8125C17.4372 4.14396 17.3056 4.46184 17.0712 4.69625L4.69625 17.0712C4.4605 17.2989 4.14474 17.4249 3.817 17.4221C3.48925 17.4192 3.17574 17.2878 2.94398 17.056C2.71222 16.8243 2.58076 16.5107 2.57791 16.183C2.57506 15.8553 2.70105 15.5395 2.92875 15.3038L15.3038 2.92875C15.5382 2.69441 15.856 2.56277 16.1875 2.56277C16.519 2.56277 16.8367 2.69459 17.0711 2.92893Z"
+                                                fill="white" />
+                                        </svg>
+                                    </button>
+                                @endif
                             </td>
                         </tr>
                     @empty
@@ -128,4 +159,116 @@
         </div>
 
     </div>
+    <!-- Modal Konfirmasi -->
+    <div id="confirmModal" class="fixed inset-0 hidden bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white rounded-2xl p-6 text-center w-96">
+            <div class="text-6xl text-red-500 mb-4">⚠️</div>
+            <p class="mb-6">Yakin akan membekukan?</p>
+            <div class="flex justify-center gap-4">
+                <button id="yesFreeze" class="bg-green-500 text-white px-6 py-2 rounded">Ya</button>
+                <button id="cancelFreeze" class="bg-red-500 text-white px-6 py-2 rounded">Tidak</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Alasan -->
+    <div id="reasonModal" class="fixed inset-0 hidden bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white rounded-2xl p-6 text-center w-96">
+            <h2 class="text-lg font-semibold mb-4">Konfirmasi</h2>
+            <textarea id="alasan" rows="4" class="w-full border rounded p-2 mb-4" placeholder="Masukkan Alasan"></textarea>
+            <button id="submitReason" class="bg-green-500 text-white px-6 py-2 rounded">Kirim</button>
+        </div>
+    </div>
+
+    <!-- Modal Unfreeze -->
+    <div id="unfreezeModal" class="fixed inset-0 hidden bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white rounded-2xl p-6 text-center w-96">
+            <div class="text-6xl text-green-500 mb-4">🔓</div>
+            <p class="mb-6">Yakin ingin mengaktifkan kembali akun ini?</p>
+            <div class="flex justify-center gap-4">
+                <button id="yesUnfreeze" class="bg-green-500 text-white px-6 py-2 rounded">Ya</button>
+                <button id="cancelUnfreeze" class="bg-red-500 text-white px-6 py-2 rounded">Tidak</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let selectedUserId = null;
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            // === OPEN FREEZE ===
+            document.querySelectorAll('.open-freeze-modal').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    selectedUserId = btn.dataset.id;
+                    document.getElementById('confirmModal').classList.remove('hidden');
+                });
+            });
+
+            document.getElementById('cancelFreeze').addEventListener('click', () => {
+                document.getElementById('confirmModal').classList.add('hidden');
+            });
+
+            document.getElementById('yesFreeze').addEventListener('click', () => {
+                document.getElementById('confirmModal').classList.add('hidden');
+                document.getElementById('reasonModal').classList.remove('hidden');
+            });
+
+            document.getElementById('submitReason').addEventListener('click', async () => {
+                const alasan = document.getElementById('alasan').value.trim();
+                if (!alasan) {
+                    alert('⚠️ Silakan isi alasan terlebih dahulu.');
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`/admin/user/freeze/${selectedUserId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken,
+                        },
+                        body: JSON.stringify({
+                            alasan
+                        })
+                    });
+
+                    const result = await response.json();
+                    alert(result.message || '✅ Akun berhasil dibekukan.');
+                    location.reload();
+                } catch (error) {
+                    alert('❌ Terjadi kesalahan: ' + error.message);
+                }
+            });
+
+            // === OPEN UNFREEZE ===
+            document.querySelectorAll('.open-unfreeze-modal').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    selectedUserId = btn.dataset.id;
+                    document.getElementById('unfreezeModal').classList.remove('hidden');
+                });
+            });
+
+            document.getElementById('cancelUnfreeze').addEventListener('click', () => {
+                document.getElementById('unfreezeModal').classList.add('hidden');
+            });
+
+            document.getElementById('yesUnfreeze').addEventListener('click', async () => {
+                try {
+                    const response = await fetch(`/admin/user/unfreeze/${selectedUserId}`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken,
+                        },
+                    });
+
+                    const result = await response.json();
+                    alert(result.message || '✅ Akun berhasil diaktifkan kembali.');
+                    location.reload();
+                } catch (error) {
+                    alert('❌ Terjadi kesalahan: ' + error.message);
+                }
+            });
+        });
+    </script>
 @endsection

@@ -74,7 +74,7 @@
                                 <td class="px-4 py-2">{{ $l->total_transaksi }}</td>
                                 <td class="px-4 py-2">
                                     <a href="{{ route('finance.laporan.detail', ['tanggal' => $l->tanggal]) }}"
-                                        class="text-orange-500 hover:underline">Lihat</a>
+                                        class="text-orange-500 hover:underline"><i class="text-lg ph ph-file"></i></a>
                                 </td>
                             </tr>
                         @empty

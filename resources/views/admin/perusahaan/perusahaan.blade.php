@@ -102,7 +102,7 @@
                             <td class="px-4 py-3">{{ $p->id }}</td>
 
                             <td class="px-4 py-3">
-                                <a href="{{ url('/admin/detail/data/perusahaan' . $p->id) }}"
+                                <a href="{{ route('admin.perusahaan.detail', $p->id) }}"
                                     class="text-blue-600 hover:underline">
                                     {{ $p->nama_perusahaan }}
                                 </a>
@@ -139,7 +139,7 @@
                                         </svg>
                                     </button>
                                 @else
-                                    <button 
+                                    <button
                                         class="bg-green-500 hover:bg-green-600 text-white p-2 rounded-md open-unfreeze-modal"
                                         title="Nonaktifkan" data-id="{{ $p->user->id }}">
 

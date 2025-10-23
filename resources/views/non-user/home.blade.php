@@ -243,7 +243,7 @@
                                 <p class="mb-6">CV akan dikirimkan ke <b>{{ $d->perusahaan->nama_perusahaan }}</b></p>
                                 <div class="flex justify-center gap-4">
                                     <button @click="showConfirm = false"
-                                        class="px-4 py-2 bg-gray-300 rounded-lg">Batal</button>
+                                        class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg">Batal</button>
 
                                     {{-- Tombol Kirim dengan AJAX --}}
                                     <button
@@ -273,7 +273,7 @@
             alert('Terjadi kesalahan koneksi.');
         })
     "
-                                        class="px-4 py-2 bg-orange-500 text-white rounded-lg">
+                                        class="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg">
                                         Kirim
                                     </button>
 

@@ -22,7 +22,7 @@
             <div class="flex flex-col md:flex-row justify-center gap-6">
 
                 <!-- GOLD -->
-                <div class="bg-white rounded-2xl shadow-md hover:shadow-xl w-72 overflow-hidden flex flex-col transition duration-500 hover:scale-105">
+                <div class="bg-white border-2 border-gray-200 rounded-2xl shadow-md hover:shadow-xl w-72 overflow-hidden flex flex-col transition duration-500 hover:scale-105">
                     <div class="py-3 text-center" style="background: linear-gradient(to right,#eab308, #facc15);">
                         <h3 class="text-xl font-semibold text-white">Gold</h3>
                     </div>
@@ -76,7 +76,7 @@
                 </div>
 
                 <!-- SILVER -->
-                <div class="bg-white rounded-2xl shadow-md hover:shadow-xl w-72 overflow-hidden flex flex-col transition duration-500 hover:scale-105">
+                <div class="bg-white border-2 border-gray-200 rounded-2xl shadow-md hover:shadow-xl w-72 overflow-hidden flex flex-col transition duration-500 hover:scale-105">
                     <div class="py-3 text-center" style="background: linear-gradient(to right, #81858b, #c2c4c7);">
                         <h3 class="text-xl font-semibold text-white">Silver</h3>
                     </div>
@@ -131,9 +131,9 @@
                 </div>
 
                 <!-- BRONZE -->
-                <div class="bg-white rounded-2xl shadow-md hover:shadow-xl w-72 overflow-hidden flex flex-col transition duration-500 hover:scale-105">
+                <div class="bg-white border-2 border-gray-200 rounded-2xl shadow-md hover:shadow-xl w-72 overflow-hidden flex flex-col transition duration-500 hover:scale-105">
                     <div class="py-3 text-center"
-                        style="background: linear-gradient(to right, rgb(99, 86, 79),rgb(172, 161, 161));">
+                        style="background: linear-gradient(to right, rgb(180, 80, 26),rgba(180, 80,  26));">
                         <h3 class="text-xl font-semibold text-white">Bronze</h3>
                     </div>
                     <div class="p-5 flex-1 flex flex-col">
@@ -181,7 +181,7 @@
                         </ul>
                         <a href="#"
                             class="text-white font-semibold py-2 rounded-lg block text-center hover:opacity-90"
-                            style="background: linear-gradient(to right, rgb(99, 86, 79));">
+                            style="background: linear-gradient(to right,  rgb(180, 80, 26));">
                             Pasang Lowongan
                         </a>
                     </div>

@@ -20,6 +20,7 @@ use App\Http\Controllers\PengalamanOrgController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SkillController;
+use App\Http\Controllers\SocialLinkController;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\TipsKerjaController;
 use App\Jobs\ExpireLamaranJob;
@@ -401,7 +402,7 @@ Route::prefix('admin')->middleware('auth', 'role:admin', 'CheckUserStatus')->gro
 
     //PERUSAHAAN
     Route::get('/perusahaan', [AdminController::class, 'halPerusahaan'])->name('admin.perusahaan');
-    Route::get('/admin/perusahaan/{id}', [AdminController::class, 'detailPerusahaan'])->name('admin.perusahaan.detail');
+    Route::get('/perusahaan/detail/{id}', [AdminController::class, 'detailPerusahaan'])->name('admin.perusahaan.detail');
     Route::get('/admin/lowongan/{id}', [AdminController::class, 'detailLowongan'])->name('admin.lowongan.detail');
     //REKOMENDASI
     Route::post('/lowongan/{id}/rekomendasi', [LowonganPerusahaanController::class, 'toggleRekomendasi'])->name('admin.lowongan.toggleRekomendasi');
@@ -610,6 +611,10 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
 
     //PANGGILAN
 
+
+    //SOCIAL LINK
+    Route::get('/social-links', [SocialLinkController::class, 'index'])->name('superadmin.social.index');
+    Route::post('/social-links', [SocialLinkController::class, 'update'])->name('superadmin.social.update');
 });
 
 
@@ -655,9 +660,9 @@ Route::get('/super_admin/detail-perusahaan', function () {
 Route::get('/super_admin/pengaturan', function () {
     return view('super_admin.pengaturan');
 });
-Route::get('/super_admin/banner', function () {
-    return view('super_admin.banner');
-});
+// Route::get('/super_admin/banner', function () {
+//     return view('super_admin.banner');
+// });
 
 
 // Route::get('/super_admin/add', function () {
