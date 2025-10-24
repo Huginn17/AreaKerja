@@ -34,7 +34,7 @@
                     </div>
 
                     <select class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
-                     <option value=""></option>
+                        <option value=""></option>
                         <option>Text 1</option>
                         <option>Text 2</option>
                         <option>Text 3</option>
@@ -83,7 +83,7 @@
                         class="absolute hidden mt-2 w-full bg-white rounded-md shadow-lg overflow-hidden z-10">
                         <ul class="text-orange-500">
                             <li>
-                                <a href="/super_admin/data-perusahaan"
+                                <a href="{{ route('superadmin.perusahaan') }}"
                                     class="block px-4 py-2 hover:bg-orange-500 hover:text-white transition">Perusahaan</a>
                             </li>
                             <li>
@@ -92,10 +92,11 @@
                             </li>
                             <li>
                                 <a href="/super_admin/data-talent-hunter"
-                                    class="block px-4 py-2 hover:bg-orange-500 hover:text-white transition">Talent Hunter</a>
+                                    class="block px-4 py-2 hover:bg-orange-500 hover:text-white transition">Talent
+                                    Hunter</a>
                             </li>
                             <li>
-                                <a href="/super_admin/data-panggilan"
+                                <a href="{{ route('superadmin.panggilan') }}"
                                     class="block px-4 py-2 hover:bg-orange-500 hover:text-white transition">Panggilan</a>
                             </li>
                         </ul>
@@ -114,9 +115,12 @@
             </div>
 
             <div class="flex gap-2">
-                <input type="text" placeholder="nama/username ..."
-                    class="border border-gray-500 rounded-lg px-4 py-2 w-72">
-                <button class="bg-orange-500 hover:bg-orange-600 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
+                <form method="GET" action="{{ route('superadmin.panggilan') }}">
+                    <input type="text" name="search" value="{{ request('search') }}"placeholder="nama perusahaan ..."
+                        class="border border-gray-500 rounded-lg px-4 py-2 w-72">
+                    <button type="submit"
+                        class="bg-orange-500 hover:bg-orange-600 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
+                </form>
             </div>
         </div>
 
@@ -124,7 +128,7 @@
         <div class="overflow-hidden rounded-2xl border border-gray-300">
             <table class="w-full text-left border-collapse">
                 <thead class="text-center">
-                         <tr class="border-b-[2px] border-gray-300">
+                    <tr class="border-b-[2px] border-gray-300">
                     <tr>
                         <th class="p-7 font-medium">ID</th>
                         <th class="p-7 font-medium">Nama Perusahaan</th>
@@ -135,22 +139,45 @@
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    @for ($i = 0; $i < 10; $i++)
-                        <!-- Contoh isi data (bisa diulang dengan loop dari backend) -->
-                            <tr class="border-b-[2px] border-gray-300">
+                    @foreach ($perusahaans as $p)
+                        @php
+                            $alamat = $p->alamat_perusahaan->first();
+                        @endphp
+
+                        <tr class="border-b-[2px] border-gray-300">
                         <tr class="border-b">
-                                 <tr class="border-b-[2px] border-gray-300">
-                            <td class="px-4 py-3">000001</td>
-                            <td class="px-4 py-3">Seven INC</td>
-                            <td class="px-4 py-3">seveninc@gmail.com</td>
-                            <td class="px-4 py-3">(0351)-123456</td>
-                            <td class="px-4 py-3">Jawa Tengah</td>
+                        <tr class="border-b-[2px] border-gray-300">
+                            <td class="px-4 py-3">{{ str_pad($p->id, 8, '0', STR_PAD_LEFT) }}</td>
+                            <td class="px-4 py-3">{{ $p->nama_perusahaan }}</td>
+                            <td class="px-4 py-3">{{ $p->user->email }}</td>
+                            <td class="px-4 py-3">{{ $p->telepon_perusahaan }}</td>
                             <td class="px-4 py-3">
-                                <a href="/super_admin/detail-perusahaan"
-                                    class="bg-orange-500 text-xs text-white px-4 py-1 rounded-lg">View</a>
+                                @if ($alamat)
+                                    {{ $alamat->detail ?? '-' }},
+                                    {{ $alamat->desa ?? '' }},
+                                    {{ $alamat->kecamatan->nama ?? '' }},
+                                    {{ $alamat->kota->nama ?? '' }},
+                                    {{ $alamat->provinsi->nama ?? '' }},
+                                    {{ $alamat->kode_pos ?? '' }}
+                                @else
+                                    -
+                                @endif
                             </td>
+                            <td class="px-4 py-3 text-center">
+                                <a href="{{ route('superadmin.panggilan.list', $p->id) }}"
+                                    class="inline-flex items-center gap-2 bg-orange-100 text-orange-700 hover:bg-orange-200 
+        border border-orange-400 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M7 8h10M7 12h10M7 16h10" />
+                                    </svg>
+                                    <span>List Nama Pekerja</span>
+                                </a>
+                            </td>
+
                         </tr>
-                    @endfor
+                    @endforeach
                 </tbody>
             </table>
         </div>

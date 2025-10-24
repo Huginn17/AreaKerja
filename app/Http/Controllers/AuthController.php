@@ -57,7 +57,7 @@ class AuthController extends Controller
                 $q->whereNull('expired_at')
                     ->orWhere('expired_at', '>', now());
             })
-        ->orderBy('rekomendasi', 'desc')
+            ->orderBy('rekomendasi', 'desc')
             ->latest()
             ->get();
 
@@ -268,18 +268,29 @@ class AuthController extends Controller
         // Total Transaksi Koin = jumlah absolut dari semua pergerakan koin
         $totalTransaksiKoin = $koin->sum(fn($item) => abs($item->total));
 
+        // Ambil 5 transaksi terbaru
         $cashTerbaru = CatatanCash::orderBy('created_at', 'desc')->take(5)->get();
         $koinTerbaru = CatatanKoin::orderBy('created_at', 'desc')->take(5)->get();
 
+        // 🔸 Ambil data notifikasi untuk transaksi cash menunggu verifikasi
+        $notifikasiCash = CatatanCash::where('status', 'menunggu_verifikasi')->get();
+
+        // 🔸 Hitung jumlah notifikasi
+        $notifCount = $notifikasiCash->count();
+
+        // Kirim semua data ke view
         return view('finance.dashboard', [
             'totalOmset' => $totalOmset,
             'totalTransaksiKoin' => $totalTransaksiKoin,
             'cash' => $cash,
             'koin' => $koin,
             'cashTerbaru' => $cashTerbaru,
-            'koinTerbaru' => $koinTerbaru
+            'koinTerbaru' => $koinTerbaru,
+            'notifikasiCash' => $notifikasiCash,
+            'notifCount' => $notifCount, // ← tambahkan ini
         ]);
     }
+
 
 
     public function loginproses_finance(Request $request)

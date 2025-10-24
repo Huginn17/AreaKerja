@@ -610,6 +610,8 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
 
 
     //PANGGILAN
+    Route::get('/panggilan', [SuperAdminController::class, 'panggilan'])->name('superadmin.panggilan');
+    Route::get('/panggilan/{perusahaan}/list', [SuperAdminController::class, 'listPekerja'])->name('superadmin.panggilan.list');
 
 
     //SOCIAL LINK
@@ -789,6 +791,8 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
     Route::get('/alamat', [PerusahaanController::class, 'alamat_perusahaan'])->name('alamat.perusahaan');
     Route::get('/form/alamat', [PerusahaanController::class, 'form_alamat'])->name('form.alamat.perusahaan');
 
+    Route::post('/alamat-perusahaan/{id}/utama', [PerusahaanController::class, 'setUtama'])->name('alamat-perusahaan.setUtama');
+
     Route::post('/create/alamat', [PerusahaanController::class, 'store_alamat'])->name('alamat.store.perusahaan');
     Route::get('/edit/alamat/{alamatperusahaan:id}', [PerusahaanController::class, 'edit_alamat'])->name('alamat.edit.perusahaan');
     Route::put('/update/alamat/{alamatperusahaan:id}', [PerusahaanController::class, 'update_alamat'])->name('alamat.update.perusahaan');
@@ -964,5 +968,4 @@ Route::post('/registerproses_perusahaan', [AuthController::class, 'regis_proses_
 
 
 //login
-
 Route::post('/super_admin/login', [AuthController::class, 'login_superadmin'])->name('login_superadmin');

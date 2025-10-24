@@ -96,7 +96,7 @@
                                     Hunter</a>
                             </li>
                             <li>
-                                <a href="/super_admin/data-panggilan"
+                                <a href="{{ route('superadmin.panggilan') }}"
                                     class="block px-4 py-2 hover:bg-orange-500 hover:text-white transition">Panggilan</a>
                             </li>
                         </ul>
@@ -119,6 +119,7 @@
                 <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="nama/username ..."
                     class="border-2 border-gray-400 rounded-lg px-4 py-2 w-72">
                 <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
+                </form>
             </div>
         </div>
 

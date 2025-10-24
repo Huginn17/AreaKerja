@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\AlamatPelamar;
+use App\Models\AlamatPerusahaan;
 use App\Models\CatatanCash;
 use App\Models\CatatanKoin;
 use App\Models\Divisi;
@@ -1131,8 +1132,66 @@ class SuperAdminController extends Controller
     }
 
 
-    public function panggilan()
+    public function panggilan(Request $request)
     {
-        return view('super_admin.panggilan.data-panggilan');
+        $search = $request->input('search');
+
+        $perusahaans = Perusahaan::whereHas('pasanglowongan.pelamar', function ($query) {
+            $query->where('pelamar_lowongans.status', 'diterima');
+        })
+            ->when($search, function ($query) use ($search) {
+                $query->where('nama_perusahaan', 'like', '%' . $search . '%');
+            })
+            ->with([
+                'pasanglowongan.pelamar' => function ($query) {
+                    $query->where('pelamar_lowongans.status', 'diterima');
+                },
+                'alamat_perusahaan' => function ($query) {
+                    $query->where('utama', 1)
+                        ->with(['provinsi', 'kota', 'kecamatan']);
+                }
+            ])
+            ->get();
+
+        return view('super_admin.panggilan.data-panggilan', [
+            'perusahaans' => $perusahaans,
+            'search' => $search
+        ]);
+    }
+
+
+    public function listPekerja(Request $request, $perusahaan_id)
+    {
+        $search = $request->input('search');
+
+        $perusahaan = Perusahaan::with([
+            'pasanglowongan.pelamar' => function ($query) use ($search) {
+                $query->where('pelamar_lowongans.status', 'diterima');
+
+              
+                if ($search) {
+                    $query->where('nama_pelamar', 'like', '%' . $search . '%');
+                }
+            },
+            'pasanglowongan'
+        ])->findOrFail($perusahaan_id);
+
+        $pelamarDiterima = $perusahaan->pasanglowongan
+            ->flatMap(function ($lowongan) {
+                return $lowongan->pelamar->map(function ($pelamar) use ($lowongan) {
+                    return [
+                        'nama' => $pelamar->nama_pelamar ?? '-',
+                        'email' => $pelamar->user->email ?? '-',
+                        'lowongan' => $lowongan->nama ?? '-',
+                        'tanggal_diterima' => $pelamar->pivot->updated_at->format('d M Y'),
+                    ];
+                });
+            });
+
+        return view('super_admin.panggilan.list-nama-pekerja', [
+            'perusahaan' => $perusahaan,
+            'pelamarDiterima' => $pelamarDiterima,
+            'search' => $search
+        ]);
     }
 }

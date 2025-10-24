@@ -31,4 +31,13 @@ class AlamatPerusahaan extends Model
     {
         return $this->belongsTo(Kecamatan::class);
     }
+
+    public function setSebagaiUtama()
+    {
+        static::where('perusahaan_id', $this->perusahaan_id)
+            ->update(['utama' => 0]);
+
+        // Jadikan alamat ini utama
+        $this->update(['utama' => 1]);
+    }
 }

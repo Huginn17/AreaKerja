@@ -53,6 +53,19 @@
                         <span class="ml-72 bg-orange-500 text-white px-4 py-1 rounded-md text-sm hover:bg-orange-600"><i
                                 class="ph ph-plus"></i></span>
                     </a>
+                    @foreach ($perusahaan->alamat_perusahaan->sortByDesc('utama') as $alamat)
+                        <div
+                            class="p-3 mb-2 rounded {{ $alamat->utama ? 'text-sm ' : 'border-gray-200' }}">
+                            <form action="{{ route('alamat-perusahaan.setUtama', $alamat->id) }}" method="POST"
+                                style="display:inline;">
+                                @csrf
+                                <button type="submit"
+                                    class="text-sm {{ $alamat->utama ? 'text-red-600' : 'text-blue-600' }} hover:underline"> 
+                                    {{ $alamat->utama ? 'Hapus sebagai Utama' : 'Jadikan Utama' }}
+                                </button>
+                            </form>
+                        </div>
+                    @endforeach
                 </div>
             @endforeach
         </div>

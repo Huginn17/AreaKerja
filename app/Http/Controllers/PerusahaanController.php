@@ -87,8 +87,17 @@ class PerusahaanController extends Controller
     //ALAMAT PERUSAHAAN
     public function alamat_perusahaan()
     {
-        return view('perusahaan.alamat.alamat');
+        $perusahaan = auth()->user()
+            ->perusahaan()
+            ->with(['alamat_perusahaan.provinsi', 'alamat_perusahaan.kota', 'alamat_perusahaan.kecamatan'])
+            ->firstOrFail();
+
+        $alamat_perusahaan = $perusahaan->alamat_perusahaan->sortByDesc('utama');
+
+        return view('perusahaan.alamat.alamat', compact('perusahaan', 'alamat_perusahaan'));
     }
+
+
 
     public function form_alamat()
     {
@@ -165,6 +174,13 @@ class PerusahaanController extends Controller
     //     return view('perusahaan.transaksi-koin', compact('transaksi'));
     // }
 
+    public function setUtama()
+    {
+        $alamat = AlamatPerusahaan::findOrFail(request()->id);
+        $alamat->setSebagaiUtama();
+
+        return back()->with('success', 'Alamat utama berhasil diubah!');
+    }
 
     //PELAMAR
     public function pelamar(LowonganPerusahaan $lowongan)

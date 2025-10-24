@@ -173,6 +173,7 @@
 
         </div>
     </aside>
+
     @yield('sidebar')
 
     <!-- Modal overlay -->
@@ -245,6 +246,7 @@
         });
     </script>
 
+    <script src="//unpkg.com/alpinejs" defer></script>
 </body>
 
 </html>
