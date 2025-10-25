@@ -55,7 +55,7 @@
         <div class="flex gap-4">
             @foreach ($socialLinks as $social)
                 <a href="{{ $social->link }}"
-                    class="border border-orange-400 rounded-md p-2 hover:bg-orange-600 transition duration-300 hover:scale-110"
+                    class="border border-orange-400 rounded-md px-2 py-1 hover:bg-orange-600 transition duration-300 hover:scale-110"
                     title="{{ ucfirst($social->nama) }}">
                     @switch(strtolower($social->nama))
                         @case('facebook')

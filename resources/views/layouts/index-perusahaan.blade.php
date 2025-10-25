@@ -39,7 +39,7 @@
 
 <body x-data="{ openNotif: false, openAllNotif: false }">
     {{-- navbar --}}
-    <header class="bg-white border-b border-gray-300">
+     <header class="bg-white border-b py-2 border-gray-300 fixed top-0 left-0 w-full z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             {{-- logo --}}
             <div class="flex items-center gap-2">
@@ -48,12 +48,12 @@
             </div>
 
             {{-- menu --}}
-            <nav class="hidden md:flex gap-6 font-semibold text-gray-800">
+            <nav class="hidden md:flex gap-6 font-medium text-gray-800">
                 <a href="{{ route('perusahaan.dashboard') }}"
                     class="hover:text-orange-500 hover:scale-105">Beranda</a>
                 <a href="{{ route('perusahaan.berlangganan') }}"
                     class="hover:text-orange-500 hover:scale-105">Berlangganan</a>
-                <a href="{{ url('/talent-hunter') }}" class="hover:text-orange-500 hover:scale-105">Talent Hunter</a>
+                <a href="{{ url('perusahaan/talent/hunter') }}" class="hover:text-orange-500 hover:scale-105">Talent Hunter</a>
                 <a href="{{ route('perusahaan.kandidat.ak') }}"
                     class="hover:text-orange-500 hover:scale-105">Kandidat</a>
                 <a href="{{ route('paket.form') }}" class="hover:text-orange-500 hover:scale-105">Pasang Lowongan</a>

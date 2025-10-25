@@ -134,11 +134,9 @@
                 <div id="form-pelamar" class="{{ old('role', $user->role ?? '') == 'pelamar' ? '' : 'hidden' }} space-y-4">
                     <h3 class="font-semibold text-gray-700 mt-4">Data Pelamar</h3>
 
-
-                    @if (Auth::user()->role === 'pelamar')
+                    @if (old('role', $user->role ?? '') === 'pelamar')
                         <input type="hidden" name="kategori" value="pelamar">
                     @endif
-
 
                     {{-- Nama Pelamar --}}
                     <div>

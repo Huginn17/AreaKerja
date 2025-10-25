@@ -1,6 +1,6 @@
     @extends('layouts.index-perusahaan')
     @section('content')
-        <div class="w-full mx-auto bg-white min-h-screen p-6">
+        <div class="w-full mx-auto bg-white min-h-screen p-6 mt-20">
             <!-- Header -->
             <h2 class="text-lg text-orange-500 font-semibold">Dashboard</h2>
             <h1 class="text-2xl font-semibold mt-1 mb-4">Selamat Datang di Area Kerja <br>

@@ -13,8 +13,18 @@
                     <div class="flex items-center gap-2 mr-2">
                         <a href="#">
                             @if (Auth::user()->role == 'super_admin')
-                                @if (Auth::user()->superadmin->img_profile)
-                                    <img id="pu" class="w-10 h-10  object-cover rounded-full profile-img"
+                                @if (Auth::user()->superadmin && Auth::user()->superadmin->img_profile)
+                                    <img id="pu" class="w-10 h-10 object-cover rounded-full profile-img"
+                                        src="{{ asset('storage/' . Auth::user()->superadmin->img_profile) }}"
+                                        alt="Profile">
+                                @else
+                                    <img id="pu" class="w-10 h-10 rounded-full"
+                                        src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                        alt="">
+                                @endif
+                            @elseif (Auth::user()->role == 'admin')
+                                @if (Auth::user()->admin && Auth::user()->admin->img_profile)
+                                    <img id="pu" class="w-10 h-10 object-cover rounded-full profile-img"
                                         src="{{ asset('storage/' . Auth::user()->admin->img_profile) }}" alt="Profile">
                                 @else
                                     <img id="pu" class="w-10 h-10 rounded-full"
@@ -26,6 +36,7 @@
                                     src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
                                     alt="">
                             @endif
+ 
                         </a>
                         <div class="text-sm">
                             <span class="font-semibold">{{ Auth::user()->username }}</span>
@@ -79,9 +90,11 @@
                         <label class="block font-medium mb-1">Waktu Acara</label>
                         <div class="flex items-center gap-2">
                             <input type="date" name="tgl_mulai" id="tgl_mulai"
-                                class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-40" value="{{ old('tgl_mulai') }}">
+                                class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-40"
+                                value="{{ old('tgl_mulai') }}">
                             <input type="date" name="tgl_akhir" id="tgl_akhir"
-                                class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-40" value="{{ old('tgl_akhir') }}">
+                                class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-40"
+                                value="{{ old('tgl_akhir') }}">
                             <input type="time" name="jam_mulai"
                                 class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-24">
                             <span>Sampai</span>
@@ -101,7 +114,8 @@
                     <!-- Kuota -->
                     <div>
                         <label class="block font-medium mb-1">Kuota Partisipasi</label>
-                        <input type="number" name="kuota" class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-24"
+                        <input type="number" name="kuota"
+                            class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-24"
                             placeholder="000">
                     </div>
 
@@ -133,7 +147,8 @@
                     <!-- Tombol Tambah Acara -->
                     <div>
                         <button type="button" @click="openModal = true"
-                            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md shadow">Tambah Acara</button>
+                            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md shadow">Tambah
+                            Acara</button>
                     </div>
 
                     <!-- Modal -->

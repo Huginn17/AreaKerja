@@ -1,13 +1,14 @@
 @extends('layouts.index-perusahaan')
 
 @section('content')
-    <section class="py-16">
+    <section class="py-16 mt-20">
         <div class="max-w-6xl mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-center gap-6 flex-wrap">
 
                 @foreach ($pakets as $paket)
                     <div class="w-72">
-                        <div class="bg-white border border-gray-400 rounded-xl shadow-md overflow-hidden flex flex-col hover:scale-105">
+                        <div
+                            class="bg-white border border-gray-400 rounded-xl shadow-sm hover:shadow-lg overflow-hidden flex flex-col transition-all duration-500 hover:scale-105">
                             <!-- Warna header sesuai nama paket -->
                             <div
                                 class="py-3 text-center 

@@ -404,6 +404,9 @@ Route::prefix('admin')->middleware('auth', 'role:admin', 'CheckUserStatus')->gro
     Route::get('/perusahaan', [AdminController::class, 'halPerusahaan'])->name('admin.perusahaan');
     Route::get('/perusahaan/detail/{id}', [AdminController::class, 'detailPerusahaan'])->name('admin.perusahaan.detail');
     Route::get('/admin/lowongan/{id}', [AdminController::class, 'detailLowongan'])->name('admin.lowongan.detail');
+    Route::get('/perusahaan/talent/hunter', function () {
+    return view('perusahaan.talenthunter-perusahaan');
+});
     //REKOMENDASI
     Route::post('/lowongan/{id}/rekomendasi', [LowonganPerusahaanController::class, 'toggleRekomendasi'])->name('admin.lowongan.toggleRekomendasi');
 

@@ -843,8 +843,8 @@ class SuperAdminController extends Controller
 
     public function update(Request $request, $id)
     {
-        // dd($request->all());
         $user = User::findOrFail($id);
+
         $rules = [
             'email'        => 'required|email|unique:users,email,' . $user->id,
             'username'     => 'required|unique:users,username,' . $user->id,
@@ -864,40 +864,68 @@ class SuperAdminController extends Controller
 
         $request->validate($rules);
 
+        // Simpan role lama dan role baru
+        $oldRole = $user->role;
+        $newRole = $request->role;
+
         // Update data utama user
         $user->update([
             'email'    => $request->email,
             'username' => $request->username,
-            'role'     => $request->role,
+            'role'     => $newRole,
             'password' => $request->filled('password') ? Hash::make($request->password) : $user->password,
         ]);
 
-        // Ambil foto lama dari relasi aktif
-        $imgPath = null;
-        switch ($user->role) {
-            case 'admin':
-                $imgPath = $user->admin->img_profile ?? null;
-                break;
-            case 'finance':
-                $imgPath = $user->finance->img_profile ?? null;
-                break;
-            case 'perusahaan':
-                $imgPath = $user->perusahaan->img_profile ?? null;
-                break;
-            case 'pelamar':
-                $imgPath = $user->pelamar->img_profile ?? null;
-                break;
+        // 🧹 Jika role berubah, hapus data + foto lama dari relasi sebelumnya
+        if ($oldRole !== $newRole) {
+            switch ($oldRole) {
+                case 'admin':
+                    if ($user->admin && $user->admin->img_profile) {
+                        Storage::delete('public/' . $user->admin->img_profile);
+                    }
+                    $user->admin()?->delete();
+                    break;
+
+                case 'finance':
+                    if ($user->finance && $user->finance->img_profile) {
+                        Storage::delete('public/' . $user->finance->img_profile);
+                    }
+                    $user->finance()?->delete();
+                    break;
+
+                case 'perusahaan':
+                    if ($user->perusahaan && $user->perusahaan->img_profile) {
+                        Storage::delete('public/' . $user->perusahaan->img_profile);
+                    }
+                    $user->perusahaan()?->delete();
+                    break;
+
+                case 'pelamar':
+                    if ($user->pelamar && $user->pelamar->img_profile) {
+                        Storage::delete('public/' . $user->pelamar->img_profile);
+                    }
+                    $user->pelamar()?->delete();
+                    break;
+            }
         }
 
-        // Jika upload baru, hapus foto lama dan simpan yang baru
+        // Ambil foto lama kalau masih role yang sama
+        $imgPath = match ($newRole) {
+            'admin' => $user->admin->img_profile ?? null,
+            'finance' => $user->finance->img_profile ?? null,
+            'perusahaan' => $user->perusahaan->img_profile ?? null,
+            'pelamar' => $user->pelamar->img_profile ?? null,
+            default => null
+        };
+
+        // 📸 Upload foto baru kalau ada
         if ($request->hasFile('img_profile')) {
             if ($imgPath) Storage::delete('public/' . $imgPath);
             $imgPath = $request->file('img_profile')->store('images', 'public');
         }
 
-
-        // Update atau buat data relasi berdasarkan role
-        switch ($request->role) {
+        // 🔁 Update / create relasi sesuai role baru
+        switch ($newRole) {
             case 'admin':
                 $user->admin()->updateOrCreate(
                     [],
@@ -943,7 +971,6 @@ class SuperAdminController extends Controller
                         'visi'              => $request->visi,
                         'misi'              => $request->misi,
                         'img_profile'       => $imgPath,
-
                     ]
                 );
                 break;
@@ -955,12 +982,12 @@ class SuperAdminController extends Controller
                         'nama_pelamar'  => $request->nama_pelamar,
                         'telepon_pelamar'   => $request->telepon_pelamar,
                         'deskripsi_diri'    => $request->deskripsi_diri,
-                        'tanggal_lahir'      => $request->tanggal_lahir,
-                        'gender'          => $request->gender,
-                        'kategori'      => $request->kategori,
-                        'gaji_minimal'  => $request->gaji_minimal,
-                        'gaji_maksimal' => $request->gaji_maksimal,
-                        'img_profile'   => $imgPath,
+                        'tanggal_lahir'     => $request->tanggal_lahir,
+                        'gender'            => $request->gender,
+                        'kategori'          => $request->kategori ?? 'pelamar',
+                        'gaji_minimal'      => $request->gaji_minimal,
+                        'gaji_maksimal'     => $request->gaji_maksimal,
+                        'img_profile'       => $imgPath,
                     ]
                 );
                 break;
@@ -968,6 +995,7 @@ class SuperAdminController extends Controller
 
         return redirect()->route('superadmin.add.user')->with('success', 'Data Berhasil Disimpan');
     }
+
 
 
     public function detail($id)
@@ -1168,7 +1196,7 @@ class SuperAdminController extends Controller
             'pasanglowongan.pelamar' => function ($query) use ($search) {
                 $query->where('pelamar_lowongans.status', 'diterima');
 
-              
+
                 if ($search) {
                     $query->where('nama_pelamar', 'like', '%' . $search . '%');
                 }
