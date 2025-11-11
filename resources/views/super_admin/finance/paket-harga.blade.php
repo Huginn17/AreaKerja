@@ -401,30 +401,43 @@
                     <h2 class="text-white font-semibold text-lg mb-4">Riwayat Koin</h2>
 
                     <!-- Filters -->
+                    <!-- Filters -->
                     <div class="flex gap-3 mb-4">
-                        <select
-                            class="w-32 bg-white text-orange-500 text-sm font-medium px-3 py-2 border rounded-lg focus:outline-none">
-                            <option class="font-semibold">Bulan</option>
-                            <option class="font-semibold">Januari</option>
-                            <option class="font-semibold">Februari</option>
-                            <option class="font-semibold">Maret</option>
-                            <option class="font-semibold">April</option>
-                            <option class="font-semibold">Mei</option>
-                            <option class="font-semibold">Juni</option>
-                            <option class="font-semibold">Juli</option>
-                            <option class="font-semibold">Agustus</option>
-                        </select>
-                        <select
-                            class="w-32 bg-white text-orange-500 text-sm font-medium px-3 py-2 border rounded-lg focus:outline-none">
-                            <option class="font-semibold">Tahun</option>
-                            <option class="font-semibold">2020</option>
-                            <option class="font-semibold">2021</option>
-                            <option class="font-semibold">2022</option>
-                            <option class="font-semibold">2023</option>
-                            <option class="font-semibold">2024</option>
-                            <option class="font-semibold">2025</option>
-                        </select>
+                        <form id="formFilterLaporan" method="GET" action="{{ route('superadmin.paket-harga') }}"
+                            class="flex gap-2">
+
+                            @php
+                                // Buat array 12 bulan terakhir (format [bulan, tahun])
+                                $bulanSekarang = now();
+                                $listBulan = collect();
+                                for ($i = 0; $i < 12; $i++) {
+                                    $listBulan->push([
+                                        'bulan' => $bulanSekarang->copy()->subMonths($i)->format('m'),
+                                        'tahun' => $bulanSekarang->copy()->subMonths($i)->format('Y'),
+                                        'label' => $bulanSekarang->copy()->subMonths($i)->translatedFormat('F Y'),
+                                    ]);
+                                }
+                            @endphp
+
+                            <select name="bulan"
+                                class="w-40 bg-white text-orange-500 text-sm font-medium px-3 py-2 border rounded-lg focus:outline-none">
+                                @foreach ($listBulan as $item)
+                                    <option value="{{ $item['bulan'] }}" data-tahun="{{ $item['tahun'] }}"
+                                        {{ $item['bulan'] == sprintf('%02d', $bulan) && $item['tahun'] == $tahun ? 'selected' : '' }}>
+                                        {{ $item['label'] }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            <input type="hidden" name="tahun" id="tahun_input" value="{{ $tahun }}">
+
+                            <button type="submit" class="bg-white text-orange-500 text-sm font-medium px-3 py-1 rounded">
+                                Filter
+                            </button>
+                        </form>
                     </div>
+
+
 
                     <!-- Table -->
                     <div class="bg-white rounded-lg shadow overflow-hidden">
@@ -439,92 +452,30 @@
                                 </tr>
                             </thead>
                             <tbody class="divide-y  border-4">
-                                <tr>
-                                    <td class="px-4 py-3 font-semibold text-center">Catatan_Transaksi_November</td>
-                                    <td class="px-4 py-3 font-semibold">100.000.000</td>
-                                    <td class="px-4 py-3 font-semibold">100.000</td>
-                                    <td class="px-4 py-3 font-semibold">25 Januari 2024</td>
-                                    <td class="px-4 py-3 text-orange-500">
-                                        <svg width="19" height="24" viewBox="0 0 19 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
-                                                fill="#FA6601" />
-                                        </svg>
-                                    </td>
-                                </tr>
-
-                            <tbody class="border-4">
-                                <tr>
-                                    <td class="px-4 py-3 font-semibold text-center">Catatan_Transaksi_November</td>
-                                    <td class="px-4 py-3 font-semibold">100.000.000</td>
-                                    <td class="px-4 py-3 font-semibold">100.000</td>
-                                    <td class="px-4 py-3 font-semibold">25 Januari 2024</td>
-                                    <td class="px-4 py-3 text-orange-500">
-                                        <svg width="19" height="24" viewBox="0 0 19 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
-                                                fill="#FA6601" />
-                                        </svg>
-
-                                    </td>
-                                </tr>
-
-                            <tbody class="border-4">
-                                <tr>
-                                    <td class="px-4 py-3 font-semibold text-center">Catatan_Transaksi_November</td>
-                                    <td class="px-4 py-3 font-semibold">100.000.000</td>
-                                    <td class="px-4 py-3 font-semibold">100.000</td>
-                                    <td class="px-4 py-3 font-semibold">25 Januari 2024</td>
-                                    <td class="px-4 py-3 text-orange-500">
-                                        <svg width="19" height="24" viewBox="0 0 19 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
-                                                fill="#FA6601" />
-                                        </svg>
-
-                                    </td>
-                                </tr>
-
-
-                            <tbody class="border-4">
-                                <tr>
-                                    <td class="px-4 py-3 font-semibold text-center">Catatan_Transaksi_November</td>
-                                    <td class="px-4 py-3 font-semibold">100.000.000</td>
-                                    <td class="px-4 py-3 font-semibold">100.000</td>
-                                    <td class="px-4 py-3 font-semibold">25 Januari 2024</td>
-                                    <td class="px-4 py-3 text-orange-500">
-                                        <svg width="19" height="24" viewBox="0 0 19 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
-                                                fill="#FA6601" />
-                                        </svg>
-
-                                    </td>
-                                </tr>
-
-
-
-                            <tbody class="border-4">
-                                <tr>
-                                    <td class="px-4 py-3 font-semibold text-center">Catatan_Transaksi_November</td>
-                                    <td class="px-4 py-3 font-semibold">100.000.000</td>
-                                    <td class="px-4 py-3 font-semibold">100.000</td>
-                                    <td class="px-4 py-3 font-semibold">25 Januari 2024</td>
-                                    <td class="px-4 py-3 text-orange-500">
-                                        <svg width="19" height="24" viewBox="0 0 19 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
-                                                fill="#FA6601" />
-                                        </svg>
-
-                                    </td>
-                                </tr>
-                                <!-- duplikat baris sesuai kebutuhan -->
+                                @forelse($laporan as $item)
+                                    <tr>
+                                        <td class="px-4 py-3 font-semibold text-center">{{ $item['catatan'] }}</td>
+                                        <td class="px-4 py-3 font-semibold">
+                                            {{ number_format($item['pendapatan'], 0, ',', '.') }}</td>
+                                        <td class="px-4 py-3 font-semibold">
+                                            {{ number_format($item['koin'], 0, ',', '.') }}</td>
+                                        <td class="px-4 py-3 font-semibold">{{ $item['tanggal'] }}</td>
+                                        <td class="px-4 py-3 text-orange-500">
+                                        <a href="{{ route('superadmin.laporan.detail', ['tanggal' => $item['tanggal']]) }}">
+                                                <svg width="19" height="24" viewBox="0 0 19 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M0.4375 0.680664V23.091H18.3658V11.8858H8.12105V0.680664H0.4375ZM10.6822 0.680664V9.08455H18.3658L10.6822 0.680664ZM2.99868 6.28325H5.55987V9.08455H2.99868V6.28325ZM2.99868 11.8858H5.55987V14.6871H2.99868V11.8858ZM2.99868 17.4884H13.2434V20.2897H2.99868V17.4884Z"
+                                                    fill="#FA6601" />
+                                                </svg>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="p-3 text-center text-gray-500">Tidak ada transaksi.</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

@@ -103,13 +103,26 @@ class AdminController extends Controller
 
 
     //CALON KANDIDAT
-    public function halCalonKandidat()
+    public function halCalonKandidat(Request $request)
     {
-        $pelamar = Pelamar::where('kategori', 'calon kandidat')->get();
-        return view('admin.pelamar.calon_kandidat.calon-kandidat', [
-            'pelamar' => $pelamar
-        ]);
+        $query = Pelamar::with('user')
+            ->where('kategori', 'calon kandidat');
+
+        // Jika ada kata kunci pencarian
+        if ($search = $request->query('q')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_pelamar', 'like', "%{$search}%")
+                    ->orWhereHas('user', function ($u) use ($search) {
+                        $u->where('username', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        $pelamar = $query->orderBy('nama_pelamar')->get();
+
+        return view('admin.pelamar.calon_kandidat.calon-kandidat', compact('pelamar'));
     }
+
 
     public function detailCalonKandidat($id)
     {
@@ -155,9 +168,23 @@ class AdminController extends Controller
 
 
     //NON KANDIDAT
-    public function halNonKandidat()
+    public function halNonKandidat(Request $request)
     {
-        $pelamar = Pelamar::where('kategori', 'pelamar')->get();
+        $query = Pelamar::with('user')
+            ->where('kategori', 'pelamar');
+
+        // Jika ada kata kunci pencarian
+        if ($search = $request->query('q')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_pelamar', 'like', "%{$search}%")
+                    ->orWhereHas('user', function ($u) use ($search) {
+                        $u->where('username', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        $pelamar = $query->orderBy('nama_pelamar')->get();
+
         return view('admin.pelamar.non_kandidat.non-kandidat', [
             'pelamar' => $pelamar
         ]);
@@ -235,7 +262,7 @@ class AdminController extends Controller
 
     public function cashHal(Request $request)
     {
-        $query = CatatanCash::with('user'); 
+        $query = CatatanCash::with('user');
 
         if ($request->no_referensi) {
             $query->where('no_referensi', $request->no_referensi);

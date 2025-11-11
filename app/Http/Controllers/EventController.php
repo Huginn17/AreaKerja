@@ -22,6 +22,8 @@ class EventController extends Controller
         return view('super_admin.event.home', compact('events'));
     }
 
+    
+
     public function createForm()
     {
         return view('super_admin.event.buat');

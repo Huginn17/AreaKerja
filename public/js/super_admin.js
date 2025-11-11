@@ -3,25 +3,35 @@ let menuSelect = document.getElementById("menu_select");
 let paketHarga = document.getElementById("paket_harga");
 let riwayat = document.getElementById("riwayat");
 let laporan = document.getElementById("laporan");
+
+function showSection(section) {
+    paketHarga.classList.add("hidden");
+    riwayat.classList.add("hidden");
+    laporan.classList.add("hidden");
+
+    if (section === "paket_harga") paketHarga.classList.remove("hidden");
+    if (section === "riwayat") riwayat.classList.remove("hidden");
+    if (section === "laporan") laporan.classList.remove("hidden");
+}
+
+// 🔹 Saat ganti tab, simpan ke localStorage
 if (menuSelect) {
     menuSelect.addEventListener("change", () => {
         let val = menuSelect.value;
-
-        if (val === "paket_harga") {
-            paketHarga.classList.remove("hidden");
-            riwayat.classList.add("hidden");
-            laporan.classList.add("hidden");
-        } else if (val === "riwayat") {
-            paketHarga.classList.add("hidden");
-            riwayat.classList.remove("hidden");
-            laporan.classList.add("hidden");
-        } else if (val === "laporan") {
-            paketHarga.classList.add("hidden");
-            riwayat.classList.add("hidden");
-            laporan.classList.remove("hidden");
-        }
+        localStorage.setItem("activeFinanceTab", val);
+        showSection(val);
     });
 }
+
+// 🔹 Saat halaman reload, cek tab terakhir yang dipilih
+document.addEventListener("DOMContentLoaded", () => {
+    let lastTab = localStorage.getItem("activeFinanceTab") || "paket_harga";
+    menuSelect.value = lastTab;
+    showSection(lastTab);
+});
+
+
+
 
 // Data Pelamar Super Admin
 let selectKategori = document.getElementById("kategori_select");

@@ -405,8 +405,8 @@ Route::prefix('admin')->middleware('auth', 'role:admin', 'CheckUserStatus')->gro
     Route::get('/perusahaan/detail/{id}', [AdminController::class, 'detailPerusahaan'])->name('admin.perusahaan.detail');
     Route::get('/admin/lowongan/{id}', [AdminController::class, 'detailLowongan'])->name('admin.lowongan.detail');
     Route::get('/perusahaan/talent/hunter', function () {
-    return view('perusahaan.talenthunter-perusahaan');
-});
+        return view('perusahaan.talenthunter-perusahaan');
+    });
     //REKOMENDASI
     Route::post('/lowongan/{id}/rekomendasi', [LowonganPerusahaanController::class, 'toggleRekomendasi'])->name('admin.lowongan.toggleRekomendasi');
 
@@ -584,6 +584,10 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
     Route::get('/edit/alamat/{alamatpelamar:id}', [ProfileController::class, 'edit_alamatSuper'])->name('superadmin.alamat.edit')->middleware('auth');
     Route::put('/update/alamat/{alamatpelamar?}', [ProfileController::class, 'update_alamatSuper'])->name('superadmin.alamat.update')->middleware('auth');
     Route::delete('/delete/alamat/{alamatpelamar:id}', [ProfileController::class, 'destroy_alamatSuper'])->name('superadmin.alamat.destroy')->middleware('auth');
+
+    // Detail Laporam Finance
+    Route::get('/laporan/detail/{tanggal}', [SuperAdminController::class, 'detail_laporan'])->name('superadmin.laporan.detail');
+    Route::get('/laporan/{tanggal}/unduh', [SuperAdminController::class, 'unduh_laporan_harian'])->name('superadmin.laporan.unduh');
 
     //RIWAYAT PENDIDIKAN
     Route::post('/create/pendidikan', [PelamarController::class, 'storependidikanSuper'])->name('superadmin.pendidikan.store')->middleware('auth');
@@ -838,7 +842,7 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
     Route::get('/kandidat/ak', [PerusahaanController::class, 'kandidat_ak'])->name('perusahaan.kandidat.ak');
     Route::post('/kandidat/beli', [PembeliKandidatController::class, 'beli'])->name('kandidat.beli');
 
-
+   
 
     //EVENT 
     Route::get('/event', [PerusahaanController::class, 'event'])->name('perusahaan.event.index');
@@ -965,9 +969,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout/perusahaan', [AuthController::class, 'logout_perusahaan'])->name('logout_perusahaan');
 });
 Route::post('/registerproses_perusahaan', [AuthController::class, 'regis_proses_perusahaan'])->name('registerproses_perusahaan');
-
-
-
 
 
 //login

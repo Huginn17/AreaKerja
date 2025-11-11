@@ -25,7 +25,7 @@
                 </svg>
 
                 <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
-                     <a href="#">
+                    <a href="#">
                         @if (Auth::user()->role == 'admin')
                             @if (Auth::user()->admin->img_profile)
                                 <img id="pu" class="w-10 h-10  object-cover rounded-full profile-img"
@@ -71,9 +71,11 @@
                 </a>
             </div>
             <div class="flex gap-2">
-                <input type="text" placeholder="nama/username ..."
-                    class="border border-gray-500 rounded-lg px-4 py-2 w-72">
-                <button class="bg-gray-500 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
+                <form action="{{ route('admin.calon-kandidat') }}">
+                    <input type="text" name="q" value="{{ request('q') }}" placeholder="nama/username ..."
+                        class="border border-gray-500 rounded-lg px-4 py-2 w-72">
+                    <button type="submit" class="bg-gray-500 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
+                </form>
             </div>
         </div>
 

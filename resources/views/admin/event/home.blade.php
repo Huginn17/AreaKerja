@@ -28,7 +28,7 @@
                         class="flex items-center justify-between w-96 h-14 bg-white border border-gray-400 shadow-md rounded-2xl px-3 py-2">
                         <!-- Logo + Info -->
                         <div class="flex items-center gap-2 mr-2">
-                            <a href="#">
+                            <a href="#"> 
                                 @if (Auth::user()->role == 'admin')
                                     @if (Auth::user()->admin->img_profile)
                                         <img id="pu" class="w-10 h-10  object-cover rounded-full profile-img"
@@ -43,7 +43,7 @@
                                         src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
                                         alt="">
                                 @endif
-                            </a>
+                            </a> 
                             <div class="text-sm mr-14">
                                 <span class="font-semibold">{{ Auth::user()->username }}</span>
                                 <p class="text-gray-500 text-sm">{{ Auth::user()->email }}</p>
@@ -57,7 +57,6 @@
                             <option>Text 3</option>
                         </select>
                     </div>
-
                 </div>
             </div>
 
@@ -71,9 +70,11 @@
                     </div>
 
                     <div class="flex items-center space-x-2 mt-0 lg:mt-0 md:mt gap-3">
-                        <input type="text" placeholder="Cari Event"
+                         <form method="GET" action="{{ route('admin.eventform') }}">
+                           <input type="text" name="q" placeholder="Cari Event" value="{{ request('q') }}"
                             class="border border-gray-500 rounded-md px-3 py-2 w-56 focus:outline-none focus:ring-2 focus:ring-gray-400">
-                        <button class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-2 rounded-md">Cari</button>
+                        <button type="submit" class="bg-gray-700 hover:bg-gray-500 text-white px-8 py-2 rounded-md">Cari</button>
+                         </form>
                     </div>
                 </div>
 

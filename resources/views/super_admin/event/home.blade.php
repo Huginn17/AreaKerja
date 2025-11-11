@@ -57,30 +57,36 @@
                 </div>
 
                 <div class="flex items-center space-x-2 mt-0 lg:mt-0 md:mt gap-3">
-                    <input type="text" placeholder="Cari Event"
-                        class="border border-gray-500 hover:bg-gray-100 rounded-md px-3 py-2 w-56 focus:outline-none focus:ring-2 focus:ring-gray-400">
-                    <button class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-2 rounded-md">Cari</button>
+                    <form method="GET" action="{{ route('superadmin.eventform') }}" class="flex items-center gap-2">
+                        <input type="text" name="q" placeholder="Cari Event" value="{{ request('q') }}"
+                            {{-- supaya tetap muncul setelah search --}}
+                            class="border border-gray-500 hover:bg-gray-100 rounded-md px-3 py-2 w-56 focus:outline-none focus:ring-2 focus:ring-gray-400">
+                        <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-2 rounded-md">
+                            Cari
+                        </button>
+                    </form>
                 </div>
+
             </div>
 
 
             {{-- Table --}}
-          <div class="w-full border-2 border-gray-400 rounded-3xl shadow-md overflow-hidden">
-  <table class="w-full table-fixed border-collapse">
-    <thead class="bg-gray-50">
-      <tr class="text-center">
-        <th class="p-4 font-semibold text-gray-700 text-center w-[15%]">Status</th>
-        <th class="p-4 font-semibold text-gray-700 w-[65%]">Nama</th>
-        <th class="p-4 font-semibold text-gray-700 w-[10%]">Kuota</th>
-        <th class="p-4 font-semibold text-gray-700 w-[25%]">Mulai</th>
-        <th class="p-4 font-semibold text-gray-700 w-[25%]">Selesai</th>
-        <th class="px-6 py-4 font-semibold text-gray-700 w-[12%] text-right">Aksi</th>
-      </tr>
-    </thead>    
+            <div class="w-full border-2 border-gray-400 rounded-3xl shadow-md overflow-hidden">
+                <table class="w-full table-fixed border-collapse">
+                    <thead class="bg-gray-50">
+                        <tr class="text-center">
+                            <th class="p-4 font-semibold text-gray-700 text-center w-[15%]">Status</th>
+                            <th class="p-4 font-semibold text-gray-700 w-[65%]">Nama</th>
+                            <th class="p-4 font-semibold text-gray-700 w-[10%]">Kuota</th>
+                            <th class="p-4 font-semibold text-gray-700 w-[25%]">Mulai</th>
+                            <th class="p-4 font-semibold text-gray-700 w-[25%]">Selesai</th>
+                            <th class="px-6 py-4 font-semibold text-gray-700 w-[12%] text-right">Aksi</th>
+                        </tr>
+                    </thead>
                     <tbody>
                         @forelse ($events as $event)
-                               <tr class="text-center">
-                                
+                            <tr class="text-center">
+
                                 <td class="px-6 py-3 text-white">
                                     @if ($event->status == 'buka')
                                         <span class="bg-green-500 px-5 py-1 rounded-lg whitespace-nowrap">Buka</span>

@@ -14,7 +14,7 @@
                 } elseif ($user->role === 'pelamar') {
                     $detail = $user->pelamar;
                 } else {
-                    $detail = null;
+                    $detail = null;     
                 }
             @endphp
 
@@ -59,7 +59,7 @@
                         <option value="finance" {{ old('role', $user->role) == 'finance' ? 'selected' : '' }}>Finance
                         </option>
                         <option value="perusahaan" {{ old('role', $user->role) == 'perusahaan' ? 'selected' : '' }}>
-                            Perusahaan</option>
+                            Perusahaan</option> 
                         <option value="pelamar" {{ old('role', $user->role) == 'pelamar' ? 'selected' : '' }}>Pelamar
                         </option>
                     </select>

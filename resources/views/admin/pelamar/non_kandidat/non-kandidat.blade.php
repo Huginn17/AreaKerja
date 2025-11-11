@@ -71,9 +71,11 @@
                 </a>
             </div>
             <div class="flex gap-2">
-                <input type="text" placeholder="nama/username ..."
+                <form action="{{ route('admin.non-kandidat') }}">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="nama/username ..."
                     class="border border-gray-500 rounded-lg px-4 py-2 w-72">
-                <button class="bg-gray-500 hover:bg-gray-600 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
+                <button type="submit" class="bg-gray-500 hover:bg-gray-600 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
+                </form>
             </div>
         </div>
 
