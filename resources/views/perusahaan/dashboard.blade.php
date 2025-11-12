@@ -256,7 +256,7 @@
                                 <p class="font-bold text-lg">01</p>
                                 <p class="text-sm">Mencari Lowongan</p>
                             </div>
-                        </div>
+                        </div> 
                         <p class="text-sm leading-relaxed">
                             Area Kerja membantu pencari kerja menemukan posisi sesuai keahlian dan minat mereka.
                         </p>
@@ -271,7 +271,7 @@
                                     <p class="font-bold text-lg">02</p>
                                     <p class="text-sm">Lowongan Terbaru</p>
                                 </div>
-                            </div>
+                                  </div>
                             <p class="text-sm leading-relaxed">
                                 Temukan berbagai lowongan terbaru yang selalu diperbarui setiap hari.
                             </p>

@@ -1,0 +1,120 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\DaftarBank;
+use App\Models\Hargakoin;
+use App\Models\HargaPembayaran;
+use App\Models\Perusahaan;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class TalentHunterController extends Controller
+{
+    //ambil harga koin
+    public function getHarga()
+    {
+
+        $harga = Hargakoin::where('nama', 'Open Talent Hunter')->first();
+        $perusahaan = Auth::user()->perusahaan;
+
+        return response()->json([
+            'harga' => $harga->harga ?? 0,
+            'koin_perusahaan' => $perusahaan->koin_perusahaan ?? 0,
+        ]);
+    }
+
+
+    //proses pembelian
+    public function beli()
+    {
+        $user = Auth::user();
+        $perusahaan = $user->perusahaan;
+        $harga = Hargakoin::where('nama', 'Open Talent Hunter')->firstOrFail();
+
+        //cek apakah perusahaan memiliki cukup koin
+        if ($perusahaan->koin_perusahaan < $harga->harga) {
+            return response()->json(['success' => false, 'message' => 'Koin tidak cukup.']);
+        }
+
+        //cek apakah perusahaan memiliki cukup koin
+        if ($perusahaan->koin_perusahaan < $harga->harga) {
+            return response()->json(['success' => false, 'message' => 'Koin tidak cukup.']);
+        }
+
+        return response()->json(['success' => true, 'message' => 'Silakan isi form Talent Hunter.']);
+    }
+
+    //simpan data talent hunter
+    public function store(Request $request)
+    {
+        $request->validate([
+            'alamat' => 'required',
+            'posisi' => 'required',
+            'pengalaman_kerja' => 'required',
+            'gender' => 'required',
+            'gaji_awal' => 'required',
+            'gaji_akhir' => 'required',
+            'deskripsi' => 'nullable',
+        ]);
+
+        $user = Auth::user();
+        $perusahaan = $user->perusahaan;
+        $harga = Hargakoin::where('nama', 'Open Talent Hunter')->firstOrFail();
+
+        // Pastikan koin cukup
+        if ($perusahaan->koin_perusahaan < $harga->harga) {
+            return response()->json(['success' => false, 'message' => 'Koin tidak cukup.']);
+        }
+
+        // Simpan data Talent Hunter
+        $talentHunter = $perusahaan->talentHunters()->create($request->all());
+
+        // Kurangi koin setelah data tersimpan  
+        $perusahaan->update([
+            'koin_perusahaan' => $perusahaan->koin_perusahaan - $harga->harga,
+        ]);
+
+        // Tambahkan catatan transaksi koin
+        $noReferensi = 'TH-' . strtoupper(uniqid()); // contoh: TH-654C2FAE8C1D9
+
+        $user->catatanKoins()->create([
+            'no_referensi' => $noReferensi,
+            'pesanan' => 'Pembelian Talent Hunter',
+            'dari' => $perusahaan->nama_perusahaan,
+            'sumber_dana' => 'Koin Perusahaan',
+            'total' => '-' . $harga->harga, // tanda minus karena pengurangan
+        ]);
+
+        //Redirect ke WhatsApp
+        $nomorAdmin = '6285713882612'; // ubah sesuai nomor tujuan admin
+        $pesan = "Halo Admin, saya sudah melakukan pembelian Talent Hunter.\n\n"
+            . "Berikut detailnya:\n"
+            . "Posisi: {$talentHunter->posisi}\n"
+            . "Pengalaman: {$talentHunter->pengalaman_kerja}\n"
+            . "Gender: {$talentHunter->gender}\n"
+            . "Gaji: {$talentHunter->gaji_awal} - {$talentHunter->gaji_akhir}\n"
+            . "Deskripsi: {$talentHunter->deskripsi}\n\n"
+            . "No Referensi: {$noReferensi}\n"
+            . "Mohon tindak lanjutnya.";
+
+        $waUrl = 'https://wa.me/' . $nomorAdmin . '?text=' . urlencode($pesan);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Talent Hunter berhasil disimpan, koin dipotong & catatan transaksi dibuat.',
+            'redirect_url' => $waUrl,
+        ]);
+    }
+
+    public function index()
+    {
+        $user = auth()->user();
+        $perusahaan = Perusahaan::where('user_id', $user->id)->first();
+        return view('perusahaan.talent-hunter.talent-hunter', [
+            'perusahaan' => $perusahaan,
+            'hargaPembayarans' => HargaPembayaran::where('jumlah_koin', '>', 0)->get(),
+            'daftarBank' => DaftarBank::all(),
+        ]);
+    }
+}

@@ -65,8 +65,8 @@
                     class="{{ request()->is('admin/recruitment') ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-500 border-gray-500 hover:bg-gray-500 hover:text-white' }} px-6 py-2 text-md font-medium border-2 rounded-lg transition duration-300">
                     Recruitment
                 </a>
-                <a href="{{ url('/admin/talenthunter') }}"
-                    class="{{ request()->is('admin/talenthunter') ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-500 border-gray-500 hover:bg-gray-500 hover:text-white' }} px-6 py-2 text-md font-medium border-2 rounded-lg transition duration-300">
+                <a href="{{ route('admin.talent-hunter') }}"
+                    class="{{ request()->is('admin/talent/hunter') ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-500 border-gray-500 hover:bg-gray-500 hover:text-white' }} px-6 py-2 text-md font-medium border-2 rounded-lg transition duration-300">
                     Talent Hunter
                 </a>
             </div>
@@ -85,22 +85,24 @@
                         <th class="p-7 font-medium">ID</th>
                         <th class="p-7 font-medium">Nama Perusahaan</th>
                         <th class="p-7 font-medium">Email</th>
+                        <th class="p-7 font-medium">Posisi</th>
                         <th class="p-7 font-medium">Telepon</th>
                         <th class="p-7 font-medium">Alamat</th>
                         <th class="p-7 font-medium">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    @for ($i = 0; $i < 10; $i++)
-                        <!-- Contoh isi data (bisa diulang dengan loop dari backend) -->
+                    @forelse ($talentHunter as $th)
                         <tr class="border-b-[2px] border-gray-300 hover:bg-gray-100">
-                            <td class="px-4 py-3">000001</td>
-                            <td class="px-4 py-3">Seven INC</td>
-                            <td class="px-4 py-3">seveninc@gmail.com</td>
-                            <td class="px-4 py-3">(0351)-123456</td>
-                            <td class="px-4 py-3">Jawa Tengah</td>
+                            <td class="px-4 py-3">{{ $th->id }}</td>
+                            <td class="px-4 py-3">{{ $th->perusahaan->nama_perusahaan }}</td>
+                            <td class="px-4 py-3">{{ $th->perusahaan->user->email }}</td>
+                            <td class="px-4 py-3">{{ $th->posisi }}</td>
+                            <td class="px-4 py-3">{{ $th->perusahaan->telepon_perusahaan }}</td>
+                            <td class="px-4 py-3">{{ $th->alamat }}</td>
                             <td class="px-4 py-3 flex gap-2 justify-center">
-                                <a href="{{ url('/admin/view/talent/hunter') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-2 py-2 rounded-md">
+                                <a href="{{ url('/admin/view/talent/hunter') }}"
+                                    class="bg-gray-500 hover:bg-gray-600 text-white px-2 py-2 rounded-md">
                                     <svg width="20" height="20" viewBox="0 0 20 16" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -122,7 +124,11 @@
 
                                 </a>
                         </tr>
-                    @endfor
+                    @empty
+                        <tr class="border-b-[2px] border-gray-300 hover:bg-gray-100">
+                            <td colspan="6" class="px-4 py-3">Data tidak ditemukan</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

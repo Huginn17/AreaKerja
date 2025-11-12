@@ -54,6 +54,8 @@ class EventController extends Controller
             $validated['image'] = $request->file('image')->store('events', 'public');
         }
 
+    
+        
 
         // Simpan event
         // dd($request->input('kegiatan_waktu'), $request->input('kegiatan_nama'));

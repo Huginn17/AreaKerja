@@ -91,7 +91,7 @@
                                     class="block px-4 py-2 hover:bg-orange-500 hover:text-white transition">Recruitment</a>
                             </li>
                             <li>
-                                <a href="/super_admin/data-talent-hunter"
+                                <a href="{{ route('superadmin.talent-hunter') }}"
                                     class="block px-4 py-2 hover:bg-orange-500 hover:text-white transition">Talent
                                     Hunter</a>
                             </li>

@@ -33,6 +33,7 @@
             font-family: 'Poppins', sans-serif;
         }
     </style>
+    
     <script src="//unpkg.com/alpinejs" defer></script>
 
 </head>
@@ -53,7 +54,7 @@
                     class="hover:text-orange-500 hover:scale-105">Beranda</a>
                 <a href="{{ route('perusahaan.berlangganan') }}"
                     class="hover:text-orange-500 hover:scale-105">Berlangganan</a>
-                <a href="{{ url('perusahaan/talent/hunter') }}" class="hover:text-orange-500 hover:scale-105">Talent Hunter</a>
+                <a href="{{ route('talent-hunter.index') }}" class="hover:text-orange-500 hover:scale-105">Talent Hunter</a>
                 <a href="{{ route('perusahaan.kandidat.ak') }}"
                     class="hover:text-orange-500 hover:scale-105">Kandidat</a>
                 <a href="{{ route('paket.form') }}" class="hover:text-orange-500 hover:scale-105">Pasang Lowongan</a>

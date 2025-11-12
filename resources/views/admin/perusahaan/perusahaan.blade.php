@@ -64,8 +64,8 @@
                     class="{{ request()->is('admin/recruitment') ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-500 border-gray-500 hover:bg-gray-500 hover:text-white' }} px-6 py-2 text-md font-medium border-2 rounded-lg transition duration-300">
                     Recruitment
                 </a>
-                <a href="{{ url('/admin/talenthunter') }}"
-                    class="{{ request()->is('admin/talenthunter') ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-500 border-gray-500 hover:bg-gray-500 hover:text-white' }} px-6 py-2 text-md font-medium border-2 rounded-lg transition duration-300">
+                <a href="{{ route('admin.talent-hunter') }}"
+                    class="{{ request()->is('admin/talent/hunter') ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-500 border-gray-500 hover:bg-gray-500 hover:text-white' }} px-6 py-2 text-md font-medium border-2 rounded-lg transition duration-300">
                     Talent Hunter
                 </a>
             </div>

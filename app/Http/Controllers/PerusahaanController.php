@@ -262,7 +262,7 @@ class PerusahaanController extends Controller
         $pelamars = $query->get();
 
         return view('perusahaan.kandidat-areakerja', [
-            'hargaPembayarans' => HargaPembayaran::all(),
+            'hargaPembayarans' => HargaPembayaran::where('jumlah_koin', '>', 0)->get(),
             'daftarBank' => DaftarBank::all(),
             'skills' => $skills,
             'umurRange' => $umurRange,
@@ -314,7 +314,7 @@ class PerusahaanController extends Controller
 
         return view('perusahaan.langganan.berlangganan', [
             'perusahaan' => $perusahaan,
-            'hargaPembayarans' => HargaPembayaran::all(),
+            'hargaPembayarans' => HargaPembayaran::where('jumlah_koin', '>', 0)->get(),
             'daftarBank' => DaftarBank::all(),
             'hargaLangganan' => $hargaLangganan
         ]);

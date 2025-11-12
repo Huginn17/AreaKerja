@@ -22,6 +22,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\SocialLinkController;
 use App\Http\Controllers\SuperAdminController;
+use App\Http\Controllers\TalentHunterController;
 use App\Http\Controllers\TipsKerjaController;
 use App\Jobs\ExpireLamaranJob;
 use App\Models\SuperAdmin;
@@ -112,44 +113,44 @@ Route::get('/email/verify/{token}', [EmailVerificationController::class, 'verify
 Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')->group(function () {
     Route::get('/home', [PelamarController::class, 'index'])->name('beranda');
 
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index')->middleware('auth');
-    Route::put('/update/profile/{pelamar:id}', [ProfileController::class, 'update_profile'])->name('profile.update')->middleware('auth');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::put('/update/profile/{pelamar:id}', [ProfileController::class, 'update_profile'])->name('profile.update');
     Route::delete('/delete/profile/{pelamar:id}', [ProfileController::class, 'destroy_profile'])->name('profile.destroy');
 
 
     //ALAMAT PELAMAR
-    Route::get('/alamat', [ProfileController::class, 'alamat'])->name('alamat')->middleware('auth');
-    Route::get('/form/alamat', [ProfileController::class, 'form_alamat'])->name('form_alamat')->middleware('auth');
-    Route::post('/create/alamat', [ProfileController::class, 'store_alamat'])->name('alamat.store')->middleware('auth');
-    Route::get('/edit/alamat/{alamatpelamar:id}', [ProfileController::class, 'edit_alamat'])->name('alamat.edit')->middleware('auth');
-    Route::put('/update/alamat/{alamatpelamar:id}', [ProfileController::class, 'update_alamat'])->name('alamat.update')->middleware('auth');
-    Route::delete('/delete/alamat/{alamatpelamar:id}', [ProfileController::class, 'destroy_alamat'])->name('alamat.destroy')->middleware('auth');
+    Route::get('/alamat', [ProfileController::class, 'alamat'])->name('alamat');
+    Route::get('/form/alamat', [ProfileController::class, 'form_alamat'])->name('form_alamat');
+    Route::post('/create/alamat', [ProfileController::class, 'store_alamat'])->name('alamat.store');
+    Route::get('/edit/alamat/{alamatpelamar:id}', [ProfileController::class, 'edit_alamat'])->name('alamat.edit');
+    Route::put('/update/alamat/{alamatpelamar:id}', [ProfileController::class, 'update_alamat'])->name('alamat.update');
+    Route::delete('/delete/alamat/{alamatpelamar:id}', [ProfileController::class, 'destroy_alamat'])->name('alamat.destroy');
 
     //RIWAYAT PENDIDIKAN
-    Route::post('/create/pendidikan', [PelamarController::class, 'storependidikan'])->name('pendidikan.store')->middleware('auth');
-    Route::get('/edit/pendidikan/{riwayatpendidikan:id}', [PelamarController::class, 'editpendidikan'])->name('pendidikan.edit')->middleware('auth');
-    Route::put('/update/pendidikan/{riwayatpendidikan:id}', [PelamarController::class, 'updatependidikan'])->name('pendidikan.update')->middleware('auth');
-    Route::delete('/delete/pendidikan/{riwayatpendidikan:id}', [PelamarController::class, 'destroypendidikan'])->name('pendidikan.destroy')->middleware('auth');
+    Route::post('/create/pendidikan', [PelamarController::class, 'storependidikan'])->name('pendidikan.store');
+    Route::get('/edit/pendidikan/{riwayatpendidikan:id}', [PelamarController::class, 'editpendidikan'])->name('pendidikan.edit');
+    Route::put('/update/pendidikan/{riwayatpendidikan:id}', [PelamarController::class, 'updatependidikan'])->name('pendidikan.update');
+    Route::delete('/delete/pendidikan/{riwayatpendidikan:id}', [PelamarController::class, 'destroypendidikan'])->name('pendidikan.destroy');
 
     //pengalaman organisasi
-    Route::post('/create/organisasi', [PengalamanOrgController::class, 'store'])->name('organisasi.store')->middleware('auth');
-    Route::get('/edit/organisasi/{organisasi:id}', [PengalamanOrgController::class, 'edit'])->name('organisasi.edit')->middleware('auth');
-    Route::put('/update/organisasi/{organisasi:id}', [PengalamanOrgController::class, 'update'])->name('organisasi.update')->middleware('auth');
-    Route::delete('/delete/organisasi/{organisasi:id}', [PengalamanOrgController::class, 'destroy'])->name('organisasi.destroy')->middleware('auth');
+    Route::post('/create/organisasi', [PengalamanOrgController::class, 'store'])->name('organisasi.store');
+    Route::get('/edit/organisasi/{organisasi:id}', [PengalamanOrgController::class, 'edit'])->name('organisasi.edit');
+    Route::put('/update/organisasi/{organisasi:id}', [PengalamanOrgController::class, 'update'])->name('organisasi.update');
+    Route::delete('/delete/organisasi/{organisasi:id}', [PengalamanOrgController::class, 'destroy'])->name('organisasi.destroy');
 
 
     //pengalaman kerja
-    Route::post('/create/kerja', [PengalamanKerjaController::class, 'store'])->name('kerja.store')->middleware('auth');
-    Route::get('/edit/kerja/{kerja:id}', [PengalamanKerjaController::class, 'edit'])->name('kerja.edit')->middleware('auth');
-    Route::put('/update/kerja/{kerja:id}', [PengalamanKerjaController::class, 'update'])->name('kerja.update')->middleware('auth');
-    Route::delete('/delete/kerja/{kerja:id}', [PengalamanKerjaController::class, 'destroy'])->name('kerja.destroy')->middleware('auth');
+    Route::post('/create/kerja', [PengalamanKerjaController::class, 'store'])->name('kerja.store');
+    Route::get('/edit/kerja/{kerja:id}', [PengalamanKerjaController::class, 'edit'])->name('kerja.edit');
+    Route::put('/update/kerja/{kerja:id}', [PengalamanKerjaController::class, 'update'])->name('kerja.update');
+    Route::delete('/delete/kerja/{kerja:id}', [PengalamanKerjaController::class, 'destroy'])->name('kerja.destroy');
 
 
     //SKILL
-    Route::post('/create/skill', [SkillController::class, 'store'])->name('skill.store')->middleware('auth');
-    Route::get('/edit/skill/{skill:id}', [SkillController::class, 'edit'])->name('skill.edit')->middleware('auth');
-    Route::put('/update/skill/{skill:id}', [SkillController::class, 'update'])->name('skill.update')->middleware('auth');
-    Route::delete('/delete/skill/{skill:id}', [SkillController::class, 'destroy'])->name('skill.destroy')->middleware('auth');
+    Route::post('/create/skill', [SkillController::class, 'store'])->name('skill.store');
+    Route::get('/edit/skill/{skill:id}', [SkillController::class, 'edit'])->name('skill.edit');
+    Route::put('/update/skill/{skill:id}', [SkillController::class, 'update'])->name('skill.update');
+    Route::delete('/delete/skill/{skill:id}', [SkillController::class, 'destroy'])->name('skill.destroy');
 
 
     //SIMPAN LOWONGAN 
@@ -191,7 +192,7 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
 //NOTIFIKASI
 Route::post('/notifikasi/baca/semua', [PelamarController::class, 'bacaSemua'])->name('notifikasi.bacaSemua');
 Route::post('/notifikasi/baca/{id}', [PelamarController::class, 'baca'])->name('notifikasi.baca');
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Route::get('/lowongan', function () {
     return view('non-user.pasang-lowongan');
@@ -412,6 +413,10 @@ Route::prefix('admin')->middleware('auth', 'role:admin', 'CheckUserStatus')->gro
 
     Route::post('/user/freeze/{id}', [AdminController::class, 'bekukan'])->name('admin.freeze');
     Route::post('/user/unfreeze/{id}', [AdminController::class, 'aktifkan'])->name('admin.unfreeze');
+
+
+    //TALENT HUNTER
+    Route::get('/talent/hunter', [AdminController::class, 'talentHunterForm'])->name('admin.talent-hunter');
 });
 
 
@@ -429,9 +434,9 @@ Route::get('/admin/detail/data/talent/hunter', function () {
 Route::get('/admin/recruitment', function () {
     return view('admin.recruitment');
 });
-Route::get('/admin/talenthunter', function () {
-    return view('admin.talenthunter');
-});
+// Route::get('/admin/talenthunter', function () {
+//     return view('admin.talenthunter');
+// });
 Route::get('/admin/finance/koin', function () {
     return view('admin.finance-koin');
 });
@@ -624,6 +629,10 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
     //SOCIAL LINK
     Route::get('/social-links', [SocialLinkController::class, 'index'])->name('superadmin.social.index');
     Route::post('/social-links', [SocialLinkController::class, 'update'])->name('superadmin.social.update');
+
+
+    //TALENT HUNTER
+    Route::get('/talent/hunter', [SuperAdminController::class, 'talentHunterForm'])->name('superadmin.talent-hunter');
 });
 
 
@@ -654,9 +663,9 @@ Route::get('/super_admin/detail-kandidat', function () {
     return view('super_admin.detail-kandidat');
 });
 
-Route::get('/super_admin/data-talent-hunter', function () {
-    return view('super_admin.data-talent-hunter');
-});
+// Route::get('/super_admin/data-talent-hunter', function () {
+//     return view('super_admin.data-talent-hunter');
+// });
 
 Route::get('/super_admin/data-recruitment', function () {
     return view('super_admin.data-recruitment');
@@ -842,13 +851,9 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
     Route::get('/kandidat/ak', [PerusahaanController::class, 'kandidat_ak'])->name('perusahaan.kandidat.ak');
     Route::post('/kandidat/beli', [PembeliKandidatController::class, 'beli'])->name('kandidat.beli');
 
-   
-
     //EVENT 
     Route::get('/event', [PerusahaanController::class, 'event'])->name('perusahaan.event.index');
     Route::get('/gabung/event/{id}', [PerusahaanController::class, 'detail'])->name('perusahaan.event.show');
-
-
 
     //BERLANGGANAN
     Route::get('/berlangganan', [PerusahaanController::class, 'halLangganan'])->name('perusahaan.berlangganan');
@@ -858,6 +863,12 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
     //DAFTAR PEKERJA BERMASALAH
     Route::get('/data/pekerja', [PerusahaanController::class, 'halDaftarPekerja'])->name('perusahaan.data.pekerja');
     // Route::get('/daftar/pekerja/{id}', [PerusahaanController::class, 'detail_daftar_pekerja'])->name('perusahaan.daftar.pekerja.detail');
+
+    //TALENT HUNTER
+    Route::get('/talent-hunter', [TalentHunterController::class, 'index'])->name('talent-hunter.index');
+    Route::get('/talent-hunter/harga', [TalentHunterController::class, 'getHarga'])->name('talent-hunter.harga');
+    Route::post('/talent-hunter/beli', [TalentHunterController::class, 'beli'])->name('talent-hunter.beli');
+    Route::post('/talent-hunter/store', [TalentHunterController::class, 'store'])->name('talent-hunter.store');
 
 
 });
@@ -912,9 +923,9 @@ Route::get('/perusahaan/pengaturan', function () {
 Route::get('/perusahaan/pengaturan/gantipw', function () {
     return view('perusahaan.pengaturan-gantipw');
 });
-Route::get('/perusahaan/talent/hunter', function () {
-    return view('perusahaan.talent-hunter');
-});
+// Route::get('/perusahaan/talent/hunter', function () {
+//     return view('perusahaan.talent-hunter.talent-hunter');
+// });
 Route::get('/perusahaan/event/kosong', function () {
     return view('perusahaan.event-kosong');
 });

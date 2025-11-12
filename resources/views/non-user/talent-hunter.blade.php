@@ -11,7 +11,7 @@
             <p class="text-sm mt-4">Daftarkan perusahaan anda dan biar kami</p>
             <p class="text-sm"> yang mencarikan kandidat yang cocok untuk anda</p><br>
             <button>
-                <span class="bg-orange-500 hover:bg-orange-600 text-sm px-8 py-2 rounded-lg">Daftar</span>
+                <span class="bg-gray-700 hover:bg-gray-800 text-sm px-8 py-2 rounded-lg">Daftar</span>
             </button>
         </div>
     </section>

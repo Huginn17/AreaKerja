@@ -53,4 +53,9 @@ class Perusahaan extends Model
     {
         return $this->hasMany(CatatanKoin::class, 'user_id', 'user_id');
     }
+
+    public function talentHunters()
+    {
+        return $this->hasMany(TalentHunter::class, 'perusahaan_id');
+    }
 }

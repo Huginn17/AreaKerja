@@ -11,6 +11,7 @@ use App\Models\LowonganPerusahaan;
 use App\Models\Pelamar;
 use App\Models\Perusahaan;
 use App\Models\Provinsi;
+use App\Models\TalentHunter;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -387,6 +388,17 @@ class AdminController extends Controller
 
         return view('admin.perusahaan.view-data-lowongan', [
             'lowongan' => $lowongan
+        ]);
+    }
+
+
+
+    //TALENT HUNTER
+    public function talentHunterForm()
+    {
+        $talentHunter = TalentHunter::with('perusahaan')->get();
+        return view('admin.talent-hunter.talenthunter', [
+            'talentHunter' => $talentHunter
         ]);
     }
 }

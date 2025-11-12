@@ -169,7 +169,7 @@ class AuthController extends Controller
         }
 
         return view('perusahaan.dashboard', [
-            'hargaPembayarans' => HargaPembayaran::all(),
+            'hargaPembayarans' => HargaPembayaran::where('jumlah_koin', '>', 0)->get(),
             'daftarBank' => DaftarBank::all(),
             'lowongans' => $lowongans,
             'perusahaan' => $perusahaan,

@@ -19,6 +19,7 @@ use App\Models\Pelamar;
 use App\Models\Perusahaan;
 use App\Models\Provinsi;
 use App\Models\SuperAdmin;
+use App\Models\TalentHunter;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\View;
@@ -1295,7 +1296,7 @@ class SuperAdminController extends Controller
             return response()->json([
                 "error" => "Browser Chrome/Edge tidak ditemukan. Pastikan sudah terinstall."
             ], 500);
-        }
+        } 
 
         $pdf = Browsershot::html($htmlWithCss)
             ->setOption('executablePath', $browserPath)
@@ -1415,6 +1416,17 @@ class SuperAdminController extends Controller
             'perusahaan' => $perusahaan,
             'pelamarDiterima' => $pelamarDiterima,
             'search' => $search
+        ]);
+    }
+
+
+
+    //Talent Hunter
+    public function talentHunterForm()
+    {
+        $talentHunter = TalentHunter::with('perusahaan')->get();
+        return view('super_admin.talent-hunter.data-talent-hunter', [
+            'talentHunter' => $talentHunter
         ]);
     }
 }

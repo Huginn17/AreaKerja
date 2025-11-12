@@ -66,7 +66,7 @@
                         </svg>
                     </button>
                 </div>
-                
+
                 <div class="relative inline-block w-48">
                     <!-- Select utama -->
                     <button
@@ -84,7 +84,7 @@
                         class="absolute hidden mt-2 w-full bg-white rounded-md shadow-lg overflow-hidden z-10">
                         <ul class="text-orange-500">
                             <li>
-                                <a href="/super_admin/data-perusahaan"
+                                <a href="{{ route('superadmin.perusahaan') }}"
                                     class="block px-4 py-2 hover:bg-orange-500 hover:text-white transition">Perusahaan</a>
                             </li>
                             <li>
@@ -92,8 +92,9 @@
                                     class="block px-4 py-2 hover:bg-orange-500 hover:text-white transition">Recruitment</a>
                             </li>
                             <li>
-                                <a href="/super_admin/data-talent-hunter"
-                                    class="block px-4 py-2 hover:bg-orange-500 hover:text-white transition">Talent Hunter</a>
+                                <a href="{{ route('superadmin.talent-hunter') }}"
+                                    class="block px-4 py-2 hover:bg-orange-500 hover:text-white transition">Talent
+                                    Hunter</a>
                             </li>
                             <li>
                                 <a href="/super_admin/data-panggilan"
@@ -102,7 +103,6 @@
                         </ul>
                     </div>
                 </div>
-
                 <script>
                     const button = document.getElementById("dropdownButton");
                     const menu = document.getElementById("dropdownMenu");
@@ -125,36 +125,40 @@
         <div class="overflow-hidden rounded-2xl border-2 border-gray-400">
             <table class="w-full text-left border-collapse">
                 <thead class="text-center">
-                         <tr class="border-b-[2px] border-gray-300">
+                    <tr class="border-b-[2px] border-gray-300">
                     <tr>
                         <th class="p-7 font-medium">ID</th>
                         <th class="p-7 font-medium">Nama Perusahaan</th>
                         <th class="p-7 font-medium">Email</th>
+                        <th class="p-7 font-medium">Posisi</th>
                         <th class="p-7 font-medium">Telepon</th>
                         <th class="p-7 font-medium">Alamat</th>
                         <th class="p-7 font-medium">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    @for ($i = 0; $i < 10; $i++)
-                        <!-- Contoh isi data (bisa diulang dengan loop dari backend) -->
-                            <tr class="border-b-[2px] border-gray-300">
+                    @forelse ($talentHunter as $th)
+                        <tr class="border-b-[2px] border-gray-300">
                         <tr class="border-b">
-                                 <tr class="border-b-[2px] border-gray-300">
-                            <td class="px-4 py-3">000001</td>
-                            <td class="px-4 py-3">Seven INC</td>
-                            <td class="px-4 py-3">seveninc@gmail.com</td>
-                            <td class="px-4 py-3">(0351)-123456</td>
-                            <td class="px-4 py-3">Jawa Tengah</td>
+                        <tr class="border-b-[2px] border-gray-300">
+                            <td class="px-4 py-3">{{ $th->id }}</td>
+                            <td class="px-4 py-3">{{ $th->perusahaan->nama_perusahaan }}</td>
+                            <td class="px-4 py-3">{{ $th->perusahaan->user->email }}</td>
+                            <td class="px-4 py-3">{{ $th->posisi }}</td>
+                            <td class="px-4 py-3">{{ $th->perusahaan->telepon_perusahaan }}</td>
+                            <td class="px-4 py-3">{{ $th->alamat }}</td>
                             <td class="px-4 py-3">
                                 <a href="/super_admin/detail-perusahaan"
                                     class="bg-orange-500 hover:bg-orange-600 text-xs text-white px-4 py-1 rounded-lg">View</a>
                             </td>
                         </tr>
-                    @endfor
+                    @empty
+                        <tr class="border-b-[2px] border-gray-300">
+                            <td colspan="6" class="px-4 py-3">Tidak ada data talent hunter</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
-
     </main>
 @endsection
