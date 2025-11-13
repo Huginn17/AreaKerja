@@ -77,10 +77,10 @@
     <!-- Tabs -->
     <div class="flex justify-center border-b">
         <div class="max-w-5xl mx-auto flex gap-6 px-4 text">
-            <a href="#" class="py-3 border-b-4 border-orange-600  text-gray-800 font-bold hover:scale-105">
+            <a href="#" class="py-3 border-b-4 border-orange-600  text-gray-800 font-bold">
                 UMPAN LOWONGAN
             </a>
-            <a href="#" class="py-3 text-gray-700 hover:text-gray-800 font-bold hover:scale-105">
+            <a href="#" class="py-3 text-gray-700 hover:text-gray-800 font-bold">
                 PENCARIAN BARU-BARU INI
             </a>
         </div>

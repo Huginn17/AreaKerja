@@ -1,10 +1,9 @@
-@extends('super_admin.sidebar.index')
-@section('sidebarsuperadmin')
-
-<div class="w-4/5 h-screen translate-x-4 overflow-y-auto">
-        <main class="flex-1 p-6 sm:ml-64 bg-white overflow-y-auto">
+@extends('admin.sidebar.index')
+@section('sidebaradmin')
+    <div class="p-4 sm:ml-64">
+        <main class="flex-1 p-6 bg-white overflow-y-auto">
             <div class="flex justify-between items-center mb-6">
-                <h1 class="text-2xl font-medium">Detail Talent Hunter</h1>
+                <h1 class="text-2xl font-medium"> Data Talent Hunter</h1>
                 <div class="flex items-center gap-3">
                     <svg width="31" height="32" viewBox="0 0 31 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_722_7956)">
@@ -26,7 +25,7 @@
                         </defs>
                     </svg>
 
-                    <div class="flex items-center gap-2 bg-white px-0 py-1 border border-gray-600 shadow-md rounded-2xl">
+                    <div class="flex items-center gap-2 bg-white px-0 py-1 border border-gray-200 shadow-md rounded-2xl">
                         <a href="#">
                             <img src="{{ asset('images/tangan.png') }}" class="w-8 h-8 rounded-full" alt="User">
                         </a>
@@ -47,50 +46,65 @@
 
             <!-- Konten utama -->
             <div class="max-w-6xl mx-auto bg-white rounded-xl p-6 relative">
-                <div class="max-w-5xl mx-auto border border-gray-400 rounded-xl shadow">
+                <div class="max-w-5xl mx-auto border-2 border-gray-400 rounded-xl shadow">
                     <!-- Header -->
                     <div class="flex items-center border border-gray-400 rounded-xl shadow-lg py-1 gap-4 mb-4">
-                        <img src="{{ asset('images/seven.png') }}" alt="foto kandidat" class="w-68 h-64 mr-4">
+                        <img src="{{ $talentHunter->perusahaan->img_profile ? asset('storage/' . $talentHunter->perusahaan->img_profile) : asset('images/seven.png') }}"
+                            alt="foto kandidat" class="w-68 h-64 mr-4">
                         <div class="ml-20">
-                            <h2 class="text-xl font-bold">SEVEN INC</h2>
+                            <h2 class="text-xl font-bold uppercase">{{ $talentHunter->perusahaan->nama_perusahaan }}</h2>
                         </div>
                     </div>
 
 
                     <div class="max-w-4xl mx-auto bg-white p-8">
-                        <h2 class="text-lg font-semibold mb-4">Deskripsi</h2>
-                        <h2 class="text-md font-normal mb-2  ml-2 truncate w-full">Seven Inc Adalah perusahaan yang bergerak di bidang teknologi dan inovasi digital.Fokus utama peru_
-                        </h2>
-              
-                        <h2 class="text-lg font-semibold mb-4">Culture Perusahaan</h2>
-                        <h2 class="text-md font-normal mb-2 text-red-500 ml-2">-
-                        </h2>
-                        <h2 class="text-lg font-semibold mb-4">Alamat Perusahaan</h2>
-                        <h2 class="text-md font-normal mb-4 ml-2">Ngasinan, Kraguman, Jogonalan, Klaten, Jawa Tengah 57425
-                        </h2>
+                        <h2 class="text-xl font-semibold mb-4">Deskripsi</h2>
+                        @if (empty($talentHunter->deskripsi))
+                            <p class="font-bold text-red-500 m-2">Perusahaan Belum Menyelesaikan Bagian Ini</p>
+                        @else
+                            <p class="font-bold text-black m-2">{{ $talentHunter->deskripsi }}</p>
+                        @endif
+                        <h2 class="text-lg font-semibold mb-2">Culture Perusahaan</h2>
+                        <p class="text-red-500 font-medium m-2">Perusahaan Belum Menyelesaikan Bagian Ini</p>
 
-                        <h2 class="text-lg font-semibold mb-2">Kriteria Kandidat</h2>
-                        <p class="m-2">Posisi Yang Dibutuhkan <span class="ml-[100px] mb-1">: Front End Developer</span></p>
-                        <p class="m-2">Jenis Kelamin <span class="ml-[175px] mb-1">: Laki-laki</span></p>
-                        <p class="m-2">Kisaran Gaji <span class="ml-[190px] mb-1">: Rp.4.500.000 sampai Rp.6.500.000</span></p>
-                        <p class="m-2">Detail Tambahan <span class="ml-[145px]">: Memiliki pengalaman lebih dari setahun</span></p>
+                        <h2 class="text-lg font-semibold mb-2">Alamat Perusahaan</h2>
+                        <p class="font-medium">{{ $talentHunter->alamat ?? '-' }}</p>
+
+                        <div><br>
+                            <h2 class="font-bold text-black mb-5">Kriteria Kandidat</h2>
+
+                            <div class="flex mb-3">
+                                <div class="w-48 text-black">Posisi yang dibutuhkan</div>
+                                <div>: {{ $talentHunter->posisi ?? '-' }}</div>
+                            </div>
+
+                            <div class="flex mb-3">
+                                <div class="w-48 text-black">Jenis Kelamin</div>
+                                <div>: {{ $talentHunter->gender ?? '-' }}</div>
+                            </div>
+
+                            <div class="flex mb-3">
+                                <div class="w-48 text-black">Kisaran Gaji</div>
+                                <div>: {{ $talentHunter->gaji_awal ?? '-' }} sampai {{ $talentHunter->gaji_akhir ?? '-' }}
+                                </div>
+                            </div>
+
+                            <div class="flex mb-3">
+                                <div class="w-48 text-black">Pengalaman Kerja</div>
+                                <div>: {{ $talentHunter->pengalaman_kerja ?? '-' }}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-               <!-- Tombol aksi -->
-<div class="flex justify-center space-x-4 mt-6">
-  <!-- Tombol Simpan -->
-  <button class="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded-lg shadow">
-    Simpan
-  </button>
-
-  <!-- Tombol Batal -->
-  <button class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-lg shadow">
-    Batal
-  </button>
-</div>
-
+                <!-- Tombol aksi -->
+                <div class="flex flex-col items-center space-y-3 max-w-lg mx-auto mt-8">
+                    <!-- Tombol Kembali -->
+                    <a href="{{ route('admin.talent-hunter') }}"
+                        class="bg-gray-600 text-white text-center w-96 p-2 rounded-md hover:bg-gray-500 transition duration-300">
+                        Kembali
+                    </a>
+                </div>
         </main>
     </div>
-
 @endsection

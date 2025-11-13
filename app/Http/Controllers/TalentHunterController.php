@@ -6,6 +6,7 @@ use App\Models\DaftarBank;
 use App\Models\Hargakoin;
 use App\Models\HargaPembayaran;
 use App\Models\Perusahaan;
+use App\Models\TalentHunter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -116,5 +117,41 @@ class TalentHunterController extends Controller
             'hargaPembayarans' => HargaPembayaran::where('jumlah_koin', '>', 0)->get(),
             'daftarBank' => DaftarBank::all(),
         ]);
+    }
+
+
+    public function editTalentHunter($id)
+    {
+        $talentHunter = TalentHunter::with('perusahaan.user')->findOrFail($id);
+        return view('super_admin.talent-hunter.edit-data-talent-hunter', [
+            'talentHunter' => $talentHunter,
+            'perusahaan' => $talentHunter->perusahaan,
+            'user' => $talentHunter->perusahaan->user,
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'alamat' => 'required|string',
+            'posisi' => 'required|string',
+            'pengalaman_kerja' => 'nullable|string',
+            'gender' => 'nullable|string',
+            'gaji_awal' => 'nullable|numeric',
+            'gaji_akhir' => 'nullable|numeric',
+            'deskripsi' => 'nullable|string',
+        ]);
+
+        $talentHunter = TalentHunter::findOrFail($id);
+        $talentHunter->update($request->only([
+            'alamat',
+            'posisi',
+            'pengalaman_kerja',
+            'gender',
+            'gaji_awal',
+            'gaji_akhir'
+        ]));
+
+        return redirect()->route('superadmin.talent-hunter.detail', $talentHunter->id)->with('success', 'Data Talent Hunter berhasil diperbarui!');
     }
 }

@@ -297,7 +297,7 @@ class AdminController extends Controller
                 'nama_bank' => $transaksi->bank->nama_bank ?? '-',
                 'nomor_rekening' => $transaksi->bank->no_rek ?? '-', // disesuaikan dengan field di seeder
             ],
-            'sumber_dana' => $transaksi->sumberDana ?? '-', // ✅ ambil langsung dari tabel catatan_cashs
+            'sumber_dana' => $transaksi->sumberDana ?? '-', // ambil langsung dari tabel catatan_cashs
             'total' => $transaksi->total ?? 0,
             'harga' => number_format($transaksi->hargaPembayaran->harga ?? 0, 0, ',', '.'),
             'jumlah_koin' => $transaksi->hargaPembayaran->jumlah_koin ?? 0,
@@ -362,7 +362,7 @@ class AdminController extends Controller
     {
         if (auth()->id() == $id) {
             return response()->json(['message' => 'Anda tidak dapat mengubah status akun sendiri'], 403);
-        }
+        } 
 
         $user = User::findOrFail($id);
 
@@ -398,6 +398,14 @@ class AdminController extends Controller
     {
         $talentHunter = TalentHunter::with('perusahaan')->get();
         return view('admin.talent-hunter.talenthunter', [
+            'talentHunter' => $talentHunter
+        ]);
+    }
+
+    public function detailTalentHunter($id)
+    {
+        $talentHunter = TalentHunter::with('perusahaan')->findOrFail($id);
+        return view('admin.talent-hunter.detail-data-talent-hunter', [
             'talentHunter' => $talentHunter
         ]);
     }

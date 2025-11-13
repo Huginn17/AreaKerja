@@ -33,13 +33,13 @@ class AppServiceProvider extends ServiceProvider
                 $jumlahBelumDibaca = 0;
             } else {
                 $user = Auth::user();
-
+      
                 // ambil notifikasi berdasarkan user_id (sama untuk pelamar & perusahaan)
                 $notifikasis = Notifikasi::where('user_id', $user->id)
                     ->orderBy('created_at', 'desc')
                     ->take(5)
                     ->get();
-
+    
                 $jumlahBelumDibaca = Notifikasi::where('user_id', $user->id)
                     ->where('is_read', false)
                     ->count();

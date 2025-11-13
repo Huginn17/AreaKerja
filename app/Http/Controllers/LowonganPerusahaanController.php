@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CatatanKoin;
 use App\Models\Hargakoin;
 use App\Models\LowonganPerusahaan;
+use App\Models\Notifikasi;
 use App\Models\PaketLowongan;
 use App\Models\Perusahaan;
 use Illuminate\Support\Str;
@@ -179,7 +180,7 @@ class LowonganPerusahaanController extends Controller
         $perusahaan = Auth::user()->perusahaan;
         $paket = PaketLowongan::findOrFail($request->paket_id);
 
-        // 🔹 Ambil harga dari relasi harga_koins berdasarkan nama paket
+        //  Ambil harga dari relasi harga_koins berdasarkan nama paket
         $namaHarga = 'Pasang Lowongan ' . $paket->nama;
         $hargaKoin = HargaKoin::where('nama', $namaHarga)->first();
 
@@ -190,7 +191,7 @@ class LowonganPerusahaanController extends Controller
         // Simpan harga ke variabel
         $harga = $hargaKoin->harga;
 
-        // 🔹 Pastikan lowongan milik perusahaan
+        //  Pastikan lowongan milik perusahaan
         $lowongan = LowonganPerusahaan::where('perusahaan_id', $perusahaan->id)
             ->where('id', $request->lowongan_id)
             ->first();
@@ -199,23 +200,23 @@ class LowonganPerusahaanController extends Controller
             return redirect()->back()->with('error', 'Lowongan tidak ditemukan atau bukan milik Anda.');
         }
 
-        // 🔹 Cek saldo koin perusahaan
+        //  Cek saldo koin perusahaan
         if ($perusahaan->koin_perusahaan < $harga) {
             return redirect()->route('paket.form')
                 ->with('koin_kurang', true);
         }
 
-        // 🔹 Potong koin
+        //  Potong koin
         $perusahaan->decrement('koin_perusahaan', $harga);
 
-        // 🔹 Reset paket lama jika sudah expired atau ada paket baru
+        //  Reset paket lama jika sudah expired atau ada paket baru
         $lowongan->update([
             'paket_id'     => $paket->id,
             'published_at' => null, // reset agar bisa publish ulang
             'expired_at'   => null, // akan diisi saat publish
         ]);
 
-        // 🔹 Ikatkan paket ke lowongan (belum publish)
+        //  Ikatkan paket ke lowongan (belum publish)
         $lowongan->update([
             'paket_id'   => $paket->id,
             'published_at' => null,
@@ -230,7 +231,7 @@ class LowonganPerusahaanController extends Controller
             'pesanan'      => 'Pembelian Paket ' . $paket->nama,
             'dari'         => $perusahaan->nama_perusahaan ?? 'Perusahaan',
             'sumber_dana'  => 'Saldo Koin Perusahaan',
-            'total'        => '-' . $harga, 
+            'total'        => '-' . $harga,
         ]);
 
         return redirect()->route('lowongan.saya.perusahaan')
@@ -266,28 +267,63 @@ class LowonganPerusahaanController extends Controller
         ]);
     }
 
+
     public function storeSuper(Request $request, $id)
     {
-        // dd($request->all());
+        // Validasi input
         $valid = $request->validate([
-            "nama"    =>    "required",
-            "alamat"  =>    "required",
-            "jenis"   =>    "required",
-            "gaji_awal"  =>   "required",
-            "gaji_akhir"  =>   "required",
-            "deskripsi"   =>    "required",
-            "syarat_pekerjaan"  =>   "required",
-            "batas_lamaran"        =>   "required",
+            "nama"    => "required",
+            "alamat"  => "required",
+            "jenis"   => "required",
+            "gaji_awal"  => "required",
+            "gaji_akhir"  => "required",
+            "deskripsi"   => "required",
+            "syarat_pekerjaan"  => "required",
+            "batas_lamaran" => "required",
             'kategori' => 'required'
         ]);
 
+        // Pastikan user yang login adalah super_admin
+        if (Auth::user()->role !== 'super_admin') {
+            abort(403, 'Hanya Super Admin yang dapat menambahkan lowongan.');
+        }
+
+        // Ambil data perusahaan berdasarkan ID
         $perusahaan = Perusahaan::findOrFail($id);
 
+        // Simpan lowongan baru
         $valid['perusahaan_id'] = $perusahaan->id;
         $valid['slug'] = Str::slug($request->nama . '-' . time());
         $valid['tanggung_jawab'] = $perusahaan->nama_perusahaan;
+
         LowonganPerusahaan::create($valid);
-        return redirect()->route('superadmin.perusahaan.detail', $perusahaan->id)->with('success', 'Lowongan berhasil ditambahkan!');
+
+        // =====================================================
+        // 🔔 Buat notifikasi untuk Super Admin
+        // =====================================================
+        Notifikasi::create([
+            'user_id' => Auth::id(),
+            'judul'   => 'Lowongan Baru Ditambahkan',
+            'pesan'   => 'Kamu berhasil menambahkan lowongan untuk ' . $perusahaan->nama_perusahaan,
+            'is_read' => false,
+        ]);
+
+        // =====================================================
+        // 🔔 Buat notifikasi untuk perusahaan yang bersangkutan
+        // =====================================================
+        // Pastikan perusahaan memiliki user
+        if ($perusahaan->user_id ?? false) {
+            Notifikasi::create([
+                'user_id' => $perusahaan->user_id,
+                'judul'   => 'Lowongan Baru dari ' . $perusahaan->nama_perusahaan,
+                'pesan'   => 'Lowongan baru telah ditambahkan oleh Super Admin.',
+                'is_read' => false,
+            ]);
+        }
+
+        return redirect()
+            ->route('superadmin.perusahaan.detail', $perusahaan->id)
+            ->with('success', 'Lowongan berhasil ditambahkan! Notifikasi dikirim ke perusahaan.');
     }
 
     // public function showSuper(LowonganPerusahaan $lowongan)

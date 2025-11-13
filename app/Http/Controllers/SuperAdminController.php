@@ -1296,7 +1296,7 @@ class SuperAdminController extends Controller
             return response()->json([
                 "error" => "Browser Chrome/Edge tidak ditemukan. Pastikan sudah terinstall."
             ], 500);
-        } 
+        }
 
         $pdf = Browsershot::html($htmlWithCss)
             ->setOption('executablePath', $browserPath)
@@ -1422,10 +1422,33 @@ class SuperAdminController extends Controller
 
 
     //Talent Hunter
-    public function talentHunterForm()
+    public function talentHunterForm(Request $request)
     {
-        $talentHunter = TalentHunter::with('perusahaan')->get();
+        $keyword = $request->input('search');
+
+        $talentHunter = TalentHunter::with(['perusahaan.user'])
+            ->when($keyword, function ($query) use ($keyword) {
+                $query->where('posisi', 'like', "%{$keyword}%")
+                    ->orWhereHas('perusahaan', function ($q2) use ($keyword) {
+                        $q2->where('nama_perusahaan', 'like', "%{$keyword}%")
+                            ->orWhereHas('user', function ($q3) use ($keyword) {
+                                $q3->where('username', 'like', "%{$keyword}%");
+                            });
+                    });
+            })
+            ->get();
+
         return view('super_admin.talent-hunter.data-talent-hunter', [
+            'talentHunter' => $talentHunter,
+            'search' => $keyword,
+        ]);
+    }
+
+
+    public function detailDataTalentHunter($id)
+    {
+        $talentHunter = TalentHunter::with('perusahaan')->findOrFail($id);
+        return view('super_admin.talent-hunter.detail-data-talent-hunter', [
             'talentHunter' => $talentHunter
         ]);
     }

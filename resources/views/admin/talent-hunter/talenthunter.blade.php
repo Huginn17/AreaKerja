@@ -101,7 +101,7 @@
                             <td class="px-4 py-3">{{ $th->perusahaan->telepon_perusahaan }}</td>
                             <td class="px-4 py-3">{{ $th->alamat }}</td>
                             <td class="px-4 py-3 flex gap-2 justify-center">
-                                <a href="{{ url('/admin/view/talent/hunter') }}"
+                                <a href="{{ route('admin.talent-hunter.detail', $th->id) }}"
                                     class="bg-gray-500 hover:bg-gray-600 text-white px-2 py-2 rounded-md">
                                     <svg width="20" height="20" viewBox="0 0 20 16" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -111,7 +111,7 @@
                                     </svg>
 
                                 </a>
-                                <a href="#" class="bg-gray-500 hover:bg-gray-600 text-white px-2 py-2 rounded-md">
+                                {{-- <a href="#" class="bg-gray-500 hover:bg-gray-600 text-white px-2 py-2 rounded-md">
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -122,7 +122,7 @@
                                             fill="white" />
                                     </svg>
 
-                                </a>
+                                </a> --}}
                         </tr>
                     @empty
                         <tr class="border-b-[2px] border-gray-300 hover:bg-gray-100">

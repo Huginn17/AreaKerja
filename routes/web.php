@@ -417,6 +417,7 @@ Route::prefix('admin')->middleware('auth', 'role:admin', 'CheckUserStatus')->gro
 
     //TALENT HUNTER
     Route::get('/talent/hunter', [AdminController::class, 'talentHunterForm'])->name('admin.talent-hunter');
+    Route::get('/talent/hunter/detail/{id}', [AdminController::class, 'detailTalentHunter'])->name('admin.talent-hunter.detail');
 });
 
 
@@ -633,6 +634,9 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
 
     //TALENT HUNTER
     Route::get('/talent/hunter', [SuperAdminController::class, 'talentHunterForm'])->name('superadmin.talent-hunter');
+    Route::get('/talent/hunter/{id}', [SuperAdminController::class, 'detailDataTalentHunter'])->name('superadmin.talent-hunter.detail');
+    Route::get('/talent-hunter/{id}/edit', [TalentHunterController::class, 'editTalentHunter'])->name('superadmin.talent-hunter.edit');
+    Route::put('/talent-hunter/{id}', [TalentHunterController::class, 'update'])->name('superadmin.talent-hunter.update');
 });
 
 
@@ -869,8 +873,6 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
     Route::get('/talent-hunter/harga', [TalentHunterController::class, 'getHarga'])->name('talent-hunter.harga');
     Route::post('/talent-hunter/beli', [TalentHunterController::class, 'beli'])->name('talent-hunter.beli');
     Route::post('/talent-hunter/store', [TalentHunterController::class, 'store'])->name('talent-hunter.store');
-
-
 });
 //PROVINSI KOTA KECAMATAN
 Route::get('/get-kota/{provinsi_id}', [PerusahaanController::class, 'getKota'])->name('get.kota')->middleware('auth');

@@ -148,8 +148,8 @@
                                 <select name="gender"
                                     class="w-full border rounded-lg px-3 py-2 text-gray-800 bg-white focus:ring-2 focus:ring-blue-500 outline-none">
                                     <option value="">Pilih Gender</option>
-                                    <option value="L">Laki-laki</option>
-                                    <option value="P">Perempuan</option>
+                                    <option value="Laki-laki">Laki-laki</option>
+                                    <option value="Perempuan">Perempuan</option>
                                 </select>
                             </div>
 
