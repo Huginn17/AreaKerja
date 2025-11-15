@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\LowonganPerusahaan;
+use App\Models\Notifikasi;
 use App\Models\PelamarLowongan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -42,7 +43,23 @@ class PelamarLowonganController extends Controller
             'lowongan_id' => $lowongan->id,
             'status' => 'pending',
         ]);
-        
+
+
+        // NOTIFIKASI
+        // Ambil user perusahaan (pembuat lowongan)
+        $perusahaan = $lowongan->perusahaan;       // dari model LowonganPerusahaan
+        $userPerusahaan = $perusahaan->user ?? null; // user perusahaan (id ini tujuan notifikasi)
+
+        if ($userPerusahaan) {
+            Notifikasi::create([
+                'user_id' => $userPerusahaan->id, // penerima notifikasi
+                'judul'   => 'Lamaran Baru Masuk',
+                'pesan' => '<b>' . $pelamar->nama_pelamar .
+                    '</b> telah mengajukan lamaran untuk posisi <b>' . $lowongan->nama .
+                    '</b>. Silakan tinjau detail kandidat melalui dashboard perusahaan.',
+                'is_read' => false,
+            ]);
+        }
 
         return response()->json([
             'success' => true,

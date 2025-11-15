@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\DaftarBank;
+use App\Models\HargaPembayaran;
 use App\Models\Notifikasi;
 use App\Models\PelamarLowongan;
 use App\Models\SocialLink;
@@ -33,13 +35,13 @@ class AppServiceProvider extends ServiceProvider
                 $jumlahBelumDibaca = 0;
             } else {
                 $user = Auth::user();
-      
+
                 // ambil notifikasi berdasarkan user_id (sama untuk pelamar & perusahaan)
                 $notifikasis = Notifikasi::where('user_id', $user->id)
                     ->orderBy('created_at', 'desc')
                     ->take(5)
                     ->get();
-    
+
                 $jumlahBelumDibaca = Notifikasi::where('user_id', $user->id)
                     ->where('is_read', false)
                     ->count();
@@ -56,6 +58,23 @@ class AppServiceProvider extends ServiceProvider
             $view->with('socialLinks', SocialLink::all());
         });
 
+
+        //top up
+        View::composer('*', function ($view) {
+            // Cek apakah user login dan role perusahaan
+            if (Auth::check() && Auth::user()->role === 'perusahaan') {
+
+                // Data khusus perusahaan
+                $hargaPembayarans = HargaPembayaran::where('jumlah_koin', '>', 0)->get();
+                $daftarBank = DaftarBank::all();
+
+                // Share ke semua view
+                $view->with([
+                    'hargaPembayarans' => $hargaPembayarans,
+                    'daftarBank' => $daftarBank,
+                ]);
+            }
+        });
 
         // View::composer('layouts.index', function ($view) {
         //     $unreadCount = 0;

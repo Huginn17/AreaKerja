@@ -10,7 +10,7 @@
 
         <div class="max-w-7xl mx-auto py-8 px-4 md:px-8 grid md:grid-cols-3 gap-6">
 
-            <!-- KIRI: DETAIL LOWONGAN -->  
+            <!-- KIRI: DETAIL LOWONGAN -->
             <div class="md:col-span-2 space-y-6">
                 <div class="bg-white rounded-lg shadow p-6 space-y-4">
                     <div class="flex items-center gap-3">
@@ -38,35 +38,34 @@
                             @php
                                 $kategori = Auth::user()->pelamar->kategori ?? null;
                             @endphp
-                        
+
                             @if ($kategori === 'pelamar' || ($kategori === 'kandidat aktif' && !$tawaran))
                                 <button @click="showConfirm = true"
                                     class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-lg transition">
                                     Lamar Cepat
                                 </button>
 
-                                {{-- Simpan Lowongan --}}
-                                <button
-                                    @click="
-                fetch('{{ route('simpan-lowongan.store', $data->id) }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
-                    },
-                    body: JSON.stringify({})
-                })
-                .then(res => res.json())
-                .then(data => alert(data.message ?? 'Lowongan disimpan.'))
-                .catch(err => alert('Terjadi kesalahan.'))
-            "
-                                    class="border border-orange-500 text-orange-500 px-5 py-2 rounded-lg hover:bg-orange-50">
-                                    Simpan
-                                </button>
+                                {{-- simpan --}}
+                                <div x-data="saveLowongan({{ $data->id }}, {{ $isSaved ? 'true' : 'false' }})">
+                                    <button @click="toggleSave" class="px-4 py-2 rounded-lg border"
+                                        :class="saved
+                                            ?
+                                            'bg-red-100 border-red-500 text-red-600' :
+                                            'bg-gray-100 border-gray-400 text-gray-700'">
+
+                                        <!-- Love Putih (Belum disimpan) -->
+                                        <i x-show="!saved" class="ph ph-heart text-gray-600"></i>
+
+                                        <!-- Love Merah (Sudah disimpan) -->
+                                        <i x-show="saved" class="ph ph-heart-fill text-red-600"></i>
+
+                                    </button>
+
+
+                                </div>
                             @endif
 
-                            {{-- Jika kandidat aktif dan ADA tawaran --}}   
+                            {{-- Jika kandidat aktif dan ADA tawaran --}}
                             @if ($kategori === 'kandidat aktif' && $tawaran)
                                 <button @click="if(!{{ $disabled ? 'true' : 'false' }}) showConfirmTerima=true"
                                     :disabled="{{ $disabled ? 'true' : 'false' }}"
@@ -174,7 +173,7 @@
         </div>
 
         {{-- ===================== MODAL ===================== --}}
-        
+
         {{-- Lamar Cepat --}}
         <div x-show="showConfirm" x-cloak
             class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -270,7 +269,8 @@
         </div>
 
         {{-- Modal Alasan --}}
-        <div x-show="showAlasan" x-cloak class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div x-show="showAlasan" x-cloak
+            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div class="bg-white rounded-lg p-6 w-[380px]">
                 <h2 class="text-lg font-semibold mb-4">Pilih Alasan Penolakan</h2>
                 <form id="form-penolakan" class="space-y-3">
@@ -305,4 +305,51 @@
 
         @include('layouts.footer')
     </div>
+
+
+    {{-- SIMPAN LOWONGAN --}}
+    <script>
+        function saveLowongan(lowonganId, initialState) {
+
+            return {
+                saved: initialState,
+
+                toggleSave() {
+                    if (!this.saved) {
+                        // SIMPAN
+                        fetch("{{ route('simpan-lowongan.store') }}", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "Accept": "application/json",
+                                    "X-CSRF-TOKEN": document.querySelector('meta[name=csrf-token]').content
+                                },
+                                body: JSON.stringify({
+                                    lowongan_id: lowonganId
+                                })
+                            })
+                            .then(r => r.ok && (this.saved = true))
+                            .catch(() => alert("Gagal menyimpan."))
+                    } else {
+                        // HAPUS
+                        fetch(`/pelamar/simpan-lowongan/${lowonganId}`, {
+                                method: "DELETE",
+                                headers: {
+                                    "Accept": "application/json",
+                                    "X-CSRF-TOKEN": document.querySelector('meta[name=csrf-token]').content
+                                }
+                            })
+                            .then(r => {
+                                if (r.ok) {
+                                    this.saved = false;
+                                    location.reload();
+                                }
+                            })
+                            .catch(() => alert("Gagal menghapus."));
+
+                    }
+                }
+            }
+        }
+    </script>
 @endsection

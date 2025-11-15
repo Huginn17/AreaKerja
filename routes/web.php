@@ -118,7 +118,7 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
     Route::delete('/delete/profile/{pelamar:id}', [ProfileController::class, 'destroy_profile'])->name('profile.destroy');
 
 
-    //ALAMAT PELAMAR
+    //ALAMAT PELAMAR 
     Route::get('/alamat', [ProfileController::class, 'alamat'])->name('alamat');
     Route::get('/form/alamat', [ProfileController::class, 'form_alamat'])->name('form_alamat');
     Route::post('/create/alamat', [ProfileController::class, 'store_alamat'])->name('alamat.store');
@@ -158,6 +158,7 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
     Route::delete('/simpan-lowongan/{lowongan}', [PelamarController::class, 'destroy'])->name('simpan-lowongan.destroy');
     Route::get('/lowongan-tersimpan', [PelamarController::class, 'lowongansimpanform'])->name('lowongan.tersimpan');
 
+
     Route::post('/lamar-cepat/{lowongan}', [PelamarLowonganController::class, 'storeQuick'])->name('lamar.cepat');
     //detail lowongan
     Route::get('/detail-lowongan/{lowongan}', [PelamarController::class, 'detail_lowongan_non_user'])->name('detail.lowongan.non.user');
@@ -192,6 +193,9 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
 //NOTIFIKASI
 Route::post('/notifikasi/baca/semua', [PelamarController::class, 'bacaSemua'])->name('notifikasi.bacaSemua');
 Route::post('/notifikasi/baca/{id}', [PelamarController::class, 'baca'])->name('notifikasi.baca');
+Route::delete('/notifikasi/hapus/{id}', [PelamarController::class, 'hapus'])->name('notifikasi.hapus');
+Route::delete('/notifikasi/hapus-semua', [PelamarController::class, 'hapusSemua'])->name('notifikasi.hapusSemua');
+Route::delete('/notifikasi/hapus-semua-baca', [PelamarController::class, 'hapusSemuaBaca'])->name('notifikasi.hapusSemuaBaca');
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 Route::get('/lowongan', function () {
@@ -637,6 +641,12 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
     Route::get('/talent/hunter/{id}', [SuperAdminController::class, 'detailDataTalentHunter'])->name('superadmin.talent-hunter.detail');
     Route::get('/talent-hunter/{id}/edit', [TalentHunterController::class, 'editTalentHunter'])->name('superadmin.talent-hunter.edit');
     Route::put('/talent-hunter/{id}', [TalentHunterController::class, 'update'])->name('superadmin.talent-hunter.update');
+
+
+    //RECRUITMENT
+    Route::get('/recruitment/perusahaan', [SuperAdminController::class, 'recruitmentPerusahaan'])->name('superadmin.recruitment.perusahaan');
+    Route::get('/recruitment/{id}', [SuperAdminController::class, 'recruitment'])->name('superadmin.recruitment');
+    Route::get('/recruitment/{id}/detail', [SuperAdminController::class, 'detailRecruitment'])->name('superadmin.recruitment.detail');
 });
 
 
@@ -671,9 +681,9 @@ Route::get('/super_admin/detail-kandidat', function () {
 //     return view('super_admin.data-talent-hunter');
 // });
 
-Route::get('/super_admin/data-recruitment', function () {
-    return view('super_admin.data-recruitment');
-});
+// Route::get('/super_admin/data-recruitment', function () {
+//     return view('super_admin.data-recruitment');
+// });
 
 Route::get('/super_admin/detail-perusahaan', function () {
     return view('super_admin.detail-perusahaan');
@@ -848,6 +858,7 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
     Route::get('/pelamar/{pelamarlowongan}/detail', [PelamarController::class, 'preview'])->name('pelamar.detail');
 
     //PENGATURAN PERUSAHAAN
+    Route::get('/pengaturan', [PerusahaanController::class, 'pengaturanForm'])->name('perusahaan.pengaturan');
     Route::post('/ganti-password', [PerusahaanController::class, 'updatePassword'])->name('password.update');
 
 
@@ -919,9 +930,9 @@ Route::get('/perusahaan/detail/transaksi', function () {
     return view('perusahaan.detail-transaksi');
 });
 
-Route::get('/perusahaan/pengaturan', function () {
-    return view('perusahaan.pengaturan');
-});
+// Route::get('/perusahaan/pengaturan', function () {
+//     return view('perusahaan.pengaturan');
+// });
 Route::get('/perusahaan/pengaturan/gantipw', function () {
     return view('perusahaan.pengaturan-gantipw');
 });

@@ -16,6 +16,7 @@ use App\Models\Kecamatan;
 use App\Models\Kota;
 use App\Models\LowonganPerusahaan;
 use App\Models\Pelamar;
+use App\Models\PelamarLowongan;
 use App\Models\Perusahaan;
 use App\Models\Provinsi;
 use App\Models\SuperAdmin;
@@ -1444,12 +1445,68 @@ class SuperAdminController extends Controller
         ]);
     }
 
-
     public function detailDataTalentHunter($id)
     {
         $talentHunter = TalentHunter::with('perusahaan')->findOrFail($id);
         return view('super_admin.talent-hunter.detail-data-talent-hunter', [
             'talentHunter' => $talentHunter
+        ]);
+    }
+
+
+
+    //RECRUITMENT
+    public function recruitment($id)
+    {
+        $perusahaan = Perusahaan::findOrFail($id);
+
+        $recruitments = PelamarLowongan::where('status', 'diterima')
+            ->whereHas('lowongan_perusahaan', function ($q) use ($id) {
+                $q->where('perusahaan_id', $id);
+            })
+            ->with(['pelamar', 'lowongan_perusahaan'])
+            ->get();
+
+        return view('super_admin.recruitment.data-recruitment', [
+            'perusahaan' => $perusahaan,
+            'recruitments' => $recruitments,
+        ]);
+    }
+
+    public function recruitmentPerusahaan(Request $request)
+    {
+        $search = $request->input('search');
+        $perusahaan = Perusahaan::with('user')
+            ->when($search, function ($query, $search) {
+                $query->where('nama_perusahaan', 'like', "%{$search}%")
+                    ->orWhereHas('user', function ($q) use ($search) {
+                        $q->where('username', 'like', "%{$search}%");
+                    });
+            })
+            ->get();
+
+        return view('super_admin.recruitment.perusahaan', [
+            'perusahaan' => $perusahaan
+        ]);
+    }
+
+
+    public function detailRecruitment($id)
+    {
+        $recruitment = PelamarLowongan::with([
+            'pelamar.user',
+            'pelamar.sosmed',
+            'pelamar.pengalaman_organisasi',
+            'pelamar.pengalaman_kerja',
+            'pelamar.riwayat_pendidikan',
+            'pelamar.alamat_pelamar',  
+            'pelamar.skill',
+            'lowongan_perusahaan.perusahaan.alamatUtama',
+            'lowongan_perusahaan.perusahaan'
+        ])->findOrFail($id);
+
+        return view('super_admin.recruitment.detail-recruitment', [
+            'recruitment' => $recruitment
         ]);
     }
 }

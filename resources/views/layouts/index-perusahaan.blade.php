@@ -33,14 +33,14 @@
             font-family: 'Poppins', sans-serif;
         }
     </style>
-    
+
     <script src="//unpkg.com/alpinejs" defer></script>
 
 </head>
 
 <body x-data="{ openNotif: false, openAllNotif: false }">
     {{-- navbar --}}
-     <header class="bg-white border-b py-2 border-gray-300 fixed top-0 left-0 w-full z-50">
+    <header class="bg-white border-b py-2 border-gray-300 fixed top-0 left-0 w-full z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             {{-- logo --}}
             <div class="flex items-center gap-2">
@@ -50,11 +50,11 @@
 
             {{-- menu --}}
             <nav class="hidden md:flex gap-6 font-medium text-gray-800">
-                <a href="{{ route('perusahaan.dashboard') }}"
-                    class="hover:text-orange-500 hover:scale-105">Beranda</a>
+                <a href="{{ route('perusahaan.dashboard') }}" class="hover:text-orange-500 hover:scale-105">Beranda</a>
                 <a href="{{ route('perusahaan.berlangganan') }}"
                     class="hover:text-orange-500 hover:scale-105">Berlangganan</a>
-                <a href="{{ route('talent-hunter.index') }}" class="hover:text-orange-500 hover:scale-105">Talent Hunter</a>
+                <a href="{{ route('talent-hunter.index') }}" class="hover:text-orange-500 hover:scale-105">Talent
+                    Hunter</a>
                 <a href="{{ route('perusahaan.kandidat.ak') }}"
                     class="hover:text-orange-500 hover:scale-105">Kandidat</a>
                 <a href="{{ route('paket.form') }}" class="hover:text-orange-500 hover:scale-105">Pasang Lowongan</a>
@@ -235,7 +235,7 @@
                                         Profil Perusahaan
                                     </a>
 
-                                    <a href="#"
+                                    <button onclick="toggleModal()"
                                         class="flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-gray-100">
                                         <svg width="20" height="19" viewBox="0 0 20 19" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -245,7 +245,7 @@
                                         </svg>
 
                                         Koin Area Kerja
-                                    </a>
+                                    </button>
 
                                     <a href="{{ url('/perusahaan/kandidat') }}"
                                         class="flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-gray-100">
@@ -263,7 +263,7 @@
                                         Kandidat Saya
                                     </a>
 
-                                    <a href="{{ url('/perusahaan/pengaturan') }}"
+                                    <a href="{{ route('perusahaan.pengaturan') }}"
                                         class="flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-gray-100">
                                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -308,102 +308,17 @@
 
     {{-- isi halaman --}}
     @yield('content')
-    <!-- Modal Notifikasi -->
-    <div x-cloak x-show="openNotif" class="fixed inset-0 z-50 flex items-start justify-end p-4"
-        @click.self="openNotif = false">
-        <div class="bg-white w-[380px] rounded-xl shadow-lg overflow-hidden">
-            <!-- Header -->
-            <div class="flex items-center justify-between px-4 py-3 border-b">
-                <h2 class="font-semibold text-lg">Notifikasi</h2>
-                <button @click="openNotif=false; openAllNotif=true" class="text-sm text-orange-500">Lihat
-                    semua</button>
-            </div>
-
-            <!-- List Notifikasi -->
-            <div class="max-h-[400px] overflow-y-auto">
-                @forelse($global_notifikasis as $notif)
-                    <div onclick="markAsRead('{{ route('notifikasi.baca', $notif->id) }}', this)"
-                        class="notif-item cursor-pointer flex items-start gap-3 p-3 border-b {{ $notif->is_read ? 'bg-gray-200' : 'bg-white' }}">
-
-                        <!-- Logo perusahaan -->
-                        <div class="w-10 h-10 flex-shrink-0">
-                            @if ($notif->perusahaan && $notif->perusahaan->img_profile)
-                                <img src="{{ asset('storage/' . $notif->perusahaan->img_profile) }}"
-                                    class="w-10 h-10 object-contain rounded" alt="logo">
-                            @else
-                                <img src="{{ asset('images/logo.png') }}" class="w-10 h-10 object-contain rounded"
-                                    alt="logo">
-                            @endif
-                        </div>
-
-                        <!-- Pesan -->
-                        <div class="flex-1">
-                            <p class="text-sm leading-snug">{!! $notif->pesan !!}</p>
-                            <p class="text-xs text-gray-400 mt-1">{{ $notif->created_at->diffForHumans() }}</p>
-                        </div>
-                    </div>
-                @empty
-                    <p class="p-3 text-gray-500 text-sm text-center">Tidak ada notifikasi</p>
-                @endforelse
-            </div>
-
-            <!-- Footer -->
-            <iframe name="hiddenFrame" style="display:none;"></iframe>
-            <form action="{{ route('notifikasi.bacaSemua') }}" method="POST" target="hiddenFrame">
-                @csrf
-                <div class="p-3 border-t text-right">
-
-                    <button type="submit" class="text-sm text-blue-600 hover:underline">
-                        Tandai Baca
-                    </button>
-                </div>
-            </form>
-
-        </div>
-    </div>
+    {{-- NOTIF --}}
+    @include('perusahaan.notif.modal_notif')
+    @include('perusahaan.notif.modal_semua')
 
 
-    <!-- Modal Semua Notifikasi -->
-    <div x-cloak x-show="openAllNotif" class="fixed inset-0 z-50 flex items-start justify-center p-4 bg-black/30"
-        @click.self="openAllNotif = false">
-        <div class="bg-white w-full max-w-lg rounded-xl shadow-lg overflow-hidden">
-            <!-- Header -->
-            <div class="flex items-center justify-between px-4 py-3 border-b">
-                <h2 class="font-semibold text-lg">Semua Notifikasi</h2>
-                <button @click="openAllNotif=false" class="text-gray-500">Tutup</button>
-            </div>
-
-            <!-- Semua Notifikasi -->
-            <div class="max-h-[500px] overflow-y-auto">
-                @foreach (\App\Models\Notifikasi::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get() as $notif)
-                    <div onclick="markAsRead('{{ route('notifikasi.baca', $notif->id) }}', this)"
-                        class="notif-item cursor-pointer flex items-start gap-3 p-3 border-b {{ $notif->is_read ? 'bg-gray-200' : 'bg-white' }}">
-                        <div class="w-10 h-10 flex-shrink-0">
-                            <img src="{{ $notif->perusahaan && $notif->perusahaan->img_profile
-                                ? asset('storage/' . $notif->perusahaan->img_profile)
-                                : asset('images/logo.png') }}"
-                                class="w-10 h-10 object-contain rounded" alt="logo">
-                        </div>
-                        <div class="flex-1">
-                            <p class="text-sm leading-snug">{!! $notif->pesan !!}</p>
-                            <p class="text-xs text-gray-400 mt-1">{{ $notif->created_at->diffForHumans() }}</p>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-
-            <!-- Footer -->
-            <iframe name="hiddenFrameAll" style="display:none;"></iframe>
-            <form action="{{ route('notifikasi.bacaSemua') }}" method="POST" target="hiddenFrameAll">
-                @csrf
-                <div class="p-3 border-t text-right">
-                    <button type="submit" class="text-sm text-blue-600 hover:underline">
-                        Tandai Semua Dibaca
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <!-- ================= MODAL STEP 1 ================= -->
+    @include('perusahaan.modal-topup.step1')
+    <!-- ================= MODAL STEP 2 ================= -->
+    @include('perusahaan.modal-topup.step2')
+    <!-- ================= MODAL STEP 3 ================= -->
+    @include('perusahaan.modal-topup.step3')
 
     <script>
         document.getElementById('fileinputperusahaan').addEventListener('change', function(e) {
@@ -419,39 +334,111 @@
         });
     </script>
 
+    {{-- NOTIF --}}
     <script>
-        function markAsRead(url, el) {
-            console.log("Mengirim request ke:", url); // Debug
-
-            fetch(url, {
-                    method: 'POST',
+        // Tandai dibaca
+        async function markAsRead(url, el) {
+            try {
+                let res = await fetch(url, {
+                    method: "POST",
                     headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Accept': 'application/json',
-                    },
-                })
-                .then(res => res.json())
-                .then(data => {
-                    console.log("Response:", data); // Debug
-                    if (data.success) {
-                        el.classList.remove('text-gray-800', 'font-medium');
-                        el.classList.add('text-gray-500');
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                        "Accept": "application/json"
+                    }
+                });
 
-                        const badge = document.getElementById('notif-badge');
-                        if (badge) {
-                            let count = parseInt(badge.textContent) || 0;
-                            if (count > 1) {
-                                badge.textContent = count - 1;
-                            } else {
-                                badge.remove();
-                            }
+                let data = await res.json();
+
+                if (data.success) {
+
+                    // Ubah warna bg
+                    el.classList.remove("bg-white");
+                    el.classList.add("bg-gray-200");
+
+                    // Kurangi badge
+                    const badge = document.getElementById("notif-badge");
+                    if (badge) {
+                        let count = parseInt(badge.textContent);
+                        if (count > 1) {
+                            badge.textContent = count - 1;
+                        } else {
+                            badge.remove();
                         }
                     }
-                })
-                .catch(err => console.error('Error markAsRead:', err));
-        }
-    </script>
+                }
 
+            } catch (error) {
+                console.error("markAsRead error:", error);
+            }
+        }
+
+        // AlpineJS init
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('notifHandler', () => ({
+
+                // Hapus satu notifikasi
+                async hapus(id) {
+                    if (!confirm("Hapus notifikasi ini?")) return;
+
+                    let url = "{{ route('notifikasi.hapus', ':id') }}".replace(':id', id);
+
+                    let res = await fetch(url, {
+                        method: "DELETE",
+                        headers: {
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                            "Accept": "application/json"
+                        }
+                    });
+
+                    let data = await res.json();
+
+                    if (data.success) {
+                        document.querySelector(`.notif-item[data-id="${id}"]`)?.remove();
+                    }
+                },
+
+                // Hapus semua
+                async hapusSemua() {
+                    if (!confirm("Hapus semua notifikasi?")) return;
+
+                    let res = await fetch("{{ route('notifikasi.hapusSemua') }}", {
+                        method: "DELETE",
+                        headers: {
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                            "Accept": "application/json"
+                        }
+                    });
+
+                    let data = await res.json();
+
+                    if (data.success) {
+                        document.querySelectorAll('.notif-item').forEach(e => e.remove());
+                    }
+                },
+
+                // Hapus semua yang sudah dibaca
+                async hapusSemuaBaca() {
+                    if (!confirm("Hapus semua notifikasi yang sudah dibaca?")) return;
+
+                    let res = await fetch("{{ route('notifikasi.hapusSemuaBaca') }}", {
+                        method: "DELETE",
+                        headers: {
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                            "Accept": "application/json"
+                        }
+                    });
+
+                    let data = await res.json();
+
+                    if (data.success) {
+                        document.querySelectorAll('.notif-item.bg-gray-200')
+                            .forEach(e => e.remove());
+                    }
+                }
+
+            }));
+        });
+    </script>
 
     <script>
         document.querySelector('form[target="hiddenFrame"]').addEventListener('submit', () => {
@@ -464,6 +451,164 @@
         });
     </script>
 
+
+    {{-- TOP UP --}}
+    <script>
+        //redirect
+        document.getElementById('btnKonfirmasi').addEventListener('click', function() {
+            if (!selectedKoin || !selectedBank) {
+                alert("Silakan pilih paket dan metode pembayaran dulu.");
+                return;
+            }
+
+            fetch("{{ route('catatan_cash.store') }}", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        harga_pembayaran_id: document.querySelector(".paketCoin:checked").value,
+                        daftar_bank_id: document.querySelector(".metodePembayaran:checked").value,
+                    })
+                })
+                .then(async res => {
+                    if (!res.ok) {
+                        let err = await res.text();
+                        throw new Error(err);
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = data.redirect_url;
+                    }
+                })
+                .catch(err => {
+                    console.error("Error detail:", err.message);
+                    alert("Gagal membuat transaksi: " + err.message);
+                });
+        });
+
+
+
+        let selectedKoin = null;
+        let selectedHarga = null;
+        let selectedBank = null;
+
+        function toggleModal() {
+            closeAllModal();
+            document.getElementById('modalStep1').classList.remove('hidden');
+            document.getElementById('modalStep1').classList.add('flex');
+            updateButtons();
+        }
+
+        function closeAllModal() {
+            document.querySelectorAll('[id^="modalStep"]').forEach(m => {
+                m.classList.add('hidden');
+                m.classList.remove('flex');
+            });
+        }
+
+        function goToStep(step) {
+            // ✅ Validasi sebelum pindah step
+            if (step === 2 && !selectedKoin) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Oops...',
+                    text: 'Silakan pilih paket koin terlebih dahulu!',
+                    confirmButtonColor: '#f97316' // warna tombol orange
+                });
+                return;
+            }
+            if (step === 3 && !selectedBank) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Oops...',
+                    text: 'Silakan pilih metode pembayaran terlebih dahulu!',
+                    confirmButtonColor: '#f97316'
+                });
+                return;
+            }
+
+            closeAllModal();
+            let modal = document.getElementById('modalStep' + step);
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            updateButtons();
+
+            // Step 3: update detail pembayaran
+            if (step === 3) {
+                const biayaAdmin = 2000;
+                const totalBayar = (selectedHarga ?? 0) + biayaAdmin;
+
+                // 🔑 Buat No Transaksi random unik
+                const randomPart = Math.floor(Math.random() * 1000000);
+                const noTransaksi = "TRX" + Date.now() + randomPart;
+
+                document.getElementById('detailTransaksi').innerText = noTransaksi;
+                document.getElementById('detailPengirim').innerText = "Nama User";
+                document.getElementById('detailBank').innerText = selectedBank ?? '-';
+                document.getElementById('detailWaktu').innerText = new Date().toLocaleString('id-ID');
+                document.getElementById('detailHarga').innerText = "Rp. " + (selectedHarga ?? 0).toLocaleString('id-ID');
+                document.getElementById('detailTotal').innerText = "Rp. " + totalBayar.toLocaleString('id-ID');
+            }
+        }
+
+
+        // 🔑 Update status tombol (disable/enable)
+        function updateButtons() {
+            // Step 1: tombol konfirmasi paket
+            const btnStep1 = document.querySelector('#modalStep1 button');
+            if (btnStep1) {
+                btnStep1.disabled = !selectedKoin;
+                btnStep1.classList.toggle('opacity-50', !selectedKoin);
+                btnStep1.classList.toggle('cursor-not-allowed', !selectedKoin);
+            }
+
+            // Step 2: tombol selanjutnya metode pembayaran
+            const btnStep2 = document.querySelector('#modalStep2 button:last-child');
+            if (btnStep2) {
+                btnStep2.disabled = !selectedBank;
+                btnStep2.classList.toggle('opacity-50', !selectedBank);
+                btnStep2.classList.toggle('cursor-not-allowed', !selectedBank);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Step 1: Pilih Paket Koin
+            document.querySelectorAll('.paketCoin').forEach(el => {
+                el.addEventListener('change', function() {
+                    selectedKoin = this.dataset.jumlah;
+                    selectedHarga = parseInt(this.dataset.harga);
+
+                    // Highlight kartu terpilih
+                    document.querySelectorAll('.paketCoinWrapper').forEach(w => {
+                        w.classList.remove('ring-2', 'ring-orange-500');
+                    });
+                    this.closest('.paketCoinWrapper').classList.add('ring-2', 'ring-orange-500');
+
+                    updateButtons();
+                });
+            });
+
+            // Step 2: Pilih Metode Pembayaran
+            document.querySelectorAll('.metodePembayaran').forEach(el => {
+                el.addEventListener('change', function() {
+                    selectedBank = this.dataset.bank;
+
+                    // Highlight bank terpilih
+                    document.querySelectorAll('.pembayaranWrapper').forEach(w => {
+                        w.classList.remove('ring-2', 'ring-orange-500');
+                    });
+                    this.closest('.pembayaranWrapper').classList.add('ring-2', 'ring-orange-500');
+
+                    updateButtons();
+                });
+            });
+        });
+    </script>
     <script src="//unpkg.com/alpinejs" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

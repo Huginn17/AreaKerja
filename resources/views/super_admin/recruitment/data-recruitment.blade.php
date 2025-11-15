@@ -34,7 +34,7 @@
                     </div>
 
                     <select class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
-                         <option value=""></option>
+                        <option value=""></option>
                         <option>Text 1</option>
                         <option>Text 2</option>
                         <option>Text 3</option>
@@ -42,10 +42,11 @@
                 </div>
             </div>
         </div>
+
         <!-- Header -->
         <div class="flex items-center justify-between mb-6">
             <div class="flex items-center gap-4">
-                <div>
+                {{-- <div>
                     <a href="/super_admin/tambah/perusahaan"
                         class="bg-orange-500 hover:bg-orange-600 border border-orange-600 text-white px-3 py-2 rounded-lg inline-flex items-center justify-center">
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
@@ -54,7 +55,6 @@
                                 stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                     </a>
-
                 </div>
                 <div>
                     <button class="bg-white border border-orange-600 text-orange-600 px-4 py-3 rounded-lg">
@@ -65,8 +65,8 @@
                                 fill="#FA6601" />
                         </svg>
                     </button>
-                </div>
-                <div class="relative inline-block w-48">
+                </div> --}}
+                {{-- <div class="relative inline-block w-48">
                     <!-- Select utama -->
                     <button
                         class="w-full bg-orange-500  hover:bg-orange-600 text-white font-medium px-4 py-2 border border-orange-500 rounded-md flex justify-between items-center focus:outline-none"
@@ -100,7 +100,7 @@
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div> --}}
 
                 <script>
                     const button = document.getElementById("dropdownButton");
@@ -110,7 +110,6 @@
                         menu.classList.toggle("hidden");
                     });
                 </script>
-
             </div>
 
             <div class="flex gap-2">
@@ -124,36 +123,38 @@
         <div class="overflow-hidden rounded-2xl border-2 border-gray-400">
             <table class="w-full text-left border-collapse">
                 <thead class="text-center">
-                         <tr class="border-b-[2px] border-gray-300">
+                    <tr class="border-b-[2px] border-gray-300">
                     <tr>
                         <th class="p-7 font-medium">ID</th>
-                        <th class="p-7 font-medium">Nama Perusahaan</th>
+                        <th class="p-7 font-medium">Nama Kandidat</th>
+                        <th class="p-7 font-medium">Lowongan</th>
                         <th class="p-7 font-medium">Email</th>
                         <th class="p-7 font-medium">Telepon</th>
-                        <th class="p-7 font-medium">Alamat</th>
                         <th class="p-7 font-medium">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    @for ($i = 0; $i < 10; $i++)
-                        <!-- Contoh isi data (bisa diulang dengan loop dari backend) -->
-                          <tr class="border-b-[2px] border-gray-300">
+                    @forelse ( $recruitments as $r)
+                        <tr class="border-b-[2px] border-gray-300">
                         <tr class="border-b">
-                                 <tr class="border-b-[2px] border-gray-300">
-                            <td class="px-4 py-3">000001</td>
-                            <td class="px-4 py-3">Seven INC</td>
-                            <td class="px-4 py-3">seveninc@gmail.com</td>
-                            <td class="px-4 py-3">(0351)-123456</td>
-                            <td class="px-4 py-3">Jawa Tengah</td>
+                        <tr class="border-b-[2px] border-gray-300">
+                            <td class="px-4 py-3">{{ $r->id }}</td>
+                            <td class="px-4 py-3">{{ $r->pelamar->nama_pelamar }}</td>
+                            <td class="px-4 py-3">{{ $r->lowongan_perusahaan->nama }}</td>
+                            <td class="px-4 py-3">{{ $r->pelamar->user->email }}</td>
+                            <td class="px-4 py-3">{{ $r->pelamar->telepon_pelamar }}</td>
                             <td class="px-4 py-3">
-                                <a href="/super_admin/detail-perusahaan"
+                                <a href="{{ route('superadmin.recruitment.detail', $r->id) }}"
                                     class="bg-orange-500 text-xs text-white px-4 py-1 rounded-lg">View</a>
                             </td>
                         </tr>
-                    @endfor
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center">Belum ada recruitment diterima</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
-
     </main>
 @endsection

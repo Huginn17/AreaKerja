@@ -19,12 +19,12 @@
                             class="notif-item cursor-pointer flex items-start gap-3 p-3 border-b {{ $notif->is_read ? 'bg-gray-200' : 'bg-white' }}">
 
                             <!-- Logo perusahaan -->
-                            <div class="w-10 h-10 flex-shrink-0">
+                            {{-- <div class="w-10 h-10 flex-shrink-0">
                                 <img
                                     src="{{ $notif->perusahaan && $notif->perusahaan->img_profile
                                         ? asset('storage/' . $notif->perusahaan->img_profile)
                                         : asset('images/logo.png') }}">
-                            </div>
+                            </div> --}}
 
                             <!-- Pesan -->
                             <div class="flex-1">

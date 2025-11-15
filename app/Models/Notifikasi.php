@@ -25,4 +25,9 @@ class Notifikasi extends Model
     {
         return $this->belongsTo(PelamarLowongan::class, 'pelamar_lowongan_id');
     }
+
+    public function perusahaan()
+    {
+        return $this->belongsTo(Perusahaan::class, 'perusahaan_id');
+    }
 }

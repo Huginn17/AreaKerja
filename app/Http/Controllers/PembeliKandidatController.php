@@ -14,7 +14,6 @@ class PembeliKandidatController extends Controller
 {
     public function beli(Request $request)
     {
-
         $request->validate([
             'pelamar_id' => 'required|exists:pelamars,id',
             'lowongan_perusahaan_id' => 'required|exists:lowongan_perusahaans,id'
@@ -22,6 +21,7 @@ class PembeliKandidatController extends Controller
 
         $user = auth()->user();
         $perusahaan = $user->perusahaan;
+
         if (!$perusahaan) {
             return response()->json([
                 'status' => 'error',
@@ -29,8 +29,8 @@ class PembeliKandidatController extends Controller
             ], 403);
         }
 
-        $pelamar = Pelamar::FindOrFail($request->pelamar_id);
-        $lowongan = LowonganPerusahaan::FindOrFail($request->lowongan_perusahaan_id);
+        $pelamar = Pelamar::findOrFail($request->pelamar_id);
+        $lowongan = LowonganPerusahaan::findOrFail($request->lowongan_perusahaan_id);
 
         if ($lowongan->perusahaan_id != $perusahaan->id) {
             return response()->json([
@@ -40,6 +40,12 @@ class PembeliKandidatController extends Controller
         }
 
         $harga = 100;
+
+        // Hapus riwayat lama dengan status ditolak
+        PembeliKandidat::where('pelamar_id', $pelamar->id)
+            ->where('lowongan_perusahaan_id', $lowongan->id)
+            ->where('status', 'ditolak')
+            ->delete();
 
         $exists = PembeliKandidat::where('pelamar_id', $pelamar->id)
             ->where('lowongan_perusahaan_id', $lowongan->id)
@@ -53,7 +59,6 @@ class PembeliKandidatController extends Controller
             ]);
         }
 
-
         if ($perusahaan->koin_perusahaan < $harga) {
             return response()->json([
                 'status' => 'error',
@@ -61,7 +66,7 @@ class PembeliKandidatController extends Controller
             ]);
         }
 
-        //kurangi koin
+        // Kurangi koin
         $perusahaan->decrement('koin_perusahaan', $harga);
 
         $noReferensi = 'TRX-' . now()->format('YmdHis') . '-' . Str::upper(Str::random(6));
@@ -72,18 +77,33 @@ class PembeliKandidatController extends Controller
             'status' => 'pending',
         ]);
 
-        // dd(get_class($user));
+        // Catatan koin
         $user->catatanKoins()->create([
             'no_referensi' => $noReferensi,
             'pesanan' => 'Pembelian Kandidat: ' . ($pelamar->nama_pelamar ?? 'kandidat'),
             'dari' => $perusahaan->nama_perusahaan,
             'sumber_dana' => 'Saldo Koin Perusahaan',
             'total' => '-' . $harga,
-            // 'tipe' => 'keluar',
         ]);
 
-        return response()->json(['status' => 'success', 'message' => 'Pembelian berhasil', 'pembelian' => $pembelian]);
+        // NOTIFIKASI UNTUK PELAMAR
+        Notifikasi::create([
+            'user_id' => $pelamar->user_id,
+            'perusahaan_id' => $perusahaan->id,
+            'judul'   => 'Kamu Telah Dibeli Perusahaan',
+            'pesan'   => 'Selamat Anda Telah Direkrut Oleh Perusahaan ' . $perusahaan->nama_perusahaan .
+                ' Dan Akan Ditempatkan Di Bagian ' . $lowongan->nama .
+                '. Harap Memeriksa Status Tawaranmu.',
+            'is_read' => false,
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Pembelian berhasil',
+            'pembelian' => $pembelian
+        ]);
     }
+
 
     public function tawaran()
     {
@@ -130,9 +150,9 @@ class PembeliKandidatController extends Controller
                 . "Alasan: " . ($request->alasan_penolakan ?? '-');
 
             Notifikasi::create([
-               'user_id' => $perusahaanUserId,
-               'judul' => $judul,
-               'pesan' => $pesan
+                'user_id' => $perusahaanUserId,
+                'judul' => $judul,
+                'pesan' => $pesan
             ]);
         }
 

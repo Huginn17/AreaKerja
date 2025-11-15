@@ -24,6 +24,8 @@ class Kernel extends ConsoleKernel
         $schedule->job(new \App\Jobs\ExpireLamaranJob)->dailyAt('00:00');
         $schedule->job(new \App\Jobs\DeleteExpiredNotifJob)->dailyAt('01:00');
         $schedule->command('langganan:cek-expired')->dailyAt('00:00');
+        // Hapus notifikasi yang kadaluarsa tiap hari
+        $schedule->command('notifikasi:hapus-expired')->everyMinute();
     }
 
     /**

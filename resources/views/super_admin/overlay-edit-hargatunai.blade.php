@@ -13,10 +13,6 @@
     <div class="max-w-4xl mx-auto p-6 translate-x-15 overflow-y-auto"><br><br>
         <h3 class="font-semibold text-xl m-2">Paket Harga Pembayaran</h3>
 
-
-
-
-
         <!-- Table -->
         <div class="px-15 pb-5">
             <div class="overflow-hidden rounded-lg border border-gray-300">

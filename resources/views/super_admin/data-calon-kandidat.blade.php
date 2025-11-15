@@ -41,6 +41,7 @@
                 </div>
             </div>
         </div>
+        
         <!-- Header -->
         <div class="flex items-center justify-between mb-6">
             <div class="flex items-center gap-4">
@@ -53,7 +54,6 @@
                                 stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                     </a>
-
                 </div>
                 <div>
                     <button class="bg-white border border-orange-600 text-orange-600 px-4 py-3 rounded-lg">
@@ -145,6 +145,5 @@
                 </tbody>
             </table>
         </div>
-
     </main>
 @endsection

@@ -409,4 +409,5 @@ class AdminController extends Controller
             'talentHunter' => $talentHunter
         ]);
     }
+
 }

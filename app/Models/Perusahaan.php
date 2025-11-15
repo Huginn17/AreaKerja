@@ -12,9 +12,9 @@ class Perusahaan extends Model
     protected $guarded = [];
 
     protected $casts = [
-    // 'tanggal_berlangganan' => 'datetime',
-    'tanggal_expired' => 'datetime',
-];
+        // 'tanggal_berlangganan' => 'datetime',
+        'tanggal_expired' => 'datetime',
+    ];
 
     public function user()
     {
@@ -57,5 +57,10 @@ class Perusahaan extends Model
     public function talentHunters()
     {
         return $this->hasMany(TalentHunter::class, 'perusahaan_id');
+    }
+
+    public function alamatUtama()
+    {
+        return $this->hasOne(AlamatPerusahaan::class)->where('utama', 1);
     }
 }

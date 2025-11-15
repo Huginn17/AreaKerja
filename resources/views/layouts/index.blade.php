@@ -14,6 +14,7 @@
     @vite('resources/css/app.css')
     <link rel="icon" type="image/png" href="{{ asset('images/logoarea.png') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" />
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -48,21 +49,36 @@
 
             {{-- Menu --}}
             <nav class="hidden md:flex font-semibold text-sm text-orange-500">
-                <a href="{{ route('beranda') }}" class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400">Beranda</a>
-                <a href="{{ url('/talent-hunter') }}" class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400">Talent Hunter</a>
-                <a href="{{ url('/pelamar/tips-kerja') }}" class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:scale-105 hover:font-bold transition-all duration-400">Tips Kerja</a>
+                <a href="{{ route('beranda') }}"
+                    class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400">Beranda</a>
+                <a href="{{ url('/talent-hunter') }}"
+                    class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400">Talent
+                    Hunter</a>
+                <a href="{{ url('/pelamar/tips-kerja') }}"
+                    class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:scale-105 hover:font-bold transition-all duration-400">Tips
+                    Kerja</a>
                 @if (Auth::check() && Auth::user()->pelamar)
                     @if (Auth::user()->pelamar->kategori === 'calon kandidat')
-                    <a href="{{ route('pelamar.calon-kandidat.pelatihan') }}" class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400">Rekrut Saya</a>
+                        <a href="{{ route('pelamar.calon-kandidat.pelatihan') }}"
+                            class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400">Rekrut
+                            Saya</a>
                     @elseif (Auth::user()->pelamar->kategori === 'kandidat aktif')
-                    <a href="{{ route('pelamar.tawaran') }}" class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:scale-105 hover:font-bold transition-all duration-400">Rekrut Saya</a>
+                        <a href="{{ route('pelamar.tawaran') }}"
+                            class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:scale-105 hover:font-bold transition-all duration-400">Rekrut
+                            Saya</a>
                     @else
-                    <a href="{{ route('pelamar.daftar-kandidat') }}" class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400">Daftar Kandidat</a>
+                        <a href="{{ route('pelamar.daftar-kandidat') }}"
+                            class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400">Daftar
+                            Kandidat</a>
                     @endif
                 @else
-                    <a href="{{ route('pelamar.daftar-kandidat') }}" class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400">Daftar Kandidat</a>
+                    <a href="{{ route('pelamar.daftar-kandidat') }}"
+                        class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400">Daftar
+                        Kandidat</a>
                 @endif
-                <a href="{{ url('/lowongan') }}" class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400">Pasang Lowongan</a>
+                <a href="{{ url('/lowongan') }}"
+                    class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400">Pasang
+                    Lowongan</a>
             </nav>
 
             {{-- Aksi --}}
@@ -175,101 +191,10 @@
     {{-- Isi Halaman --}}
     @yield('content')
 
-    <!-- Modal Notifikasi -->
-    <div x-cloak x-show="openNotif" class="fixed inset-0 z-50 flex items-start justify-end p-4"
-        @click.self="openNotif = false">
-        <div class="bg-white w-[380px] rounded-xl shadow-lg overflow-hidden">
-            <!-- Header -->
-            <div class="flex items-center justify-between px-4 py-3 border-b">
-                <h2 class="font-semibold text-lg">Notifikasi</h2>
-                <button @click="openNotif=false; openAllNotif=true" class="text-sm text-orange-500">Lihat semua</button>
-            </div>
+    {{-- NOTIF --}}
+    @include('non-user.notif.modal_notif')
+    @include('non-user.notif.modal_semua')
 
-            <!-- List Notifikasi -->
-            <div class="max-h-[400px] overflow-y-auto">
-                @forelse($global_notifikasis as $notif)
-                    <div onclick="markAsRead('{{ route('notifikasi.baca', $notif->id) }}', this)"
-                        class="notif-item cursor-pointer flex items-start gap-3 p-3 border-b {{ $notif->is_read ? 'bg-gray-200' : 'bg-white' }}">
-
-                        <!-- Logo perusahaan -->
-                        <div class="w-10 h-10 flex-shrink-0">
-                            @if ($notif->perusahaan && $notif->perusahaan->img_profile)
-                                <img src="{{ asset('storage/' . $notif->perusahaan->img_profile) }}"
-                                    class="w-10 h-10 object-contain rounded" alt="logo">
-                            @else
-                                <img src="{{ asset('images/logo.png') }}" class="w-10 h-10 object-contain rounded"
-                                    alt="logo">
-                            @endif
-                        </div>
-
-                        <!-- Pesan -->
-                        <div class="flex-1">
-                            <p class="text-sm leading-snug">{!! $notif->pesan !!}</p>
-                            <p class="text-xs text-gray-400 mt-1">{{ $notif->created_at->diffForHumans() }}</p>
-                        </div>
-                    </div>
-                @empty
-                    <p class="p-3 text-gray-500 text-sm text-center">Tidak ada notifikasi</p>
-                @endforelse
-            </div>
-
-            <!-- Footer -->
-            <iframe name="hiddenFrame" style="display:none;"></iframe>
-            <form action="{{ route('notifikasi.bacaSemua') }}" method="POST" target="hiddenFrame">
-                @csrf
-                <div class="p-3 border-t text-right">
-
-                    <button type="submit" class="text-sm text-blue-600 hover:underline">
-                        Tandai Baca
-                    </button>
-                </div>
-            </form>
-
-        </div>
-    </div>
-
-
-    <!-- Modal Semua Notifikasi -->
-    <div x-cloak x-show="openAllNotif" class="fixed inset-0 z-50 flex items-start justify-center p-4 bg-black/30"
-        @click.self="openAllNotif = false">
-        <div class="bg-white w-full max-w-lg rounded-xl shadow-lg overflow-hidden">
-            <!-- Header -->
-            <div class="flex items-center justify-between px-4 py-3 border-b">
-                <h2 class="font-semibold text-lg">Semua Notifikasi</h2>
-                <button @click="openAllNotif=false" class="text-gray-500">Tutup</button>
-            </div>
-
-            <!-- Semua Notifikasi -->
-            <div class="max-h-[500px] overflow-y-auto">
-                @foreach (\App\Models\Notifikasi::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get() as $notif)
-                    <div onclick="markAsRead('{{ route('notifikasi.baca', $notif->id) }}', this)"
-                        class="notif-item cursor-pointer flex items-start gap-3 p-3 border-b {{ $notif->is_read ? 'bg-gray-200' : 'bg-white' }}">
-                        <div class="w-10 h-10 flex-shrink-0">
-                            <img src="{{ $notif->perusahaan && $notif->perusahaan->img_profile
-                                ? asset('storage/' . $notif->perusahaan->img_profile)
-                                : asset('images/logo.png') }}"
-                                class="w-10 h-10 object-contain rounded" alt="logo">
-                        </div>
-                        <div class="flex-1">
-                            <p class="text-sm leading-snug">{!! $notif->pesan !!}</p>
-                            <p class="text-xs text-gray-400 mt-1">{{ $notif->created_at->diffForHumans() }}</p>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-
-            <!-- Footer -->
-            <iframe name="hiddenFrameAll" style="display:none;"></iframe>
-            <form action="{{ route('notifikasi.bacaSemua') }}" method="POST" target="hiddenFrameAll">
-                @csrf
-                <div class="p-3 border-t text-right">
-                    <button type="submit" class="text-sm text-blue-600 hover:underline">
-                        Tandai Semua Dibaca
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
 
     {{-- Onboarding Tooltip --}}
     <div id="onboarding" class="hidden">
@@ -319,52 +244,112 @@
         });
     </script>
 
-    {{-- read notif --}}
+    {{-- NOTIF --}}
     <script>
-        function markAsRead(url, el) {
-            fetch(url, {
-                    method: 'POST',
+        // Tandai dibaca
+        async function markAsRead(url, el) {
+            try {
+                let res = await fetch(url, {
+                    method: "POST",
                     headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({})
-                })
-                .then(async res => {
-                    if (!res.ok) {
-                        const text = await res.text();
-                        console.error('Request failed:', res.status, text);
-                        return;
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                        "Accept": "application/json"
                     }
-                    return res.json();
-                })
-                .then(data => {
-                    if (!data) return;
-                    if (data.success) {
-                        el.classList.remove('bg-gray-200');
-                        el.classList.add('bg-gray-200');
-
-                        // update badge (jika ada)
-                        const badge = document.querySelector('.absolute .bg-red-500');
-                        if (badge) {
-                            // kalau badge berisi angka, kurangi 1
-                            const num = parseInt(badge.textContent) || 0;
-                            if (num <= 1) {
-                                badge.remove();
-                            } else {
-                                badge.textContent = (num - 1).toString();
-                            }
-                        }
-                    } else {
-                        console.warn('Response success=false', data);
-                    }
-                })
-                .catch(err => {
-                    console.error('Fetch error', err);
                 });
+
+                let data = await res.json();
+
+                if (data.success) {
+
+                    // Ubah warna bg
+                    el.classList.remove("bg-white");
+                    el.classList.add("bg-gray-200");
+
+                    // Kurangi badge
+                    const badge = document.getElementById("notif-badge");
+                    if (badge) {
+                        let count = parseInt(badge.textContent);
+                        if (count > 1) {
+                            badge.textContent = count - 1;
+                        } else {
+                            badge.remove();
+                        }
+                    }
+                }
+
+            } catch (error) {
+                console.error("markAsRead error:", error);
+            }
         }
+
+        // AlpineJS init
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('notifHandler', () => ({
+
+                // Hapus satu notifikasi
+                async hapus(id) {
+                    if (!confirm("Hapus notifikasi ini?")) return;
+
+                    let url = "{{ route('notifikasi.hapus', ':id') }}".replace(':id', id);
+
+                    let res = await fetch(url, {
+                        method: "DELETE",
+                        headers: {
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                            "Accept": "application/json"
+                        }
+                    });
+
+                    let data = await res.json();
+
+                    if (data.success) {
+                        document.querySelector(`.notif-item[data-id="${id}"]`)?.remove();
+                    }
+                },
+
+                // Hapus semua
+                async hapusSemua() {
+                    if (!confirm("Hapus semua notifikasi?")) return;
+
+                    let res = await fetch("{{ route('notifikasi.hapusSemua') }}", {
+                        method: "DELETE",
+                        headers: {
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                            "Accept": "application/json"
+                        }
+                    });
+
+                    let data = await res.json();
+
+                    if (data.success) {
+                        document.querySelectorAll('.notif-item').forEach(e => e.remove());
+                    }
+                },
+
+                // Hapus semua yang sudah dibaca
+                async hapusSemuaBaca() {
+                    if (!confirm("Hapus semua notifikasi yang sudah dibaca?")) return;
+
+                    let res = await fetch("{{ route('notifikasi.hapusSemuaBaca') }}", {
+                        method: "DELETE",
+                        headers: {
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                            "Accept": "application/json"
+                        }
+                    });
+
+                    let data = await res.json();
+
+                    if (data.success) {
+                        document.querySelectorAll('.notif-item.bg-gray-200')
+                            .forEach(e => e.remove());
+                    }
+                }
+
+            }));
+        });
     </script>
+
 
     <script>
         document.querySelector('form[target="hiddenFrame"]').addEventListener('submit', () => {

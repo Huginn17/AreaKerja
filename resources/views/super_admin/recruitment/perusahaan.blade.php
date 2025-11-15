@@ -2,7 +2,7 @@
 @section('sidebarsuperadmin')
     <main class="flex-1 p-6 sm:ml-64 bg-white overflow-y-auto" x-data="{ openNotif: false, openAllNotif: false }">
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-medium">Data Talent Hunter</h1>
+            <h1 class="text-2xl font-medium">Data Perusahaan Recruitment</h1>
             <div class="flex items-center gap-3">
                 {{-- Tombol Notifikasi --}}
                 <button @click="openNotif = true" class="relative">
@@ -28,7 +28,6 @@
                     @endif
                 </button>
 
-
                 <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
                     <a href="{{ route('superadmin.profile') }}">
                         @if (Auth::user()->role == 'super_admin')
@@ -53,7 +52,6 @@
                     </div>
 
                     <select class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
-                        <option value="">Pilih</option>
                         <option>Text 1</option>
                         <option>Text 2</option>
                         <option>Text 3</option>
@@ -65,7 +63,7 @@
         <div class="flex items-center justify-between mb-6">
             <div class="flex items-center gap-4">
                 <div>
-                    <a href="/super_admin/tambah/perusahaan"
+                    <a href="{{ route('superadmin.add.user.createForm') }}"
                         class="bg-orange-500 hover:bg-orange-600 border border-orange-600 text-white px-3 py-2 rounded-lg inline-flex items-center justify-center">
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -76,7 +74,8 @@
 
                 </div>
                 <div>
-                    <button class="bg-white border border-orange-600 text-orange-600 px-4 py-3 rounded-lg">
+                    <button
+                        class="bg-white hover:bg-gray-100 border border-orange-600 text-orange-600 px-4 py-3 rounded-lg">
                         <svg width="20" height="15" viewBox="0 0 20 15" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -85,11 +84,10 @@
                         </svg>
                     </button>
                 </div>
-
                 <div class="relative inline-block w-48">
                     <!-- Select utama -->
                     <button
-                        class="w-full bg-orange-500 text-white font-medium px-4 py-2 border border-orange-500 rounded-md flex justify-between items-center focus:outline-none"
+                        class="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium px-4 py-2 border border-orange-500 rounded-md flex justify-between items-center focus:outline-none"
                         id="dropdownButton">
                         <span>Pilih Opsi</span>
                         <!-- Icon panah -->
@@ -116,12 +114,13 @@
                                     Hunter</a>
                             </li>
                             <li>
-                                <a href="/super_admin/data-panggilan"
+                                <a href="{{ route('superadmin.panggilan') }}"
                                     class="block px-4 py-2 hover:bg-orange-500 hover:text-white transition">Panggilan</a>
                             </li>
                         </ul>
                     </div>
                 </div>
+
                 <script>
                     const button = document.getElementById("dropdownButton");
                     const menu = document.getElementById("dropdownMenu");
@@ -134,10 +133,9 @@
             </div>
 
             <div class="flex gap-2">
-                <form action="{{ route('superadmin.talent-hunter') }}" method="get">
-                    <input type="text" name="search" value="{{ request('search') }}"
-                        placeholder="Cari berdasarkan username, nama perusahaan, atau posisi..."
-                        class="border border-gray-500 rounded-lg px-4 py-2 w-72">
+                <form action="{{ route('superadmin.perusahaan') }}" method="GET">
+                    <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="nama/username ..."
+                        class="border-2 border-gray-400 rounded-lg px-4 py-2 w-72">
                     <button type="submit"
                         class="bg-orange-500 hover:bg-orange-600 text-white font-medium px-10 py-2 rounded-xl">Cari</button>
                 </form>
@@ -145,46 +143,43 @@
         </div>
 
         <!-- Table -->
-        <div class="overflow-hidden rounded-2xl border-2 border-gray-400">
+        <div class="overflow-hidden rounded-2xl border-2 border-gray-400 shadow-md">
             <table class="w-full text-left border-collapse">
                 <thead class="text-center">
-                    <tr class="border-b-[2px] border-gray-300">
                     <tr>
                         <th class="p-7 font-medium">ID</th>
                         <th class="p-7 font-medium">Nama Perusahaan</th>
                         <th class="p-7 font-medium">Email</th>
-                        <th class="p-7 font-medium">Posisi</th>
                         <th class="p-7 font-medium">Telepon</th>
                         <th class="p-7 font-medium">Alamat</th>
                         <th class="p-7 font-medium">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    @forelse ($talentHunter as $th)
-                        <tr class="border-b-[2px] border-gray-300">
-                        <tr class="border-b">
-                        <tr class="border-b-[2px] border-gray-300">
-                            <td class="px-4 py-3">{{ $th->id }}</td>
-                            <td class="px-4 py-3">{{ $th->perusahaan->nama_perusahaan }}</td>
-                            <td class="px-4 py-3">{{ $th->perusahaan->user->email }}</td>
-                            <td class="px-4 py-3">{{ $th->posisi }}</td>
-                            <td class="px-4 py-3">{{ $th->perusahaan->telepon_perusahaan }}</td>
-                            <td class="px-4 py-3">{{ $th->alamat }}</td>
+                    @forelse ($perusahaan as $p)
+                        <tr class="border-b border-gray-300">
+                            <td class="px-4 py-3">{{ $p->id }}</td>
+                            <td class="px-4 py-3">{{ $p->nama_perusahaan }}</td>
+                            <td class="px-4 py-3">{{ $p->user->email }}</td>
+                            <td class="px-4 py-3">{{ $p->telepon_perusahaan }}</td>
+                            <td class="px-4 py-3">{{ $p->alamat_perusahaan->first()?->kota?->nama ?? '-' }}</td>
                             <td class="px-4 py-3">
-                                <a href="{{ route('superadmin.talent-hunter.detail', $th->id) }}"
+                                <a href="{{ route('superadmin.recruitment', $p->id) }}"
                                     class="bg-orange-500 hover:bg-orange-600 text-xs text-white px-4 py-1 rounded-lg">View</a>
                             </td>
                         </tr>
                     @empty
-                        <tr class="border-b-[2px] border-gray-300">
-                            <td colspan="6" class="px-4 py-3">Tidak ada data talent hunter</td>
+                        <tr>
+                            <td colspan="6" class="py-6 text-gray-500">Belum ada data perusahaan.</td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
+
         @include('super_admin.notif.modal_notif')
         @include('super_admin.notif.modal_semua')
+
     </main>
 
     <script>
@@ -292,6 +287,8 @@
         });
     </script>
 
+
+
     <script>
         document.querySelector('form[target="hiddenFrame"]').addEventListener('submit', () => {
             document.querySelectorAll('.notif-item').forEach(item => {
@@ -302,4 +299,6 @@
             if (badge) badge.remove();
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
 @endsection

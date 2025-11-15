@@ -195,6 +195,11 @@ class PerusahaanController extends Controller
 
 
     //PENGATURAN 
+
+    public function pengaturanForm()
+    {
+        return view('perusahaan.pengaturan');
+    }
     public function updatePassword(Request $request)
     {
         $request->validate([

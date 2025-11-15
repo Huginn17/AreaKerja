@@ -53,7 +53,6 @@
                                 stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                     </a>
-
                 </div>
                 <div>
                     <button class="bg-white border border-orange-600 text-orange-600 px-4 py-3 rounded-lg">

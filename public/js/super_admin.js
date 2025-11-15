@@ -67,3 +67,119 @@ if (selectKategori) {
         }
     });
 }
+
+
+
+//NOTIF
+ // Tandai dibaca
+        async function markAsRead(url, el) {
+            try {
+                let res = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                        "Accept": "application/json"
+                    }
+                });
+
+                let data = await res.json();
+
+                if (data.success) {
+
+                    // Ubah warna bg
+                    el.classList.remove("bg-white");
+                    el.classList.add("bg-gray-200");
+
+                    // Kurangi badge
+                    const badge = document.getElementById("notif-badge");
+                    if (badge) {
+                        let count = parseInt(badge.textContent);
+                        if (count > 1) {
+                            badge.textContent = count - 1;
+                        } else {
+                            badge.remove();
+                        }
+                    }
+                }
+
+            } catch (error) {
+                console.error("markAsRead error:", error);
+            }
+        }
+
+        // AlpineJS init
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('notifHandler', () => ({
+
+                // Hapus satu notifikasi
+                async hapus(id) {
+                    if (!confirm("Hapus notifikasi ini?")) return;
+
+                    let url = "{{ route('notifikasi.hapus', ':id') }}".replace(':id', id);
+
+                    let res = await fetch(url, {
+                        method: "DELETE",
+                        headers: {
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                            "Accept": "application/json"
+                        }
+                    });
+
+                    let data = await res.json();
+
+                    if (data.success) {
+                        document.querySelector(`.notif-item[data-id="${id}"]`)?.remove();
+                    }
+                },
+
+                // Hapus semua
+                async hapusSemua() {
+                    if (!confirm("Hapus semua notifikasi?")) return;
+
+                    let res = await fetch("{{ route('notifikasi.hapusSemua') }}", {
+                        method: "DELETE",
+                        headers: {
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                            "Accept": "application/json"
+                        }
+                    });
+
+                    let data = await res.json();
+
+                    if (data.success) {
+                        document.querySelectorAll('.notif-item').forEach(e => e.remove());
+                    }
+                },
+
+                // Hapus semua yang sudah dibaca
+                async hapusSemuaBaca() {
+                    if (!confirm("Hapus semua notifikasi yang sudah dibaca?")) return;
+
+                    let res = await fetch("{{ route('notifikasi.hapusSemuaBaca') }}", {
+                        method: "DELETE",
+                        headers: {
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                            "Accept": "application/json"
+                        }
+                    });
+
+                    let data = await res.json();
+
+                    if (data.success) {
+                        document.querySelectorAll('.notif-item.bg-gray-200')
+                            .forEach(e => e.remove());
+                    }
+                }
+
+            }));
+        });
+
+        /////
+        document.querySelector('form[target="hiddenFrame"]').addEventListener('submit', () => {
+            document.querySelectorAll('.notif-item').forEach(item => {
+                item.classList.remove('bg-white');
+                item.classList.add('bg-gray-200');
+            });
+            const badge = document.querySelector('.absolute .bg-red-500');
+            if (badge) badge.remove();
+        });

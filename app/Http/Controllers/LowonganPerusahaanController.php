@@ -303,9 +303,11 @@ class LowonganPerusahaanController extends Controller
         // =====================================================
         Notifikasi::create([
             'user_id' => Auth::id(),
+            'perusahaan_id' => $perusahaan->id,
             'judul'   => 'Lowongan Baru Ditambahkan',
             'pesan'   => 'Kamu berhasil menambahkan lowongan untuk ' . $perusahaan->nama_perusahaan,
             'is_read' => false,
+            'expired_at' => now()->addDays(7),
         ]);
 
         // =====================================================
@@ -315,9 +317,11 @@ class LowonganPerusahaanController extends Controller
         if ($perusahaan->user_id ?? false) {
             Notifikasi::create([
                 'user_id' => $perusahaan->user_id,
+                // 'perusahaan_id' => $perusahaan->id,
                 'judul'   => 'Lowongan Baru dari ' . $perusahaan->nama_perusahaan,
                 'pesan'   => 'Lowongan baru telah ditambahkan oleh Super Admin.',
                 'is_read' => false,
+                'expired_at' => now()->addDays(7),
             ]);
         }
 

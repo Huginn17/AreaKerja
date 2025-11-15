@@ -24,25 +24,30 @@ class PelamarController extends Controller
 {
     public function detail_lowongan_non_user(LowonganPerusahaan $lowongan)
     {
+        $pelamar = auth()->user()->pelamar ?? null;
+        if (!$pelamar) abort(403);
+
+        // Ambil semua lowongan aktif (untuk sidebar)
         $Data = LowonganPerusahaan::with('perusahaan')
             ->whereNotNull('published_at')
             ->where(function ($q) {
-                $q->whereNull('expired_at')
-                    ->orWhere('expired_at', '>', now());
+                $q->whereNull('expired_at')->orWhere('expired_at', '>', now());
             })
             ->latest()
             ->get();
 
-        $pelamar = auth()->user()->pelamar ?? null;
-        if (!$pelamar) abort(403);
+        // CEK apakah lowongan ini sudah disimpan oleh pelamar
+        $isSaved = SimpanLowongan::where('pelamar_id', $pelamar->id)
+            ->where('lowongan_id', $lowongan->id)
+            ->exists();
 
-        // Ambil tawaran (bisa null)
+        // Ambil tawaran, bisa null
         $tawaran = PembeliKandidat::with(['lowonganPerusahaan.perusahaan'])
             ->where('pelamar_id', $pelamar->id)
             ->where('lowongan_perusahaan_id', $lowongan->id)
             ->first();
- 
-        // Kalau tawaran ada, ambil lowongan lain dari perusahaan yang sama
+
+        // Ambil lowongan lain, menyesuaikan apakah ada tawaran atau tidak
         if ($tawaran && $tawaran->lowonganPerusahaan) {
             $lowonganLain = LowonganPerusahaan::where('perusahaan_id', $tawaran->lowonganPerusahaan->perusahaan_id)
                 ->where('id', '!=', $tawaran->lowongan_perusahaan_id)
@@ -51,7 +56,6 @@ class PelamarController extends Controller
                 ->take(3)
                 ->get();
         } else {
-            // Jika tidak ada tawaran, tampilkan 3 lowongan terbaru (bebas)
             $lowonganLain = LowonganPerusahaan::where('id', '!=', $lowongan->id)
                 ->whereNotNull('published_at')
                 ->latest()
@@ -62,10 +66,12 @@ class PelamarController extends Controller
         return view('non-user.lowongan-detail', [
             'data' => $lowongan,
             'Data' => $Data,
+            'isSaved' => $isSaved,
             'lowonganLain' => $lowonganLain,
             'tawaran' => $tawaran,
         ]);
     }
+
 
 
     public function index()
@@ -102,7 +108,10 @@ class PelamarController extends Controller
             ->first();
 
         if ($cek) {
-            return back()->with('info', 'Lowongan sudah ada di daftar simpan.');
+            return response()->json([
+                'success' => false,
+                'message' => 'Lowongan sudah ada di daftar simpan.'
+            ]);
         }
 
         SimpanLowongan::create([
@@ -110,8 +119,12 @@ class PelamarController extends Controller
             'lowongan_id' => $request->lowongan_id,
         ]);
 
-        return back()->with('success', 'Lowongan berhasil disimpan.');
+        return response()->json([
+            'success' => true,
+            'message' => 'Lowongan berhasil disimpan.'
+        ]);
     }
+
 
     public function destroy($lowonganId)
     {
@@ -122,12 +135,16 @@ class PelamarController extends Controller
             ->first();
 
         if (!$simpan) {
-            return redirect()->back()->with('error', 'Lowongan tidak ditemukan di daftar simpan.');
+            return response()->json([
+                'message' => 'Lowongan tidak ditemukan di daftar simpan.'
+            ], 404);
         }
 
         $simpan->delete();
 
-        return redirect()->back()->with('success', 'Lowongan berhasil dihapus dari daftar simpan.');
+        return response()->json([
+            'message' => 'Lowongan berhasil dihapus.'
+        ], 200);
     }
 
     public function lowongansimpanform()
@@ -137,6 +154,7 @@ class PelamarController extends Controller
             ->where('pelamar_id', $pelamar->id)
             ->latest()
             ->get();
+
 
         return view('non-user.lowongan-tersimpan', compact('simpanlowongan'));
     }
@@ -152,7 +170,7 @@ class PelamarController extends Controller
             'tahun_akhir' => 'nullable'
         ]);
 
-        $valid['pelamar_id'] = Auth::user()->pelamar->id;   
+        $valid['pelamar_id'] = Auth::user()->pelamar->id;
 
         RiwayatPendidikan::create($valid);
         return redirect()->route('profile.index')->with('success', 'Pendidikan berhasil disimpan');
@@ -223,7 +241,7 @@ class PelamarController extends Controller
 
     public function updatependidikanSuper(Request $request, ?RiwayatPendidikan $riwayatpendidikan = null)
     {
-      
+
         $valid = $request->validate([
             'pelamar_id' => 'required|exists:pelamars,id',
             'pendidikan' => 'required',
@@ -330,7 +348,7 @@ class PelamarController extends Controller
         return view('perusahaan.pelamar.konfirmasi-terkirim', [
             "data"       => $pelamarlowongan,
             "konfirmasi" => $konfirmasi
-        ]); 
+        ]);
     }
 
 
@@ -444,6 +462,48 @@ class PelamarController extends Controller
 
         dd($userId, $updated, Notifikasi::where('user_id', $userId)->get());
     }
+
+
+    public function hapus($id)
+    {
+        $notif = Notifikasi::where('user_id', auth()->id())
+            ->where('id', $id)
+            ->firstOrFail();
+
+        $notif->delete();
+
+        return response()->json(['success' => true]);
+    }
+
+    public function hapusSemua()
+    {
+        $userId = auth()->id();
+
+        $deleted = Notifikasi::where('user_id', $userId)
+            ->delete();
+
+        return response()->json([
+            'success' => true,
+            'deleted' => $deleted
+        ]);
+    }
+
+    public function hapusSemuaBaca()
+    {
+        $userId = auth()->id();
+
+        // Hapus hanya yang is_read = 1
+        $deleted = Notifikasi::where('user_id', $userId)
+            ->where('is_read', 1)
+            ->delete();
+
+        return response()->json([
+            'success' => true,
+            'deleted' => $deleted
+        ]);
+    }
+
+
 
 
 
