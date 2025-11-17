@@ -169,7 +169,7 @@
 
                 <!-- Gender -->
                 <div>
-                    <div class="mt-2">
+                    <div class="mt-2 mb-4">
                         <label class="block text-md font-medium mb-1">Gender <span class="text-red-500">*</span></label>
                         <div class="flex gap-6 mt-1">
                             <label class="flex items-center gap-2">
@@ -193,7 +193,7 @@
                 <!-- Alamat -->
                 <!-- Organisasi -->
                 @if (isset($pelamar) && $pelamar->alamat_pelamar->count() > 0)
-                    <label class="text-sm font-medium">Alamat</label>
+                    <label class="text-md font-medium">Alamat</label>
                     <div class="flex justify-between">
                         <div class="p-4 w-full bg-gray-100 rounded-lg">
                             @foreach ($pelamar->alamat_pelamar ?? [] as $almt)
@@ -253,207 +253,207 @@
                         class="w-full mt-1 border-2 border-gray-400 shadow rounded-lg px-3 py-2"
                         placeholder="No Telepon" />
                 </div>
-
-                <!-- Pendidikan -->
-                @if (isset($pelamar) && $pelamar->riwayat_pendidikan->count() > 0)
-                    <label class="text-sm font-medium">Pendidikan</label>
-                    <div class="flex justify-between">
-                        <div class="p-4 w-full bg-gray-100 rounded-lg">
-                            @foreach ($pelamar->riwayat_pendidikan ?? [] as $pend)
-                                <div class="mb-6">
-                                    <h3 class="font-semibold text-gray-800 text-lg">
-                                        {{ $pend->asal_pendidikan }} - {{ $pend->pendidikan }}
-                                        ({{ $pend->tahun_awal }} - {{ $pend->tahun_akhir }})
-                                    </h3>
-                                    <p class="text-gray-600 text-sm leading-relaxed">
-                                        {{ $pend->jurusan }}
-                                    </p>
-                                </div>
-                            @endforeach
+                <div>
+                    <!-- Pendidikan -->
+                    @if (isset($pelamar) && $pelamar->riwayat_pendidikan->count() > 0)
+                        <label class="text-md font-medium">Pendidikan</label>
+                        <div class="flex justify-between mt-2">
+                            <div class="p-4 w-full bg-gray-100 rounded-lg">
+                                @foreach ($pelamar->riwayat_pendidikan ?? [] as $pend)
+                                    <div class="mb-6">
+                                        <h3 class="font-semibold text-gray-800 text-lg">
+                                            {{ $pend->asal_pendidikan }} - {{ $pend->pendidikan }}
+                                            ({{ $pend->tahun_awal }} - {{ $pend->tahun_akhir }})
+                                        </h3>
+                                        <p class="text-gray-600 text-sm leading-relaxed">
+                                            {{ $pend->jurusan }}
+                                        </p>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <button data-modal-target="show-pendidikan2" data-modal-toggle="show-pendidikan2"
+                                type="button" class="mb-20 ml-4">
+                                <svg width="18" height="16" viewBox="0 0 10 11" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M9.83752 2.87443C10.0542 2.65779 10.0542 2.29673 9.83752 2.0912L8.5377 0.791384C8.33218 0.574747 7.97112 0.574747 7.75448 0.791384L6.7324 1.80791L8.81544 3.89095M0 8.54586V10.6289H2.08304L8.22664 4.47976L6.14359 2.39672L0 8.54586Z"
+                                        fill="#FA6601" />
+                                </svg>
+                            </button>
                         </div>
-                        <button data-modal-target="show-pendidikan2" data-modal-toggle="show-pendidikan2" type="button"
-                            class="mb-20 ml-4">
-                            <svg width="18" height="16" viewBox="0 0 10 11" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M9.83752 2.87443C10.0542 2.65779 10.0542 2.29673 9.83752 2.0912L8.5377 0.791384C8.33218 0.574747 7.97112 0.574747 7.75448 0.791384L6.7324 1.80791L8.81544 3.89095M0 8.54586V10.6289H2.08304L8.22664 4.47976L6.14359 2.39672L0 8.54586Z"
-                                    fill="#FA6601" />
-                            </svg>
-                        </button>
-                    </div>
-                @else
-                    @php
-                        $pelamarSudahAda = isset($pelamar) && $pelamar->id;
-                    @endphp
-                    <div class="mb-4">
-                        <label class="block text-sm font-semibold text-gray-800 mb-1">Pendidikan</label>
-                        <button type="button"
-                            class="w-full flex justify-between items-center bg-orange-500 text-white px-4 py-2 rounded-lg"
-                            @if (!$pelamarSudahAda) onclick="alert('Harap buat data pelamar terlebih dahulu sebelum menambahkan pendidikan.')"
+                    @else
+                        @php
+                            $pelamarSudahAda = isset($pelamar) && $pelamar->id;
+                        @endphp
+                        <div class="mb-4">
+                            <label class="block text-sm font-semibold text-gray-800 mb-1">Pendidikan</label>
+                            <button type="button"
+                                class="w-full flex justify-between items-center bg-orange-500 text-white px-4 py-2 rounded-lg"
+                                @if (!$pelamarSudahAda) onclick="alert('Harap buat data pelamar terlebih dahulu sebelum menambahkan pendidikan.')"
         @else
             data-modal-target="create_pendidikanmodal2" 
             data-modal-toggle="create_pendidikanmodal2" @endif>
-                            <span>Tambahkan Pendidikan</span>
-                            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M2 11.2789H20.5578M11.2789 2V20.5578" stroke="white" stroke-width="2.65112"
-                                    stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </button>
-                    </div>
-                @endif
-
-
-
-                <!-- Organisasi -->
-                @if (isset($pelamar) && $pelamar->pengalaman_organisasi->count() > 0)
-                    <label class="text-sm font-medium">Organisasi</label>
-                    <div class="flex justify-between">
-                        <div class="p-4 w-full bg-gray-100 rounded-lg">
-                            @foreach ($pelamar->pengalaman_organisasi ?? [] as $org)
-                                <div class="mb-6">
-                                    <h3 class="font-semibold text-gray-800 text-lg">
-                                        {{ $org->jabatan }} - {{ $org->nama_organisasi }}
-                                        ({{ $org->tahun_awal }} - {{ $org->tahun_akhir }})
-                                    </h3>
-                                    <p class="text-gray-600 text-sm leading-relaxed">
-                                        {{ $org->deskripsi }}
-                                    </p>
-                                </div>
-                            @endforeach
+                                <span>Tambahkan Pendidikan</span>
+                                <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M2 11.2789H20.5578M11.2789 2V20.5578" stroke="white" stroke-width="2.65112"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </button>
                         </div>
-                        <button data-modal-target="show-org2" data-modal-toggle="show-org2" type="button"
-                            class="mb-20 ml-4">
-                            <svg width="18" height="16" viewBox="0 0 10 11" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M9.83752 2.87443C10.0542 2.65779 10.0542 2.29673 9.83752 2.0912L8.5377 0.791384C8.33218 0.574747 7.97112 0.574747 7.75448 0.791384L6.7324 1.80791L8.81544 3.89095M0 8.54586V10.6289H2.08304L8.22664 4.47976L6.14359 2.39672L0 8.54586Z"
-                                    fill="#FA6601" />
-                            </svg>
-                        </button>
-                    </div>
-                @else
-                    @php
-                        $pelamarSudahAda = isset($pelamar) && $pelamar->id;
-                    @endphp
-                    <div class="mb-4">
-                        <label class="block text-sm font-semibold text-gray-800 mb-1">Organisasi</label>
-                        <button type="button"
-                            class="w-full flex justify-between items-center bg-orange-500 text-white px-4 py-2 rounded-lg"
-                            @if (!$pelamarSudahAda) onclick="alert('Harap buat data pelamar terlebih dahulu sebelum menambahkan Organisasi.')"
+                    @endif
+                </div>
+                <div>
+                    <!-- Organisasi -->
+                    @if (isset($pelamar) && $pelamar->pengalaman_organisasi->count() > 0)
+                        <label class="text-md font-medium">Organisasi</label>
+                        <div class="flex justify-between mt-2">
+                            <div class="p-4 w-full bg-gray-100 rounded-lg">
+                                @foreach ($pelamar->pengalaman_organisasi ?? [] as $org)
+                                    <div class="mb-6">
+                                        <h3 class="font-semibold text-gray-800 text-lg">
+                                            {{ $org->jabatan }} - {{ $org->nama_organisasi }}
+                                            ({{ $org->tahun_awal }} - {{ $org->tahun_akhir }})
+                                        </h3>
+                                        <p class="text-gray-600 text-sm leading-relaxed">
+                                            {{ $org->deskripsi }}
+                                        </p>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <button data-modal-target="show-org2" data-modal-toggle="show-org2" type="button"
+                                class="mb-20 ml-4">
+                                <svg width="18" height="16" viewBox="0 0 10 11" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M9.83752 2.87443C10.0542 2.65779 10.0542 2.29673 9.83752 2.0912L8.5377 0.791384C8.33218 0.574747 7.97112 0.574747 7.75448 0.791384L6.7324 1.80791L8.81544 3.89095M0 8.54586V10.6289H2.08304L8.22664 4.47976L6.14359 2.39672L0 8.54586Z"
+                                        fill="#FA6601" />
+                                </svg>
+                            </button>
+                        </div>
+                    @else
+                        @php
+                            $pelamarSudahAda = isset($pelamar) && $pelamar->id;
+                        @endphp
+                        <div class="mb-4">
+                            <label class="block text-sm font-semibold text-gray-800 mb-1">Organisasi</label>
+                            <button type="button"
+                                class="w-full flex justify-between items-center bg-orange-500 text-white px-4 py-2 rounded-lg"
+                                @if (!$pelamarSudahAda) onclick="alert('Harap buat data pelamar terlebih dahulu sebelum menambahkan Organisasi.')"
         @else
             data-modal-target="create_organisasimodal2" 
             data-modal-toggle="create_organisasimodal2" @endif>
-                            <span>Tambahkan Organisasi</span>
-                            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M2 11.2789H20.5578M11.2789 2V20.5578" stroke="white" stroke-width="2.65112"
-                                    stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </button>
-                    </div>
-                @endif
-
-
-                <!-- Pengalaman -->
-                @if (isset($pelamar) && $pelamar->pengalaman_kerja->count() > 0)
-                    <label class="text-sm font-medium">Pengalaman Kerja <span class="text-red-500"></span></label>
-                    <div class="flex justify-between">
-                        <div class="p-4 w-full bg-gray-100 rounded-lg">
-                            @foreach ($pelamar->pengalaman_kerja ?? [] as $kerja)
-                                <div class="mb-6">
-                                    <h3 class="font-semibold text-gray-800 text-lg">
-                                        {{ $kerja->posisi_pekerjaan }} - {{ $kerja->nama_perusahaan }}
-                                        ({{ $kerja->tahun_awal }} - {{ $kerja->tahun_akhir }})
-                                    </h3>
-                                    <p class="text-gray-600 text-sm leading-relaxed">
-                                        {{ $kerja->deskripsi }}
-                                    </p>
-                                </div>
-                            @endforeach
+                                <span>Tambahkan Organisasi</span>
+                                <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M2 11.2789H20.5578M11.2789 2V20.5578" stroke="white" stroke-width="2.65112"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </button>
                         </div>
-                        <button data-modal-target="show-kerja2" data-modal-toggle="show-kerja2" type="button"
-                            class="mb-20 ml-4">
-                            <svg width="18" height="16" viewBox="0 0 10 11" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M9.83752 2.87443C10.0542 2.65779 10.0542 2.29673 9.83752 2.0912L8.5377 0.791384C8.33218 0.574747 7.97112 0.574747 7.75448 0.791384L6.7324 1.80791L8.81544 3.89095M0 8.54586V10.6289H2.08304L8.22664 4.47976L6.14359 2.39672L0 8.54586Z"
-                                    fill="#FA6601" />
-                            </svg>
-                        </button>
-                    </div>
-                @else
-                    @php
-                        $pelamarSudahAda = isset($pelamar) && $pelamar->id;
-                    @endphp
-                    <div class="mb-4">
-                        <label class="block text-sm font-semibold text-gray-800 mb-1">Pengalaman</label>
-                        <button type="button"
-                            class="w-full flex justify-between items-center bg-orange-500 text-white px-4 py-2 rounded-lg"
-                            @if (!$pelamarSudahAda) onclick="alert('Harap buat data pelamar terlebih dahulu sebelum menambahkan PEngalaman Kerja.')"
+                    @endif
+
+                </div>
+                <div>
+                    <!-- Pengalaman -->
+                    @if (isset($pelamar) && $pelamar->pengalaman_kerja->count() > 0)
+                        <label class="text-md font-medium">Pengalaman Kerja <span class="text-red-500"></span></label>
+                        <div class="flex justify-between mt-2">
+                            <div class="p-4 w-full bg-gray-100 rounded-lg">
+                                @foreach ($pelamar->pengalaman_kerja ?? [] as $kerja)
+                                    <div class="mb-6">
+                                        <h3 class="font-semibold text-gray-800 text-lg">
+                                            {{ $kerja->posisi_pekerjaan }} - {{ $kerja->nama_perusahaan }}
+                                            ({{ $kerja->tahun_awal }} - {{ $kerja->tahun_akhir }})
+                                        </h3>
+                                        <p class="text-gray-600 text-sm leading-relaxed">
+                                            {{ $kerja->deskripsi }}
+                                        </p>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <button data-modal-target="show-kerja2" data-modal-toggle="show-kerja2" type="button"
+                                class="mb-20 ml-4">
+                                <svg width="18" height="16" viewBox="0 0 10 11" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M9.83752 2.87443C10.0542 2.65779 10.0542 2.29673 9.83752 2.0912L8.5377 0.791384C8.33218 0.574747 7.97112 0.574747 7.75448 0.791384L6.7324 1.80791L8.81544 3.89095M0 8.54586V10.6289H2.08304L8.22664 4.47976L6.14359 2.39672L0 8.54586Z"
+                                        fill="#FA6601" />
+                                </svg>
+                            </button>
+                        </div>
+                    @else
+                        @php
+                            $pelamarSudahAda = isset($pelamar) && $pelamar->id;
+                        @endphp
+                        <div class="mb-4">
+                            <label class="block text-sm font-semibold text-gray-800 mb-1">Pengalaman</label>
+                            <button type="button"
+                                class="w-full flex justify-between items-center bg-orange-500 text-white px-4 py-2 rounded-lg"
+                                @if (!$pelamarSudahAda) onclick="alert('Harap buat data pelamar terlebih dahulu sebelum menambahkan PEngalaman Kerja.')"
         @else
             data-modal-target="create_kerjamodal2" 
             data-modal-toggle="create_kerjamodal2" @endif>
-                            <span>Tambahkan Pengalaman</span>
-                            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M2 11.2789H20.5578M11.2789 2V20.5578" stroke="white" stroke-width="2.65112"
-                                    stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </button>
-                    </div>
-                @endif
-
-
-
-                <!-- Skill -->
-                @if (isset($pelamar) && $pelamar->skill->count() > 0)
-                    <label class="text-sm font-medium">Skill</label>
-                    <div class="flex justify-between">
-                        <div class="p-4 w-full bg-gray-100 rounded-lg">
-                            @foreach ($pelamar->skill as $sk)
-                                <div class="mb-6">
-                                    <h3 class="font-semibold text-gray-800 text-lg">
-                                        {{ $sk->skill }}
-                                    </h3>
-                                    <p class="text-gray-600 text-sm leading-relaxed">
-                                        {{ $sk->experience_level }}
-                                    </p>
-                                </div>
-                            @endforeach
+                                <span>Tambahkan Pengalaman</span>
+                                <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M2 11.2789H20.5578M11.2789 2V20.5578" stroke="white" stroke-width="2.65112"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </button>
                         </div>
-                        <button data-modal-target="show-skill2" data-modal-toggle="show-skill2" type="button"
-                            class="mb-20 ml-4">
-                            <svg width="18" height="16" viewBox="0 0 10 11" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M9.83752 2.87443C10.0542 2.65779 10.0542 2.29673 9.83752 2.0912L8.5377 0.791384C8.33218 0.574747 7.97112 0.574747 7.75448 0.791384L6.7324 1.80791L8.81544 3.89095M0 8.54586V10.6289H2.08304L8.22664 4.47976L6.14359 2.39672L0 8.54586Z"
-                                    fill="#FA6601" />
-                            </svg>
-                        </button>
-                    </div>
-                @else
-                    @php
-                        $pelamarSudahAda = isset($pelamar) && $pelamar->id;
-                    @endphp
-                    <div class="mb-4">
-                        <label class="block text-sm font-semibold text-gray-800 mb-1">Skill</label>
-                        <button type="button"
-                            class="w-full flex justify-between items-center bg-orange-500 text-white px-4 py-2 rounded-lg"
-                            @if (!$pelamarSudahAda) onclick="alert('Harap buat data pelamar terlebih dahulu sebelum menambahkan Skill.')"
+                    @endif
+                </div>
+
+                <div>
+                    <!-- Skill -->
+                    @if (isset($pelamar) && $pelamar->skill->count() > 0)
+                        <label class="text-md font-medium">Skill</label>
+                        <div class="flex justify-between mt-2">
+                            <div class="p-4 w-full bg-gray-100 rounded-lg">
+                                @foreach ($pelamar->skill as $sk)
+                                    <div class="mb-6">
+                                        <h3 class="font-semibold text-gray-800 text-lg">
+                                            {{ $sk->skill }}
+                                        </h3>
+                                        <p class="text-gray-600 text-sm leading-relaxed">
+                                            {{ $sk->experience_level }}
+                                        </p>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <button data-modal-target="show-skill2" data-modal-toggle="show-skill2" type="button"
+                                class="mb-20 ml-4">
+                                <svg width="18" height="16" viewBox="0 0 10 11" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M9.83752 2.87443C10.0542 2.65779 10.0542 2.29673 9.83752 2.0912L8.5377 0.791384C8.33218 0.574747 7.97112 0.574747 7.75448 0.791384L6.7324 1.80791L8.81544 3.89095M0 8.54586V10.6289H2.08304L8.22664 4.47976L6.14359 2.39672L0 8.54586Z"
+                                        fill="#FA6601" />
+                                </svg>
+                            </button>
+                        </div>
+                    @else
+                        @php
+                            $pelamarSudahAda = isset($pelamar) && $pelamar->id;
+                        @endphp
+                        <div class="mb-4">
+                            <label class="block text-sm font-semibold text-gray-800 mb-1">Skill</label>
+                            <button type="button"
+                                class="w-full flex justify-between items-center bg-orange-500 text-white px-4 py-2 rounded-lg"
+                                @if (!$pelamarSudahAda) onclick="alert('Harap buat data pelamar terlebih dahulu sebelum menambahkan Skill.')"
         @else
             data-modal-target="create_skillmodal2" 
             data-modal-toggle="create_skillmodal2" @endif>
-                            <span>Tambahkan Skill</span>
-                            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M2 11.2789H20.5578M11.2789 2V20.5578" stroke="white" stroke-width="2.65112"
-                                    stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </button>
-                    </div>
-                @endif
-
+                                <span>Tambahkan Skill</span>
+                                <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M2 11.2789H20.5578M11.2789 2V20.5578" stroke="white" stroke-width="2.65112"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </button>
+                        </div>
+                    @endif
+                </div>
                 @php
                     $kategori = $kategori ?? request()->route('kategori'); // misalnya dikirim dari controller
                 @endphp
@@ -512,7 +512,7 @@
                         class="bg-orange-600 text-white font-medium px-10 py-2 rounded-md hover:bg-orange-500 border border-orange-600 transition">Upload
                     </button>
                     <a href={{ route('superadmin.pelamar') }}
-                        class="bg-white text-orange-600 font-medium px-12 py-2 rounded-md hover:bg-gray-100 border border-orange-600 transition">Kembali
+                        class="bg-white text-orange-600 font-medium px-12 py-2 rounded-md hover:bg-gray-100 border border-orange-600 transition">Batal
                     </a>
                 </div>
             </form>

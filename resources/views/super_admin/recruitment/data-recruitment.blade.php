@@ -140,7 +140,7 @@
                         <tr class="border-b-[2px] border-gray-300">
                             <td class="px-4 py-3">{{ $r->id }}</td>
                             <td class="px-4 py-3">{{ $r->pelamar->nama_pelamar }}</td>
-                            <td class="px-4 py-3">{{ $r->lowongan_perusahaan->nama }}</td>
+                            <td class="px-4 py-3">{{ $r->lowonganPerusahaan->nama }}</td>
                             <td class="px-4 py-3">{{ $r->pelamar->user->email }}</td>
                             <td class="px-4 py-3">{{ $r->pelamar->telepon_pelamar }}</td>
                             <td class="px-4 py-3">

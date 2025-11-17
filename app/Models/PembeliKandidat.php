@@ -18,11 +18,12 @@ class PembeliKandidat extends Model
 
     public function lowonganPerusahaan()
     {
-        return $this->belongsTo(lowonganPerusahaan::class, 'lowongan_perusahaan_id');
+        return $this->belongsTo(LowonganPerusahaan::class, 'lowongan_perusahaan_id');
     }
 
     public function catatanKoin()
     {
         return $this->hasOne(CatatanKoin::class, 'no_referensi','no_referensi');
     }
+    
 }

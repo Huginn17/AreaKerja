@@ -19,6 +19,8 @@ use App\Models\AlamatPerusahaan;
 use App\Models\CatatanKoin;
 use App\Models\Hargakoin;
 use App\Models\LowonganPerusahaan;
+use App\Models\Notifikasi;
+use App\Models\PembeliKandidat;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -398,5 +400,135 @@ class PerusahaanController extends Controller
         return view('perusahaan.langganan.request-data', [
             'perusahaan' => $perusahaan
         ]);
+    }
+
+
+
+
+    //KANDIDAT SAYA
+    public function kandidatSaya(Request $request)
+    {
+        $search = $request->search;
+        $skill  = $request->skill; // ⬅️ tambahkan ini
+
+        $user = auth()->user();
+        $perusahaan = Perusahaan::where('user_id', $user->id)->firstOrFail();
+        $perusahaanId = $perusahaan->id;
+
+        // ==========================
+        // 1️⃣ Dari Pembelian Kandidat
+        // ==========================
+        $recruitment1 = PembeliKandidat::where('status', 'diterima')
+            ->whereHas('lowonganPerusahaan', function ($q) use ($perusahaanId) {
+                $q->where('perusahaan_id', $perusahaanId);
+            })
+
+            // Filter search (nama, username, skill)
+            ->when($search, function ($q) use ($search) {
+                $q->whereHas('pelamar', function ($p) use ($search) {
+                    $p->where('nama_pelamar', 'like', "%$search%")
+                        ->orWhereHas('user', function ($u) use ($search) {
+                            $u->where('username', 'like', "%$search%");
+                        })
+                        ->orWhereHas('skill', function ($s) use ($search) {
+                            $s->where('skill', 'like', "%$search%");
+                        });
+                });
+            })
+
+            // Filter skill dropdown
+            ->when($skill, function ($q) use ($skill) {
+                $q->whereHas('pelamar.skill', function ($s) use ($skill) {
+                    $s->where('skill', $skill);
+                });
+            })
+
+            ->with(['pelamar.skill', 'pelamar', 'lowonganPerusahaan'])
+            ->get();
+
+        // ==========================
+        // 2️⃣ Dari Pelamar Lowongan
+        // ==========================
+        $recruitment2 = PelamarLowongan::where('status', 'diterima')
+            ->whereHas('lowongan_perusahaan', function ($q) use ($perusahaanId) {
+                $q->where('perusahaan_id', $perusahaanId);
+            })
+
+            // Filter search (nama, username, skill)
+            ->when($search, function ($q) use ($search) {
+                $q->whereHas('pelamar', function ($p) use ($search) {
+                    $p->where('nama_pelamar', 'like', "%$search%")
+                        ->orWhereHas('user', function ($u) use ($search) {
+                            $u->where('username', 'like', "%$search%");
+                        })
+                        ->orWhereHas('skill', function ($s) use ($search) {
+                            $s->where('skill', 'like', "%$search%");
+                        });
+                });
+            })
+
+            // Filter skill dropdown
+            ->when($skill, function ($q) use ($skill) {
+                $q->whereHas('pelamar.skill', function ($s) use ($skill) {
+                    $s->where('skill', $skill);
+                });
+            })
+
+            ->with(['pelamar.skill', 'pelamar', 'lowongan_perusahaan'])
+            ->get();
+
+        // Gabungkan hasil
+        $recruitments = $recruitment1->concat($recruitment2);
+
+        return view('perusahaan.kandidat-saya.kandidat-saya', [
+            'recruitments' => $recruitments,
+            'search'       => $search,
+            'skill'        => $skill
+        ]);
+    }
+
+
+
+    public function destroyRecruitmentPerusahaan($id)
+    {
+
+        $recruit = PembeliKandidat::with([
+            'pelamar.user',
+            'lowonganPerusahaan.perusahaan'
+        ])->find($id);
+
+        $asal = 'pembelian'; // default asumsi
+
+
+        if (!$recruit) {
+            $recruit = PelamarLowongan::with([
+                'pelamar.user',
+                'lowongan_perusahaan.perusahaan'
+            ])->findOrFail($id);
+
+            $asal = 'lamaran';
+        }
+
+        $user        = $recruit->pelamar->user ?? null;
+        $perusahaan  = $recruit->lowonganPerusahaan->perusahaan
+            ?? $recruit->lowongan_perusahaan->perusahaan
+            ?? null;
+
+        $recruit->delete();
+
+        if ($user && $perusahaan) {
+            Notifikasi::create([
+                'user_id'        => $user->id,
+                'perusahaan_id'  => $perusahaan->id,
+                'judul'          => 'Status Recruitment Dibatalkan',
+                'pesan'          => 'Status Recruitment Anda telah dibatalkan oleh Perusahaan.',
+            ]);
+        }
+
+        $pesan = $asal === 'pembelian'
+            ? 'Recruitment berhasil dihapus (Pembeli Kandidat).'
+            : 'Recruitment berhasil dihapus (Pelamar Lowongan).';
+
+        return redirect()->back()->with('success', $pesan);
     }
 }

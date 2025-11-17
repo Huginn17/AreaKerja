@@ -247,7 +247,7 @@
                                         Koin Area Kerja
                                     </button>
 
-                                    <a href="{{ url('/perusahaan/kandidat') }}"
+                                    <a href="{{ route('perusahaan.kandidat.saya') }}"
                                         class="flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-gray-100">
                                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">

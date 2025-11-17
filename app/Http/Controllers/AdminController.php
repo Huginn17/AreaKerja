@@ -8,7 +8,9 @@ use App\Models\CatatanKoin;
 use App\Models\Kecamatan;
 use App\Models\Kota;
 use App\Models\LowonganPerusahaan;
+use App\Models\Notifikasi;
 use App\Models\Pelamar;
+use App\Models\PembeliKandidat;
 use App\Models\Perusahaan;
 use App\Models\Provinsi;
 use App\Models\TalentHunter;
@@ -362,7 +364,7 @@ class AdminController extends Controller
     {
         if (auth()->id() == $id) {
             return response()->json(['message' => 'Anda tidak dapat mengubah status akun sendiri'], 403);
-        } 
+        }
 
         $user = User::findOrFail($id);
 
@@ -410,4 +412,103 @@ class AdminController extends Controller
         ]);
     }
 
+
+
+
+    //RECRUITMENT
+    public function halPerusahaanRecruitment(Request $request)
+    {
+        $query = Perusahaan::join('users', 'perusahaans.user_id', '=', 'users.id')
+            ->select('perusahaans.*', 'users.username');
+
+        // Jika ada input pencarian username
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('users.username', 'like', "%{$search}%")
+                    ->orWhere('perusahaans.nama_perusahaan', 'like', "%{$search}%"); // ubah ke nama_pelamar
+            });
+        }
+
+        $perusahaan = $query->get();
+        return view('admin.recruitment.perusahaan', [
+            'perusahaan' => $perusahaan,
+            'search' => $request->search ?? ''
+        ]);
+    }
+
+
+    //hal rec
+    public function recruitment($id)
+    {
+        $perusahaan = Perusahaan::findOrFail($id);
+
+        $recruitments = PembeliKandidat::where('status', 'diterima')
+            ->whereHas('lowonganPerusahaan', function ($q) use ($id) {
+                $q->where('perusahaan_id', $id);
+            })
+            ->with(['pelamar', 'lowonganPerusahaan'])
+            ->get();
+
+        return view('admin.recruitment.recruitment', [
+            'perusahaan' => $perusahaan,
+            'recruitments' => $recruitments,
+        ]);
+    }
+
+    public function detailRecruitment($id)
+    {
+        $recruitment = PembeliKandidat::with([
+            'pelamar.user',
+            'pelamar.sosmed',
+            'pelamar.pengalaman_organisasi',
+            'pelamar.pengalaman_kerja',
+            'pelamar.riwayat_pendidikan',
+            'pelamar.alamat_pelamar',
+            'pelamar.skill',
+            'lowonganPerusahaan.perusahaan.alamatUtama',
+            'lowonganPerusahaan.perusahaan'
+        ])->findOrFail($id);
+
+        return view('admin.recruitment.detail-recruitment', [
+            'recruitment' => $recruitment
+        ]);
+    }
+
+
+    public function destroyRecruitment($id)
+    {
+        //Ambil data pembelian kandidat 
+        $pembelian = PembeliKandidat::with([
+            'pelamar.user',
+            'lowonganPerusahaan.perusahaan'
+        ])->findOrFail($id);
+
+        $user = $pembelian->pelamar->user;
+        $perusahaan = $pembelian->lowonganPerusahaan->perusahaan ?? null;
+        $perusahaanUser = $perusahaan->user ?? null;
+
+        //hapus pembelian kandidat
+        $pembelian->delete();
+
+        //kirim notifikasi ke pelamar
+        Notifikasi::create([
+            'user_id' => $user->id,
+            'perusahaan_id' => $perusahaan->id,
+            'judul' => 'Status Recruitment Dibatalkan',
+            'pesan' => 'Status Recruitment Anda telah dibatalkan oleh Admin.',
+        ]);
+
+        if ($perusahaanUser) {
+            //kirim notifikasi ke perusahaan
+            Notifikasi::create([
+                'user_id' => $perusahaan->user->id,
+                // 'perusahaan_id' => $perusahaan->id,
+                'judul' => 'Status Recruitment Dibatalkan',
+                'pesan' => 'Kandidat' . $pembelian->pelamar->nama_pelamar .  'telah dihapus dari daftar recruitment oleh Admin.',
+            ]);
+        }
+
+        return redirect()->route('admin.recruitment', $perusahaan->id)->with('success', 'Recruitment berhasil dihapus & pelamar kembali menjadi kandidat biasa.');
+    }
 }

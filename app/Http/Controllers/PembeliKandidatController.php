@@ -145,8 +145,8 @@ class PembeliKandidatController extends Controller
             $judul = $request->status === 'diterima'  ? 'Kandidat Menerima Tawaran'
                 : 'Kandidat Menolak Tawaran';
 
-            $pesan = $request->status === 'diterima'  ? "Kandidat {$pelamar->nama} menerima tawaran pada lowongan {$pembelian->lowonganPerusahaan->judul}."
-                : "Kandidat {$pelamar->nama} menolak tawaran pada lowongan {$pembelian->lowonganPerusahaan->nama}. "
+            $pesan = $request->status === 'diterima'  ? "Kandidat {$pelamar->nama_pelamar} menerima tawaran pada lowongan {$pembelian->lowonganPerusahaan->nama}."
+                : "Kandidat {$pelamar->nama_pelamar} menolak tawaran pada lowongan {$pembelian->lowonganPerusahaan->nama}. "
                 . "Alasan: " . ($request->alasan_penolakan ?? '-');
 
             Notifikasi::create([

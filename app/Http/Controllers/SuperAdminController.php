@@ -15,8 +15,10 @@ use App\Models\HargaPembayaran;
 use App\Models\Kecamatan;
 use App\Models\Kota;
 use App\Models\LowonganPerusahaan;
+use App\Models\Notifikasi;
 use App\Models\Pelamar;
 use App\Models\PelamarLowongan;
+use App\Models\PembeliKandidat;
 use App\Models\Perusahaan;
 use App\Models\Provinsi;
 use App\Models\SuperAdmin;
@@ -1460,11 +1462,11 @@ class SuperAdminController extends Controller
     {
         $perusahaan = Perusahaan::findOrFail($id);
 
-        $recruitments = PelamarLowongan::where('status', 'diterima')
-            ->whereHas('lowongan_perusahaan', function ($q) use ($id) {
+        $recruitments = PembeliKandidat::where('status', 'diterima')
+            ->whereHas('lowonganPerusahaan', function ($q) use ($id) {
                 $q->where('perusahaan_id', $id);
             })
-            ->with(['pelamar', 'lowongan_perusahaan'])
+            ->with(['pelamar', 'lowonganPerusahaan'])
             ->get();
 
         return view('super_admin.recruitment.data-recruitment', [
@@ -1493,20 +1495,159 @@ class SuperAdminController extends Controller
 
     public function detailRecruitment($id)
     {
-        $recruitment = PelamarLowongan::with([
+        $recruitment = PembeliKandidat::with([
             'pelamar.user',
             'pelamar.sosmed',
             'pelamar.pengalaman_organisasi',
             'pelamar.pengalaman_kerja',
             'pelamar.riwayat_pendidikan',
-            'pelamar.alamat_pelamar',  
+            'pelamar.alamat_pelamar',
             'pelamar.skill',
-            'lowongan_perusahaan.perusahaan.alamatUtama',
-            'lowongan_perusahaan.perusahaan'
+            'lowonganPerusahaan.perusahaan.alamatUtama',
+            'lowonganPerusahaan.perusahaan'
         ])->findOrFail($id);
 
         return view('super_admin.recruitment.detail-recruitment', [
             'recruitment' => $recruitment
         ]);
     }
+
+
+    public function destroyRecruitment($id)
+    {
+        //Ambil data pembelian kandidat 
+        $pembelian = PembeliKandidat::with([
+            'pelamar.user',
+            'lowonganPerusahaan.perusahaan'
+        ])->findOrFail($id);
+
+        $user = $pembelian->pelamar->user;
+        $perusahaan = $pembelian->lowonganPerusahaan->perusahaan ?? null;
+        $perusahaanUser = $perusahaan->user ?? null;
+
+        //hapus pembelian kandidat
+        $pembelian->delete();
+
+        //kirim notifikasi ke pelamar
+        Notifikasi::create([
+            'user_id' => $user->id,
+            'perusahaan_id' => $perusahaan->id,
+            'judul' => 'Status Recruitment Dibatalkan',
+            'pesan' => 'Status Recruitment Anda telah dibatalkan oleh Admin.',
+        ]);
+
+        if ($perusahaanUser) {
+            //kirim notifikasi ke perusahaan
+            Notifikasi::create([
+                'user_id' => $perusahaan->user->id,
+                // 'perusahaan_id' => $perusahaan->id,
+                'judul' => 'Status Recruitment Dibatalkan',
+                'pesan' => 'Kandidat' . $pembelian->pelamar->nama_pelamar .  'telah dihapus dari daftar recruitment oleh Admin.',
+            ]);
+        }
+
+        return redirect()->route('superadmin.recruitment', $perusahaan->id)->with('success', 'Recruitment berhasil dihapus & pelamar kembali menjadi kandidat biasa.');
+    }
+
+
+    //EDIT RECRUITMENT
+    // public function editRecruitment($kategori, $id)
+    // {
+
+    //     $pembelian = PembeliKandidat::with([
+    //         'pelamar.user',
+    //         'pelamar.alamat_pelamar',
+    //         'pelamar.riwayat_pendidikan',
+    //         'pelamar.pengalaman_organisasi',
+    //         'pelamar.pengalaman_kerja',
+    //         'pelamar.skill',
+    //         'pelamar.sosmed',
+    //         'lowonganPerusahaan.perusahaan',
+    //     ])->find($id);
+
+    //     return view('super_admin.pelamar.edit-kandidat-superadmin', [
+    //         'pembelian' => $pembelian,
+    //         'pelamar'   => $pembelian->pelamar,
+    //         'lowongan'  => $pembelian->lowonganPerusahaan,
+
+    //     ]);
+    // }
+
+
+    // public function updateRecruitment(Request $request, $id)
+    // {
+    //     $pembelian = PembeliKandidat::findOrFail($id);
+
+    //     $pelamar = $pembelian->pelamar;
+
+    //     $request->validate([
+    //         'nama_pelamar' => 'required|string|max:255',
+    //         'img_profile'  => 'nullable|image',
+    //     ]);
+
+    //     // Update foto profil
+    //     $path = $pelamar->img_profile;
+    //     if ($request->hasFile('img_profile')) {
+    //         if ($pelamar->img_profile && Storage::exists('public/' . $pelamar->img_profile)) {
+    //             Storage::delete('public/' . $pelamar->img_profile);
+    //         }
+    //         $path = $request->file('img_profile')->store('images', 'public');
+    //     }
+
+    //     // Update data utama
+    //     $pelamar->update([
+    //         'nama_pelamar'    => $request->nama_pelamar,
+    //         'deskripsi_diri'  => $request->deskripsi_diri,
+    //         'tanggal_lahir'   => $request->tanggal_lahir,
+    //         'gender'          => $request->gender,
+    //         'telepon_pelamar' => $request->telepon_pelamar,
+    //         'divisi'          => $request->divisi,
+    //         'gaji_minimal'    => $request->gaji_minimal,
+    //         'gaji_maksimal'   => $request->gaji_maksimal,
+    //         'img_profile'     => $path,
+    //     ]);
+
+    //     // Tambahkan data baru relasi
+    //     if ($request->filled('alamat')) {
+    //         $pelamar->alamat_pelamar()->delete();
+    //         foreach ($request->alamat as $data) {
+    //             $pelamar->alamat_pelamar()->create($data);
+    //         }
+    //     }
+
+    //     if ($request->filled('pendidikan')) {
+    //         $pelamar->riwayat_pendidikan()->delete();
+    //         foreach ($request->pendidikan as $data) {
+    //             $pelamar->riwayat_pendidikan()->create($data);
+    //         }
+    //     }
+
+    //     if ($request->filled('organisasi')) {
+    //         $pelamar->pengalaman_organisasi()->delete();
+    //         foreach ($request->organisasi as $data) {
+    //             $pelamar->pengalaman_organisasi()->create($data);
+    //         }
+    //     }
+
+    //     if ($request->filled('pengalaman_kerja')) {
+    //         $pelamar->pengalaman_kerja()->delete();
+    //         foreach ($request->pengalaman_kerja as $data) {
+    //             $pelamar->pengalaman_kerja()->create($data);
+    //         }
+    //     }
+
+    //     if ($request->filled('skill')) {
+    //         $pelamar->skill()->delete();
+    //         foreach ($request->skill as $data) {
+    //             $pelamar->skill()->create($data);
+    //         }
+    //     }
+
+    //     // Sosial media
+    //     if ($request->has('social_media') && is_array($request->social_media)) {
+    //         $pelamar->sosmed()->updateOrCreate([], $request->social_media);
+    //     }
+
+    //     return back()->with('success', 'Data recruitment berhasil diperbarui.');
+    // }
 }

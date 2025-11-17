@@ -1,5 +1,5 @@
-@extends('super_admin.sidebar.index')
-@section('sidebarsuperadmin')
+@extends('admin.sidebar.index')
+@section('sidebaradmin')
     <main class="flex-1 p-6 sm:ml-64 bg-white overflow-y-auto">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-medium">Detail Recruitment</h1>
@@ -195,7 +195,7 @@
             <!-- Tombol aksi -->
             <div class="grid grid-cols-1 space-y-3 mx-auto max-w-72 mt-20">
                 {{-- <button class="bg-blue-500 hover:bg-blue-400 text-white px-6 py-2 rounded-lg">Edit</button> --}}
-                <form action="{{ route('superadmin.recruitment.destroy', $recruitment->id) }}" method="POST"
+                <form action="{{ route('admin.recruitment.destroy', $recruitment->id) }}" method="POST"
                     onsubmit="return confirm('Yakin ingin menghapus recruitment ini?');">
                     @csrf
                     @method('DELETE')

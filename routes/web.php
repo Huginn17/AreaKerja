@@ -164,7 +164,6 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
     Route::get('/detail-lowongan/{lowongan}', [PelamarController::class, 'detail_lowongan_non_user'])->name('detail.lowongan.non.user');
 
     //NOTIFIKASI LAMARAN PELAMAR
-
     Route::get('/notifikasi', [PelamarController::class, 'notifikasi'])->name('pelamar.notifikasi');
     // Route::get('/notifikasi/{notif}', [PelamarController::class, 'showNotif'])->name('pelamar.notifikasi.show');
 
@@ -301,7 +300,7 @@ Route::prefix('finance')->middleware('auth', 'role:finance', 'CheckUserStatus')-
     Route::get('/laporan', [FinanceController::class, 'laporan_transaksi'])->name('finance.laporan');
     Route::get('/finance/laporan/detail/{tanggal}', [FinanceController::class, 'detail_laporan'])->name('finance.laporan.detail');
     Route::get('/finance/laporan/{tanggal}/unduh', [FinanceController::class, 'unduh_laporan_harian'])->name('finance.laporan.unduh');
-
+    
 
     Route::get('/detail', [FinanceController::class, 'hal_detail'])->name('finance.detail.catatan.koin');
     Route::get('/detail/{id}', [FinanceController::class, 'detail'])->name('finance.detail.id');
@@ -422,6 +421,14 @@ Route::prefix('admin')->middleware('auth', 'role:admin', 'CheckUserStatus')->gro
     //TALENT HUNTER
     Route::get('/talent/hunter', [AdminController::class, 'talentHunterForm'])->name('admin.talent-hunter');
     Route::get('/talent/hunter/detail/{id}', [AdminController::class, 'detailTalentHunter'])->name('admin.talent-hunter.detail');
+
+
+    //RECRUITMENT
+    Route::get('/recruitment/perusahaan', [AdminController::class, 'halPerusahaanRecruitment'])->name('admin.recruitment.perusahaan');
+    Route::get('/recruitment/{id}', [AdminController::class, 'recruitment'])->name('admin.recruitment');
+    Route::get('/recruitment/{id}/detail', [AdminController::class, 'detailRecruitment'])->name('admin.recruitment.detail');
+    Route::delete('/recruitment/{id}/hapus', [AdminController::class, 'destroyRecruitment'])->name('admin.recruitment.destroy');
+
 });
 
 
@@ -436,9 +443,9 @@ Route::get('/admin/detail/data/talent/hunter', function () {
 
 
 
-Route::get('/admin/recruitment', function () {
-    return view('admin.recruitment');
-});
+// Route::get('/admin/recruitment', function () {
+//     return view('admin.recruitment');
+// });
 // Route::get('/admin/talenthunter', function () {
 //     return view('admin.talenthunter');
 // });
@@ -595,7 +602,7 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
     Route::put('/update/alamat/{alamatpelamar?}', [ProfileController::class, 'update_alamatSuper'])->name('superadmin.alamat.update')->middleware('auth');
     Route::delete('/delete/alamat/{alamatpelamar:id}', [ProfileController::class, 'destroy_alamatSuper'])->name('superadmin.alamat.destroy')->middleware('auth');
 
-    // Detail Laporam Finance
+    // Detail Laporan Finance
     Route::get('/laporan/detail/{tanggal}', [SuperAdminController::class, 'detail_laporan'])->name('superadmin.laporan.detail');
     Route::get('/laporan/{tanggal}/unduh', [SuperAdminController::class, 'unduh_laporan_harian'])->name('superadmin.laporan.unduh');
 
@@ -647,6 +654,7 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
     Route::get('/recruitment/perusahaan', [SuperAdminController::class, 'recruitmentPerusahaan'])->name('superadmin.recruitment.perusahaan');
     Route::get('/recruitment/{id}', [SuperAdminController::class, 'recruitment'])->name('superadmin.recruitment');
     Route::get('/recruitment/{id}/detail', [SuperAdminController::class, 'detailRecruitment'])->name('superadmin.recruitment.detail');
+    Route::delete('/recruitment/{id}/hapus', [SuperAdminController::class, 'destroyRecruitment'])->name('superadmin.recruitment.destroy');
 });
 
 
@@ -884,6 +892,12 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
     Route::get('/talent-hunter/harga', [TalentHunterController::class, 'getHarga'])->name('talent-hunter.harga');
     Route::post('/talent-hunter/beli', [TalentHunterController::class, 'beli'])->name('talent-hunter.beli');
     Route::post('/talent-hunter/store', [TalentHunterController::class, 'store'])->name('talent-hunter.store');
+
+
+    //Kandidat Saya
+    Route::get('/recruitment/kandidat-saya', [PerusahaanController::class, 'kandidatSaya'])->name('perusahaan.kandidat.saya');
+    Route::delete('/recruitment/{id}/hapus', [PerusahaanController::class, 'destroyRecruitmentPerusahaan'])->name('perusahaan.destroy.kandidat');
+    
 });
 //PROVINSI KOTA KECAMATAN
 Route::get('/get-kota/{provinsi_id}', [PerusahaanController::class, 'getKota'])->name('get.kota')->middleware('auth');

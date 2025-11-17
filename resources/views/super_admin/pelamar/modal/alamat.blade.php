@@ -6,7 +6,7 @@
         <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
             <!-- Modal header -->
             <div
-                class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
+                class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
                 <h3 class="text-lg font-semibold">Tambah Alamat</h3>
                 <button type="button"
                     class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -63,7 +63,7 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-900 mb-1">Detaik Alamat</label>
+                        <label class="block text-sm font-medium text-gray-900 mb-1">Detail Alamat</label>
                         <textarea name="detail" rows="4"
                             class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 mb-3"></textarea>
                     </div>
