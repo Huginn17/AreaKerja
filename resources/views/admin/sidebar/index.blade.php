@@ -75,13 +75,27 @@
             <hr>
             <ul class="space-y-2 font-medium">
                 <li class="mt-7">
-                    <select id="kota"
-                        class="w-full p-2 text-gray-500 border rounded-md text-center bg-white appearance-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                        <option selected>Yogyakarta</option>
-                        <option value="PG">Semarang</option>
-                        <option value="PG">Surabaya</option>
-                    </select>
-                </li>
+    <form id="provinsiForm" action="{{ route('admin.dashboard') }}" method="GET">
+        <select name="provinsi" id="provinsi"
+            onchange="document.getElementById('provinsiForm').submit()"
+            class="w-full p-2 text-gray-500 border rounded-md text-center bg-white appearance-none
+                   focus:ring-primary-500 focus:border-primary-500
+                   dark:bg-gray-700 dark:border-gray-600 dark:text-white 
+                   dark:focus:ring-primary-500 dark:focus:border-primary-500">
+
+            <option value="">Pilih Provinsi</option>
+
+            @foreach ($provinsis as $prov)
+                <option value="{{ $prov->nama }}" 
+                    {{ request('provinsi') == $prov->nama ? 'selected' : '' }}>
+                    {{ $prov->nama }}
+                </option>
+            @endforeach
+
+        </select>
+    </form>
+</li>
+
                 <p class="flex items-center p-2 text-white rounded-lg dark:text-white">
                     <span class="ms-3 mt-3">Umum</span>
                 </p>

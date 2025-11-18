@@ -2,12 +2,22 @@
 @section('content')
     <!-- Hero Section -->
     <section class="relative">
-        <img src="{{ asset('images/woi.jpg') }}" alt="hero" class="w-full h-[350px] object-cover">
+        
+        @php
+            $header = \App\Models\SocialLink::where('nama', 'header_talent_hunter')->first();
+        @endphp
+
+        <img src="{{ $header && $header->link ? asset('storage/' . $header->link) : asset('images/woi.jpg') }}"
+            alt="Header Image" class="w-full h-[350px] object-cover">
+
+
+        {{-- <img src="{{ asset('images/woi.jpg') }}" alt="hero" class="w-full h-[350px] object-cover"> --}}
         <div class="absolute inset-0 bg-black bg-opacity-40"></div>
         <div class="absolute bottom-20 left-20 text-white">
             <h1 class="text-3xl md:text-4xl font-semibold mt-3 max-w-2xl">
-                Talent Hunter
+                Talent Hunter 
             </h1>
+            
             <p class="text-sm mt-4">Daftarkan perusahaan anda dan biar kami</p>
             <p class="text-sm"> yang mencarikan kandidat yang cocok untuk anda</p><br>
             <button>
@@ -118,7 +128,7 @@
         </div>
 
     </section>
-    
+
     <a href="#top"
         class="fixed bottom-6 right-6 bg-orange-500 text-white px-3 py-3 rounded-full shadow-lg hover:bg-orange-600 transition">
         <svg width="24" height="23" viewBox="0 0 31 28" fill="none" xmlns="http://www.w3.org/2000/svg">

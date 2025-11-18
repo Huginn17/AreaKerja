@@ -6,6 +6,7 @@ use App\Models\DaftarBank;
 use App\Models\HargaPembayaran;
 use App\Models\Notifikasi;
 use App\Models\PelamarLowongan;
+use App\Models\Provinsi;
 use App\Models\SocialLink;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
@@ -74,6 +75,11 @@ class AppServiceProvider extends ServiceProvider
                     'daftarBank' => $daftarBank,
                 ]);
             }
+        });
+
+        // Share provinsis ke semua view admin/sidebar
+        View::composer('admin.sidebar.index', function ($view) {
+            $view->with('provinsis', Provinsi::orderBy('nama')->get());
         });
 
         // View::composer('layouts.index', function ($view) {

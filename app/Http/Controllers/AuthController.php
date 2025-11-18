@@ -14,6 +14,7 @@ use App\Models\Pelamar;
 use App\Models\PelamarLowongan;
 use App\Models\Pembayaran;
 use App\Models\Perusahaan;
+use App\Models\Provinsi;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -111,7 +112,7 @@ class AuthController extends Controller
         try {
             $valid = $request->validate([
                 'username' => 'required|unique:users,username',
-                'email' => 'required|email',
+                'email' => 'required|email|unique:users,email',
                 'password' => 'required|min:3',
                 'role' => 'required'
             ], [
@@ -119,6 +120,7 @@ class AuthController extends Controller
                 'username.unique' => 'Username sudah digunakan.',
                 'email.required' => 'Email wajib diisi.',
                 'email.email' => 'Format email tidak valid.',
+                'email.unique' => 'Email sudah terdaftar.',
                 'password.required' => 'Password wajib diisi.',
                 'password.min' => 'Password minimal 3 karakter.',
                 'role.required' => 'Role wajib diisi.'
@@ -357,39 +359,118 @@ class AuthController extends Controller
     {
         return view('admin.auth.login');
     }
-    public function beranda_admin()
+    public function beranda_admin(Request $request)
     {
-        $now = Carbon::now();
-        $lastMonth = $now->subMonth();
+        // dropdown provinsi
+        $provinsis = Provinsi::orderBy('nama')->get();
 
-        $totalPerusahaan = Perusahaan::count();
-        $lastPerusahaan = Perusahaan::whereMonth('created_at', $lastMonth->month)
+        $selectedProvinsi = $request->provinsi; // STRING
+        $selectedProvinsiId = null;
+
+        if ($selectedProvinsi) {
+            $prov = Provinsi::where('nama', $selectedProvinsi)->first();
+            if ($prov) {
+                $selectedProvinsiId = $prov->id;
+            }
+        }
+
+        $now = Carbon::now();
+        $lastMonth = $now->copy()->subMonth();
+
+
+        // ===========================
+        // PERUSAHAAN
+        // ===========================
+        $totalPerusahaan = Perusahaan::whereHas('alamatUtama', function ($q) use ($selectedProvinsiId) {
+            if ($selectedProvinsiId) {
+                $q->where('provinsi_id', $selectedProvinsiId);
+            }
+        })->count();
+
+        $lastPerusahaan = Perusahaan::whereHas('alamatUtama', function ($q) use ($selectedProvinsiId) {
+            if ($selectedProvinsiId) {
+                $q->where('provinsi_id', $selectedProvinsiId);
+            }
+        })
+            ->whereMonth('created_at', $lastMonth->month)
             ->whereYear('created_at', $lastMonth->year)
             ->count();
+
         $growthPerusahaan = $this->calcGrowth($lastPerusahaan, $totalPerusahaan);
 
-        $totalKandidat = Pelamar::where('kategori', 'kandidat aktif')->count();
+
+        // ===========================
+        // KANDIDAT
+        // ===========================
+        $totalKandidat = Pelamar::where('kategori', 'kandidat aktif')
+            ->whereHas('alamat_pelamar', function ($q) use ($selectedProvinsi) {
+                if ($selectedProvinsi) {
+                    $q->where('provinsi', $selectedProvinsi);
+                }
+            })
+            ->count();
+
         $lastKandidat = Pelamar::where('kategori', 'kandidat aktif')
+            ->whereHas('alamat_pelamar', function ($q) use ($selectedProvinsi) {
+                if ($selectedProvinsi) {
+                    $q->where('provinsi', $selectedProvinsi);
+                }
+            })
             ->whereMonth('created_at', $lastMonth->month)
             ->whereYear('created_at', $lastMonth->year)
             ->count();
+
         $growthKandidat = $this->calcGrowth($lastKandidat, $totalKandidat);
 
-        $totalNonKandidat = Pelamar::where('kategori', 'pelamar')->count();
+
+        // ===========================
+        // NON KANDIDAT
+        // ===========================
+        $totalNonKandidat = Pelamar::where('kategori', 'pelamar')
+            ->whereHas('alamat_pelamar', function ($q) use ($selectedProvinsi) {
+                if ($selectedProvinsi) {
+                    $q->where('provinsi', $selectedProvinsi);
+                }
+            })
+            ->count();
+
         $lastNonKandidat = Pelamar::where('kategori', 'pelamar')
+            ->whereHas('alamat_pelamar', function ($q) use ($selectedProvinsi) {
+                if ($selectedProvinsi) {
+                    $q->where('provinsi', $selectedProvinsi);
+                }
+            })
             ->whereMonth('created_at', $lastMonth->month)
             ->whereYear('created_at', $lastMonth->year)
             ->count();
+
         $growthNonKandidat = $this->calcGrowth($lastNonKandidat, $totalNonKandidat);
 
-        $totalLowongan = LowonganPerusahaan::count();
-        $lastLowongan = LowonganPerusahaan::whereMonth('created_at', $lastMonth->month)
+
+        // ===========================
+        // LOWONGAN
+        // ===========================
+        $totalLowongan = LowonganPerusahaan::whereHas('perusahaan.alamatUtama', function ($q) use ($selectedProvinsiId) {
+            if ($selectedProvinsiId) {
+                $q->where('provinsi_id', $selectedProvinsiId);
+            }
+        })->count();
+
+        $lastLowongan = LowonganPerusahaan::whereHas('perusahaan.alamatUtama', function ($q) use ($selectedProvinsiId) {
+            if ($selectedProvinsiId) {
+                $q->where('provinsi_id', $selectedProvinsiId);
+            }
+        })
+            ->whereMonth('created_at', $lastMonth->month)
             ->whereYear('created_at', $lastMonth->year)
             ->count();
+
         $growthLowongan = $this->calcGrowth($lastLowongan, $totalLowongan);
 
 
         return view('admin.dashboard', [
+            'provinsis' => $provinsis,
+            'selectedProvinsi' => $selectedProvinsi,
             'totalPerusahaan' => $totalPerusahaan,
             'growthPerusahaan' => $growthPerusahaan,
             'totalKandidat' => $totalKandidat,
@@ -400,6 +481,7 @@ class AuthController extends Controller
             'growthLowongan' => $growthLowongan,
         ]);
     }
+
 
     /**
      * Hitung pertumbuhan dalam persen (%)

@@ -25,10 +25,21 @@ class LupaPasswordController extends Controller
         ]);
 
         $user = User::where('email', $request->email)->first();
+
+        // Jika user TIDAK ditemukan, munculkan SweetAlert
+        if (!$user) {
+            return back()->with('alert', [
+                'title' => 'Email Tidak Ditemukan!',
+                'text'  => 'Email yang Anda masukkan tidak terdaftar.',
+                'icon'  => 'error'
+            ]);
+        }
+
+        // --- Jika user ditemukan, lanjut OTP ---
         $otp = rand(100000, 999999);
         $token = Str::random(64);
 
-        PasswordVerification::UpdateOrcreate(
+        PasswordVerification::updateOrCreate(
             ['email' => $request->email],
             [
                 'user_id' => $user->id,
@@ -37,13 +48,13 @@ class LupaPasswordController extends Controller
             ]
         );
 
-        //kirim email otp
         Mail::raw("Kode OTP Anda adalah: {$otp}", function ($message) use ($user) {
             $message->to($user->email)
                 ->subject('Kode Verifikasi OTP - AreaKerja');
         });
 
-        return redirect()->route('password.otp.form.pelamar', $token)->with('success', 'Kode OTP telah dikirim ke email Anda.');
+        return redirect()->route('password.otp.form.pelamar', $token)
+            ->with('success', 'Kode OTP telah dikirim ke email Anda.');
     }
 
     public function showOtpForm_pelamar($token)

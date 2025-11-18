@@ -72,6 +72,63 @@ class PelamarController extends Controller
         ]);
     }
 
+    public function detail_lowongan_non_userShare($slug)
+    {
+        // Ambil lowongan berdasarkan slug
+        $lowongan = LowonganPerusahaan::where('slug', $slug)
+            ->with('perusahaan')
+            ->firstOrFail();
+
+        // Pastikan user adalah pelamar
+        $pelamar = auth()->user()->pelamar ?? null;
+        if (!$pelamar) abort(403);
+
+        // Ambil semua lowongan aktif (untuk sidebar)
+        $Data = LowonganPerusahaan::with('perusahaan')
+            ->whereNotNull('published_at')
+            ->where(function ($q) {
+                $q->whereNull('expired_at')->orWhere('expired_at', '>', now());
+            })
+            ->latest()
+            ->get();
+
+        // CEK apakah lowongan ini sudah disimpan oleh pelamar
+        $isSaved = SimpanLowongan::where('pelamar_id', $pelamar->id)
+            ->where('lowongan_id', $lowongan->id)
+            ->exists();
+
+        // Ambil tawaran, bisa null
+        $tawaran = PembeliKandidat::with(['lowonganPerusahaan.perusahaan'])
+            ->where('pelamar_id', $pelamar->id)
+            ->where('lowongan_perusahaan_id', $lowongan->id)
+            ->first();
+
+        // Ambil lowongan lain, menyesuaikan apakah ada tawaran atau tidak
+        if ($tawaran && $tawaran->lowonganPerusahaan) {
+            $lowonganLain = LowonganPerusahaan::where('perusahaan_id', $tawaran->lowonganPerusahaan->perusahaan_id)
+                ->where('id', '!=', $tawaran->lowongan_perusahaan_id)
+                ->whereNotNull('published_at')
+                ->latest()
+                ->take(3)
+                ->get();
+        } else {
+            $lowonganLain = LowonganPerusahaan::where('id', '!=', $lowongan->id)
+                ->whereNotNull('published_at')
+                ->latest()
+                ->take(3)
+                ->get();
+        }
+
+        return view('non-user.lowongan-detail', [
+            'data' => $lowongan,
+            'Data' => $Data,
+            'isSaved' => $isSaved,
+            'lowonganLain' => $lowonganLain,
+            'tawaran' => $tawaran,
+        ]);
+    }
+
+
 
 
     public function index()
@@ -86,11 +143,12 @@ class PelamarController extends Controller
             ->get();
 
         $lowongan = LowonganPerusahaan::latest()->get();
+        $riwayat = session()->get('riwayat_full', []);
 
         return view('non-user.home', [
             "lowongan" => $lowongan,
             "Data" => $Data,
-
+            "riwayat" => $riwayat,
         ]);
     }
 
@@ -611,5 +669,137 @@ class PelamarController extends Controller
         ]);
 
         return redirect()->route('kandidat.transaksi', $transaksi->id);
+    }
+
+
+
+
+    //SEARCH LOWONGAN
+    public function searchLowongan(Request $request)
+    {
+        $previous = url()->previous();
+
+        // Jangan simpan jika previous URL nya adalah URL search
+        if (!str_contains($previous, '/search')) {
+            session()->put('last_non_search_url', $previous);
+        }
+
+        $posisi = $request->posisi;
+        $lokasi = $request->lokasi;
+
+        // 0. Jika posisi & lokasi kosong: tidak simpan riwayat
+        if (empty($posisi) && empty($lokasi)) {
+
+            $lowongan = LowonganPerusahaan::with(['perusahaan.alamatUtama'])
+                ->whereNotNull('published_at')
+                ->where(function ($q) {
+                    $q->whereNull('expired_at')
+                        ->orWhere('expired_at', '>', now());
+                })
+                ->latest()
+                ->paginate(12);
+
+            return view('non-user.home', [
+                'Data' => $lowongan,
+                'lowongan' => $lowongan,
+                'posisi' => $posisi,
+                'lokasi' => $lokasi,
+                'riwayat' => session()->get('riwayat_full', []),
+            ]);
+        }
+
+        // 1. Cari lowongan
+        $lowongan = LowonganPerusahaan::query()
+            ->with(['perusahaan.alamatUtama'])
+            ->when($posisi, function ($q) use ($posisi) {
+                $q->where(function ($q2) use ($posisi) {
+                    $q2->where('nama', 'like', "%$posisi%")
+                        ->orWhere('deskripsi', 'like', "%$posisi%");
+                });
+            })
+            ->when($lokasi, function ($q) use ($lokasi) {
+                $q->whereHas('perusahaan.alamatUtama', function ($alamat) use ($lokasi) {
+                    $alamat->where('desa', 'like', "%$lokasi%")
+                        ->orWhere('detail', 'like', "%$lokasi%")
+                        ->orWhere('kode_pos', 'like', "%$lokasi%")
+                        ->orWhereHas('kota', function ($kota) use ($lokasi) {
+                            $kota->where('nama', 'like', "%$lokasi%");
+                        })
+                        ->orWhereHas('provinsi', function ($prov) use ($lokasi) {
+                            $prov->where('nama', 'like', "%$lokasi%");
+                        });
+                });
+            })
+            ->whereNotNull('published_at')
+            ->where(function ($q) {
+                $q->whereNull('expired_at')
+                    ->orWhere('expired_at', '>', now());
+            })
+            ->latest()
+            ->paginate(12);
+
+        // 2. Ambil riwayat session
+        $riwayat = session()->get('riwayat_full', []);
+
+        // 3. Hapus duplikat (posisi & lokasi sama)
+        $riwayat = collect($riwayat)
+            ->reject(function ($item) use ($posisi, $lokasi) {
+                return $item['posisi'] === $posisi && $item['lokasi'] === $lokasi;
+            })
+            ->values()
+            ->toArray();
+
+        // 4. Tambahkan pencarian baru (di depan)
+        array_unshift($riwayat, [
+            'posisi' => $posisi,
+            'lokasi' => $lokasi,
+            'lowongan_ids' => $lowongan->pluck('id')->toArray(),
+        ]);
+
+        // 5. Batasi maksimal 6 item
+        $riwayat = array_slice($riwayat, 0, 6);
+
+        // 6. Simpan kembali ke session
+        session()->put('riwayat_full', $riwayat);
+
+        // 7. Return view
+        return view('non-user.home', [
+            'Data' => $lowongan,
+            'lowongan' => $lowongan,
+            'posisi' => $posisi,
+            'lokasi' => $lokasi,
+            'riwayat' => $riwayat,
+        ]);
+    }
+
+
+    //hapus search riwayat
+    public function resetRiwayat()
+    {
+        session()->forget('riwayat_full');
+        session()->forget('riwayat_search');
+
+        $lastUrl = session()->get('last_non_search_url', route('beranda')); // fallback ke home
+
+        return redirect($lastUrl)->with('success', 'Riwayat pencarian berhasil direset.');
+    }
+
+
+
+
+    //Transaksi
+    public function transaksiPendaftaranKandidat()
+    {
+        $user = auth()->user();
+
+        $transaksi = CatatanCash::where('user_id', $user->id)
+            ->where('pesanan', 'Pendaftaran Kandidat')
+            ->with(['hargaPembayaran', 'bank'])
+            ->orderBy('created_at', 'DESC')
+            ->get();
+
+        return view('non-user.transaksi.transaksi-kosong', [
+            'transaksi' => $transaksi
+        ]);
     }
 }

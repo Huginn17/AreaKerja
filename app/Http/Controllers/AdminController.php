@@ -244,7 +244,6 @@ class AdminController extends Controller
 
 
 
-
     //FINANCE
     public function koinHal(Request $request)
     {
@@ -395,7 +394,7 @@ class AdminController extends Controller
 
 
 
-    //TALENT HUNTER
+    //TALENT HUNTER 
     public function talentHunterForm()
     {
         $talentHunter = TalentHunter::with('perusahaan')->get();
@@ -510,5 +509,31 @@ class AdminController extends Controller
         }
 
         return redirect()->route('admin.recruitment', $perusahaan->id)->with('success', 'Recruitment berhasil dihapus & pelamar kembali menjadi kandidat biasa.');
+    }
+
+
+
+
+    //FILTER PROVINSI
+    public function pilihProvinsi()
+    {
+        $provinsis = Provinsi::orderBy('nama')->get();
+
+        return view('dashboard.pilih-provinsi', [
+            'provinsis' => $provinsis,
+            'selected' => session('provinsi_id')
+        ]);
+    }
+
+
+    public function setProvinsi(Request $request)
+    {
+        $request->validate([
+            'provinsi_id' => 'required|exists:provinsis,id'
+        ]);
+
+        session(['provinsi_id' => $request->provinsi_id]);
+
+        return redirect()->route('admin.dashboard')->with('success', 'Provinsi berhasil diubah!');
     }
 }

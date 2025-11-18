@@ -36,7 +36,7 @@
 </head>
 
 
-<body x-data="{ openNotif: false, openAllNotif: false }">
+<body x-data="{ openNotif: false, openAllNotif: false }" x-cloak>
     {{-- Navbar --}}
     <header class="bg-white border-b py-2 border-gray-300 fixed top-0 left-0 w-full z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -149,10 +149,14 @@
                                     @php
                                         $kategori = Auth::user()->pelamar->kategori ?? null;
                                     @endphp
-                                    @if ($kategori === 'calon kandidat' || $kategori === 'kandidat aktif')
+                                    @if ($kategori === 'kandidat aktif')
                                         <a href="{{ route('profile.index') }}"
                                             class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500"><i
                                                 class="ph ph-users ml-10"></i><span class="ml-2">Kandidat</span></a>
+                                    @elseif($kategori === 'calon kandidat')
+                                        <a href="{{ route('profile.index') }}"
+                                            class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500"><i
+                                                class="ph ph-users ml-7"></i><span class="ml-2">Calon Kandidat</span></a>
                                     @else
                                         <a href="{{ route('profile.index') }}"
                                             class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500">Profil</a>
@@ -164,7 +168,7 @@
                                         Tersimpan</a>
                                 </li>
                                 <li>
-                                    <a href="tran-tf-kosong"
+                                    <a href="{{ route('transaksi.pendaftaran') }}"
                                         class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500">Transaksi</a>
                                 </li>
                                 <li>

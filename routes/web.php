@@ -19,6 +19,7 @@ use App\Http\Controllers\PengalamanKerjaController;
 use App\Http\Controllers\PengalamanOrgController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ShareLowonganController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\SocialLinkController;
 use App\Http\Controllers\SuperAdminController;
@@ -63,6 +64,23 @@ use Illuminate\Support\Str;
 // Route::get('/test-expired', function () {
 //     ExpireLamaranJob::dispatch();
 //     return "✅ Job ExpireLamaran sudah dijalankan. Cek tabel notifikasis!";
+// });
+
+
+//SHARE LOWONGAN
+Route::get('/share/{platform}/{slug}', [ShareLowonganController::class, 'share'])
+    ->name('lowongan.share');
+//filter posisi dan lokasi
+Route::get('/search', [PelamarController::class, 'searchLowongan'])
+    ->name('lowongan.search');
+
+//reset riwayat
+Route::post('/pelamar/reset-riwayat', [PelamarController::class, 'resetRiwayat'])
+    ->name('pelamar.resetRiwayat');
+
+// Route::get('/reset-riwayat', function () {
+//     session()->forget('riwayat_full');
+//     return 'riwayat direset';
 // });
 
 //DOWNLOAD CV
@@ -162,6 +180,7 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
     Route::post('/lamar-cepat/{lowongan}', [PelamarLowonganController::class, 'storeQuick'])->name('lamar.cepat');
     //detail lowongan
     Route::get('/detail-lowongan/{lowongan}', [PelamarController::class, 'detail_lowongan_non_user'])->name('detail.lowongan.non.user');
+    Route::get('/detail-lowongan/{slug}', [PelamarController::class, 'detail_lowongan_non_userShare'])->name('lowongan.show');
 
     //NOTIFIKASI LAMARAN PELAMAR
     Route::get('/notifikasi', [PelamarController::class, 'notifikasi'])->name('pelamar.notifikasi');
@@ -187,6 +206,11 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
     Route::get('/tawaran', [PembeliKandidatController::class, 'tawaran'])->name('pelamar.tawaran');
     Route::get('/kandidat/tawaran/{id}', [PembeliKandidatController::class, 'detailTawaran'])->name('kandidat.detailTawaran');
     Route::post('/pembeli_kandidat/{id}/status', [PembeliKandidatController::class, 'updateStatus'])->name('kandidat.updateStatus');
+
+
+
+    //Transaksi
+    Route::get('/transaksi', [PelamarController::class, 'transaksiPendaftaranKandidat'])->name('transaksi.pendaftaran');
 });
 
 //NOTIFIKASI
@@ -300,7 +324,7 @@ Route::prefix('finance')->middleware('auth', 'role:finance', 'CheckUserStatus')-
     Route::get('/laporan', [FinanceController::class, 'laporan_transaksi'])->name('finance.laporan');
     Route::get('/finance/laporan/detail/{tanggal}', [FinanceController::class, 'detail_laporan'])->name('finance.laporan.detail');
     Route::get('/finance/laporan/{tanggal}/unduh', [FinanceController::class, 'unduh_laporan_harian'])->name('finance.laporan.unduh');
-    
+
 
     Route::get('/detail', [FinanceController::class, 'hal_detail'])->name('finance.detail.catatan.koin');
     Route::get('/detail/{id}', [FinanceController::class, 'detail'])->name('finance.detail.id');
@@ -429,6 +453,14 @@ Route::prefix('admin')->middleware('auth', 'role:admin', 'CheckUserStatus')->gro
     Route::get('/recruitment/{id}/detail', [AdminController::class, 'detailRecruitment'])->name('admin.recruitment.detail');
     Route::delete('/recruitment/{id}/hapus', [AdminController::class, 'destroyRecruitment'])->name('admin.recruitment.destroy');
 
+
+
+    //filter provinsi
+    // Pilih Provinsi
+    Route::get('/dashboard/pilih-provinsi', [AdminController::class, 'pilihProvinsi'])->name('dashboard.pilih-provinsi');
+
+    // Set Provinsi (Session)
+    Route::post('/dashboard/set-provinsi', [AdminController::class, 'setProvinsi'])->name('dashboard.set-provinsi');
 });
 
 
@@ -641,6 +673,10 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
     //SOCIAL LINK
     Route::get('/social-links', [SocialLinkController::class, 'index'])->name('superadmin.social.index');
     Route::post('/social-links', [SocialLinkController::class, 'update'])->name('superadmin.social.update');
+
+    //IMAGE HEADER
+    Route::get('/header-image', [SocialLinkController::class, 'headerImageIndex'])->name('superadmin.header.image');
+    Route::put('/header-image/{nama}', [SocialLinkController::class, 'headerImageUpdate'])->name('superadmin.header.update');
 
 
     //TALENT HUNTER
@@ -897,7 +933,6 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
     //Kandidat Saya
     Route::get('/recruitment/kandidat-saya', [PerusahaanController::class, 'kandidatSaya'])->name('perusahaan.kandidat.saya');
     Route::delete('/recruitment/{id}/hapus', [PerusahaanController::class, 'destroyRecruitmentPerusahaan'])->name('perusahaan.destroy.kandidat');
-    
 });
 //PROVINSI KOTA KECAMATAN
 Route::get('/get-kota/{provinsi_id}', [PerusahaanController::class, 'getKota'])->name('get.kota')->middleware('auth');

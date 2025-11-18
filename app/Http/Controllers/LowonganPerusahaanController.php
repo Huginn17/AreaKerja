@@ -18,7 +18,7 @@ class LowonganPerusahaanController extends Controller
     {
 
         return view('perusahaan.lowongan-saya.lowongan-kosong', [
-            "Data" => LowonganPerusahaan::all(),
+            "Data" => auth()->user()->perusahaan->lowonganPerusahaans,
         ]);
     }
 
@@ -374,4 +374,9 @@ class LowonganPerusahaanController extends Controller
         $lowongan->delete();
         return redirect()->route('superadmin.perusahaan.detail', $perusahaanId)->with('success', 'Lowongan berhasil dihapus.');
     }
+
+
+
+
+    
 }

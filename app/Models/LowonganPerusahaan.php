@@ -11,6 +11,20 @@ class LowonganPerusahaan extends Model
     protected $table = 'lowongan_perusahaans';
     protected $guarded = [];
 
+
+    public function resolveRouteBinding($value, $field = null)
+    {
+        // Jika numeric, ambil berdasarkan ID
+        if (is_numeric($value)) {
+            return $this->where('id', $value)->firstOrFail();
+        }
+
+        // Selain itu, ambil berdasarkan slug
+        return $this->where('slug', $value)->firstOrFail();
+    }
+
+
+
     public function paket()
     {
         return $this->belongsTo(PaketLowongan::class, 'paket_id');

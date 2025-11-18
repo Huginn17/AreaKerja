@@ -1,5 +1,20 @@
 @extends('layouts.index')
 @section('content')
+    <meta property="og:title" content="{{ $data->nama }}">
+    <meta property="og:site_name" content="Area Kerja">
+    <meta property="og:description" content="{{ strip_tags(Str::limit($data->deskripsi, 150)) }}">
+    <meta property="og:url" content="{{ route('detail.lowongan.non.user', $data->slug) }}">
+    <meta property="og:type" content="article">
+
+    <meta property="og:image" content="{{ asset($data->gambar ?? 'default.jpg') }}">
+    <meta property="og:image:alt" content="{{ $data->nama }}">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $data->nama }}">
+    <meta name="twitter:description" content="{{ strip_tags(Str::limit($data->deskripsi, 150)) }}">
+    <meta name="twitter:image" content="{{ asset($data->gambar ?? 'default.jpg') }}">
+
+
     <div class="bg-gray-50 font-sans" x-data="{
         showConfirm: false,
         showSuccess: false,

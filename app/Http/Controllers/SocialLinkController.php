@@ -9,20 +9,33 @@ class SocialLinkController extends Controller
 {
     public function index()
     {
-        $socials = SocialLink::all();
+        // Ambil hanya social media yang diizinkan
+        $allowed = ['Facebook', 'Youtube', 'Instagram', 'Linkedin', 'Twitter'];
 
+        $socials = SocialLink::whereIn('nama', $allowed)->get();
+
+        // Ambil header image berdasarkan nama: header_*
+        $headers = SocialLink::where('nama', 'like', 'header_%')->get();
+
+        // Jika data social media belum ada, buat default-nya
         if ($socials->count() === 0) {
-            $default = ['Facebook', 'Youtube', 'Instagram', 'Linkedin', 'Twitter'];
-            foreach ($default as $nama) {
-                SocialLink::create(['nama' => $nama, 'link' => null]);
+            foreach ($allowed as $nama) {
+                SocialLink::create([
+                    'nama' => $nama,
+                    'link' => null
+                ]);
             }
-            $socials = SocialLink::all();
+
+            // Reload setelah insert
+            $socials = SocialLink::whereIn('nama', $allowed)->get();
         }
 
         return view('super_admin.social.banner', [
-            'socials' => $socials
+            'socials' => $socials,
+            'headers' => $headers
         ]);
     }
+
 
     public function update(Request $request)
     {
@@ -32,11 +45,30 @@ class SocialLinkController extends Controller
         return back()->with('success', 'Berhasil Mengupdate Social Link');
     }
 
-     public function index_footer()
+    public function index_footer()
     {
         $socialLinks = SocialLink::all();
-        return view('layouts.footer',[
+        return view('layouts.footer', [
             'socialLinks' => $socialLinks
         ]);
+    }
+
+
+    //IMAGE HEADER
+
+    public function headerImageUpdate(Request $request, $nama)
+    {
+        $header = SocialLink::where('nama', $nama)->firstOrFail();
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('images', 'public');
+
+
+            $header->update([
+                'link' => $path
+            ]);
+        }
+
+        return back()->with('success', 'Header berhasil diperbarui');
     }
 }

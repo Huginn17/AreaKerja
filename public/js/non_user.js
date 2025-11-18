@@ -102,3 +102,70 @@ $("#formkerja").on("submit", function(e) {
         }
     });
 });
+
+
+
+//email sama
+$('#formRegis').on('submit', function(e) {
+    e.preventDefault();
+
+    $.ajax({
+        url: "{{ route('regis.proses') }}",
+        type: "POST",
+        data: $(this).serialize(),
+
+        success: function(res) {
+            if (res.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Akun berhasil dibuat!',
+                    text: 'Silahkan login menggunakan akun anda.',
+                });
+
+                // Clear form agar ketika back tidak muncul alert lagi
+                $('#formRegis')[0].reset();
+            }
+        },
+
+        error: function(err) {
+            let errors = err.responseJSON.errors;
+
+            // Jika email sudah terdaftar
+            if (errors.email) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Email sudah digunakan!',
+                    text: errors.email[0]
+                });
+                return;
+            }
+
+            // Jika username sudah ada
+            if (errors.username) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Username sudah digunakan!',
+                    text: errors.username[0]
+                });
+                return;
+            }
+
+            // Jika telepon kosong
+            if (errors.telepon_pelamar) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Nomor telepon wajib diisi!',
+                    text: errors.telepon_pelamar[0]
+                });
+                return;
+            }
+
+            // Jika error lain
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: 'Periksa kembali data yang kamu isi.'
+            });
+        }
+    });
+});
