@@ -24,8 +24,15 @@
             </div>
         </div>
         <div class="flex justify-center md:justify-end w-full md:w-1/2">
-            <img src="{{ asset('images/brolbaru.png') }}" alt="berlangganan"
-                class="w-[450px] md:w-[550px] lg:w-[650px] h-auto object-contain">
+            @php
+                $header = \App\Models\SocialLink::where('nama', 'header_berlangganan')->first();
+            @endphp
+
+            <img src="{{ $header && $header->link ? asset('storage/' . $header->link) : asset('images/brolbaru.png') }}"
+                alt="berlangganan" class="w-[450px] md:w-[550px] lg:w-[650px] h-auto object-contain">
+
+            {{-- <img src="{{ asset('images/brolbaru.png') }}" alt="berlangganan"
+                class="w-[450px] md:w-[550px] lg:w-[650px] h-auto object-contain"> --}}
         </div>
     </div>
 
@@ -77,9 +84,9 @@
     </div>
 
     <!-- Section Harga & Ajak Berlangganan -->
-    <div class="bg-white py-16 px-6">
+    <div>
         <div
-            class="max-w-6xl mx-auto border-4 border-orange-500 rounded-2xl p-10 py-2 flex flex-col md:flex-row justify-between items-center gap-8">
+            class="max-w-6xl mx-auto border-4 border-orange-500 rounded-2xl p-10 py-2 flex flex-col md:flex-row justify-between items-center gap-8 mb-24 mt-24">
             <!-- Text -->
             <div class="md:w-1/2">
                 <h3 class="text-xl font-bold text-blue-900 mb-4">Berlangganan Bersama Kami</h3>
@@ -105,367 +112,405 @@
             </div>
             <!-- Image -->
             <div class="md:w-1/2 flex justify-center">
-                <img src="{{ asset('images/jempol.png') }}" alt="ilustrasi berlangganan"
+                @php
+                    $header = \App\Models\SocialLink::where('nama', 'header_berlangganan')->first();
+                @endphp
+
+                <img src="{{ $header && $header->link ? asset('storage/' . $header->link) : asset('images/jempol.png') }}"
+                    alt="ilustrasi berlangganan" class="w-[350px] md:w-[450px] lg:w-[300px] h-auto object-contain">
+
+                {{-- <img src="{{ asset('images/jempol.png') }}" alt="ilustrasi berlangganan"
                     class="w-[350px] md:w-[450px] lg:w-[300px] h-auto object-contain">
+            </div> --}}
             </div>
         </div>
-    </div>
 
-    <!-- Modal Pembayaran -->
-    <div id="modalBayar" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
-        <div class="bg-white rounded-2xl shadow-lg w-[360px] p-5 relative">
-            <!-- Tombol close -->
-            <button onclick="closeModal()"
-                class="absolute top-3 right-4 text-gray-500 text-2xl font-semibold">&times;</button>
+        <!-- Modal Pembayaran -->
+        <div id="modalBayar" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+            <div class="bg-white rounded-2xl shadow-lg w-[360px] p-5 relative">
+                <!-- Tombol close -->
+                <button onclick="closeModal()"
+                    class="absolute top-3 right-4 text-gray-500 text-2xl font-semibold">&times;</button>
 
-            <!-- Judul -->
-            <h2 class="text-lg font-semibold text-gray-900 mb-5">Pembayaran</h2>
+                <!-- Judul -->
+                <h2 class="text-lg font-semibold text-gray-900 mb-5">Pembayaran</h2>
 
-            <!-- Kotak Berlangganan -->
-            <div class="border-2 border-orange-400 rounded-xl px-5 py-4 mb-3">
-                <p class="text-sm font-medium text-gray-700 mb-2">Berlangganan</p>
-                <div class="flex items-center gap-2">
-                    <img src="/images/coin.png" alt="coin" class="w-8 h-8">
-                    <p class="text-2xl font-bold text-orange-500">{{ $hargaLangganan }}</p>
-                </div>
-            </div>
-
-            <!-- Tagihan -->
-            <div class="flex justify-between items-center text-sm font-medium text-gray-800 mb-6">
-                <p>Tagihan Tahunan</p>
-                <p>{{ $hargaLangganan }} Koin</p>
-            </div>
-
-            <!-- Koin Saya -->
-            <div class="mb-6">
-                <p class="text-gray-700 text-sm mb-1">Koin saya :</p>
-                <div class="flex items-center justify-between bg-orange-50 border border-orange-200 rounded-lg px-4 py-2">
+                <!-- Kotak Berlangganan -->
+                <div class="border-2 border-orange-400 rounded-xl px-5 py-4 mb-3">
+                    <p class="text-sm font-medium text-gray-700 mb-2">Berlangganan</p>
                     <div class="flex items-center gap-2">
-                        <img src="/images/coin.png" alt="coin" class="w-6 h-6">
-                        <p class="font-bold text-orange-500 text-lg">
-                            {{ number_format($perusahaan->koin_perusahaan, 0, ',', '.') }}</p>
+                        <img src="/images/coin.png" alt="coin" class="w-8 h-8">
+                        <p class="text-2xl font-bold text-orange-500">{{ $hargaLangganan }}</p>
                     </div>
-                    <button onclick="toggleModal()"
-                        class="flex items-center text-green-600 text-xs font-semibold hover:underline">
-                        <span class="mr-1">Top Up Koin</span>
-                        <svg width="18" height="18" viewBox="0 0 22 22" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <rect x="0.773" y="0.968" width="20" height="20" fill="#42BB72" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Tombol Bayar -->
-            <button id="btnBayar"
-                class="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 rounded-lg transition">
-                Bayar
-            </button>
-        </div>
-    </div>
-
-
-    <!-- Modal Sukses -->
-    <div id="modalSukses" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
-        <div class="bg-white rounded-2xl p-6 w-[400px] relative text-center">
-            <div class="bg-orange-500 text-white py-3 rounded-t-2xl -mt-6 mb-4">
-                <h2 class="font-semibold">Pembayaran Sukses</h2>
-            </div>
-
-            <div class="flex justify-center mb-3">
-                <div class="bg-orange-100 rounded-full p-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-orange-500" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                    </svg>
-                </div>
-            </div>
-
-            <p class="font-semibold text-gray-700 mb-1">
-                Pembayaran dengan <span class="text-orange-500 font-bold">areakerja.com</span> sukses
-            </p>
-
-            <div class="mt-4 bg-gray-50 rounded-lg p-3 flex justify-between items-center">
-                <div class="text-left">
-                    <p class="text-gray-600 text-sm">Kirim bukti pembayaran ke email</p>
-                    <p class="text-gray-800 font-semibold">seveninc@gmail.com</p>
                 </div>
 
-                <label class="inline-flex items-center cursor-pointer">
-                    <input type="checkbox" id="sendEmailToggle" checked class="sr-only peer">
+                <!-- Tagihan -->
+                <div class="flex justify-between items-center text-sm font-medium text-gray-800 mb-6">
+                    <p>Tagihan Tahunan</p>
+                    <p>{{ $hargaLangganan }} Koin</p>
+                </div>
+
+                <!-- Koin Saya -->
+                <div class="mb-6">
+                    <p class="text-gray-700 text-sm mb-1">Koin saya :</p>
                     <div
-                        class="w-10 h-5 bg-gray-200 rounded-full peer peer-checked:bg-orange-500 relative after:absolute after:content-[''] after:w-4 after:h-4 after:bg-white after:rounded-full after:top-0.5 after:left-0.5 after:transition-all peer-checked:after:translate-x-5">
+                        class="flex items-center justify-between bg-orange-50 border border-orange-200 rounded-lg px-4 py-2">
+                        <div class="flex items-center gap-2">
+                            <img src="/images/coin.png" alt="coin" class="w-6 h-6">
+                            <p class="font-bold text-orange-500 text-lg">
+                                {{ number_format($perusahaan->koin_perusahaan, 0, ',', '.') }}</p>
+                        </div>
+                        <button onclick="toggleModal()"
+                            class="flex items-center text-green-600 text-xs font-semibold hover:underline">
+                            <span class="mr-1">Top Up Koin</span>
+                            <svg width="18" height="18" viewBox="0 0 22 22" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <rect x="0.773" y="0.968" width="20" height="20" fill="#42BB72" />
+                            </svg>
+                        </button>
                     </div>
-                </label>
-            </div>
-
-            <button onclick="closeSukses()"
-                class="mt-6 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-2 rounded-full">
-                Selesai
-            </button>
-        </div>
-    </div>
-
-    <!-- Modal Permintaan Panggilan -->
-    <div id="modalPanggilan" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
-        <div class="bg-white rounded-2xl w-[420px] text-center overflow-hidden">
-            <div class="bg-orange-500 text-white py-3 flex items-center justify-center">
-                <img src="/images/logo.png" alt="logo" class="h-5 mr-2">
-                <span class="font-semibold">areakerja.com</span>
-            </div>
-            <div class="p-6 flex flex-col items-center">
-                <div class="bg-orange-100 rounded-full p-3 mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-orange-500" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                    </svg>
                 </div>
-                <p class="text-gray-800 font-semibold mb-1">
-                    Permintaan Panggilan anda sudah terkirim
+
+                <!-- Tombol Bayar -->
+                <button id="btnBayar"
+                    class="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 rounded-lg transition">
+                    Bayar
+                </button>
+            </div>
+        </div>
+
+
+        <!-- Modal Sukses -->
+        <div id="modalSukses" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+            <div class="bg-white rounded-2xl p-6 w-[400px] relative text-center">
+                <div class="bg-orange-500 text-white py-3 rounded-t-2xl -mt-6 mb-4">
+                    <h2 class="font-semibold">Pembayaran Sukses</h2>
+                </div>
+
+                <div class="flex justify-center mb-3">
+                    <div class="bg-orange-100 rounded-full p-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-orange-500" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                </div>
+
+                <p class="font-semibold text-gray-700 mb-1">
+                    Pembayaran dengan <span class="text-orange-500 font-bold">areakerja.com</span> sukses
                 </p>
-                <p class="text-gray-600 text-sm">
-                    Mohon tunggu 1/24 Jam untuk kami hubungi
-                </p>
-                <button onclick="closePanggilan()"
+
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 flex justify-between items-center">
+                    <div class="text-left">
+                        <p class="text-gray-600 text-sm">Kirim bukti pembayaran ke email</p>
+                        <p class="text-gray-800 font-semibold">seveninc@gmail.com</p>
+                    </div>
+
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="sendEmailToggle" checked class="sr-only peer">
+                        <div
+                            class="w-10 h-5 bg-gray-200 rounded-full peer peer-checked:bg-orange-500 relative after:absolute after:content-[''] after:w-4 after:h-4 after:bg-white after:rounded-full after:top-0.5 after:left-0.5 after:transition-all peer-checked:after:translate-x-5">
+                        </div>
+                    </label>
+                </div>
+
+                <button onclick="closeSukses()"
                     class="mt-6 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-2 rounded-full">
                     Selesai
                 </button>
             </div>
         </div>
-    </div>
 
+        <!-- Modal Permintaan Panggilan -->
+        <div id="modalPanggilan" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+            <div class="bg-white rounded-2xl w-[420px] text-center overflow-hidden">
+                <div class="bg-orange-500 text-white py-3 flex items-center justify-center">
+                    <img src="/images/logo_area_kerja_putih.png" alt="logo" class="h-5 mr-2">
+                    <span class="font-semibold">areakerja.com</span>
+                </div>
+                <div class="p-6 flex flex-col items-center">
+                    <div class="bg-orange-100 rounded-full p-3 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-orange-500" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                    <p class="text-gray-800 font-semibold mb-1">
+                        Permintaan Panggilan anda sudah terkirim
+                    </p>
+                    <p class="text-gray-600 text-sm">
+                        Mohon tunggu 1/24 Jam untuk kami hubungi
+                    </p>
+                    <button onclick="closePanggilan()"
+                        class="mt-6 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-2 rounded-full">
+                        Selesai
+                    </button>
+                </div>
+            </div>
+        </div>
 
-    <!-- ================= MODAL STEP 1 ================= -->
-    @include('perusahaan.modal-topup.step1')
-    <!-- ================= MODAL STEP 2 ================= -->
-    @include('perusahaan.modal-topup.step2')
-    <!-- ================= MODAL STEP 3 ================= -->
-    @include('perusahaan.modal-topup.step3')
-    <script>
-        //redirect
-        document.getElementById('btnKonfirmasi').addEventListener('click', function() {
-            if (!selectedKoin || !selectedBank) {
-                alert("Silakan pilih paket dan metode pembayaran dulu.");
-                return;
-            }
-
-            fetch("{{ route('catatan_cash.store') }}", {
-                    method: "POST",
-                    headers: {
-                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        harga_pembayaran_id: document.querySelector(".paketCoin:checked").value,
-                        daftar_bank_id: document.querySelector(".metodePembayaran:checked").value,
-                    })
-                })
-                .then(async res => {
-                    if (!res.ok) {
-                        let err = await res.text();
-                        throw new Error(err);
-                    }
-                    return res.json();
-                })
-                .then(data => {
-                    if (data.success) {
-                        window.location.href = data.redirect_url;
-                    }
-                })
-                .catch(err => {
-                    console.error("Error detail:", err.message);
-                    alert("Gagal membuat transaksi: " + err.message);
-                });
-        });
+        <!-- Modal Error Koin Tidak Cukup -->
+        <div id="modalErrorKoin" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+                <h2 class="text-xl font-semibold text-red-600 mb-3">Koin Tidak Cukup</h2>
+                <p class="text-gray-700 mb-4">Saldo koin kamu tidak mencukupi untuk berlangganan.</p>
+                <button onclick="closeErrorKoin()" class="bg-red-600 text-white px-4 py-2 rounded-md w-full">
+                    Tutup
+                </button>
+            </div>
+        </div>
 
 
 
-        let selectedKoin = null;
-        let selectedHarga = null;
-        let selectedBank = null;
+        <!-- ================= MODAL STEP 1 ================= -->
+        @include('perusahaan.modal-topup.step1')
+        <!-- ================= MODAL STEP 2 ================= -->
+        @include('perusahaan.modal-topup.step2')
+        <!-- ================= MODAL STEP 3 ================= -->
+        @include('perusahaan.modal-topup.step3')
+        <script>
+            //redirect
+            document.getElementById('btnKonfirmasi').addEventListener('click', function() {
+                if (!selectedKoin || !selectedBank) {
+                    alert("Silakan pilih paket dan metode pembayaran dulu.");
+                    return;
+                }
 
-        function toggleModal() {
-            closeAllModal();
-            document.getElementById('modalStep1').classList.remove('hidden');
-            document.getElementById('modalStep1').classList.add('flex');
-            updateButtons();
-        }
-
-        function closeAllModal() {
-            document.querySelectorAll('[id^="modalStep"]').forEach(m => {
-                m.classList.add('hidden');
-                m.classList.remove('flex');
-            });
-        }
-
-        function goToStep(step) {
-            // ✅ Validasi sebelum pindah step
-            if (step === 2 && !selectedKoin) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Oops...',
-                    text: 'Silakan pilih paket koin terlebih dahulu!',
-                    confirmButtonColor: '#f97316' // warna tombol orange
-                });
-                return;
-            }
-            if (step === 3 && !selectedBank) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Oops...',
-                    text: 'Silakan pilih metode pembayaran terlebih dahulu!',
-                    confirmButtonColor: '#f97316'
-                });
-                return;
-            }
-
-            closeAllModal();
-            let modal = document.getElementById('modalStep' + step);
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-
-            updateButtons();
-
-            // Step 3: update detail pembayaran
-            if (step === 3) {
-                const biayaAdmin = 2000;
-                const totalBayar = (selectedHarga ?? 0) + biayaAdmin;
-
-                // 🔑 Buat No Transaksi random unik
-                const randomPart = Math.floor(Math.random() * 1000000);
-                const noTransaksi = "TRX" + Date.now() + randomPart;
-
-                document.getElementById('detailTransaksi').innerText = noTransaksi;
-                document.getElementById('detailPengirim').innerText = "Nama User";
-                document.getElementById('detailBank').innerText = selectedBank ?? '-';
-                document.getElementById('detailWaktu').innerText = new Date().toLocaleString('id-ID');
-                document.getElementById('detailHarga').innerText = "Rp. " + (selectedHarga ?? 0).toLocaleString('id-ID');
-                document.getElementById('detailTotal').innerText = "Rp. " + totalBayar.toLocaleString('id-ID');
-            }
-        }
-
-
-        // 🔑 Update status tombol (disable/enable)
-        function updateButtons() {
-            // Step 1: tombol konfirmasi paket
-            const btnStep1 = document.querySelector('#modalStep1 button');
-            if (btnStep1) {
-                btnStep1.disabled = !selectedKoin;
-                btnStep1.classList.toggle('opacity-50', !selectedKoin);
-                btnStep1.classList.toggle('cursor-not-allowed', !selectedKoin);
-            }
-
-            // Step 2: tombol selanjutnya metode pembayaran
-            const btnStep2 = document.querySelector('#modalStep2 button:last-child');
-            if (btnStep2) {
-                btnStep2.disabled = !selectedBank;
-                btnStep2.classList.toggle('opacity-50', !selectedBank);
-                btnStep2.classList.toggle('cursor-not-allowed', !selectedBank);
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // Step 1: Pilih Paket Koin
-            document.querySelectorAll('.paketCoin').forEach(el => {
-                el.addEventListener('change', function() {
-                    selectedKoin = this.dataset.jumlah;
-                    selectedHarga = parseInt(this.dataset.harga);
-
-                    // Highlight kartu terpilih
-                    document.querySelectorAll('.paketCoinWrapper').forEach(w => {
-                        w.classList.remove('ring-2', 'ring-orange-500');
-                    });
-                    this.closest('.paketCoinWrapper').classList.add('ring-2', 'ring-orange-500');
-
-                    updateButtons();
-                });
-            });
-
-            // Step 2: Pilih Metode Pembayaran
-            document.querySelectorAll('.metodePembayaran').forEach(el => {
-                el.addEventListener('change', function() {
-                    selectedBank = this.dataset.bank;
-
-                    // Highlight bank terpilih
-                    document.querySelectorAll('.pembayaranWrapper').forEach(w => {
-                        w.classList.remove('ring-2', 'ring-orange-500');
-                    });
-                    this.closest('.pembayaranWrapper').classList.add('ring-2', 'ring-orange-500');
-
-                    updateButtons();
-                });
-            });
-        });
-    </script>
-
-    <!-- Script -->
-    <script>
-        function openModal() {
-            document.getElementById('modalBayar').classList.remove('hidden');
-            document.getElementById('modalBayar').classList.add('flex');
-        }
-
-        function closeModal() {
-            document.getElementById('modalBayar').classList.add('hidden');
-        }
-
-        const btnBayar = document.getElementById('btnBayar');
-        if (btnBayar) {
-            btnBayar.addEventListener('click', function() {
-                fetch('{{ route('berlangganan.store') }}', {
-                        method: 'POST',
+                fetch("{{ route('catatan_cash.store') }}", {
+                        method: "POST",
                         headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                            "Content-Type": "application/json"
                         },
-                        body: JSON.stringify({})
+                        body: JSON.stringify({
+                            harga_pembayaran_id: document.querySelector(".paketCoin:checked").value,
+                            daftar_bank_id: document.querySelector(".metodePembayaran:checked").value,
+                        })
                     })
-                    .then(res => res.json())
+                    .then(async res => {
+                        if (!res.ok) {
+                            let err = await res.text();
+                            throw new Error(err);
+                        }
+                        return res.json();
+                    })
                     .then(data => {
                         if (data.success) {
-                            closeModal();
-                            const modalSukses = document.getElementById('modalSukses');
-                            modalSukses.classList.remove('hidden');
-                            modalSukses.classList.add('flex');
-
-                            const sendEmail = document.getElementById('sendEmailToggle');
-                            if (sendEmail && sendEmail.checked) {
-                                fetch('{{ route('send.email') }}', {
-                                    method: 'POST',
-                                    headers: {
-                                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                        'Accept': 'application/json',
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify({})
-                                });
-                            }
-                        } else {
-                            alert(data.message || 'Terjadi kesalahan saat memproses pembayaran.');
+                            window.location.href = data.redirect_url;
                         }
                     })
                     .catch(err => {
-                        console.error(err);
-                        alert('Gagal menghubungi server.');
+                        console.error("Error detail:", err.message);
+                        alert("Gagal membuat transaksi: " + err.message);
                     });
             });
-        }
 
-        // Saat klik selesai di modal sukses
-        function closeSukses() {
-            document.getElementById('modalSukses').classList.add('hidden');
-            const modalPanggilan = document.getElementById('modalPanggilan');
-            modalPanggilan.classList.remove('hidden');
-            modalPanggilan.classList.add('flex');
-        }
 
-        // Saat klik selesai di modal panggilan
-        function closePanggilan() {
-            document.getElementById('modalPanggilan').classList.add('hidden');
-            window.location.reload();
-        }
-    </script>
 
-    @include('layouts.footer')
-@endsection
+            let selectedKoin = null;
+            let selectedHarga = null;
+            let selectedBank = null;
+
+            function toggleModal() {
+                closeAllModal();
+                document.getElementById('modalStep1').classList.remove('hidden');
+                document.getElementById('modalStep1').classList.add('flex');
+                updateButtons();
+            }
+
+            function closeAllModal() {
+                document.querySelectorAll('[id^="modalStep"]').forEach(m => {
+                    m.classList.add('hidden');
+                    m.classList.remove('flex');
+                });
+            }
+
+            function goToStep(step) {
+                // ✅ Validasi sebelum pindah step
+                if (step === 2 && !selectedKoin) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Oops...',
+                        text: 'Silakan pilih paket koin terlebih dahulu!',
+                        confirmButtonColor: '#f97316' // warna tombol orange
+                    });
+                    return;
+                }
+                if (step === 3 && !selectedBank) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Oops...',
+                        text: 'Silakan pilih metode pembayaran terlebih dahulu!',
+                        confirmButtonColor: '#f97316'
+                    });
+                    return;
+                }
+
+                closeAllModal();
+                let modal = document.getElementById('modalStep' + step);
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+
+                updateButtons();
+
+                // Step 3: update detail pembayaran
+                if (step === 3) {
+                    const biayaAdmin = 2000;
+                    const totalBayar = (selectedHarga ?? 0) + biayaAdmin;
+
+                    // 🔑 Buat No Transaksi random unik
+                    const randomPart = Math.floor(Math.random() * 1000000);
+                    const noTransaksi = "TRX" + Date.now() + randomPart;
+
+                    document.getElementById('detailTransaksi').innerText = noTransaksi;
+                    document.getElementById('detailPengirim').innerText = "Nama User";
+                    document.getElementById('detailBank').innerText = selectedBank ?? '-';
+                    document.getElementById('detailWaktu').innerText = new Date().toLocaleString('id-ID');
+                    document.getElementById('detailHarga').innerText = "Rp. " + (selectedHarga ?? 0).toLocaleString('id-ID');
+                    document.getElementById('detailTotal').innerText = "Rp. " + totalBayar.toLocaleString('id-ID');
+                }
+            }
+
+
+            // 🔑 Update status tombol (disable/enable)
+            function updateButtons() {
+                // Step 1: tombol konfirmasi paket
+                const btnStep1 = document.querySelector('#modalStep1 button');
+                if (btnStep1) {
+                    btnStep1.disabled = !selectedKoin;
+                    btnStep1.classList.toggle('opacity-50', !selectedKoin);
+                    btnStep1.classList.toggle('cursor-not-allowed', !selectedKoin);
+                }
+
+                // Step 2: tombol selanjutnya metode pembayaran
+                const btnStep2 = document.querySelector('#modalStep2 button:last-child');
+                if (btnStep2) {
+                    btnStep2.disabled = !selectedBank;
+                    btnStep2.classList.toggle('opacity-50', !selectedBank);
+                    btnStep2.classList.toggle('cursor-not-allowed', !selectedBank);
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                // Step 1: Pilih Paket Koin
+                document.querySelectorAll('.paketCoin').forEach(el => {
+                    el.addEventListener('change', function() {
+                        selectedKoin = this.dataset.jumlah;
+                        selectedHarga = parseInt(this.dataset.harga);
+
+                        // Highlight kartu terpilih
+                        document.querySelectorAll('.paketCoinWrapper').forEach(w => {
+                            w.classList.remove('ring-2', 'ring-orange-500');
+                        });
+                        this.closest('.paketCoinWrapper').classList.add('ring-2', 'ring-orange-500');
+
+                        updateButtons();
+                    });
+                });
+
+                // Step 2: Pilih Metode Pembayaran
+                document.querySelectorAll('.metodePembayaran').forEach(el => {
+                    el.addEventListener('change', function() {
+                        selectedBank = this.dataset.bank;
+
+                        // Highlight bank terpilih
+                        document.querySelectorAll('.pembayaranWrapper').forEach(w => {
+                            w.classList.remove('ring-2', 'ring-orange-500');
+                        });
+                        this.closest('.pembayaranWrapper').classList.add('ring-2', 'ring-orange-500');
+
+                        updateButtons();
+                    });
+                });
+            });
+        </script>
+
+        <script>
+            function openModal() {
+                document.getElementById('modalBayar').classList.remove('hidden');
+                document.getElementById('modalBayar').classList.add('flex');
+            }
+
+            function closeModal() {
+                document.getElementById('modalBayar').classList.add('hidden');
+            }
+
+            function showErrorKoin() {
+                const modalError = document.getElementById('modalErrorKoin');
+                modalError.classList.remove('hidden');
+                modalError.classList.add('flex');
+            }
+
+            function closeErrorKoin() {
+                const modalError = document.getElementById('modalErrorKoin');
+                modalError.classList.add('hidden');
+            }
+
+            const btnBayar = document.getElementById('btnBayar');
+            if (btnBayar) {
+                btnBayar.addEventListener('click', function() {
+                    fetch('{{ route('berlangganan.store') }}', {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({})
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+
+                            // 🔥 Jika koin tidak cukup → Tampilkan modal error
+                            if (data.error === "koin_kurang") {
+                                closeModal();
+                                showErrorKoin();
+                                return;
+                            }
+
+                            if (data.success) {
+                                closeModal();
+
+                                const modalSukses = document.getElementById('modalSukses');
+                                modalSukses.classList.remove('hidden');
+                                modalSukses.classList.add('flex');
+
+                                const sendEmail = document.getElementById('sendEmailToggle');
+                                if (sendEmail && sendEmail.checked) {
+                                    fetch('{{ route('send.email') }}', {
+                                        method: 'POST',
+                                        headers: {
+                                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                            'Accept': 'application/json',
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({})
+                                    });
+                                }
+                            } else {
+                                showErrorKoin(); // fallback
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            showErrorKoin(); // error juga tampil modal
+                        });
+                });
+            }
+
+            function closeSukses() {
+                document.getElementById('modalSukses').classList.add('hidden');
+                const modalPanggilan = document.getElementById('modalPanggilan');
+                modalPanggilan.classList.remove('hidden');
+                modalPanggilan.classList.add('flex');
+            }
+
+            function closePanggilan() {
+                document.getElementById('modalPanggilan').classList.add('hidden');
+                window.location.reload();
+            }
+        </script>
+
+
+        @include('layouts.footer')
+    @endsection

@@ -10,10 +10,10 @@
 
         <!-- Label -->
         <div class="flex items-center gap-2 mb-3">
-            <span class="px-7 py-1 border border-black rounded-full text-sm">
+            <span class="px-7 py-1  bg-orange-500 text-white rounded-full text-sm">
                 Tips
             </span>
-            <span class="px-3 py-1 bg-orange-500 text-white rounded-full text-sm">
+            <span class="px-3 py-1 border border-black rounded-full text-sm">
                 Top News
             </span>
         </div>
@@ -34,8 +34,9 @@
 
         <!-- Konten -->
         <div class="max-w-3xl mx-auto px-4 py-6 text-justify leading-relaxed font-medium text-gray-900">
-            {!! nl2br(e($artikel->content)) !!}
+            {!! $artikel->content !!}
         </div>
+
     </div>
 
     <!-- Floating Button -->

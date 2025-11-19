@@ -9,12 +9,12 @@
                 $skillList = collect($recruitments)->pluck('pelamar.skill')->flatten()->unique('skill')->values();
             @endphp
 
-            <div class="flex gap-7">
+            <div class="flex gap-10">
                 <form action="" method="get">
                     <input type="text" name="search" value="{{ request('search') }}"
                         placeholder="nama kandidat/username ..." class="border rounded-full px-10 py-2 text-sm w-64">
 
-                    <select name="skill" class="border rounded-lg px-10 py-2 text-sm">
+                    <select name="skill" class="border rounded-full px-10 py-2 text-sm">
                         <option value="">Skill</option>
                         @foreach ($skillList as $skill)
                             <option value="{{ $skill->skill }}" {{ request('skill') == $skill->skill ? 'selected' : '' }}>
@@ -32,7 +32,7 @@
         </div>
 
         <!-- Table -->
-        <div class="overflow-x-auto border border-gray-300 rounded-2xl">
+        <div class="overflow-x-auto border border-gray-300 rounded-2xl mb-16">
             <table class="w-full border-collapse bg-white">
                 <thead>
                     <tr>

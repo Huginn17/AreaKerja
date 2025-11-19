@@ -165,28 +165,36 @@ class FinanceController extends Controller
 
 
 
-    public function unduh_omset()
+    public function unduh_omset(Request $request)
     {
-        $cashData = CatatanCash::with('hargaPembayaran')
-            ->where('status', 'diterima')
-            ->get();
+        $periode = $request->periode;
 
+        // Base query
+        $cashQuery = CatatanCash::with('hargaPembayaran')
+            ->where('status', 'diterima');
 
+        // Terapkan filter periode (SAMA seperti di omset_perusahaan)
+        if ($periode && $periode !== 'current') {
+            $cashQuery->where('created_at', '>=', now()->subMonths($periode));
+        } elseif ($periode === 'current') {
+            $cashQuery->whereMonth('created_at', now()->month)
+                ->whereYear('created_at', now()->year);
+        }
+
+        $cashData = $cashQuery->get();
+
+        // Kelompokkan per bulan
         $omsetPerBulan = $cashData
             ->groupBy(fn($item) => Carbon::parse($item->created_at)->format('Y-m'))
             ->map(function ($group) {
-                $total = 0;
-                foreach ($group as $item) {
-                    if ($item->hargaPembayaran) {
-                        $total += $item->hargaPembayaran->harga;
-                    }
-                }
+                $total = $group->sum(fn($i) => $i->hargaPembayaran?->harga ?? 0);
 
                 $first = $group->first();
+
                 return [
                     'bulan_angka' => Carbon::parse($first->created_at)->month,
-                    'bulan' => Carbon::parse($first->created_at)->translatedFormat('F Y'),
-                    'total' => $total,
+                    'bulan'       => Carbon::parse($first->created_at)->translatedFormat('F Y'),
+                    'total'       => $total,
                 ];
             })
             ->sortBy('bulan_angka')
@@ -195,12 +203,11 @@ class FinanceController extends Controller
         $totalOmset = $omsetPerBulan->sum('total');
         $rataRata = $omsetPerBulan->count() > 0 ? $totalOmset / $omsetPerBulan->count() : 0;
 
-
-        // Logo Base64
+        // Logo
         $logoPath = public_path('images/logoarea.png');
         $logoBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath));
 
-        // Data untuk view
+        // Data ke view
         $data = [
             'omsetPerBulan' => $omsetPerBulan,
             'totalOmset' => $totalOmset,
@@ -208,34 +215,27 @@ class FinanceController extends Controller
             'jumlahBulan' => $omsetPerBulan->count(),
             'tanggal' => Carbon::now()->translatedFormat('F d, Y, H:i a'),
             'logoBase64' => $logoBase64,
+            'periodeDipilih' => $periode, // Tambahan
         ];
 
-        // 🔹 Render Blade ke HTML
+        // Render HTML Blade
         $html = View::make('finance.page-unduh-omset', $data)->render();
 
-        // 🔹 Bungkus dengan HTML lengkap + Tailwind CDN
+        // Bungkus HTML
         $htmlWithCss = '
-        <!DOCTYPE html>
-        <html lang="id">
-        <head>
-            <meta charset="UTF-8">
-            <title>Laporan Omset Perusahaan</title>
-            <script src="https://cdn.tailwindcss.com"></script>
-            <style>
-                body {
-                    font-family: "Inter", ui-sans-serif, system-ui, -apple-system,
-                        BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
-                        Arial, "Noto Sans", sans-serif;
-                }
-            </style>
-        </head>
-        <body class="text-[12px] text-black font-sans mx-8 my-6">
-            ' . $html . '
-        </body>
-        </html>
-    ';
+    <!DOCTYPE html>
+    <html lang="id">
+    <head>
+        <meta charset="UTF-8">
+        <title>Laporan Omset Perusahaan</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="text-[12px] text-black font-sans mx-8 my-6">
+        ' . $html . '
+    </body>
+    </html>';
 
-        // 🔹 Jalankan Browsershot
+        // Browsershot
         $browserPath = BrowserPath::detect();
         if (!$browserPath) {
             return response()->json([
@@ -251,7 +251,6 @@ class FinanceController extends Controller
             ->margins(10, 15, 10, 15)
             ->pdf();
 
-        // 🔹 Kembalikan file PDF untuk diunduh
         return response($pdf)
             ->header('Content-Type', 'application/pdf')
             ->header('Content-Disposition', 'attachment; filename="Laporan_Omset_Perusahaan.pdf"');

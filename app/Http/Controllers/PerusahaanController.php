@@ -313,11 +313,11 @@ class PerusahaanController extends Controller
             abort(404, 'Data perusahaan tidak ditemukan.');
         }
 
-        if ($perusahaan->is_berlangganan == 1 && \Carbon\Carbon::now()->lt($perusahaan->tanggal_expired)) {
-            return view('perusahaan.langganan.dah_langganan', [
-                'perusahaan' => $perusahaan
-            ]);
-        }
+        // if ($perusahaan->is_berlangganan == 1 && \Carbon\Carbon::now()->lt($perusahaan->tanggal_expired)) {
+        //     return view('perusahaan.langganan.dah_langganan', [
+        //         'perusahaan' => $perusahaan
+        //     ]);
+        // }
 
         return view('perusahaan.langganan.berlangganan', [
             'perusahaan' => $perusahaan,
@@ -344,9 +344,11 @@ class PerusahaanController extends Controller
         if ($perusahaan->koin_perusahaan < $hargaLangganan) {
             return response()->json([
                 'success' => false,
+                'error' => 'koin_kurang',
                 'message' => 'Koin tidak cukup untuk berlangganan.'
             ], 400);
         }
+
 
         $perusahaan->koin_perusahaan -= $hargaLangganan;
         $perusahaan->is_berlangganan = 1;
@@ -400,6 +402,21 @@ class PerusahaanController extends Controller
         return view('perusahaan.langganan.request-data', [
             'perusahaan' => $perusahaan
         ]);
+    }
+
+    public function listPekerjaBermasalah()
+    {
+        return view('perusahaan.pekerja-bermasalah.pekerja-bermasalah');
+    }
+
+    public function halCariNamaPekerja()
+    {
+        return view('perusahaan.cari-nama-pekerja');
+    }
+
+    public function halLaporanHarianPekerja()
+    {
+        return view('perusahaan.laporan-harian');
     }
 
 

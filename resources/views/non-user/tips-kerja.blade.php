@@ -12,7 +12,7 @@
             <!-- Gambar -->
             <div class="w-full max-h-full overflow-hidden bg-white flex justify-center">
                 <img src="{{ $headline->image ? asset('storage/' . $headline->image) : asset('images/cwe.png') }}"
-                    alt="{{ $headline->title }}" class="h-full w-auto object-contain">
+                    alt="{{ $headline->title }}" class="h-full w-full object-contain">
             </div>
 
 
@@ -31,7 +31,9 @@
 
                 <!-- Judul -->
                 <h1 class="text-2xl md:text-4xl font-bold leading-snug mb-3">
-                    {{ $headline->title }}
+                    <a href="{{ route('pelamar.tips-kerja.show', $headline->id) }}">
+                        {{ $headline->title }}
+                    </a>
                 </h1>
 
                 <!-- Meta -->
@@ -99,11 +101,42 @@
                     </div>
                 </div>
             @empty
-                <p class="text-gray-500">Belum ada artikel lain.</p>
+                <div class="col-span-1 sm:col-span-2 lg:col-span-3">
+                    <div
+                        class="bg-white shadow rounded-xl p-10 flex flex-col items-center justify-center text-center border border-gray-200">
+
+                        <!-- Icon -->
+                        <div
+                            class="w-20 h-20 flex items-center justify-center bg-orange-100 text-orange-500 rounded-full mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M12 9v3m0 4h.01M4.93 4.93l14.14 14.14M9.17 6.17C10.05 5.52 11 5 12 5c3.31 0 6 2.69 6 6 0 1-.25 1.94-.7 2.75M6.17 9.17C5.52 10.05 5 11 5 12c0 3.31 2.69 6 6 6 1.03 0 2-.26 2.83-.72" />
+                            </svg>
+                        </div>
+
+                        <!-- Title -->
+                        <h3 class="text-lg font-semibold text-gray-700">
+                            Belum Ada Artikel
+                        </h3>
+
+                        <!-- Description -->
+                        <p class="text-gray-500 text-sm mt-2 max-w-md">
+                            Kami belum menemukan artikel untuk Tips Kerja. Silakan cek kembali nanti ya!
+                        </p>
+
+                        {{-- <!-- Button (opsional) -->
+                        <a href="{{ route('pelamar.tips-kerja.index') }}"
+                            class="mt-5 inline-block bg-orange-500 text-white px-5 py-2 rounded-lg shadow hover:bg-orange-600 transition">
+                            Kembali ke Tips Kerja
+                        </a> --}}
+                    </div>
+                </div>
+                {{-- @endempty --}}
             @endforelse
         </div>
     </div>
-    
+
     <a href="#top"
         class="fixed bottom-6 right-6 bg-orange-500 text-white px-3 py-3 rounded-full shadow-lg hover:bg-orange-600 transition">
         <svg width="24" height="23" viewBox="0 0 31 28" fill="none" xmlns="http://www.w3.org/2000/svg">

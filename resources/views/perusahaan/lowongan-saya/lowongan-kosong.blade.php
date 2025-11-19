@@ -1,6 +1,6 @@
 @extends('layouts.index-perusahaan')
 @section('content')
-    <div class="bg-white text-gray-800">
+    <div class="bg-white text-gray-800 mt-24">
         <!-- Header Perusahaan -->
         @if (Auth::user()->perusahaan->pasanglowongan->count() > 0)
             <div class="max-w-4xl mx-auto px-4 py-6">

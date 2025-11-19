@@ -1,7 +1,14 @@
 @extends('layouts.index-perusahaan')
 @section('content')
     <section class="relative">
-        <img src="{{ asset('images/tangan.png') }}" alt="hero" class="w-full h-[350px] object-cover">
+        @php
+            $header = \App\Models\SocialLink::where('nama', 'header_pelamar_perusahaan')->first();
+        @endphp
+
+        <img src="{{ $header && $header->link ? asset('storage/' . $header->link) : asset('images/tangan.png') }}"
+            alt="Header Image" class="w-screen h-96 object-cover">
+
+        {{-- <img src="{{ asset('images/tangan.png') }}" alt="hero" class="w-full h-[350px] object-cover"> --}}
         <div class="absolute inset-0 bg-black bg-opacity-10"></div>
         <div class="absolute bottom-20 left-20 text-white">
             <h1 class="text-3xl md:text-5xl font-semibold mt-3 max-w-2xl mb-2">

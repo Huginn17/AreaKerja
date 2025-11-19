@@ -1,6 +1,6 @@
 @extends('layouts.index-perusahaan')
 @section('content')
-    <div class="flex flex-col gap-6 items-center justify-center min-h-screen p-6">
+    <div class="flex flex-col gap-6 items-center justify-center min-h-screen p-6 mt-16">
         @foreach ($events as $event)
             <div class="w-[800px] rounded-xl overflow-hidden relative">
                 <!-- Gambar -->

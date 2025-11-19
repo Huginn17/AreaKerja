@@ -169,3 +169,54 @@ $('#formRegis').on('submit', function(e) {
         }
     });
 });
+
+
+
+
+// //STATUS PELAMAR
+// document.getElementById('statusSelect').addEventListener('change', function () {
+
+//     let selected = this.value;
+//     let kategori = document.getElementById('kategoriPelamar').value;
+
+//     // Hanya kandidat aktif yang boleh munculkan modal
+//     if (selected === 'Bekerja' && kategori === 'kandidat aktif') {
+//         document.getElementById('modalPeringatan').classList.remove('hidden');
+//     }
+// });
+
+// // Modal Peringatan
+// document.getElementById('yaPeringatan').onclick = function () {
+//     document.getElementById('modalPeringatan').classList.add('hidden');
+//     document.getElementById('modalNonaktif').classList.remove('hidden');
+// };
+
+// document.getElementById('tidakPeringatan').onclick = function () {
+//     document.getElementById('modalPeringatan').classList.add('hidden');
+//     document.getElementById('statusSelect').value = ""; // batalkan perubahan
+// };
+
+
+// // Modal Nonaktif
+// document.getElementById('yaNonaktif').onclick = function () {
+
+//     fetch("/pelamar/update-kategori/{{ $pelamar->id }}", {
+//         method: "POST",
+//         headers: {
+//             "X-CSRF-TOKEN": "{{ csrf_token() }}",
+//             "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({
+//             kategori: "kandidat nonaktif"
+//         }),
+//     })
+//     .then(res => res.json())
+//     .then(data => {
+//         location.reload(); // refresh halaman
+//     });
+// };
+
+// document.getElementById('tidakNonaktif').onclick = function () {
+//     document.getElementById('modalNonaktif').classList.add('hidden');
+//     document.getElementById('statusSelect').value = "";
+// };

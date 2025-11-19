@@ -235,6 +235,25 @@
                                         Profil Perusahaan
                                     </a>
 
+                                    @if ($perusahaan->is_berlangganan == 1)
+                                        <a href="{{ url('/perusahaan/dashboard?show=dashboard') }}"
+                                            class="flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-gray-100">
+                                            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M19.3333 1H2.66667C2.22464 1 1.80072 1.17559 1.48816 1.48816C1.17559 1.80072 1 2.22464 1 2.66667V19.3333C1 19.7754 1.17559 20.1993 1.48816 20.5118C1.80072 20.8244 2.22464 21 2.66667 21H19.3333C19.7754 21 20.1993 20.8244 20.5118 20.5118C20.8244 20.1993 21 19.7754 21 19.3333V2.66667C21 2.22464 20.8244 1.80072 20.5118 1.48816C20.1993 1.17559 19.7754 1 19.3333 1Z"
+                                                    stroke="#606060" stroke-width="1.66667" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M9.3342 14.8889L12.112 17.1111L16.5564 11.5556M5.44531 6H16.5564M5.44531 10.4444H9.88976"
+                                                    stroke="#606060" stroke-width="1.66667" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                            Dashboard
+                                        </a>
+                                    @else
+                                    @endif
+
                                     <button onclick="toggleModal()"
                                         class="flex items-center gap-3 px-5 py-3 text-gray-700 hover:bg-gray-100">
                                         <svg width="20" height="19" viewBox="0 0 20 19" fill="none"

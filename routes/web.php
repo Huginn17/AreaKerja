@@ -135,6 +135,9 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
     Route::put('/update/profile/{pelamar:id}', [ProfileController::class, 'update_profile'])->name('profile.update');
     Route::delete('/delete/profile/{pelamar:id}', [ProfileController::class, 'destroy_profile'])->name('profile.destroy');
 
+    //UPDATE KATEGORI PELAMAR
+    Route::put('/update-kategori/{id}', [ProfileController::class, 'updateKategori'])->name('kategori.update');
+
 
     //ALAMAT PELAMAR 
     Route::get('/alamat', [ProfileController::class, 'alamat'])->name('alamat');
@@ -428,7 +431,7 @@ Route::prefix('admin')->middleware('auth', 'role:admin', 'CheckUserStatus')->gro
     Route::get('/get-kecamatan/{kota_id}', [AdminController::class, 'getKecamatan'])->name('admin.get.kecamatan')->middleware('auth');
 
 
-    //PERUSAHAAN
+    //PERUSAHAAN admin
     Route::get('/perusahaan', [AdminController::class, 'halPerusahaan'])->name('admin.perusahaan');
     Route::get('/perusahaan/detail/{id}', [AdminController::class, 'detailPerusahaan'])->name('admin.perusahaan.detail');
     Route::get('/admin/lowongan/{id}', [AdminController::class, 'detailLowongan'])->name('admin.lowongan.detail');
@@ -921,6 +924,9 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
     Route::post('/send-email', [PerusahaanController::class, 'kirimEmail'])->name('send.email')->middleware('auth');
     //DAFTAR PEKERJA BERMASALAH
     Route::get('/data/pekerja', [PerusahaanController::class, 'halDaftarPekerja'])->name('perusahaan.data.pekerja');
+    Route::get('/data/pekerja-bermasalah', [PerusahaanController::class, 'listPekerjaBermasalah'])->name('perusahaan.data.pekerja-bermasalah');
+    Route::get('/cari-nama-pekerja', [PerusahaanController::class, 'halCariNamaPekerja'])->name('perusahaan.cari.nama.pekerja');
+    Route::get('/laporan-harian', [PerusahaanController::class, 'halLaporanHarianPekerja'])->name('perusahaan.laporan.harian');
     // Route::get('/daftar/pekerja/{id}', [PerusahaanController::class, 'detail_daftar_pekerja'])->name('perusahaan.daftar.pekerja.detail');
 
     //TALENT HUNTER
@@ -997,12 +1003,12 @@ Route::get('/perusahaan/berhasilikut', function () {
 Route::get('/perusahaan/request/data', function () {
     return view('perusahaan.request-data');
 });
-Route::get('perusahaan/pekerja/bermasalah', function () {
-    return view('perusahaan.pekerja-bermasalah');
-});
-Route::get('perusahaan/cari/nama/pekerja', function () {
-    return view('perusahaan.cari-nama-pekerja');
-});
+// Route::get('perusahaan/pekerja/bermasalah', function () {
+//     return view('perusahaan.pekerja-bermasalah');
+// });
+// Route::get('perusahaan/cari/nama/pekerja', function () {
+//     return view('perusahaan.cari-nama-pekerja');
+// });
 Route::get('perusahaan/laporan/harian', function () {
     return view('perusahaan.laporan-harian');
 });

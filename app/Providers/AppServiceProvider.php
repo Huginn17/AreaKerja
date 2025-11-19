@@ -82,6 +82,14 @@ class AppServiceProvider extends ServiceProvider
             $view->with('provinsis', Provinsi::orderBy('nama')->get());
         });
 
+
+        //Perusahaan
+        View::composer('layouts.index-perusahaan', function ($view) {
+            $user = auth()->user();
+
+            $view->with('perusahaan', $user ? $user->perusahaan : null);
+        });
+
         // View::composer('layouts.index', function ($view) {
         //     $unreadCount = 0;
 

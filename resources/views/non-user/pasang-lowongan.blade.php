@@ -2,9 +2,17 @@
 @section('content')
     <!-- Hero Section -->
     <section class="relative">
-        <img src="{{ asset('images/tangan.png') }}" alt="hero" class="w-full h-[350px] object-cover">
+
+        @php
+            $header = \App\Models\SocialLink::where('nama', 'header_pasang_lowongan')->first();
+        @endphp
+
+        <img src="{{ $header && $header->link ? asset('storage/' . $header->link) : asset('images/tangan.png') }}"
+            alt="Header Image" class="w-full h-[600px] object-cover">
+
+        {{-- <img src="{{ asset('images/tangan.png') }}" alt="hero" class="w-full h-[350px] object-cover"> --}}
         <div class="absolute inset-0 bg-black bg-opacity-20"></div>
-        <div class="absolute bottom-20 left-20 text-white">
+        <div class="absolute bottom-52 left-20 text-white">
             <h1 class="text-3xl md:text-4xl font-semibold mt-3 max-w-2xl">
                 Pasang Lowongan
             </h1>
@@ -22,7 +30,8 @@
             <div class="flex flex-col md:flex-row justify-center gap-6">
 
                 <!-- GOLD -->
-                <div class="bg-white border-2 border-gray-200 rounded-2xl shadow-md hover:shadow-xl w-72 overflow-hidden flex flex-col transition duration-500 hover:scale-105">
+                <div
+                    class="bg-white border-2 border-gray-200 rounded-2xl shadow-md hover:shadow-xl w-72 overflow-hidden flex flex-col transition duration-500 hover:scale-105">
                     <div class="py-3 text-center" style="background: linear-gradient(to right,#eab308, #facc15);">
                         <h3 class="text-xl font-semibold text-white">Gold</h3>
                     </div>
@@ -76,7 +85,8 @@
                 </div>
 
                 <!-- SILVER -->
-                <div class="bg-white border-2 border-gray-200 rounded-2xl shadow-md hover:shadow-xl w-72 overflow-hidden flex flex-col transition duration-500 hover:scale-105">
+                <div
+                    class="bg-white border-2 border-gray-200 rounded-2xl shadow-md hover:shadow-xl w-72 overflow-hidden flex flex-col transition duration-500 hover:scale-105">
                     <div class="py-3 text-center" style="background: linear-gradient(to right, #81858b, #c2c4c7);">
                         <h3 class="text-xl font-semibold text-white">Silver</h3>
                     </div>
@@ -131,7 +141,8 @@
                 </div>
 
                 <!-- BRONZE -->
-                <div class="bg-white border-2 border-gray-200 rounded-2xl shadow-md hover:shadow-xl w-72 overflow-hidden flex flex-col transition duration-500 hover:scale-105">
+                <div
+                    class="bg-white border-2 border-gray-200 rounded-2xl shadow-md hover:shadow-xl w-72 overflow-hidden flex flex-col transition duration-500 hover:scale-105">
                     <div class="py-3 text-center"
                         style="background: linear-gradient(to right, rgb(180, 80, 26),rgba(180, 80,  26));">
                         <h3 class="text-xl font-semibold text-white">Bronze</h3>
@@ -288,7 +299,7 @@
     <!-- Floating Button -->
     <a href="#top"
         class="fixed bottom-6 right-6 bg-orange-500 text-white px-3 py-3 rounded-full shadow-lg hover:bg-orange-600 transition">
-        <svg width="24" height="23" viewBox="0 0 31 28"  fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="24" height="23" viewBox="0 0 31 28" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_231_4417)">
                 <path
                     d="M26.6695 18.25L15.532 7.31684L4.3945 18.25L0.973172 14.8841L15.532 0.561196L30.0908 14.8841L26.6695 18.25Z"

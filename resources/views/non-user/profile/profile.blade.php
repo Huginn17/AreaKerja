@@ -39,12 +39,37 @@
 
                             <!-- Select Box -->
                             <div class="relative inline-block mt-4 w-[95%]">
-                                <select
+                                @php
+                                    $status = '';
+
+                                    if ($pelamar->kategori === 'pelamar') {
+                                        $status = 'Pelamar Aktif';
+                                    } elseif (in_array($pelamar->kategori, ['calon kandidat', 'kandidat aktif'])) {
+                                        $status = 'Belum Bekerja';
+                                    } elseif ($pelamar->kategori === 'kandidat nonaktif') {
+                                        $status = 'Bekerja';
+                                    }
+                                @endphp
+
+                                <select id="statusSelect"
                                     class="w-full border border-orange-500 text-orange-500 font-semibold rounded-md px-2 py-1 text-xs cursor-pointer appearance-none bg-white">
-                                    <option selected>Pelamar Aktif</option>
-                                    <option>Pelamar Nonaktif</option>
-                                    <option>Menunggu Review</option>
+
+                                    <option value="Pelamar Aktif" {{ $status == 'Pelamar Aktif' ? 'selected' : '' }}>
+                                        Pelamar Aktif
+                                    </option>
+
+                                    <option value="Belum Bekerja" {{ $status == 'Belum Bekerja' ? 'selected' : '' }}>
+                                        Belum Bekerja
+                                    </option>
+
+                                    <option value="Bekerja" {{ $status == 'Bekerja' ? 'selected' : '' }}>
+                                        Bekerja
+                                    </option>
+
                                 </select>
+
+                                <input type="hidden" id="kategoriPelamar" value="{{ $pelamar->kategori }}">
+
                             </div>
                         </div>
 
@@ -79,10 +104,10 @@
 
                     <!-- Bagian Kanan (Tombol CV & Simpan) -->
                     <div class="flex items-center gap-2">
-                        <button
+                        <a href="{{ route('cv.download', Auth::user()->pelamar->id) }}"
                             class="bg-orange-500 text-white text-sm font-semibold px-4 py-2 rounded hover:bg-orange-600">
                             Unduh CV
-                        </button>
+                    </a>
                         <button type="submit"
                             class="bg-green-600 text-white text-sm font-semibold px-4 py-2 rounded hover:bg-green-700">
                             Simpan
@@ -94,13 +119,13 @@
 
 
             <!-- <div class="flex justify-between w-[1025px] my-5">
-                        <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
-                            Data Diri
-                        </div>
-                        <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
-                            Informasi Akun
-                        </div>
-                    </div> -->
+                                        <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
+                                            Data Diri
+                                        </div>
+                                        <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
+                                            Informasi Akun
+                                        </div>
+                                    </div> -->
 
 
             <!-- Grid: Dua Kolom -->
@@ -193,13 +218,13 @@
                         <div>
                             <label class="text-sm font-medium">Deskripsi Diri <span class="text-red-500">*</span></label>
                             <textarea placeholder="Deskripsikan diri anda secara singkat" name="deskripsi_diri"
-                                class="w-full mt-1 border rounded-md px-3 py-2 text-sm max-h-4">{{ Auth::user()->pelamar->deskripsi_diri }}</textarea>
+                                class="auto-grow w-full mt-1 border rounded-md px-3 py-2 text-sm max-h-4">{{ Auth::user()->pelamar->deskripsi_diri }}</textarea>
                         </div>
                     @else
                         <div>
                             <label class="text-sm font-medium">Deskripsi Diri <span class="text-red-500">*</span></label>
                             <textarea placeholder="Deskripsikan diri anda secara singkat" name="deskripsi_diri"
-                                class="w-full mt-1 border rounded-md px-3 py-2 text-sm"></textarea>
+                                class="auto-grow w-full mt-1 border rounded-md px-3 py-2 text-sm"></textarea>
                         </div>
                     @endif
 
@@ -236,8 +261,8 @@
                                     </div>
                                 @endforeach
                             </div>
-                            <button data-modal-target="show-pendidikan" data-modal-toggle="show-pendidikan" type="button"
-                                class="mb-20 ml-4">
+                            <button data-modal-target="show-pendidikan" data-modal-toggle="show-pendidikan"
+                                type="button" class="mb-20 ml-4">
                                 <svg width="18" height="16" viewBox="0 0 10 11" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -428,10 +453,11 @@
                             <a href="{{ route('email.ubah') }}" class="mt-1 text-orange-500 cursor-pointer">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5"
                                     viewBox="0 0 24 24">
-                                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
-                                                                                                        7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
-                                                                                                      1.003 0 0 0-1.42 0l-1.83 1.83 3.75
-                                                                                                    3.75 1.84-1.82z" />
+                                    <path
+                                        d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
+                                                                                                                        7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
+                                                                                                                      1.003 0 0 0-1.42 0l-1.83 1.83 3.75
+                                                                                                                    3.75 1.84-1.82z" />
                                 </svg>
                             </a>
                         </div>
@@ -450,9 +476,9 @@
                                     viewBox="0 0 24 24">
                                     <path
                                         d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
-                                                                                                                                                                                                                                                                                               7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
-                                                                                                                                                                                                                                                                                               1.003 0 0 0-1.42 0l-1.83 1.83 3.75
-                                                                                                                                                                                                                                                                                               3.75 1.84-1.82z" />
+                                                                                                                                                                                                                                                                                                               7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
+                                                                                                                                                                                                                                                                                                               1.003 0 0 0-1.42 0l-1.83 1.83 3.75
+                                                                                                                                                                                                                                                                                                               3.75 1.84-1.82z" />
                                 </svg>
                             </span>
                         </div>
@@ -502,6 +528,9 @@
     @include('non-user.profile.organisasi.modal-createorganisasi')
     @include('non-user.profile.pendidikan.modal-create')
 
+    @include('non-user.profile.modal-kategori.modal1')
+    @include('non-user.profile.modal-kategori.modal2')
+
     @include('non-user.profile.organisasi.modal-show')
     @include('non-user.profile.skill.modal-show')
     @include('non-user.profile.kerja.modal-show')
@@ -519,5 +548,106 @@
             }
         });
     </script>
+
+
+     <script>
+        function autoGrow(el) {
+            el.style.height = "auto";
+            el.style.height = el.scrollHeight + "px";
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll(".auto-grow").forEach((el) => {
+                autoGrow(el);
+                el.addEventListener("input", () => autoGrow(el));
+            });
+        });
+    </script> 
+    
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            console.log("JS siap! Listener aktif.");
+
+            // ===============================
+            // STATUS PELAMAR (Trigger Modal 1)
+            // ===============================
+            const statusSelect = document.getElementById('statusSelect');
+            const kategoriInput = document.getElementById('kategoriPelamar');
+
+            if (statusSelect) {
+                statusSelect.addEventListener('change', function() {
+
+                    let selected = this.value;
+                    let kategori = kategoriInput ? kategoriInput.value : null;
+
+                    console.log("Selected:", selected);
+                    console.log("Kategori:", kategori);
+
+                    if (selected === 'Bekerja' && kategori === 'kandidat aktif') {
+                        document.getElementById('modalPeringatan').classList.remove('hidden');
+                    }
+                });
+            }
+
+            // ===============================
+            // MODAL PERINGATAN
+            // ===============================
+            const yaPeringatan = document.getElementById('yaPeringatan');
+            const tidakPeringatan = document.getElementById('tidakPeringatan');
+
+            if (yaPeringatan) {
+                yaPeringatan.onclick = function() {
+                    document.getElementById('modalPeringatan').classList.add('hidden');
+                    document.getElementById('modalNonaktif').classList.remove('hidden');
+                };
+            }
+
+            if (tidakPeringatan) {
+                tidakPeringatan.onclick = function() {
+                    document.getElementById('modalPeringatan').classList.add('hidden');
+                    statusSelect.value = ""; // Kembali kosong
+                };
+            }
+
+            // ===============================
+            // MODAL NONAKTIF
+            // ===============================
+            const yaNonaktif = document.getElementById('yaNonaktif');
+            const tidakNonaktif = document.getElementById('tidakNonaktif');
+
+            if (yaNonaktif) {
+                yaNonaktif.onclick = function() {
+
+                    fetch("/pelamar/update-kategori/{{ $pelamar->id }}", {
+                            method: "PUT",
+                            headers: {
+                                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                                   "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                kategori: "kandidat nonaktif"
+                            }),
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            location.reload();
+                        });
+                };
+            }
+
+            if (tidakNonaktif) {
+                tidakNonaktif.onclick = function() {
+                    document.getElementById('modalNonaktif').classList.add('hidden');
+                    statusSelect.value = "";
+                };
+            }
+
+        });
+    </script>
+
+
+
     @include('layouts.footer')
 @endsection

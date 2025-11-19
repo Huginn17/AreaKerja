@@ -156,12 +156,12 @@ class AuthController extends Controller
 
 
     //LOGIN PERUSAHAAN
-    public function beranda_perusahaan()
+    public function beranda_perusahaan(Request $request)
     {
         $events = collect();
         $perusahaan = auth()->user()->perusahaan;
+
         $lowongans = LowonganPerusahaan::where('perusahaan_id', $perusahaan->id)
-            // ->where('status', 'publish')
             ->with('paket')
             ->latest()
             ->get();
@@ -170,6 +170,18 @@ class AuthController extends Controller
             $events = Event::whereIn('id', session('event_popup'))->orderBy('created_at')->get();
         }
 
+        // Jika sedang berlangganan DAN user tidak meminta dashboard
+        if (
+            $perusahaan->is_berlangganan == 1 &&
+            \Carbon\Carbon::now()->lt($perusahaan->tanggal_expired) &&
+            $request->query('show') !== 'dashboard'
+        ) {
+            return view('perusahaan.langganan.dah_langganan', [
+                'perusahaan' => $perusahaan
+            ]);
+        }
+
+        // Jika tidak berlangganan ATAU user minta dashboard
         return view('perusahaan.dashboard', [
             'hargaPembayarans' => HargaPembayaran::where('jumlah_koin', '>', 0)->get(),
             'daftarBank' => DaftarBank::all(),
@@ -178,6 +190,7 @@ class AuthController extends Controller
             'events' => $events
         ]);
     }
+
 
     public function loginproses_perusahaan(Request $request)
     {

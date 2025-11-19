@@ -2,9 +2,17 @@
 @section('content')
     <!-- Hero Section -->
     <section class="relative">
-        <img src="{{ asset('images/ntap.png') }}" alt="hero" class="w-full h-[350px] object-cover">
+        @php
+            $header = \App\Models\SocialLink::where('nama', 'header_kandidat_ak')->first();
+        @endphp
+
+        <img src="{{ $header && $header->link ? asset('storage/' . $header->link) : asset('images/ntap.png') }}"
+            alt="Header Image" class="w-full h-[600px] object-cover">
+
+
+        {{-- <img src="{{ asset('images/ntap.png') }}" alt="hero" class="w-full h-[350px] object-cover"> --}}
         <div class="absolute inset-0 bg-black bg-opacity-30"></div>
-        <div class="absolute bottom-20 left-20 text-white">
+        <div class="absolute bottom-52 left-20 text-white">
             <h1 class="text-3xl md:text-4xl font-semibold max-w-2xl mb-3">
                 Kandidat Area Kerja
             </h1>
@@ -314,14 +322,14 @@
             <p class="text-gray-600 leading-relaxed text-sm">
                 Koin anda kurang silahkan <br> Top Up terlebih dahulu.
             </p>
-            <a href="{{ route('perusahaan.kandidat.ak') }}"
+            <button onclick="toggleModal()"
                 class="bg-orange-500 hover:bg-orange-600 text-white font-medium px-8 py-2 rounded-full transition-all text-sm">
                 Top Up
-            </a>
+            </button>
         </div>
     </div>
 
-    @include('perusahaan.modal-topup')
+    {{-- @include('perusahaan.modal-topup') --}}
 
     <script>
         let selectedId = null;

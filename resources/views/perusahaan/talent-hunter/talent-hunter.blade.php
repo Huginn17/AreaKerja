@@ -1,21 +1,29 @@
 @extends('layouts.index-perusahaan')
 @section('content')
     <!-- Hero Section -->
-    <section class="relative">
-        <img src="{{ asset('images/woi.jpg') }}" alt="hero" class="w-full h-[350px] object-cover">
-        <div class="absolute inset-0 bg-black bg-opacity-40"></div>
-        <div class="absolute bottom-20 left-20 text-white">
-            <h1 class="text-3xl md:text-4xl font-semibold mt-3 max-w-2xl">
-                Talent Hunter
-            </h1>
-            <p class="text-sm mt-4">Daftarkan perusahaan anda dan biar kami</p>
-            <p class="text-sm"> yang mencarikan kandidat yang cocok untuk anda</p><br>
-            <button id="btnDaftarTH">
-                <span class="bg-orange-500 hover:bg-orange-600 text-sm px-8 py-2 rounded-lg">Daftar</span>
-            </button>
-        </div>
-    </section>
+    <div class="mt-10">
+        <section class="relative">
+            @php
+                $header = \App\Models\SocialLink::where('nama', 'header_talent_hunter')->first();
+            @endphp
 
+            <img src="{{ $header && $header->link ? asset('storage/' . $header->link) : asset('images/woi.jpg') }}"
+                alt="Header Image" class="w-full h-[600px] object-cover">
+{{-- 
+            <img src="{{ asset('images/woi.jpg') }}" alt="hero" class="w-full h-[350px] object-cover"> --}}
+            <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+            <div class="absolute bottom-52 left-20 text-white">
+                <h1 class="text-3xl md:text-4xl font-semibold mt-3 max-w-2xl">
+                    Talent Hunter
+                </h1>
+                <p class="text-sm mt-4">Daftarkan perusahaan anda dan biar kami</p>
+                <p class="text-sm"> yang mencarikan kandidat yang cocok untuk anda</p><br>
+                <button id="btnDaftarTH">
+                    <span class="bg-orange-500 hover:bg-orange-600 text-sm px-8 py-2 rounded-lg">Daftar</span>
+                </button>
+            </div>
+        </section>
+    </div>
     <section class="text-white py-20 rounded-b-[50px]" style="background: linear-gradient(to right, orange, #ff7b00)">
         <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-8 items-center px-6">
 
@@ -24,47 +32,48 @@
             </div>
 
             <div>
-                <h2 class="text-2xl font-semibold mb-6 leading-snug">
-                    Langkah - Langkah Daftar <br> Talent Hunter
-                </h2>
-                <div class="relative pl-12 max-w-xl">
-                    <!-- Garis vertikal -->
-                    <div class="absolute left-2.5 top-0 bottom-0 w-0.5 bg-white"></div>
 
-                    <!-- Step 1 -->
-                    <div class="relative flex items-start mb-12">
-                        <div class="absolute left-0 top-1/2 -translate-y-1/2 w-5 h-5 bg-white rounded-full"></div>
-                        <p class="ml-8 text-lg leading-relaxed">
-                            Klik tombol daftar untuk mendaftarkan perusahaan anda
-                        </p>
-                    </div>
-
-                    <!-- Step 2 -->
-                    <div class="relative flex items-start mb-12">
-                        <div class="absolute left-0 top-1/2 -translate-y-1/2 w-5 h-5 bg-white rounded-full"></div>
-                        <p class="ml-8 text-lg leading-relaxed">
-                            Mengisi formulir pendaftaran dan kirim formulir pendaftaran
-                        </p>
-                    </div>
-
-                    <!-- Step 3 -->
-                    <div class="relative flex items-start mb-12">
-                        <div class="absolute left-0 top-1/2 -translate-y-1/2 w-5 h-5 bg-white rounded-full"></div>
-                        <p class="ml-8 text-lg leading-relaxed">
-                            Tunggu pemberitahuan selanjutnya setelah pendaftaran
-                        </p>
-                    </div>
-
-                    <!-- Step 4 (ceklist di lingkaran) -->
-                    <div class="relative flex items-start">
-                        <div
-                            class="absolute left-0 top-1/2 -translate-y-1/2 w-5 h-5 bg-white rounded-full flex items-center justify-center text-orange-500 font-bold text-sm">
-
+                <div>
+                    <h2 class="text-2xl font-semibold mb-6 leading-snug">
+                        Langkah - Langkah Daftar <br> Talent Hunter
+                    </h2>
+                    <div class="relative flex max-w-xl">
+                        <!-- Garis vertikal -->
+                        <div class="flex flex-col items-center mr-6 mt-4">
+                            <svg width="16" height="280" viewBox="0 0 16 310" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 8V302.001" stroke="white" stroke-width="3" stroke-linecap="round" />
+                                <circle cx="8" cy="8" r="8" fill="white" />
+                                <circle cx="8" cy="106" r="8" fill="white" />
+                                <circle cx="8" cy="204" r="8" fill="white" />
+                                <circle cx="8" cy="302" r="8" fill="white" />
+                            </svg>
                         </div>
-                        <p class="ml-8 text-lg leading-relaxed">
-                            Perusahaan berhasil didaftarkan
 
-                        </p>
+                        <!-- Konten step -->
+                        <div class="flex flex-col">
+                            <!-- Step 1 -->
+                            <div class="mb-8">
+                                <p class="text-lg leading-relaxed">Klik tombol daftar untuk mendaftarkan perusahaan anda</p>
+                            </div>
+
+                            <!-- Step 2 -->
+                            <div class="mb-8">
+                                <p class="text-lg leading-relaxed">Mengisi formulir pendaftaran dan kirim formulir
+                                    pendaftaran
+                                </p>
+                            </div>
+
+                            <!-- Step 3 -->
+                            <div class="mb-8">
+                                <p class="text-lg leading-relaxed">Tunggu pemberitahuan selanjutnya setelah pendaftaran</p>
+                            </div>
+
+                            <!-- Step 4 -->
+                            <div>
+                                <p class="text-lg leading-relaxed">Perusahaan berhasil didaftarkan</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- Modal Konfirmasi Pembelian -->
@@ -223,11 +232,11 @@
     </section>
 
     <!-- ================= MODAL STEP 1 ================= -->
-        @include('perusahaan.modal-topup.step1')    
+    @include('perusahaan.modal-topup.step1')
     <!-- ================= MODAL STEP 2 ================= -->
-        @include('perusahaan.modal-topup.step2')
+    @include('perusahaan.modal-topup.step2')
     <!-- ================= MODAL STEP 3 ================= -->
-        @include('perusahaan.modal-topup.step3')
+    @include('perusahaan.modal-topup.step3')
 
     <!-- Benefit Talent Hunter -->
     <section class="bg-white py-12">
@@ -309,7 +318,6 @@
                 document.getElementById('hargaTH').innerText = data.harga;
                 openModal('modalBeli');
             } else {
-                // 🔴 Tampilkan modal koin tidak cukup
                 openModal('modalKoinKurang');
             }
         });
@@ -326,9 +334,25 @@
 
             if (result.success) {
                 closeModal('modalBeli');
-                openModal('modalFormTH');
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Pembelian Berhasil!',
+                    text: result.message,
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+
+                setTimeout(() => {
+                    openModal('modalFormTH');
+                }, 1500);
+
             } else {
-                alert(result.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    text: result.message
+                });
             }
         });
 
@@ -345,22 +369,35 @@
             });
 
             const result = await res.json();
-            console.log(result); // 🧩 Debugging
 
             if (result.success) {
-                alert(result.message);
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: result.message,
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+
                 closeModal('modalFormTH');
 
-                // ✅ Redirect ke WhatsApp jika ada
                 if (result.redirect_url) {
                     setTimeout(() => {
                         window.location.href = result.redirect_url;
-                    }, 1000);
+                    }, 1500);
                 } else {
-                    window.location.reload();
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
                 }
+
             } else {
-                alert(result.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    text: result.message
+                });
             }
         });
 

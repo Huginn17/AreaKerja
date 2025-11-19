@@ -213,4 +213,18 @@ class ProfileController extends Controller
         $alamatpelamar->delete();
         return redirect()->route('alamat')->with('success', 'Alamat berhasil dihapus');
     }
+
+
+
+
+    //update status kandidat
+    public function updateKategori(Request $request, $id)
+    {
+        $pelamar = Pelamar::findOrFail($id);
+
+        $pelamar->kategori = $request->kategori; // kandidat nonaktif
+        $pelamar->save();
+
+        return response()->json(['success' => true]);
+    }
 }

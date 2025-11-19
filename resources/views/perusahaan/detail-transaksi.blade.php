@@ -51,7 +51,9 @@
             </div>
             <div class="flex justify-between">
                 <span>Jenis Transaksi</span>
-                <span>Top Up Koin</span>
+                <span>Top Up Koin</span>@auth()
+                    
+                @endauth
             </div>
             <div class="flex justify-between">
                 <span>Nama Pengirim</span>

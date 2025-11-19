@@ -3,18 +3,25 @@
     <div class="bg-white">
 
         <!-- Hero Section -->
-        <div class="relative w-full h-[300px] flex items-center bg-cover bg-center"
-            style="background-image: url('https://images.unsplash.com/photo-1522202222700-7b7b46a7da3d');">
-            <div class="absolute inset-0 bg-black/60"></div>
-            <!-- Teks Hero -->
-            <div class="relative z-10 max-w-5xl mx-auto px-6 text-left ml-10">
-                <h1 class="text-4xl font-bold text-white mb-4">Request Data</h1>
-                <p class="text-white max-w-2xl text-lg">
-                    Lorem Ipsum is simply dummy text of the printing typesetting industry.
-                    Lorem Ipsum has been industry's standard dummy text ever since the 1500s anda.
-                </p>
+        <!-- Hero Section -->
+        <section class="relative">
+            @php
+                $header = \App\Models\SocialLink::where('nama', 'header_request_data')->first();
+            @endphp
+
+            <img src="{{ $header && $header->link ? asset('storage/' . $header->link) : asset('images/ntap.png') }}"
+                alt="Header Image" class="w-full h-[600px] object-cover">
+            {{-- <img src="{{ asset('images/ntap.png') }}" alt="hero" class="w-full h-[350px] object-cover"> --}}
+            <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+            <div class="absolute bottom-52 left-20 text-white">
+                <h1 class="text-3xl md:text-4xl font-semibold max-w-2xl">
+                    Request Data
+                </h1>
+                <p class="text-sm mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit.<br> Unde id velit illo totam
+                    dolor quisquam, dignissimos alias a, autem, cupiditate <br> corrupti mollitia voluptatibus itaque minima ex
+                    temporibus ullam reiciendis iste.</p>
             </div>
-        </div>
+        </section>
 
         <!-- Card Section -->
         <div class="max-w-5xl mx-auto py-12 px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -31,11 +38,11 @@
                     </svg>
                 </div>
                 <h3 class="font-medium mb-6 text-lg leading-tight">
-                    Laporan Harian <br>Pekerja
+                    List Pekerja Bermasalah
                 </h3>
-                <button class="bg-white text-orange-500 hover:bg-gray-200 text-sm font-medium px-4 py-2 rounded-lg">
+                <a href="{{ route('perusahaan.data.pekerja-bermasalah') }}" class="bg-white text-orange-500 hover:bg-gray-200 text-sm font-medium px-4 py-2 rounded-lg">
                     lebih Detail
-                </button>
+                </a>
             </div>
 
             <!-- Card 2 -->
@@ -58,9 +65,9 @@
                 <h3 class="font-medium mb-6 text-lg leading-tight">
                     Cari Nama<br>Pekerja
                 </h3>
-                <button class="bg-white text-orange-500 hover:bg-gray-200 500 text-sm font-medium px-4 py-2 rounded-lg">
+                <a href="{{ route('perusahaan.cari.nama.pekerja') }}" class="bg-white text-orange-500 hover:bg-gray-200 text-sm font-medium px-4 py-2 rounded-lg">
                     lebih Detail
-                </button>
+                </a>
             </div>
 
             <!-- Card 3 -->
@@ -87,9 +94,9 @@
                 <h3 class="font-medium mb-6 text-lg leading-tight">
                     Laporan Harian <br>Pekerja
                 </h3>
-                <button class="bg-white text-orange-500 hover:bg-gray-200 text-sm font-medium px-4 py-2 rounded-lg">
+                <a href="{{ route('perusahaan.laporan.harian') }}" class="bg-white text-orange-500 hover:bg-gray-200 text-sm font-medium px-4 py-2 rounded-lg">
                     lebih Detail
-                </button>
+                </a>
 
             </div>
 

@@ -34,7 +34,7 @@ class HargaController extends Controller
             }
         }
 
-        return redirect()->route('superadmin.paket-harga');
+        return redirect()->route('finance.paket-harga');
     }
 
 

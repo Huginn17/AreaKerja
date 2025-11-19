@@ -2,8 +2,15 @@
 @section('content')
     <!-- Hero Section -->
     <div class="relative">
+        @php
+            $header = \App\Models\SocialLink::where('nama', 'header_lowongan_tersimpan')->first();
+        @endphp
+
+        <img src="{{ $header && $header->link ? asset('storage/' . $header->link) : asset('images/tersimpan.jpg') }}"
+            alt="Header Image" class="w-screen h-[600px] object-cover">
+        {{-- 
         <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80"
-            alt="Hero Image" class="w-screen h-96 object-cover">
+            alt="Hero Image" class="w-screen h-96 object-cover"> --}}
         <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center px-10">
             <h1 class="text-white text-4xl font-bold">Lowongan Tersimpan</h1>
             <p class="text-white text-lg mt-2">Lowongan anda yang sudah tersimpan <br> disistem areakerja.com</p>

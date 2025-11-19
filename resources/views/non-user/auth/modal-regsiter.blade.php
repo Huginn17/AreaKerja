@@ -10,11 +10,11 @@
         </button>
 
         <!-- Judul -->
-        <h2 class="text-2xl font-bold mb-3">Selamat Akun anda berhasil dibuat</h2>
+        <h2 class="text-2xl font-bold mb-3">Selamat! <br> Akun anda berhasil dibuat</h2>
 
         <!-- Pesan -->
         <p class="text-gray-700 mb-8">
-            setelah ini anda hanya perlu login <br>untuk terhubung dengan areakerja
+            setelah ini anda hanya perlu login <br> untuk terhubung dengan areakerja
         </p>
 
         <!-- Gambar ilustrasi -->

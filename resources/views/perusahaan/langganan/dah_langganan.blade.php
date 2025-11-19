@@ -2,9 +2,15 @@
 @section('content')
     <!-- Hero Section -->
     <section class="relative">
-        <img src="{{ asset('images/ntap.png') }}" alt="hero" class="w-full h-[350px] object-cover">
+        @php
+            $header = \App\Models\SocialLink::where('nama', 'header_beranda')->first();
+        @endphp
+
+        <img src="{{ $header && $header->link ? asset('storage/' . $header->link) : asset('images/ntap.png') }}"
+            alt="Header Image" class="w-full h-[600px] object-cover">
+        {{-- <img src="{{ asset('images/ntap.png') }}" alt="hero" class="w-full h-[350px] object-cover"> --}}
         <div class="absolute inset-0 bg-black bg-opacity-40"></div>
-        <div class="absolute bottom-20 left-20 text-white">
+        <div class="absolute bottom-52 left-20 text-white">
             <h1 class="text-3xl md:text-4xl font-semibold max-w-2xl">
                 Selamat Datang
             </h1>
@@ -27,7 +33,9 @@
                         Dapatkan akses untuk bisa melihat statistik para pekerja seperti list <br>
                         pekerja yang bermasalah, list pekerja yang terdaftar, hingga <br> membuat laporan harian pekerja.
                     </p>
-                    <a href="{{ route('perusahaan.data.pekerja') }}" class="block text-orange-500 text-sm font-medium hover:underline text-right"> < Lebih Detail</a>
+                    <a href="{{ route('perusahaan.data.pekerja') }}"
+                        class="block text-orange-500 text-sm font-medium hover:underline text-right">
+                        < Lebih Detail</a>
                 </div>
                 <!-- Image -->
                 <div class="md:w-1/3">

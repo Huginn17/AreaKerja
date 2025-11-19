@@ -1,6 +1,7 @@
 @extends('layouts.index')
 @section('content')
-    <table class="w-full bg-white border-collapse">
+<div class="mt-28">
+    <table class="w-full bg-white border-collapse mb-16">
         <thead>
             <tr class="bg-gray-100">
                 <th class="p-3 text-center">No Referensi</th>
@@ -47,7 +48,7 @@
             @endforelse
         </tbody>
     </table>
-
+</div>
 
     @include('layouts.footer')
 @endsection

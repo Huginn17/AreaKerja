@@ -16,7 +16,7 @@
         <div class="flex justify-center items-center px-8 py-4">
             <button
                 class="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-xl text-medium">
-                Cari Nama Pekerja
+                Laporan Harian Pekerja
             </button>
         </div>
         
