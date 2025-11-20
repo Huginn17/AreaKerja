@@ -1,6 +1,6 @@
 @extends('layouts.index')
 @section('content')
-    <div class="border-gray-200 py-32 max-w-2xl mx-auto border rounded-3xl mt-8 mb-8 shadow">
+    <div class="border-gray-200 py-32 max-w-2xl mx-auto border rounded-3xl mt-24 mb-8 shadow ">
         <p class="text-xl text-gray-400 text-center font-medium">Anda belum memiliki <br>transaksi apapun</p>
         <div class="flex items-center justify-center mt-4">
             <svg width="90" height="78" viewBox="0 0 100 98" fill="none" xmlns="http://www.w3.org/2000/svg">

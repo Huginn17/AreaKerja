@@ -49,32 +49,25 @@
 
     <!-- Kategori Populer -->
     <section class="max-w-5xl mx-auto px-4 py-8">
-        <h4 class="mb-4 text-lg font-semibold text-gray-900">KATEGORI PEKERJAAN POPULER </h4>
-        <div class="grid grid-cols-5 gap-4 font-semibold text-xs transition-duration-300 py-1">
-            @foreach (['Teknologi', 'Pelayanan', 'Administrasi', 'Pemasaran', '🔥 Full Time', 'Pendidik', 'Customer Service', 'Keuangan', 'Kasir', '🌐 WFO/WFH', 'Admin', 'Programmer', 'Marketing', 'Multimedia', '🎓 Graduate'] as $kategori)
+        <h4 class="mb-4 text-lg font-semibold text-gray-900">
+            KATEGORI PEKERJAAN POPULER
+        </h4>
+
+        <div class="grid grid-cols-4 gap-4 font-semibold text-sm">
+            @foreach ($KategoriList as $namaKategori)
                 @php
-                    $isFullTime = $kategori === '🔥 Full Time';
-                    $isWfoWfh = $kategori === '🌐 WFO/WFH';
-                    $isGraduate = $kategori === '🎓 Graduate';
-
-                    $textClass = $isFullTime
-                        ? 'text-red-600'
-                        : ($isWfoWfh
-                            ? 'text-blue-600'
-                            : ($isGraduate
-                                ? 'text-orange-500'
-                                : 'text-orange'));
-
-                    $borderClass = $isFullTime
-                        ? 'border-l-4 border-red-600 hover:bg-red-100'
-                        : ($isWfoWfh
-                            ? 'border-l-4 border-blue-600 hover:bg-blue-700'
-                            : ($isGraduate
-                                ? 'border-l-4 border-orange-500 hover:bg-orange-100'
-                                : ''));
+                    $isActive = request('kategori') === $namaKategori;
                 @endphp
 
-                <span
+                <a href="?kategori={{ urlencode($namaKategori) }}" class="block">
+                    <div
+                        class="w-full py-3 border rounded-lg text-center transition
+                    {{ $isActive ? 'bg-orange-500 border-orange-500 text-white' : 'text-gray-900 border-gray-300 hover:bg-gray-100' }}">
+                        {{ $namaKategori }}
+                    </div>
+                </a>
+
+                {{-- <span
                     class="h-14 w-full px-4 py-3 border-2 border-gray-400 rounded text-sm bg-white hover:bg-gray-50 cursor-pointer flex items-center justify-center text-center shadow-sm {{ $textClass }} {{ $borderClass }}">
                     @if ($isFullTime)
                         <span class="mr-2">🔥</span>
@@ -88,17 +81,18 @@
                     @else
                         {{ $kategori }}
                     @endif
-                </span>
+                </span> --}}
             @endforeach
         </div>
     </section>
 
-    
+
+
 
     <!-- Tabs -->
     <div x-data="{ tab: 'umpan' }">
         <div class="flex justify-center border-b">
-            <div class="max-w-5xl mx-auto flex gap-6 px-4 text">
+            <div class="max-w-full mx-auto flex gap-6 px-4">
 
                 <!-- TAB UMPAN -->
                 <button @click="tab = 'umpan'"
@@ -125,46 +119,48 @@
         <!-- =============================== -->
         <!-- TAB: PENCARIAN TERAKHIR -->
         <!-- =============================== -->
-        <div x-show="tab === 'riwayat'" x-transition class="w-full p-6">
+        <div x-show="tab === 'riwayat'" x-transition class="w-full">
+            <div class="flex justify-between">
+                <h3 class="ml-24 mt-8 mb-8 text-gray-500 font-semibold">
+                    Riwayat pencarian Anda
+                </h3>
 
-            <h3 class="text-gray-500 font-semibold mb-4">
-                Riwayat pencarian Anda
-            </h3>
-            <form action="{{ route('pelamar.resetRiwayat') }}" method="POST">
-                @csrf
-                <button class="text-red-600 text-sm hover:underline">
-                    Hapus riwayat pencarian
-                </button>
-            </form>
+                <form action="{{ route('pelamar.resetRiwayat') }}" method="POST">
+                    @csrf
+                    <button class="mr-24 mt-8 mb-8 text-red-600 text-sm hover:underline">
+                        Hapus riwayat pencarian
+                    </button>
+                </form>
+            </div>
+            <div class="ml-24 mr-24">
+                @if (!empty($riwayat) && count($riwayat) > 0)
+                    @foreach ($riwayat as $r)
+                        <h2 class="font-bold text-lg mb-3">
+                            {{ $r['posisi'] ?: '-' }} <span class="font-medium"> - </span>
+                            {{ $r['lokasi'] ?: 'Lokasi apapun' }}
+                        </h2>
+
+                        <div class="grid grid-cols-2 gap-3">
+
+                            @foreach ($r['lowongan_ids'] as $id)
+                                @php
+                                    $d = \App\Models\LowonganPerusahaan::find($id);
+                                @endphp
+
+                                @if ($d)
+                                    @include('non-user.components.card', ['lowongan' => $d])
+                                @endif
+                            @endforeach
 
 
-            @if (!empty($riwayat) && count($riwayat) > 0)
-                @foreach ($riwayat as $r)
-                    <h2 class="font-bold text-lg mb-3 ml-[24px]">
-                        {{ $r['posisi'] ?: '-' }} — {{ $r['lokasi'] ?: 'Lokasi apapun' }}
-                    </h2>
+                        </div>
 
-                    <div class="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-3">
-
-                        @foreach ($r['lowongan_ids'] as $id)
-                            @php
-                                $d = \App\Models\LowonganPerusahaan::find($id);
-                            @endphp
-
-                            @if ($d)
-                                @include('non-user.components.card', ['lowongan' => $d])
-                            @endif
-                        @endforeach
-
-
-                    </div>
-
-                    <hr class="my-6">
-                @endforeach
-            @else
-                <p class="text-gray-500">Belum ada pencarian.</p>
-            @endif
-
+                        <hr class="my-6 border-gray-300">
+                    @endforeach
+                @else
+                    <p class="ml-24 mt-8 mb-8 text-gray-500">Belum ada pencarian.</p>
+                @endif
+            </div>
         </div>
 
 

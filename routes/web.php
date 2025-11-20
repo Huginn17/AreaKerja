@@ -128,7 +128,7 @@ Route::get('/email/verify/{token}', [EmailVerificationController::class, 'verify
 
 
 //CRUD PROFILE
-Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')->group(function () {
+Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus', 'check.profile')->group(function () {
     Route::get('/home', [PelamarController::class, 'index'])->name('beranda');
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');

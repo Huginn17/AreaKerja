@@ -14,12 +14,16 @@ class ProfileController extends Controller
     {
         $user = auth()->user();
 
+        session(['profile_popup_closed' => true]);
+        session()->forget('show_first_login_popup');
+
         $pelamar = Pelamar::where('user_id', $user->id)
             ->with('pengalaman_organisasi')
             ->first();
 
         return view('non-user.profile.profile', compact('pelamar'));
     }
+
 
     public function update_profile(Request $request, Pelamar $pelamar)
     {
@@ -33,6 +37,13 @@ class ProfileController extends Controller
             "gaji_minimal"    =>     "nullable",
             "gaji_maksimal"    =>     "nullable"
         ]);
+
+        // Jika profil sudah lengkap → matikan popup
+        if ($pelamar->isProfileComplete()) {
+            session(['profile_popup_closed' => true]);
+            session()->forget('show_first_login_popup');
+        }
+
 
         if ($request->hasFile('img_profile')) {
             // Hapus foto lama jika ada
@@ -73,11 +84,17 @@ class ProfileController extends Controller
 
     public function alamat()
     {
+        session(['profile_popup_closed' => true]);
+        session()->forget('show_first_login_popup');
+
         return view('non-user.alamat.index');
     }
 
     public function form_alamat()
     {
+        session(['profile_popup_closed' => true]);
+        session()->forget('show_first_login_popup');
+
         return view('non-user.alamat.create-alamat');
     }
 
@@ -100,6 +117,9 @@ class ProfileController extends Controller
 
     public function edit_alamat(AlamatPelamar $alamatpelamar)
     {
+        session(['profile_popup_closed' => true]);
+        session()->forget('show_first_login_popup');
+
         return view('non-user.alamat.edit', ["data" => $alamatpelamar]);
     }
     public function update_alamat(Request $request, AlamatPelamar $alamatpelamar)

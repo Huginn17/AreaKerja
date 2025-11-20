@@ -189,6 +189,25 @@
                         </div>
                     </div>
                 @endauth
+                {{-- POPUP LOGIN PERTAMA --}}
+                @if (session('show_first_login_popup') && !session('profile_popup_closed'))
+                    <div id="firstLoginPopup" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+
+                        <div class="bg-white p-6 rounded-xl shadow-xl text-center w-[350px]">
+                            <h2 class="text-lg font-bold mb-2">Lengkapi Profil Anda</h2>
+
+                            <p class="text-gray-600 mb-4">
+                                Lengkapi informasi profil Anda untuk mendapatkan rekomendasi lowongan terbaik.
+                            </p>
+
+                            <a href="{{ route('profile.index') }}"
+                                class="px-5 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
+                                Pergi ke Profil
+                            </a>
+                        </div>
+
+                    </div>
+                @endif
             </div>
         </div>
     </header>
@@ -200,7 +219,7 @@
     @include('non-user.notif.modal_semua')
 
 
-    {{-- Onboarding Tooltip --}}
+    {{-- Onboarding Tooltip
     <div id="onboarding" class="hidden">
         <div class="fixed inset-0 bg-black bg-opacity-70 z-40"></div>
         <div class="absolute top-20 right-6 bg-white p-4 rounded-lg shadow-lg z-50 max-w-xs">
@@ -214,8 +233,15 @@
             <div class="absolute top-3 -left-2 w-0 h-0 border-y-8 border-y-transparent border-r-8 border-r-white">
             </div>
         </div>
-    </div>
-
+    </div> --}}
+    @if (session('show_first_login_popup'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('popupModal').classList.remove('hidden');
+            });
+        </script>
+    @endif
+        
     {{-- Script --}}
     <script>
         function showOnboarding() {

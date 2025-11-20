@@ -36,6 +36,20 @@ class Pelamar extends Model
         return $this->gender;
     }
 
+    public function isProfileComplete()
+    {
+        return !(
+            empty($this->nama_pelamar) ||
+            empty($this->img_profile ) ||
+            empty($this->gender) ||
+            empty($this->tanggal_lahir) ||
+            empty($this->deskripsi_diri) ||
+            empty($this->gaji_minimal) ||
+            empty($this->gaji_maksimal)
+        );
+    }
+
+
 
     public function user()
     {

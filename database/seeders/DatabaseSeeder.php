@@ -210,5 +210,6 @@ class DatabaseSeeder extends Seeder
         $this->call(DivisiSeeder::class);
         $this->call(AlasanPenolakanSeeder::class);
         $this->call(HeaderImageSeeder::class);
+        $this->call(CategorySeeder::class);
     }
 }

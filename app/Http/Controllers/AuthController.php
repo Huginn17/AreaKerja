@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\CatatanCash;
 use App\Models\CatatanKoin;
+use App\Models\Category;
 use App\Models\DaftarBank;
 use App\Models\Event;
 use App\Models\Finance;
@@ -26,47 +27,72 @@ class AuthController extends Controller
     public function masuk(Request $request)
     {
         $valid = $request->validate([
-            "username"   =>    "required",
-            "password"   =>    "required"
+            "username" => "required",
+            "password" => "required"
         ]);
+
         if (Auth::attempt($valid)) {
-            if (Auth::user()->role == 'super_admin') {
-                return redirect()->route('superadmin.dashboard');
-            } elseif (Auth::user()->role == 'admin') {
-                return redirect()->route('admin.dashboard');
-            } elseif (Auth::user()->role == 'pelamar') {
-                return redirect() - route('beranda');
-            } elseif (Auth::user()->role == 'perusahaan') {
-                return redirect()->route('perusahaan.dashboard');
-            } elseif (Auth::user()->role == 'finance') {
-                return redirect('/dashboard/finance');
+
+            $user = Auth::user();
+            $role = $user->role;
+
+            // === Popup untuk PELAMAR ===
+            if ($role === 'pelamar') {
+                // set popup ON (hanya saat login)
+                session(['show_first_login_popup' => true]);
+                session()->forget('profile_popup_closed');
             }
-        } else {
-            return back();
+
+            return match ($role) {
+                'super_admin' => redirect()->route('superadmin.dashboard'),
+                'admin'       => redirect()->route('admin.dashboard'),
+                'pelamar'     => redirect()->route('beranda'),
+                'perusahaan'  => redirect()->route('perusahaan.dashboard'),
+                'finance'     => redirect('/dashboard/finance'),
+                default       => back(),
+            };
         }
+
         return back();
     }
 
 
 
+
+
     //pelamar
-    public function beranda()
+
+    public function beranda(Request $request)
     {
+        // Ambil kategori dari query URL
+        $kategori = $request->kategori;
+
+        // Ambil list kategori dari database (hasil seeder)
+        $KategoriList = Category::pluck('nama');
+
+        // Ambil lowongan
         $Data = LowonganPerusahaan::with('perusahaan')
             ->whereNotNull('published_at')
             ->where(function ($q) {
                 $q->whereNull('expired_at')
                     ->orWhere('expired_at', '>', now());
             })
+            // === Tambahkan filter kategori ===
+            ->when($kategori, function ($q) use ($kategori) {
+                $q->where('kategori', $kategori);
+            })
+            // ================================
             ->orderBy('rekomendasi', 'desc')
             ->latest()
             ->get();
 
-        // $firstLogin = session()->pull('first_login', false);
         return view('non-user.home', [
             "Data" => $Data,
+            "KategoriList" => $KategoriList,
+            "kategori" => $kategori,
         ]);
     }
+
 
     public function loginproses(Request $request)
     {
@@ -76,22 +102,40 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($valid)) {
+
             $user = Auth::user();
+
             if ($user->status == 0) {
-                if (Auth::user()->role == 'super_admin') {
-                    return redirect()->route('superadmin.dashboard');
-                } elseif (Auth::user()->role == 'admin') {
-                    return redirect()->route('admin.dashboard');
-                } elseif (Auth::user()->role == 'pelamar') {
-                    return redirect()->route('beranda');
-                } elseif (Auth::user()->role == 'perusahaan') {
-                    $event = Event::where('status', 'buka')->latest()->take(5)->pluck('id')->toArray();
-                    if ($event) {
-                        session()->flash('event_popup', $event);
+
+                // ============================
+                //  POPUP KHUSUS PELAMAR
+                // ============================
+                if ($user->role === 'pelamar') {
+
+                    $pelamar = Pelamar::where('user_id', $user->id)->first();
+
+                    // Kalau profil belum lengkap → tampilkan popup
+                    if ($pelamar && !$pelamar->isProfileComplete()) {
+                        if (!session()->has('profile_popup_closed')) {
+                            session(['show_first_login_popup' => true]);
+                        }
                     }
-                    return redirect()->route('perusahaan.dashboard');
-                } elseif (Auth::user()->role == 'finance') {
+
+                    return redirect()->route('beranda');
+                }
+
+
+                // ============================
+                // Role lainnya tanpa popup
+                // ============================
+                if ($user->role == 'super_admin') {
+                    return redirect()->route('superadmin.dashboard');
+                } elseif ($user->role == 'admin') {
+                    return redirect()->route('admin.dashboard');
+                } elseif ($user->role == 'finance') {
                     return redirect()->route('finance.dashboard');
+                } elseif ($user->role == 'perusahaan') {
+                    return redirect()->route('perusahaan.dashboard');
                 }
             } else {
                 Auth::logout();
@@ -99,12 +143,13 @@ class AuthController extends Controller
                     'username' => 'Akun anda tidak aktif',
                 ]);
             }
-        } else {
-            return back()->withErrors([
-                'username' => 'Username atau password salah.',
-            ]);
         }
+
+        return back()->withErrors([
+            'username' => 'Username atau password salah.',
+        ]);
     }
+
 
 
     public function regis_proses(Request $request)

@@ -13,9 +13,22 @@ class PelamarLowonganController extends Controller
     public function storeQuick(Request $request, LowonganPerusahaan $lowongan)
     {
         $user = Auth::user();
-        if (! $user || ! $user->pelamar) {
-            return response()->json(['success' => false, 'message' => 'Harap login sebagai pelamar.'], 403);
+
+        if (! $user) {
+            return response()->json([
+                'success' => false,
+                'not_login' => true,
+                'message' => 'Anda harus login terlebih dahulu untuk melamar.'
+            ], 401);
         }
+
+        if (! $user->pelamar) {
+            return response()->json([
+                'success' => false,
+                'message'  => 'Harap login sebagai pelamar.'
+            ], 403);
+        }
+
 
         $pelamar = $user->pelamar;
 
@@ -61,9 +74,13 @@ class PelamarLowonganController extends Controller
             ]);
         }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Lamaran berhasil dikirim.'
-        ]);
+        if (! $user || ! $user->pelamar) {
+            return response()->json([
+                'success' => false,
+                'unauthenticated' => true,
+                'redirect' => route('login'),
+                'message' => 'Harap login terlebih dahulu untuk melamar.'
+            ]);
+        }
     }
 }

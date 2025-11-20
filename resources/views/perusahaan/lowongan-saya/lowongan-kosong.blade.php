@@ -9,10 +9,10 @@
                     <div class="flex items-center gap-4">
                         @if (Auth::user()->role == 'perusahaan')
                             @if (Auth::user()->perusahaan->img_profile)
-                                <img id="pu" class="w-10 h-10 object-cover rounded-full profile-img"
+                                <img id="pu" class="w-20 h-20 object-cover rounded-full profile-img"
                                     src="{{ asset('storage/' . Auth::user()->perusahaan->img_profile) }}" alt="Profile">
                             @else
-                                <img id="pu" class="w-10 h-10 rounded-full"
+                                <img id="pu" class="w-20 h-20 rounded-full"
                                     src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
                                     alt="">
                             @endif
@@ -23,8 +23,8 @@
                         @endif
                         <div>
                             <span class="font-semibold">{{ Auth::user()->username }}</span>
-                            <p class="text-lg m-1">Jasa TI dan Konsultan TI</p>
-                            <p class="text-sm text-gray-400">Jakarta Timur, DKI Jakarta, Indonesia</p>
+                            <p class="text-lg m-1">{{ Auth::user()->perusahaan->jenis_perusahaan }}</p>
+                            <p class="text-sm text-gray-400">{{ Auth::user()->perusahaan->alamatUtama->kota->nama }}, {{ Auth::user()->perusahaan->alamatUtama->provinsi->nama }}, {{ Auth::user()->perusahaan->alamatUtama->kecamatan->nama }}</p>
                         </div>
                     </div>
 

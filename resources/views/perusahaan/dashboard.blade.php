@@ -17,7 +17,7 @@
                             class="border border-orange-500 bg-orange-500 text-white px-3 py-1 rounded-md text-md font-medium hover:bg-white hover:text-orange-500 transition duration-300">
                             Kelola Lowongan
                         </a>
-                        
+
                     </div>
 
                     @php
@@ -28,7 +28,7 @@
                     @if ($lowongans->isEmpty())
                         <!-- Jika BELUM ADA lowongan -->
                         <div class="bg-white rounded-lg flex justify-between items-center px-4 py-3">
-                            
+
                             <span class="text-black font-semibold">Lowongan Belum Terpasang</span>
                             <a href="{{ route('lowongan.saya.perusahaan') }}"
                                 class="border border-orange-500 text-orange-500 px-3 py-1 rounded-md text-sm font-medium hover:bg-orange-50 transition">
@@ -151,7 +151,8 @@
 
                                                 <h4 class="font-semibold text-gray-500">{{ $perusahaan->nama_perusahaan }}
                                                 </h4>
-                                                <p class="text-black font-medium">{{ $lowongan->nama }} - {{ $lowongan->jenis }}</p>
+                                                <p class="text-black font-medium">{{ $lowongan->nama }} -
+                                                    {{ $lowongan->jenis }}</p>
                                                 <p class="text-gray-500 text-sm">{{ $lowongan->alamat }}</p>
                                                 <p
                                                     class="text-gray-700 text-sm bg-gray-300 px-2 py-1 inline-block rounded">
@@ -164,7 +165,8 @@
                                             </div>
                                         </div>
                                         <div class="flex items-center gap-3 mt-3 md:mt-0">
-                                            <span class="px-3 py-1 border border-gray-400 rounded-md text-sm text-gray-600">
+                                            <span
+                                                class="px-3 py-1 border border-gray-400 rounded-md text-sm text-gray-600">
                                                 {{ ucfirst($lowongan->paket->nama ?? '-') }}
                                             </span>
                                             <a href="{{ route('perusahaan.pelamar', $lowongan->slug) }}"
@@ -190,7 +192,7 @@
 
                 <!-- === Kandidat Saya === -->
                 <div class="bg-orange-500 rounded-2xl p-8 flex flex-col w-full">
-                    <h2 class="text-xl font-semibold text-white mb-6">Kandidat Saya</h2>
+                    <h2 class="text-xl font-semibold text-white mb-6">Koin Saya</h2>
 
                     <div>
                         @if ($publish->isNotEmpty())
@@ -204,7 +206,7 @@
                                         <img src="{{ asset('images/coin.png') }}" alt="coin" class="w-8 h-8 ml-3">
                                     </span>
                                     <button onclick="toggleModal()"
-                                        class="flex items-center mt-2 text-orange-500 font-medium hover:text-yellow-200">
+                                        class="flex items-center mt-2 text-white font-medium hover:text-yellow-200">
                                         <p class="mr-2">Top Up Koin</p>
                                         <svg width="20" height="20" viewBox="0 0 22 22" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -219,18 +221,20 @@
                         @endif
                     </div>
 
+                    <hr>
                     <div class="flex flex-col items-center">
+                        <h2 class="text-xl font-semibold text-white mb-4 mt-2">Kandidat Saya</h2>
                         <!-- Tombol Lihat Kandidat -->
-                        <button
+                        <a href="{{ route('perusahaan.kandidat.saya') }}"
                             class="w-48 py-2 mb-4 border border-white text-white font-semibold rounded-lg hover:bg-white/20 transition">
-                            Lihat Kandidat
-                        </button>
+                           <span class="ml-[40px]">Lihat Kandidat</span>
+                        </a>
 
                         <!-- Tombol Cari Kandidat -->
-                        <button
+                        <a href="{{ route('perusahaan.kandidat.ak') }}"
                             class="w-48 py-2 bg-white text-black font-semibold rounded-lg hover:bg-gray-100 transition">
-                            Cari Kandidat
-                        </button>
+                            <span class="ml-[40px]">Cari Kandidat</span>
+                    </a>
                     </div>
                 </div>
 
@@ -256,7 +260,7 @@
                                 <p class="font-bold text-lg">01</p>
                                 <p class="text-sm">Mencari Lowongan</p>
                             </div>
-                        </div> 
+                        </div>
                         <p class="text-sm leading-relaxed">
                             Area Kerja membantu pencari kerja menemukan posisi sesuai keahlian dan minat mereka.
                         </p>
@@ -271,7 +275,7 @@
                                     <p class="font-bold text-lg">02</p>
                                     <p class="text-sm">Lowongan Terbaru</p>
                                 </div>
-                                  </div>
+                            </div>
                             <p class="text-sm leading-relaxed">
                                 Temukan berbagai lowongan terbaru yang selalu diperbarui setiap hari.
                             </p>

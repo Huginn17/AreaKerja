@@ -24,7 +24,8 @@
             <!-- Header Info Lowongan -->
             <div class="bg-white rounded-lg shadow-md p-5 flex items-center justify-between mb-6 border">
                 <div class="flex items-center gap-4">
-                    <img src="{{ asset('images/seven.png') }}" alt="Logo" class="w-14 h-14" />
+                    <img src="{{ asset('storage/' . $data->perusahaan->img_profile) }}" alt="logo"
+                        class="w-20 h-20 rounded-full">
                     <div>
                         <h5 class="text-gray-500 text-sm">{{ $data->perusahaan->nama_perusahaan }}</h5>
                         <h2 class="font-semibold text-gray-800">{{ $data->nama }} - {{ $data->jenis }}</h2>

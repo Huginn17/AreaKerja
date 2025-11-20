@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\KonfirmasiLamaranMail;
 use App\Models\CatatanCash;
+use App\Models\Category;
 use App\Models\DaftarBank;
 use App\Models\Divisi;
 use App\Models\HargaPembayaran;
@@ -131,26 +132,42 @@ class PelamarController extends Controller
 
 
 
-    public function index()
+    public function index(Request $request)
     {
+        // Ambil kategori dari query string
+        $kategori = $request->query('kategori');
+
+        // Jika kategori ada → simpan, filter, lalu redirect ke URL bersih
+        if ($kategori) {
+            return redirect()
+                ->to('/pelamar/home')
+                ->with('kategori_filter', $kategori);
+        }
+
+        // Ambil kategori dari session ONLY untuk 1x
+        $kategori = session()->pull('kategori_filter');
+
+        $KategoriList = Category::pluck('nama');
+
         $Data = LowonganPerusahaan::with('perusahaan')
             ->whereNotNull('published_at')
-            ->where(function ($q) {
-                $q->whereNull('expired_at')
-                    ->orWhere('expired_at', '>', now());
+            ->when($kategori, function ($q) use ($KategoriList, $kategori) {
+                if ($KategoriList->contains($kategori)) {
+                    $q->where('kategori', $kategori);
+                }
             })
-            ->latest()
+            ->orderByDesc('published_at')
+            ->orderByDesc('created_at')
             ->get();
 
-        $lowongan = LowonganPerusahaan::latest()->get();
-        $riwayat = session()->get('riwayat_full', []);
-
         return view('non-user.home', [
-            "lowongan" => $lowongan,
             "Data" => $Data,
-            "riwayat" => $riwayat,
+            "KategoriList" => $KategoriList,
+            "kategori" => $kategori,
         ]);
     }
+
+
 
     //SIMPAN LOWONGAN 
     public function store(Request $request)
@@ -687,7 +704,11 @@ class PelamarController extends Controller
         $posisi = $request->posisi;
         $lokasi = $request->lokasi;
 
-        // 0. Jika posisi & lokasi kosong: tidak simpan riwayat
+        // Ambil Kategori untuk menghindari error di Blade
+        $KategoriList = Category::pluck('nama');
+        $kategori = session()->get('kategori_filter'); // jaga konsistensi filter kategori
+
+        // Jika posisi & lokasi kosong → tampilkan normal saja
         if (empty($posisi) && empty($lokasi)) {
 
             $lowongan = LowonganPerusahaan::with(['perusahaan.alamatUtama'])
@@ -705,10 +726,12 @@ class PelamarController extends Controller
                 'posisi' => $posisi,
                 'lokasi' => $lokasi,
                 'riwayat' => session()->get('riwayat_full', []),
+                'KategoriList' => $KategoriList,
+                'kategori' => $kategori,
             ]);
         }
 
-        // 1. Cari lowongan
+        // Cari lowongan
         $lowongan = LowonganPerusahaan::query()
             ->with(['perusahaan.alamatUtama'])
             ->when($posisi, function ($q) use ($posisi) {
@@ -738,10 +761,11 @@ class PelamarController extends Controller
             ->latest()
             ->paginate(12);
 
-        // 2. Ambil riwayat session
+
+        // Ambil riwayat
         $riwayat = session()->get('riwayat_full', []);
 
-        // 3. Hapus duplikat (posisi & lokasi sama)
+        // Hapus duplikat
         $riwayat = collect($riwayat)
             ->reject(function ($item) use ($posisi, $lokasi) {
                 return $item['posisi'] === $posisi && $item['lokasi'] === $lokasi;
@@ -749,29 +773,29 @@ class PelamarController extends Controller
             ->values()
             ->toArray();
 
-        // 4. Tambahkan pencarian baru (di depan)
+        // Tambahkan pencarian baru
         array_unshift($riwayat, [
             'posisi' => $posisi,
             'lokasi' => $lokasi,
             'lowongan_ids' => $lowongan->pluck('id')->toArray(),
         ]);
 
-        // 5. Batasi maksimal 6 item
+        // Maksimal 6 riwayat
         $riwayat = array_slice($riwayat, 0, 6);
 
-        // 6. Simpan kembali ke session
+        // Simpan
         session()->put('riwayat_full', $riwayat);
 
-        // 7. Return view
         return view('non-user.home', [
             'Data' => $lowongan,
             'lowongan' => $lowongan,
             'posisi' => $posisi,
             'lokasi' => $lokasi,
             'riwayat' => $riwayat,
+            'KategoriList' => $KategoriList, // ← WAJIB ADA
+            'kategori' => $kategori,
         ]);
     }
-
 
     //hapus search riwayat
     public function resetRiwayat()

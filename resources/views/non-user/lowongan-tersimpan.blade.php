@@ -24,7 +24,8 @@
             <a href="{{ route('detail.lowongan.non.user', $lowongan->id) }}">
                 <div class="bg-white shadow rounded-md p-4 flex items-center justify-between">
                     <div class="flex items-center gap-4">
-                        <img src="{{ asset('/images/seven.png') }}" alt="Logo" class="w-14 h-14 object-contain">
+                        <img src="{{ asset('storage/' . $lowongan->perusahaan->img_profile) }}" alt="logo"
+                            class="w-20 h-20 rounded-full">
                         <div>
                             <h5 class="text-gray-500 text-sm">{{ $lowongan->perusahaan->nama_perusahaan ?? 'Perusahaan' }}
                             </h5>

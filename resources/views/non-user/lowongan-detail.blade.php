@@ -29,7 +29,8 @@
             <div class="md:col-span-2 space-y-6">
                 <div class="bg-white rounded-lg shadow p-6 space-y-4">
                     <div class="flex items-center gap-3">
-                        <img src="{{ asset('images/seven.png') }}" alt="Logo" class="w-12 h-12">
+                        <img src="{{ asset('storage/' . $data->perusahaan->img_profile) }}" alt="logo"
+                            class="w-20 h-20 rounded-full">
                         <div>
                             <h1 class="text-xl font-semibold">{{ $data->nama }}</h1>
                             <p class="text-gray-600">{{ $data->perusahaan->nama_perusahaan }}</p>
@@ -169,7 +170,8 @@
                         <a href="{{ route('detail.lowongan.non.user', $item->id) }}"
                             class="block border-b pb-4 hover:bg-gray-50 transition rounded-md p-2">
                             <div class="flex items-start gap-3">
-                                <img src="{{ asset('images/seven.png') }}" alt="Logo" class="w-10 h-10">
+                                <img src="{{ asset('storage/' . $data->perusahaan->img_profile) }}" alt="logo"
+                                    class="w-14 h-14 rounded-full">
                                 <div>
                                     <h3 class="font-medium">{{ $item->nama }}</h3>
                                     <p class="text-gray-500 text-sm">{{ $item->alamat }}</p>

@@ -5,11 +5,26 @@
         <div class="w-[900px] p-6">
             <!-- Header -->
             <div class="flex items-center gap-4 mb-6">
-                <img src="{{ asset('images/seven.png') }}" alt="Logo" class="w-20 h-20">
+                @if (Auth::user()->role == 'perusahaan')
+                    @if (Auth::user()->perusahaan->img_profile)
+                        <img id="pu" class="w-20 h-20 object-cover rounded-full profile-img"
+                            src="{{ asset('storage/' . Auth::user()->perusahaan->img_profile) }}" alt="Profile">
+                    @else
+                        <img id="pu" class="w-20 h-20 rounded-full"
+                            src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                            alt="">
+                    @endif
+                @else
+                    <img class="w-10 h-10 rounded-full"
+                        src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                        alt="">
+                @endif
                 <div>
-                    <h1 class="font-bold text-lg m-1">Seven_Inc</h1>
-                    <p class="text-sm text-gray-600 m-1">Jasa TI dan Konsultan TI</p>
-                    <p class="text-sm text-gray-600">Jakarta Timur, DKI Jakarta, Indonesia</p>
+                    <h1 class="font-bold text-lg m-1">{{ Auth::user()->perusahaan->nama_perusahaan }}</h1>
+                    <p class="text-sm text-gray-600 m-1">{{ Auth::user()->perusahaan->jenis_perusahaan }}</p>
+                    <p class="text-sm text-gray-600 m-1">{{ Auth::user()->perusahaan->alamatUtama->kota->nama }},
+                        {{ Auth::user()->perusahaan->alamatUtama->provinsi->nama }},
+                        {{ Auth::user()->perusahaan->alamatUtama->kecamatan->nama }}</p>
                 </div>
             </div>
 
@@ -27,10 +42,8 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium">Alamat <span class="text-red-500">*</span></label>
-                            <select name="alamat"
+                            <input type="text" name="alamat"
                                 class="w-full border rounded-md px-3 py-2 mt-1 outline-none focus:ring-1 focus:ring-orange-500">
-                                <option value="rumah">Rumah</option>
-                            </select>
                         </div>
                     </div>
 
@@ -44,15 +57,25 @@
                             <select name="jenis"
                                 class="border rounded-md px-3 py-2 mt-1 outline-none focus:ring-1 focus:ring-orange-500 w-50">
                                 <option selected disabled value="">Pilih Jenis Lowongan</option>
-                                <option value="full_time">Full Time</option>
-                                <option value="middle_time">Middle Time</option>
+                                <option value="fulltime">Full Time</option>
+                                <option value="middletime">Middle Time</option>
+                                <option value="parttime">Part Time</option>
+                                <option value="freelance">Freelance</option>
                             </select>
                         </div>
 
                         <div>
                             <label class="block font-medium mb-1">Kategori</label>
-                            <input type="text" name="kategori"
-                                class="w-full border-2 rounded-md px-3 py-2 focus:ring-orange-400 focus:border-orange-400">
+                            <select name="kategori" class="form-select"
+                                class="border rounded-md px-3 py-2 mt-1 outline-none focus:ring-1 focus:ring-orange-500 w-50">
+                                <option value="">-- Pilih Kategori --</option>
+                                @foreach ($categories as $cat)
+                                    <option value="{{ $cat->nama }}"
+                                        {{ old('kategori', $lowongan->kategori ?? '') == $cat->nama ? 'selected' : '' }}>
+                                        {{ $cat->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <!-- Gaji -->
@@ -66,11 +89,11 @@
                                 <span>-</span>
                                 <input type="number" name="gaji_akhir"
                                     class="w-44 border rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500" />
-                                <label class="block font-medium mb-1">Periode</label>
+                                {{-- <label class="block font-medium mb-1">Periode</label>
                                 <select name="batas_lamaran"
                                     class="border rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500 w-full">
                                     <option>Bulan</option>
-                                </select>
+                                </select> --}}
                             </div>
                         </div>
                     </div>
@@ -82,7 +105,7 @@
                     <div>
                         <label class="block text-sm font-medium">Deskripsi <span class="text-red-500">*</span></label>
                         <textarea rows="3" name="deskripsi"
-                            class="w-full border rounded-md px-3 py-2 mt-1 outline-none focus:ring-1 focus:ring-orange-500">Deskripsi Pekerjaan</textarea>
+                            class="w-full border rounded-md px-3 py-2 mt-1 outline-none focus:ring-1 focus:ring-orange-500"></textarea>
                     </div>
 
                     <!-- Syarat Pekerjaan -->

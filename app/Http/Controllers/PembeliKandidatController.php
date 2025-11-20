@@ -168,23 +168,19 @@ class PembeliKandidatController extends Controller
 
     public function detailTawaran($id)
     {
-        // Debug dulu
-        // dd([
-        //     'id_diterima_dari_button' => $id,
-        //     'data_ada' => PembeliKandidat::find($id),
-        // ]);
         $pelamar = auth()->user()->pelamar ?? null;
         if (!$pelamar) abort(403);
 
-        // Cari berdasarkan lowongan_perusahaan_id
+        // Ambil tawaran berdasarkan ID pembelian
         $tawaran = PembeliKandidat::with(['lowonganPerusahaan.perusahaan'])
             ->where('pelamar_id', $pelamar->id)
-            ->where('lowongan_perusahaan_id', $id)
-            ->firstOrFail();
+            ->findOrFail($id);
 
-        $lowonganLain = LowonganPerusahaan::where('perusahaan_id', $tawaran->lowonganPerusahaan->perusahaan_id)
-            ->where('id', '!=', $tawaran->lowongan_perusahaan_id)
-            ->whereNotNull('published_at')
+        // Ambil semua lowongan lain yang PERNAH dibeli perusahaan tersebut,
+        // kecuali lowongan yang sedang dibuka.
+        $lowonganLain = PembeliKandidat::with('lowonganPerusahaan')
+            ->where('pelamar_id', $pelamar->id)
+            ->where('id', '!=', $id)
             ->latest()
             ->take(3)
             ->get();

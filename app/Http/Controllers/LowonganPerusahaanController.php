@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CatatanKoin;
+use App\Models\Category;
 use App\Models\Hargakoin;
 use App\Models\LowonganPerusahaan;
 use App\Models\Notifikasi;
@@ -51,7 +52,8 @@ class LowonganPerusahaanController extends Controller
     public function createForm()
     {
         $pakets = PaketLowongan::all();
-        return view('perusahaan.lowongan-saya.tambah-lowongan', compact('pakets'));
+        $categories = Category::all();
+        return view('perusahaan.lowongan-saya.tambah-lowongan', compact('pakets', 'categories'));
     }
 
     public function store(Request $request)
@@ -66,7 +68,7 @@ class LowonganPerusahaanController extends Controller
             "deskripsi"   =>    "required",
             "syarat_pekerjaan"  =>   "required",
             "batas_lamaran"        =>   "required",
-            'kategori' => 'required'
+            'kategori' => 'nullable',
         ]);
 
 
@@ -79,9 +81,16 @@ class LowonganPerusahaanController extends Controller
 
     public function show(LowonganPerusahaan $lowongan)
     {
+        $lowonganLainnya = LowonganPerusahaan::where('perusahaan_id', $lowongan->perusahaan_id)
+            ->where('id', '!=', $lowongan->id)
+            ->latest()
+            ->take(5)
+            ->get();
+
         return view('perusahaan.lowongan-saya.detail-lowongan', [
             "data" => $lowongan,
             "Data" => LowonganPerusahaan::all(),
+            "lowonganLainnya" => $lowonganLainnya,
         ]);
     }
 
@@ -374,9 +383,4 @@ class LowonganPerusahaanController extends Controller
         $lowongan->delete();
         return redirect()->route('superadmin.perusahaan.detail', $perusahaanId)->with('success', 'Lowongan berhasil dihapus.');
     }
-
-
-
-
-    
 }

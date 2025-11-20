@@ -212,7 +212,6 @@
                     <button @click="showConfirm = false"
                         class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg">Batal</button>
 
-                    {{-- Tombol Kirim dengan AJAX --}}
                     <button
                         @click.prevent="
         fetch('{{ route('lamar.cepat', $d->id) }}', {
@@ -226,23 +225,48 @@
         })
         .then(res => res.json())
         .then(data => {
+
+            // 🔥 UNAUTHENTICATED → SweetAlert
+            if (data.unauthenticated) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Login Diperlukan',
+                    text: data.message,
+                    confirmButtonText: 'Login Sekarang',
+                    confirmButtonColor: '#f97316',
+                }).then(() => {
+                    window.location.href = data.redirect;
+                });
+                return;
+            }
+
+            // 🔥 SUKSES → Tampilkan modal sukses kamu (showSuccess)
             if (data.success) {
                 showConfirm = false;
                 showSuccess = true;
-            } else if (data.redirect) {
-                window.location.href = data.redirect;
-            } else {
-                alert(data.message ?? 'Gagal mengirim lamaran.');
+                return;
             }
+
+            // 🔥 ERROR LAIN → SweetAlert
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: data.message ?? 'Terjadi kesalahan.',
+            });
         })
         .catch(err => {
             console.error(err);
-            alert('Terjadi kesalahan koneksi.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Kesalahan Koneksi',
+                text: 'Harap periksa koneksi internet Anda.',
+            });
         })
     "
                         class="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg">
                         Kirim
                     </button>
+
 
                 </div>
             </div>

@@ -1,7 +1,7 @@
 @extends('layouts.index')
 
 @section('content')
-    <div class="bg-gray-50 font-sans">
+    <div class="bg-gray-50 mt-10">
         <div class="max-w-7xl mx-auto py-8 px-4 md:px-8 grid md:grid-cols-3 gap-6">
 
             <!-- Kiri: Detail Utama -->
@@ -110,6 +110,7 @@
 
                     <div>
                         <h2 class="font-semibold text-lg mb-2">Deskripsi Lowongan</h2>
+                        <p class="text-gray-700 mb-4">{{ $tawaran->lowonganPerusahaan->deskripsi ?? '-' }}</p>
                         <p class="text-gray-700 mb-4"><b>Requirements</b></p>
                         <ul class="list-disc pl-6 text-gray-600 space-y-2">
                             <li>{{ $tawaran->lowonganPerusahaan->syarat_pekerjaan ?? '-' }}</li>
@@ -258,8 +259,9 @@
                 </div>
 
                 <div class="bg-white rounded-lg shadow p-4 space-y-4">
-                    @foreach ($lowonganLain as $low)
-                        <a href="{{ route('kandidat.detailTawaran', $low->id) }}"
+                    @foreach ($lowonganLain as $row)
+                        @php $low = $row->lowonganPerusahaan; @endphp
+                        <a href="{{ route('kandidat.detailTawaran', $row->id) }}"
                             class="flex items-start gap-3 border-b pb-4 hover:bg-gray-50 transition">
                             <img src="{{ asset('storage/' . ($low->perusahaan->img_profile ?? 'images/logo.png')) }}"
                                 alt="Logo" class="w-10 h-10 rounded">
