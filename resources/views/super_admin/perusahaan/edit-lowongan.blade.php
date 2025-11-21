@@ -166,10 +166,19 @@
                         </div>
 
                         <div>
-                            <label class="block font-medium mb-1">Kategori</label>
-                            <input type="text" name="kategori" value="{{ old('kategori', $lowongan->kategori) }}"
-                                class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none" />
+                            <label class="block font-semibold text-sm mb-1">Kategori</label>
+                            <select name="kategori"
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:outline-none">
+                                <option value="">-- Pilih Kategori --</option>
+                                @foreach ($categories as $cat)
+                                    <option value="{{ $cat->nama }}"
+                                        {{ old('kategori', $lowongan->kategori ?? '') == $cat->nama ? 'selected' : '' }}>
+                                        {{ $cat->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
+
                         {{-- <div class="col-span-1">
                             <label for="periode" class="block text-sm font-bold mb-1">Bulan</label>
                             <select id="periode" name="periode"
@@ -283,15 +292,23 @@
                             <input type="date" name="batas_lamaran"
                                 value="{{ old('batas_lamaran', $lowongan->batas_lamaran) }}"
                                 class="w-30 border border-gray-400 rounded px-3 py-2 focus:outline-none  text-sm" />
-                        </div><br>
+                        </div>
+                        <label for="batas_lamaran" class="w-32 text-sm font-medium">
+                            Benefit <span class="text-red-600">*</span>
+                        </label>
+
+                        <!-- Input Date -->
+                        <input type="text" name="benefit"
+                            class="w-30 border border-gray-400 rounded px-3 py-2 focus:outline-none  text-sm" />
+
 
 
                         <!-- Tombol -->
-                        <div class="flex justify-center gap-3">
+                        <div class="flex justify-center gap-3 mt-[40px]">
                             <button type="submit"
                                 class="bg-orange-500 text-white text-sm px-7 py-1 rounded-lg hover:bg-orange-600 transition">Simpan</button>
-                            <button type="reset"
-                                class="border border-orange-600 text-orange-600 text-sm px-7 py-1 rounded-lg hover:bg-gray-100 transition">Batal</button>
+                            <a href="{{ route('superadmin.lowongan.detail', $lowongan->id) }}"
+                                class="border border-orange-600 text-orange-600 text-sm px-7 py-1 rounded-lg hover:bg-gray-100 transition">Batal</a>
                         </div>
 
                 </form>

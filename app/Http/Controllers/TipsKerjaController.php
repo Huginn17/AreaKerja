@@ -20,6 +20,7 @@ class TipsKerjaController extends Controller
             "noterbit"  =>    Tipskerja::where('status', 'belum terbit')->count(),
             "sudah_terbit"  =>    Tipskerja::where('status', 'terbit')->get(),
             "belum_terbit"  =>    Tipskerja::where('status', 'belum terbit')->get(),
+            "semua"     => Tipskerja::orderBy('created_at', 'desc')->get(),
         ]);
     }
 
@@ -42,7 +43,7 @@ class TipsKerjaController extends Controller
 
         $d['penulis'] = Auth::user()->username;
         $d['status'] = 'belum terbit';
-        
+
         if (empty($request->intro) && !empty($request->content)) {
             $d['intro'] = Str::limit(strip_tags($request->content), 150);
         } else {
@@ -100,7 +101,7 @@ class TipsKerjaController extends Controller
             return redirect()->back()->with('error', 'Data yang ingin dihapus tidak ditemukan.');
         }
 
-        TipsKerja::where('id', $ids)->delete();
+        TipsKerja::whereIn('id', $ids)->delete();
         return redirect()->route('admin.tips-kerja')->with('success', 'Data berhasil dihapus.');
     }
 
@@ -118,6 +119,7 @@ class TipsKerjaController extends Controller
             "noterbit"  =>    Tipskerja::where('status', 'belum terbit')->count(),
             "sudah_terbit"  =>    Tipskerja::where('status', 'terbit')->get(),
             "belum_terbit"  =>    Tipskerja::where('status', 'belum terbit')->get(),
+            "semua"     => Tipskerja::orderBy('created_at', 'desc')->get(),
         ]);
     }
 
@@ -197,7 +199,7 @@ class TipsKerjaController extends Controller
             return redirect()->back()->with('error', 'Data yang ingin dihapus tidak ditemukan.');
         }
 
-        TipsKerja::where('id', $ids)->delete();
+        TipsKerja::whereIn('id', $ids)->delete();
         return redirect()->route('superadmin.tips-kerja')->with('success', 'Data berhasil dihapus.');
     }
 }

@@ -1019,7 +1019,7 @@ class SuperAdminController extends Controller
     {
         $user = User::with(['admin', 'finance', 'perusahaan', 'pelamar'])->findOrFail($id);
 
-        // 🔹 Hapus gambar profil sesuai role
+        //  Hapus gambar profil sesuai role
         if ($user->role === 'admin' && $user->admin?->img_profile) {
             Storage::delete('public/' . $user->admin->img_profile);
         } elseif ($user->role === 'finance' && $user->finance?->img_profile) {
@@ -1030,7 +1030,7 @@ class SuperAdminController extends Controller
             Storage::delete('public/' . $user->pelamar->img_profile);
         }
 
-        // 🔹 Hapus data terkait sesuai role
+        //  Hapus data terkait sesuai role
         if ($user->role === 'admin' && $user->admin) {
             $user->admin->delete();
         } elseif ($user->role === 'finance' && $user->finance) {
@@ -1044,7 +1044,7 @@ class SuperAdminController extends Controller
         // 🔹 Terakhir, hapus user utamanya
         $user->delete();
 
-        return redirect()->route('superadmin.add.user')->with('success', 'Data User Berhasil Dihapus');
+        return redirect()->back()->with('success', 'Data User Berhasil Dihapus');
     }
 
 
@@ -1458,22 +1458,37 @@ class SuperAdminController extends Controller
 
 
     //RECRUITMENT
-    public function recruitment($id)
+    public function recruitment(Request $request, $id)
     {
+        $search = $request->search;
+
         $perusahaan = Perusahaan::findOrFail($id);
 
         $recruitments = PembeliKandidat::where('status', 'diterima')
             ->whereHas('lowonganPerusahaan', function ($q) use ($id) {
                 $q->where('perusahaan_id', $id);
             })
+            ->when($search, function ($q) use ($search) {
+                $q->where(function ($query) use ($search) {
+                    $query->whereHas('pelamar', function ($pel) use ($search) {
+                        $pel->where('nama_pelamar', 'like', '%' . $search . '%');
+                    })
+                        ->orWhereHas('lowonganPerusahaan', function ($low) use ($search) {
+                            $low->where('nama', 'like', '%' . $search . '%');
+                        });
+                });
+            })
             ->with(['pelamar', 'lowonganPerusahaan'])
             ->get();
+
 
         return view('super_admin.recruitment.data-recruitment', [
             'perusahaan' => $perusahaan,
             'recruitments' => $recruitments,
+            'search' => $search,
         ]);
     }
+
 
     public function recruitmentPerusahaan(Request $request)
     {

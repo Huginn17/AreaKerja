@@ -120,3 +120,76 @@ if (btn_tunai && table_tunai) {
         btn_tunai.classList.add("bg-gray-700", "text-white");    
     });
 }
+
+
+
+//NOTIIF
+        // Tandai dibaca
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('notifHandler', () => ({
+
+        async hapus(id) {
+            if (!confirm("Hapus notifikasi ini?")) return;
+
+            let url = window.routes.hapusNotif.replace(':id', id);
+
+            let res = await fetch(url, {
+                method: "DELETE",
+                headers: {
+                    "X-CSRF-TOKEN": window.csrf,
+                    "Accept": "application/json"
+                }
+            });
+
+            const data = await res.json();
+            if (data.success) {
+                document.querySelector(`.notif-item[data-id="${id}"]`)?.remove();
+            }
+        },
+
+        async hapusSemua() {
+            if (!confirm("Hapus semua notifikasi?")) return;
+
+            let res = await fetch(window.routes.hapusSemua, {
+                method: "DELETE",
+                headers: {
+                    "X-CSRF-TOKEN": window.csrf,
+                    "Accept": "application/json"
+                }
+            });
+
+            const data = await res.json();
+            if (data.success) {
+                document.querySelectorAll('.notif-item').forEach(e => e.remove());
+            }
+        },
+
+        async hapusSemuaBaca() {
+            if (!confirm("Hapus semua notifikasi yang sudah dibaca?")) return;
+
+            let res = await fetch(window.routes.hapusSemuaBaca, {
+                method: "DELETE",
+                headers: {
+                    "X-CSRF-TOKEN": window.csrf,
+                    "Accept": "application/json"
+                }
+            });
+
+            const data = await res.json();
+            if (data.success) {
+                document.querySelectorAll('.notif-item.bg-gray-200').forEach(e => e.remove());
+            }
+        }
+
+    }));
+});
+
+   
+        document.querySelector('form[target="hiddenFrame"]').addEventListener('submit', () => {
+            document.querySelectorAll('.notif-item').forEach(item => {
+                item.classList.remove('bg-white');
+                item.classList.add('bg-gray-200');
+            });
+            const badge = document.querySelector('.absolute .bg-red-500');
+            if (badge) badge.remove();
+        });

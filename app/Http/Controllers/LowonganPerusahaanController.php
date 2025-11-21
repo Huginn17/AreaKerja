@@ -9,6 +9,7 @@ use App\Models\LowonganPerusahaan;
 use App\Models\Notifikasi;
 use App\Models\PaketLowongan;
 use App\Models\Perusahaan;
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -69,6 +70,7 @@ class LowonganPerusahaanController extends Controller
             "syarat_pekerjaan"  =>   "required",
             "batas_lamaran"        =>   "required",
             'kategori' => 'nullable',
+            'benefit' => 'nullable',
         ]);
 
 
@@ -113,6 +115,7 @@ class LowonganPerusahaanController extends Controller
             'batas_lamaran' => 'nullable|date',
             'deskripsi' => 'nullable|string',
             'syarat_pekerjaan' => 'nullable|string',
+            'benefit' => 'nullable|string',
         ]);
 
         $valid['perusahaan_id'] = Auth::user()->perusahaan->id;
@@ -270,9 +273,11 @@ class LowonganPerusahaanController extends Controller
     {
         $pakets = PaketLowongan::all();
         $perusahaan = Perusahaan::findOrFail($id);
+        $categories = Category::all();
         return view('super_admin.perusahaan.tambah-lowongan', [
             'perusahaan' => $perusahaan,
-            'pakets' => $pakets
+            'pakets' => $pakets,
+            'categories' => $categories,
         ]);
     }
 
@@ -289,7 +294,8 @@ class LowonganPerusahaanController extends Controller
             "deskripsi"   => "required",
             "syarat_pekerjaan"  => "required",
             "batas_lamaran" => "required",
-            'kategori' => 'required'
+            'kategori' => 'nullable',
+            'benefit' => 'nullable',
         ]);
 
         // Pastikan user yang login adalah super_admin
@@ -308,7 +314,7 @@ class LowonganPerusahaanController extends Controller
         LowonganPerusahaan::create($valid);
 
         // =====================================================
-        // 🔔 Buat notifikasi untuk Super Admin
+        // Buat notifikasi untuk Super Admin
         // =====================================================
         Notifikasi::create([
             'user_id' => Auth::id(),
@@ -320,7 +326,7 @@ class LowonganPerusahaanController extends Controller
         ]);
 
         // =====================================================
-        // 🔔 Buat notifikasi untuk perusahaan yang bersangkutan
+        // Buat notifikasi untuk perusahaan yang bersangkutan
         // =====================================================
         // Pastikan perusahaan memiliki user
         if ($perusahaan->user_id ?? false) {
@@ -329,6 +335,20 @@ class LowonganPerusahaanController extends Controller
                 // 'perusahaan_id' => $perusahaan->id,
                 'judul'   => 'Lowongan Baru dari ' . $perusahaan->nama_perusahaan,
                 'pesan'   => 'Lowongan baru telah ditambahkan oleh Super Admin.',
+                'is_read' => false,
+                'expired_at' => now()->addDays(7),
+            ]);
+        }
+
+        // Notif untuk semua Admin
+        $admins = User::where('role', 'admin')->get();
+
+        foreach ($admins as $admin) {
+            Notifikasi::create([
+                'user_id' => $admin->id,
+                'perusahaan_id' => $perusahaan->id,
+                'judul'   => 'Lowongan Baru Ditambahkan',
+                'pesan'   => 'Super Admin menambahkan lowongan untuk ' . $perusahaan->nama_perusahaan,
                 'is_read' => false,
                 'expired_at' => now()->addDays(7),
             ]);
@@ -349,8 +369,10 @@ class LowonganPerusahaanController extends Controller
 
     public function editSuper(LowonganPerusahaan $lowongan)
     {
+        $categories = Category::all();
         return view('super_admin.perusahaan.edit-lowongan', [
-            "lowongan" => $lowongan
+            "lowongan" => $lowongan,
+            "categories" => $categories,
         ]);
     }
 
@@ -366,6 +388,7 @@ class LowonganPerusahaanController extends Controller
             'batas_lamaran' => 'nullable|date',
             'deskripsi' => 'nullable|string',
             'syarat_pekerjaan' => 'nullable|string',
+            'benefit' => 'nullable|string',
         ]);
 
         $valid['perusahaan_id'] = $lowongan->perusahaan->id;

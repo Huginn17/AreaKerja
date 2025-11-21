@@ -395,13 +395,31 @@ class AdminController extends Controller
 
 
     //TALENT HUNTER 
-    public function talentHunterForm()
+    public function talentHunterForm(Request $request)
     {
-        $talentHunter = TalentHunter::with('perusahaan')->get();
+        $search = $request->search;
+
+        $talentHunter = TalentHunter::with('perusahaan')
+            ->when($search, function ($query) use ($search) {
+
+                $query->where(function ($q) use ($search) {
+
+                    // Search posisi di table talent_hunters
+                    $q->where('posisi', 'like', "%{$search}%");
+
+                    // Search nama_perusahaan di table perusahaans (relasi)
+                    $q->orWhereHas('perusahaan', function ($p) use ($search) {
+                        $p->where('nama_perusahaan', 'like', "%{$search}%");
+                    });
+                });
+            })
+            ->get();
+
         return view('admin.talent-hunter.talenthunter', [
             'talentHunter' => $talentHunter
         ]);
     }
+
 
     public function detailTalentHunter($id)
     {
@@ -438,15 +456,35 @@ class AdminController extends Controller
 
 
     //hal rec
-    public function recruitment($id)
+    public function recruitment(Request $request, $id)
     {
         $perusahaan = Perusahaan::findOrFail($id);
+        $search = $request->search;
 
         $recruitments = PembeliKandidat::where('status', 'diterima')
             ->whereHas('lowonganPerusahaan', function ($q) use ($id) {
                 $q->where('perusahaan_id', $id);
             })
-            ->with(['pelamar', 'lowonganPerusahaan'])
+            ->when($search, function ($q) use ($search) {
+
+                $q->where(function ($query) use ($search) {
+                    // Search username (table users)
+                    $query->whereHas('pelamar.user', function ($u) use ($search) {
+                        $u->where('username', 'like', "%$search%");
+                    });
+
+                    // Search nama pelamar (table pelamars)
+                    $query->orWhereHas('pelamar', function ($p) use ($search) {
+                        $p->where('nama_pelamar', 'like', "%$search%");
+                    });
+
+                    // Search nama lowongan_perusahaans
+                    $query->orWhereHas('lowonganPerusahaan', function ($l) use ($search) {
+                        $l->where('nama', 'like', "%$search%");
+                    });
+                });
+            })
+            ->with(['pelamar.user', 'lowonganPerusahaan'])
             ->get();
 
         return view('admin.recruitment.recruitment', [
@@ -454,6 +492,7 @@ class AdminController extends Controller
             'recruitments' => $recruitments,
         ]);
     }
+
 
     public function detailRecruitment($id)
     {

@@ -236,6 +236,15 @@
             </div>
         </div>
 
+        <script>
+            window.routes = {
+                hapusNotif: "{{ route('notifikasi.hapus', ':id') }}",
+                hapusSemua: "{{ route('notifikasi.hapusSemua') }}",
+                hapusSemuaBaca: "{{ route('notifikasi.hapusSemuaBaca') }}"
+            };
+
+            window.csrf = "{{ csrf_token() }}";
+        </script>
         <script src="{{ asset('js/super_admin.js') }}"></script>
         @include('finance.sidebar.modal-logout')
         <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>

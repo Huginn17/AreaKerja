@@ -72,107 +72,65 @@ if (selectKategori) {
 
 //NOTIF
  // Tandai dibaca
-        async function markAsRead(url, el) {
-            try {
-                let res = await fetch(url, {
-                    method: "POST",
-                    headers: {
-                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                        "Accept": "application/json"
-                    }
-                });
+          // Tandai dibaca
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('notifHandler', () => ({
 
-                let data = await res.json();
+        async hapus(id) {
+            if (!confirm("Hapus notifikasi ini?")) return;
 
-                if (data.success) {
+            let url = window.routes.hapusNotif.replace(':id', id);
 
-                    // Ubah warna bg
-                    el.classList.remove("bg-white");
-                    el.classList.add("bg-gray-200");
-
-                    // Kurangi badge
-                    const badge = document.getElementById("notif-badge");
-                    if (badge) {
-                        let count = parseInt(badge.textContent);
-                        if (count > 1) {
-                            badge.textContent = count - 1;
-                        } else {
-                            badge.remove();
-                        }
-                    }
+            let res = await fetch(url, {
+                method: "DELETE",
+                headers: {
+                    "X-CSRF-TOKEN": window.csrf,
+                    "Accept": "application/json"
                 }
+            });
 
-            } catch (error) {
-                console.error("markAsRead error:", error);
+            const data = await res.json();
+            if (data.success) {
+                document.querySelector(`.notif-item[data-id="${id}"]`)?.remove();
+            }
+        },
+
+        async hapusSemua() {
+            if (!confirm("Hapus semua notifikasi?")) return;
+
+            let res = await fetch(window.routes.hapusSemua, {
+                method: "DELETE",
+                headers: {
+                    "X-CSRF-TOKEN": window.csrf,
+                    "Accept": "application/json"
+                }
+            });
+
+            const data = await res.json();
+            if (data.success) {
+                document.querySelectorAll('.notif-item').forEach(e => e.remove());
+            }
+        },
+
+        async hapusSemuaBaca() {
+            if (!confirm("Hapus semua notifikasi yang sudah dibaca?")) return;
+
+            let res = await fetch(window.routes.hapusSemuaBaca, {
+                method: "DELETE",
+                headers: {
+                    "X-CSRF-TOKEN": window.csrf,
+                    "Accept": "application/json"
+                }
+            });
+
+            const data = await res.json();
+            if (data.success) {
+                document.querySelectorAll('.notif-item.bg-gray-200').forEach(e => e.remove());
             }
         }
 
-        // AlpineJS init
-        document.addEventListener('alpine:init', () => {
-            Alpine.data('notifHandler', () => ({
-
-                // Hapus satu notifikasi
-                async hapus(id) {
-                    if (!confirm("Hapus notifikasi ini?")) return;
-
-                    let url = "{{ route('notifikasi.hapus', ':id') }}".replace(':id', id);
-
-                    let res = await fetch(url, {
-                        method: "DELETE",
-                        headers: {
-                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                            "Accept": "application/json"
-                        }
-                    });
-
-                    let data = await res.json();
-
-                    if (data.success) {
-                        document.querySelector(`.notif-item[data-id="${id}"]`)?.remove();
-                    }
-                },
-
-                // Hapus semua
-                async hapusSemua() {
-                    if (!confirm("Hapus semua notifikasi?")) return;
-
-                    let res = await fetch("{{ route('notifikasi.hapusSemua') }}", {
-                        method: "DELETE",
-                        headers: {
-                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                            "Accept": "application/json"
-                        }
-                    });
-
-                    let data = await res.json();
-
-                    if (data.success) {
-                        document.querySelectorAll('.notif-item').forEach(e => e.remove());
-                    }
-                },
-
-                // Hapus semua yang sudah dibaca
-                async hapusSemuaBaca() {
-                    if (!confirm("Hapus semua notifikasi yang sudah dibaca?")) return;
-
-                    let res = await fetch("{{ route('notifikasi.hapusSemuaBaca') }}", {
-                        method: "DELETE",
-                        headers: {
-                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                            "Accept": "application/json"
-                        }
-                    });
-
-                    let data = await res.json();
-
-                    if (data.success) {
-                        document.querySelectorAll('.notif-item.bg-gray-200')
-                            .forEach(e => e.remove());
-                    }
-                }
-
-            }));
-        });
+    }));
+});
 
         /////
         document.querySelector('form[target="hiddenFrame"]').addEventListener('submit', () => {

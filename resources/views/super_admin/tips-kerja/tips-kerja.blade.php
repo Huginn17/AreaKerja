@@ -74,7 +74,7 @@
 
                 <div class="flex justify-between items-center">
                     <div class="text-sm space-x-1">
-                        <span class="font-medium">Semua ({{ $all }})</span> |
+                        <span id="btn_all" class="font-medium">Semua ({{ $all }})</span> |
                         <span id="btn_terbit" class="text-blue-600">Telah Terbit <span
                                 class="text-gray-600">({{ $terbit }})</span></span> |
                         <span id="btn_blmterbit" class="text-blue-600">Draf <span
@@ -101,7 +101,7 @@
                     </div>
 
                     <div class="flex space-x-4">
-                        <input id="search_input" type="text" placeholder="nama/tanggal..."
+                        <input id="search_input" type="text" onkeyup="searchTable()" placeholder="judul..."
                             class="border-2 border-gray-400 rounded-lg px-2 py-1 text-sm">
                         <button type="button" onclick="searchTable()"
                             class="bg-gray-700 hover:bg-gray-500 text-white px-9 py-2 rounded-lg">Cari</button>
@@ -124,7 +124,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($sudah_terbit as $s)
+                                @forelse ($sudah_terbit as $s)
                                     <tr class="bg-gray-200">
                                         <td class="px-4 py-4"><input name="ids[]" value="{{ $s->id }}"
                                                 type="checkbox"></td>
@@ -134,10 +134,64 @@
                                         <td class="px-4 py-4 font-semibold">{{ $s->penulis }}</td>
                                         <td class="px-4 py-4 font-semibold">{{ $s->created_at->format('d M Y') }}</td>
                                     </tr>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                        <td colspan="4" class="px-4 py-4 text-center">
+                                            Tidak ada data yang ditemukan.
+                                        </td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
+
+
+                    <div id="semua" class="rounded-lg overflow-hidden hidden">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-orange-500 text-white">
+                                <tr>
+                                    <th class="px-4 py-3 w-10"><input id="checkAllSemua" type="checkbox"></th>
+                                    <th class="px-4 py-3 font-semibold">Judul</th>
+                                    <th class="px-4 py-3 font-semibold">Penulis</th>
+                                    <th class="px-4 py-3 font-semibold">Status</th>
+                                    <th class="px-4 py-3 font-semibold">Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($semua as $s)
+                                    <tr class="bg-gray-200">
+                                        <td class="px-4 py-4">
+                                            <input name="ids[]" value="{{ $s->id }}" type="checkbox">
+                                        </td>
+                                        <td class="px-4 py-4 text-blue-600 font-medium">
+                                            {{ $s->title }}
+                                        </td>
+                                        <td class="px-4 py-4 font-semibold">{{ $s->penulis }}</td>
+
+                                        {{-- Tampilkan status otomatis --}}
+                                        <td class="px-4 py-4 font-semibold">
+                                            @if ($s->status == 'terbit')
+                                                <span class="text-green-600 font-bold">Terbit</span>
+                                            @else
+                                                <span class="text-red-600 font-bold">Draft</span>
+                                            @endif
+                                        </td>
+
+                                        <td class="px-4 py-4 font-semibold">
+                                            {{ $s->created_at->format('d M Y') }}
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="px-4 py-4 text-center">
+                                            Tidak ada data yang ditemukan.
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+
 
                     {{-- belum terbit --}}
                     <div id="belum_terbit" class="rounded-lg overflow-hidden">
@@ -151,7 +205,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($belum_terbit as $s)
+                                @forelse ($belum_terbit as $s)
                                     <tr class="bg-gray-200">
                                         <td class="px-4 py-4"><input name="ids[]" value="{{ $s->id }}"
                                                 type="checkbox"></td>
@@ -161,34 +215,57 @@
                                         <td class="px-4 py-4 font-semibold">{{ $s->penulis }}</td>
                                         <td class="px-4 py-4 font-semibold">{{ $s->created_at->format('d M Y') }}</td>
                                     </tr>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                        <td colspan="4" class="px-4 py-4 text-center">
+                                            Tidak ada data yang ditemukan.
+                                        </td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
                 </form>
             </div>
             <script>
+                let btn_all = document.getElementById("btn_all");
                 let btn_terbit = document.getElementById("btn_terbit");
                 let btn_blmterbit = document.getElementById("btn_blmterbit");
 
                 let belum_terbit = document.getElementById('belum_terbit');
                 let sudah_terbit = document.getElementById('sudah_terbit');
+                let semua = document.getElementById('semua');
 
-                // default tabel aktif (pakai id div)
+                // default tabel aktif
                 let activeTableId = 'belum_terbit';
 
+                // tombol Draf
                 btn_blmterbit.addEventListener("click", () => {
                     sudah_terbit.classList.add('hidden');
+                    semua.classList.add('hidden');
                     belum_terbit.classList.remove('hidden');
-                    activeTableId = 'belum_terbit'; // update
+                    activeTableId = 'belum_terbit';
                 });
 
+                // tombol Terbit
                 btn_terbit.addEventListener("click", () => {
                     belum_terbit.classList.add('hidden');
+                    semua.classList.add('hidden');
                     sudah_terbit.classList.remove('hidden');
-                    activeTableId = 'sudah_terbit'; // update
+                    activeTableId = 'sudah_terbit';
                 });
 
+                // tombol Semua
+                btn_all.addEventListener("click", () => {
+                    sudah_terbit.classList.add('hidden');
+                    belum_terbit.classList.add('hidden');
+
+                    semua.classList.remove('hidden');
+
+                    activeTableId = 'semua';
+                });
+
+                // ------------------ Bulk Action ------------------
                 function setAction(action) {
                     let form = document.getElementById('bulkAction');
 
@@ -204,14 +281,42 @@
                     form.submit();
                 }
 
-                document.getElementById("checkAllTerbit").addEventListener("change", function() {
-                    document.querySelectorAll("#sudah_terbit input[name='ids[]']").forEach(cb => cb.checked = this.checked);
+                // ---- Checkbox Select All untuk "Sudah Terbit" ----
+                document.getElementById('checkAllTerbit').addEventListener('change', function() {
+                    document.querySelectorAll('#sudah_terbit input[name="ids[]"]').forEach(cb => {
+                        cb.checked = this.checked;
+                    });
                 });
 
-                document.getElementById("checkAllBelum").addEventListener("change", function() {
-                    document.querySelectorAll("#belum_terbit input[name='ids[]']").forEach(cb => cb.checked = this.checked);
+                // ---- Checkbox Select All untuk "Belum Terbit" ----
+                document.getElementById('checkAllBelum').addEventListener('change', function() {
+                    document.querySelectorAll('#belum_terbit input[name="ids[]"]').forEach(cb => {
+                        cb.checked = this.checked;
+                    });
                 });
 
+                // ---- Checkbox Select All untuk "Semua" ----
+                document.getElementById('checkAllSemua').addEventListener('change', function() {
+                    document.querySelectorAll('#semua input[name="ids[]"]').forEach(cb => {
+                        cb.checked = this.checked;
+                    });
+                });
+
+
+                // ------------------ Check All Dynamic ------------------
+                function checkAllToggle(source) {
+                    const table = document.querySelector(`#${activeTableId}`);
+                    if (!table) return;
+
+                    table.querySelectorAll("input[name='ids[]']").forEach(cb => cb.checked = source.checked);
+                }
+
+                document.getElementById("checkAllSemua").addEventListener("change", function() {
+                    checkAllToggle(this);
+                });
+
+
+                // ------------------ Search ------------------
                 function searchTable() {
                     let input = document.getElementById("search_input").value.toLowerCase();
                     let filterBy = document.getElementById("filter_select").value;
@@ -222,17 +327,27 @@
                         "created_at": 3
                     };
 
-                    let table = document.querySelector(`#${activeTableId} table`);
-                    if (!table) return; // kalau table tidak ada, stop
+                    if (activeTableId === 'semua') {
+                        searchInTable('semua');
+                    } else {
+                        searchInTable(activeTableId);
+                    }
 
-                    let rows = table.getElementsByTagName("tr");
+                    function searchInTable(id) {
+                        let table = document.querySelector(`#${id} table`);
+                        if (!table) return;
 
-                    for (let i = 1; i < rows.length; i++) {
-                        let colText = rows[i].cells[colIndex[filterBy]]?.innerText.toLowerCase() || "";
-                        rows[i].style.display = colText.includes(input) ? "" : "none";
+                        let rows = table.getElementsByTagName("tr");
+
+                        for (let i = 1; i < rows.length; i++) {
+                            let colText = rows[i].cells[colIndex[filterBy]]?.innerText.toLowerCase() || "";
+                            rows[i].style.display = colText.includes(input) ? "" : "none";
+                        }
                     }
                 }
             </script>
+
+
         </div>
         @include('super_admin.notif.modal_notif')
         @include('super_admin.notif.modal_semua')

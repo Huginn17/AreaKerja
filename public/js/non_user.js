@@ -170,9 +170,6 @@ $('#formRegis').on('submit', function(e) {
     });
 });
 
-
-
-
 // //STATUS PELAMAR
 // document.getElementById('statusSelect').addEventListener('change', function () {
 

@@ -74,6 +74,12 @@
                                 class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-24" placeholder="000">
                         </div>
 
+                        <div>
+                            <label class="block font-medium mb-1">Link Form</label>
+                            <input type="url" name="link_form" value="{{ old('link_form', $event->link_form) }}"
+                                class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-24" placeholder="000">
+                        </div>
+
                         <!-- Lokasi -->
                         <div>
                             <label class="block font-medium mb-1">Lokasi</label>

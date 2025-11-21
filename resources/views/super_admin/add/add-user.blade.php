@@ -117,7 +117,7 @@
                                     <td class="px-4 py-3">{{ $user->email }}</td>
                                     <td class="px-4 py-3">{{ $user->username }}</td>
                                     <td class="px-4 py-3 flex gap-2 justify-center">
-                                        <form action="{{ route('superadmin.delete.akun', $user->id) }}" method="POST"
+                                        <form action="{{ route('superadmin.destroy.user', $user->id) }}" method="POST"
                                             onsubmit="return confirm('Yakin ingin menghapus user ini? Data tidak bisa dikembalikan!')">
                                             @csrf @method('DELETE')
                                             <button type="submit"
@@ -183,7 +183,7 @@
                                         @endif
                                     </td>
                                     <td class="px-4 py-3 flex gap-2 justify-center">
-                                        <form action="{{ route('superadmin.delete.akun', $user->id) }}" method="POST"
+                                        <form action="{{ route('superadmin.destroy.user', $user->id) }}" method="POST"
                                             onsubmit="return confirm('Yakin ingin menghapus user ini? Data tidak bisa dikembalikan!')">
                                             @csrf @method('DELETE')
                                             <button type="submit"

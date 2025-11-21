@@ -91,11 +91,12 @@
                             </div>
 
                             <label class="flex items-center text-sm font-medium gap-1">
-                                <input type="checkbox" class="mr-2">
-                                Saya menyetujui <a href="{{ url('syarat/ketentuan') }}" class="text-orange-500">Syarat
-                                    dan
-                                    Ketentuan</a>
+                                <input type="checkbox" id="agree_pelamar" name="agree_pelamar" class="mr-2">
+                                Saya menyetujui
+                                <a href="{{ url('syarat/ketentuan') }}" class="text-orange-500">Syarat dan Ketentuan</a>
                             </label>
+                            <p class="error-message text-red-500 text-sm" data-field="agree_pelamar"></p>
+
 
                             <input type="hidden" name="role" value="pelamar">
 
@@ -140,11 +141,13 @@
                             </div>
 
                             <label class="flex items-center text-sm font-medium gap-1">
-                                <input type="checkbox" class="mr-2">
-                                Saya menyetujui <a href="{{ url('syarat/ketentuan') }}" class="text-orange-500">Syarat
-                                    dan
+                                <input type="checkbox" id="agree_perusahaan" name="agree_perusahaan" class="mr-2">
+                                Saya menyetujui
+                                <a href="{{ url('syarat/ketentuan') }}" class="text-orange-500">Syarat dan
                                     Ketentuan</a>
                             </label>
+                            <p class="error-message text-red-500 text-sm" data-field="agree_perusahaan"></p>
+
 
                             <input type="hidden" name="role" value="perusahaan">
 
@@ -207,7 +210,7 @@
         </div>
 
         {{-- Email sama --}}
-        
+
         {{-- SCRIPT TOGGLE FORM --}}
         <script>
             document.addEventListener("DOMContentLoaded", () => {
@@ -238,8 +241,17 @@
         <script>
             document.getElementById("register_perusahaanForm").addEventListener("submit", async function(e) {
                 e.preventDefault();
+
                 document.querySelectorAll("#register_perusahaanForm .error-message").forEach(el => el.textContent =
                     "");
+
+                // CEK CHECKBOX
+                if (!document.getElementById("agree_perusahaan").checked) {
+                    document.querySelector(`#register_perusahaanForm .error-message[data-field="agree_perusahaan"]`)
+                        .textContent = "Anda harus menyetujui syarat dan ketentuan.";
+                    return;
+                }
+
                 let formData = new FormData(this);
 
                 try {
@@ -273,13 +285,38 @@
                     alert("Gagal menghubungi server. Coba lagi.");
                 }
             });
+
+            document.getElementById("goLogin")?.addEventListener("click", function() {
+                window.location.href = "/login";
+            });
+
+            document.getElementById("gooLogin")?.addEventListener("click", function() {
+                window.location.href = "/login";
+            });
+
+            // tombol close modal
+            function closeModal() {
+                document.getElementById("successModal").classList.add("hidden");
+                document.getElementById("successModal").classList.remove("flex");
+                document.getElementById("successModal_perusahaan").classList.add("hidden");
+                document.getElementById("successModal_perusahaan").classList.remove("flex");
+            }
         </script>
 
         {{-- FETCH REGISTER PELAMAR --}}
         <script>
             document.getElementById("registerForm").addEventListener("submit", async function(e) {
                 e.preventDefault();
+
                 document.querySelectorAll("#registerForm .error-message").forEach(el => el.textContent = "");
+
+                // CEK CHECKBOX
+                if (!document.getElementById("agree_pelamar").checked) {
+                    document.querySelector(`#registerForm .error-message[data-field="agree_pelamar"]`)
+                        .textContent = "Anda harus menyetujui syarat dan ketentuan.";
+                    return;
+                }
+
                 let formData = new FormData(this);
 
                 try {
@@ -309,19 +346,26 @@
                         alert("Terjadi kesalahan server.");
                     }
 
-
                 } catch (err) {
                     alert("Gagal menghubungi server. Coba lagi.");
                 }
             });
 
-            document.getElementById("goLogin").addEventListener("click", () => {
-                window.location.href = "{{ route('login') }}";
+            document.getElementById("goLogin")?.addEventListener("click", function() {
+                window.location.href = "/login";
             });
 
-            document.getElementById("gooLogin").addEventListener("click", () => {
-                window.location.href = "{{ route('login') }}";
+            document.getElementById("gooLogin")?.addEventListener("click", function() {
+                window.location.href = "/login";
             });
+
+            // tombol close modal
+            function closeModal() {
+                document.getElementById("successModal").classList.add("hidden");
+                document.getElementById("successModal").classList.remove("flex");
+                document.getElementById("successModal_perusahaan").classList.add("hidden");
+                document.getElementById("successModal_perusahaan").classList.remove("flex");
+            }
         </script>
 
     </body>

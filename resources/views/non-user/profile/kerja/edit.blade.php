@@ -20,7 +20,7 @@
 
                 <!-- Nama Organisasi -->
                 <div>
-                    <label class="block text-sm font-semibold text-gray-900 mb-1">Nama Organisasi</label>
+                    <label class="block text-sm font-semibold text-gray-900 mb-1">Nama Perusahaan</label>
                     <input type="text" name="nama_perusahaan" value="{{ old('nama_perusahaan',$DK->nama_perusahaan) }}"
                         class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-orange-400 focus:outline-none">
                 </div>

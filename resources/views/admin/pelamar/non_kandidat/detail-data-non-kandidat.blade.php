@@ -55,18 +55,23 @@
                         <div class="flex items-center gap-4 overflow-y-auto">
                             @if (!empty($pdf))
                                 <img src="{{ public_path('storage/' . $pelamar->img_profile) }}" alt="Profile"
-                                    class="w-32 h-32 md:w-28 md:h-28 rounded-full object-cover border-2 border-gray-300">
+                                    class="w-32 h-32 md:w-28 md:h-28 rounded-full object-cover border-4 border-gray-300">
                             @else
-                                <img src="{{ asset('storage/'. $pelamar->img_profile) }}" alt="Profile"
-                                    class="w-32 h-32 md:w-28 md:h-28 rounded-full object-cover border-2 border-gray-300">
+                                <img src="{{ asset('storage/' . $pelamar->img_profile) }}" alt="Profile"
+                                    class="w-32 h-32 md:w-28 md:h-28 rounded-full object-cover border-4 border-gray-300">
                             @endif
                             <img hidden src="{{ public_path('storage/' . $pelamar->img_profile) }}" alt="Profile"
-                                class="w-32 h-32 md:w-28 md:h-28 rounded-full object-cover border-2 border-gray-300">
+                                class="w-32 h-32 md:w-28 md:h-28 rounded-full object-cover border-4 border-gray-300">
                             <div>
                                 <h1 class="text-2xl font-bold text-orange-600 mb-1">{{ $pelamar->user->username }} </h1>
-                                <p class="text-sm font-semibold">Jl. Prapatan Dalam No. 04 Rt. 47<br>
-                                    Balikpapan Kota, Kota Balikpapan,<br>
-                                    Kalimantan Timur, ID 76111</p>
+                                <p class="text-sm font-semibold">
+                                    {{ optional($pelamar->alamat_pelamar->first())->label ?? '-' }},
+                                    {{ optional($pelamar->alamat_pelamar->first())->desa ?? '-' }} <br>
+                                    {{ optional($pelamar->alamat_pelamar->first())->kecamatan ?? '-' }},
+                                    {{ optional($pelamar->alamat_pelamar->first())->kota ?? '-' }}
+                                    ,<br>
+                                    {{ optional($pelamar->alamat_pelamar->first())->provinsi ?? '-' }},
+                                    {{ optional($pelamar->alamat_pelamar->first())->kode_pos ?? '-' }}</p>
                             </div>
                         </div>
                         <!-- Kontak -->
@@ -129,15 +134,7 @@
                                     </svg>
                                 </div>
                                 <p style="margin-top: 0; margin-bottom: 24px;" class="text-sm">
-                                    Saya adalah lulusan Teknik Informatika di Universitas Gadjah Mada yang memiliki minat
-                                    besar
-                                    dalam pengembangan web dan aplikasi. Dengan keahlian dalam Flutter untuk pengembangan
-                                    aplikasi berbasis Android serta PHP untuk pemrograman web, saya terus mengasah kemampuan
-                                    saya di bidang teknologi. Saya bercita-cita menjadi seorang programmer full-stack yang
-                                    mampu
-                                    mengembangkan aplikasi atau website sendiri, dengan harapan dapat memberikan kontribusi
-                                    positif bagi masyarakat dalam menghadapi perkembangan dunia digital yang semakin pesat.
-                                </p>
+                                    {{ optional($pelamar)->deskripsi_diri ?? '-' }}</p>
                             </section>
 
                             <!-- KEAHLIAN & KOMPETENSI -->
@@ -151,68 +148,58 @@
                                     </svg>
                                 </div>
                                 <table style="width: 100%;  font-size: 12px; margin-bottom: 24px;">
-                                    <tr>
-                                        <td style="padding: 2px 0;" class="font-bold">﹒Laravel</td>
-                                        <td style="text-align: right; padding: 2px 0;" class="font-bold">Expert</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 2px 0;" class="font-bold">﹒PHP</td>
-                                        <td style="text-align: right; padding: 2px 0;" class="font-bold">Intermediate</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 2px 0;" class="font-bold">﹒Flutter</td>
-                                        <td style="text-align: right; padding: 2px 0;" class="font-bold">Expert</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 2px 0;" class="font-bold">﹒CSS</td>
-                                        <td style="text-align: right; padding: 2px 0;" class="font-bold">Intermediate</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 2px 0;" class="font-bold">﹒Java Script</td>
-                                        <td style="text-align: right; padding: 2px 0;" class="font-bold">Expert</td>
-                                    </tr>
+                                    @forelse ($pelamar->skill as $skill)
+                                        <tr>
+                                            <td style="padding: 2px 0;" class="font-bold">
+                                                ﹒{{ $skill->skill }}
+                                            </td>
+                                            <td style="text-align: right; padding: 2px 0;" class="font-bold">
+                                                {{ $skill->experience_level }}
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="2"
+                                                style="padding: 4px 0; text-align:center; font-style: italic;">
+                                                Tidak ada data keahlian.
+                                            </td>
+                                        </tr>
+                                    @endforelse
                                 </table>
+                            </section>
 
 
-
-                                <!-- Organisasi -->
-                                <section>
-                                    <div style="font-weight: 700; font-size: 18px; color: #f97316; margin-bottom: 8px;">
-                                        ORGANISASI</div>
-                                    <div style="width: 40px; height: 5px; background-color: #f97316; margin-bottom: 16px;">
-                                        <svg width="335" height="1" viewBox="0 0 335 1" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <rect width="335" height="1" fill="#FA6601" />
-                                        </svg>
-                                    </div>
+                            <!-- Organisasi -->
+                            <section>
+                                <div style="font-weight: 700; font-size: 18px; color: #f97316; margin-bottom: 8px;">
+                                    ORGANISASI</div>
+                                <div style="width: 40px; height: 5px; background-color: #f97316; margin-bottom: 16px;">
+                                    <svg width="335" height="1" viewBox="0 0 335 1" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="335" height="1" fill="#FA6601" />
+                                    </svg>
+                                </div>
+                                @forelse ($pelamar->pengalaman_organisasi as $org)
                                     <p style="margin: 0 0 14px 0;">
-                                        <b class="text-sm">Jabatan – Tim Kreatif</b> <span
-                                            style="float: right;"><b>(2018–2019)</b></span><br>
-                                        <b class="text-sm">HIMA ILKOM UGM</b>
-                                    <h4 class="text-sm">Sebagai anggota Tim Kreatif, saya bertanggung jawab dalam
-                                        menghasilkan
-                                        konsep kreatif untuk berbagai kegiatan dan acara yang diselenggarakan oleh himpunan.
-                                        Saya berkolaborasi dengan tim untuk merancang desain visual, materi promosi, serta
-                                        konten media sosial yang menarik dan efektif dalam menyampaikan pesan kepada anggota
-                                        dan
-                                        masyarakat.
-                                    </h4><br>
+                                        <b class="text-sm">
+                                            Jabatan – {{ $org->jabatan }}
+                                        </b>
 
-                                    <p style="margin: 0 0 8px 0; clear: both;">
-                                        <b class="text-sm">Jabatan – <span style="font-weight: bold; text-sm">Divisi
-                                                Humas</span></b>
-                                        <span style="float: right;"><strong>(2018–2019)</strong></span><br>
-                                        <strong style="display: inline-block; margin-bottom: 6px text-sm">BEM KM
-                                            UGM</strong>
-                                    <h4 class="text-sm">
-                                        sebagai anggota Divisi Humas BEM KM UGM, saya berperan dalam menjaga komunikasi yang
-                                        baik antara organisasi dengan mahasiswa, pihak universitas, serta masyarakat umum.
-                                        Tugas
-                                        saya meliputi penyusunan strategi komunikasi, penyebaran informasi terkait kegiatan
-                                        BEM
-                                        melalui berbagai platform, seperti media sosial, website, dan publikasi langsung.
+                                        <span style="float: right;">
+                                            <b>({{ $org->tahun_awal }}–{{ $org->tahun_akhir }})</b>
+                                        </span>
+                                        <br>
+
+                                        <b class="text-sm">{{ $org->nama_organisasi }}</b>
+
+                                    <h4 class="text-sm" style="margin-top: 4px;">
+                                        {{ $org->deskripsi }}
                                     </h4>
-                                </section>
+                                    <br>
+                                @empty
+                                    <p class="text-sm text-gray-600">Tidak ada pengalaman organisasi.</p>
+                                @endforelse
+                            </section>
                         </div>
 
                         <!-- Kolom Kanan -->
@@ -230,47 +217,18 @@
                                 </div>
                                 <div class="mt-3 space-y-4 text-sm">
                                     <div>
-                                        <p style="margin: 0 0 14px 0;">
-                                            <b class="text-sm">Jabatan – UI/UX Designer</b> <span style="float: right;"><b
-                                                    class="text-sm">(2020–2022)</b></span><br>
-                                            <b class="text-sm">PT. Mega Jaya Permata</b>
-                                            <br> Bertanggung jawab untuk merancang antarmuka pengguna yang intuitif dan
-                                            menyenangkan. Saya berkolaborasi dengan tim pengembang untuk memastikan setiap
-                                            elemen desain tidak hanya estetis tetapi juga fungsional. Dalam pekerjaan ini,
-                                            saya
-                                            menggunakan tools seperti Figma dan Adobe XD untuk membuat wireframing,
-                                            prototype,
-                                            serta user flow efektif.
-                                        </p>
-
-                                        <p style="margin: 0 0 14px 0; clear: both;">
-                                            <b class="text-sm">Jabatan – Front End Developer</b> <span
-                                                style="float: right;"><b class="text-sm">(2022–2023)</b></span><br>
-                                            <b class="text-sm">PT. PERTAMINA (Persero)</b>
-                                            <br> Bertugas untuk mengimplementasikan desain UI/UX ke dalam kode yang
-                                            berfungsi
-                                            dengan baik di sisi klien. Saya menggunakan teknologi seperti HTML, CSS,
-                                            JavaScript,
-                                            serta framework seperti React dan Vue.js untuk membangun antarmuka pengguna yang
-                                            responsif dan interaktif.
-                                        </p>
-
-                                        <p style="margin: 0 0 14px 0; clear: both;">
-                                            <b class="text-sm">Jabatan – Back End Developer</b> <span
-                                                style="float: right;"><b class="text-sm">(2023–2024)</b></span><br>
-                                            <b class="text-sm">PT. Haryanto Group</b>
-                                            <br> Fokus utama saya adalah pada pengembangan dan pengelolaan server, basis
-                                            data,
-                                            serta logika aplikasi di sisi server. Saya menggunakan bahasa pemrograman
-                                            seperti
-                                            PHP dan Node.js untuk membangun API dan sistem back-end yang handal, efisien,
-                                            dan
-                                            aman. Saya juga bertanggung jawab untuk memastikan data yang diolah dapat
-                                            diakses
-                                            secara cepat dan aman oleh pengguna melalui front-end, serta memastikan aplikasi
-                                            dapat berkembang dengan baik seiring dengan meningkatnya permintaan dan
-                                            penggunaan.
-                                        </p>
+                                        @forelse ($pelamar->pengalaman_kerja as $p)
+                                            <p style="margin: 0 0 14px 0;">
+                                                <b class="text-sm">Jabatan –
+                                                    {{ optional($p)->jabatan_pekerjaan ?? '-' }}</b> <span
+                                                    style="float: right;"><b
+                                                        class="text-sm">({{ $p->tahun_awal }}–{{ $p->tahun_akhir }})</b></span><br>
+                                                <b class="text-sm">{{ optional($p)->nama_perusahaan ?? '-' }}</b>
+                                                <br> {{ optional($p)->deskripsi ?? '-' }}
+                                            </p>
+                                        @empty
+                                            <p class="text-sm text-gray-600">Tidak ada pengalaman kerja.</p>
+                                        @endforelse
                                     </div>
                                 </div>
                             </section>
@@ -287,17 +245,15 @@
                                 </div>
                                 <div class="mt-3 space-y-2 text-sm">
                                     <div>
-                                        <p style="margin: 0 0 14px 0;">
-                                            <b class="text-sm">Universitas Gadjah Mada</b> <span
-                                                style="float: right;"><b>(2018–2019)</b></span><br>
-                                            <b>Teknik Informatika</b>
-                                        </p>
-
-                                        <p style="margin: 0 0 14px 0; clear: both;">
-                                            <b class="text-sm">SMK Negeri 2 Yogyakarta</b> <span
-                                                style="float: right;"><b>(2018–2019)</b></span><br>
-                                            <b>Teknik Komputer dan Jaringan</b>
-                                        </p>
+                                        @forelse ($pelamar->riwayat_pendidikan as $r)
+                                            <p style="margin: 0 0 14px 0;">
+                                                <b class="text-sm">{{ optional($r)->pendidikan ?? '-' }}</b> <span
+                                                    style="float: right;"><b>({{ optional($r)->tahun_awal }}–{{ optional($r)->tahun_akhir }})</b></span><br>
+                                                <b class="text-sm">{{ optional($r)->jurusan ?? '-' }}</b>
+                                            </p>
+                                        @empty
+                                            <p class="text-sm text-gray-600">Tidak ada riwayat pendidikan.</p>
+                                        @endforelse
                                     </div>
                                 </div>
                             </section>

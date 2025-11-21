@@ -16,7 +16,7 @@
         href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css" />
     <link rel="stylesheet" type="text/css"
         href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css" />
-   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/trix@2.0.0/dist/trix.css">
     <script src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"></script>
 
@@ -75,26 +75,26 @@
             <hr>
             <ul class="space-y-2 font-medium">
                 <li class="mt-7">
-    <form id="provinsiForm" action="{{ route('admin.dashboard') }}" method="GET">
-        <select name="provinsi" id="provinsi"
-            onchange="document.getElementById('provinsiForm').submit()"
-            class="w-full p-2 text-gray-500 border rounded-md text-center bg-white appearance-none
+                    <form id="provinsiForm" action="{{ route('admin.dashboard') }}" method="GET">
+                        <select name="provinsi" id="provinsi"
+                            onchange="document.getElementById('provinsiForm').submit()"
+                            class="w-full p-2 text-gray-500 border rounded-md text-center bg-white appearance-none
                    focus:ring-primary-500 focus:border-primary-500
                    dark:bg-gray-700 dark:border-gray-600 dark:text-white 
                    dark:focus:ring-primary-500 dark:focus:border-primary-500">
 
-            <option value="">Pilih Provinsi</option>
+                            <option value="">Pilih Provinsi</option>
 
-            @foreach ($provinsis as $prov)
-                <option value="{{ $prov->nama }}" 
-                    {{ request('provinsi') == $prov->nama ? 'selected' : '' }}>
-                    {{ $prov->nama }}
-                </option>
-            @endforeach
+                            @foreach ($provinsis as $prov)
+                                <option value="{{ $prov->nama }}"
+                                    {{ request('provinsi') == $prov->nama ? 'selected' : '' }}>
+                                    {{ $prov->nama }}
+                                </option>
+                            @endforeach
 
-        </select>
-    </form>
-</li>
+                        </select>
+                    </form>
+                </li>
 
                 <p class="flex items-center p-2 text-white rounded-lg dark:text-white">
                     <span class="ms-3 mt-3">Umum</span>
@@ -291,6 +291,19 @@
             </div>
         </div>
     </div>
+
+    <script>
+        window.routes = {
+            hapusNotif: "{{ route('notifikasi.hapus', ':id') }}",
+            hapusSemua: "{{ route('notifikasi.hapusSemua') }}",
+            hapusSemuaBaca: "{{ route('notifikasi.hapusSemuaBaca') }}"
+        };
+
+        window.csrf = "{{ csrf_token() }}";
+    </script>
+
+    <script src="/js/admin.js"></script> {{-- lokasi file js --}}
+
     <script src="{{ asset('js/admin.js') }}"></script>
 
 

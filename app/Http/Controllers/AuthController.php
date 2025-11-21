@@ -159,7 +159,8 @@ class AuthController extends Controller
                 'username' => 'required|unique:users,username',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|min:3',
-                'role' => 'required'
+                'role' => 'required',
+                'agree_pelamar' => 'accepted'
             ], [
                 'username.required' => 'Username wajib diisi.',
                 'username.unique' => 'Username sudah digunakan.',
@@ -168,7 +169,8 @@ class AuthController extends Controller
                 'email.unique' => 'Email sudah terdaftar.',
                 'password.required' => 'Password wajib diisi.',
                 'password.min' => 'Password minimal 3 karakter.',
-                'role.required' => 'Role wajib diisi.'
+                'role.required' => 'Role wajib diisi.',
+                'agree_pelamar.accepted' => 'Anda harus menyetujui syarat dan ketentuan.'
             ]);
 
             $valid['password'] = Hash::make($request->password);
@@ -269,7 +271,8 @@ class AuthController extends Controller
                 'username' => 'required|unique:users,username',
                 'email' => 'required|email',
                 'password' => 'required|min:3',
-                'role' => 'required'
+                'role' => 'required',
+                'agree_perusahaan' => 'accepted'
             ], [
                 'username.required' => 'Username wajib diisi.',
                 'username.unique' => 'Username sudah digunakan.',
@@ -277,7 +280,8 @@ class AuthController extends Controller
                 'email.email' => 'Format email tidak valid.',
                 'password.required' => 'Password wajib diisi.',
                 'password.min' => 'Password minimal 3 karakter.',
-                'role.required' => 'Role wajib diisi.'
+                'role.required' => 'Role wajib diisi.',
+                'agree_perusahaan.accepted' => 'Anda harus menyetujui syarat dan ketentuan.'
             ]);
 
             $valid['password'] = Hash::make($request->password);

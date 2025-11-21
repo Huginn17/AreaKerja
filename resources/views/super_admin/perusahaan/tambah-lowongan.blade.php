@@ -93,29 +93,24 @@
                         </div>
 
                         <div>
-                            <label for="alamat" class="block text-sm font-bold mb-1">Alamat <span
-                                    class="text-red-600">*</span></label>
-                            <select id="alamat" name="alamat"
+                            <label class="block text-sm font-medium">Alamat <span class="text-red-500">*</span></label>
+                            <input type="text" name="alamat"
                                 class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none">
-                                <option selected disabled value="">Pilih Alamat</option>
-                                <option value="jakarta">Jakarta</option>
-                                <option value="bandung">Bandung</option>
-                                <option value="ciamis">Ciamis</option>
-                                <option value="yogyakarta">Yogyakarta</option>
-                                <option value="solo">Solo</option>
-                                <option value="semarang">Semarang</option>
-                                <option value="surabaya">Surabaya</option>
+
                             </select>
                         </div>
                     </div>
 
-                    <!-- Baris 2: Jenis Lowongan & Gaji -->
-                    <div class="grid grid-cols-5 gap-4 items-end">
+                    <!-- Baris 2: Jenis Lowongan, Gaji, Kategori -->
+                    <div class="grid grid-cols-5 gap-4">
+
+                        <!-- Jenis Lowongan -->
                         <div class="col-span-2">
-                            <label for="jenis" class="block text-sm font-bold mb-1">Jenis Lowongan <span
-                                    class="text-red-600">*</span></label>
+                            <label for="jenis" class="block font-semibold text-sm mb-1">
+                                Jenis Lowongan <span class="text-red-600">*</span>
+                            </label>
                             <select id="jenis" name="jenis"
-                                class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none">
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:outline-none">
                                 <option selected disabled value="">Pilih Jenis</option>
                                 <option value="full_time">Full Time</option>
                                 <option value="part_time">Part Time</option>
@@ -124,24 +119,39 @@
                             </select>
                         </div>
 
-                        <div class="col-span-1">
-                            <label for="gaji_awal" class="block text-sm font-bold mb-1">Gaji <span
-                                    class="text-red-600">*</span></label>
-                            <input type="number" id="gaji_awal" name="gaji_awal" placeholder="Min"
-                                class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none" />
-                        </div>
-
-                        <div class="col-span-1">
-                            <label for="gaji_akhir" class="block mb-1 invisible">Max</label>
-                            <input type="number" id="gaji_akhir" name="gaji_akhir" placeholder="Max"
-                                class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none" />
-                        </div>
-
+                        <!-- Gaji Min -->
                         <div>
-                            <label class="block font-medium mb-1">Kategori</label>
-                            <input type="text" name="kategori"
-                                class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none" />
+                            <label for="gaji_awal" class="block font-semibold text-sm mb-1">
+                                Gaji <span class="text-red-600">*</span>
+                            </label>
+                            <input type="number" id="gaji_awal" name="gaji_awal" placeholder="Min"
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:outline-none">
                         </div>
+
+                        <!-- Gaji Max -->
+                        <div>
+                            <label for="gaji_akhir" class="block font-semibold text-sm mb-1 invisible">Max</label>
+                            <input type="number" id="gaji_akhir" name="gaji_akhir" placeholder="Max"
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:outline-none">
+                        </div>
+
+                        <!-- Kategori -->
+                        <div>
+                            <label class="block font-semibold text-sm mb-1">Kategori</label>
+                            <select name="kategori"
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:outline-none">
+                                <option value="">-- Pilih Kategori --</option>
+                                @foreach ($categories as $cat)
+                                    <option value="{{ $cat->nama }}"
+                                        {{ old('kategori', $lowongan->kategori ?? '') == $cat->nama ? 'selected' : '' }}>
+                                        {{ $cat->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+
+
                         {{-- <div class="col-span-1">
                             <label for="periode" class="block text-sm font-bold mb-1">Bulan</label>
                             <select id="periode" name="periode"
@@ -250,11 +260,20 @@
                             <!-- Input Date -->
                             <input type="date" name="batas_lamaran"
                                 class="w-30 border border-gray-400 rounded px-3 py-2 focus:outline-none  text-sm" />
-                        </div><br>
 
+                        </div>
+                            <label for="batas_lamaran" class="w-32 text-sm font-medium">
+                                Benefit <span class="text-red-600">*</span>
+                            </label>
+
+                            <!-- Input Date -->
+                            <input type="text" name="benefit"
+                                class="w-30 border border-gray-400 rounded px-3 py-2 focus:outline-none  text-sm" />
+
+                        
 
                         <!-- Tombol -->
-                        <div class="flex justify-center gap-3">
+                        <div class="flex justify-center gap-3 mt-[40px]">
                             <button type="submit"
                                 class="bg-orange-500 text-white text-sm px-7 py-1 rounded-lg hover:bg-orange-600 transition">Simpan</button>
                             <button type="reset"
@@ -264,12 +283,12 @@
                 </form>
 
             </div>
-                @include('super_admin.notif.modal_notif')
-                @include('super_admin.notif.modal_semua')
+            @include('super_admin.notif.modal_notif')
+            @include('super_admin.notif.modal_semua')
         </main>
     </div>
 
- <script>
+    <script>
         // Tandai dibaca
         async function markAsRead(url, el) {
             try {

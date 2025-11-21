@@ -191,9 +191,10 @@
                             @endif
                         </form>
                     </div>
-                    <div
-                        class="bg-orange-500 text-white text-center w-96 p-2 rounded-md hover:bg-orange-600 transition duration-300">
-                        Kembali
+                    <div>
+                        <a href="{{ route('superadmin.perusahaan.detail', $lowongan->perusahaan_id) }}"
+                            class="bg-orange-500 text-white text-center w-96 p-2 rounded-md hover:bg-orange-600 transition duration-300">
+                            Kembali
                         </a>
                     </div>
 
