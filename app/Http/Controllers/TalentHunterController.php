@@ -88,7 +88,7 @@ class TalentHunterController extends Controller
         ]);
 
         //Redirect ke WhatsApp
-        $nomorAdmin = '6285713882612'; // ubah sesuai nomor tujuan admin
+        $nomorAdmin = '6287874732189'; // ubah sesuai nomor tujuan admin
         $pesan = "Halo Admin, saya sudah melakukan pembelian Talent Hunter.\n\n"
             . "Berikut detailnya:\n"
             . "Posisi: {$talentHunter->posisi}\n"

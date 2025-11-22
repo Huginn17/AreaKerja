@@ -301,7 +301,7 @@
             <div class="bg-white w-full max-w-md rounded-2xl shadow-xl relative p-6 max-h-[80vh] overflow-y-auto">
                 <button onclick="closeAllModal()" class="absolute top-3 right-3 text-gray-400 hover:text-black">✕</button>
                 <h2 class="text-lg font-semibold mb-4">Top Up Koin</h2>
-                <div class="grid grid-cols-3 gap-4">
+                <div class="grid grid-c ols-3 gap-4">
                     @foreach ($hargaPembayarans as $paket)
                         <label
                             class="paketCoinWrapper cursor-pointer border rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col items-center">
@@ -562,7 +562,7 @@
                     const noTransaksi = "TRX" + Date.now() + randomPart;
 
                     document.getElementById('detailTransaksi').innerText = noTransaksi;
-                    document.getElementById('detailPengirim').innerText = "Nama User";
+                    document.getElementById('detailPengirim').innerText = "{{ Auth::user()->perusahaan->nama_perusahaan }}";
                     document.getElementById('detailBank').innerText = selectedBank ?? '-';
                     document.getElementById('detailWaktu').innerText = new Date().toLocaleString('id-ID');
                     document.getElementById('detailHarga').innerText = "Rp. " + (selectedHarga ?? 0).toLocaleString('id-ID');

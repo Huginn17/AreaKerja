@@ -26,6 +26,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
+
 
 class PerusahaanController extends Controller
 {
@@ -548,4 +550,50 @@ class PerusahaanController extends Controller
 
         return redirect()->back()->with('success', $pesan);
     }
+
+
+
+
+
+    //Diskon Fitur Area kerja
+    public function DiskonFitur()
+    {
+        // Log::info("MASUK KE DiskonFitur");
+        // // return response()->json(['test' => true]);
+
+        // Ambil user login
+        $user = Auth::user();
+
+        // Ambil data perusahaan
+        $perusahaan = Perusahaan::where('user_id', $user->id)->first();
+
+
+        // Jika perusahaan tidak ditemukan
+        if (!$perusahaan) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data perusahaan tidak ditemukan.'
+            ]);
+        }
+
+        // Nomor admin WhatsApp
+        $nomorAdmin = '6287874732189';
+
+        // Pesan WA
+        $pesan = "Halo Admin, Saya Ingin Bertanya Mengenai Diskon Ketika Sudah Berlangganan.\n\n"
+            . "Nama Perusahaan: {$perusahaan->nama_perusahaan}\n"
+            . "Email Perusahaan: {$perusahaan->user->email}\n"
+            . "Terima Kasih.";
+
+        // URL WhatsApp
+        $waUrl = 'https://wa.me/' . $nomorAdmin . '?text=' . urlencode($pesan);
+
+        return response()->json([
+            'success' => true,
+            'redirect_url' => $waUrl,
+        ]);
+    }
+
+
+    
 }

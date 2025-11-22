@@ -567,7 +567,7 @@
                 const noTransaksi = "TRX" + Date.now() + randomPart;
 
                 document.getElementById('detailTransaksi').innerText = noTransaksi;
-                document.getElementById('detailPengirim').innerText = "Nama User";
+                document.getElementById('detailPengirim').innerText = "{{ Auth::user()->perusahaan->nama_perusahaan }}";
                 document.getElementById('detailBank').innerText = selectedBank ?? '-';
                 document.getElementById('detailWaktu').innerText = new Date().toLocaleString('id-ID');
                 document.getElementById('detailHarga').innerText = "Rp. " + (selectedHarga ?? 0).toLocaleString('id-ID');

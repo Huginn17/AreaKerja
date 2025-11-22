@@ -45,6 +45,22 @@
                             <p>{{ $event->lokasi ?? 'Belum ditentukan' }}</p>
                         </div>
                     </div>
+                    <div class="flex items-start">
+                        <span class="mr-3 mt-[2px]"><i class="ph ph-link text-2xl"></i></span>
+                        <div>
+                            <p class="font-semibold">Link Form:</p>
+
+                            @if ($event->link_form)
+                                <a href="{{ $event->link_form }}" target="_blank"
+                                    class="text-blue-600 underline hover:text-blue-800">
+                                    {{ $event->link_form }}
+                                </a>
+                            @else
+                                <p>Belum ditentukan</p>
+                            @endif
+                        </div>
+
+                    </div>
                 </div>
             </div>
 

@@ -85,7 +85,7 @@
 
                      <!-- Tombol Simpan -->
                      <div class="flex justify-center pt-4">
-                         <button type="submit"
+                         <button type="submit" 
                              class="px-5 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 shadow">
                              Simpan
                          </button>
@@ -101,7 +101,7 @@
                          @endphp
 
                          <a href="{{ route('superadmin.pelamar.edit', ['kategori' => $kategori, 'id' => $data->pelamar->id]) }}"
-                             class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg text-center transition duration-300">
+                             class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 ml-[40px] rounded-lg text-center transition duration-300">
                              Batal
                          </a>
                      </div>

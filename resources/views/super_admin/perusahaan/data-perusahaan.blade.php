@@ -86,11 +86,9 @@
                 </div>
                 <div class="relative inline-block w-48">
                     <!-- Select utama -->
-                    <button
-                        class="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium px-4 py-2 border border-orange-500 rounded-md flex justify-between items-center focus:outline-none"
-                        id="dropdownButton">
-                        <span>Pilih Opsi</span>
-                        <!-- Icon panah -->
+                    <button id="dropdownButton"
+                        class="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium px-4 py-2 border border-orange-500 rounded-md flex justify-between items-center focus:outline-none">
+                        <span id="dropdownText">Pilih Opsi</span>
                         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
@@ -122,11 +120,29 @@
                 </div>
 
                 <script>
-                    const button = document.getElementById("dropdownButton");
-                    const menu = document.getElementById("dropdownMenu");
+                    const dropdownButton = document.getElementById('dropdownButton');
+                    const dropdownMenu = document.getElementById('dropdownMenu');
+                    const dropdownText = document.getElementById('dropdownText');
 
-                    button.addEventListener("click", () => {
-                        menu.classList.toggle("hidden");
+                    // Toggle dropdown
+                    dropdownButton.addEventListener('click', () => {
+                        dropdownMenu.classList.toggle('hidden');
+                    });
+
+                    // Ganti teks tombol saat klik opsi
+                    dropdownMenu.querySelectorAll('a').forEach(link => {
+                        link.addEventListener('click', (e) => {
+                            dropdownText.textContent = link.textContent; // ubah teks tombol
+                            dropdownMenu.classList.add('hidden'); // tutup dropdown
+                            // Navigasi tetap terjadi karena tag <a> ada href-nya
+                        });
+                    });
+
+                    // Tutup dropdown jika klik di luar
+                    document.addEventListener('click', (e) => {
+                        if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                            dropdownMenu.classList.add('hidden');
+                        }
                     });
                 </script>
 

@@ -204,12 +204,12 @@
                     </a> --}}
 
                 <a href="{{ route('cv.preview', $data->id) }}"
-                    class="bg-orange-500 hover:bg-orange-400 text-white px-6 py-2 rounded-lg">
+                    class="bg-orange-500 hover:bg-orange-400 text-center text-white px-6 py-2 rounded-lg">
                     Preview
                 </a>
 
                 <a href="{{ route('cv.download', $data->id) }}"
-                    class="bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-lg ">
+                    class="bg-green-600 hover:bg-green-500 text-center text-white px-6 py-2 rounded-lg ">
                     Unduh
                 </a>
 

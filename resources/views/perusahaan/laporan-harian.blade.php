@@ -13,7 +13,7 @@
     <body class="bg-white text-gray-800"><br>
 
         <!-- Header Buttons -->
-        <div class="flex justify-center items-center px-8 py-4">
+        <div class="flex justify-center items-center px-8 py-4 mt-16">
             <button
                 class="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-xl text-medium">
                 Laporan Harian Pekerja

@@ -58,6 +58,7 @@ class PengalamanKerjaController extends Controller
     public function storeSuper(Request $request)
     {
         $validated = $request->validate([
+            'pelamar_id' => 'nullable|exists:pelamars,id',
             'posisi_pekerjaan' => 'required|string|max:255',
             'nama_perusahaan' => 'required|string|max:255',
             'jabatan_pekerjaan' => 'nullable|string|max:255',
@@ -66,7 +67,8 @@ class PengalamanKerjaController extends Controller
             'deskripsi' => 'nullable|string',
         ]);
 
-        $pelamar_id = session('pelamar_terakhir_id');
+        $pelamar_id = $request->pelamar_id ?? session('pelamar_terakhir_id');
+
 
         if (!$pelamar_id) {
             return back()->with('error', 'Pelamar belum dibuat. Harap buat pelamar terlebih dahulu sebelum menambahkan pendidikan.');
@@ -75,6 +77,12 @@ class PengalamanKerjaController extends Controller
         $validated['pelamar_id'] = $pelamar_id;
 
         PengalamanKerja::create($validated);
+
+        // Jika sedang di halaman edit pelamar → balik ke halaman sebelumnya
+        if ($request->has('is_edit')) {
+            return redirect()->back()->with('success', 'Pengalaman berhasil ditambahkan');
+        }
+
 
         $pelamar = Pelamar::find($pelamar_id);
 
@@ -89,7 +97,7 @@ class PengalamanKerjaController extends Controller
         $kategori = $mapKategori[strtolower($pelamar->kategori)] ?? 'non_kandidat';
 
         return redirect()->route('superadmin.pelamar.create', ['kategori' => $kategori])
-            ->with('success', 'Organisasi berhasil disimpan');
+            ->with('success', 'Pengalaman berhasil disimpan');
     }
 
     public function updateSuper(Request $request, ?PengalamanKerja $kerja = null)
@@ -128,7 +136,7 @@ class PengalamanKerjaController extends Controller
         return redirect()->route('superadmin.pelamar.edit', [
             'kategori' => $kategori,
             'id' => $pelamar_id
-        ])->with('success', 'Data organisasi berhasil disimpan.');
+        ])->with('success', 'Data Pengalaman Kerja berhasil disimpan.');
     }
 
     public function editSuper(PengalamanKerja $kerja)

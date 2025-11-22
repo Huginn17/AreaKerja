@@ -311,6 +311,36 @@ class SuperAdminController extends Controller
     public function storeUser(Request $request)
     {
         // dd($request->all());
+
+        $request->validate([
+            'email' => 'nullable|email|unique:users,email',
+            'username' => 'nullable|string|unique:users,username',
+        ], [
+            'email.unique' => 'Email sudah digunakan.',
+            'username.unique' => 'Username sudah digunakan.',
+        ]);
+
+        if (
+            empty($request->username) &&
+            empty($request->email) &&
+            empty($request->password)
+        ) {
+            return back()->with('error', 'Tidak bisa menyimpan data. Minimal isi email, username, atau password.');
+        }
+
+        if (
+            empty($request->nama_pelamar) &&
+            empty($request->tanggal_lahir) &&
+            empty($request->gender) &&
+            empty($request->telepon_pelamar) &&
+            empty($request->divisi) &&
+            empty($request->kategori) &&
+            !$request->hasFile('img_profile')
+        ) {
+            return back()->with('error', 'Data pelamar masih kosong. Minimal isi 1 data.');
+        }
+
+
         // 1️⃣ Cek apakah user sudah ada berdasarkan email
         $user = User::where('email', $request->email)->first();
 

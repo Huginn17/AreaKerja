@@ -4,13 +4,13 @@
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-medium">
                 @if ($kategori === 'non_kandidat')
-                    Tambahkan Non Kandidat
+                    Edit Non Kandidat
                 @elseif ($kategori === 'calon_kandidat')
-                    Tambahkan Calon Kandidat
+                    Edit Calon Kandidat
                 @elseif ($kategori === 'kandidat')
-                    Tambahkan Kandidat
+                    Edit Kandidat
                 @else
-                    Tambahkan Data
+                    Edit Data
                 @endif
             </h1>
             <div class="flex items-center gap-3">
@@ -100,6 +100,7 @@
                 enctype="multipart/form-data" class="space-y-4">
                 @csrf
                 @method('PUT')
+
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-10">
                     <div class="flex items-center gap-2">

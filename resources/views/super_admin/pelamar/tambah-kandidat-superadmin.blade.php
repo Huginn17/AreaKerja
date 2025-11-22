@@ -92,6 +92,21 @@
                     dan Skill.
                 </div>
             @endif
+            @if (session('error'))
+                <div x-data="{ show: true }" x-show="show" class="bg-red-500 text-white px-4 py-2 rounded mb-4">
+                    {{ session('error') }}
+                    <button class="float-right" @click="show=false">✖</button>
+                </div>
+            @endif
+            @if ($errors->any())
+                <div class="bg-red-500 text-white px-4 py-2 rounded mb-4">
+                    @foreach ($errors->all() as $error)
+                        <div>{{ $error }}</div>
+                    @endforeach
+                </div>
+            @endif
+
+
 
             <form action="{{ route('superadmin.pelamar.store') }}" method="POST" enctype="multipart/form-data"
                 class="space-y-4">
@@ -161,8 +176,9 @@
                 </div>
                 <div>
                     <label class="block text-md font-medium mb-1">Kata Sandi <span class="text-red-500">*</span></label>
-                    <input type="password" name="password"
-                        class="w-full mt-1 border-2 border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Kata Sandi" />
+                    <input type="password" name="password" value="{{ $pelamar?->user?->password }}"
+                        class="w-full mt-1 border-2 border-gray-400 shadow rounded-lg px-3 py-2"
+                        placeholder="Kata Sandi" />
                 </div>
 
                 <!-- Gender -->
@@ -464,6 +480,16 @@
         @default pelamar
     @endswitch">
 
+                @php
+                    // Pastikan $pelamar->divisi berupa array (JSON decode)
+                    $selectedDivisi = is_array($pelamar?->divisi)
+                        ? $pelamar?->divisi
+                        : json_decode($pelamar?->divisi, true);
+
+                    // Jika old() ada, gunakan old()
+                    $selectedDivisi = old('divisi', $selectedDivisi ?? []);
+                @endphp
+
                 {{-- Bidang yang Diminati --}}
                 <div id="divisi-wrapper"
                     class="mt-4 {{ in_array($kategori, ['calon_kandidat', 'kandidat']) ? '' : 'hidden' }}">
@@ -472,7 +498,10 @@
                     <select id="divisi" name="divisi[]" multiple
                         class="w-full border-2 border-gray-400 shadow rounded-lg px-3 py-2">
                         @foreach ($divisis as $divisi)
-                            <option value="{{ $divisi->divisi }}">{{ $divisi->divisi }}</option>
+                            <option value="{{ $divisi->divisi }}"
+                                {{ in_array($divisi->divisi, $selectedDivisi) ? 'selected' : '' }}>
+                                {{ $divisi->divisi }}
+                            </option>
                         @endforeach
                     </select>
                 </div>

@@ -202,7 +202,6 @@
                     </tr>
                 @endforeach
             </tbody>
-
         </table>
     </div>
 
@@ -259,7 +258,7 @@
         </div>
     </div>
 
-    <!-- ✅ Modal Pilih Lowongan -->
+    <!-- Modal Pilih Lowongan -->
     <div id="modalPilihLowongan"
         class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 transition-all">
         <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-md text-center animate-fade-in">

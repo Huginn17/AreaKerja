@@ -231,7 +231,7 @@ class ProfileController extends Controller
     {
 
         $alamatpelamar->delete();
-        return redirect()->route('alamat')->with('success', 'Alamat berhasil dihapus');
+        return redirect()->back()->with('success', 'Alamat berhasil dihapus');
     }
 
 

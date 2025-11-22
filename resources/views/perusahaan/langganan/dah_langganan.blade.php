@@ -53,7 +53,8 @@
                         Dengan berlangganan, Anda mendapatkan diskon fitur serta <br>
                         berbagai manfaat tambahan dan informasi terbaru setiap saat.
                     </p>
-                    <a href="#" class="text-orange-500 text-sm font-medium hover:underline"> Lebih Detail > </a>
+                    <button id="btnDiskon" class="text-orange-500 text-sm font-medium hover:underline"> Lebih Detail >
+                    </button>
                 </div>
                 <!-- Image -->
                 <div class="md:w-1/3">
@@ -65,5 +66,32 @@
         </div>
     </div>
 
-    @include('layouts.footer')
+    <script>
+        document.getElementById('btnDiskon').addEventListener('click', function() {
+
+            fetch("{{ route('diskon.fitur') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify({}) // WAJIB ADA
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = data.redirect_url;
+                    } else {
+                        alert(data.message || "Gagal memproses permintaan.");
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Terjadi kesalahan. Coba lagi.");
+                });
+
+        });
+    </script>
+     @include('layouts.footer')
 @endsection

@@ -184,7 +184,8 @@
                 <div class="relative bg-white rounded-2xl shadow-lg w-[90%] max-w-md p-8 text-center">
                     <button onclick="closeModal()"
                         class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-xl font-bold">&times;</button>
-                    <h2 class="text-2xl font-bold mb-3">Selamat! Akun Anda Berhasil Dibuat</h2>
+                    <h2 class="text-2xl font-bold mb-3">Selamat!</h2>
+                    <h2 class="text-xl font-semibold mb-3">Akun anda berhasil dibuat</h2>
                     <p class="text-gray-700 mb-8">Silakan login untuk melanjutkan ke areakerja.</p>
                     <div class="flex justify-center mb-6">
                         <img src="{{ asset('images/orang.png') }}" alt="Ilustrasi" class="w-30 h-28">

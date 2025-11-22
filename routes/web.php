@@ -939,6 +939,10 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
     //Kandidat Saya
     Route::get('/recruitment/kandidat-saya', [PerusahaanController::class, 'kandidatSaya'])->name('perusahaan.kandidat.saya');
     Route::delete('/recruitment/{id}/hapus', [PerusahaanController::class, 'destroyRecruitmentPerusahaan'])->name('perusahaan.destroy.kandidat');
+
+
+    //DISKON FITUR
+    Route::post('/diskon-fitur', [PerusahaanController::class, 'DiskonFitur'])->name('diskon.fitur');
 });
 //PROVINSI KOTA KECAMATAN
 Route::get('/get-kota/{provinsi_id}', [PerusahaanController::class, 'getKota'])->name('get.kota')->middleware('auth');

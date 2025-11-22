@@ -88,11 +88,9 @@
 
                 <div class="relative inline-block w-48">
                     <!-- Select utama -->
-                    <button
-                        class="w-full bg-orange-500 text-white font-medium px-4 py-2 border border-orange-500 rounded-md flex justify-between items-center focus:outline-none"
-                        id="dropdownButton">
-                        <span>Pilih Opsi</span>
-                        <!-- Icon panah -->
+                    <button id="dropdownButton"
+                        class="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium px-4 py-2 border border-orange-500 rounded-md flex justify-between items-center focus:outline-none">
+                        <span id="dropdownText">Pilih Opsi</span>
                         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
@@ -107,7 +105,7 @@
                                     class="block px-4 py-2 hover:bg-orange-500 hover:text-white transition">Perusahaan</a>
                             </li>
                             <li>
-                                <a href="/super_admin/data-recruitment"
+                                <a href="{{ route('superadmin.recruitment.perusahaan') }}"
                                     class="block px-4 py-2 hover:bg-orange-500 hover:text-white transition">Recruitment</a>
                             </li>
                             <li>
@@ -116,18 +114,37 @@
                                     Hunter</a>
                             </li>
                             <li>
-                                <a href="/super_admin/data-panggilan"
+                                <a href="{{ route('superadmin.panggilan') }}"
                                     class="block px-4 py-2 hover:bg-orange-500 hover:text-white transition">Panggilan</a>
                             </li>
                         </ul>
                     </div>
                 </div>
-                <script>
-                    const button = document.getElementById("dropdownButton");
-                    const menu = document.getElementById("dropdownMenu");
 
-                    button.addEventListener("click", () => {
-                        menu.classList.toggle("hidden");
+                <script>
+                    const dropdownButton = document.getElementById('dropdownButton');
+                    const dropdownMenu = document.getElementById('dropdownMenu');
+                    const dropdownText = document.getElementById('dropdownText');
+
+                    // Toggle dropdown
+                    dropdownButton.addEventListener('click', () => {
+                        dropdownMenu.classList.toggle('hidden');
+                    });
+
+                    // Ganti teks tombol saat klik opsi
+                    dropdownMenu.querySelectorAll('a').forEach(link => {
+                        link.addEventListener('click', (e) => {
+                            dropdownText.textContent = link.textContent; // ubah teks tombol
+                            dropdownMenu.classList.add('hidden'); // tutup dropdown
+                            // Navigasi tetap terjadi karena tag <a> ada href-nya
+                        });
+                    });
+
+                    // Tutup dropdown jika klik di luar
+                    document.addEventListener('click', (e) => {
+                        if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                            dropdownMenu.classList.add('hidden');
+                        }
                     });
                 </script>
 
@@ -135,8 +152,7 @@
 
             <div class="flex gap-2">
                 <form action="{{ route('superadmin.talent-hunter') }}" method="get">
-                    <input type="text" name="search" value="{{ request('search') }}"
-                        placeholder="username/posisi..."
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="username/posisi..."
                         class="border border-gray-500 rounded-lg px-4 py-2 w-72">
                     <button type="submit"
                         class="bg-orange-500 hover:bg-orange-600 text-white font-medium px-10 py-2 rounded-xl">Cari</button>

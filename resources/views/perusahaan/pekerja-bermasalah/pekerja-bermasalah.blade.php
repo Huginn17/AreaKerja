@@ -13,7 +13,7 @@
     <body class="bg-white text-gray-800"><br>
 
         <!-- Header Buttons -->
-        <div class="flex justify-between items-center px-8 py-4">
+        <div class="flex justify-between items-center px-8 py-4 mt-16">
             <a href="{{ route('perusahaan.data.pekerja') }}"
                 class="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg text-sm">
                 <svg width="8" height="15" viewBox="0 0 8 15" fill="none" xmlns="http://www.w3.org/2000/svg">

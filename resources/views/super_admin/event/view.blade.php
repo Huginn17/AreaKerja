@@ -148,7 +148,15 @@
 
                     <p>Lokasi: {{ $event->lokasi ?? '-' }}</p>
                 </div>
-                <p><i class="ph ph-link text-2xl w-[35px] h-5 inline-block"></i>Link Form: {{ $event->link_form ?? '-' }}
+                <p><i class="ph ph-link text-2xl w-[35px] h-5 inline-block"></i>
+                    @if ($event->link_form)
+                        <a href="{{ $event->link_form }}" target="_blank"
+                            class="text-blue-600 underline hover:text-blue-800">
+                            {{ $event->link_form }}
+                        </a>
+                    @else
+                        <p>Belum ditentukan</p>
+                    @endif
                 </p>
 
             </div>
@@ -181,8 +189,8 @@
 
             {{-- tombol daftar --}}
             <!-- <div class="flex justify-center mt-6">
-                                                            <button class="bg-orange-500 text-white px-8 py-2 rounded">Mendaftar</button>
-                                                        </div> -->
+                                                                <button class="bg-orange-500 text-white px-8 py-2 rounded">Mendaftar</button>
+                                                            </div> -->
         </div>
 
         @include('super_admin.notif.modal_notif')

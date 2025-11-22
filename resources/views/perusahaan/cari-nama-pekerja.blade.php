@@ -13,7 +13,7 @@
     <body class="bg-white text-gray-800"><br>
 
         <!-- Header Buttons -->
-        <div class="flex justify-center items-center px-8 py-4">
+        <div class="flex justify-center items-center px-8 py-4 mt-16">
             <button
                 class="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-2xl text-medium">
                 Cari Nama Pekerja
@@ -60,7 +60,8 @@
 
         <!-- Footer Button -->
         <div class="flex justify-end items-center px-6 py-5 ">
-            <button class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-2 rounded-lg text-sm font-medium mr-4">
+            <button id="btnCariPekerja"
+                class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-2 rounded-lg text-sm font-medium mr-4">
                 Kirim Permintaan
             </button>
         </div><br>
@@ -70,6 +71,32 @@
 
     </html>
 
+    <script>
+        document.getElementById('btnCariPekerja').addEventListener('click', function() {
 
+            fetch("{{ route('diskon.fitur') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify({}) // WAJIB ADA
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = data.redirect_url;
+                    } else {
+                        alert(data.message || "Gagal memproses permintaan.");
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Terjadi kesalahan. Coba lagi.");
+                });
+
+        });
+    </script>
     @include('layouts.footer')
 @endsection

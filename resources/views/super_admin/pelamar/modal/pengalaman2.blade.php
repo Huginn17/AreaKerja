@@ -1,6 +1,6 @@
 <!-- Main modal -->
 <div id="create_kerjamodal2" tabindex="-1" aria-hidden="true"
-    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full mt-10">
     <div class="relative p-4 w-full max-w-md max-h-full">
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
@@ -21,15 +21,21 @@
             </div>
             <!-- Modal body -->
             <div class="max-w-lg mx-auto bg-white shadow-lg rounded-xl p-6">
-                <form
-                    action="{{ isset($kerja)
-                        ? route('superadmin.kerja.update', $kerja->id)
+                {{-- <form
+                    action="{{ isset($pengalaman_kerja)
+                        ? route('superadmin.kerja.update', $pengalaman_kerja->id)
                         : route('superadmin.kerja.update') }}"
                     method="POST">
                     @csrf
-                    @method('PUT')
+                    @method('PUT') --}}
+                <form action="{{ route('superadmin.kerja.store') }}" method="post">
+                    @csrf
 
-                    <input type="hidden" name="pelamar_id" value="{{ $pelamar->id }}">
+                    @if (isset($pelamar))
+                        <input type="hidden" name="pelamar_id" value="{{ $pelamar->id }}">
+                    @endif
+                    <input type="hidden" name="is_edit" value="1">
+
                     <div>
                         <label class="block text-sm font-medium text-gray-900 mb-1">Nama Pekerjaan</label>
                         <input type="text" name="nama_perusahaan"
