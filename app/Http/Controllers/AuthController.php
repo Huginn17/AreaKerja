@@ -210,6 +210,10 @@ class AuthController extends Controller
 
         $lowongans = LowonganPerusahaan::where('perusahaan_id', $perusahaan->id)
             ->with('paket')
+            ->where(function ($q) {
+                $q->whereNull('published_at')
+                    ->orWhereDate('expired_at', '>=', now());
+            })
             ->latest()
             ->get();
 

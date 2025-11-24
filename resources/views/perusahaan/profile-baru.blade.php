@@ -1,6 +1,6 @@
 @extends('layouts.index-perusahaan')
 @section('content')
-    <div class="max-w-5xl mx-auto bg-white p-10">
+    <div class="max-w-5xl mx-auto bg-white p-10 mt-16">
         <!-- Bagian Atas -->
         <div class="grid grid-cols-2 gap-8 mb-10">
             <!-- Logo Perusahaan -->

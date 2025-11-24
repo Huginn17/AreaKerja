@@ -128,7 +128,7 @@ Route::get('/email/verify/{token}', [EmailVerificationController::class, 'verify
 
 
 //CRUD PROFILE
-Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus', 'check.profile')->group(function () {
+Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')->group(function () {
     Route::get('/home', [PelamarController::class, 'index'])->name('beranda');
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -943,6 +943,12 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
 
     //DISKON FITUR
     Route::post('/diskon-fitur', [PerusahaanController::class, 'DiskonFitur'])->name('diskon.fitur');
+    //PEKERJA BERMASALAH WA
+    Route::post('/pekerja-bermasalah/wa', [PerusahaanController::class, 'PekerjaBermasalahWA'])->name('perusahaan.pekerja.bermasalah.wa');
+    //LAPORAN HARIAN PEKERJA WA
+    Route::post('/laporan-harian/pekerja/wa', [PerusahaanController::class, 'LaporanHarianPekerjaWA'])->name('perusahaan.laporan.harian.pekerja.wa');
+    //CARI NAMA Pekerja WA
+    Route::post('/cari-nama-pekerja/wa', [PerusahaanController::class, 'CariPekerjaWA'])->name('perusahaan.cari.nama.pekerja.wa');
 });
 //PROVINSI KOTA KECAMATAN
 Route::get('/get-kota/{provinsi_id}', [PerusahaanController::class, 'getKota'])->name('get.kota')->middleware('auth');

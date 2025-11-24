@@ -1,7 +1,6 @@
 @extends('layouts.index-perusahaan')
 @section('content')
-    <br>
-    <div class="max-w-5xl mx-auto p-6">
+    <div class="max-w-5xl mx-auto p-6 mt-16">
         <!-- Judul -->
         <h2 class="text-xl font-bold mb-1">Alamat</h2>
         <svg width="1041" height="2" viewBox="0 0 1041 2" fill="none" xmlns="http://www.w3.org/2000/svg">

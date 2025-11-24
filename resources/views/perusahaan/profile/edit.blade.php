@@ -1,6 +1,6 @@
 @extends('layouts.index-perusahaan')
 @section('content')
-    <div class="bg-white w-full rounded-lg shadow p-8">
+    <div class="bg-white w-full rounded-lg shadow p-8 mt-16">
         <!-- Judul -->
         <h2 class="text-lg font-semibold mb-6">Profil Akun</h2>
 

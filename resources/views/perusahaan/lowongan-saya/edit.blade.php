@@ -1,20 +1,35 @@
 @extends('layouts.index-perusahaan')
 @section('content')
-    <div class="max-w-4xl mx-auto px-6 py-10 mt-20 bg-white shadow rounded-lg">
+    <div class="max-w-4xl mx-auto px-6 py-10 mt-20 bg-white shadow rounded-lg ">
 
         <div class="flex items-center justify-between p-4 mb-6">
             <div class="flex items-center space-x-4">
-                <img src="{{ asset('Icon/seveninc.png') }}" alt="Logo" class="w-40">
+                @if (Auth::user()->role == 'perusahaan')
+                    @if (Auth::user()->perusahaan->img_profile)
+                        <img id="pu" class="w-24 h-24 object-cover rounded-full profile-img"
+                            src="{{ asset('storage/' . Auth::user()->perusahaan->img_profile) }}" alt="Profile">
+                    @else
+                        <img id="pu" class="w-24 h-24 rounded-full"
+                            src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                            alt="">
+                    @endif
+                @else
+                    <img class="w-10 h-10 rounded-full"
+                        src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                        alt="">
+                @endif
                 <div>
-                    <h2 class="font-bold text-xl">Seven_Inc</h2>
-                    <p class="text-gray-600 text-sm">Jasa TI dan Konsultan TI</p>
-                    <p class="text-gray-400 text-xs mt-1">Alamat default</p>
+                    <h2 class="font-bold text-xl">{{ Auth::user()->perusahaan->nama_perusahaan }}</h2>
+                    <p class="text-gray-600 text-sm">{{ Auth::user()->perusahaan->jenis_perusahaan }}</p>
+                    <p class="text-gray-400 text-xs mt-1">{{ Auth::user()->perusahaan->alamatUtama->kota->nama }},
+                        {{ Auth::user()->perusahaan->alamatUtama->provinsi->nama }},
+                        {{ Auth::user()->perusahaan->alamatUtama->kecamatan->nama }}</p>
                 </div>
             </div>
 
             <!-- <button class="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 flex items-center shadow">
-                                                <span class="text-lg font-bold mr-2">+</span> Tambah
-                                            </button> -->
+                                                                                            <span class="text-lg font-bold mr-2">+</span> Tambah
+                                                                                        </button> -->
         </div>
 
         <h2 class="text-2xl font-bold mb-6 border-b-2 border-orange-400 pb-2">Edit Lowongan</h2>
@@ -76,8 +91,30 @@
                 </div> --}}
             </div>
 
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Benefit -->
+                <div>
+                    <label class="block font-medium mb-1">Benefit</label>
+                    <input type="text" name="benefit" value="{{ $data->benefit }}"
+                        class="w-full border-2 rounded-md px-3 py-2 focus:ring-orange-400 focus:border-orange-400">
+                </div>
+
+                <!-- Label Gaji -->
+                <div>
+                    <label class="block font-medium mb-1">Label Gaji</label>
+                    <input type="text" name="label_gaji" value="{{ $data->label_gaji }}"
+                        class="w-full border-2 rounded-md px-3 py-2 focus:ring-orange-400 focus:border-orange-400">
+                </div>
+
+            </div>
+
+            <label class="block font-medium mb-1">Deskripsi Gaji</label>
             <textarea class="w-full border-2 rounded-md px-3 py-2 focus:ring-orange-400 focus:border-orange-400" name="deskripsi"
                 cols="30" rows="10">{!! old('deskripsi', $data->deskripsi ?? '') !!}</textarea>
+
+            <label class="block font-medium mb-1">Tanggung Jawab</label>
+            <textarea class="w-full border-2 rounded-md px-3 py-2 focus:ring-orange-400 focus:border-orange-400" name="tanggung_jawab"
+                cols="30" rows="10">{!! old('tanggung_jawab', $data->tanggung_jawab ?? '') !!}</textarea>
 
 
             <div class="space-y-6 border-t-2 pt-6">
@@ -109,6 +146,11 @@
                 <button type="submit" class="px-6 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600">
                     Simpan
                 </button>
+                <a href="{{ route('lowongan.saya.perusahaan') }}"
+                    class="px-6 py-2 border-2 border-orange-500 rounded-md text-orange-500 hover:bg-orange-50">
+                    Batal
+                </a>
+
             </div>`
         </form>
     </div>

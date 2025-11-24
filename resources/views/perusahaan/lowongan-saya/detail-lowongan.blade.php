@@ -1,6 +1,6 @@
 @extends('layouts.index-perusahaan')
 @section('content')
-    <div class="flex items-start gap-4">
+    <div class="flex items-start gap-4 mt-16">
         @if (Auth::user()->perusahaan->img_profile)
             <img id="pp" class="w-20 h-20 object-contain mt-[50px] profile-img"
                 src="{{ asset('storage/' . Auth::user()->perusahaan->img_profile) }}" alt="Profile">
@@ -139,8 +139,9 @@
 
                 <h3 class="font-medium text-sm">Requirements</h3>
                 <ul class="list-disc list-inside text-gray-700 mt-2 space-y-1">
-                    <li>{{ $data->syarat_pekerjaan }}</li>
-
+                    @foreach (explode("\n", $data->syarat_pekerjaan) as $req)
+                        <li>{{ $req }}</li>
+                    @endforeach
                 </ul>
             </div>
 
@@ -150,7 +151,11 @@
             <div class="mb-2">
                 <h3 class="text-xl font-bold mb-2">Responsibilities</h3>
                 <ul class="list-disc list-inside text-gray-700 space-y-1">
-                    <li>{{ $data->tanggung_jawab }}</li>
+                    @foreach (preg_split("/\r\n|\n|\r/", $data->tanggung_jawab) as $res)
+                        @if (trim($res) !== '')
+                            <li>{{ $res }}</li>
+                        @endif
+                    @endforeach
                 </ul>
 
                 {{-- <p class="mt-3 text-sm text-gray-600">Tips pekerjaan: <span class="font-medium">Full-Time</span></p> --}}
@@ -166,27 +171,27 @@
             </div>
 
             <!-- Card Item (template) -->
-            @forelse ($lowonganLainnya as $ll )      
-            <a href="{{ route('lowongan.detail', $ll->id) }}" class="block shadow-md rounded-md p-3 mb-3 hover:shadow-lg transition duration-200">
-                <div class="flex items-center gap-3">
-                    <img src="{{ asset('storage/' . $ll->perusahaan->img_profile) }}" alt="logo"
-                        class="w-14 h-14 rounded-full">
-                    <div class="min-w-0">
-                        <p class="text-xs text-gray-600">{{ $ll->perusahaan->nama_perusahaan }}</p>
-                        <h4 class="font-bold text-sm truncate">{{ $ll->nama }}</h4>
-                        <p class="text-xs text-gray-600">{{ $ll->alamat }}</p>
-                        <div class="mt-1">
-                            <span
-                                class="inline-block bg-gray-200 border rounded px-3 py-1 text-xs text-gray-700 whitespace-nowrap">
-                                Rp. 4.500.000 - Rp. 7.000.000 per bulan
-                            </span>
+            @forelse ($lowonganLainnya as $ll)
+                <a href="{{ route('lowongan.detail', $ll->id) }}"
+                    class="block shadow-md rounded-md p-3 mb-3 hover:shadow-lg transition duration-200">
+                    <div class="flex items-center gap-3">
+                        <img src="{{ asset('storage/' . $ll->perusahaan->img_profile) }}" alt="logo"
+                            class="w-14 h-14 rounded-full">
+                        <div class="min-w-0">
+                            <p class="text-xs text-gray-600">{{ $ll->perusahaan->nama_perusahaan }}</p>
+                            <h4 class="font-bold text-sm truncate">{{ $ll->nama }}</h4>
+                            <p class="text-xs text-gray-600">{{ $ll->alamat }}</p>
+                            <div class="mt-1">
+                                <span
+                                    class="inline-block bg-gray-200 border rounded px-3 py-1 text-xs text-gray-700 whitespace-nowrap">
+                                    Rp. 4.500.000 - Rp. 7.000.000 per bulan
+                                </span>
+                            </div>
                         </div>
+                        <p class="ml-auto self-start text-xs text-gray-600 whitespace-nowrap">Aktif 2 jam lalu</p>
                     </div>
-                    <p class="ml-auto self-start text-xs text-gray-600 whitespace-nowrap">Aktif 2 jam lalu</p>
-                </div>
-            </a>
+                </a>
             @empty
-                
             @endforelse
         </aside>
 

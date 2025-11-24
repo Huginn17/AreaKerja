@@ -1,6 +1,6 @@
 @extends('layouts.index-perusahaan')
 @section('content')
-    <div class="flex items-center justify-center min-h-screen bg-gray-white">
+    <div class="flex items-center justify-center min-h-screen bg-gray-white mt-16">
         <div
             class="bg-white border border-gray-300 rounded-2xl shadow-sm w-full max-w-2xl flex flex-col items-center justify-center py-40 px-20">
             <!-- Icon Amplop Terbuka Mirip Gambar -->

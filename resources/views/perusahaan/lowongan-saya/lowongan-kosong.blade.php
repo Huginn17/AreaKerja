@@ -24,7 +24,9 @@
                         <div>
                             <span class="font-semibold">{{ Auth::user()->username }}</span>
                             <p class="text-lg m-1">{{ Auth::user()->perusahaan->jenis_perusahaan }}</p>
-                            <p class="text-sm text-gray-400">{{ Auth::user()->perusahaan->alamatUtama->kota->nama }}, {{ Auth::user()->perusahaan->alamatUtama->provinsi->nama }}, {{ Auth::user()->perusahaan->alamatUtama->kecamatan->nama }}</p>
+                            <p class="text-sm text-gray-400">{{ Auth::user()->perusahaan->alamatUtama->kota->nama }},
+                                {{ Auth::user()->perusahaan->alamatUtama->provinsi->nama }},
+                                {{ Auth::user()->perusahaan->alamatUtama->kecamatan->nama }}</p>
                         </div>
                     </div>
 
@@ -44,14 +46,37 @@
         <h2 class="text-base font-medium mb-3 flex">Lowongan</h2>
 
         <!-- Filter -->
-        <div class="flex justify-end gap-2 mb-3">
-            <select class="border rounded-md text-sm px-6 py-2">
-                <option>Jenis Paket</option>
+        <form method="GET" class="flex justify-end gap-2 mb-3">
+
+            <!-- Dropdown Jenis Paket -->
+            <select name="paket" class="border rounded-md text-sm px-6 py-2">
+                <option value="">Jenis Paket</option>
+                @foreach ($pakets as $paket)
+                    <option value="{{ $paket->id }}" {{ request('paket') == $paket->id ? 'selected' : '' }}>
+                        {{ $paket->nama }}
+                    </option> 
+                @endforeach
             </select>
-            <select class="border rounded-md text-sm px-6 py-2">
-                <option>Jenis Lowongan</option>
+
+            <!-- Dropdown Jenis Lowongan -->
+            <select name="jenis" class="border rounded-md text-sm px-6 py-2">
+                <option value="">Jenis Lowongan</option>
+                @foreach ($jenisLowongan as $jenis)
+                    <option value="{{ $jenis }}" {{ request('jenis') == $jenis ? 'selected' : '' }}>
+                        {{ $jenis }}
+                    </option>
+                @endforeach
             </select>
-        </div>
+
+            <button class="bg-orange-500 text-white px-4 py-2 rounded-md">
+                Filter
+            </button>
+
+            <a href="{{ route('lowongan.saya.perusahaan') }}" class="bg-orange-500 text-white px-4 py-2 rounded-md">
+                Reset
+            </a>
+        </form>
+
 
         @forelse ($Data as $d)
             @if ($d->paket_id && $d->published_at)
@@ -181,7 +206,8 @@
                     <defs>
                         <pattern id="pattern0_637_59844" patternContentUnits="objectBoundingBox" width="1"
                             height="1">
-                            <use xlink:href="#image0_637_59844" transform="matrix(0.0111111 0 0 0.00915404 0 0.0880682)" />
+                            <use xlink:href="#image0_637_59844"
+                                transform="matrix(0.0111111 0 0 0.00915404 0 0.0880682)" />
                         </pattern>
                         <image id="image0_637_59844" width="90" height="90" preserveAspectRatio="none"
                             xlink:href="data:image/png;base64,..." />

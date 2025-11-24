@@ -205,12 +205,26 @@
                         </button>
 
                         <!-- Dropdown menu -->
-                        <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-md dark:bg-gray-700 dark:divide-gray-600 border"
+                        <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-md border"
                             id="user-dropdown">
                             <div class="bg-white rounded-2xl shadow-lg w-80 overflow-hidden">
                                 <!-- Header -->
                                 <div class="flex items-center gap-3 px-5 py-4">
-                                    <img src="{{ asset('images/logoarea.png') }}" alt="Logo" class="w-10 h-10">
+                                    @if (Auth::user()->role == 'perusahaan')
+                                        @if (Auth::user()->perusahaan->img_profile)
+                                            <img id="pu" class="w-10 h-10 object-cover rounded-full profile-img"
+                                                src="{{ asset('storage/' . Auth::user()->perusahaan->img_profile) }}"
+                                                alt="Profile">
+                                        @else
+                                            <img id="pu" class="w-10 h-10 rounded-full"
+                                                src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                                alt="">
+                                        @endif
+                                    @else
+                                        <img class="w-10 h-10 rounded-full"
+                                            src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                            alt="">
+                                    @endif
                                     <div>
                                         <span class="block text-sm text-gray-900">{{ Auth::user()->username }}</span>
                                         <span class="block text-sm text-gray-500 truncate">{{ Auth::user()->email }}</span>

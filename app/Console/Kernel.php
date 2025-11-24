@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         \App\Console\Commands\TestExpireLamaran::class,
         \App\Console\Commands\TestDeleteExpiredNotif::class,
+        \App\Console\Commands\NotifyExpiredLowongans::class,
     ];
 
     protected function schedule(Schedule $schedule): void
@@ -26,6 +27,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('langganan:cek-expired')->dailyAt('00:00');
         // Hapus notifikasi yang kadaluarsa tiap hari
         $schedule->command('notifikasi:hapus-expired')->everyMinute();
+        $schedule->command('notify:expired-lowongans')->everyFiveMinutes();
     }
 
     /**
@@ -34,7 +36,6 @@ class Kernel extends ConsoleKernel
     protected function commands(): void
     {
         $this->load(__DIR__ . '/Commands');
-
         require base_path('routes/console.php');
     }
 }

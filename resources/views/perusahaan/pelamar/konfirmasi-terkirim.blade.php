@@ -2,7 +2,7 @@
 
 @section('content')
     <!-- Judul di luar border -->
-    <h1 class="text-lg font-medium mb-4 mt-7 ml-56">Konfirmasi Terima Lamaran</h1>
+    <h1 class="text-lg font-medium mb-4 mt-16 ml-56">Konfirmasi Terima Lamaran</h1>
 
     <!-- Box utama dengan border -->
     <div class="max-w-4xl mx-auto px-4">

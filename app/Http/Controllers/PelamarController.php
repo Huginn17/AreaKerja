@@ -48,17 +48,23 @@ class PelamarController extends Controller
             ->where('lowongan_perusahaan_id', $lowongan->id)
             ->first();
 
-        // Ambil lowongan lain, menyesuaikan apakah ada tawaran atau tidak
+        // Ambil lowongan lain (di perusahaan yang sama atau umum)
         if ($tawaran && $tawaran->lowonganPerusahaan) {
             $lowonganLain = LowonganPerusahaan::where('perusahaan_id', $tawaran->lowonganPerusahaan->perusahaan_id)
                 ->where('id', '!=', $tawaran->lowongan_perusahaan_id)
                 ->whereNotNull('published_at')
+                ->where(function ($q) {
+                    $q->whereNull('expired_at')->orWhere('expired_at', '>', now());
+                })
                 ->latest()
                 ->take(3)
                 ->get();
         } else {
             $lowonganLain = LowonganPerusahaan::where('id', '!=', $lowongan->id)
                 ->whereNotNull('published_at')
+                ->where(function ($q) {
+                    $q->whereNull('expired_at')->orWhere('expired_at', '>', now());
+                })
                 ->latest()
                 ->take(3)
                 ->get();
@@ -72,6 +78,7 @@ class PelamarController extends Controller
             'tawaran' => $tawaran,
         ]);
     }
+
 
     public function detail_lowongan_non_userShare($slug)
     {
@@ -183,10 +190,7 @@ class PelamarController extends Controller
             ->first();
 
         if ($cek) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Lowongan sudah ada di daftar simpan.'
-            ]);
+            return back()->with('error', 'Lowongan sudah ada di daftar simpan.');
         }
 
         SimpanLowongan::create([
@@ -194,10 +198,7 @@ class PelamarController extends Controller
             'lowongan_id' => $request->lowongan_id,
         ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Lowongan berhasil disimpan.'
-        ]);
+        return back()->with('success', 'Lowongan berhasil disimpan.');
     }
 
 
@@ -217,22 +218,28 @@ class PelamarController extends Controller
 
         $simpan->delete();
 
-        return response()->json([
-            'message' => 'Lowongan berhasil dihapus.'
-        ], 200);
+        return back()->with('success', 'Lowongan berhasil dihapus.');
     }
 
     public function lowongansimpanform()
     {
         $pelamar = Auth::user()->pelamar;
+
         $simpanlowongan = SimpanLowongan::with('lowongan.perusahaan')
             ->where('pelamar_id', $pelamar->id)
+            ->whereHas('lowongan', function ($q) {
+                $q->whereNotNull('published_at')
+                    ->where(function ($q2) {
+                        $q2->whereNull('expired_at')
+                            ->orWhere('expired_at', '>', now());
+                    });
+            })
             ->latest()
             ->get();
 
-
         return view('non-user.lowongan-tersimpan', compact('simpanlowongan'));
     }
+
 
     // RIWAYAT PENDIDIKAN
     public function storependidikan(Request $request)

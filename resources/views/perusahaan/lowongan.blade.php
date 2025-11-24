@@ -1,6 +1,6 @@
 @extends('layouts.index-perusahaan')
 @section('content')
-    <div class="bg-white text-gray-800">
+    <div class="bg-white text-gray-800 mt-16">
         <!-- Header Perusahaan -->
         <div class="max-w-4xl mx-auto px-4 py-6">
             <div class="flex items-center justify-between">

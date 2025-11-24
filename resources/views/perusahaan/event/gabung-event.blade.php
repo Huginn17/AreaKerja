@@ -1,6 +1,6 @@
 @extends('layouts.index-perusahaan')
 @section('content')
-    <div class="bg-white text-gray-900">
+    <div class="bg-white text-gray-900 mt-16">
         <div class="max-w-3xl mx-auto p-6">
             <!-- Tanggal -->
             <div class="text-sm font-medium text-gray-800 mb-2">

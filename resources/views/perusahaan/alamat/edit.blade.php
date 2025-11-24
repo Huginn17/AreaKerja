@@ -1,6 +1,6 @@
 @extends('layouts.index-perusahaan')
 @section('content')
-    <div class="bg-white min-h-screen p-10">
+    <div class="bg-white min-h-screen p-10 mt-16">
         <!-- Judul -->
         <h2 class="text-xl font-semibold text-gray-800">Edit Alamat</h2>
         <hr class="border-t-2 border-orange-500 mt-1 mb-6" />

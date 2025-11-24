@@ -19,7 +19,7 @@
         </div>
     </section>
 
-    <div class="p-6 bg-white min-h-screen flex justify-center">
+    <div class="p-6 bg-white min-h-screen flex justify-center mt-16">
         <div class="w-full max-w-5xl">
             <!-- Header Info Lowongan -->
             <div class="bg-white rounded-lg shadow-md p-5 flex items-center justify-between mb-6 border">

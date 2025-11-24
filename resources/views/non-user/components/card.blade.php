@@ -1,7 +1,7 @@
 @if ($d->published_at && (!$d->expired_at || $d->expired_at > now()))
     <div x-data="{ open: false, showConfirm: false, showSuccess: false }"
         class="border-2 border-gray-400 p-6 rounded-lg shadow-sm hover:shadow-md transition bg-white">
-
+        
 
         {{-- Header --}}
         <div class="flex justify-between items-start">
@@ -157,17 +157,36 @@
                 class="inline-block px-4 py-2 bg-orange-500 text-white rounded-lg text-sm font-semibold hover:bg-orange-600 transition">
                 Lamar Cepat
             </button>
-
+            <hr>
             <div>
                 <h3 class="font-semibold text-lg mb-2">Detail Lowongan</h3>
-                <p class="text-gray-600">Jenis Lowongan: {{ $d->jenis }}</p>
+                <div class="flex items-start gap-3 mt-4">
+
+                    <!-- ICON -->
+                    <svg width="23" height="19" viewBox="0 0 23 19" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M17.2198 5.39322H18.9611V3.65201H17.2198V5.39322ZM17.2198 9.91583H18.9611V8.17462H17.2198V9.91583ZM17.2198 14.4384H18.9611V12.6972H17.2198V14.4384ZM0 18.0905V8.4799L6.78392 3.65201L13.5678 8.4799V18.0905H8.8711V12.3501H4.69673V18.0905H0ZM15.8291 18.0905V7.34925L9.48053 2.79271V0H22.6131V18.0905H15.8291Z"
+                            fill="black" fill-opacity="0.6" />
+                    </svg>
+
+                    <div>
+                        <h3 class="font-semibold text-lg">Jenis Lowongan</h3>
+
+                        <span
+                            class="inline-block mt-2 px-4 py-1 bg-gray-300 rounded-md font-semibold text-gray-700 text-sm">
+                            {{ $d->jenis }}
+                        </span>
+                    </div>
+                </div>
             </div>
 
             <div>
                 <h3 class="font-semibold text-lg mb-2">Lokasi</h3>
-                <p class="text-gray-600">{{ $d->alamat }}</p>
+                <p class="text-gray-600"><i class="ph ph-map-pin text-2xl ml-5"></i><span
+                        class="ml-3">{{ $d->alamat }}</span></p>
             </div>
-
+            <hr>
             <div>
                 <h3 class="font-semibold text-lg mb-2">Deskripsi Lowongan</h3>
                 <p class="text-gray-700 leading-relaxed">{{ $d->deskripsi }}</p>
@@ -184,12 +203,15 @@
 
             <div>
                 <h3 class="font-semibold text-lg mb-2">Responsibilities</h3>
-                <ul class="list-disc list-inside text-gray-700 space-y-1">
-                    @foreach (explode("\n", $d->tanggung_jawab) as $res)
-                        <li>{{ $res }}</li>
+                <ul class="list-disc list-inside text-gray-700 space-y-1 leading-relaxed">
+                    @foreach (preg_split("/\r\n|\n|\r/", $d->tanggung_jawab) as $res)
+                        @if (trim($res) !== '')
+                            <li>{{ $res }}</li>
+                        @endif
                     @endforeach
                 </ul>
             </div>
+
         </div>
 
         {{-- Tombol toggle detail --}}

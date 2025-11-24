@@ -65,7 +65,7 @@
                         </div>
 
                         <div>
-                            <label class="block font-medium mb-1">Kategori</label>
+                            <label class="block font-medium mb-1">Kategori<span class="text-red-500">*</span></label>
                             <select name="kategori" class="form-select"
                                 class="border rounded-md px-3 py-2 mt-1 outline-none focus:ring-1 focus:ring-orange-500 w-50">
                                 <option value="">-- Pilih Kategori --</option>
@@ -76,6 +76,20 @@
                                     </option>
                                 @endforeach
                             </select>
+                        </div>
+
+                        <div>
+                            <label class="block font-medium mb-1">Label Gaji<span class="text-red-500">*</span></label>
+                            <input type="text" name="label_gaji"
+                                class="w-44 border rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500" />
+                        </div>
+
+
+                        <div>
+                            <label class="block font-medium mb-1">Benefit<span class="text-red-500">*</span></label>
+                            <input type="text" name="benefit"
+                                class="w-44 border rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500" />
+
                         </div>
 
                         <!-- Gaji -->
@@ -105,6 +119,12 @@
                     <div>
                         <label class="block text-sm font-medium">Deskripsi <span class="text-red-500">*</span></label>
                         <textarea rows="3" name="deskripsi"
+                            class="w-full border rounded-md px-3 py-2 mt-1 outline-none focus:ring-1 focus:ring-orange-500"></textarea>
+                    </div>
+                    <!-- Tanggung Jawab -->
+                    <div>
+                        <label class="block text-sm font-medium">Tanggung Jawab <span class="text-red-500">*</span></label>
+                        <textarea rows="3" name="tanggung_jawab"
                             class="w-full border rounded-md px-3 py-2 mt-1 outline-none focus:ring-1 focus:ring-orange-500"></textarea>
                     </div>
 
@@ -166,10 +186,10 @@
                         </div>
                     </div>
                     <div class="flex justify-center space-x-4 pt-6">
-                        <button type="button"
+                        <a href="{{ route('lowongan.saya.perusahaan') }}"
                             class="px-6 py-2 border-2 border-orange-500 rounded-md text-orange-500 hover:bg-orange-50">
                             Batal
-                        </button>
+                        </a>
                         <button type="submit" class="px-6 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600">
                             Simpan
                         </button>

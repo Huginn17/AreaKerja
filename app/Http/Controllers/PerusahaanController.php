@@ -595,5 +595,121 @@ class PerusahaanController extends Controller
     }
 
 
-    
+    //Laporan Harian Pekerja WA
+    public function LaporanHarianPekerjaWA()
+    {
+        // Log::info("MASUK KE LaporanHarianPekerjaWA");
+
+        // Ambil user login
+        $user = Auth::user();
+
+        // Ambil data perusahaan
+        $perusahaan = Perusahaan::where('user_id', $user->id)->first();
+
+
+        // Jika perusahaan tidak ditemukan
+        if (!$perusahaan) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data perusahaan tidak ditemukan.'
+            ]);
+        }
+
+        // Nomor admin WhatsApp
+        $nomorAdmin = '6287874732189';
+
+        // Pesan WA
+        $pesan = "Halo Admin, Saya Ingin Laporan Harian Pekerja.\n\n"
+            . "Nama Perusahaan: {$perusahaan->nama_perusahaan}\n"
+            . "Email Perusahaan: {$perusahaan->user->email}\n"
+            . "Terima Kasih.";
+
+        // URL WhatsApp
+        $waUrl = 'https://wa.me/' . $nomorAdmin . '?text=' . urlencode($pesan);
+
+        return response()->json([
+            'success' => true,
+            'redirect_url' => $waUrl,
+        ]);
+    }
+
+
+    // Cari nama pekerjaWA
+    public function CariPekerjaWA(Request $request)
+    {
+        // Log::info("MASUK KE LaporanHarianPekerjaWA");
+
+        // Ambil user login
+        $user = Auth::user();
+
+        // Ambil data perusahaan
+        $perusahaan = Perusahaan::where('user_id', $user->id)->first();
+
+
+        // Jika perusahaan tidak ditemukan
+        if (!$perusahaan) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data perusahaan tidak ditemukan.'
+            ]);
+        }
+
+        // Nomor admin WhatsApp
+        $nomorAdmin = '6287874732189';
+
+        // Pesan WA
+        $pesan = "Halo Admin, Saya Ingin Mencari Nama Pekerja.\n\n"
+            . "Nama Perusahaan: {$perusahaan->nama_perusahaan}\n"
+            . "Email Perusahaan: {$perusahaan->user->email}\n"
+            . "Terima Kasih.";
+
+        // URL WhatsApp
+        $waUrl = 'https://wa.me/' . $nomorAdmin . '?text=' . urlencode($pesan);
+
+        return response()->json([
+            'success' => true,
+            'redirect_url' => $waUrl,
+        ]);
+        return response()->json($pekerja);
+    }
+
+
+    //Pekerja BermasalahWA
+    public function PekerjaBermasalahWA()
+    {
+        // Log::info("MASUK KE PekerjaBermasalahWA");
+
+        // Ambil user login
+        $user = Auth::user();
+
+        // Ambil data perusahaan
+        $perusahaan = Perusahaan::where('user_id', $user->id)->first();
+
+
+        // Jika perusahaan tidak ditemukan
+        if (!$perusahaan) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data perusahaan tidak ditemukan.'
+            ]);
+        }
+
+        // Nomor admin WhatsApp
+        $nomorAdmin = '6287874732189';
+
+        // Pesan WA
+        $pesan = "Halo Admin, Saya Ingin List Pekerja Yang Bermasalah.\n\n"
+            . "Nama Perusahaan: {$perusahaan->nama_perusahaan}\n"
+            . "Email Perusahaan: {$perusahaan->user->email}\n"
+            . "Terima Kasih.";
+
+        // URL WhatsApp
+        $waUrl = 'https://wa.me/' . $nomorAdmin . '?text=' . urlencode($pesan);
+
+        return response()->json([
+            'success' => true,
+            'redirect_url' => $waUrl,
+        ]);
+        return response()->json($pekerja);
+    }
 }

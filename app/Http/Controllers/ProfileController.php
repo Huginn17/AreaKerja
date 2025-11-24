@@ -14,9 +14,6 @@ class ProfileController extends Controller
     {
         $user = auth()->user();
 
-        session(['profile_popup_closed' => true]);
-        session()->forget('show_first_login_popup');
-
         $pelamar = Pelamar::where('user_id', $user->id)
             ->with('pengalaman_organisasi')
             ->first();
@@ -37,13 +34,6 @@ class ProfileController extends Controller
             "gaji_minimal"    =>     "nullable",
             "gaji_maksimal"    =>     "nullable"
         ]);
-
-        // Jika profil sudah lengkap → matikan popup
-        if ($pelamar->isProfileComplete()) {
-            session(['profile_popup_closed' => true]);
-            session()->forget('show_first_login_popup');
-        }
-
 
         if ($request->hasFile('img_profile')) {
             // Hapus foto lama jika ada

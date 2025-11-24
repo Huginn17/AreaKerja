@@ -1,6 +1,6 @@
 @extends('layouts.index-perusahaan')
 @section('content')
-    <div class="max-w-4xl scale-90 mx-auto bg-white px-14 py-12 rounded-xl shadow border">
+    <div class="max-w-4xl scale-90 mx-auto bg-white px-14 py-12 rounded-xl shadow border mt-16">
         <!-- Header -->
         <h2 class="text-2xl font-medium mb-2">Detail Transaksi</h2>
         <hr class="border-b border-gray-200 mb-10">

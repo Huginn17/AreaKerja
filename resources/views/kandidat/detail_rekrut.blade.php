@@ -255,7 +255,7 @@
                     <h2 class="font-semibold">
                         Lowongan {{ $tawaran->lowonganPerusahaan->perusahaan->nama_perusahaan }} Lainnya
                     </h2>
-                    <a href="#" class="text-orange-600 text-sm font-medium">Lihat semua</a>
+                    {{-- <a href="#" class="text-orange-600 text-sm font-medium">Lihat semua</a> --}}
                 </div>
 
                 <div class="bg-white rounded-lg shadow p-4 space-y-4">
@@ -272,7 +272,10 @@
                                     Rp. {{ number_format($low->gaji_awal, 0, ',', '.') }} -
                                     Rp. {{ number_format($low->gaji_akhir, 0, ',', '.') }} / bulan
                                 </p>
-                                <span class="text-xs text-gray-400">Aktif {{ $low->published_at->diffForHumans() }}</span>
+                                <span class="text-xs text-gray-400"><span class="text-xs text-gray-400">
+                                        Aktif {{ optional($low->published_at)->diffForHumans() ?? 'Belum Terpublicasikan' }}
+                                    </span>
+                                </span>
                             </div>
                         </a>
                     @endforeach

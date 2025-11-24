@@ -12,14 +12,49 @@
 
     <title>areakerja.com</title>
     @vite('resources/css/app.css')
+    @vite('resources/js/app.js')
     <link rel="icon" type="image/png" href="{{ asset('images/logoarea.png') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" />
+    {{-- <link rel="stylesheet" href="https://unpkg.com/intro.js/minified/introjs.min.css"> --}}
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- 🔹 Opsi 1: Pakai JS Loader (paling mudah) -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    @php
+        $user = Auth::user();
+        $pelamar = $user->pelamar ?? null;
+
+        // Ambil alamat pertama (karena hasMany menghasilkan collection)
+        $alamat = $pelamar?->alamat_pelamar->first();
+
+        // Cek profil belum lengkap
+        $isProfileIncomplete =
+            !$pelamar ||
+            $pelamar->nama_pelamar == null ||
+            $pelamar->tanggal_lahir == null ||
+            $pelamar->gender == null ||
+            $pelamar->telepon_pelamar == null ||
+            $pelamar->img_profile == null;
+
+        // Cek alamat belum lengkap atau belum ada sama sekali
+        $isAddressIncomplete =
+            !$alamat ||
+            $alamat->desa == null ||
+            $alamat->kecamatan == null ||
+            $alamat->kota == null ||
+            $alamat->provinsi == null ||
+            $alamat->kode_pos == null;
+    @endphp
+
+    @if (Auth::check() && $user->role === 'pelamar' && ($isProfileIncomplete || $isAddressIncomplete))
+        <meta name="show-intro" content="1">
+    @endif
+
+
+
 
     <!-- 🔹 Opsi 2: Kalau mau CSS langsung (style regular) -->
     <!-- <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web/src/regular/style.css"> -->
@@ -31,6 +66,101 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
+        }
+
+        .notif-profil {
+            margin: 0 !important;
+            padding: 0 !important;
+            border-radius: 12px !important;
+            /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); */
+            background: transparent !important;
+        }
+
+        .notif-profil .introjs-skipbutton {
+            display: none !important;
+        }
+
+        .notif-profil .introjs-arrow {
+            display: none !important;
+        }
+
+        .notif-profil.introjs-tooltip {
+            transform: translateY(-25px) !important;
+        }
+
+        .introjs-overlay {
+            pointer-events: none !important;
+            background: rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .introjs-helperLayer,
+        .introjs-overlay {
+            pointer-events: none !important;
+        }
+
+        .introjs-tooltip {
+            pointer-events: auto !important;
+        }
+
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            cursor: pointer;
+            object-fit: cover;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .introjs-tooltip,
+        .introjs-tooltip .introjs-tooltiptext,
+        .introjs-tooltip .introjs-nextbutton,
+        .introjs-tooltip .introjs-prevbutton,
+        .introjs-tooltip .introjs-skipbutton,
+        .introjs-tooltip .introjs-donebutton,
+        .notif-profil.introjs-tooltip,
+        .notif-profil.introjs-tooltip * {
+            box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            filter: none !important;
+        }
+
+        .introjs-tooltip:before,
+        .introjs-tooltip:after,
+        .notif-profil.introjs-tooltip:before,
+        .notif-profil.introjs-tooltip:after {
+            box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            background: transparent !important;
+        }
+
+
+        .introjs-tooltip {
+            z-index: 100000 !important;
+            pointer-events: auto !important;
+            background-clip: padding-box;
+        }
+
+        .notif-profil {
+            box-shadow: none !important;
+            background: transparent !important;
+            border: 0 !important;
         }
     </style>
 </head>
@@ -151,15 +281,24 @@
                                     @endphp
                                     @if ($kategori === 'kandidat aktif')
                                         <a href="{{ route('profile.index') }}"
-                                            class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500"><i
-                                                class="ph ph-users ml-10"></i><span class="ml-2">Kandidat</span></a>
+                                            class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500"
+                                            id="profile-link">
+                                            <i class="ph ph-users ml-10"></i>
+                                            <span class="ml-2">Kandidat</span>
+                                        </a>
                                     @elseif($kategori === 'calon kandidat')
                                         <a href="{{ route('profile.index') }}"
-                                            class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500"><i
-                                                class="ph ph-users ml-7"></i><span class="ml-2">Calon Kandidat</span></a>
+                                            class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500"
+                                            id="profile-link">
+                                            <i class="ph ph-users ml-7"></i>
+                                            <span class="ml-2">Calon Kandidat</span>
+                                        </a>
                                     @else
                                         <a href="{{ route('profile.index') }}"
-                                            class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500">Profil</a>
+                                            class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500"
+                                            id="profile-link">
+                                            Profil
+                                        </a>
                                     @endif
                                 </li>
                                 <li>
@@ -190,7 +329,7 @@
                     </div>
                 @endauth
                 {{-- POPUP LOGIN PERTAMA --}}
-                @if (session('show_first_login_popup') && !session('profile_popup_closed'))
+                {{-- @if (session('show_first_login_popup') && !session('profile_popup_closed'))
                     <div id="firstLoginPopup" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
                         <div class="bg-white p-6 rounded-xl shadow-xl text-center w-[350px]">
@@ -207,7 +346,7 @@
                         </div>
 
                     </div>
-                @endif
+                @endif --}}
             </div>
         </div>
     </header>
@@ -234,14 +373,14 @@
             </div>
         </div>
     </div> --}}
-    @if (session('show_first_login_popup'))
+    {{-- @if (session('show_first_login_popup'))
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('popupModal').classList.remove('hidden');
             });
         </script>
-    @endif
-        
+    @endif --}}
+
     {{-- Script --}}
     <script>
         function showOnboarding() {

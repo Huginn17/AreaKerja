@@ -24,12 +24,38 @@
         <!-- Kategori -->
         <div>
             <h3 class="mb-4 text-xl">Kategori</h3>
-            <ul class="grid grid-cols-2 gap-y-3 text-sm">
+            @auth
+                @if (Auth::user()->role == 'pelamar')
+                    <ul class="grid grid-cols-2 gap-y-3 text-sm">
+                        <li><a href="{{ route('beranda') }}" class="hover:text-orange-200 transition hover:scale-105">Beranda</a></li>
+                        <li><a href="{{ url('/pelamar/tips-kerja') }}" class="hover:text-orange-200 transition hover:scale-105">Tips Kerja</a></li>
+                        <li><a href="{{ route('transaksi.pendaftaran') }}" class="hover:text-orange-200 transition hover:scale-105">Transaksi</a></li>
+                        <li><a href="{{ url('/bantuan') }}" class="hover:text-orange-200 transition hover:scale-105">Bantuan</a>
+                        </li>
+                    </ul>
+                @elseif (Auth::user()->role == 'perusahaan')
+                    <ul class="grid grid-cols-2 gap-y-3 text-sm">
+                        <li><a href="{{ route('perusahaan.dashboard') }}"
+                                class="hover:text-orange-200 transition hover:scale-105">Beranda</a></li>
+                        <li><a href="{{ route('perusahaan.kandidat.ak') }}"
+                                class="hover:text-orange-200 transition hover:scale-105">Kandidat</a></li>
+                        <li><a href="{{ route('talent-hunter.index') }}"
+                                class="hover:text-orange-200 transition hover:scale-105">Talent Hunter</a></li>
+                        <li><a href="{{ route('paket.form') }}"
+                                class="hover:text-orange-200 transition hover:scale-105">Pasang Lowongan</a></li>
+                    </ul>
+                @else
+                    <li><a href="/bantuan" class="hover:text-orange-200 transition hover:scale-105">Bantuan</a></li>
+                @endif
+            @endauth
+
+            @guest
                 <li><a href="#" class="hover:text-orange-200 transition hover:scale-105">Beranda</a></li>
                 <li><a href="#" class="hover:text-orange-200 transition hover:scale-105">Tips Kerja</a></li>
                 <li><a href="#" class="hover:text-orange-200 transition hover:scale-105">Provinsi Lainnya</a></li>
                 <li><a href="#" class="hover:text-orange-200 transition hover:scale-105">Pasang Lowongan</a></li>
-            </ul>
+            @endguest
+
         </div>
 
         <!-- Kontak -->

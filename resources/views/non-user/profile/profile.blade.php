@@ -107,7 +107,7 @@
                         <a href="{{ route('cv.download', Auth::user()->pelamar->id) }}"
                             class="bg-orange-500 text-white text-sm font-semibold px-4 py-2 rounded hover:bg-orange-600">
                             Unduh CV
-                    </a>
+                        </a>
                         <button type="submit"
                             class="bg-green-600 text-white text-sm font-semibold px-4 py-2 rounded hover:bg-green-700">
                             Simpan
@@ -119,13 +119,13 @@
 
 
             <!-- <div class="flex justify-between w-[1025px] my-5">
-                                        <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
-                                            Data Diri
-                                        </div>
-                                        <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
-                                            Informasi Akun
-                                        </div>
-                                    </div> -->
+                                            <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
+                                                Data Diri
+                                            </div>
+                                            <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
+                                                Informasi Akun
+                                            </div>
+                                        </div> -->
 
 
             <!-- Grid: Dua Kolom -->
@@ -159,7 +159,7 @@
                                 <label class="flex items-center gap-2">
                                     <input type="radio" name="gender" value="laki-laki"
                                         class="w-4 h-4 text-orange-500 border-2 border-orange-500"
-                                        {{ Auth::user()->pelamar->gender === 'laki-Laki' ? 'checked' : '' }}>
+                                        {{ Auth::user()->pelamar->gender === 'laki-laki' ? 'checked' : '' }}>
                                     Laki - Laki
                                 </label>
                                 <label class="flex items-center gap-2">
@@ -455,9 +455,9 @@
                                     viewBox="0 0 24 24">
                                     <path
                                         d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
-                                                                                                                        7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
-                                                                                                                      1.003 0 0 0-1.42 0l-1.83 1.83 3.75
-                                                                                                                    3.75 1.84-1.82z" />
+                                                                                                                            7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
+                                                                                                                          1.003 0 0 0-1.42 0l-1.83 1.83 3.75
+                                                                                                                        3.75 1.84-1.82z" />
                                 </svg>
                             </a>
                         </div>
@@ -476,9 +476,9 @@
                                     viewBox="0 0 24 24">
                                     <path
                                         d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
-                                                                                                                                                                                                                                                                                                               7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
-                                                                                                                                                                                                                                                                                                               1.003 0 0 0-1.42 0l-1.83 1.83 3.75
-                                                                                                                                                                                                                                                                                                               3.75 1.84-1.82z" />
+                                                                                                                                                                                                                                                                                                                   7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
+                                                                                                                                                                                                                                                                                                                   1.003 0 0 0-1.42 0l-1.83 1.83 3.75
+                                                                                                                                                                                                                                                                                                                   3.75 1.84-1.82z" />
                                 </svg>
                             </span>
                         </div>
@@ -550,7 +550,7 @@
     </script>
 
 
-     <script>
+    <script>
         function autoGrow(el) {
             el.style.height = "auto";
             el.style.height = el.scrollHeight + "px";
@@ -562,8 +562,8 @@
                 el.addEventListener("input", () => autoGrow(el));
             });
         });
-    </script> 
-    
+    </script>
+
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -624,7 +624,8 @@
                             method: "PUT",
                             headers: {
                                 "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                                   "Content-Type": "application/json",
+                                "Accept": "application/json",
+                                "Content-Type": "application/json",
                             },
                             body: JSON.stringify({
                                 kategori: "kandidat nonaktif"
@@ -634,6 +635,7 @@
                         .then(data => {
                             location.reload();
                         });
+
                 };
             }
 

@@ -1,7 +1,7 @@
 @extends('layouts.index-perusahaan')
 @section('content')
     <!-- Section Atas -->
-    <div class="bg-white p-10 flex flex-wrap justify-between items-center overflow-hidden">
+    <div class="bg-white p-10 flex flex-wrap justify-between items-center overflow-hidden  mt-16">
         <div class="max-w-lg">
             <div class="text-2xl text-blue-900 font-semibold mb-4">
                 <p>Berlangganan Bersama Kami <br> Menjadi Yang Terdepan</p>

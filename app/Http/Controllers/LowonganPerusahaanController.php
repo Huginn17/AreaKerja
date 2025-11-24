@@ -16,11 +16,32 @@ use Illuminate\Support\Facades\Auth;
 
 class LowonganPerusahaanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        //ambil semua paket lowongan
+        $pakets = PaketLowongan::all();
+
+        // Ambil semua jenis lowongan unik
+        $jenisLowongan = LowonganPerusahaan::select('jenis')->distinct()->pluck('jenis');
+
+        $query = LowonganPerusahaan::where('perusahaan_id', auth()->user()->perusahaan->id);
+
+        if ($request->paket) {
+            $query->where('paket_id', $request->paket);
+        }
+
+        if ($request->jenis) {
+            $query->where('jenis', $request->jenis);
+        }
+
+        // Ambil lowongan yang sesuai dengan filter
+        $lowongans = $query->latest()->paginate(10);
 
         return view('perusahaan.lowongan-saya.lowongan-kosong', [
-            "Data" => auth()->user()->perusahaan->lowonganPerusahaans,
+            "Data" => $lowongans,
+            'lowongans' => $lowongans,
+            'pakets' => $pakets,
+            'jenisLowongan' => $jenisLowongan,
         ]);
     }
 
@@ -71,12 +92,15 @@ class LowonganPerusahaanController extends Controller
             "batas_lamaran"        =>   "required",
             'kategori' => 'nullable',
             'benefit' => 'nullable',
+            'label_gaji' => 'nullable',
+            'tanggung_jawab' => 'nullable',
         ]);
 
 
         $valid['perusahaan_id'] = Auth::user()->perusahaan->id;
         $valid['slug'] = Str::slug($request->nama . '-' . time());
-        $valid['tanggung_jawab'] = Auth::user()->perusahaan->nama_perusahaan;
+        // $valid['tanggung_jawab'] = Auth::user()->perusahaan->nama_perusahaan;
+        
         LowonganPerusahaan::create($valid);
         return redirect()->route('lowongan.saya.perusahaan')->with('success', 'Lowongan berhasil ditambahkan!');
     }
@@ -116,6 +140,8 @@ class LowonganPerusahaanController extends Controller
             'deskripsi' => 'nullable|string',
             'syarat_pekerjaan' => 'nullable|string',
             'benefit' => 'nullable|string',
+            'label_gaji' => 'nullable|string',
+            'tanggung_jawab' => 'nullable|string',
         ]);
 
         $valid['perusahaan_id'] = Auth::user()->perusahaan->id;
@@ -296,6 +322,7 @@ class LowonganPerusahaanController extends Controller
             "batas_lamaran" => "required",
             'kategori' => 'nullable',
             'benefit' => 'nullable',
+            'tanggung_jawab' => 'nullable',
         ]);
 
         // Pastikan user yang login adalah super_admin
@@ -309,7 +336,7 @@ class LowonganPerusahaanController extends Controller
         // Simpan lowongan baru
         $valid['perusahaan_id'] = $perusahaan->id;
         $valid['slug'] = Str::slug($request->nama . '-' . time());
-        $valid['tanggung_jawab'] = $perusahaan->nama_perusahaan;
+        // $valid['tanggung_jawab'] = $perusahaan->nama_perusahaan;
 
         LowonganPerusahaan::create($valid);
 
@@ -388,6 +415,7 @@ class LowonganPerusahaanController extends Controller
             'batas_lamaran' => 'nullable|date',
             'deskripsi' => 'nullable|string',
             'syarat_pekerjaan' => 'nullable|string',
+            'tanggung_jawab' => 'nullable|string',
             'benefit' => 'nullable|string',
         ]);
 

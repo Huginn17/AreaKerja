@@ -1,7 +1,7 @@
 @extends('layouts.index-perusahaan')
 @section('content')
     <!-- Hero Section -->
-    <section class="relative">
+    <section class="relative mb-16">
         @php
             $header = \App\Models\SocialLink::where('nama', 'header_beranda')->first();
         @endphp

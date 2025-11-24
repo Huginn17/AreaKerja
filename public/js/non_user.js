@@ -217,3 +217,7 @@ $('#formRegis').on('submit', function(e) {
 //     document.getElementById('modalNonaktif').classList.add('hidden');
 //     document.getElementById('statusSelect').value = "";
 // };
+
+
+
+

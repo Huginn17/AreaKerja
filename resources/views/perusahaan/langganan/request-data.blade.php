@@ -1,6 +1,6 @@
 @extends('layouts.index-perusahaan')
 @section('content')
-    <div class="bg-white">
+    <div class="bg-white mt-16">
 
         <!-- Hero Section -->
         <!-- Hero Section -->

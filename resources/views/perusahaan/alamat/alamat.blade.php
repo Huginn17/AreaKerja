@@ -1,7 +1,7 @@
 @extends('layouts.index-perusahaan')
 @section('content')
     @if (Auth::user()->perusahaan->alamat_perusahaan->count())
-        <div class="bg-white min-h-screen p-8">
+        <div class="bg-white min-h-screen p-8 mt-16">
             <!-- Header -->
             <div class="flex items-center space-x-4">
                 @if (Auth::user()->perusahaan->img_profile)

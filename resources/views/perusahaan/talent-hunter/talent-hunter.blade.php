@@ -1,7 +1,7 @@
 @extends('layouts.index-perusahaan')
 @section('content')
     <!-- Hero Section -->
-    <div class="mt-10">
+    <div class="mt-16">
         <section class="relative">
             @php
                 $header = \App\Models\SocialLink::where('nama', 'header_talent_hunter')->first();

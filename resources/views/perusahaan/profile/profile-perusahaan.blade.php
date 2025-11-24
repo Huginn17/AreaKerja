@@ -1,7 +1,7 @@
 @extends('layouts.index-perusahaan')
 @section('content')
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <div class="bg-white p-6 font-medium">
+    <div class="bg-white p-6 font-medium mt-16">
 
         <!-- Header -->
         <div class="flex items-start space-x-4">
@@ -18,7 +18,9 @@
             <div>
                 <span class="text-lg font-semibold ">{{ Auth::user()->perusahaan->nama_perusahaan }}</span>
                 <p class="text-sm font-semibold mb-1">{{ Auth::user()->perusahaan->jenis_perusahaan }}</p>
-                <p class="text-xs text-gray-400 mb-4">{{ Auth::user()->perusahaan->alamatUtama->kota->nama }}</p>
+                <p class="text-xs text-gray-400 mb-4">{{ Auth::user()->perusahaan->alamatUtama->kota->nama }},
+                    {{ Auth::user()->perusahaan->alamatUtama->provinsi->nama }},
+                    {{ Auth::user()->perusahaan->alamatUtama->kecamatan->nama }}</p>
                 <a href="{{ route('profile.edit.perusahaan') }}"
                     class="px-4 py-1 rounded-md border border-orange-400 text-orange-500 text-sm">
                     Edit Profile
@@ -73,20 +75,48 @@
                 </div>
             </div>
 
+
             <!-- Kolom Kanan (Kontak) -->
-            <div class="border border-orange-400 rounded-md p-4 flex flex-col">
-                <h2 class="font-semibold mb-2 ml-4">Kontak</h2>
-                <ul class="list-disc ml-5 text-sm space-y-2 flex-1">
-                    <li class="py-2">Website<span class="pl-6"><a
-                                href="{{ Auth::user()->perusahaan->website_perusahaan }}">:
-                                {{ Auth::user()->perusahaan->website_perusahaan }}</span></a>
+            <div class="border border-orange-400 rounded-xl p-5 bg-white shadow-sm self-start min-h-[250px]">
+                <h2 class="font-semibold text-lg mb-4 flex items-center gap-2 text-orange-600">
+                    Kontak
+                </h2>
+
+                <ul class="space-y-3 text-sm">
+
+                    <!-- Website -->
+                    <li class="flex items-start">
+                        <span class="font-medium w-24 text-gray-700">Website</span>
+                        <span class="text-gray-800">
+                             :
+                            <a href="{{ Auth::user()->perusahaan->website_perusahaan }}"
+                                class="text-blue-600 hover:underline break-all">
+                                {{ Auth::user()->perusahaan->website_perusahaan }}
+                            </a>
+                        </span>
                     </li>
-                    <li class="py-2">Telepon<span class="pl-6">:
-                            {{ Auth::user()->perusahaan->telepon_perusahaan }}</span></li>
-                    <li class="py-2">Whatsapp<span class="pl-3">: {{ Auth::user()->perusahaan->whatsapp }}</span></li>
-                    <li class="py-2">Email<span class="pl-10">: {{ Auth::user()->email }}</span></li>
+
+                    <!-- Telepon -->
+                    <li class="flex items-start">
+                        <span class="font-medium w-24 text-gray-700">Telepon</span>
+                        <span class="text-gray-800">: {{ Auth::user()->perusahaan->telepon_perusahaan }}</span>
+                    </li>
+
+                    <!-- Whatsapp -->
+                    <li class="flex items-start">
+                        <span class="font-medium w-24 text-gray-700">Whatsapp</span>
+                        <span class="text-gray-800">: {{ Auth::user()->perusahaan->whatsapp }}</span>
+                    </li>
+
+                    <!-- Email -->
+                    <li class="flex items-start">
+                        <span class="font-medium w-24 text-gray-700">Email</span>
+                        <span class="text-gray-800 break-all">: {{ Auth::user()->email }}</span>
+                    </li>
+
                 </ul>
             </div>
+
         </div>
 
         <!-- Separator -->

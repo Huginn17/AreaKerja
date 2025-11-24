@@ -10,7 +10,7 @@
         <title>List Pekerja Bermasalah</title>
     </head>
 
-    <body class="bg-white text-gray-800"><br>
+    <body class="bg-white text-gray-800 mt-16"><br>
 
         <!-- Header Buttons -->
         <div class="flex justify-center items-center px-8 py-4 mt-16">
@@ -74,7 +74,7 @@
     <script>
         document.getElementById('btnCariPekerja').addEventListener('click', function() {
 
-            fetch("{{ route('diskon.fitur') }}", {
+            fetch("{{ route('perusahaan.cari.nama.pekerja.wa') }}", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

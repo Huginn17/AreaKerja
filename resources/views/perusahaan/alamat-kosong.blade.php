@@ -1,6 +1,6 @@
 @extends('layouts.index-perusahaan')
 @section('content')
-    <div class="max-w-6xl mx-auto p-10 bg-white">
+    <div class="max-w-6xl mx-auto p-10 bg-white mt-16">
 
         <!-- Header dengan garis bawah oranye -->
         <h2 class="text-lg font-semibold mb-4 border-b-2 border-orange-500 pb-1">Alamat</h2>
