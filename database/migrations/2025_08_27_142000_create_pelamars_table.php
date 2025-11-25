@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('nama_pelamar')->nullable();;
-            $table->string('deskripsi_diri')->nullable();;
+            $table->longText('deskripsi_diri')->nullable();;
             $table->date('tanggal_lahir')->nullable();;
             $table->enum('gender',['laki-laki','perempuan'])->nullable();
             $table->string('telepon_pelamar')->nullable();

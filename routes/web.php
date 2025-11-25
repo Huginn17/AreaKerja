@@ -70,6 +70,8 @@ use Illuminate\Support\Str;
 //SHARE LOWONGAN
 Route::get('/share/{platform}/{slug}', [ShareLowonganController::class, 'share'])
     ->name('lowongan.share');
+Route::get('/tips/share/{platform}/{slug}', [ShareLowonganController::class, 'sharetips'])
+    ->name('tips.share');
 //filter posisi dan lokasi
 Route::get('/search', [PelamarController::class, 'searchLowongan'])
     ->name('lowongan.search');
@@ -125,6 +127,13 @@ Route::post('/reset-password', [LupaPasswordController::class, 'resetPassword'])
 Route::get('email/ubah', [EmailVerificationController::class, 'showChangeEmailForm'])->name('email.ubah');
 Route::post('/email/send-verification', [EmailVerificationController::class, 'sendVerification'])->name('email.send.verification');
 Route::get('/email/verify/{token}', [EmailVerificationController::class, 'verify'])->name('email.verify');
+
+
+
+//TIPS KERJA
+Route::get('/pelamar/tips-kerja', [PelamarController::class, 'tips_kerja'])->name('pelamar.tips-kerja');
+Route::get('/pelamar/tips-kerja/{id}', [PelamarController::class, 'detail'])->name('pelamar.tips-kerja.show');
+
 
 
 //CRUD PROFILE
@@ -190,9 +199,6 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
     // Route::get('/notifikasi/{notif}', [PelamarController::class, 'showNotif'])->name('pelamar.notifikasi.show');
 
 
-    //TIPS KERJA
-    Route::get('/tips-kerja', [PelamarController::class, 'tips_kerja'])->name('pelamar.tips-kerja');
-    Route::get('/tips-kerja/{id}', [PelamarController::class, 'detail'])->name('pelamar.tips-kerja.show');
 
     //DAFTAR KANDIDAT
     Route::get('/daftar-kandidat', [PelamarController::class, 'daftar_kandidat'])->name('pelamar.daftar-kandidat');
@@ -399,6 +405,9 @@ Route::prefix('admin')->middleware('auth', 'role:admin', 'CheckUserStatus')->gro
     Route::get('/event/{event}/edit', [EventController::class, 'edit_admin'])->name('admin.edit.event');
     Route::delete('/delete/event/{event}', [EventController::class, 'destroy_admin'])->name('admin.event.destroy');
 
+    Route::put('/events/status/{event}', [EventController::class, 'updateStatus'])
+        ->name('admin.event.updateStatus');
+
 
     //CALON KANDIDAT
     Route::get('/calon/kandidat', [AdminController::class, 'halCalonKandidat'])->name('admin.calon-kandidat');
@@ -569,6 +578,9 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
     Route::get('/event/{event}', [EventController::class, 'detail'])->name('superadmin.detail.event');
     Route::get('/event/{event}/edit', [EventController::class, 'edit'])->name('superadmin.edit.event');
     Route::delete('/delete/event/{event}', [EventController::class, 'destroy'])->name('superadmin.event.destroy');
+
+    Route::put('/events/status/{event}', [EventController::class, 'updateStatus'])
+        ->name('event.updateStatus');
 
     //Pelamar
     Route::get('/pelamar', [SuperAdminController::class, 'pelamarhal'])->name('superadmin.pelamar');

@@ -121,7 +121,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($catatanCash as $item)
+                            @forelse ($catatanCash as $item)
                                 <tr class="border-b-[2px] border-gray-300">
                                     <td class="px-4 py-2">{{ $loop->iteration }}</td>
                                     <td class="px-4 py-2">{{ $item->no_referensi }}</td>
@@ -157,7 +157,12 @@
                                         {{ ucfirst($item->status) }}
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="px-4 py-4 text-center text-gray-500">Tidak ada catatan tunai.
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

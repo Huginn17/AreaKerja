@@ -22,7 +22,7 @@ class EventController extends Controller
         return view('super_admin.event.home', compact('events'));
     }
 
-    
+
 
     public function createForm()
     {
@@ -54,8 +54,8 @@ class EventController extends Controller
             $validated['image'] = $request->file('image')->store('events', 'public');
         }
 
-    
-        
+
+
 
         // Simpan event
         // dd($request->input('kegiatan_waktu'), $request->input('kegiatan_nama'));
@@ -151,6 +151,16 @@ class EventController extends Controller
     }
 
 
+    public function updateStatus(Request $request, Event $event)
+    {
+        $event->status = $request->status; // buka / tutup
+        $event->save();
+
+        return back()->with('success', 'Status event berhasil diperbarui.');
+    }
+
+
+
 
 
     //ADMIN
@@ -216,13 +226,13 @@ class EventController extends Controller
         return view('admin.event.detail-event', compact('event'));
     }
 
-     public function edit_admin(Event $event)
+    public function edit_admin(Event $event)
     {
         $event->load('kegiatan');
         return view('admin.event.edit', compact('event'));
     }
 
-     public function update_event_admin(Request $request, Event $event)
+    public function update_event_admin(Request $request, Event $event)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -259,7 +269,7 @@ class EventController extends Controller
         return redirect()->route('admin.detail.event', $event->id)->with('success', 'Event berhasil diperbarui');
     }
 
-     public function destroy_admin(Event $event)
+    public function destroy_admin(Event $event)
     {
         if ($event->image) {
             Storage::disk('public')->delete($event->image);
@@ -268,4 +278,14 @@ class EventController extends Controller
         $event->delete();
         return redirect()->route('admin.eventform')->with('success', 'Event berhasil dihapus');
     }
+
+
+        public function updateStatusAdmin(Request $request, Event $event)
+    {
+        $event->status = $request->status; // buka / tutup
+        $event->save();
+
+        return back()->with('success', 'Status event berhasil diperbarui.');
+    }
+
 }

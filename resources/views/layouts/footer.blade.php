@@ -123,7 +123,7 @@
         </div>
 
         <!-- Right copyright -->
-        <p class="text-orange-200">Copyright © 2024 areakerja.com</p>
+        <p class="text-orange-200">Copyright © 2025 areakerja.com</p>
     </div>
 
 </footer>

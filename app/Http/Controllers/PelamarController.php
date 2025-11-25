@@ -163,8 +163,9 @@ class PelamarController extends Controller
                     $q->where('kategori', $kategori);
                 }
             })
+            ->orderByDesc('rekomendasi')
             ->orderByDesc('published_at')
-            ->orderByDesc('created_at')
+            // ->orderByDesc('created_at')
             ->get();
 
         return view('non-user.home', [
@@ -468,12 +469,15 @@ class PelamarController extends Controller
 
         Notifikasi::create([
             'user_id' => $pelamar->user_id,
+            'perusahaan_id' => $pelamarlowongan->lowongan_perusahaan->perusahaan_id,
             'pelamar_lowongan_id' => $pelamarlowongan->id,
             'judul'   => "Lamaran {$statusText}",
             'pesan'   => "Lamaran yang anda ajukan ke <b>{$pelamarlowongan->lowongan_perusahaan->perusahaan->nama_perusahaan}</b> 
                   divisi <b>{$pelamarlowongan->lowongan_perusahaan->nama}</b> 
                   <span style='color:{$statusColor}; font-weight:bold;'>{$statusText}</span>. 
                   Masa berlaku lamaran sampai tanggal <b>{$expiredAt->format('d M Y')}</b>.",
+            'expired_at' => now()->addDays(7),
+
         ]);
 
         session()->forget('konfirmasi');
@@ -503,11 +507,13 @@ class PelamarController extends Controller
         Notifikasi::create([
             'user_id' => $pelamar->user_id,
             'pelamar_lowongan_id' => $pelamarlowongan->id,
+            'perusahaan_id' => $pelamarlowongan->lowongan_perusahaan->perusahaan_id,
             'judul'   => "Lamaran Ditolak",
             'pesan'   => "Lamaran anda ke <b>{$pelamarlowongan->lowongan_perusahaan->perusahaan->nama_perusahaan}</b> 
               divisi <b>{$pelamarlowongan->lowongan_perusahaan->nama}</b> 
               <span style='color:red; font-weight:bold;'>Ditolak</span>. 
               Terima kasih telah melamar, semoga sukses di kesempatan berikutnya.",
+            'expired_at' => now()->addDays(7),
         ]);
 
         session()->forget('konfirmasi');

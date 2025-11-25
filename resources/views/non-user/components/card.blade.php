@@ -152,7 +152,8 @@
         </div>
 
         {{-- Detail --}}
-        <div x-show="open" x-collapse class="mt-6 space-y-6">
+        <div x-show="open"
+         x-collapse class="mt-6 space-y-6">
             <button @click.stop="showConfirm = true"
                 class="inline-block px-4 py-2 bg-orange-500 text-white rounded-lg text-sm font-semibold hover:bg-orange-600 transition">
                 Lamar Cepat
@@ -204,14 +205,22 @@
             <div>
                 <h3 class="font-semibold text-lg mb-2">Responsibilities</h3>
                 <ul class="list-disc list-inside text-gray-700 space-y-1 leading-relaxed">
-                    @foreach (preg_split("/\r\n|\n|\r/", $d->tanggung_jawab) as $res)
-                        @if (trim($res) !== '')
-                            <li>{{ $res }}</li>
+                       @foreach (preg_split("/\r\n|\n|\r/", $d->tanggung_jawab) as $res)
+                        @php
+                            $trim = trim($res);
+                            $isNumbered = preg_match('/^\d+[\.\-\)]\s*/', $trim);
+                        @endphp
+
+                        @if ($trim !== '')
+                            @if ($isNumbered)
+                                <li style="list-style-type: none;">{{ $trim }}</li>
+                            @else
+                                <li>{{ $trim }}</li>
+                            @endif
                         @endif
                     @endforeach
                 </ul>
             </div>
-
         </div>
 
         {{-- Tombol toggle detail --}}

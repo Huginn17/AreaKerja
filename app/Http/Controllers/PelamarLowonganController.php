@@ -29,58 +29,60 @@ class PelamarLowonganController extends Controller
             ], 403);
         }
 
-
         $pelamar = $user->pelamar;
 
-        // cek apakah CV sudah lengkap (dari relasi)
+        // cek apakah CV sudah lengkap
         if (! $pelamar->isCvComplete()) {
             return response()->json([
                 'success' => false,
                 'redirect' => route('profile.index'),
-                'message' => 'Harap lengkapi CV Anda terlebih dahulu sebelum melamar.'
+                'message' => 'Harap lengkapi Profile Anda terlebih dahulu sebelum melamar.'
             ], 422);
         }
 
         // cek duplikat lamaran
-        $exists = PelamarLowongan::where('pelamar_id', $pelamar->id)
+        $existingLamaran = PelamarLowongan::where('pelamar_id', $pelamar->id)
             ->where('lowongan_id', $lowongan->id)
-            ->exists();
+            ->latest()
+            ->first();
 
-        if ($exists) {
-            return response()->json(['success' => false, 'message' => 'Anda sudah melamar lowongan ini.']);
+        if ($existingLamaran) {
+            if (in_array($existingLamaran->status, ['pending', 'diterima'])) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Anda tidak dapat melamar lagi karena lamaran Anda sebelumnya masih ' . $existingLamaran->status . '.'
+                ]);
+            }
+            // jika ditolak → lanjutkan melamar
         }
 
-        // simpan lamaran
+        // simpan lamaran baru
         PelamarLowongan::create([
             'pelamar_id' => $pelamar->id,
             'lowongan_id' => $lowongan->id,
             'status' => 'pending',
         ]);
 
-
-        // NOTIFIKASI
-        // Ambil user perusahaan (pembuat lowongan)
-        $perusahaan = $lowongan->perusahaan;       // dari model LowonganPerusahaan
-        $userPerusahaan = $perusahaan->user ?? null; // user perusahaan (id ini tujuan notifikasi)
+        // Notifikasi ke perusahaan
+        $perusahaan = $lowongan->perusahaan;
+        $userPerusahaan = $perusahaan->user ?? null;
 
         if ($userPerusahaan) {
             Notifikasi::create([
-                'user_id' => $userPerusahaan->id, // penerima notifikasi
+                'user_id' => $userPerusahaan->id,
                 'judul'   => 'Lamaran Baru Masuk',
                 'pesan' => '<b>' . $pelamar->nama_pelamar .
                     '</b> telah mengajukan lamaran untuk posisi <b>' . $lowongan->nama .
                     '</b>. Silakan tinjau detail kandidat melalui dashboard perusahaan.',
                 'is_read' => false,
+                'expired_at' => now()->addDays(7),
             ]);
         }
 
-        if (! $user || ! $user->pelamar) {
-            return response()->json([
-                'success' => false,
-                'unauthenticated' => true,
-                'redirect' => route('login'),
-                'message' => 'Harap login terlebih dahulu untuk melamar.'
-            ]);
-        }
+        // RESPONSE SUKSES
+        return response()->json([
+            'success' => true,
+            'message' => 'Lamaran berhasil dikirim!'
+        ]);
     }
-}
+    }

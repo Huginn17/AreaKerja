@@ -5,7 +5,7 @@
     <form action="{{ route('profile.update', Auth::user()->pelamar->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-        <h2 class="text-xl font-semibold mb-6 mt-10 ml-12">Profil Akun</h2>
+        <h2 class="text-xl font-semibold mb-6 mt-24 ml-12">Profil Akun</h2>
         <div class="bg-white  mx-12">
             <!-- Header: Avatar + Tombol -->
             <div class="border-2 border-orange-300 rounded-md">
@@ -119,13 +119,13 @@
 
 
             <!-- <div class="flex justify-between w-[1025px] my-5">
-                                            <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
-                                                Data Diri
-                                            </div>
-                                            <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
-                                                Informasi Akun
-                                            </div>
-                                        </div> -->
+                                                    <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
+                                                        Data Diri
+                                                    </div>
+                                                    <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
+                                                        Informasi Akun
+                                                    </div>
+                                                </div> -->
 
 
             <!-- Grid: Dua Kolom -->
@@ -455,9 +455,9 @@
                                     viewBox="0 0 24 24">
                                     <path
                                         d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
-                                                                                                                            7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
-                                                                                                                          1.003 0 0 0-1.42 0l-1.83 1.83 3.75
-                                                                                                                        3.75 1.84-1.82z" />
+                                                                                                                                    7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
+                                                                                                                                  1.003 0 0 0-1.42 0l-1.83 1.83 3.75
+                                                                                                                                3.75 1.84-1.82z" />
                                 </svg>
                             </a>
                         </div>
@@ -476,9 +476,9 @@
                                     viewBox="0 0 24 24">
                                     <path
                                         d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
-                                                                                                                                                                                                                                                                                                                   7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
-                                                                                                                                                                                                                                                                                                                   1.003 0 0 0-1.42 0l-1.83 1.83 3.75
-                                                                                                                                                                                                                                                                                                                   3.75 1.84-1.82z" />
+                                                                                                                                                                                                                                                                                                                           7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
+                                                                                                                                                                                                                                                                                                                           1.003 0 0 0-1.42 0l-1.83 1.83 3.75
+                                                                                                                                                                                                                                                                                                                           3.75 1.84-1.82z" />
                                 </svg>
                             </span>
                         </div>
@@ -502,7 +502,7 @@
                                     value="{{ Auth::user()->pelamar->gaji_maksimal ?? '' }}">
                             </div>
                         </div>
-                        <input type="range" class="w-full mt-4 accent-gray-700">
+                        <input type="range" class="w-full mt-4 accent-orange-600">
                     </div>
 
                     <!-- Catatan -->

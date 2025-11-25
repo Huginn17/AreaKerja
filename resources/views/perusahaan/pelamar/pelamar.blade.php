@@ -19,7 +19,7 @@
         </div>
     </section>
 
-    <div class="p-6 bg-white min-h-screen flex justify-center mt-16">
+    <div class="p-6 bg-white min-h-screen flex justify-center mt-24">
         <div class="w-full max-w-5xl">
             <!-- Header Info Lowongan -->
             <div class="bg-white rounded-lg shadow-md p-5 flex items-center justify-between mb-6 border">
@@ -59,7 +59,7 @@
                                     <td class="px-6 py-4">{{ $p->pelamar->nama_pelamar }}</td>
                                     <td class="px-6 py-4">
                                         <div class="flex justify-center items-center">
-                                            <button onclick="openConfirmModal({{ $p->id }})">
+                                            <button onclick="openConfirmModal({{ $p->pelamar->id }})">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-orange-500"
                                                     fill="currentColor" viewBox="0 0 24 24">
                                                     <path d="M12 3v12l4-4h-3V3h-2v8H8l4 4zM4 19h16v2H4z" />

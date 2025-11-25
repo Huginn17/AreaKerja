@@ -1,6 +1,6 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
-    <div class="w-4/5 h-screen translate-x-4 overflow-y-auto" x-data="{ openNotif: false, openAllNotif: false }">
+    <div class="w-full h-screen translate-x-4 overflow-y-auto" x-data="{ openNotif: false, openAllNotif: false }">
         <main class="flex-1 p-6 bg-white sm:ml-64">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-2xl font-medium"></h1>
@@ -34,7 +34,7 @@
                         <a href="{{ route('superadmin.profile') }}">
                             @if (Auth::user()->role == 'super_admin')
                                 @if (Auth::user()->superadmin?->img_profile)
-                                    <img id="pu" class="w-10 h-10 object-cover rounded-full profile-img"
+                                    <img id="pu" class="w-6 h-6 object-cover rounded-full profile-img"
                                         src="{{ asset('storage/' . Auth::user()->superadmin->img_profile) }}"
                                         alt="Profile">
                                 @else
@@ -54,12 +54,12 @@
                             <p class="text-gray-500 text-sm">{{ Auth::user()->email }}</p>
                         </div>
 
-                        <select class="appearance-none px-6 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
+                        {{-- <select class="appearance-none px-6 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
                             <option value=""></option>
                             <option>Text 1</option>
                             <option>Text 2</option>
                             <option>Text 3</option>
-                        </select>
+                        </select> --}}
                     </div>
                 </div>
             </div>
@@ -123,7 +123,7 @@
                                         <use xlink:href="#image0_733_9205"
                                             transform="matrix(0.010272 0 0 0.0104167 0.00694314 0)" />
                                     </pattern>
-                                    <image id="image0_733_9205" width="96" height="96" preserveAspectRatio="none"
+                                    <image id="image0_733_9205" width="64" height="64" preserveAspectRatio="none"
                                         xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAABmJLR0QA/wD/AP+gvaeTAAABtklEQVR4nO3aMU7DMBiG4Q9YGOAM3IOJQyCuwtgsSByJBQkheoQepBNjGaBShQKJ7d/+6uZ9JI+NnPdvmrSqBAAAAAA49CBpLWkraSPpSdKldUcLspK0G1nvkq6M+1qEQePx92st6dq2uxM3FZ8hVDQ3PkOoIDU+QwiUG58hBCiNXzSE8+Lt9+8z6Di3kl7ElZDlUTFXAR9HBRjCEYi6H+y/MU/+bHERfQade5N0Juku4Fg3+u77GnCsxYn6ONq03vixGn5W6mtKB7AN2Hv3DkO2HsJH+fb7Nhaw5RDui8+gY/+FazGEVfEZdGxOsOfEY6bcmIk/c9UYAvETV+QQiJ+5IoZA/MJVMgTiB62cp6PU15yUyPi5V8Ji1YjPEGaqGZ8hTGgRnyH8oWV8hvCLI371IfTyr4hB3mftqH9OdMn5zt+JL1nEdyG+EfGNiG9EfCPiGxHfiPhGxDcivhHxjYhvRHwj4hsR34j4RsQ3Ir4R8Y2Ib0R8I+IbEd+I+EbENyK+EfGNiG9GfDPimxHfjPhmxDcjvhnxzYhvRnwz4psR34z4ZsQ3I74Z8c2IDwAAAAAAAGT4AmWLJrfB4zyeAAAAAElFTkSuQmCC" />
                                 </defs>
                             </svg>
@@ -132,7 +132,7 @@
                     </div>
 
 
-                    <div class="translate-x-20">
+                    <div class="translate-x-4 p-6">
                         <h2 class="text-lg font-semibold mb-4">Detail Lowongan</h2>
 
                         <!-- Gaji -->
@@ -174,7 +174,7 @@
                 <!-- Tombol aksi -->
                 <div class="flex flex-col items-center space-y-3 max-w-lg mx-auto mt-8">
                     <!-- Tombol Tambah Lowongan -->
-                    <div class="border rounded-md p-4 mb-4 flex justify-between items-center">
+                    <div class="rounded-md p-4 mb-4 flex justify-between items-center">
                         <form action="{{ route('superadmin.lowongan.toggleRekomendasi', $lowongan->id) }}"
                             method="POST">
                             @csrf

@@ -120,7 +120,20 @@
                     <div>
                         <p class="text-gray-700 mb-4"><b>Responsibilities</b></p>
                         <ul class="list-disc pl-6 text-gray-600 space-y-2">
-                            <li>{{ $tawaran->lowonganPerusahaan->tanggung_jawab ?? '-' }}</li>
+                            @foreach (preg_split("/\r\n|\n|\r/", $tawaran->lowonganPerusahaan->tanggung_jawab) as $res)
+                        @php
+                            $trim = trim($res);
+                            $isNumbered = preg_match('/^\d+[\.\-\)]\s*/', $trim);
+                        @endphp
+
+                        @if ($trim !== '')
+                            @if ($isNumbered)
+                                <li style="list-style-type: none;">{{ $trim }}</li>
+                            @else
+                                <li>{{ $trim }}</li>
+                            @endif
+                        @endif
+                    @endforeach
                         </ul>
                     </div>
                 </div>
@@ -273,7 +286,8 @@
                                     Rp. {{ number_format($low->gaji_akhir, 0, ',', '.') }} / bulan
                                 </p>
                                 <span class="text-xs text-gray-400"><span class="text-xs text-gray-400">
-                                        Aktif {{ optional($low->published_at)->diffForHumans() ?? 'Belum Terpublicasikan' }}
+                                        Aktif
+                                        {{ optional($low->published_at)->diffForHumans() ?? 'Belum Terpublicasikan' }}
                                     </span>
                                 </span>
                             </div>

@@ -20,9 +20,9 @@ return new class extends Migration
             $table->string('telepon_perusahaan')->nullable();
             $table->string('whatsapp')->nullable();
             $table->string('legalitas')->nullable();
-            $table->string('deskripsi')->nullable();
-            $table->string('visi')->nullable();
-            $table->string('misi')->nullable();
+            $table->longText('deskripsi')->nullable();
+            $table->longText('visi')->nullable();
+            $table->longText('misi')->nullable();
             $table->integer('koin_perusahaan')->default(0);
             $table->tinyInteger('is_berlangganan')->default(0);
             $table->string('img_profile')->nullable();

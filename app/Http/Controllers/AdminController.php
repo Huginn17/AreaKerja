@@ -535,6 +535,7 @@ class AdminController extends Controller
             'perusahaan_id' => $perusahaan->id,
             'judul' => 'Status Recruitment Dibatalkan',
             'pesan' => 'Status Recruitment Anda telah dibatalkan oleh Admin.',
+            'expired_at' => now()->addDays(7),
         ]);
 
         if ($perusahaanUser) {
@@ -544,6 +545,7 @@ class AdminController extends Controller
                 // 'perusahaan_id' => $perusahaan->id,
                 'judul' => 'Status Recruitment Dibatalkan',
                 'pesan' => 'Kandidat' . $pembelian->pelamar->nama_pelamar .  'telah dihapus dari daftar recruitment oleh Admin.',
+                'expired_at' => now()->addDays(7),
             ]);
         }
 

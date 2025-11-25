@@ -152,8 +152,17 @@
                 <h3 class="text-xl font-bold mb-2">Responsibilities</h3>
                 <ul class="list-disc list-inside text-gray-700 space-y-1">
                     @foreach (preg_split("/\r\n|\n|\r/", $data->tanggung_jawab) as $res)
-                        @if (trim($res) !== '')
-                            <li>{{ $res }}</li>
+                        @php
+                            $trim = trim($res);
+                            $isNumbered = preg_match('/^\d+[\.\-\)]\s*/', $trim);
+                        @endphp
+
+                        @if ($trim !== '')
+                            @if ($isNumbered)
+                                <li style="list-style-type: none;">{{ $trim }}</li>
+                            @else
+                                <li>{{ $trim }}</li>
+                            @endif
                         @endif
                     @endforeach
                 </ul>

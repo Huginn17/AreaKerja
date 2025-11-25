@@ -57,11 +57,11 @@
                     </div>
 
                     <!-- Dropdown -->
-                    <select class="appearance-none text-gray-600 text-xs px-8 focus:outline-none cursor-pointer">
+                    {{-- <select class="appearance-none text-gray-600 text-xs px-8 focus:outline-none cursor-pointer">
                         <option>Text 1</option>
                         <option>Text 2</option>
                         <option>Text 3</option>
-                    </select>
+                    </select> --}}
                 </div>
             </div>
         </div>

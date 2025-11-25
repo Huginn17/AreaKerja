@@ -11,6 +11,7 @@
 
     <title>areakerja.com</title>
     @vite('resources/css/app.css')
+    @vite('resources/js/app.js')
     <link rel="stylesheet" type="text/css"
         href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css" />
     <link rel="stylesheet" type="text/css"
@@ -32,10 +33,138 @@
         body {
             font-family: 'Poppins', sans-serif;
         }
+
+        .notif-profil {
+            margin: 0 !important;
+            padding: 0 !important;
+            border-radius: 12px !important;
+            /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); */
+            background: transparent !important;
+        }
+
+        .notif-profil .introjs-skipbutton {
+            display: none !important;
+        }
+
+        .notif-profil .introjs-arrow {
+            display: none !important;
+        }
+
+        .notif-profil.introjs-tooltip {
+            transform: translateY(-25px) !important;
+        }
+
+        .introjs-overlay {
+            pointer-events: none !important;
+            background: rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .introjs-helperLayer,
+        .introjs-overlay {
+            pointer-events: none !important;
+        }
+
+        .introjs-tooltip {
+            pointer-events: auto !important;
+        }
+
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            cursor: pointer;
+            object-fit: cover;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .introjs-tooltip,
+        .introjs-tooltip .introjs-tooltiptext,
+        .introjs-tooltip .introjs-nextbutton,
+        .introjs-tooltip .introjs-prevbutton,
+        .introjs-tooltip .introjs-skipbutton,
+        .introjs-tooltip .introjs-donebutton,
+        .notif-profil.introjs-tooltip,
+        .notif-profil.introjs-tooltip * {
+            box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            filter: none !important;
+        }
+
+        .introjs-tooltip:before,
+        .introjs-tooltip:after,
+        .notif-profil.introjs-tooltip:before,
+        .notif-profil.introjs-tooltip:after {
+            box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            background: transparent !important;
+        }
+
+
+        .introjs-tooltip {
+            z-index: 100000 !important;
+            pointer-events: auto !important;
+            background-clip: padding-box;
+        }
+
+        .notif-profil {
+            box-shadow: none !important;
+            background: transparent !important;
+            border: 0 !important;
+        }
     </style>
 
     <script src="//unpkg.com/alpinejs" defer></script>
+    @php
+        $user = Auth::user();
+        $perusahaan = $user->perusahaan ?? null;
 
+        // Ambil alamat pertama (karena hasMany menghasilkan collection)
+        $alamat = $perusahaan?->alamatUtama?->first();
+
+        // Cek profil belum lengkap
+        $isProfileIncomplete =
+            !$perusahaan ||
+            $perusahaan->nama_perusahaan == null ||
+            $perusahaan->jenis_perusahaan == null ||
+            $perusahaan->deskripsi == null ||
+            $perusahaan->visi == null ||
+            $perusahaan->misi == null ||
+            $perusahaan->telepon_perusahaan == null ||
+            $perusahaan->whatsapp == null ||
+            $perusahaan->img_profile == null;
+
+        // Cek alamat belum lengkap atau belum ada sama sekali
+        $isAddressIncomplete =
+            !$alamat ||
+            $alamat->desa == null ||
+            $alamat->label == null ||
+            $alamat->detail == null ||
+            $alamat->kecamatan->nama == null ||
+            $alamat->kota->nama == null ||
+            $alamat->provinsi->nama == null ||
+            $alamat->kode_pos == null;
+    @endphp
+
+    @if (Auth::check() && $user->role === 'perusahaan' && ($isProfileIncomplete || $isAddressIncomplete))
+        <meta name="show-intro" content="1">
+    @endif
 </head>
 
 <body x-data="{ openNotif: false, openAllNotif: false }">
@@ -189,8 +318,9 @@
                 {{-- Jika sudah login tampilkan dropdown --}}
                 @auth
                     <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-                        <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0" id="user-menu-button"
-                            aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+                        <button id="ntap" type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0"
+                            id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
+                            data-dropdown-placement="bottom">
                             <span class="sr-only">Open user menu</span>
                             @if (Auth::user()->role == 'perusahaan')
                                 <div class="px-6 py-2 bg-orange-500 rounded-xl text-white font-semibold text-center">
@@ -235,7 +365,8 @@
                                 <!-- Menu -->
                                 <div class="flex flex-col mt-4">
                                     <a href="{{ url('/perusahaan/profile') }}"
-                                        class="flex items-center gap-3 px-5 py-3 bg-orange-50 text-orange-600 font-medium">
+                                        class="flex items-center gap-3 px-5 py-3 bg-orange-50 text-orange-600 font-medium"
+                                        id="profile-lank">
                                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path

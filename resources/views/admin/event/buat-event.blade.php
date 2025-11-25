@@ -58,11 +58,11 @@
                                 <p class="text-gray-500 text-sm">{{ Auth::user()->email }}</p>
                             </div>
                         </div>
-                        <select class="appearance-none text-gray-600 text-xs px-8 focus:outline-none cursor-pointer">
+                        {{-- <select class="appearance-none text-gray-600 text-xs px-8 focus:outline-none cursor-pointer">
                             <option>Text 1</option>
                             <option>Text 2</option>
                             <option>Text 3</option>
-                        </select>
+                        </select> --}}
                     </div>
                 </div>
             </div>

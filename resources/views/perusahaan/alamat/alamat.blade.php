@@ -14,8 +14,10 @@
                 @endif
                 <div>
                     <span class="text-lg font-semibold mb-1">{{ Auth::user()->perusahaan->nama_perusahaan }}</span>
-                    <p class="text-lg text-gray-600 m-2">Jasa TI dan Konsultan TI</p>
-                    <p class="text-sm text-gray-400">Alamat default</p>
+                    <p class="text-lg text-gray-600 m-2">{{ Auth::user()->perusahaan->jenis_perusahaan }}</p>
+                    <p class="text-sm text-gray-400">{{ Auth::user()->perusahaan->alamatUtama->kota->nama ?? '-' }},
+                    {{ Auth::user()->perusahaan->alamatUtama->provinsi->nama ?? '-' }},
+                    {{ Auth::user()->perusahaan->alamatUtama->kecamatan->nama ?? '-' }}</p>
                 </div>
             </div>
 
@@ -23,6 +25,7 @@
             <div class="mt-6 ml-12">
                 <h2 class="font-semibold text-gray-800">Alamat</h2>
                 <hr class="border border-orange-500 mt-3 " />
+                <span class="text-sm text-orange-500">Untuk Mengisi Profile Silahkan Jadikan Alamat Utama Terlebih Dahulu</span>
             </div>
 
             <!-- Box Alamat -->
@@ -73,11 +76,19 @@
         <div class="bg-white min-h-screen p-8">
             <!-- Header -->
             <div class="flex items-center space-x-4">
-                <img src="{{ asset('images/seven.png') }}" alt="Logo" class="w-60 h-56 object-contain" />
-                <div>
-                    <h1 class="font-semibold text-lg text-gray-800 m-2">Seven_Inc</h1>
-                    <p class="text-lg text-gray-600 m-2">Jasa TI dan Konsultan TI</p>
-                    <p class="text-sm text-gray-400">Alamat default</p>
+             @if (Auth::user()->perusahaan->img_profile)
+                    <img id="pp" class="w-20 h-20 object-contain mb-3 profile-img"
+                        src="{{ asset('storage/' . Auth::user()->perusahaan->img_profile) }}" alt="Profile">
+                @else
+                    <img id="pp" class="w-20 h-20 object-contain mb-3"
+                        src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                        alt="">
+                @endif    <div>
+                    <h1 class="font-semibold text-lg text-gray-800 m-2">{{ Auth::user()->perusahaan->nama_perusahaan }}</h1>
+                    <p class="text-lg text-gray-600 m-2">{{ Auth::user()->perusahaan->jenis_perusahaan }}</p>
+                    <p class="text-sm text-gray-400">{{ Auth::user()->perusahaan->alamatUtama->kota->nama ?? '-' }},
+                    {{ Auth::user()->perusahaan->alamatUtama->provinsi->nama ?? '-' }},
+                    {{ Auth::user()->perusahaan->alamatUtama->kecamatan->nama ?? '-' }}</p>
                 </div>
             </div>
 

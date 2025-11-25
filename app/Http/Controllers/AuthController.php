@@ -36,12 +36,12 @@ class AuthController extends Controller
             $user = Auth::user();
             $role = $user->role;
 
-            // === Popup untuk PELAMAR ===
-            if ($role === 'pelamar') {
-                // set popup ON (hanya saat login)
-                session(['show_first_login_popup' => true]);
-                session()->forget('profile_popup_closed');
-            }
+            // // === Popup untuk PELAMAR ===
+            // if ($role === 'pelamar') {
+            //     // set popup ON (hanya saat login)
+            //     session(['show_first_login_popup' => true]);
+            //     session()->forget('profile_popup_closed');
+            // }
 
             return match ($role) {
                 'super_admin' => redirect()->route('superadmin.dashboard'),
@@ -61,7 +61,6 @@ class AuthController extends Controller
 
 
     //pelamar
-
     public function beranda(Request $request)
     {
         // Ambil kategori dari query URL

@@ -2,6 +2,22 @@
 @section('content')
     <div class="bg-white text-gray-900 mt-16">
         <div class="max-w-3xl mx-auto p-6">
+            {{-- header status & tombol --}}
+            <div class="flex justify-end items-center space-x-4 mb-4">
+                <span class="font-medium">Status</span>
+                @if ($event->status == 'buka')
+                    <span class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm">Buka</span>
+                @elseif ($event->status == 'tutup')
+                    <span class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm">Tutup</span>
+                @else
+                    <span class="bg-gray-500 text-white px-4 py-2 rounded text-sm">Draft</span>
+                @endif
+            </div>
+
+            <div class="flex justify-end items-center space-x-4 mb-6">
+                <button class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg text-sm">Lihat
+                    Partisipan</button>
+            </div>
             <!-- Tanggal -->
             <div class="text-sm font-medium text-gray-800 mb-2">
                 {{ \Carbon\Carbon::parse($event->tgl_mulai)->translatedFormat('d F Y') }}

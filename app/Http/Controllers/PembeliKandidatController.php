@@ -95,6 +95,7 @@ class PembeliKandidatController extends Controller
                 ' Dan Akan Ditempatkan Di Bagian ' . $lowongan->nama .
                 '. Harap Memeriksa Status Tawaranmu.',
             'is_read' => false,
+            'expired_at' => now()->addDays(7),
         ]);
 
         return response()->json([
@@ -152,7 +153,8 @@ class PembeliKandidatController extends Controller
             Notifikasi::create([
                 'user_id' => $perusahaanUserId,
                 'judul' => $judul,
-                'pesan' => $pesan
+                'pesan' => $pesan,
+                'expired_at' => now()->addDays(7),
             ]);
         }
 

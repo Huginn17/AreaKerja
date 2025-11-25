@@ -108,7 +108,7 @@ class DatabaseSeeder extends Seeder
         // HargaPembayaran::create([
         //     "nama"     =>    "Pendaftaran Kandidat",
         //     "harga"       => 200000
-        // ]);
+        // ]); 
 
         HargaPembayaran::create([
             "nama"     =>    "Pendaftaran Kandidat",

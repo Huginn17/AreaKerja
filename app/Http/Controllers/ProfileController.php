@@ -74,18 +74,29 @@ class ProfileController extends Controller
 
     public function alamat()
     {
-        session(['profile_popup_closed' => true]);
-        session()->forget('show_first_login_popup');
 
-        return view('non-user.alamat.index');
+        $user = auth()->user();
+
+        $pelamar = Pelamar::where('user_id', $user->id)
+            ->with('pengalaman_organisasi')
+            ->first();
+
+        return view('non-user.alamat.index', [
+            'pelamar' => $pelamar
+        ]);
     }
 
     public function form_alamat()
     {
-        session(['profile_popup_closed' => true]);
-        session()->forget('show_first_login_popup');
+        $user = auth()->user();
 
-        return view('non-user.alamat.create-alamat');
+        $pelamar = Pelamar::where('user_id', $user->id)
+            ->with('pengalaman_organisasi')
+            ->first();
+
+        return view('non-user.alamat.create-alamat',[
+            'pelamar' => $pelamar
+        ]);
     }
 
     public function store_alamat(Request $request)

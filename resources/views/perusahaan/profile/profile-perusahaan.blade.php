@@ -1,7 +1,7 @@
 @extends('layouts.index-perusahaan')
 @section('content')
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <div class="bg-white p-6 font-medium mt-16">
+    <div class="bg-white p-6 font-medium mt-24">
 
         <!-- Header -->
         <div class="flex items-start space-x-4">
@@ -18,9 +18,9 @@
             <div>
                 <span class="text-lg font-semibold ">{{ Auth::user()->perusahaan->nama_perusahaan }}</span>
                 <p class="text-sm font-semibold mb-1">{{ Auth::user()->perusahaan->jenis_perusahaan }}</p>
-                <p class="text-xs text-gray-400 mb-4">{{ Auth::user()->perusahaan->alamatUtama->kota->nama }},
-                    {{ Auth::user()->perusahaan->alamatUtama->provinsi->nama }},
-                    {{ Auth::user()->perusahaan->alamatUtama->kecamatan->nama }}</p>
+                <p class="text-xs text-gray-400 mb-4">{{ Auth::user()->perusahaan->alamatUtama->kota->nama ?? '-' }},
+                    {{ Auth::user()->perusahaan->alamatUtama->provinsi->nama ?? '-' }},
+                    {{ Auth::user()->perusahaan->alamatUtama->kecamatan->nama ?? '-' }}</p>
                 <a href="{{ route('profile.edit.perusahaan') }}"
                     class="px-4 py-1 rounded-md border border-orange-400 text-orange-500 text-sm">
                     Edit Profile
@@ -57,7 +57,7 @@
                     <label class="w-1 text-sm">Badan Usaha</label>
                     <input type="text" name="jenis_perusahaan" readonly
                         value="{{ Auth::user()->perusahaan->jenis_perusahaan }}"
-                        class="flex-1 border border-orange-400 rounded-md p-2 focus:outline-none mx-32 text-gray-800 text-sm">
+                        class="flex-1 border border-orange-400 rounded-md px-4 py-4 focus:outline-none ml-32 text-gray-800 text-sm">
                 </div>
 
                 <!-- Visi -->

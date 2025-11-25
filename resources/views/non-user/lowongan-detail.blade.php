@@ -183,11 +183,20 @@
                     <div>
                         <h2 class="font-semibold text-lg mb-2">Responsibilities</h2>
                         <p class="text-gray-700">
-                            @foreach (preg_split("/\r\n|\n|\r/", $data->tanggung_jawab) as $res)
-                                @if (trim($res) !== '')
-                                    <li>{{ $res }}</li>
-                                @endif
-                            @endforeach
+                           @foreach (preg_split("/\r\n|\n|\r/", $data->tanggung_jawab) as $res)
+                        @php
+                            $trim = trim($res);
+                            $isNumbered = preg_match('/^\d+[\.\-\)]\s*/', $trim);
+                        @endphp
+
+                        @if ($trim !== '')
+                            @if ($isNumbered)
+                                <li style="list-style-type: none;">{{ $trim }}</li>
+                            @else
+                                <li>{{ $trim }}</li>
+                            @endif
+                        @endif
+                    @endforeach
                         </p>
                     </div>
                 </div>

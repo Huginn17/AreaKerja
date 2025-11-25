@@ -117,6 +117,7 @@ class Pelamar extends Model
         return $this->riwayat_pendidikan()->exists()
             && $this->pengalaman_kerja()->exists()
             && $this->skill()->exists()
-            && $this->sosmed()->exists();
+            && $this->pengalaman_organisasi()->exists()
+            && $this->sosmed()->exists();   
     }
 }

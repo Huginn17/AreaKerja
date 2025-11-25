@@ -541,6 +541,7 @@ class PerusahaanController extends Controller
                 'perusahaan_id'  => $perusahaan->id,
                 'judul'          => 'Status Recruitment Dibatalkan',
                 'pesan'          => 'Status Recruitment Anda telah dibatalkan oleh Perusahaan.',
+                'expired_at' => now()->addDays(7),
             ]);
         }
 

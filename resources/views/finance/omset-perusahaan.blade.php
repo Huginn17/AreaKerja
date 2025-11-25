@@ -95,7 +95,7 @@
                                 <p class="text-gray-500 text-sm">{{ Auth::user()->email }}</p>
                         </div>
                     </div>
-
+{{-- 
                     <!-- Kanan: Icon panah -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -106,7 +106,7 @@
                         <option>Text 1</option>
                         <option>Text 2</option>
                         <option>Text 3</option>
-                    </select>
+                    </select> --}}
                 </div>
             </div>
         </header>

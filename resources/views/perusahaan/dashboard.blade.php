@@ -227,14 +227,14 @@
                         <!-- Tombol Lihat Kandidat -->
                         <a href="{{ route('perusahaan.kandidat.saya') }}"
                             class="w-48 py-2 mb-4 border border-white text-white font-semibold rounded-lg hover:bg-white/20 transition">
-                           <span class="ml-[40px]">Lihat Kandidat</span>
+                            <span class="ml-[40px]">Lihat Kandidat</span>
                         </a>
 
                         <!-- Tombol Cari Kandidat -->
                         <a href="{{ route('perusahaan.kandidat.ak') }}"
                             class="w-48 py-2 bg-white text-black font-semibold rounded-lg hover:bg-gray-100 transition">
                             <span class="ml-[40px]">Cari Kandidat</span>
-                    </a>
+                        </a>
                     </div>
                 </div>
 
@@ -297,11 +297,12 @@
             </div>
         </div>
         <!-- ================= MODAL STEP 1 ================= -->
+        <!-- ================= MODAL STEP 1 ================= -->
         <div id="modalStep1" class="fixed inset-0 hidden bg-black bg-opacity-50 z-50 flex items-center justify-center">
             <div class="bg-white w-full max-w-md rounded-2xl shadow-xl relative p-6 max-h-[80vh] overflow-y-auto">
                 <button onclick="closeAllModal()" class="absolute top-3 right-3 text-gray-400 hover:text-black">✕</button>
                 <h2 class="text-lg font-semibold mb-4">Top Up Koin</h2>
-                <div class="grid grid-c ols-3 gap-4">
+                <div class="grid grid-cols-3 gap-4">
                     @foreach ($hargaPembayarans as $paket)
                         <label
                             class="paketCoinWrapper cursor-pointer border rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col items-center">

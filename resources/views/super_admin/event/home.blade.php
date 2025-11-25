@@ -56,11 +56,11 @@
                     </div>
 
                     <!-- Dropdown -->
-                    <select class="appearance-none text-gray-600 text-xs px-8 focus:outline-none cursor-pointer">
+                    {{-- <select class="appearance-none text-gray-600 text-xs px-8 focus:outline-none cursor-pointer">
                         <option>Text 1</option>
                         <option>Text 2</option>
                         <option>Text 3</option>
-                    </select>
+                    </select> --}}
                 </div>
 
             </div>
@@ -108,9 +108,11 @@
 
                                 <td class="px-6 py-3 text-white">
                                     @if ($event->status == 'buka')
-                                        <span class="bg-green-500 px-5 py-1 rounded-lg whitespace-nowrap">Buka</span>
+                                        <button onclick="openStatusModal({{ $event->id }}, 'tutup')"
+                                            class="bg-green-500 px-5 py-1 rounded-lg whitespace-nowrap">Buka</button>
                                     @elseif ($event->status == 'tutup')
-                                        <span class="bg-red-500 px-5 py-1 rounded-lg whitespace-nowrap">Tutup</span>
+                                        <button onclick="openStatusModal({{ $event->id }}, 'buka')"
+                                            class="bg-red-500 px-5 py-1 rounded-lg whitespace-nowrap">Tutup</button>
                                     @else
                                         <span class="bg-gray-500 px-5 py-1 rounded-lg whitespace-nowrap">Draft</span>
                                     @endif
@@ -166,9 +168,70 @@
 
         </div>
 
+        <!-- Modal -->
+        <div id="statusModal" class="fixed inset-0 bg-black/50 flex items-center justify-center hidden z-50">
+
+            <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+                <h2 class="text-lg font-semibold mb-3" id="modalTitle">Ubah Status Event</h2>
+
+                <p id="modalMessage" class="mb-5 text-gray-700"></p>
+
+                <form id="statusForm" method="POST">
+                    @csrf
+                    @method('PUT')
+
+                    <input type="hidden" name="status" id="statusInput">
+
+                    <div class="flex justify-end gap-3">
+                        <button type="button" onclick="closeStatusModal()"
+                            class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
+                            Batal
+                        </button>
+
+                        <button type="submit" class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700">
+                            Konfirmasi
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
 
         @include('super_admin.notif.modal_notif')
         @include('super_admin.notif.modal_semua')
 
     </main>
+
+
+    <script>
+        function openStatusModal(id, status) {
+            const modal = document.getElementById('statusModal');
+            const title = document.getElementById('modalTitle');
+            const msg = document.getElementById('modalMessage');
+            const statusInput = document.getElementById('statusInput');
+            const form = document.getElementById('statusForm');
+
+            // Isi form action
+            form.action = `/super_admin/events/status/${id}`;
+
+            // Isi status input
+            statusInput.value = status;
+
+            // Ubah tulisan modal
+            if (status === 'tutup') {
+                title.textContent = "Tutup Event?";
+                msg.textContent = "Event akan ditutup dan tidak bisa lagi menerima pendaftaran.";
+            } else {
+                title.textContent = "Buka Event?";
+                msg.textContent = "Event akan dibuka kembali dan bisa menerima pendaftaran.";
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeStatusModal() {
+            document.getElementById('statusModal').classList.add('hidden');
+        }
+    </script>
+
 @endsection

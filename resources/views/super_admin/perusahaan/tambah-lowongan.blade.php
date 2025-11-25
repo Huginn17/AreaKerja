@@ -165,11 +165,37 @@
                         </div> --}}
                     </div>
 
+
+                    <!--  Label_gaji & benefit -->
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <label for="label_gaji" class="block text-sm font-bold mb-1">Label Gaji <span
+                                    class="text-red-600">*</span></label>
+                            <input type="text" id="label_gaji" name="label_gaji" required
+                                class=" w-full border border-gray-400 rounded px-3 py-2 focus:outline-none" />
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium">Benefit <span class="text-red-500">*</span></label>
+                            <input type="text" id="benefit" name="benefit" required
+                                class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none">
+
+                            </select>
+                        </div>
+                    </div>
+
                     <!-- Deskripsi -->
                     <div>
                         <label for="deskripsi" class="block text-sm font-bold mb-1">Deskripsi <span
                                 class="text-red-600">*</span></label>
                         <textarea id="deskripsi" name="deskripsi" rows="5" required
+                            class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none"></textarea>
+                    </div>
+                    <!-- Tanggung Jawab -->
+                    <div>
+                        <label for="tanggung_jawab" class="block text-sm font-bold mb-1">Tanggung Jawab <span
+                                class="text-red-600">*</span></label>
+                        <textarea id="tanggung_jawab" name="tanggung_jawab" rows="5" required
                             class="w-full border border-gray-400 rounded px-3 py-2 focus:outline-none"></textarea>
                     </div>
 
@@ -262,22 +288,12 @@
                                 class="w-30 border border-gray-400 rounded px-3 py-2 focus:outline-none  text-sm" />
 
                         </div>
-                            <label for="batas_lamaran" class="w-32 text-sm font-medium">
-                                Benefit <span class="text-red-600">*</span>
-                            </label>
 
-                            <!-- Input Date -->
-                            <input type="text" name="benefit"
-                                class="w-30 border border-gray-400 rounded px-3 py-2 focus:outline-none  text-sm" />
-
-                        
 
                         <!-- Tombol -->
                         <div class="flex justify-center gap-3 mt-[40px]">
                             <button type="submit"
                                 class="bg-orange-500 text-white text-sm px-7 py-1 rounded-lg hover:bg-orange-600 transition">Simpan</button>
-                            <button type="reset"
-                                class="border border-orange-600 text-orange-600 text-sm px-7 py-1 rounded-lg hover:bg-gray-100 transition">Batal</button>
                         </div>
 
                 </form>

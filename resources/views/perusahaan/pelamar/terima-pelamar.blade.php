@@ -1,6 +1,6 @@
 @extends('layouts.index-perusahaan')
 @section('content')
-    <div class="flex justify-center items-center mt-10 mb-10">
+    <div class="flex justify-center items-center mt-24 mb-10">
         <div class="w-full max-w-3xl bg-white p-8 rounded-lg shadow-md">
             <!-- Judul -->
             <h2 class="text-xl font-semibold mb-6 text-center">Konfirmasi Terima Lamaran</h2>

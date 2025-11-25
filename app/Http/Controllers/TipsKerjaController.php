@@ -41,6 +41,24 @@ class TipsKerjaController extends Controller
             'section' => 'nullable|json',
         ]);
 
+        // Tambah slug
+        if (!empty($request->title)) {
+            // Contoh: judul → "tips-wawancara-kerja"
+            $baseSlug = Str::slug($request->title);
+            $slug = $baseSlug;
+
+            // Cek apakah slug sudah digunakan → jika ya, tambahkan angka di belakang
+            $counter = 1;
+            while (TipsKerja::where('slug', $slug)->exists()) {
+                $slug = $baseSlug . '-' . $counter++;
+            }
+        } else {
+            // Title kosong → slug pakai timestamp agar tetap unik
+            $slug = 'tips-' . time();
+        }
+
+        $d['slug'] = $slug;
+
         $d['penulis'] = Auth::user()->username;
         $d['status'] = 'belum terbit';
 
@@ -75,9 +93,11 @@ class TipsKerjaController extends Controller
             $d['image'] = $request->file('image')->store('images', 'public');
         }
 
-        Tipskerja::create($d);
+        TipsKerja::create($d);
+
         return redirect()->route('admin.tips-kerja')->with('success', 'Data berhasil disimpan.');
     }
+
 
     public function update_status(Request $request)
     {
@@ -140,8 +160,30 @@ class TipsKerjaController extends Controller
             'section' => 'nullable|json',
         ]);
 
+        // ==== SLUG ====
+        if (!empty($request->title)) {
+
+            // Buat slug dasar
+            $baseSlug = Str::slug($request->title);
+            $slug = $baseSlug;
+
+            // Cek apakah slug sudah ada
+            $counter = 1;
+            while (TipsKerja::where('slug', $slug)->exists()) {
+                $slug = $baseSlug . '-' . $counter++;
+            }
+        } else {
+            // Title kosong → slug pakai timestamp
+            $slug = 'tips-' . time();
+        }
+
+        $d['slug'] = $slug;
+        // ==============
+
+
         $d['penulis'] = Auth::user()->username;
         $d['status'] = 'belum terbit';
+
         if (empty($request->intro) && !empty($request->content)) {
             $d['intro'] = Str::limit(strip_tags($request->content), 150);
         } else {
@@ -173,9 +215,11 @@ class TipsKerjaController extends Controller
             $d['image'] = $request->file('image')->store('images', 'public');
         }
 
-        Tipskerja::create($d);
+        TipsKerja::create($d);
+
         return redirect()->route('superadmin.tips-kerja')->with('success', 'Data berhasil disimpan.');
     }
+
 
     public function update_status_superadmin(Request $request)
     {

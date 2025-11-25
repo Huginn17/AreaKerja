@@ -37,7 +37,7 @@
         @if ($events->isEmpty())
             <div class="flex items-center justify-center min-h-screen bg-gray-white">
                 <div
-                    class="bg-white border border-gray-300 rounded-2xl shadow-sm w-full max-w-2xl flex flex-col items-center justify-center py-40 px-20">
+                    class="bg-white border border-gray-300 rounded-2xl shadow-sm w-full max-w-2xl flex flex-col items-center justify-center py-40 px-40">
                     <!-- Icon Amplop Terbuka Mirip Gambar -->
                     <svg width="110" height="110" viewBox="0 0 150 139" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
