@@ -63,7 +63,7 @@
                             <img hidden src="{{ public_path('storage/' . $pelamar->img_profile) }}" alt="Profile"
                                 class="w-32 h-32 md:w-28 md:h-28 rounded-full object-cover border-4 border-gray-300">
                             <div>
-                                <h1 class="text-2xl font-bold text-orange-600 mb-1">{{ $pelamar->user->username }} </h1>
+                                <h1 class="text-2xl font-bold text-orange-600 mb-1">{{ $pelamar->nama_pelamar ?? $pelamar->user->username }} </h1>
                                 <p class="text-sm font-semibold">
                                     {{ optional($pelamar->alamat_pelamar->first())->label ?? '-' }},
                                     {{ optional($pelamar->alamat_pelamar->first())->desa ?? '-' }} <br>

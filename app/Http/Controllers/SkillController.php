@@ -33,8 +33,7 @@ class SkillController extends Controller
 
 
         $skill->update($validated);
-        return redirect('/profile');
-        return back();
+        return redirect()->route('profile.index')->with('success', 'Pengalaman Kerja berhasil diupdate');
     }
 
     public function edit(Skill $skill)

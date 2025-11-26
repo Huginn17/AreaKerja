@@ -76,7 +76,7 @@
                         {{ $growthPelamar >= 0 ? '+' : '' }}{{ $growthPelamar }}%
                     </span>
                 </div>
-                <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a>
+                {{-- <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a> --}}
             </div>
 
             <!-- PERUSAHAAN -->
@@ -88,7 +88,7 @@
                         {{ $growthPerusahaan >= 0 ? '+' : '' }}{{ $growthPerusahaan }}%
                     </span>
                 </div>
-                <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a>
+                {{-- <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a> --}}
             </div>
 
             <!-- NON KANDIDAT -->
@@ -100,7 +100,7 @@
                         {{ $growthAdmin >= 0 ? '+' : '' }}{{ $growthAdmin }}%
                     </span>
                 </div>
-                <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a>
+                {{-- <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a> --}}
             </div>
 
             <!-- SUPERADMIN-->
@@ -112,7 +112,7 @@
                         {{ $growthSuperAdmin >= 0 ? '+' : '' }}{{ $growthSuperAdmin }}%
                     </span>
                 </div>
-                <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a>
+                {{-- <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a> --}}
             </div>
         </div>
         <!-- Modal Notifikasi -->

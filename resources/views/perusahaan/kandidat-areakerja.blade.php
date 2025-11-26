@@ -164,7 +164,7 @@
                 </tr>
             </thead>
             <tbody class="divide-y">
-                @foreach ($pelamars as $p)
+                @forelse ($pelamars as $p)
                     <tr class="hover:bg-gray-50 text-center">
                         <td class="py-3 px-4">{{ $p->nama_pelamar }}</td>
                         <td class="py-3 px-4">
@@ -200,7 +200,11 @@
                             </button>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="8" class="py-3 px-4 text-center">Tidak ada kandidat yang terdaftar.</td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

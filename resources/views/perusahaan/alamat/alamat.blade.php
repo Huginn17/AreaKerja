@@ -16,8 +16,8 @@
                     <span class="text-lg font-semibold mb-1">{{ Auth::user()->perusahaan->nama_perusahaan }}</span>
                     <p class="text-lg text-gray-600 m-2">{{ Auth::user()->perusahaan->jenis_perusahaan }}</p>
                     <p class="text-sm text-gray-400">{{ Auth::user()->perusahaan->alamatUtama->kota->nama ?? '-' }},
-                    {{ Auth::user()->perusahaan->alamatUtama->provinsi->nama ?? '-' }},
-                    {{ Auth::user()->perusahaan->alamatUtama->kecamatan->nama ?? '-' }}</p>
+                        {{ Auth::user()->perusahaan->alamatUtama->provinsi->nama ?? '-' }},
+                        {{ Auth::user()->perusahaan->alamatUtama->kecamatan->nama ?? '-' }}</p>
                 </div>
             </div>
 
@@ -25,7 +25,8 @@
             <div class="mt-6 ml-12">
                 <h2 class="font-semibold text-gray-800">Alamat</h2>
                 <hr class="border border-orange-500 mt-3 " />
-                <span class="text-sm text-orange-500">Untuk Mengisi Profile Silahkan Jadikan Alamat Utama Terlebih Dahulu</span>
+                <span class="text-sm text-orange-500">Untuk Melengkapi Profile Silahkan Jadikan Alamat Utama Terlebih
+                    Dahulu</span>
             </div>
 
             <!-- Box Alamat -->
@@ -39,36 +40,56 @@
                     <p class="text-orange-500 text-sm mt-1 mb-5">
                         {{ $almtp->detail }}
                     </p>
-                    <a href="{{ route('alamat.edit.perusahaan', $almtp->id) }}"
-                        class="ml-72 bg-orange-500 text-white px-4 py-1 rounded-md text-sm hover:bg-orange-600">
-                        Edit Alamat
-                    </a>
-                    {{-- Hapus --}}
-                    <form action="{{ route('alamat.destroy.perusahaan', $almtp->id) }}"method="POST"
-                        onsubmit="return confirm('Yakin hapus organisasi ini?')">
-                        @csrf
-                        @method('DELETE')
-                        <button
-                            class="ml-72 bg-orange-500 text-white px-4 py-1 rounded-md text-sm hover:bg-orange-600">Hapus
-                            Alamat</button>
-                    </form>
-                    <a href="{{ route('form.alamat.perusahaan') }}">
-                        <span class="ml-72 bg-orange-500 text-white px-4 py-1 rounded-md text-sm hover:bg-orange-600"><i
-                                class="ph ph-plus"></i></span>
-                    </a>
-                    @foreach ($perusahaan->alamat_perusahaan->sortByDesc('utama') as $alamat)
-                        <div
-                            class="p-3 mb-2 rounded {{ $alamat->utama ? 'text-sm ' : 'border-gray-200' }}">
-                            <form action="{{ route('alamat-perusahaan.setUtama', $alamat->id) }}" method="POST"
-                                style="display:inline;">
-                                @csrf
-                                <button type="submit"
-                                    class="text-sm {{ $alamat->utama ? 'text-red-600' : 'text-blue-600' }} hover:underline"> 
-                                    {{ $alamat->utama ? 'Hapus sebagai Utama' : 'Jadikan Utama' }}
+
+                    <div class="flex items-center gap-3 mt-4">
+
+                        <!-- Edit -->
+                        <a href="{{ route('alamat.edit.perusahaan', $almtp->id) }}"
+                            class="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm shadow-sm transition">
+                            <i class="ph ph-pencil-simple"></i>
+                            Edit Alamat
+                        </a>
+
+                        <!-- Hapus -->
+                        <form action="{{ route('alamat.destroy.perusahaan', $almtp->id) }}" method="POST"
+                            onsubmit="return confirm('Yakin hapus alamat ini?')">
+                            @csrf
+                            @method('DELETE')
+
+                            <button
+                                class="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm shadow-sm transition">
+                                <i class="ph ph-trash"></i>
+                                Hapus
+                            </button>
+                        </form>
+
+                        <!-- Tambah -->
+                        <a href="{{ route('form.alamat.perusahaan') }}"
+                            class="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm shadow-sm transition">
+                            <i class="ph ph-plus"></i>
+                            Tambah
+                        </a>
+
+                    </div>
+
+                    <!-- Set Utama -->
+                    <div class="mt-4">
+                        <form action="{{ route('alamat-perusahaan.setUtama', $almtp->id) }}" method="POST">
+                            @csrf
+
+                            @if ($almtp->utama)
+                                <button type="submit" class="text-sm text-red-600 hover:underline">
+                                    Hapus sebagai Utama
                                 </button>
-                            </form>
-                        </div>
-                    @endforeach
+                            @else
+                                <button type="submit" class="text-sm text-blue-600 hover:underline">
+                                    Jadikan Utama
+                                </button>
+                            @endif
+
+                        </form>
+                    </div>
+
                 </div>
             @endforeach
         </div>
@@ -76,19 +97,21 @@
         <div class="bg-white min-h-screen p-8">
             <!-- Header -->
             <div class="flex items-center space-x-4">
-             @if (Auth::user()->perusahaan->img_profile)
+                @if (Auth::user()->perusahaan->img_profile)
                     <img id="pp" class="w-20 h-20 object-contain mb-3 profile-img"
                         src="{{ asset('storage/' . Auth::user()->perusahaan->img_profile) }}" alt="Profile">
                 @else
                     <img id="pp" class="w-20 h-20 object-contain mb-3"
                         src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
                         alt="">
-                @endif    <div>
-                    <h1 class="font-semibold text-lg text-gray-800 m-2">{{ Auth::user()->perusahaan->nama_perusahaan }}</h1>
+                @endif
+                <div>
+                    <h1 class="font-semibold text-lg text-gray-800 m-2">{{ Auth::user()->perusahaan->nama_perusahaan }}
+                    </h1>
                     <p class="text-lg text-gray-600 m-2">{{ Auth::user()->perusahaan->jenis_perusahaan }}</p>
                     <p class="text-sm text-gray-400">{{ Auth::user()->perusahaan->alamatUtama->kota->nama ?? '-' }},
-                    {{ Auth::user()->perusahaan->alamatUtama->provinsi->nama ?? '-' }},
-                    {{ Auth::user()->perusahaan->alamatUtama->kecamatan->nama ?? '-' }}</p>
+                        {{ Auth::user()->perusahaan->alamatUtama->provinsi->nama ?? '-' }},
+                        {{ Auth::user()->perusahaan->alamatUtama->kecamatan->nama ?? '-' }}</p>
                 </div>
             </div>
 

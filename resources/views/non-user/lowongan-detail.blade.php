@@ -15,7 +15,7 @@
     <meta name="twitter:image" content="{{ asset($data->gambar ?? 'default.jpg') }}">
 
 
-    <div class="bg-gray-50 font-sans" x-data="{
+    <div class="bg-gray-50 font-sans mt-20" x-data="{
         showConfirm: false,
         showSuccess: false,
         showConfirmTerima: false,
@@ -66,14 +66,14 @@
                                     <button @click="toggleSave" class="px-4 py-2 rounded-lg border"
                                         :class="saved
                                             ?
-                                            'bg-red-100 border-red-500 text-red-600' :
+                                            ' text-red-600' :
                                             'bg-gray-100 border-gray-400 text-gray-700'">
 
                                         <!-- Love Putih (Belum disimpan) -->
                                         <i x-show="!saved" class="ph ph-heart text-gray-600"></i>
 
                                         <!-- Love Merah (Sudah disimpan) -->
-                                        <i x-show="saved" class="ph ph-heart-fill text-red-600"></i>
+                                        <i x-show="saved" class="ph ph-heart-straight text-4xl"></i>
 
                                     </button>
 
@@ -140,7 +140,7 @@
                 </div>
 
                 <!-- DETAIL LOWONGAN -->
-                <div class="bg-white rounded-lg shadow p-6 space-y-6">
+                <div class="bg-white rounded-lg shadow p-12 space-y-6">
                     <div>
                         <h2 class="font-semibold text-lg mb-2">Detail Lowongan</h2>
                         <p class="text-semibold text-gray-500">Berikut merupakan deskripsi lengkap terkait perusahaan yang anda tuju</p>

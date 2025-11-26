@@ -175,11 +175,11 @@
 
 
             <section class="mx-2 lg:mx-0 md:mx-0 px-0 lg:px-20 md:px-20 mb-8">
-                <div id="section-umpan-lowongan" class="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-3">
-
-
+                <div id="section-umpan-lowongan" class="columns-1 md:columns-2 lg:columns-2 gap-3">
                     @foreach ($Data as $d)
-                        @include('non-user.components.card', ['lowongan' => $d])
+                        <div class="break-inside-avoid mb-3">
+                            @include('non-user.components.card', ['lowongan' => $d])
+                        </div>
                     @endforeach
                 </div>
             </section>

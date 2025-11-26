@@ -180,6 +180,7 @@
                             <tr class="bg-orange-500 text-white">
                                 <th class="px-4 py-2 text-left">No</th>
                                 <th class="px-4 py-2 text-left">No. Referensi</th>
+                                <th class="px-4 py-2 text-left">Pesanan</th>
                                 <th class="px-4 py-2 text-left">Dari</th>
                                 <th class="px-4 py-2 text-left">Sumber Dana</th>
                                 <th class="px-4 py-2 text-left">Total</th>
@@ -192,6 +193,7 @@
                                 <tr class="border-b border-gray-300">
                                     <td class="px-4 py-2">{{ $loop->iteration }}</td>
                                     <td class="px-4 py-2">{{ $item->no_referensi ?? '-' }}</td>
+                                    <td class="px-4 py-2">{{ $item->pesanan ?? '-' }}</td>
                                     <td class="px-4 py-2">{{ $item->user->pelamar->nama_pelamar ?? $item->user->username }}
                                     </td>
                                     <td class="px-4 py-2">{{ $item->sumber_dana ?? '-' }}</td>

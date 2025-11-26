@@ -90,8 +90,6 @@
                             <option value="non_kandidat">Non Kandidat</option>
                             <option value="calon_kandidat">Calon Kandidat</option>
                         </select>
-
-
                     </div>
                 </div>
             </div>
@@ -122,7 +120,7 @@
                     @forelse ($kandidat as $p)
                         <tr class="border-b-2">
                             <td class="px-4 py-3">{{ $p->id }}</td>
-                            <td class="px-4 py-3">{{ $p->user->username }}</td>
+                            <td class="px-4 py-3">{{ $p->nama_pelamar ?? $p->user->username }}</td>
                             <td class="px-4 py-3">{{ $p->riwayat_pendidikan->pluck('pendidikan')->implode(', ') }}</td>
                             <td class="px-4 py-3">{{ $p->skill->pluck('skill')->implode(', ') }}</td>
                             <td class="px-4 py-3">{{ $p->alamat_pelamar->first()?->provinsi ?? '-' }}</td>
@@ -159,7 +157,7 @@
                     @forelse ($nonKandidat as $p)
                         <tr class="border-b-2">
                             <td class="px-4 py-3">{{ $p->id }}</td>
-                            <td class="px-4 py-3">{{ $p->user->username }}</td>
+                            <td class="px-4 py-3">{{$p->nama_pelamar ?? $p->user->username }}</td>
                             <td class="px-4 py-3">{{ $p->riwayat_pendidikan->pluck('pendidikan')->implode(', ') }}</td>
                             <td class="px-4 py-3">{{ $p->skill->pluck('skill')->implode(', ') }}</td>
                             <td class="px-4 py-3">{{ $p->alamat_pelamar->first()?->provinsi ?? '-' }}</td>
@@ -196,7 +194,7 @@
                     @forelse ($calonKandidat as $p)
                         <tr class="border-b">
                             <td class="px-4 py-3">{{ $p->id }}</td>
-                            <td class="px-4 py-3">{{ $p->user->username }}</td>
+                            <td class="px-4 py-3">{{$p->nama_pelamar ?? $p->user->username }}</td>
                             <td class="px-4 py-3">{{ $p->riwayat_pendidikan->pluck('pendidikan')->implode(', ') }}</td>
                             <td class="px-4 py-3">{{ $p->skill->pluck('skill')->implode(', ') }}</td>
                             <td class="px-4 py-3">{{ $p->alamat_pelamar->first()?->provinsi ?? '-' }}</td>

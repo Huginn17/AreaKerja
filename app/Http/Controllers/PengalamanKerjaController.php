@@ -41,7 +41,7 @@ class PengalamanKerjaController extends Controller
 
 
         $kerja->update($validated);
-        return redirect('/profile');
+        return redirect()->route('profile.index')->with('success', 'Pengalaman Kerja berhasil diupdate');
     }
 
     public function edit(PengalamanKerja $kerja)

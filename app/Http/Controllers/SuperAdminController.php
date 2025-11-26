@@ -40,57 +40,95 @@ class SuperAdminController extends Controller
         $now = Carbon::now();
         $lastMonth = Carbon::now()->subMonth();
 
-        $totalPelamar = Pelamar::count();
+        // === PELAMAR ===
+        $currentPelamar = Pelamar::whereMonth('created_at', $now->month)
+            ->whereYear('created_at', $now->year)
+            ->count();
+
         $lastPelamar = Pelamar::whereMonth('created_at', $lastMonth->month)
             ->whereYear('created_at', $lastMonth->year)
             ->count();
-        $growthPelamar = $this->calcGrowth($lastPelamar, $totalPelamar);
 
-        $totalPerusahaan = Perusahaan::count();
+        $growthPelamar = $this->calcGrowth($lastPelamar, $currentPelamar);
+
+
+
+        // === PERUSAHAAN ===
+        $currentPerusahaan = Perusahaan::whereMonth('created_at', $now->month)
+            ->whereYear('created_at', $now->year)
+            ->count();
+
         $lastPerusahaan = Perusahaan::whereMonth('created_at', $lastMonth->month)
             ->whereYear('created_at', $lastMonth->year)
             ->count();
-        $growthPerusahaan = $this->calcGrowth($lastPerusahaan, $totalPerusahaan);
 
-        $totalAdmin = User::where('role', 'admin')->count();
+        $growthPerusahaan = $this->calcGrowth($lastPerusahaan, $currentPerusahaan);
+
+
+
+        // === ADMIN ===
+        $currentAdmin = User::where('role', 'admin')
+            ->whereMonth('created_at', $now->month)
+            ->whereYear('created_at', $now->year)
+            ->count();
+
         $lastAdmin = User::where('role', 'admin')
             ->whereMonth('created_at', $lastMonth->month)
             ->whereYear('created_at', $lastMonth->year)
             ->count();
-        $growthAdmin = $this->calcGrowth($lastAdmin, $totalAdmin);
 
-        $totalSuperAdmin = User::where('role', 'super_admin')->count();
+        $growthAdmin = $this->calcGrowth($lastAdmin, $currentAdmin);
+
+
+
+        // === SUPER ADMIN ===
+        $currentSuperAdmin = User::where('role', 'super_admin')
+            ->whereMonth('created_at', $now->month)
+            ->whereYear('created_at', $now->year)
+            ->count();
+
         $lastSuperAdmin = User::where('role', 'super_admin')
             ->whereMonth('created_at', $lastMonth->month)
             ->whereYear('created_at', $lastMonth->year)
             ->count();
-        $growthSuperAdmin = $this->calcGrowth($lastSuperAdmin, $totalSuperAdmin);
+
+        $growthSuperAdmin = $this->calcGrowth($lastSuperAdmin, $currentSuperAdmin);
+
+
 
         return view('super_admin.dashboard', [
             "title" => "Dashboard",
-            'totalPerusahaan' => $totalPerusahaan,
-            'growthPerusahaan' => $growthPerusahaan,
-            'totalPelamar' => $totalPelamar,
+
+            'totalPelamar' => $currentPelamar,
             'growthPelamar' => $growthPelamar,
-            'totalAdmin' => $totalAdmin,
+
+            'totalPerusahaan' => $currentPerusahaan,
+            'growthPerusahaan' => $growthPerusahaan,
+
+            'totalAdmin' => $currentAdmin,
             'growthAdmin' => $growthAdmin,
-            'totalSuperAdmin' => $totalSuperAdmin,
+
+            'totalSuperAdmin' => $currentSuperAdmin,
             'growthSuperAdmin' => $growthSuperAdmin,
         ]);
     }
 
+
+
     /**
      * Hitung pertumbuhan dalam persen (%)
      * @param int $last jumlah bulan lalu
-     * @param int $current jumlah sekarang
+     * @param int $current jumlah bulan ini
      * @return float
      */
     private function calcGrowth($last, $current)
     {
         if ($last == 0 && $current > 0) return 100; // dari 0 ke ada = +100%
         if ($last == 0 && $current == 0) return 0;  // tetap 0
+
         return round((($current - $last) / $last) * 100, 1);
     }
+
 
 
     //PROFILE
@@ -668,13 +706,23 @@ class SuperAdminController extends Controller
     {
         $request->validate([
             'mulai_pelatihan' => 'required|date',
-            'selesai_pelatihan' => 'required|date|after:mulai_pelatihahn',
+            'selesai_pelatihan' => 'required|date|after:mulai_pelatihan',
         ]);
 
         $pelamar = Pelamar::findOrFail($id);
         $pelamar->mulai_pelatihan = $request->mulai_pelatihan;
         $pelamar->selesai_pelatihan = $request->selesai_pelatihan;
         $pelamar->save();
+
+        Notifikasi::create([
+            'user_id' => $pelamar->user_id,
+            'perusahaan_id' => null,
+            'judul' => 'Jadwal Pelatihan Diperbarui',
+            'pesan' => 'Silahkan Untuk Mengikuti Pelatihan Pada Tanggal <b>' . $request->mulai_pelatihan . '</b> sampai <b>' . $request->selesai_pelatihan . '</b> untuk <b>' . $pelamar->nama_pelamar . '</b>.',
+            'is_read' => 0,
+            'expired_at' => now()->addDays(7),
+            'pelamar_lowongan_id' => null,
+        ]);
 
         return back()->with('success', '');
     }
@@ -685,6 +733,16 @@ class SuperAdminController extends Controller
         $pelamar->kategori = 'kandidat aktif';
         $pelamar->save();
 
+        Notifikasi::create([
+            'user_id' => $pelamar->user_id,
+            'perusahaan_id' => null,
+            'judul' => 'Selamat! Kamu Lulus Seleksi',
+            'pesan' => 'Selamat! <b>' . $pelamar->nama_pelamar . '</b> telah menjadi lulus dan menjadi kandidat aktif.',
+            'is_read' => 0,
+            'expired_at' => now()->addDays(7),
+            'pelamar_lowongan_id' => null,
+        ]);
+
         return redirect()->route('superadmin.pelamar')->with('success', 'Kandidat berhasil diluluskan.');
     }
 
@@ -693,6 +751,16 @@ class SuperAdminController extends Controller
         $pelamar = Pelamar::findOrFail($id);
         $pelamar->kategori = 'pelamar';
         $pelamar->save();
+
+        Notifikasi::create([
+            'user_id' => $pelamar->user_id,
+            'perusahaan_id' => null,
+            'judul' => 'Status Kandidat Diperbarui',
+            'pesan' => '<b>' . $pelamar->nama_pelamar . '</b> dinyatakan <span style="color:red;">gugur</span> dari proses seleksi.',
+            'is_read' => 0,
+            'expired_at' => now()->addDays(7),
+            'pelamar_lowongan_id' => null,
+        ]);
 
         return redirect()->route('superadmin.pelamar')->with('success', 'Kandidat dinyatakan gugur.');
     }

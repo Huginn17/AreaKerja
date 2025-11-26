@@ -15,14 +15,16 @@
                         <!-- Avatar + Select -->
                         <div class="flex flex-col items-center">
                             <div class="relative inline-block">
-                                @if (Auth::user()->pelamar->img_profile)
-                                    <img id="pp" class="w-40 h-40 object-cover rounded-full"
-                                        src="{{ asset('storage/' . Auth::user()->pelamar->img_profile) }}" alt="Profile">
-                                @else
-                                    <img id="pp" class="w-40 h-40 object-cover rounded-full"
-                                        src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                <div x-data="{ zoom: false }" class="cursor-pointer inline-block" @click="zoom = !zoom">
+                                    <img id="pp"
+                                        class="w-40 h-40 object-cover rounded-full transition-transform duration-300"
+                                        :class="zoom ? 'scale-[2] z-50 relative' : 'scale-100'"
+                                        src="{{ Auth::user()->pelamar->img_profile
+                                            ? asset('storage/' . Auth::user()->pelamar->img_profile)
+                                            : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->username) . '&background=random&color=fff&size=128' }}"
                                         alt="Profile">
-                                @endif
+                                </div>
+
 
                                 <!-- Tombol Edit -->
                                 <div
@@ -65,7 +67,6 @@
                                     <option value="Bekerja" {{ $status == 'Bekerja' ? 'selected' : '' }}>
                                         Bekerja
                                     </option>
-
                                 </select>
 
                                 <input type="hidden" id="kategoriPelamar" value="{{ $pelamar->kategori }}">
@@ -119,13 +120,13 @@
 
 
             <!-- <div class="flex justify-between w-[1025px] my-5">
-                                                    <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
-                                                        Data Diri
-                                                    </div>
-                                                    <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
-                                                        Informasi Akun
-                                                    </div>
-                                                </div> -->
+                                                        <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
+                                                            Data Diri
+                                                        </div>
+                                                        <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
+                                                            Informasi Akun
+                                                        </div>
+                                                    </div> -->
 
 
             <!-- Grid: Dua Kolom -->
@@ -455,9 +456,9 @@
                                     viewBox="0 0 24 24">
                                     <path
                                         d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
-                                                                                                                                    7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
-                                                                                                                                  1.003 0 0 0-1.42 0l-1.83 1.83 3.75
-                                                                                                                                3.75 1.84-1.82z" />
+                                                                                                                                        7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
+                                                                                                                                      1.003 0 0 0-1.42 0l-1.83 1.83 3.75
+                                                                                                                                    3.75 1.84-1.82z" />
                                 </svg>
                             </a>
                         </div>
@@ -476,9 +477,9 @@
                                     viewBox="0 0 24 24">
                                     <path
                                         d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
-                                                                                                                                                                                                                                                                                                                           7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
-                                                                                                                                                                                                                                                                                                                           1.003 0 0 0-1.42 0l-1.83 1.83 3.75
-                                                                                                                                                                                                                                                                                                                           3.75 1.84-1.82z" />
+                                                                                                                                                                                                                                                                                                                               7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
+                                                                                                                                                                                                                                                                                                                               1.003 0 0 0-1.42 0l-1.83 1.83 3.75
+                                                                                                                                                                                                                                                                                                                               3.75 1.84-1.82z" />
                                 </svg>
                             </span>
                         </div>

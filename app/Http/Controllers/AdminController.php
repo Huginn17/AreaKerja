@@ -139,13 +139,14 @@ class AdminController extends Controller
     {
         $request->validate([
             'mulai_pelatihan' => 'required|date',
-            'selesai_pelatihan' => 'required|date|after:mulai_pelatihahn',
+            'selesai_pelatihan' => 'required|date|after:mulai_pelatihan',
         ]);
 
         $pelamar = Pelamar::findOrFail($id);
         $pelamar->mulai_pelatihan = $request->mulai_pelatihan;
         $pelamar->selesai_pelatihan = $request->selesai_pelatihan;
         $pelamar->save();
+    
 
         return back()->with('success', '');
     }

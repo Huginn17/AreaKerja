@@ -67,7 +67,7 @@
                         {{ $growthPerusahaan >= 0 ? '+' : '' }}{{ $growthPerusahaan }}%
                     </span>
                 </div>
-                <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a>
+                {{-- <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a> --}}
             </div>
 
             <!-- KANDIDAT -->
@@ -79,7 +79,7 @@
                         {{ $growthKandidat >= 0 ? '+' : '' }}{{ $growthKandidat }}%
                     </span>
                 </div>
-                <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a>
+                {{-- <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a> --}}
             </div>
 
             <!-- NON KANDIDAT -->
@@ -91,7 +91,7 @@
                         {{ $growthNonKandidat >= 0 ? '+' : '' }}{{ $growthNonKandidat }}%
                     </span>
                 </div>
-                <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a>
+                {{-- <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a> --}}
             </div>
 
             <!-- LOWONGAN -->
@@ -103,7 +103,7 @@
                         {{ $growthLowongan >= 0 ? '+' : '' }}{{ $growthLowongan }}%
                     </span>
                 </div>
-                <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a>
+                {{-- <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a> --}}
             </div>
 
         </div>

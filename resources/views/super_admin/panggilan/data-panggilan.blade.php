@@ -173,7 +173,7 @@
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    @foreach ($perusahaans as $p)
+                    @forelse ($perusahaans as $p)
                         @php
                             $alamat = $p->alamat_perusahaan->first();
                         @endphp
@@ -211,7 +211,11 @@
                             </td>
 
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="6" class="px-4 py-3">Tidak ada data</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

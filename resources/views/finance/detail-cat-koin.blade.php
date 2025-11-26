@@ -18,6 +18,7 @@
                                 <th class="px-4 py-2 text-left">No</th>
                                 <th class="px-4 py-2 text-left">No. Referensi</th>
                                 <th class="px-4 py-2 text-left">User</th>
+                                <th class="px-4 py-2 text-left">Pesanan</th>
                                 <th class="px-4 py-2 text-left">Dari</th>
                                 <th class="px-4 py-2 text-left">Sumber Dana</th>
                                 <th class="px-4 py-2 text-left">Total</th>
@@ -32,6 +33,7 @@
                                     <td class="px-4 py-2">{{ $loop->iteration }}</td>
                                     <td class="px-4 py-2">{{ $item->no_referensi ?? '-' }}</td>
                                     <td class="px-4 py-2">{{ $item->user->username ?? '-' }}</td>
+                                    <td class="px-4 py-2">{{ $item->pesanan ?? '-' }}</td>
                                     <td class="px-4 py-2">{{ $item->dari ?? '-' }}</td>
                                     <td class="px-4 py-2">{{ $item->sumber_dana ?? '-' }}</td>
                                     <td class="px-4 py-2">{{ $item->total }} Koin</td>
@@ -72,7 +74,8 @@
                                 <th class="px-4 py-2 text-left">No</th>
                                 <th class="px-4 py-2 text-left">No. Referensi</th>
                                 <th class="px-4 py-2 text-left">User</th>
-                                <th class="px-4 py-2 text-left">Email</th>
+                                <th class="px-4 py-2 text-left">Jenis</th>
+                                {{-- <th class="px-4 py-2 text-left">Email</th> --}}
                                 <th class="px-4 py-2 text-left">Bank</th>
                                 <th class="px-4 py-2 text-left">Rekening</th>
                                 <th class="px-4 py-2 text-left">Harga</th>
@@ -89,7 +92,8 @@
                                     <td class="px-4 py-2">{{ $loop->iteration }}</td>
                                     <td class="px-4 py-2">{{ $item->no_referensi }}</td>
                                     <td class="px-4 py-2">{{ $item->user->username ?? '-' }}</td>
-                                    <td class="px-4 py-2">{{ $item->user->email ?? '-' }}</td>
+                                    <td class="px-4 py-2">{{ $item->pesanan ?? '-' }}</td>
+                                    {{-- <td class="px-4 py-2">{{ $item->user->email ?? '-' }}</td> --}}
                                     <td class="px-4 py-2">{{ $item->bank->nama_bank ?? '-' }}</td>
                                     <td class="px-4 py-2">{{ $item->bank->no_rek ?? '-' }}</td>
                                     <td class="px-4 py-2">

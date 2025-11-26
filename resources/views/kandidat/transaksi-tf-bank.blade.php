@@ -47,14 +47,29 @@
 
             <!-- Rekening Tujuan -->
             <div class="border rounded-lg p-5 w-full text-left shadow-sm">
-                <p class="text-gray-500 text-sm">Rekening Tujuan</p>
-                <div class="flex justify-center items-center gap-3">
-                    <img src="{{ asset('storage/' . $transaksi->bank->logo_image) }}" alt="Bank Logo" class="w-40 h-28">
-                </div>
-                <p class="font-semibold text-lg">{{ $transaksi->bank->nama_bank }}</p>
-                <p class="text-gray-600 text-sm mt-2">a/n {{ $transaksi->bank->owner }}</p>
-                <span class="copy-rek cursor-pointer text-gray-800 text-lg font-bold mt-1"
-                    data-rek="{{ $transaksi->bank->no_rek }}">{{ $transaksi->bank->no_rek }}</span>
+                @if ($transaksi->sumberDana === 'Qris')
+                    {{-- Tampilan QRIS --}}
+                    <div class="flex flex-col items-center text-center">
+                        <p class="text-gray-500 text-sm mb-2">Bayar Melalui</p>
+                        <img src="{{ asset('images/qrrrr-removebg-preview.png') }}" alt="QRIS Logo" class="w-24 mb-3">
+                        <p class="text-lg font-semibold">QRIS</p>
+                        <p class="text-gray-600 text-sm mb-3">NMID : ID12233445566778</p>
+                        <img src="{{ asset('images/barcode.jpg') }}" alt="QRIS QR Code" class="w-40 h-40">
+                    </div>
+                @else
+                    {{-- Tampilan Bank Transfer --}}
+                    <p class="text-gray-500 text-sm">Rekening Tujuan</p>
+                    <div class="flex justify-center items-center gap-3">
+                        <img src="{{ asset($transaksi->bank->logo_image) }}" alt="Bank Logo"
+                            class="w-40 h-28 object-contain">
+                    </div>
+                    <p class="font-semibold text-lg mt-2">{{ $transaksi->bank->nama_bank }}</p>
+                    <p class="text-gray-600 text-sm mt-1">a/n {{ $transaksi->bank->owner }}</p>
+                    <span class="copy-rek cursor-pointer text-gray-800 text-lg font-bold mt-1"
+                        data-rek="{{ $transaksi->bank->no_rek }}">
+                        {{ $transaksi->bank->no_rek }}
+                    </span>
+                @endif
             </div>
         </div>
 

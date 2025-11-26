@@ -29,8 +29,8 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         User::create([
-            "username"           =>    "megawati",
-            "email"              =>    "mega@gmail.com",
+            "username"           =>    "superadmin",
+            "email"              =>    "superadmin@gmail.com",
             "password"           =>     Hash::make('123'),
             "role"               =>     "super_admin",
             "verified"           =>     1,
@@ -39,14 +39,14 @@ class DatabaseSeeder extends Seeder
 
         SuperAdmin::create([
             "user_id"            =>     1,
-            "nama_lengkap"       =>     "Megawati",
+            "nama_lengkap"       =>     "Super Admin",
             "provinsi"           =>     "DKI Jakarta"
         ]);
 
 
         User::create([
-            "username"           =>    "prabowo",
-            "email"              =>    "owo@gmail.com",
+            "username"           =>    "admin",
+            "email"              =>    "admin@gmail.com",
             "password"           =>     Hash::make('123'),
             "role"               =>     "admin",
             "verified"           =>     1,
@@ -56,15 +56,15 @@ class DatabaseSeeder extends Seeder
 
         Admin::create([
             "user_id"            =>     2,
-            "nama_lengkap"       =>    "Prabowo Subianto",
+            "nama_lengkap"       =>    "Admin",
             'provinsi_id'    => Provinsi::inRandomOrder()->first()?->id,
             'kota_id'        => Kota::inRandomOrder()->first()?->id,
             'kecamatan_id'   => Kecamatan::inRandomOrder()->first()?->id,
         ]);
 
         User::create([
-            "username"           =>    "jokowi",
-            "email"              =>    "jokowi@gmail.com",
+            "username"           =>    "finance",
+            "email"              =>    "finance@gmail.com",
             "password"           =>     Hash::make('123'),
             "role"               =>     "finance",
             "verified"           =>     1,
@@ -73,7 +73,7 @@ class DatabaseSeeder extends Seeder
 
         Finance::create([
             "user_id"            =>   3,
-            "nama_lengkap"       =>  'Joko Widodo',
+            "nama_lengkap"       =>  'Finance',
             'provinsi_id'    => Provinsi::inRandomOrder()->first()?->id,
             'kota_id'        => Kota::inRandomOrder()->first()?->id,
             'kecamatan_id'   => Kecamatan::inRandomOrder()->first()?->id,
@@ -102,7 +102,7 @@ class DatabaseSeeder extends Seeder
         ]);
         Hargakoin::create([
             "nama"     =>      "Berlangganan",
-            "harga"    =>      150
+            "harga"    =>      1000
         ]);
 
         // HargaPembayaran::create([

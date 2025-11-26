@@ -215,7 +215,7 @@
                 <!-- Detail Paket -->
                 <div class="space-y-2 bg-gray-50 p-4 rounded-xl border border-gray-200 mb-4">
                     <p class="text-sm">
-                        Paket:
+                        Paket: 
                         <span id="modal_paket_name" class="font-semibold text-gray-800"></span>
                     </p>
                     <p class="text-sm">
@@ -232,7 +232,7 @@
                 <label class="block mb-2 text-sm font-medium text-gray-700">Pilih Lowongan</label>
                 <select name="lowongan_id" required
                     class="w-full border-2 border-gray-300 rounded-xl px-3 py-2 mb-4 focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition">
-                    <option value="">-- Pilih Lowongan --</option>
+                    <option value=""> Pilih Lowongan </option>
                     @foreach ($perusahaan->pasanglowongan as $lowongan)
                         <option value="{{ $lowongan->id }}">{{ $lowongan->nama }}</option>
                     @endforeach

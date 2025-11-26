@@ -53,7 +53,7 @@
                         <p class="text-gray-500 text-sm mb-2">Bayar Melalui</p>
                         <img src="{{ asset('images/qrrrr-removebg-preview.png') }}" alt="QRIS Logo" class="w-24 mb-3">
                         <p class="text-lg font-semibold">QRIS</p>
-                        <p class="text-gray-600 text-sm mb-3">NMID : ID12233445566778</p>
+                        <p class="text-gray-800 text-sm mb-3">NMID : ID12233445566778</p>
                         <img src="{{ asset('images/barcode.jpg') }}" alt="QRIS QR Code" class="w-40 h-40">
                     </div>
                 @else

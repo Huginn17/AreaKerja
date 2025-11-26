@@ -18,7 +18,7 @@
                         </g>
                     </svg>
 
-
+                    
                     <!-- Badge jumlah notif belum dibaca -->
                     @if ($global_notifikasi_unread > 0)
                         <span id="notif-badge"
@@ -195,7 +195,7 @@
                                 ? $alamat->provinsi->nama
                                 : $alamat?->provinsi ?? '-';
                         } elseif ($data->role == 'perusahaan') {
-                            $alamat = $data->perusahaan()->latest()->first()?->alamat_perusahaan()->latest()->first();
+                            $alamat = $data->perusahaan()->latest()->first()?->alamatUtama()->latest()->first();
                             $provinsi = is_object($alamat?->provinsi)
                                 ? $alamat->provinsi->nama
                                 : $alamat?->provinsi ?? '-';

@@ -88,7 +88,7 @@
 
             <!-- Tombol -->
             <div class="flex justify-end space-x-4 pt-4">
-                <a href="{{ route('alamat.update.perusahaan', $data->id) }}"
+                <a href="{{ route('alamat.perusahaan') }}"
                     class="px-6 py-2 border border-orange-500 text-orange-500 rounded-md hover:bg-orange-50">Batal</a>
                 <button type="submit" class="px-6 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600">
                     Update

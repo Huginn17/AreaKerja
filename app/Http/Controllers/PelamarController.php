@@ -676,23 +676,35 @@ class PelamarController extends Controller
             'divisi' => 'required|string',
             'daftar_bank_id' => 'required|exists:daftar_bank,id',
         ]);
+
         $user = auth()->user();
 
-        $pelamar = $user->pelamar;
-        if ($pelamar) {
-            $pelamar->divisi = $request->divisi;
-            $pelamar->save();
+        // Update divisi pelamar
+        if ($user->pelamar) {
+            $user->pelamar->update(['divisi' => $request->divisi]);
         }
-        $harga = HargaPembayaran::where('nama', 'Pendaftaran Kandidat')->first();
 
+        $bank = DaftarBank::findOrFail($request->daftar_bank_id);
+
+        // Harga pendaftaran wajib ada
+        $harga = HargaPembayaran::where('nama', 'Pendaftaran Kandidat')->firstOrFail();
+
+        // Sumber dana
+        $sumberDana = strtolower($bank->nama_bank) === 'qris'
+            ? 'Qris'
+            : 'Transfer Bank';
+
+        $dari = $user->pelamar->nama_pelamar ?? $user->username;
+
+        // Buat transaksi
         $transaksi = CatatanCash::create([
-            'user_id' => Auth::id(),
+            'user_id' => $user->id,
             'harga_pembayaran_id' => $harga->id,
             'daftar_bank_id' => $request->daftar_bank_id,
             'no_referensi' => 'INV' . strtoupper(uniqid()),
             'pesanan' => 'Pendaftaran Kandidat',
-            'dari' => Auth::user()->pelamar->nama_pelamar ?? Auth::user()->username,
-            'sumberDana' => 'Transfer Bank',
+            'dari' => $dari,
+            'sumberDana' => $sumberDana,
             'total' => $harga->harga,
             'status' => 'pending',
             'expired_at' => now()->addHours(24),
@@ -700,6 +712,7 @@ class PelamarController extends Controller
 
         return redirect()->route('kandidat.transaksi', $transaksi->id);
     }
+
 
 
 
