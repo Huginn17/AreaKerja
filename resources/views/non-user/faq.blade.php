@@ -1,6 +1,6 @@
 @extends('layouts.index')
 @section('content')
-    <div class="bg-white text-gray-800">
+    <div class="bg-white text-gray-800 mt-16">
 
         <div class="max-w-6xl mx-auto px-4 py-10">
 

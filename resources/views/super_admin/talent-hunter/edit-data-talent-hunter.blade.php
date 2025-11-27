@@ -1,18 +1,18 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
-    <div class="p-4 sm:ml-64">
+    <div class="w-full sm:ml-64 mb-12">
         <div class="bg-white">
             <div class="w-full max-w-4xl mx-auto mt-10 px-6 overflow-y-auto translate-x-30">
 
                 <!-- HEADER -->
                 <div class="flex justify-between items-center pb-4 mb-8">
-                    <h1 class="text-xl font-bold text-gray-800">Edit Talent Hunter</h1>
+                    <h1 class="text-xl font-semibold text-gray-800">Edit Talent Hunter</h1>
                 </div>
 
                 <div
                     class="w-full max-w-4xl mx-auto mt-10 p-6 bg-white shadow-md rounded-lg border border-gray-400 overflow-y-auto">
                     <div class="mb-6 border-gray-900 pb-5">
-                        <h1 class="text-xl font-bold text-gray-800">Edit Data Talent Hunter</h1>
+                        <h1 class="text-lg font-semibold text-gray-800">Edit Data Talent Hunter</h1>
                     </div>
 
                     <form action="{{ route('superadmin.talent-hunter.update', $talentHunter->id) }}" method="POST"

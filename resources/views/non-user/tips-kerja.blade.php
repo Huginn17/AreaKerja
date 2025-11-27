@@ -122,7 +122,7 @@
     @endif
 
     <!-- Artikel Lainnya -->
-    <div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="max-w-7xl mx-auto px-4 py-8 mt-20">
         <h2 class="text-xl font-semibold mb-6">Tips Kerja</h2>
 
         <!-- Grid Artikel -->

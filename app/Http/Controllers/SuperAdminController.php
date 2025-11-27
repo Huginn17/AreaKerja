@@ -737,7 +737,7 @@ class SuperAdminController extends Controller
             'user_id' => $pelamar->user_id,
             'perusahaan_id' => null,
             'judul' => 'Selamat! Kamu Lulus Seleksi',
-            'pesan' => 'Selamat! <b>' . $pelamar->nama_pelamar . '</b> telah menjadi lulus dan menjadi kandidat aktif.',
+            'pesan' => 'Selamat! <b>' . $pelamar->nama_pelamar . '</b> telah lulus pelatihan dan menjadi kandidat.',
             'is_read' => 0,
             'expired_at' => now()->addDays(7),
             'pelamar_lowongan_id' => null,

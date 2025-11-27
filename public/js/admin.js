@@ -122,12 +122,48 @@ if (btn_tunai && table_tunai) {
 }
 
 
-
-//NOTIIF
-        // Tandai dibaca
-  document.addEventListener('alpine:init', () => {
+// NOTIF
+document.addEventListener('alpine:init', () => {
     Alpine.data('notifHandler', () => ({
 
+        // ====== MARK AS READ ======
+        async markAsRead(url, element) {
+            try {
+                let res = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": window.csrf,
+                        "Accept": "application/json"
+                    }
+                });
+
+                const data = await res.json();
+
+                if (data.success) {
+
+                    // Ubah warna notif jadi dibaca
+                    element.classList.remove('bg-white');
+                    element.classList.add('bg-gray-200');
+
+                    // Kurangi jumlah badge merah
+                    const badge = document.querySelector('#notif-badge');
+                    if (badge) {
+                        let count = parseInt(badge.textContent) - 1;
+
+                        if (count <= 0) {
+                            badge.remove(); // hapus badge kalau tidak ada unread
+                        } else {
+                            badge.textContent = count; // update angkanya
+                        }
+                    }
+                }
+
+            } catch (e) {
+                console.error("Gagal mark as read:", e);
+            }
+        },
+
+        // ====== HAPUS SATU ======
         async hapus(id) {
             if (!confirm("Hapus notifikasi ini?")) return;
 
@@ -147,6 +183,7 @@ if (btn_tunai && table_tunai) {
             }
         },
 
+        // ====== HAPUS SEMUA ======
         async hapusSemua() {
             if (!confirm("Hapus semua notifikasi?")) return;
 
@@ -161,9 +198,12 @@ if (btn_tunai && table_tunai) {
             const data = await res.json();
             if (data.success) {
                 document.querySelectorAll('.notif-item').forEach(e => e.remove());
+                const badge = document.querySelector('#notif-badge');
+                if (badge) badge.remove();
             }
         },
 
+        // ====== HAPUS SEMUA YANG SUDAH DIBACA ======
         async hapusSemuaBaca() {
             if (!confirm("Hapus semua notifikasi yang sudah dibaca?")) return;
 
@@ -184,12 +224,17 @@ if (btn_tunai && table_tunai) {
     }));
 });
 
-   
-        document.querySelector('form[target="hiddenFrame"]').addEventListener('submit', () => {
-            document.querySelectorAll('.notif-item').forEach(item => {
-                item.classList.remove('bg-white');
-                item.classList.add('bg-gray-200');
-            });
-            const badge = document.querySelector('.absolute .bg-red-500');
-            if (badge) badge.remove();
-        });
+
+// ====== FORM "TANDAI SEMUA BACA" (iframe) ======
+document.querySelector('form[target="hiddenFrame"]').addEventListener('submit', () => {
+
+    // semua item menjadi dibaca
+    document.querySelectorAll('.notif-item').forEach(item => {
+        item.classList.remove('bg-white');
+        item.classList.add('bg-gray-200');
+    });
+
+    // hapus badge merah
+    const badge = document.querySelector('#notif-badge');
+    if (badge) badge.remove();
+});

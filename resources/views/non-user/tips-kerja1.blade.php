@@ -1,6 +1,6 @@
 @extends('layouts.index')
 @section('content')
-    <div class="max-w-3xl mx-auto py-8">
+    <div class="max-w-3xl mx-auto py-8 mt-16">
 
         <!-- Gambar Header -->
         <div class="mb-6">

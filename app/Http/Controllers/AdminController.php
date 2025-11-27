@@ -146,7 +146,16 @@ class AdminController extends Controller
         $pelamar->mulai_pelatihan = $request->mulai_pelatihan;
         $pelamar->selesai_pelatihan = $request->selesai_pelatihan;
         $pelamar->save();
-    
+
+        Notifikasi::create([
+            'user_id' => $pelamar->user_id,
+            'perusahaan_id' => null,
+            'judul' => 'Jadwal Pelatihan Diperbarui',
+            'pesan' => 'Silahkan Untuk Mengikuti Pelatihan Pada Tanggal <b>' . $request->mulai_pelatihan . '</b> sampai <b>' . $request->selesai_pelatihan . '</b> untuk <b>' . $pelamar->nama_pelamar . '</b>.',
+            'is_read' => 0,
+            'expired_at' => now()->addDays(7),
+            'pelamar_lowongan_id' => null,
+        ]);
 
         return back()->with('success', '');
     }
@@ -157,6 +166,16 @@ class AdminController extends Controller
         $pelamar->kategori = 'kandidat aktif';
         $pelamar->save();
 
+        Notifikasi::create([
+            'user_id' => $pelamar->user_id,
+            'perusahaan_id' => null,
+            'judul' => 'Selamat! Kamu Lulus Seleksi',
+            'pesan' => 'Selamat! <b>' . $pelamar->nama_pelamar . '</b> telah lulus pelatihan dan menjadi kandidat.',
+            'is_read' => 0,
+            'expired_at' => now()->addDays(7),
+            'pelamar_lowongan_id' => null,
+        ]);
+
         return redirect()->route('admin.calon-kandidat')->with('success', 'Kandidat berhasil diluluskan.');
     }
 
@@ -165,6 +184,16 @@ class AdminController extends Controller
         $pelamar = Pelamar::findOrFail($id);
         $pelamar->kategori = 'pelamar';
         $pelamar->save();
+
+        Notifikasi::create([
+            'user_id' => $pelamar->user_id,
+            'perusahaan_id' => null,
+            'judul' => 'Status Kandidat Diperbarui',
+            'pesan' => '<b>' . $pelamar->nama_pelamar . '</b> dinyatakan <span style="color:red;">gugur</span> dari proses seleksi.',
+            'is_read' => 0,
+            'expired_at' => now()->addDays(7),
+            'pelamar_lowongan_id' => null,
+        ]);
 
         return redirect()->route('admin.non-kandidat')->with('success', 'Kandidat dinyatakan gugur.');
     }

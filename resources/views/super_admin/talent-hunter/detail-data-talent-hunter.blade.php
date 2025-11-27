@@ -1,6 +1,6 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
-    <div class="w-4/5 h-screen translate-x-4 overflow-y-auto" x-data="{ openNotif: false, openAllNotif: false }">
+    <div class="w-full h-screen translate-x-4 overflow-y-auto" x-data="{ openNotif: false, openAllNotif: false }">
         <main class="flex-1 p-6 sm:ml-64 bg-white overflow-y-auto">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-2xl font-medium">Detail Talent Hunter</h1>
@@ -103,7 +103,7 @@
                                 {{ $talentHunter->gaji_awal ?? '-' }}
                                 sampai
                                 {{ $talentHunter->gaji_akhir ?? '-' }}</span></p>
-                        <p class="m-2">Pengalaman Kerja <span class="ml-[145px]">:
+                        <p class="m-2">Pengalaman Kerja <span class="ml-[138px]">:
                                 {{ $talentHunter->pengalaman_kerja ?? '-' }}</span></p>
                     </div>
                 </div>

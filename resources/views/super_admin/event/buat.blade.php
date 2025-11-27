@@ -9,7 +9,7 @@
                     <ellipse cx="21.3472" cy="5.13034" rx="6.35506" ry="6.15646" fill="#E46054" />
                 </svg>
                 <div
-                    class="flex items-center justify-between w-96 h-14 bg-white border border-orange-500 shadow-md rounded-2xl px-3 py-2">
+                    class="flex items-center justify-between w-90 h-14 bg-white border border-orange-500 shadow-md rounded-2xl px-3 py-2">
                     <div class="flex items-center gap-2 mr-2">
                         <a href="#">
                             @if (Auth::user()->role == 'super_admin')

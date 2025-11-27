@@ -11,6 +11,11 @@
 
 
     <title>areakerja.com</title>
+    <link rel="stylesheet" href="https://unpkg.com/intro.js/minified/introjs.min.css">
+    <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
+    @vite('resources/css/app.css')
+    @vite('resources/js/app.js')
+
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
     <link rel="icon" type="image/png" href="{{ asset('images/logoarea.png') }}">
@@ -178,37 +183,63 @@
             </div>
 
             {{-- Menu --}}
-            <nav class="hidden md:flex font-semibold text-sm text-orange-500">
+            <nav class="hidden md:flex font-medium text-sm text-orange-500 gap-8">
+
                 <a href="{{ route('beranda') }}"
-                    class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400">Beranda</a>
+                    class="hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400
+                         {{ Route::is('beranda') ? 'font-bold text-orange-500 text-md scale-105' : '' }}">
+                    Beranda
+                </a>
+
+
                 <a href="{{ url('/talent-hunter') }}"
-                    class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400">Talent
-                    Hunter</a>
+                    class="hover:text-orange-500 hover:scale-105 transition-all duration-400
+                       {{ request()->is('talent-hunter') ? 'font-bold text-orange-500 text-md scale-105' : '' }}">
+                    Talent Hunter
+                </a>
+
+
+
                 <a href="{{ url('/pelamar/tips-kerja') }}"
-                    class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:scale-105 hover:font-bold transition-all duration-400">Tips
-                    Kerja</a>
+                    class=" hover:text-orange-500 hover:scale-105 hover:font-bold transition-all duration-400
+                        {{ Route::is('pelamar.tips-kerja') ? 'font-bold text-orange-500 text-md scale-105' : '' }}">
+                    Tips Kerja
+                </a>
+
                 @if (Auth::check() && Auth::user()->pelamar)
                     @if (Auth::user()->pelamar->kategori === 'calon kandidat')
                         <a href="{{ route('pelamar.calon-kandidat.pelatihan') }}"
-                            class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400">Rekrut
-                            Saya</a>
+                            class=" hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400
+                            {{ Route::is('pelamar.calon-kandidat.pelatihan') ? 'font-bold text-orange-500 text-md scale-105' : '' }}">
+                            Rekrut Saya
+                        </a>
                     @elseif (Auth::user()->pelamar->kategori === 'kandidat aktif')
                         <a href="{{ route('pelamar.tawaran') }}"
-                            class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:scale-105 hover:font-bold transition-all duration-400">Rekrut
-                            Saya</a>
+                            class=" hover:text-orange-500 hover:scale-105 hover:font-bold transition-all duration-400
+                            {{ Route::is('pelamar.tawaran') ? 'font-bold text-orange-500 text-md scale-105' : '' }}">
+                            Rekrut Saya
+                        </a>
                     @else
                         <a href="{{ route('pelamar.daftar-kandidat') }}"
-                            class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400">Daftar
-                            Kandidat</a>
+                            class=" hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400
+                            {{ Route::is('pelamar.daftar-kandidat') ? 'font-bold text-orange-500 text-md scale-105' : '' }}">
+                            Daftar Kandidat
+                        </a>
                     @endif
                 @else
                     <a href="{{ route('pelamar.daftar-kandidat') }}"
-                        class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400">Daftar
-                        Kandidat</a>
+                        class=" hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400
+                        {{ Route::is('pelamar.daftar-kandidat') ? 'font-bold text-orange-500 text-md scale-105' : '' }}">
+                        Daftar Kandidat
+                    </a>
+
                 @endif
+
                 <a href="{{ url('/lowongan') }}"
-                    class="px-6 py-4 rounded-full hover:bg-orange-100 hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400">Pasang
-                    Lowongan</a>
+                    class=" hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400
+                    {{ request()->is('lowongan') ? 'font-bold text-orange-500 text-md' : '' }}">
+                    Pasang Lowongan</a>
+
             </nav>
 
             {{-- Aksi --}}

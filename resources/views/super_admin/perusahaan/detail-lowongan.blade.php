@@ -151,7 +151,7 @@
                         <div class="mb-4">
                             <h3 class="font-semibold text-lg mb-2">Deskripsi Pekerjaan</h3>
                             <ul class="list-disc list-inside space-y-1">
-                                <li>{{ $lowongan->deskripsi }}</li>
+                                <span>{{ $lowongan->deskripsi }}</span>
                             </ul>
                         </div>
 
@@ -160,6 +160,25 @@
                             <h3 class="font-semibold text-lg mb-2">Syarat Pekerjaan</h3>
                             <ul class="list-disc list-inside space-y-1">
                                 <li>{{ $lowongan->syarat_pekerjaan }}</li>
+                            </ul>
+                        </div>
+                        <div class="mb-4">
+                            <h3 class="font-semibold text-lg mb-2">Syarat Pekerjaan</h3>
+                            <ul class="list-disc list-inside space-y-1">
+                                @foreach (preg_split("/\r\n|\n|\r/", $lowongan->tanggung_jawab) as $res)
+                                    @php
+                                        $trim = trim($res);
+                                        $isNumbered = preg_match('/^\d+[\.\-\)]\s*/', $trim);
+                                    @endphp
+
+                                    @if ($trim !== '')
+                                        @if ($isNumbered)
+                                            <li style="list-style-type: none;">{{ $trim }}</li>
+                                        @else
+                                            <li>{{ $trim }}</li>
+                                        @endif
+                                    @endif
+                                @endforeach
                             </ul>
                         </div>
 

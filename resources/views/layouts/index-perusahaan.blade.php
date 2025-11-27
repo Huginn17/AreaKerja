@@ -10,6 +10,8 @@
     <meta name="register-perusahaan-url" content="{{ route('registerproses_perusahaan') }}">
 
     <title>areakerja.com</title>
+    <link rel="stylesheet" href="https://unpkg.com/intro.js/minified/introjs.min.css">
+    <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
     <link rel="stylesheet" type="text/css"
@@ -178,16 +180,38 @@
             </div>
 
             {{-- menu --}}
-            <nav class="hidden md:flex gap-6 font-medium text-gray-800">
-                <a href="{{ route('perusahaan.dashboard') }}" class="hover:text-orange-500 hover:scale-105">Beranda</a>
+            <nav class="hidden md:flex gap-8 font-medium text-gray-800">
+                <a href="{{ route('perusahaan.dashboard') }}"
+                    class="hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400
+                {{ request()->routeIs('perusahaan.dashboard') ? 'text-orange-500 font-bold' : '' }}">
+                    Beranda
+                </a>
                 <a href="{{ route('perusahaan.berlangganan') }}"
-                    class="hover:text-orange-500 hover:scale-105">Berlangganan</a>
-                <a href="{{ route('talent-hunter.index') }}" class="hover:text-orange-500 hover:scale-105">Talent
-                    Hunter</a>
+                    class="hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400
+                    {{ request()->routeIs('perusahaan.berlangganan') ? 'text-orange-500 font-bold' : '' }}">
+                    Berlangganan
+                </a>
+                <a href="{{ route('talent-hunter.index') }}"
+                    class="hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400
+                 {{ request()->routeIs('talent-hunter.index') ? 'text-orange-500 font-bold' : '' }}">
+                    Talent Hunter
+                </a>
+
                 <a href="{{ route('perusahaan.kandidat.ak') }}"
-                    class="hover:text-orange-500 hover:scale-105">Kandidat</a>
-                <a href="{{ route('paket.form') }}" class="hover:text-orange-500 hover:scale-105">Pasang Lowongan</a>
-                <a href="{{ route('perusahaan.event.index') }}" class="hover:text-orange-500 hover:scale-105">Event</a>
+                    class="hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400
+                    {{ request()->routeIs('perusahaan.kandidat.ak') ? 'text-orange-500 font-bold' : '' }}">
+                    Kandidat
+                </a>
+                <a href="{{ route('paket.form') }}"
+                    class="hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400
+                {{ request()->routeIs('paket.form') ? 'text-orange-500 font-bold' : '' }}">
+                    Pasang Lowongan
+                </a>
+                <a href="{{ route('perusahaan.event.index') }}"
+                    class="hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400
+                {{ request()->routeIs('perusahaan.event.index') ? 'text-orange-500 font-bold' : '' }}">
+                    Event
+                </a>
             </nav>
 
 
@@ -775,6 +799,7 @@
     <script src="//unpkg.com/alpinejs" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
 
 </body>
 

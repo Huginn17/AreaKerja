@@ -25,7 +25,7 @@
                                        class="w-full h-full object-cover rounded-md">
                                </div>
                            @endif
-
+ 
 
                            <!-- Pesan -->
                            <div class="flex-1">

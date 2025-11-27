@@ -15,15 +15,17 @@
         <div class="max-h-[500px] overflow-y-auto">
             @foreach (\App\Models\Notifikasi::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get() as $notif)
                 <div data-id="{{ $notif->id }}"
-                    onclick="markAsRead('{{ route('notifikasi.baca', $notif->id) }}', this)"
+                    @click="markAsRead('{{ route('notifikasi.baca', $notif->id) }}', $el)"
                     class="notif-item cursor-pointer flex items-start gap-3 p-3 border-b {{ $notif->is_read ? 'bg-gray-200' : 'bg-white' }}">
 
-                    <div class="w-10 h-10 flex-shrink-0">
-                        <img src="{{ $notif->perusahaan && $notif->perusahaan->img_profile
-                            ? asset('storage/' . $notif->perusahaan->img_profile)
-                            : asset('images/logo.png') }}"
-                            class="w-10 h-10 object-contain rounded" alt="logo">
-                    </div>
+                    @if ($notif->perusahaan && $notif->perusahaan->img_profile)
+                        <div class="w-10 h-10 flex-shrink-0">
+                            <img src="{{ $notif->perusahaan && $notif->perusahaan->img_profile
+                                ? asset('storage/' . $notif->perusahaan->img_profile)
+                                : asset('images/logo.png') }}"
+                                class="w-10 h-10 object-contain rounded" alt="logo">
+                        </div>
+                    @endif
 
                     <div class="flex-1">
                         <p class="text-sm leading-snug">{!! $notif->pesan !!}</p>

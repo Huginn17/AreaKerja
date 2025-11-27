@@ -51,8 +51,8 @@
             </div>
 
             <!-- Konten utama -->
-            <div class="max-w-6xl mx-auto bg-white rounded-xl p-6 relative">
-                <div class="max-w-5xl mx-auto border-2 border-gray-400 rounded-xl shadow">
+            <div class="bg-white rounded-xl p-6 relative">
+                <div class="max-w-6xl mx-auto border-2 border-gray-400 rounded-xl shadow">
                     <!-- Header -->
                     <div class="flex items-center border border-gray-400 rounded-xl shadow-lg py-1 gap-4 mb-4">
                         <img src="{{ $lowongan->perusahaan->img_profile ? asset('storage/' . $lowongan->perusahaan->img_profile) : asset('images/seven.png') }}"
@@ -63,7 +63,7 @@
                     </div>
 
 
-                    <div class="translate-x-20">
+                    <div class="translate-x-20 mr-24">
                         <h2 class="text-lg font-semibold mb-4">Detail Lowongan</h2>
 
                         <!-- Gaji -->
@@ -85,6 +85,26 @@
                                 <li>{{ $lowongan->deskripsi }}</li>
                             </ul>
                         </div>
+                        <!-- Tanggung jawab -->
+                        <div class="mb-4">
+                            <h3 class="font-semibold text-lg mb-2">Deskripsi Pekerjaan</h3>
+                            <ul class="list-disc list-inside space-y-1">
+                                @foreach (preg_split("/\r\n|\n|\r/", $lowongan->tanggung_jawab) as $res)
+                                    @php
+                                        $trim = trim($res);
+                                        $isNumbered = preg_match('/^\d+[\.\-\)]\s*/', $trim);
+                                    @endphp
+
+                                    @if ($trim !== '')
+                                        @if ($isNumbered)
+                                            <li style="list-style-type: none;">{{ $trim }}</li>
+                                        @else
+                                            <li>{{ $trim }}</li>
+                                        @endif
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </div>
                         <!-- Syarat Pekerjaan -->
                         <div class="mb-4">
                             <h3 class="font-semibold text-lg mb-2">Syarat Pekerjaan</h3>
@@ -103,7 +123,7 @@
 
 
                 <!-- Tombol aksi -->
-                <div class="flex flex-col items-center space-y-4 max-w-md mx-auto mt-10 bg-white shadow-md p-6 rounded-xl">
+                <div class="flex flex-col items-center space-y-4 max-w-md mx-auto mt-10 bg-white  p-6 rounded-xl">
                     <h2 class="text-lg font-semibold text-gray-800 mb-2">Pengaturan Rekomendasi Lowongan</h2>
 
                     <form action="{{ route('admin.lowongan.toggleRekomendasi', $lowongan->id) }}" method="POST"
@@ -129,7 +149,7 @@
                 </div>
 
         </main>
-         @include('admin.notif.modal_notif')
+        @include('admin.notif.modal_notif')
         @include('admin.notif.modal_semua')
     </div>
 @endsection
