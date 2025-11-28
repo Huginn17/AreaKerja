@@ -23,6 +23,16 @@ RUN apt-get update && apt-get install -y \
 # ===== Step 3: Enable Apache mod_rewrite =====
 RUN a2enmod rewrite
 
+# ===== Step 3.1: Set Apache DocumentRoot ke folder public =====
+RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' \
+    /etc/apache2/sites-available/000-default.conf
+
+RUN echo '<Directory /var/www/html/public>' \
+    '\n\tAllowOverride All' \
+    '\n\tRequire all granted' \
+    '\n</Directory>' \
+    >> /etc/apache2/apache2.conf
+
 # ===== Step 4: Install Composer =====
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
