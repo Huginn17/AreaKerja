@@ -73,7 +73,7 @@
                         <input type="number" name="kuota" value="{{ old('kuota', $event->kuota) }}"
                             class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-24" placeholder="000">
                     </div>
-                    <!-- Link Form Pendaftaran -->
+                    <!-- Link Form  -->
                     <div>
                         <label class="block font-medium mb-1">Link Form</label>
                         <input type="text" name="link_form" value="{{ old('link_form', $event->link_form) }}"

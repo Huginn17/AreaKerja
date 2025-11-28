@@ -1,57 +1,46 @@
 # ===== Step 1: Gunakan PHP 8.2 dengan Apache =====
 FROM php:8.2-apache
 
-# Set working directory
 WORKDIR /var/www/html
 
 # ===== Step 2: Install system dependencies =====
 RUN apt-get update && apt-get install -y \
-    git \
-    unzip \
-    libzip-dev \
-    libonig-dev \
-    libxml2-dev \
-    zip \
-    curl \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    pkg-config \
+    git unzip libzip-dev libonig-dev libxml2-dev zip curl \
+    libpng-dev libjpeg-dev libfreetype6-dev pkg-config \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
 
-# ===== Step 3: Enable Apache mod_rewrite =====
+# ===== Step 3: Enable mod_rewrite =====
 RUN a2enmod rewrite
 
-# ===== Step 3.1: Set Apache DocumentRoot ke folder public =====
-RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' \
-    /etc/apache2/sites-available/000-default.conf
+# ===== Step 3.1: Set Apache DocumentRoot ke /public (WAJIB) =====
+RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' \
+    /etc/apache2/sites-available/000-default.conf /etc/apache2/apache2.conf
 
-RUN echo '<Directory /var/www/html/public>' \
-    '\n\tAllowOverride All' \
-    '\n\tRequire all granted' \
-    '\n</Directory>' \
-    >> /etc/apache2/apache2.conf
+RUN echo "<Directory /var/www/html/public>
+    AllowOverride All
+    Require all granted
+</Directory>" > /etc/apache2/conf-available/laravel.conf \
+    && a2enconf laravel
 
 # ===== Step 4: Install Composer =====
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
 
-# ===== Step 5: Copy project files =====
+# ===== Step 5: Copy project =====
 COPY . .
 
-# ===== Step 6: Install PHP dependencies =====
+# ===== Step 6: Bersihkan cache yang mungkin bikin error =====
+RUN rm -rf bootstrap/cache/*.php
+
+# ===== Step 7: Install dependencies =====
 RUN composer install --no-dev --optimize-autoloader
 
-# ===== Step 7: Clear Laravel cache =====
-RUN php artisan config:clear \
-    && php artisan route:clear \
-    && php artisan view:clear
+# ===== Step 8: Set permissions Laravel =====
+RUN chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
 
-# ===== Step 8: Set permissions =====
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# ===== Step 9: Buat ulang config cache =====
+RUN php artisan config:clear && php artisan config:cache
 
-# ===== Step 9: Expose port 80 =====
 EXPOSE 80
-
-# ===== Step 10: Jalankan Apache =====
 CMD ["apache2-foreground"]

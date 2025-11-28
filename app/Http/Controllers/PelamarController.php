@@ -249,8 +249,8 @@ class PelamarController extends Controller
             'pendidikan' => 'required',
             'jurusan' => 'nullable',
             'asal_pendidikan' => 'nullable',
-            'tahun_awal' => 'nullable',
-            'tahun_akhir' => 'nullable'
+            'tahun_awal' => 'nullable|digits:4|integer',
+            'tahun_akhir' => 'nullable|gte:tahun_awal|digits:4|integer',
         ]);
 
         $valid['pelamar_id'] = Auth::user()->pelamar->id;
@@ -265,8 +265,8 @@ class PelamarController extends Controller
             'pendidikan' => 'required',
             'jurusan' => 'nullable',
             'asal_pendidikan' => 'nullable',
-            'tahun_awal' => 'nullable',
-            'tahun_akhir' => 'nullable'
+            'tahun_awal' => 'nullable|digits:4|integer',
+            'tahun_akhir' => 'nullable|gte:tahun_awal|digits:4|integer',
         ]);
 
         $valid['pelamar_id'] = Auth::user()->pelamar->id;
@@ -293,8 +293,8 @@ class PelamarController extends Controller
             'pendidikan' => 'required',
             'jurusan' => 'nullable',
             'asal_pendidikan' => 'nullable',
-            'tahun_awal' => 'nullable',
-            'tahun_akhir' => 'nullable'
+            'tahun_awal' => 'nullable|digits:4|integer',
+            'tahun_akhir' => 'nullable|gte:tahun_awal|digits:4|integer',
         ]);
         $pelamar_id = session('pelamar_terakhir_id');
 
@@ -330,8 +330,8 @@ class PelamarController extends Controller
             'pendidikan' => 'required',
             'jurusan' => 'nullable',
             'asal_pendidikan' => 'nullable',
-            'tahun_awal' => 'nullable',
-            'tahun_akhir' => 'nullable'
+            'tahun_awal' => 'nullable|digits:4|integer',
+            'tahun_akhir' => 'nullable|gte:tahun_awal|digits:4|integer',
         ]);
 
         // Tidak perlu ambil dari session, karena sudah dari request
@@ -482,7 +482,7 @@ class PelamarController extends Controller
 
         session()->forget('konfirmasi');
 
-        return redirect()->route('perusahaan.pelamar', [
+        return redirect()->route('perusahaan.dashboard', [
             'lowongan' => $pelamarlowongan->lowongan_perusahaan->slug
         ])->with('success', 'Lamaran diterima, email konfirmasi & notifikasi sudah dikirim.');
     }

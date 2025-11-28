@@ -16,11 +16,11 @@ return new class extends Migration
             $table->foreignId('perusahaan_id')->constrained('perusahaans')->onDelete('cascade');
             $table->string('alamat')->nullable();
             $table->string('posisi')->nullable();
-            $table->string('pengalaman_kerja')->nullable();
+            $table->text('pengalaman_kerja')->nullable();
             $table->string('gender')->nullable();
             $table->string('gaji_awal')->nullable();
             $table->string('gaji_akhir')->nullable();
-            $table->text('deskripsi')->nullable();
+            $table->mediumText('deskripsi')->nullable();
             $table->timestamps();
         });
     }

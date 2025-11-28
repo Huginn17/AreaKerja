@@ -48,12 +48,13 @@
     </section>
 
     <!-- Kategori Populer -->
-    <section class="max-w-5xl mx-auto px-4 py-8">
-        <h4 class="mb-4 text-lg font-semibold text-gray-900">
-            KATEGORI PEKERJAAN POPULER
-        </h4>
+  <section class="max-w-5xl mx-auto px-4 py-8">
+    <h4 class="mb-4 text-lg font-semibold text-gray-900">
+        KATEGORI PEKERJAAN POPULER
+    </h4>
 
-        <div class="grid grid-cols-4 gap-4 font-semibold text-sm">
+    <div class="flex items-start justify-between gap-4">
+        <div class="grid grid-cols-4 gap-4 font-semibold text-sm flex-1">
             @foreach ($KategoriList as $namaKategori)
                 @php
                     $isActive = request('kategori') === $namaKategori;
@@ -61,30 +62,39 @@
 
                 <a href="?kategori={{ urlencode($namaKategori) }}" class="block">
                     <div
-                        class="w-full py-3 border rounded-lg text-center transition
-                    {{ $isActive ? 'bg-orange-500 border-orange-500 text-white' : 'text-gray-900 border-gray-300 hover:bg-gray-100' }}">
+                        class="w-full py-3 border rounded-sm text-center transition
+                        {{ $isActive ? 'bg-orange-500 border-orange-500 text-white' : 'text-gray-900 border-gray-300 hover:bg-gray-100' }}">
                         {{ $namaKategori }}
                     </div>
                 </a>
-
-                {{-- <span
-                    class="h-14 w-full px-4 py-3 border-2 border-gray-400 rounded text-sm bg-white hover:bg-gray-50 cursor-pointer flex items-center justify-center text-center shadow-sm {{ $textClass }} {{ $borderClass }}">
-                    @if ($isFullTime)
-                        <span class="mr-2">🔥</span>
-                        <span>Full Time</span>
-                    @elseif ($isWfoWfh)
-                        <span class="mr-2 hover:bg-gray-50">🌐</span>
-                        <span>WFO/WFH</span>
-                    @elseif ($isGraduate)
-                        <span class="mr-2 hover:bg-gray-100">🎓</span>
-                        <span>Graduate</span>
-                    @else
-                        {{ $kategori }}
-                    @endif
-                </span> --}}
             @endforeach
         </div>
-    </section>
+
+        <!-- Kategori khusus di kanan -->
+        <div class="flex flex-col gap-4 min-w-[120px] text-sm font-semibold">
+
+            <!-- Full Time -->
+            <div class="flex items-center gap-2 border border-red-300 text-red-500 px-10 py-3 rounded-sm border-l-4 border-l-red-500 hover:bg-gray-100">
+                <span>🔥</span>
+                <span>Full Time</span>
+            </div>
+
+            <!-- WFO/WFH -->
+            <div class="flex items-center gap-2 border border-blue-300 text-blue-500 px-10 py-3 rounded-sm border-l-4 border-l-blue-500 hover:bg-gray-100">
+                <span>🌐</span>
+                <span>WFO/WFH</span>
+            </div>
+
+            <!-- Graduate -->
+            <div class="flex items-center gap-2 border border-orange-300 text-orange-500 px-10 py-3 rounded-sm border-l-4 border-l-orange-500 hover:bg-gray-100">
+                <span>🎓</span>
+                <span>Graduate</span>
+            </div>
+
+        </div>
+
+    </div>
+</section>
 
 
 

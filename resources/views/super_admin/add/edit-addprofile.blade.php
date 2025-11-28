@@ -41,12 +41,12 @@
                     <div>
                         <label class="block text-sm font-medium mb-1">Email</label>
                         <input type="email" name="email" value="{{ old('email', $user->email) }}"
-                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2" required>
+                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2" readonly>
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-1">Username</label>
                         <input type="text" name="username" value="{{ old('username', $user->username) }}"
-                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2" required>
+                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2" readonly>
                     </div>
                 </div>
 

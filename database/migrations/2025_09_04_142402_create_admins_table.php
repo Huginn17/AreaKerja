@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('kecamatan_id')->nullable()->constrained('kecamatans')->nullOnDelete();
             $table->string('desa')->nullable();
             $table->string('kode_pos')->nullable();
-            $table->string('detail_alamat')->nullable();
+            $table->text('detail_alamat')->nullable();
             $table->string('img_profile')->nullable();
             $table->string('akses_kota')->nullable();
             $table->timestamps();

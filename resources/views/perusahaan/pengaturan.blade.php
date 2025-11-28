@@ -21,14 +21,20 @@
 
             <!-- Pesan sukses / error -->
             @if (session('success'))
-                <div class="bg-green-100 text-green-700 p-3 rounded mb-3">
+                <div class="p-3 mb-4 bg-green-100 text-green-700 rounded">
                     {{ session('success') }}
                 </div>
             @endif
 
+            @if (session('error'))
+                <div class="p-3 mb-4 bg-red-100 text-red-700 rounded">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             @if ($errors->any())
-                <div class="bg-red-100 text-red-700 p-3 rounded mb-3">
-                    <ul class="list-disc pl-5">
+                <div class="p-3 mb-4 bg-red-100 text-red-700 rounded">
+                    <ul>
                         @foreach ($errors->all() as $err)
                             <li>{{ $err }}</li>
                         @endforeach
@@ -50,13 +56,13 @@
 
                     <div>
                         <label class="block text-sm font-medium">Kata Sandi Lama</label>
-                        <input type="password" name="old_password" required 
+                        <input type="password" name="old_password" required
                             class="mt-1 w-full border px-3 py-2 rounded focus:ring-2 focus:ring-orange-500">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium">Kata Sandi Baru</label>
-                        <input type="password" name="new_password" required 
+                        <input type="password" name="new_password" required
                             class="mt-1 w-full border px-3 py-2 rounded focus:ring-2 focus:ring-orange-500">
                     </div>
 

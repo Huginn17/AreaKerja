@@ -824,7 +824,7 @@ class SuperAdminController extends Controller
             'email'        => 'required|email|unique:users',
             'username'     => 'required|unique:users',
             'role'         => 'required|in:admin,finance,perusahaan,pelamar',
-            'password'     => 'required',
+            'password'     => 'required|min:3',
             'img_profile'  => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ];
 
@@ -838,7 +838,34 @@ class SuperAdminController extends Controller
             $rules['detail_alamat'] = 'nullable|string';
         }
 
-        $request->validate($rules);
+
+        $messages = [
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah terdaftar.',
+
+            'username.required' => 'Username wajib diisi.',
+            'username.unique' => 'Username sudah digunakan.',
+
+            'role.required' => 'Role wajib diisi.',
+            'role.in' => 'Role tidak valid.',
+
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal 3 karakter.',
+
+            'img_profile.image' => 'File harus berupa gambar.',
+            'img_profile.mimes' => 'Gambar harus bertipe jpg, jpeg, atau png.',
+            'img_profile.max' => 'Ukuran gambar maksimal 2MB.',
+
+            // Untuk admin/finance
+            'nama_lengkap.required' => 'Nama lengkap wajib diisi.',
+            'provinsi_id.exists' => 'Provinsi tidak valid.',
+            'kota_id.exists' => 'Kota tidak valid.',
+            'kecamatan_id.exists' => 'Kecamatan tidak valid.',
+        ];
+
+
+        $request->validate($rules, $messages);
 
         $user = User::create([
             'email'    => $request->email,
@@ -1024,13 +1051,13 @@ class SuperAdminController extends Controller
             default => null
         };
 
-        // 📸 Upload foto baru kalau ada
+        //  Upload foto baru kalau ada
         if ($request->hasFile('img_profile')) {
             if ($imgPath) Storage::delete('public/' . $imgPath);
             $imgPath = $request->file('img_profile')->store('images', 'public');
         }
 
-        // 🔁 Update / create relasi sesuai role baru
+        //  Update / create relasi sesuai role baru
         switch ($newRole) {
             case 'admin':
                 $user->admin()->updateOrCreate(

@@ -107,7 +107,7 @@ class TipsKerjaController extends Controller
             return redirect()->back()->with('error', 'Data yang ingin diubah tidak ditemukan.');
         }
 
-        TipsKerja::where('id', $ids)->update([
+        TipsKerja::whereIn('id', $ids)->update([
             'status' => $request->status
         ]);
         return redirect()->route('admin.tips-kerja')->with('success', 'Data berhasil diubah.');
@@ -229,7 +229,7 @@ class TipsKerjaController extends Controller
             return redirect()->back()->with('error', 'Data yang ingin diubah tidak ditemukan.');
         }
 
-        TipsKerja::where('id', $ids)->update([
+        TipsKerja::whereIn('id', $ids)->update([
             'status' => $request->status
         ]);
         return redirect()->route('superadmin.tips-kerja')->with('success', 'Data berhasil diubah.');

@@ -219,7 +219,7 @@
                         <div>
                             <label class="text-sm font-medium">Deskripsi Diri <span class="text-red-500">*</span></label>
                             <textarea placeholder="Deskripsikan diri anda secara singkat" name="deskripsi_diri"
-                                class="auto-grow w-full mt-1 border rounded-md px-3 py-2 text-sm max-h-4">{{ Auth::user()->pelamar->deskripsi_diri }}</textarea>
+                                class="auto-grow w-full mt-1 border rounded-md px-3 py-2 text-sm">{{ Auth::user()->pelamar->deskripsi_diri }}</textarea>
                         </div>
                     @else
                         <div>

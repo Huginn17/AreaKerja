@@ -21,13 +21,13 @@ return new class extends Migration
             $table->string('gaji_awal')->nullable();
             $table->string('gaji_akhir')->nullable();
             $table->string('label_gaji')->nullable();
-            $table->text('deskripsi')->nullable();
+            $table->mediumText('deskripsi')->nullable();
             $table->string('alamat')->nullable();
             $table->string('kategori')->nullable();
             $table->date('batas_lamaran')->nullable();
             $table->text('syarat_pekerjaan')->nullable();
-            $table->text('tanggung_jawab')->nullable();
-            $table->text('benefit')->nullable();
+            $table->mediumText('tanggung_jawab')->nullable();
+            $table->mediumText('benefit')->nullable();
             $table->foreignId('paket_id')->nullable()->constrained('paket_lowongans')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamp('published_at')->nullable();
             $table->timestamp('expired_at')->nullable();

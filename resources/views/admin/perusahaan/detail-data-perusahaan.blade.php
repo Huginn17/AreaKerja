@@ -79,7 +79,7 @@
                     <div class="max-w-4xl mx-auto bg-white p-8">
                         <!-- Deskripsi -->
                         <h2 class="text-lg font-semibold mb-2">Deskripsi</h2>
-                        <p class="text-sm font-medium text-gray-800 mb-6">
+                        <p class="text-sm font-medium text-gray-800 mb-6 break-all">
                             {{ $perusahaan->deskripsi ?? 'Belum Ada Data' }}
 
                         </p>

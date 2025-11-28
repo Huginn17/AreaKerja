@@ -73,7 +73,7 @@
                 <div class="mb-4">
                     <label class="block mb-2 text-lg font-medium">Judul Artikel</label>
                     <input type="text" name="title" placeholder="Tulis judul artikel..."
-                        class="w-full border-2 border-gray-400 rounded-lg px-3 py-2">
+                        class="w-full border-2 border-gray-400 rounded-lg px-3 py-2" required>
                 </div>
 
                 <div class="mb-4">
@@ -84,16 +84,17 @@
                 <div class="mb-4">
                     <label class="block mb-2 text-lg font-medium">Isi Artikel</label>
                     <input id="x" type="hidden" name="content">
-                    <trix-editor input="x" class="trix-content border-2 border-gray-400 rounded-lg p-2"></trix-editor>
+                    <trix-editor input="x" class="trix-content border-2 border-gray-400 rounded-lg p-2" required></trix-editor>
                 </div>
 
                 <div class="flex justify-end gap-3 mt-4">
                     <button class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg shadow">
                         Simpan
                     </button>
-                    <button class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg shadow">
+                    <a href="{{ route('superadmin.tips-kerja') }}"
+                        class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg shadow">
                         Batal
-                    </button>
+                    </a>
                 </div>
             </form>
         </div>

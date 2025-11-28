@@ -159,6 +159,7 @@ class AuthController extends Controller
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|min:3',
                 'role' => 'required',
+                'telepon_pelamar' => 'required|numeric',
                 'agree_pelamar' => 'accepted'
             ], [
                 'username.required' => 'Username wajib diisi.',
@@ -169,6 +170,8 @@ class AuthController extends Controller
                 'password.required' => 'Password wajib diisi.',
                 'password.min' => 'Password minimal 3 karakter.',
                 'role.required' => 'Role wajib diisi.',
+                'telepon_pelamar.required' => 'Nomor telepon wajib diisi.',
+                'telepon_pelamar.numeric' => 'Nomor telepon harus berupa angka.',
                 'agree_pelamar.accepted' => 'Anda harus menyetujui syarat dan ketentuan.'
             ]);
 
@@ -275,6 +278,7 @@ class AuthController extends Controller
                 'email' => 'required|email',
                 'password' => 'required|min:3',
                 'role' => 'required',
+                'telepon_perusahaan' => 'required|numeric',
                 'agree_perusahaan' => 'accepted'
             ], [
                 'username.required' => 'Username wajib diisi.',
@@ -284,6 +288,8 @@ class AuthController extends Controller
                 'password.required' => 'Password wajib diisi.',
                 'password.min' => 'Password minimal 3 karakter.',
                 'role.required' => 'Role wajib diisi.',
+                'telepon_perusahaan.required' => 'Nomor telepon perusahaan wajib diisi.',
+                'telepon_perusahaan.numeric' => 'Nomor telepon perusahaan harus berupa angka.',
                 'agree_perusahaan.accepted' => 'Anda harus menyetujui syarat dan ketentuan.'
             ]);
 

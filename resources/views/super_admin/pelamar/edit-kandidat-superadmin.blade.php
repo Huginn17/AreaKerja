@@ -146,13 +146,13 @@
                 </div> --}}
                 <div>
                     <label class="block text-md font-medium mb-1">Username <span class="text-red-500">*</span></label>
-                    <input type="text" name="username" value="{{ $pelamar?->user?->username }}"
+                    <input type="text" name="username" value="{{ $pelamar?->user?->username }}" readonly
                         class="w-full mt-1 border-2 border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Username" />
                 </div>
 
                 <div>
                     <label class="block text-md font-medium mb-1">Email <span class="text-red-500">*</span></label>
-                    <input type="email" name="email" value="{{ $pelamar?->user?->email }}"
+                    <input type="email" name="email" value="{{ $pelamar?->user?->email }}" readonly
                         class="w-full mt-1 border-2 border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Email" />
                 </div>
 

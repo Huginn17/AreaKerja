@@ -28,8 +28,8 @@
             </div>
 
             <!-- <button class="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 flex items-center shadow">
-                                                                                            <span class="text-lg font-bold mr-2">+</span> Tambah
-                                                                                        </button> -->
+                                                                                                    <span class="text-lg font-bold mr-2">+</span> Tambah
+                                                                                                </button> -->
         </div>
 
         <h2 class="text-2xl font-bold mb-6 border-b-2 border-orange-400 pb-2">Edit Lowongan</h2>
@@ -69,9 +69,18 @@
 
                 <div>
                     <label class="block font-medium mb-1">Kategori</label>
-                    <input type="text" name="kategori" value="{{ $data->kategori }}"
-                        class="w-full border-2 rounded-md px-3 py-2 focus:ring-orange-400 focus:border-orange-400">
+                    <select name="kategori"
+                        class="form-select border rounded-md px-3 py-2 mt-1 outline-none focus:ring-1 focus:ring-orange-500 w-50">
+                        <option value=""> Pilih Kategori </option>
+                        @foreach ($categories as $cat)
+                            <option value="{{ $cat->nama }}"
+                                {{ old('kategori', $data->kategori ?? '') == $cat->nama ? 'selected' : '' }}>
+                                {{ $cat->nama }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
+
 
                 <div class="col-span-2">
                     <label class="block font-medium mb-1">Gaji</label>
@@ -113,8 +122,8 @@
                 cols="30" rows="10">{!! old('deskripsi', $data->deskripsi ?? '') !!}</textarea>
 
             <label class="block font-medium mb-1">Tanggung Jawab</label>
-            <textarea class="w-full border-2 rounded-md px-3 py-2 focus:ring-orange-400 focus:border-orange-400" name="tanggung_jawab"
-                cols="30" rows="10">{!! old('tanggung_jawab', $data->tanggung_jawab ?? '') !!}</textarea>
+            <textarea class="w-full border-2 rounded-md px-3 py-2 focus:ring-orange-400 focus:border-orange-400"
+                name="tanggung_jawab" cols="30" rows="10">{!! old('tanggung_jawab', $data->tanggung_jawab ?? '') !!}</textarea>
 
 
             <div class="space-y-6 border-t-2 pt-6">

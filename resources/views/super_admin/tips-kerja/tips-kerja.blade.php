@@ -269,6 +269,13 @@
                 function setAction(action) {
                     let form = document.getElementById('bulkAction');
 
+                    // HAPUS checkbox dari tabel yg tidak aktif
+                    document.querySelectorAll('#bulkAction input[name="ids[]"]').forEach(cb => {
+                        if (!cb.closest(`#${activeTableId}`)) {
+                            cb.remove();
+                        }
+                    });
+
                     if (action === 'update') {
                         form.action = "{{ route('superadmin.tips-kerja.update.status') }}";
                         document.getElementById('formMethod').value = "PUT";
@@ -314,6 +321,8 @@
                 document.getElementById("checkAllSemua").addEventListener("change", function() {
                     checkAllToggle(this);
                 });
+
+
 
 
                 // ------------------ Search ------------------

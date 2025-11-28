@@ -42,7 +42,9 @@
             $pelamar->tanggal_lahir == null ||
             $pelamar->gender == null ||
             $pelamar->telepon_pelamar == null ||
-            $pelamar->img_profile == null;
+            $pelamar->img_profile == null ||
+            $pelamar->gaji_minimal == null ||
+            $pelamar->gaji_maksimal == null;
 
         // Cek alamat belum lengkap atau belum ada sama sekali
         $isAddressIncomplete =
@@ -61,7 +63,7 @@
 
 
 
-    <!-- 🔹 Opsi 2: Kalau mau CSS langsung (style regular) -->
+    <!-- Kalau mau CSS langsung (style regular) -->
     <!-- <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web/src/regular/style.css"> -->
     <style>
         [x-cloak] {
@@ -70,7 +72,7 @@
     </style>
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Poppins', sans-serif; 
         }
 
         .notif-profil {
@@ -193,7 +195,7 @@
 
 
                 <a href="{{ url('/talent-hunter') }}"
-                    class="hover:text-orange-500 hover:scale-105 transition-all duration-400
+                    class="hover:text-orange-500 hover:scale-105 hover:font-bold transition-all duration-400
                        {{ request()->is('talent-hunter') ? 'font-bold text-orange-500 text-md scale-105' : '' }}">
                     Talent Hunter
                 </a>

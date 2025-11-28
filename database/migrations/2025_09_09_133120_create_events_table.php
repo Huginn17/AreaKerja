@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('jam_mulai', 5);
             $table->date('tgl_akhir');
             $table->string('jam_akhir', 5);
-            $table->string('lokasi')->nullable(); // Lokasi event
+            $table->text('lokasi')->nullable(); // Lokasi event
             $table->string('link_form')->nullable(); // Link pendaftaran
             $table->date('penutupan_pendaftaran')->nullable(); // Batas akhir daftar
             $table->timestamps();

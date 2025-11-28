@@ -100,7 +100,7 @@ class LowonganPerusahaanController extends Controller
         $valid['perusahaan_id'] = Auth::user()->perusahaan->id;
         $valid['slug'] = Str::slug($request->nama . '-' . time());
         // $valid['tanggung_jawab'] = Auth::user()->perusahaan->nama_perusahaan;
-        
+
         LowonganPerusahaan::create($valid);
         return redirect()->route('lowongan.saya.perusahaan')->with('success', 'Lowongan berhasil ditambahkan!');
     }
@@ -122,8 +122,10 @@ class LowonganPerusahaanController extends Controller
 
     public function edit(LowonganPerusahaan $lowongan)
     {
+        $categories = Category::all();
         return view('perusahaan.lowongan-saya.edit', [
-            "data" => $lowongan
+            "data" => $lowongan,
+            'categories' => $categories,
         ]);
     }
 
