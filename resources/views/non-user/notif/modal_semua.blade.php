@@ -22,7 +22,7 @@
                         <div class="w-10 h-10 flex-shrink-0">
                             <img src="{{ $notif->perusahaan && $notif->perusahaan->img_profile
                                 ? asset('storage/' . $notif->perusahaan->img_profile)
-                                : asset('images/logo.png') }}"
+                                : asset('images/logoarea.png') }}"
                                 class="w-10 h-10 object-contain rounded" alt="logo">
                         </div>
                     @endif
@@ -34,8 +34,8 @@
 
                 </div>
             @endforeach
-        </div>
-
+        </div>  
+ 
         <!-- Footer -->
         <div class="p-3 border-t flex justify-between items-center">
 
@@ -56,3 +56,4 @@
         <iframe name="hiddenFrameAll" style="display:none;"></iframe>
     </div>
 </div>
+  

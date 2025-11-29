@@ -117,7 +117,7 @@
                                         <span class="bg-gray-500 px-5 py-1 rounded-lg whitespace-nowrap">Draft</span>
                                     @endif
                                 </td>
-                                <td class="px-6 py-3 text-blue-400 font-medium whitespace-nowrap">
+                                <td class="px-6 py-3 text-blue-400 font-medium break-all">
                                     <a href="{{ route('superadmin.detail.event', $event->id) }}">{{ $event->title }}</a>
                                 </td>
                                 {{-- <td class="px-6 py-3 text-gray-700 text-center whitespace-nowrap">0</td> --}}

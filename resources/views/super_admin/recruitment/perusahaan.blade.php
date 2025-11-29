@@ -175,7 +175,7 @@
                     @forelse ($perusahaan as $p)
                         <tr class="border-b border-gray-300">
                             <td class="px-4 py-3">{{ $p->id }}</td>
-                            <td class="px-4 py-3">{{ $p->nama_perusahaan }}</td>
+                            <td class="px-4 py-3 break-all">{{ $p->nama_perusahaan }}</td>
                             <td class="px-4 py-3">{{ $p->user->email }}</td>
                             <td class="px-4 py-3">{{ $p->telepon_perusahaan }}</td>
                             <td class="px-4 py-3">{{ $p->alamat_perusahaan->first()?->kota?->nama ?? '-' }}</td>

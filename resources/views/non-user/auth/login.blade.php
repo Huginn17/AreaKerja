@@ -131,9 +131,9 @@
                             MASUK
                         </button>
                     </div>
-                    <p class="text-center text-sm mt-4">Tidak Memiliki Akun? <a href="#"
-                            class="text-orange-500 font-medium"> Daftar
-                            Sekarang</a></p>
+                    <p class="text-center text-sm mt-4">Tidak Memiliki Akun? 
+                        <a href="register"
+                        class="text-orange-500 font-medium"> Daftar Sekarang</a></p>
                 </form>
             </div>
         </div>

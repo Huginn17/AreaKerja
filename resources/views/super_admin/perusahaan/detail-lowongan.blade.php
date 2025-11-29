@@ -72,7 +72,7 @@
                         <img src="{{ $lowongan->perusahaan->img_profile ? asset('storage/' . $lowongan->perusahaan->img_profile) : asset('images/seven.png') }}"
                             alt="foto kandidat" class="w-68 h-64 mr-4">
                         <div class="ml-20">
-                            <h2 class="text-xl font-bold">{{ $lowongan->nama }}</h2>
+                            <h2 class="text-xl font-bold break-all">{{ $lowongan->nama }}</h2>
                         </div>
                     </div>
 

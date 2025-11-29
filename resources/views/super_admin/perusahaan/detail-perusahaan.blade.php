@@ -69,7 +69,7 @@
                     <img src="{{ $perusahaan->img_profile ? asset('storage/' . $perusahaan->img_profile) : asset('images/seven.png') }}"
                         alt="foto kandidat" class="w-68 h-64 mr-4">
                     <div class="ml-20">
-                        <h2 class="text-xl font-bold uppercase">{{ $perusahaan->nama_perusahaan }}</h2>
+                        <h2 class="text-xl font-bold uppercase break-all">{{ $perusahaan->nama_perusahaan }}</h2>
                     </div>
                 </div>
 
@@ -111,7 +111,7 @@
                         <p>: ********</p>
 
                         <p>Nama Perusahaan</p>
-                        <p>: {{ $perusahaan->nama_perusahaan }}</p>
+                        <p class="break-all">: {{ $perusahaan->nama_perusahaan }}</p>
 
                         <p>Legalitas</p>
                         <p>: {{ $perusahaan->legalitas ?? 'Belum Ada Data' }}</p>

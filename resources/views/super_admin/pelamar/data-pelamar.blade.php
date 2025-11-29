@@ -119,12 +119,12 @@
                 <tbody class="text-center">
                     @forelse ($kandidat as $p)
                         <tr class="border-b-2">
-                            <td class="px-4 py-3">{{ $p->id }}</td>
-                            <td class="px-4 py-3">{{ $p->nama_pelamar ?? $p->user->username }}</td>
-                            <td class="px-4 py-3">{{ $p->riwayat_pendidikan->pluck('pendidikan')->implode(', ') }}</td>
-                            <td class="px-4 py-3">{{ $p->skill->pluck('skill')->implode(', ') }}</td>
-                            <td class="px-4 py-3">{{ $p->alamat_pelamar->first()?->provinsi ?? '-' }}</td>
-                            <td class="px-4 py-3">
+                            <td class="px-4 py-3 break-all">{{ $p->id }}</td>
+                            <td class="px-4 py-3 break-all">{{ $p->nama_pelamar ?? $p->user->username }}</td>
+                            <td class="px-4 py-3 break-all">{{ $p->riwayat_pendidikan->pluck('pendidikan')->implode(', ') }}</td>
+                            <td class="px-4 py-3 break-all">{{ $p->skill->pluck('skill')->implode(', ') }}</td>
+                            <td class="px-4 py-3 break-all">{{ $p->alamat_pelamar->first()?->provinsi ?? '-' }}</td>
+                            <td class="px-4 py-3 break-all">
                                 <a href="{{ route('superadmin.detail.kandidat', $p->id) }}"
                                     class="bg-orange-500 hover:bg-orange-600 text-xs text-white px-4 py-2 rounded-lg">View</a>
                             </td>
@@ -156,12 +156,12 @@
                 <tbody class="text-center">
                     @forelse ($nonKandidat as $p)
                         <tr class="border-b-2">
-                            <td class="px-4 py-3">{{ $p->id }}</td>
-                            <td class="px-4 py-3">{{$p->nama_pelamar ?? $p->user->username }}</td>
-                            <td class="px-4 py-3">{{ $p->riwayat_pendidikan->pluck('pendidikan')->implode(', ') }}</td>
-                            <td class="px-4 py-3">{{ $p->skill->pluck('skill')->implode(', ') }}</td>
-                            <td class="px-4 py-3">{{ $p->alamat_pelamar->first()?->provinsi ?? '-' }}</td>
-                            <td class="px-4 py-3">
+                            <td class="px-4 py-3 break-all">{{ $p->id }}</td>
+                            <td class="px-4 py-3 break-all">{{$p->nama_pelamar ?? $p->user->username }}</td>
+                            <td class="px-4 py-3 break-all">{{ $p->riwayat_pendidikan->pluck('pendidikan')->implode(', ') }}</td>
+                            <td class="px-4 py-3 break-all">{{ $p->skill->pluck('skill')->implode(', ') }}</td>
+                            <td class="px-4 py-3 break-all">{{ $p->alamat_pelamar->first()?->provinsi ?? '-' }}</td>
+                            <td class="px-4 py-3 break-all">
                                 <a href="{{ route('superadmin.detail.non.kandidat', $p->id) }}"
                                     class="bg-orange-500 hover:bg-orange-600 text-xs text-white px-4 py-2 rounded-lg">View</a>
                             </td>
@@ -193,12 +193,12 @@
                 <tbody class="text-center">
                     @forelse ($calonKandidat as $p)
                         <tr class="border-b">
-                            <td class="px-4 py-3">{{ $p->id }}</td>
-                            <td class="px-4 py-3">{{$p->nama_pelamar ?? $p->user->username }}</td>
-                            <td class="px-4 py-3">{{ $p->riwayat_pendidikan->pluck('pendidikan')->implode(', ') }}</td>
-                            <td class="px-4 py-3">{{ $p->skill->pluck('skill')->implode(', ') }}</td>
-                            <td class="px-4 py-3">{{ $p->alamat_pelamar->first()?->provinsi ?? '-' }}</td>
-                            <td class="px-4 py-3">
+                            <td class="px-4 py-3 break-all">{{ $p->id }}</td>
+                            <td class="px-4 py-3 break-all">{{$p->nama_pelamar ?? $p->user->username }}</td>
+                            <td class="px-4 py-3 break-all">{{ $p->riwayat_pendidikan->pluck('pendidikan')->implode(', ') }}</td>
+                            <td class="px-4 py-3 break-all">{{ $p->skill->pluck('skill')->implode(', ') }}</td>
+                            <td class="px-4 py-3 break-all">{{ $p->alamat_pelamar->first()?->provinsi ?? '-' }}</td>
+                            <td class="px-4 py-3 break-all">
                                 <a href="{{ route('superadmin.calon.detail', $p->id) }}"
                                     class="bg-orange-500 hover:bg-orange-600 text-xs text-white px-4 py-1 rounded-lg">View</a>
                             </td>

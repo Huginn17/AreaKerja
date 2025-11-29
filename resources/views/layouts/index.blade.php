@@ -12,6 +12,7 @@
 
     <title>areakerja.com</title>
     <link rel="stylesheet" href="https://unpkg.com/intro.js/minified/introjs.min.css">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">   
     <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')

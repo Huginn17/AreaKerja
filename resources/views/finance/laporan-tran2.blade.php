@@ -3,7 +3,7 @@
     <div class="p-4 sm:ml-64">
         <!-- Header -->
         <header class="w-full flex items-center justify-between px-6 py-3">
-            <p class="font-bold animate-pulse text-2xl"> Catatan Transaksi </p>
+            <p class="font-bold text-2xl"> Catatan Transaksi </p>
             <div class="flex items-center gap-3">
                 {{-- ✅ Komponen Notifikasi --}}
                 @php
@@ -99,7 +99,7 @@
         </header>
 
 
-        <div class="shadow-md rounded-xl p-6">
+        <div class="shadow-md rounded-xl p-6 border mt-6">
             {{-- header --}}
             <div class="flex justify-between items-start">
                 {{-- logo alamat --}}

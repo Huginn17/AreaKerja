@@ -21,12 +21,11 @@
                            <!-- Logo perusahaan -->
                            @if ($notif->perusahaan && $notif->perusahaan->img_profile)
                                <div class="w-10 h-10 flex-shrink-0">
-                                   <img
-                                       src="{{ $notif->perusahaan && $notif->perusahaan->img_profile
-                                           ? asset('storage/' . $notif->perusahaan->img_profile)
-                                           : asset('images/logo.png') }}">
+                                   <img src="{{ asset('storage/' . $notif->perusahaan->img_profile) }}">
                                </div>
                            @endif
+
+
 
                            <!-- Pesan -->
                            <div class="flex-1">

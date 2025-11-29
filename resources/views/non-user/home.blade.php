@@ -13,23 +13,23 @@
 
                     {{-- INPUT nama lowongan --}}
                     <input type="text" name="posisi" value="{{ request('posisi') }}"
-                        placeholder="Posisi lowongan, kata kunci..." class="flex-1 px-7 py-3 w-full">
+                        placeholder="Posisi lowongan, kata kunci..." class="flex-1 px-7 py-3 w-full border-none">
 
                     {{-- Garis pembatas --}}
-                    <svg width="2" height="35" viewBox="0 0 2 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="2" height="35" viewBox="0 0 2 35" fill="none" class="ml-4" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1 0V35" stroke="black" stroke-opacity="0.4" />
                     </svg>
 
                     {{-- ICON maps --}}
-                    <img src="{{ asset('images/maps.png') }}" alt="location" class="w-5 h-5 ml-7 mb-1">
+                    <img src="{{ asset('images/maps.png') }}" alt="location" class="w-5 h-5 ml-9  mb-1">
 
                     {{-- INPUT lokasi --}}
                     <input type="text" name="lokasi" value="{{ request('lokasi') }}"
-                        placeholder="Kota, provinsi, kode pos..." class="flex-1 px-7 py-3 w-full">
+                        placeholder="Kota, provinsi, kode pos..." class="flex-1 px-7 py-3 w-full border-none">
 
                     {{-- Button --}}
                     <button type="submit"
-                        class="bg-orange-500 px-4 py-3 text-white text-sm rounded-md mr-6 hover:bg-orange-600 font-medium transition duration-300">
+                        class="bg-orange-500 px-4 py-3 text-white text-sm rounded-md mr-6 ml-4 hover:bg-orange-600 font-medium transition duration-300">
                         Cari Lowongan Kerja
                     </button>
 

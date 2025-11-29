@@ -106,7 +106,7 @@
 
                             <td class="px-4 py-3">
                                 <a href="{{ route('admin.perusahaan.detail', $p->id) }}"
-                                    class="text-blue-600 hover:underline">
+                                    class="text-blue-600 hover:underline break-all">
                                     {{ $p->nama_perusahaan }}
                                 </a>
                             </td>

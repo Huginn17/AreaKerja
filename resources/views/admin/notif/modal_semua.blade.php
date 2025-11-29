@@ -20,10 +20,7 @@
 
                     @if ($notif->perusahaan && $notif->perusahaan->img_profile)
                         <div class="w-10 h-10 flex-shrink-0">
-                            <img src="{{ $notif->perusahaan && $notif->perusahaan->img_profile
-                                ? asset('storage/' . $notif->perusahaan->img_profile)
-                                : asset('images/logo.png') }}"
-                                class="w-10 h-10 object-contain rounded" alt="logo">
+                            <img src="{{ asset('storage/' . $notif->perusahaan->img_profile) }}">
                         </div>
                     @endif
 

@@ -4,13 +4,14 @@
         @foreach ($events as $event)
             <div class="w-[800px] rounded-xl overflow-hidden relative">
                 <!-- Gambar -->
-                <img src="{{ asset('storage/' . $event->image) }}" alt="Event" class="w-full h-[250px] object-cover">
+                <img src="{{ $event->image ? asset('storage/' . $event->image) : asset('images/megangbuku.jpg') }}"
+                    alt="Event" class="w-full h-[250px] object-cover">
 
                 <!-- Overlay -->
                 <div class="absolute inset-0 bg-black bg-opacity-40 rounded-xl"></div>
 
                 <!-- Konten -->
-                <div class="absolute inset-0 flex flex-col justify-between p-6 text-white">
+                <div class="absolute inset-0    flex flex-col justify-between p-6 text-white">
                     <!-- Tanggal (atas kanan) -->
                     <div class="text-sm text-right">
                         {{ \Carbon\Carbon::parse($event->tgl_mulai)->translatedFormat('j F Y') }}

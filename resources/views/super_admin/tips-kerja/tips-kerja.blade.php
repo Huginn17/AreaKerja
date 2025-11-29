@@ -128,7 +128,7 @@
                                     <tr class="bg-gray-200">
                                         <td class="px-4 py-4"><input name="ids[]" value="{{ $s->id }}"
                                                 type="checkbox"></td>
-                                        <td class="px-4 py-4 text-blue-600 font-medium">
+                                        <td class="px-4 py-4 text-blue-600 font-medium break-all">
                                             {{ $s->title }}
                                         </td>
                                         <td class="px-4 py-4 font-semibold">{{ $s->penulis }}</td>
@@ -163,7 +163,7 @@
                                         <td class="px-4 py-4">
                                             <input name="ids[]" value="{{ $s->id }}" type="checkbox">
                                         </td>
-                                        <td class="px-4 py-4 text-blue-600 font-medium">
+                                        <td class="px-4 py-4 text-blue-600 font-medium break-all">
                                             {{ $s->title }}
                                         </td>
                                         <td class="px-4 py-4 font-semibold">{{ $s->penulis }}</td>
@@ -209,7 +209,7 @@
                                     <tr class="bg-gray-200">
                                         <td class="px-4 py-4"><input name="ids[]" value="{{ $s->id }}"
                                                 type="checkbox"></td>
-                                        <td class="px-4 py-4 text-blue-600 font-medium">
+                                        <td class="px-4 py-4 text-blue-600 font-medium break-all">
                                             {{ $s->title }}
                                         </td>
                                         <td class="px-4 py-4 font-semibold">{{ $s->penulis }}</td>
