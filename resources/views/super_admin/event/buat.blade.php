@@ -36,7 +36,7 @@
                                     src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
                                     alt="">
                             @endif
- 
+
                         </a>
                         <div class="text-sm">
                             <span class="font-semibold">{{ Auth::user()->username }}</span>
@@ -80,8 +80,11 @@
 
                 <!-- Editor -->
                 <div class="rounded-md overflow-hidden mt-4">
-                    <input id="x" type="hidden" name="content" value="{{ old('content', $event->content ?? '') }}">
-                    <trix-editor input="x" class="border-2 border-gray-400 trix-content"></trix-editor>
+                    <label class="block mb-2 text-lg font-medium">Isi Artikel</label>
+
+                    <textarea id="editor" name="content" class="w-full h-48 border border-gray-400 rounded-lg">
+        {{ old('content', $event->content ?? '') }}
+    </textarea>
                 </div>
 
                 <div class="space-y-4 mt-4">
@@ -199,6 +202,72 @@
                 </div>
             </form>
         </div>
+
+
+        <!-- TinyMCE -->
+        <script src="https://cdn.tiny.cloud/1/oqx873eo8a4800gwchmdyn357lbg0rvj9bxkryttzmw9uf7q/tinymce/8/tinymce.min.js"
+            referrerpolicy="origin"></script>
+
+        <script>
+            tinymce.init({
+                selector: '#editor',
+                height: 500,
+                menubar: false,
+                plugins: 'lists link image media code fullscreen mentions',
+                toolbar: 'undo redo | bold italic underline | bullist numlist | link image media | code fullscreen',
+
+                setup: function(editor) {
+
+                    editor.ui.registry.addAutocompleter("usermentions", {
+                        trigger: '@',
+                        minChars: 1,
+                        fetch: async function(pattern, maxResults) {
+                            const res = await fetch("/tinymce-mention?q=" + pattern);
+                            const users = await res.json();
+
+                            return users.map(user => ({
+                                value: user.name,
+                                text: user.name
+                            }));
+                        },
+                        onAction: function(api, rng, value) {
+                            editor.selection.setRng(rng);
+                            editor.insertContent(`<span class="mention">@${value}</span>&nbsp;`);
+                            api.hide();
+                        }
+                    });
+
+                },
+
+                // FIX UPLOAD GAMBAR
+                images_upload_handler: function(blobInfo, progress) {
+                    return new Promise(function(resolve, reject) {
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('POST', '{{ route('tinymce.upload') }}');
+                        xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
+
+                        xhr.upload.onprogress = function(e) {
+                            progress(e.loaded / e.total * 100);
+                        };
+
+                        xhr.onload = function() {
+                            if (xhr.status === 200) {
+                                const json = JSON.parse(xhr.responseText);
+                                resolve(json.location);
+                            } else {
+                                reject('HTTP Error: ' + xhr.status);
+                            }
+                        };
+
+                        const formData = new FormData();
+                        formData.append('file', blobInfo.blob());
+                        xhr.send(formData);
+                    });
+                }
+            });
+        </script>
+
+
 
         <!-- Script -->
         <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>

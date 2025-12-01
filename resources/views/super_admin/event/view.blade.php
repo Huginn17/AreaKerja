@@ -106,15 +106,9 @@
 
             {{-- deskripsi --}}
             <h2 class="font-semibold text-lg mb-2">{{ $event->title }}</h2>
-            @php
-                // hapus <img>, <figure>, <figcaption> dari konten
-                $cleanContent = preg_replace('/<figure.*?<\/figure>/', '', $event->content);
-                $cleanContent = preg_replace('/<img[^>]+>/', '', $cleanContent);
-            @endphp
-
-            <p class="text-justify">
-                {!! $cleanContent !!}
-            </p>
+            <div class="tinymce-content">
+                {!! $event->content !!}
+            </div>
 
 
 
@@ -189,8 +183,8 @@
 
             {{-- tombol daftar --}}
             <!-- <div class="flex justify-center mt-6">
-                                                                <button class="bg-orange-500 text-white px-8 py-2 rounded">Mendaftar</button>
-                                                            </div> -->
+                                                                    <button class="bg-orange-500 text-white px-8 py-2 rounded">Mendaftar</button>
+                                                                </div> -->
         </div>
 
         @include('super_admin.notif.modal_notif')

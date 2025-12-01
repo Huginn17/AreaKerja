@@ -80,9 +80,11 @@ class ProfileController extends Controller
         $pelamar = Pelamar::where('user_id', $user->id)
             ->with('pengalaman_organisasi')
             ->first();
+        $alamatCount = $pelamar->alamat_pelamar()->count();
 
         return view('non-user.alamat.index', [
-            'pelamar' => $pelamar
+            'pelamar' => $pelamar,
+            'alamatCount' => $alamatCount
         ]);
     }
 
@@ -93,28 +95,44 @@ class ProfileController extends Controller
         $pelamar = Pelamar::where('user_id', $user->id)
             ->with('pengalaman_organisasi')
             ->first();
+        // $alamatCount = $pelamar->alamat_pelamar()->count();
 
-        return view('non-user.alamat.create-alamat',[
-            'pelamar' => $pelamar
+        return view('non-user.alamat.create-alamat', [
+            'pelamar' => $pelamar,
+            // 'alamatCount' => $alamatCount
         ]);
     }
 
     public function store_alamat(Request $request)
     {
+        $user = Auth::user();
+
+        // Hitung alamat yang sudah ada
+        $jumlahAlamat = $user->pelamar->alamat_pelamar()->count();
+
+        // Jika sudah 4 → stop
+        if ($jumlahAlamat >= 4) {
+            return redirect()->route('alamat')->with('error', 'Maksimal 4 alamat diperbolehkan.');
+        }
+
+        // Validasi
         $validated = $request->validate([
-            'label'  => 'nullable',
-            'desa'   => 'nullable',
-            'kecamatan' => 'nullable',
-            'kota'  =>  'nullable',
-            'provinsi' => 'nullable',
-            'kode_pos' => 'nullable',
-            'detail' =>   'nullable'
+            'label'      => 'nullable',
+            'desa'       => 'nullable',
+            'kecamatan'  => 'nullable',
+            'kota'       => 'nullable',
+            'provinsi'   => 'nullable',
+            'kode_pos'   => 'nullable',
+            'detail'     => 'nullable'
         ]);
 
-        $validated['pelamar_id'] = Auth::user()->pelamar->id;
+        $validated['pelamar_id'] = $user->pelamar->id;
+
         AlamatPelamar::create($validated);
-        return redirect()->route('alamat')->with('success', 'Alamat berhasil disimpan');
+
+        return redirect()->route('alamat')->with('success', 'Alamat berhasil disimpan.');
     }
+
 
     public function edit_alamat(AlamatPelamar $alamatpelamar)
     {

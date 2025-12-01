@@ -67,16 +67,33 @@
         <!-- Cards -->
         <div class="grid grid-cols-4 gap-6">
 
-            <!-- KANDIDAT -->
+            <!-- CARD TEMPLATE -->
+            @php
+                function growthClass($value)
+                {
+                    return $value > 0
+                        ? 'bg-green-100 text-green-700'
+                        : ($value < 0
+                            ? 'bg-red-100 text-red-700'
+                            : 'bg-gray-200 text-gray-700');
+                }
+
+                function growthIcon($value)
+                {
+                    return $value > 0 ? '↑' : ($value < 0 ? '↓' : '→');
+                }
+            @endphp
+
+            <!-- PELAMAR -->
             <div class="bg-white shadow-lg rounded-md p-5 w-60 hover:bg-gray-50 hover:scale-105 transition duration-300">
                 <h3 class="text-gray-700 text-sm font-medium mb-2">Pelamar</h3>
                 <div class="flex items-center gap-2">
                     <span class="text-2xl font-bold text-gray-900">{{ $totalPelamar }}</span>
-                    <span class="{{ $growthPelamar >= 0 ? 'text-green-600' : 'text-red-600' }} text-sm font-semibold">
-                        {{ $growthPelamar >= 0 ? '+' : '' }}{{ $growthPelamar }}%
+
+                    <span class="px-2 py-0.5 rounded-full text-xs font-semibold {{ growthClass($growthPelamar) }}">
+                        {{ growthIcon($growthPelamar) }} {{ $growthPelamar }}%
                     </span>
                 </div>
-                {{-- <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a> --}}
             </div>
 
             <!-- PERUSAHAAN -->
@@ -84,36 +101,37 @@
                 <h3 class="text-gray-700 text-sm font-medium mb-2">Perusahaan</h3>
                 <div class="flex items-center gap-2">
                     <span class="text-2xl font-bold text-gray-900">{{ $totalPerusahaan }}</span>
-                    <span class="{{ $growthPerusahaan >= 0 ? 'text-green-600' : 'text-red-600' }} text-sm font-semibold">
-                        {{ $growthPerusahaan >= 0 ? '+' : '' }}{{ $growthPerusahaan }}%
+
+                    <span class="px-2 py-0.5 rounded-full text-xs font-semibold {{ growthClass($growthPerusahaan) }}">
+                        {{ growthIcon($growthPerusahaan) }} {{ $growthPerusahaan }}%
                     </span>
                 </div>
-                {{-- <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a> --}}
             </div>
 
-            <!-- NON KANDIDAT -->
+            <!-- ADMIN -->
             <div class="bg-white shadow-lg rounded-md p-5 w-60 hover:bg-gray-50 hover:scale-105 transition duration-300">
                 <h3 class="text-gray-700 text-sm font-medium mb-2">Admin</h3>
                 <div class="flex items-center gap-2">
                     <span class="text-2xl font-bold text-gray-900">{{ $totalAdmin }}</span>
-                    <span class="{{ $growthAdmin >= 0 ? 'text-green-600' : 'text-red-600' }} text-sm font-semibold">
-                        {{ $growthAdmin >= 0 ? '+' : '' }}{{ $growthAdmin }}%
+
+                    <span class="px-2 py-0.5 rounded-full text-xs font-semibold {{ growthClass($growthAdmin) }}">
+                        {{ growthIcon($growthAdmin) }} {{ $growthAdmin }}%
                     </span>
                 </div>
-                {{-- <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a> --}}
             </div>
 
-            <!-- SUPERADMIN-->
+            <!-- SUPER ADMIN -->
             <div class="bg-white shadow-lg rounded-md p-5 w-60 hover:bg-gray-50 hover:scale-105 transition duration-300">
                 <h3 class="text-gray-700 text-sm font-medium mb-2">Super Admin</h3>
                 <div class="flex items-center gap-2">
                     <span class="text-2xl font-bold text-gray-900">{{ $totalSuperAdmin }}</span>
-                    <span class="{{ $growthSuperAdmin >= 0 ? 'text-green-600' : 'text-red-600' }} text-sm font-semibold">
-                        {{ $growthSuperAdmin >= 0 ? '+' : '' }}{{ $growthSuperAdmin }}%
+
+                    <span class="px-2 py-0.5 rounded-full text-xs font-semibold {{ growthClass($growthSuperAdmin) }}">
+                        {{ growthIcon($growthSuperAdmin) }} {{ $growthSuperAdmin }}%
                     </span>
                 </div>
-                {{-- <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a> --}}
             </div>
+
         </div>
         <!-- Modal Notifikasi -->
         <div x-data="notifHandler()" x-cloak x-show="openNotif" class="fixed inset-0 z-50 flex items-start justify-end p-4"

@@ -96,6 +96,7 @@
                 <h3 class="text-lg font-semibold mb-4">Image Header</h3>
 
                 <div class="mb-4">
+
                     @foreach ($headers as $header)
                         <form action="{{ route('superadmin.header.update', $header->nama) }}" method="POST"
                             enctype="multipart/form-data" class="mb-6">
@@ -107,18 +108,47 @@
                                 {{ ucwords(str_replace(['header_', '_'], ['', ' '], $header->nama)) }}
                             </label>
 
-                            <input type="file" name="image" class="w-full p-2 border rounded">
+                            {{-- Input file --}}
+                            <input type="file" name="image" class="w-full p-2 border rounded"
+                                onchange="previewImage(this, 'preview_{{ $header->id }}')">
 
-                            @if ($header->link)
-                                <img src="{{ asset('storage/' . $header->link) }}" class="w-64 mt-2 rounded shadow">
-                            @endif
+                            @php
+                                // kalau ada gambar yg diupload user
+                                $current = $header->link
+                                    ? asset('storage/' . $header->link)
+                                    : asset('storage/' . $header->default);
+                            @endphp
+
+
+
+                            {{-- Preview gambar --}}
+                            {{-- {{ dd($current) }} --}}
+                            <img id="preview_{{ $header->id }}" src="{{ $current }}"
+                                class="w-64 rounded shadow border">
 
                             <button class="mt-3 px-4 py-2 bg-white text-orange-600 font-semibold rounded">
                                 Simpan
                             </button>
+
                         </form>
                     @endforeach
+
                 </div>
+
+                {{-- Preview JS --}}
+                <script>
+                    function previewImage(input, previewId) {
+                        const file = input.files[0];
+                        const preview = document.getElementById(previewId);
+
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = e => preview.src = e.target.result;
+                            reader.readAsDataURL(file);
+                        }
+                    }
+                </script>
+
             </div>
         </div>
 

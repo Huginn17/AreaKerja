@@ -61,7 +61,7 @@ class CatatanCashController extends Controller
         $transaksi = CatatanCash::findOrFail($id);
 
         $request->validate([
-            'bukti' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'bukti' => 'required|mimes:jpg,jpeg,png,pdf|max:5120',
         ]);
 
         $path = $request->file('bukti')->store('bukti-transfer', 'public');
@@ -74,7 +74,7 @@ class CatatanCashController extends Controller
             ->with('success', 'Bukti transfer berhasil diupload.');
     }
 
-    //finance update status 
+
     // public function updateStatus(Request $request, $id)
     // {
     //     $transaksi = CatatanCash::findOrFail($id);

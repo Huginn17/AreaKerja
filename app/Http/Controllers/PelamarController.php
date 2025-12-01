@@ -23,6 +23,29 @@ use Illuminate\Support\Facades\Mail;
 
 class PelamarController extends Controller
 {
+
+    public function pasangLowongan()
+    {
+        return view('non-user.pasang-lowongan');
+    }
+
+    public function talentHunter()
+    {
+        return view('non-user.talent-hunter');
+    }
+
+    public function bantuan()
+    {
+        return view('non-user.faq');
+    }
+
+    public function syaratKetentuan()
+    {
+        return view('layouts.syarat-dan-ketentuan');
+    }
+
+
+
     public function detail_lowongan_non_user(LowonganPerusahaan $lowongan)
     {
         $pelamar = auth()->user()->pelamar ?? null;

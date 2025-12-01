@@ -223,7 +223,13 @@
                 <div class="bg-white rounded-2xl shadow-lg p-6 w-1/2">
                     <h2 class="text-lg font-semibold mb-4">Bukti Pembayaran</h2>
                     <div class="flex justify-center">
-                        <img :src="detail.bukti" alt="Bukti Pembayaran" class="rounded-lg max-h-[500px]">
+                        <template x-if="/\.pdf($|\?)/i.test(detail.bukti)">
+                            <embed :src="detail.bukti" type="application/pdf" class="w-full h-[500px] rounded-lg" />
+                        </template>
+
+                        <template x-if="!(/\.pdf($|\?)/i.test(detail.bukti))">
+                            <img :src="detail.bukti" class="rounded-lg max-h-[500px]" />
+                        </template>
                     </div>
                     <div class="mt-6 flex justify-between items-center">
                         <form :action="`{{ url('finance/verifikasi') }}/${detail.id}`" method="POST" class="flex gap-3">

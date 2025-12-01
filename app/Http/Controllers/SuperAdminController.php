@@ -38,61 +38,67 @@ class SuperAdminController extends Controller
     public function index()
     {
         $now = Carbon::now();
-        $lastMonth = Carbon::now()->subMonth();
+
+        // tanggal 1 bulan ini
+        $startThisMonth = $now->copy()->startOfMonth();
+
+        // tanggal 1 dari 11 bulan lalu
+        $start11MonthsAgo = $now->copy()->subMonths(11)->startOfMonth();
+
 
         // === PELAMAR ===
-        $currentPelamar = Pelamar::whereMonth('created_at', $now->month)
-            ->whereYear('created_at', $now->year)
-            ->count();
+        $currentPelamar = Pelamar::whereBetween('created_at', [
+            $startThisMonth,
+            $now
+        ])->count();
 
-        $lastPelamar = Pelamar::whereMonth('created_at', $lastMonth->month)
-            ->whereYear('created_at', $lastMonth->year)
-            ->count();
+        $last11Pelamar = Pelamar::whereBetween('created_at', [
+            $start11MonthsAgo,
+            $startThisMonth->copy()->subSecond()
+        ])->count();
 
-        $growthPelamar = $this->calcGrowth($lastPelamar, $currentPelamar);
+        $growthPelamar = $this->calcGrowth($last11Pelamar, $currentPelamar);
 
 
 
         // === PERUSAHAAN ===
-        $currentPerusahaan = Perusahaan::whereMonth('created_at', $now->month)
-            ->whereYear('created_at', $now->year)
-            ->count();
+        $currentPerusahaan = Perusahaan::whereBetween('created_at', [
+            $startThisMonth,
+            $now
+        ])->count();
 
-        $lastPerusahaan = Perusahaan::whereMonth('created_at', $lastMonth->month)
-            ->whereYear('created_at', $lastMonth->year)
-            ->count();
+        $last11Perusahaan = Perusahaan::whereBetween('created_at', [
+            $start11MonthsAgo,
+            $startThisMonth->copy()->subSecond()
+        ])->count();
 
-        $growthPerusahaan = $this->calcGrowth($lastPerusahaan, $currentPerusahaan);
+        $growthPerusahaan = $this->calcGrowth($last11Perusahaan, $currentPerusahaan);
 
 
 
         // === ADMIN ===
         $currentAdmin = User::where('role', 'admin')
-            ->whereMonth('created_at', $now->month)
-            ->whereYear('created_at', $now->year)
+            ->whereBetween('created_at', [$startThisMonth, $now])
             ->count();
 
-        $lastAdmin = User::where('role', 'admin')
-            ->whereMonth('created_at', $lastMonth->month)
-            ->whereYear('created_at', $lastMonth->year)
+        $last11Admin = User::where('role', 'admin')
+            ->whereBetween('created_at', [$start11MonthsAgo, $startThisMonth->copy()->subSecond()])
             ->count();
 
-        $growthAdmin = $this->calcGrowth($lastAdmin, $currentAdmin);
+        $growthAdmin = $this->calcGrowth($last11Admin, $currentAdmin);
 
 
 
         // === SUPER ADMIN ===
         $currentSuperAdmin = User::where('role', 'super_admin')
-            ->whereMonth('created_at', $now->month)
-            ->whereYear('created_at', $now->year)
+            ->whereBetween('created_at', [$startThisMonth, $now])
             ->count();
 
-        $lastSuperAdmin = User::where('role', 'super_admin')
-            ->whereMonth('created_at', $lastMonth->month)
-            ->whereYear('created_at', $lastMonth->year)
+        $last11SuperAdmin = User::where('role', 'super_admin')
+            ->whereBetween('created_at', [$start11MonthsAgo, $startThisMonth->copy()->subSecond()])
             ->count();
 
-        $growthSuperAdmin = $this->calcGrowth($lastSuperAdmin, $currentSuperAdmin);
+        $growthSuperAdmin = $this->calcGrowth($last11SuperAdmin, $currentSuperAdmin);
 
 
 
@@ -117,16 +123,20 @@ class SuperAdminController extends Controller
 
     /**
      * Hitung pertumbuhan dalam persen (%)
-     * @param int $last jumlah bulan lalu
-     * @param int $current jumlah bulan ini
-     * @return float
      */
     private function calcGrowth($last, $current)
     {
-        if ($last == 0 && $current > 0) return 100; // dari 0 ke ada = +100%
-        if ($last == 0 && $current == 0) return 0;  // tetap 0
+        if ($last == 0 && $current > 0) return 100;
+        if ($last == 0 && $current == 0) return 0;
 
         return round((($current - $last) / $last) * 100, 1);
+    }
+
+
+    //pengaturan
+    public function pengaturan()
+    {
+        return view('super_admin.pengaturan');
     }
 
 
@@ -250,6 +260,8 @@ class SuperAdminController extends Controller
             "data" => $user
         ]);
     }
+
+    
 
 
     public function pelamarhal(Request $request)

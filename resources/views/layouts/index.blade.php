@@ -12,7 +12,13 @@
 
     <title>areakerja.com</title>
     <link rel="stylesheet" href="https://unpkg.com/intro.js/minified/introjs.min.css">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">   
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <!-- TinyMCE Content Styles -->
+    <link rel="stylesheet"
+        href="https://cdn.tiny.cloud/1/oqx873eo8a4800gwchmdyn357lbg0rvj9bxkryttzmw9uf7q/tinymce/8/skins/content/default/content.min.css">
+    <link rel="stylesheet"
+        href="https://cdn.tiny.cloud/1/oqx873eo8a4800gwchmdyn357lbg0rvj9bxkryttzmw9uf7q/tinymce/8/skins/ui/oxide/content.min.css">
+
     <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
@@ -73,7 +79,7 @@
     </style>
     <style>
         body {
-            font-family: 'Poppins', sans-serif; 
+            font-family: 'Poppins', sans-serif;
         }
 
         .notif-profil {
@@ -169,6 +175,73 @@
             box-shadow: none !important;
             background: transparent !important;
             border: 0 !important;
+        }
+
+        /* TinyMCE Content Styles */
+
+
+        .tinymce-content {
+            font-family: Inter, Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        /* Paragraph spacing */
+        .tinymce-content p {
+            margin-bottom: 1rem;
+        }
+
+        /* LIST — supaya BULLET hitam muncul */
+        .tinymce-content ul,
+        .tinymce-content ul li {
+            list-style-type: disc !important;
+            list-style-position: outside !important;
+            margin-left: 1.5rem !important;
+            padding-left: 0.5rem !important;
+        }
+
+        .tinymce-content ol,
+        .tinymce-content ol li {
+            list-style-type: decimal !important;
+            list-style-position: outside !important;
+            margin-left: 1.5rem !important;
+            padding-left: 0.5rem !important;
+        }
+
+        /* Gambar responsif */
+        .tinymce-content img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1rem auto;
+            border-radius: 6px;
+        }
+
+        /* Blockquote */
+        .tinymce-content blockquote {
+            border-left: 4px solid #ccc;
+            padding-left: 1rem;
+            margin: 1rem 0;
+            font-style: italic;
+            color: #555;
+        }
+
+        /* Tabel */
+        .tinymce-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        .tinymce-content table,
+        .tinymce-content th,
+        .tinymce-content td {
+            border: 1px solid #ddd;
+        }
+
+        .tinymce-content th,
+        .tinymce-content td {
+            padding: 8px;
         }
     </style>
 </head>

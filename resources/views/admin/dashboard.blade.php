@@ -29,7 +29,7 @@
                     @endif
                 </button>
 
-               
+
                 <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
                     <a href="#">
                         @if (Auth::user()->role == 'admin')
@@ -63,11 +63,10 @@
                 <h3 class="text-gray-700 text-sm font-medium mb-2">Perusahaan</h3>
                 <div class="flex items-center gap-2">
                     <span class="text-2xl font-bold text-gray-900">{{ $totalPerusahaan }}</span>
-                    <span class="{{ $growthPerusahaan >= 0 ? 'text-green-600' : 'text-red-600' }} text-sm font-semibold">
+                    <span class="text-sm font-semibold {{ $growthPerusahaan >= 0 ? 'text-green-600' : 'text-red-600' }}">
                         {{ $growthPerusahaan >= 0 ? '+' : '' }}{{ $growthPerusahaan }}%
                     </span>
                 </div>
-                {{-- <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a> --}}
             </div>
 
             <!-- KANDIDAT -->
@@ -75,11 +74,10 @@
                 <h3 class="text-gray-700 text-sm font-medium mb-2">Kandidat</h3>
                 <div class="flex items-center gap-2">
                     <span class="text-2xl font-bold text-gray-900">{{ $totalKandidat }}</span>
-                    <span class="{{ $growthKandidat >= 0 ? 'text-green-600' : 'text-red-600' }} text-sm font-semibold">
+                    <span class="text-sm font-semibold {{ $growthKandidat >= 0 ? 'text-green-600' : 'text-red-600' }}">
                         {{ $growthKandidat >= 0 ? '+' : '' }}{{ $growthKandidat }}%
                     </span>
                 </div>
-                {{-- <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a> --}}
             </div>
 
             <!-- NON KANDIDAT -->
@@ -87,11 +85,10 @@
                 <h3 class="text-gray-700 text-sm font-medium mb-2">Non Kandidat</h3>
                 <div class="flex items-center gap-2">
                     <span class="text-2xl font-bold text-gray-900">{{ $totalNonKandidat }}</span>
-                    <span class="{{ $growthNonKandidat >= 0 ? 'text-green-600' : 'text-red-600' }} text-sm font-semibold">
+                    <span class="text-sm font-semibold {{ $growthNonKandidat >= 0 ? 'text-green-600' : 'text-red-600' }}">
                         {{ $growthNonKandidat >= 0 ? '+' : '' }}{{ $growthNonKandidat }}%
                     </span>
                 </div>
-                {{-- <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a> --}}
             </div>
 
             <!-- LOWONGAN -->
@@ -99,16 +96,16 @@
                 <h3 class="text-gray-700 text-sm font-medium mb-2">Lowongan</h3>
                 <div class="flex items-center gap-2">
                     <span class="text-2xl font-bold text-gray-900">{{ $totalLowongan }}</span>
-                    <span class="{{ $growthLowongan >= 0 ? 'text-green-600' : 'text-red-600' }} text-sm font-semibold">
+                    <span class="text-sm font-semibold {{ $growthLowongan >= 0 ? 'text-green-600' : 'text-red-600' }}">
                         {{ $growthLowongan >= 0 ? '+' : '' }}{{ $growthLowongan }}%
                     </span>
                 </div>
-                {{-- <a href="#" class="text-xs text-gray-500 hover:text-green-600 mt-2 inline-block">Lihat Detail &gt;</a> --}}
             </div>
 
         </div>
- @include('admin.notif.modal_notif')
-                @include('admin.notif.modal_semua')
+        
+        @include('admin.notif.modal_notif')
+        @include('admin.notif.modal_semua')
 
     </div>
 

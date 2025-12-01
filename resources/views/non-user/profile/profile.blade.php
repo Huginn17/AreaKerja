@@ -5,7 +5,7 @@
     <form action="{{ route('profile.update', Auth::user()->pelamar->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-        <h2 class="text-xl font-semibold mb-6 mt-24 ml-12">Profil Akun</h2>
+        <h2 class="text-xl font-semibold mb-6 mt-28 ml-12">Profil Akun</h2>
         <div class="bg-white  mx-12">
             <!-- Header: Avatar + Tombol -->
             <div class="border-2 border-orange-300 rounded-md">
@@ -430,11 +430,7 @@
                 <div class="flex flex-col gap-4">
                     <label class="text-lg font-medium">Informasi Akun</label>
                     <div class="w-30 h-1 bg-orange-500 mt-1"></div><br>
-                    <div>
-                        <label class="text-sm font-medium">ID Pengguna <span class="text-red-500">*</span></label>
-                        <input type="text" placeholder="ID Pengguna" value="{{ Auth::user()->id }}"
-                            class="w-full mt-1 border rounded-md px-3 py-2 text-sm">
-                    </div>
+
 
                     <div>
                         <label class="text-sm font-medium">Nama Pengguna <span class="text-red-500">*</span></label>
@@ -491,15 +487,15 @@
                         <label class="text-lg font-medium">Ekspektasi Gaji</label>
                         <div class="w-30 h-1 bg-orange-500 mt-3"></div><br>
                         <div class="flex items-center gap-2 mt-1">
-                            <div class="border border-black rounded-md px-4 py-2 text-orange-500 w-29">
+                            <div class="flex items-center border border-black rounded-md px-4 py-2 text-orange-500 w-29 gap-2">
                                 <span class="text-orange-500">Rp.</span>
-                                <input type="number" placeholder="" name="gaji_minimal"
+                                <input type="number" placeholder="" name="gaji_minimal" class="border-none"
                                     value="{{ Auth::user()->pelamar->gaji_minimal ?? '' }}">
                             </div>
                             <span>-</span>
-                            <div class="border border-black rounded-md px-4 py-2 w-29">
+                            <div class="flex items-center border border-black rounded-md px-4 py-2 w-29 gap-2">
                                 <span>Rp.</span>
-                                <input type="number" placeholder="" name="gaji_maksimal"
+                                <input type="number" placeholder="" name="gaji_maksimal" class="border-none"
                                     value="{{ Auth::user()->pelamar->gaji_maksimal ?? '' }}">
                             </div>
                         </div>

@@ -18,7 +18,7 @@
                         </g>
                     </svg>
 
-                    
+
                     <!-- Badge jumlah notif belum dibaca -->
                     @if ($global_notifikasi_unread > 0)
                         <span id="notif-badge"
@@ -140,7 +140,7 @@
 
                 <div class="bg-white  shadow-m p-6 flex items-center space-x-6">
                     <!-- <img src={{ asset('images/gambar1.jpg') }} alt="User"
-                                class="w-24 h-24 rounded-full object-cover border border-gray-200" /> -->
+                                                class="w-24 h-24 rounded-full object-cover border border-gray-200" /> -->
 
                     @if ($data->status == 0)
                         <button type="submit" form="ban"
@@ -185,38 +185,73 @@
                         @endif
                     </div>
                 </div>
-                <div class="bg-gray-300 text-center font-semibold text-sm border border-gray-300 shadow rounded-md py-2">
+                <div class="bg-gray-300 rounded-md p-3 min-h-32">
                     @php
-                        $provinsi = '-';
+                        $user = $data;
+                        $alamat = null;
 
-                        if ($data->role == 'pelamar') {
-                            $alamat = $data->pelamar()->latest()->first()?->alamat_pelamar()->latest()->first();
-                            $provinsi = is_object($alamat?->provinsi)
-                                ? $alamat->provinsi->nama
-                                : $alamat?->provinsi ?? '-';
-                        } elseif ($data->role == 'perusahaan') {
-                            $alamat = $data->perusahaan()->latest()->first()?->alamatUtama()->latest()->first();
-                            $provinsi = is_object($alamat?->provinsi)
-                                ? $alamat->provinsi->nama
-                                : $alamat?->provinsi ?? '-';
-                        } elseif ($data->role == 'finance') {
-                            $provinsi = is_object($data->finance?->provinsi)
-                                ? $data->finance->provinsi->nama
-                                : $data->finance?->provinsi ?? '-';
-                        } elseif ($data->role == 'admin') {
-                            $provinsi = is_object($data->admin?->provinsi)
-                                ? $data->admin->provinsi->nama
-                                : $data->admin?->provinsi ?? '-';
-                        } elseif ($data->role == 'super_admin') {
-                            $provinsi = is_object($data->super_admin?->provinsi)
-                                ? $data->super_admin->provinsi->nama
-                                : $data->super_admin?->provinsi ?? '-';
+                        // Ambil alamat berdasarkan role
+                        if ($user->role === 'pelamar') {
+                            $alamat = $user->pelamar->alamat_pelamar()->latest()->first();
+
+                            $provinsi = $alamat->provinsi ?? null;
+                            $kota = $alamat->kota ?? null;
+                            $kecamatan = $alamat->kecamatan ?? null;
+                            $desa = $alamat->desa ?? null;
+                            $kode_pos = $alamat->kode_pos ?? null;
+                            $detail = $alamat->detail ?? null;
+                        } elseif ($user->role === 'perusahaan') {
+                            $alamat = $user->perusahaan->alamatUtama;
+
+                            $provinsi = $alamat->provinsi->nama ?? null;
+                            $kota = $alamat->kota->nama ?? null;
+                            $kecamatan = $alamat->kecamatan->nama ?? null;
+                            $desa = $alamat->desa ?? null;
+                            $kode_pos = $alamat->kode_pos ?? null;
+                            $detail = $alamat->detail ?? null;
+                        } elseif ($user->role === 'admin') {
+                            $alamat = $user->admin;
+
+                            $provinsi = $alamat->provinsi->nama ?? null;
+                            $kota = $alamat->kota->nama ?? null;
+                            $kecamatan = $alamat->kecamatan->nama ?? null;
+                            $desa = $alamat->desa ?? null;
+                            $kode_pos = $alamat->kode_pos ?? null;
+                            $detail = $alamat->detail_alamat ?? null;
+                        } elseif ($user->role === 'finance') {
+                            $alamat = $user->finance;
+
+                            $provinsi = $alamat->provinsi->nama ?? null;
+                            $kota = $alamat->kota->nama ?? null;
+                            $kecamatan = $alamat->kecamatan->nama ?? null;
+                            $desa = $alamat->desa ?? null;
+                            $kode_pos = $alamat->kode_pos ?? null;
+                            $detail = $alamat->detail_alamat ?? null;
                         }
+
+                        // Susun alamat utama yang berurutan
+                        $bagian = array_filter([$desa, $kecamatan, $kota, $provinsi, $kode_pos]);
                     @endphp
 
-                    {{ $provinsi }}
+                    @if ($alamat)
+                        <div class="leading-relaxed text-gray-800">
+
+                            {{-- Detail alamat (baris pertama) --}}
+                            @if (!empty($detail))
+                                <p class="mb-1">{{ $detail }}</p>
+                            @endif
+
+                            {{-- Baris kedua (alamat lengkap) --}}
+                            <p class="text-sm text-gray-700">
+                                {{ implode(', ', $bagian) }}
+                            </p>
+
+                        </div>
+                    @else
+                        <p class="text-gray-500 italic">Alamat belum diisi.</p>
+                    @endif
                 </div>
-                <div class="bg-gray-300 h-32 rounded-md"></div>
+
             </div>
         </div>
 

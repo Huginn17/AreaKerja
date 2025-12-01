@@ -101,9 +101,10 @@
         </div>
 
         <!-- Konten -->
-        <div class="max-w-3xl mx-auto px-4 py-6 text-justify leading-relaxed font-medium text-gray-900">
+        <div class="tinymce-content max-w-3xl mx-auto px-4 py-6">
             {!! $artikel->content !!}
         </div>
+
 
     </div>
 

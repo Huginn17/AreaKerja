@@ -33,9 +33,12 @@
 
 
                 <!-- Editor -->
-                <div class="border-2 border-gray-400 rounded-md overflow-hidden mt-4">
-                    <input id="x" type="hidden" name="content" value="{{ old('content', $event->content) }}">
-                    <trix-editor input="x" class="trix-content"></trix-editor>
+                <div class="rounded-md overflow-hidden mt-4">
+                    <label class="block mb-2 text-lg font-medium">Isi Artikel</label>
+
+                    <textarea id="editor" name="content" class="w-full h-48 border border-gray-400 rounded-lg">
+        {{ old('content', $event->content ?? '') }}
+    </textarea>
                 </div>
 
                 <div class="space-y-4 mt-4">
@@ -71,13 +74,15 @@
                     <div>
                         <label class="block font-medium mb-1">Kuota Partisipasi</label>
                         <input type="number" name="kuota" value="{{ old('kuota', $event->kuota) }}"
-                            class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-24" placeholder="000">
+                            class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-24"
+                            placeholder="000">
                     </div>
                     <!-- Link Form  -->
                     <div>
                         <label class="block font-medium mb-1">Link Form</label>
                         <input type="text" name="link_form" value="{{ old('link_form', $event->link_form) }}"
-                            class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-[350px]" placeholder="https://forms.gle/...">
+                            class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-[350px]"
+                            placeholder="https://forms.gle/...">
                     </div>
 
                     <!-- Lokasi -->
@@ -92,7 +97,8 @@
                         <label class="block font-medium mb-2">Daftar Kegiatan</label>
                         <div id="kegiatan-list" class="space-y-2">
                             @foreach ($event->kegiatan as $k)
-                                <div class="flex items-center gap-2 kegiatan-item bg-gray-100 p-2 border-2 border-gray-400 rounded-md cursor-move">
+                                <div
+                                    class="flex items-center gap-2 kegiatan-item bg-gray-100 p-2 border-2 border-gray-400 rounded-md cursor-move">
                                     <input type="time" name="kegiatan_waktu[]" value="{{ $k->waktu }}"
                                         class="bg-gray-200 border border-gray-400 rounded-md px-3 py-2 text-sm w-24">
                                     <input type="text" name="kegiatan_nama[]" value="{{ $k->kegiatan }}"
@@ -110,7 +116,8 @@
                     <!-- Tombol Tambah Acara -->
                     <div>
                         <button type="button" @click="openModal = true"
-                            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md shadow">Tambah Acara</button>
+                            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md shadow">Tambah
+                            Acara</button>
                     </div>
 
                     <!-- Modal -->
@@ -129,7 +136,8 @@
                             <div class="mb-4">
                                 <label class="block text-sm font-medium">Nama Kegiatan</label>
                                 <input type="text" id="modal-kegiatan"
-                                    class="w-full border-2 border-gray-400 rounded-md px-3 py-2 bg-gray-100" placeholder="Isi Kegiatan">
+                                    class="w-full border-2 border-gray-400 rounded-md px-3 py-2 bg-gray-100"
+                                    placeholder="Isi Kegiatan">
                             </div>
 
                             <div class="flex justify-end gap-2">
@@ -155,6 +163,71 @@
                 </div>
             </form>
         </div>
+
+
+          <!-- TinyMCE -->
+            <script src="https://cdn.tiny.cloud/1/oqx873eo8a4800gwchmdyn357lbg0rvj9bxkryttzmw9uf7q/tinymce/8/tinymce.min.js"
+                referrerpolicy="origin"></script>
+
+            <script>
+                tinymce.init({
+                    selector: '#editor',
+                    height: 500,
+                    menubar: false,
+                    plugins: 'lists link image media code fullscreen mentions',
+                    toolbar: 'undo redo | bold italic underline | bullist numlist | link image media | code fullscreen',
+
+                    setup: function(editor) {
+
+                        editor.ui.registry.addAutocompleter("usermentions", {
+                            trigger: '@',
+                            minChars: 1,
+                            fetch: async function(pattern, maxResults) {
+                                const res = await fetch("/tinymce-mention?q=" + pattern);
+                                const users = await res.json();
+
+                                return users.map(user => ({
+                                    value: user.name,
+                                    text: user.name
+                                }));
+                            },
+                            onAction: function(api, rng, value) {
+                                editor.selection.setRng(rng);
+                                editor.insertContent(`<span class="mention">@${value}</span>&nbsp;`);
+                                api.hide();
+                            }
+                        });
+
+                    },
+
+                    // FIX UPLOAD GAMBAR
+                    images_upload_handler: function(blobInfo, progress) {
+                        return new Promise(function(resolve, reject) {
+                            const xhr = new XMLHttpRequest();
+                            xhr.open('POST', '{{ route('tinymce.upload') }}');
+                            xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
+
+                            xhr.upload.onprogress = function(e) {
+                                progress(e.loaded / e.total * 100);
+                            };
+
+                            xhr.onload = function() {
+                                if (xhr.status === 200) {
+                                    const json = JSON.parse(xhr.responseText);
+                                    resolve(json.location);
+                                } else {
+                                    reject('HTTP Error: ' + xhr.status);
+                                }
+                            };
+
+                            const formData = new FormData();
+                            formData.append('file', blobInfo.blob());
+                            xhr.send(formData);
+                        });
+                    }
+                });
+            </script>
+
 
         <!-- Script -->
         <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>

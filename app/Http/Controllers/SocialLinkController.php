@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SocialLink;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SocialLinkController extends Controller
 {
@@ -60,10 +61,18 @@ class SocialLinkController extends Controller
     {
         $header = SocialLink::where('nama', $nama)->firstOrFail();
 
+        // Jika ada file baru
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('images', 'public');
 
+            // 1. Hapus gambar lama jika ada dan tidak sama dengan default
+            if ($header->link && Storage::disk('public')->exists($header->link)) {
+                Storage::disk('public')->delete($header->link);
+            }
 
+            // 2. Simpan gambar baru
+            $path = $request->file('image')->store('images/header', 'public');
+
+            // 3. Update database
             $header->update([
                 'link' => $path
             ]);

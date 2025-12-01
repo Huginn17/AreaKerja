@@ -111,15 +111,11 @@
 
                 {{-- deskripsi --}}
                 <h2 class="font-semibold text-lg mb-2">{{ $event->title }}</h2>
-                @php
-                    // hapus <img>, <figure>, <figcaption> dari konten
-                    $cleanContent = preg_replace('/<figure.*?<\/figure>/', '', $event->content);
-                    $cleanContent = preg_replace('/<img[^>]+>/', '', $cleanContent);
-                @endphp
 
-                <p class="text-justify">
-                    {!! $cleanContent !!}
-                </p>
+                <div class="tinymce-content">
+                    {!! $event->content !!}
+                </div>
+
 
 
 
@@ -154,7 +150,8 @@
                         <p>Lokasi: {{ $event->lokasi ?? '-' }}</p>
 
                     </div>
-                    <p><i class="ph ph-link text-2xl w-[35px] h-5 inline-block"></i>
+                    <div class="flex items-center space-x-2">
+                        <i class="ph ph-link text-2xl h-5 inline-block"></i>
                         @if ($event->link_form)
                             <a href="{{ $event->link_form }}" target="_blank"
                                 class="text-blue-600 underline hover:text-blue-800">
@@ -163,7 +160,7 @@
                         @else
                             <p>Belum ditentukan</p>
                         @endif
-                    </p>
+                    </div>
                 </div>
 
                 <!-- Daftar kegiatan -->
@@ -194,8 +191,8 @@
 
                 {{-- tombol daftar --}}
                 <!-- <div class="flex justify-center mt-6">
-                                                                    <button class="bg-orange-500 text-white px-8 py-2 rounded">Mendaftar</button>
-                                                                </div> -->
+                                                                        <button class="bg-orange-500 text-white px-8 py-2 rounded">Mendaftar</button>
+                                                                    </div> -->
             </div>
 
         </div>

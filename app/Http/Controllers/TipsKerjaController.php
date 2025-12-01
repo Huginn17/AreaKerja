@@ -24,6 +24,11 @@ class TipsKerjaController extends Controller
         ]);
     }
 
+    public function tips_kerja_tips1()
+    {
+        return view('non-user.tips-kerja1');
+    }
+
     public function tips_kerja_buat_post()
     {
         return view('admin.tips-kerja.buat-post');

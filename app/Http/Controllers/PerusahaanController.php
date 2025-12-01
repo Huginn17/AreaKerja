@@ -42,6 +42,8 @@ class PerusahaanController extends Controller
         return view('perusahaan.profile.edit');
     }
 
+
+
     public function update_profile_perusahaan(Request $request, Perusahaan $perusahaan)
     {
         $validated = $request->validate([
@@ -97,8 +99,9 @@ class PerusahaanController extends Controller
             ->firstOrFail();
 
         $alamat_perusahaan = $perusahaan->alamat_perusahaan->sortByDesc('utama');
+        $alamatCount = $perusahaan->alamat_perusahaan->count();
 
-        return view('perusahaan.alamat.alamat', compact('perusahaan', 'alamat_perusahaan'));
+        return view('perusahaan.alamat.alamat', compact('perusahaan', 'alamat_perusahaan', 'alamatCount'));
     }
 
 
@@ -124,6 +127,19 @@ class PerusahaanController extends Controller
 
     public function store_alamat(Request $request)
     {
+        $perusahaan = Auth::user()->perusahaan;
+
+        // Hitung alamat yang sudah dimiliki perusahaan
+        $jumlahAlamat = $perusahaan->alamat_perusahaan()->count();
+
+        // Jika sudah 4 → otomatis tolak
+        if ($jumlahAlamat >= 4) {
+            return redirect()
+                ->route('alamat.perusahaan')
+                ->with('error', 'Maksimal 4 alamat perusahaan yang diperbolehkan.');
+        }
+
+        // Validasi
         $validated = $request->validate([
             'label'        => 'nullable|string|max:255',
             'desa'         => 'nullable|string|max:255',
@@ -134,10 +150,15 @@ class PerusahaanController extends Controller
             'detail'       => 'nullable|string|max:500',
         ]);
 
-        $validated['perusahaan_id'] = Auth::user()->perusahaan->id;
+        $validated['perusahaan_id'] = $perusahaan->id;
+
         AlamatPerusahaan::create($validated);
-        return redirect()->route('alamat.perusahaan')->with('success', 'Alamat berhasil disimpan');
+
+        return redirect()
+            ->route('alamat.perusahaan')
+            ->with('success', 'Alamat berhasil ditambahkan');
     }
+
 
     public function edit_alamat(AlamatPerusahaan $alamatperusahaan)
     {

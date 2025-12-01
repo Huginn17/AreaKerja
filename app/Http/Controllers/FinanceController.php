@@ -14,6 +14,12 @@ use Spatie\Browsershot\Browsershot;
 
 class FinanceController extends Controller
 {
+    public function pageUnduhOmset()
+    {
+        return view('finance.page-unduh-omset');
+    }
+
+
     public function verifikasi($id, Request $request)
     {
         $transaksi = CatatanCash::findOrFail($id);

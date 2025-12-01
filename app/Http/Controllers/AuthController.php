@@ -139,7 +139,7 @@ class AuthController extends Controller
             } else {
                 Auth::logout();
                 return back()->withErrors([
-                    'username' => 'Akun anda tidak aktif',
+                    'username' => 'Akun anda telah di nonaktifkan',
                 ]);
             }
         }
@@ -430,47 +430,29 @@ class AuthController extends Controller
     {
         return view('admin.auth.login');
     }
-    public function beranda_admin(Request $request)
+    public function beranda_admin()
     {
-        // dropdown provinsi
-        $provinsis = Provinsi::orderBy('nama')->get();
-
-        $selectedProvinsi = $request->provinsi;
-        $selectedProvinsiId = null;
-
-        if ($selectedProvinsi) {
-            $prov = Provinsi::where('nama', $selectedProvinsi)->first();
-            if ($prov) {
-                $selectedProvinsiId = $prov->id;
-            }
-        }
-
         $now = Carbon::now();
-        $lastMonth = $now->copy()->subMonth();
+
+        // tanggal 1 bulan ini
+        $startThisMonth = $now->copy()->startOfMonth();
+
+        // tanggal 1 dari 11 bulan lalu
+        $start11MonthsAgo = $now->copy()->subMonths(11)->startOfMonth();
 
 
         // ===========================
         // PERUSAHAAN
         // ===========================
-        // bulan ini
-        $currentPerusahaan = Perusahaan::whereHas('alamatUtama', function ($q) use ($selectedProvinsiId) {
-            if ($selectedProvinsiId) {
-                $q->where('provinsi_id', $selectedProvinsiId);
-            }
-        })
-            ->whereMonth('created_at', $now->month)
-            ->whereYear('created_at', $now->year)
-            ->count();
+        $currentPerusahaan = Perusahaan::whereBetween('created_at', [
+            $startThisMonth,
+            $now
+        ])->count();
 
-        // bulan lalu
-        $lastPerusahaan = Perusahaan::whereHas('alamatUtama', function ($q) use ($selectedProvinsiId) {
-            if ($selectedProvinsiId) {
-                $q->where('provinsi_id', $selectedProvinsiId);
-            }
-        })
-            ->whereMonth('created_at', $lastMonth->month)
-            ->whereYear('created_at', $lastMonth->year)
-            ->count();
+        $lastPerusahaan = Perusahaan::whereBetween('created_at', [
+            $start11MonthsAgo,
+            $startThisMonth->copy()->subSecond()
+        ])->count();
 
         $growthPerusahaan = $this->calcGrowth($lastPerusahaan, $currentPerusahaan);
 
@@ -480,23 +462,11 @@ class AuthController extends Controller
         // KANDIDAT AKTIF
         // ===========================
         $currentKandidat = Pelamar::where('kategori', 'kandidat aktif')
-            ->whereHas('alamat_pelamar', function ($q) use ($selectedProvinsi) {
-                if ($selectedProvinsi) {
-                    $q->where('provinsi', $selectedProvinsi);
-                }
-            })
-            ->whereMonth('created_at', $now->month)
-            ->whereYear('created_at', $now->year)
+            ->whereBetween('created_at', [$startThisMonth, $now])
             ->count();
 
         $lastKandidat = Pelamar::where('kategori', 'kandidat aktif')
-            ->whereHas('alamat_pelamar', function ($q) use ($selectedProvinsi) {
-                if ($selectedProvinsi) {
-                    $q->where('provinsi', $selectedProvinsi);
-                }
-            })
-            ->whereMonth('created_at', $lastMonth->month)
-            ->whereYear('created_at', $lastMonth->year)
+            ->whereBetween('created_at', [$start11MonthsAgo, $startThisMonth->copy()->subSecond()])
             ->count();
 
         $growthKandidat = $this->calcGrowth($lastKandidat, $currentKandidat);
@@ -507,23 +477,11 @@ class AuthController extends Controller
         // NON KANDIDAT (PELAMAR)
         // ===========================
         $currentNonKandidat = Pelamar::where('kategori', 'pelamar')
-            ->whereHas('alamat_pelamar', function ($q) use ($selectedProvinsi) {
-                if ($selectedProvinsi) {
-                    $q->where('provinsi', $selectedProvinsi);
-                }
-            })
-            ->whereMonth('created_at', $now->month)
-            ->whereYear('created_at', $now->year)
+            ->whereBetween('created_at', [$startThisMonth, $now])
             ->count();
 
         $lastNonKandidat = Pelamar::where('kategori', 'pelamar')
-            ->whereHas('alamat_pelamar', function ($q) use ($selectedProvinsi) {
-                if ($selectedProvinsi) {
-                    $q->where('provinsi', $selectedProvinsi);
-                }
-            })
-            ->whereMonth('created_at', $lastMonth->month)
-            ->whereYear('created_at', $lastMonth->year)
+            ->whereBetween('created_at', [$start11MonthsAgo, $startThisMonth->copy()->subSecond()])
             ->count();
 
         $growthNonKandidat = $this->calcGrowth($lastNonKandidat, $currentNonKandidat);
@@ -531,33 +489,23 @@ class AuthController extends Controller
 
 
         // ===========================
-        // LOWONGAN
+        // LOWONGAN PERUSAHAAN
         // ===========================
-        $currentLowongan = LowonganPerusahaan::whereHas('perusahaan.alamatUtama', function ($q) use ($selectedProvinsiId) {
-            if ($selectedProvinsiId) {
-                $q->where('provinsi_id', $selectedProvinsiId);
-            }
-        })
-            ->whereMonth('created_at', $now->month)
-            ->whereYear('created_at', $now->year)
-            ->count();
+        $currentLowongan = LowonganPerusahaan::whereBetween('created_at', [
+            $startThisMonth,
+            $now
+        ])->count();
 
-        $lastLowongan = LowonganPerusahaan::whereHas('perusahaan.alamatUtama', function ($q) use ($selectedProvinsiId) {
-            if ($selectedProvinsiId) {
-                $q->where('provinsi_id', $selectedProvinsiId);
-            }
-        })
-            ->whereMonth('created_at', $lastMonth->month)
-            ->whereYear('created_at', $lastMonth->year)
-            ->count();
+        $lastLowongan = LowonganPerusahaan::whereBetween('created_at', [
+            $start11MonthsAgo,
+            $startThisMonth->copy()->subSecond()
+        ])->count();
 
         $growthLowongan = $this->calcGrowth($lastLowongan, $currentLowongan);
 
 
-        return view('admin.dashboard', [
-            'provinsis' => $provinsis,
-            'selectedProvinsi' => $selectedProvinsi,
 
+        return view('admin.dashboard', [
             'totalPerusahaan' => $currentPerusahaan,
             'growthPerusahaan' => $growthPerusahaan,
 
@@ -571,6 +519,7 @@ class AuthController extends Controller
             'growthLowongan' => $growthLowongan,
         ]);
     }
+
 
     /**
      * Hitung pertumbuhan dalam persen (%)

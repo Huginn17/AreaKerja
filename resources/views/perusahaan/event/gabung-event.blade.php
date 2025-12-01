@@ -29,9 +29,10 @@
 
             <!-- Judul & Deskripsi -->
             <h2 class="text-lg font-bold mb-2">{{ $event->title }}</h2>
-            <p class="text-sm text-gray-700 mb-4">
+
+            <div class="tinymce-content text-sm text-gray-700 mb-4">
                 {!! $event->content !!}
-            </p>
+            </div>
 
 
             <hr class="my-4">

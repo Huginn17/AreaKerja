@@ -13,7 +13,7 @@
             </svg>
         </div>
         <p class="text-lg font-semibold mb-3">
-            Peringatan, Akun anda akan dinyatakan Non Aktif Ketika anda sudah dinyatakan bekerja
+            Peringatan, Akun anda akan dinyatakan Non Aktif Sementara Dan sudah bekerja
         </p>
 
         <p class="text-sm font-semibold mb-3">Apakah anda yakin untuk merubah Status ?</p>

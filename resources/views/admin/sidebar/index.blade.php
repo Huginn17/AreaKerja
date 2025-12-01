@@ -47,6 +47,71 @@
     [x-cloak] {
         display: none !important;
     }
+
+      .tinymce-content {
+    font-family: Inter, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+/* Paragraph spacing */
+.tinymce-content p {
+    margin-bottom: 1rem;
+}
+
+/* LIST — supaya BULLET hitam muncul */
+.tinymce-content ul,
+.tinymce-content ul li {
+    list-style-type: disc !important;
+    list-style-position: outside !important;
+    margin-left: 1.5rem !important;
+    padding-left: 0.5rem !important;
+}
+
+.tinymce-content ol,
+.tinymce-content ol li {
+    list-style-type: decimal !important;
+    list-style-position: outside !important;
+    margin-left: 1.5rem !important;
+    padding-left: 0.5rem !important;
+}
+
+/* Gambar responsif */
+.tinymce-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1rem auto;
+    border-radius: 6px;
+}
+
+/* Blockquote */
+.tinymce-content blockquote {
+    border-left: 4px solid #ccc;
+    padding-left: 1rem;
+    margin: 1rem 0;
+    font-style: italic;
+    color: #555;
+}
+
+/* Tabel */
+.tinymce-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+}
+
+.tinymce-content table,
+.tinymce-content th,
+.tinymce-content td {
+    border: 1px solid #ddd;
+}
+
+.tinymce-content th,
+.tinymce-content td {
+    padding: 8px;
+}
+
 </style>
 
 <body>
@@ -74,28 +139,7 @@
             </a>
             <hr>
             <ul class="space-y-2 font-medium">
-                <li class="mt-7">
-                    <form id="provinsiForm" action="{{ route('admin.dashboard') }}" method="GET">
-                        <select name="provinsi" id="provinsi"
-                            onchange="document.getElementById('provinsiForm').submit()"
-                            class="w-full p-2 text-gray-500 border rounded-md text-center bg-white appearance-none
-                   focus:ring-primary-500 focus:border-primary-500
-                   dark:bg-gray-700 dark:border-gray-600 dark:text-white 
-                   dark:focus:ring-primary-500 dark:focus:border-primary-500">
-
-                            <option value="">Pilih Provinsi</option>
-
-                            @foreach ($provinsis as $prov)
-                                <option value="{{ $prov->nama }}"
-                                    {{ request('provinsi') == $prov->nama ? 'selected' : '' }}>
-                                    {{ $prov->nama }}
-                                </option>
-                            @endforeach
-
-                        </select>
-                    </form>
-                </li>
-
+                
                 <p class="flex items-center p-2 text-white rounded-lg dark:text-white">
                     <span class="ms-3 mt-3">Umum</span>
                 </p>

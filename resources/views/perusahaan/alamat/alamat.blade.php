@@ -23,7 +23,31 @@
 
             <!-- Garis & Judul -->
             <div class="mt-6 ml-12">
-                <h2 class="font-semibold text-gray-800">Alamat</h2>
+                <div>
+                    <h2 class="font-semibold text-gray-800">Alamat</h2>
+                    <!-- Pesan sukses / error -->
+                    @if (session('success'))
+                        <div class="p-3 mb-4 bg-green-100 text-green-700 rounded">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if (session('error'))
+                        <div class="p-3 mb-4 bg-red-100 text-red-700 rounded">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
+                    @if ($errors->any())
+                        <div class="p-3 mb-4 bg-red-100 text-red-700 rounded">
+                            <ul>
+                                @foreach ($errors->all() as $err)
+                                    <li>{{ $err }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                </div>
                 <hr class="border border-orange-500 mt-3 " />
                 <span class="text-sm text-orange-500">Untuk Melengkapi Profile Silahkan Jadikan Alamat Utama Terlebih
                     Dahulu</span>
@@ -63,12 +87,13 @@
                             </button>
                         </form>
 
-                        <!-- Tambah -->
                         <a href="{{ route('form.alamat.perusahaan') }}"
-                            class="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm shadow-sm transition">
+                            class="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm shadow-sm transition
+        @if ($alamatCount >= 4) opacity-50 cursor-not-allowed pointer-events-none @endif">
                             <i class="ph ph-plus"></i>
                             Tambah
                         </a>
+
 
                     </div>
 
