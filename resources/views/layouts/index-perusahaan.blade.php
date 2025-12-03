@@ -236,10 +236,44 @@
     @endif
 </head>
 
-<body x-data="{ openNotif: false, openAllNotif: false }">
+<body x-data="{ openNotif: false, openAllNotif: false, openMenu: false }">
     {{-- navbar --}}
     <header class="bg-white border-b py-2 border-gray-300 fixed top-0 left-0 w-full z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Tombol hamburger -->
+            <button @click="openMenu = !openMenu" class="md:hidden focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-8 h-8 text-gray-700">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+            </button>
+
+            <!-- MENU MOBILE -->
+            <div x-show="openMenu" x-transition
+                class="md:hidden absolute top-16 left-0 w-full bg-white border-t border-gray-200 flex flex-col py-4 shadow-lg z-40">
+
+                
+                <a href="{{ route('perusahaan.dashboard') }}" class="px-6 py-3 hover:bg-orange-50 text-gray-700">
+                    Beranda
+                </a>
+                <a href="{{ route('perusahaan.berlangganan') }}" class="px-6 py-3 hover:bg-orange-50 text-gray-700">
+                    Berlangganan
+                </a>
+                <a href="{{ route('talent-hunter.index') }}" class="px-6 py-3 hover:bg-orange-50 text-gray-700">
+                    Talent Hunter
+                </a>
+                <a href="{{ route('perusahaan.kandidat.ak') }}" class="px-6 py-3 hover:bg-orange-50 text-gray-700">
+                    Kandidat
+                </a>
+                <a href="{{ route('paket.form') }}" class="px-6 py-3 hover:bg-orange-50 text-gray-700">
+                    Pasang Lowongan
+                </a>
+                <a href="{{ route('perusahaan.event.index') }}" class="px-6 py-3 hover:bg-orange-50 text-gray-700">
+                    Event
+                    </a>
+            </div>
+
             {{-- logo --}}
             <div class="flex items-center gap-2">
                 <img src="{{ asset('images/logoarea.png') }}" alt="Areakerja Logo" class="h-12">
@@ -248,6 +282,7 @@
 
             {{-- menu --}}
             <nav class="hidden md:flex gap-8 font-medium text-gray-800">
+
                 <a href="{{ route('perusahaan.dashboard') }}"
                     class="hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400
                 {{ request()->routeIs('perusahaan.dashboard') ? 'text-orange-500 font-bold' : '' }}">
@@ -279,6 +314,7 @@
                 {{ request()->routeIs('perusahaan.event.index') ? 'text-orange-500 font-bold' : '' }}">
                     Event
                 </a>
+
             </nav>
 
 
@@ -414,7 +450,8 @@
                             data-dropdown-placement="bottom">
                             <span class="sr-only">Open user menu</span>
                             @if (Auth::user()->role == 'perusahaan')
-                                <div class="px-6 py-2 bg-orange-500 rounded-xl text-white font-semibold text-center">
+                                <div
+                                    class="px-6 py-2 bg-orange-500 rounded-xl text-white font-semibold text-center max-w-[130px] truncate">
                                     {{ Auth::user()->perusahaan->nama_perusahaan }}
                                 </div>
                             @else
@@ -446,8 +483,10 @@
                                             alt="">
                                     @endif
                                     <div>
-                                        <span class="block text-sm text-gray-900">{{ Auth::user()->username }}</span>
-                                        <span class="block text-sm text-gray-500 truncate">{{ Auth::user()->email }}</span>
+                                        <span
+                                            class="block text-sm text-gray-900 break-all">{{ Auth::user()->username }}</span>
+                                        <span
+                                            class="block text-sm text-gray-500 truncate">{{ Auth::user()->email }}</span>
                                     </div>
                                 </div>
                                 <hr>
@@ -704,7 +743,7 @@
             if (badge) badge.remove();
         });
     </script>
-
+    {{-- TRX176466817743382688 --}}
 
     {{-- TOP UP --}}
     <script>
@@ -797,11 +836,11 @@
                 const biayaAdmin = 2000;
                 const totalBayar = (selectedHarga ?? 0) + biayaAdmin;
 
-                // 🔑 Buat No Transaksi random unik
-                const randomPart = Math.floor(Math.random() * 1000000);
-                const noTransaksi = "TRX" + Date.now() + randomPart;
+                // // 🔑 Buat No Transaksi random unik
+                // const randomPart = Math.floor(Math.random() * 1000000);
+                // const noTransaksi = "TRX" + Date.now() + randomPart;
 
-                document.getElementById('detailTransaksi').innerText = noTransaksi;
+                // document.getElementById('detailTransaksi').innerText = noTransaksi;
                 document.getElementById('detailPengirim').innerText = "{{ Auth::user()->perusahaan->nama_perusahaan }}";
                 document.getElementById('detailBank').innerText = selectedBank ?? '-';
                 document.getElementById('detailWaktu').innerText = new Date().toLocaleString('id-ID');

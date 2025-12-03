@@ -87,7 +87,10 @@
                     </svg>
 
                 </div>
-                <a href="{{ route('lowongan.edit.form', $data->id) }}"
+                <a href="{{ route('lowongan.edit.form', [
+                    'perusahaan' => $data->perusahaan->slug,
+                    'lowongan' => $data->slug,
+                ]) }}"
                     class="text-orange-600 text-xs font-medium hover:underline mt-1 ml-2">Edit
                     Lowongan</a>
             </div>
@@ -181,7 +184,10 @@
 
             <!-- Card Item (template) -->
             @forelse ($lowonganLainnya as $ll)
-                <a href="{{ route('lowongan.detail', $ll->id) }}"
+                <a href="{{ route('lowongan.detail', [
+                    'perusahaan' => $ll->perusahaan->slug,
+                    'lowongan' => $ll->slug,
+                ]) }}"
                     class="block shadow-md rounded-md p-3 mb-3 hover:shadow-lg transition duration-200">
                     <div class="flex items-center gap-3">
                         <img src="{{ asset('storage/' . $ll->perusahaan->img_profile) }}" alt="logo"
@@ -193,7 +199,8 @@
                             <div class="mt-1">
                                 <span
                                     class="inline-block bg-gray-200 border rounded px-3 py-1 text-xs text-gray-700 whitespace-nowrap">
-                                    Rp. 4.500.000 - Rp. 7.000.000 per bulan
+                                    Rp. {{ number_format($ll->gaji_awal, 0, ',', '.') }} - Rp.
+                                    {{ number_format($ll->gaji_akhir, 0, ',', '.') }} per bulan
                                 </span>
                             </div>
                         </div>

@@ -1,4 +1,4 @@
-<div id="modalNonaktif" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+<div id="modalNonaktif" class="hidden inset-0 bg-black/50 backdrop-blur-sm fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
     <div class="bg-white p-6 rounded-xl w-[450px] text-center shadow-xl">
         <div class="w-20 mx-auto mb-3 flex items-center justify-center">
             <svg width="72" height="78" viewBox="0 0 72 78" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -7,16 +7,22 @@
         <div class="flex justify-between items-start">
             {{-- 🔹 Label Direkomendasikan --}}
             <div>
-                @if ($d->rekomendasi == 1)
+                @if ($d->rekomendasi !== null)
                     <p class="bg-[#fdedf4] w-fit px-3 py-1 text-blue-500 font-semibold rounded-md text-xs">
                         Direkomendasikan
-                    </P>
+                    </p>
                 @endif
                 @if ($d->urgent ?? true)
                     <p class="bg-[#fdedf4] w-fit px-3 py-1 text-[#9d2b6b] font-semibold rounded-md text-xs mt-3">
                         Dibutuhkan segera
                     </p>
                 @endif
+                @if (now()->greaterThan(\Carbon\Carbon::parse($d->batas_lamaran)))
+                    <p class="bg-red-100 w-fit px-3 py-1 text-red-600 font-semibold rounded-md text-xs mt-3">
+                        Batas lamaran berakhir
+                    </p>
+                @endif
+
 
                 <h1 class="font-bold text-lg my-3">
                     {{ $d->nama }} - {{ $d->jenis }}
@@ -36,7 +42,11 @@
                         class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-200 z-100 py-2">
 
                         <!-- LinkedIn -->
-                        <a href="{{ route('lowongan.share', ['platform' => 'linkedin', 'slug' => $d->slug]) }}"
+                        <a href="{{ route('lowongan.share', [
+                            'platform' => 'linkedin',
+                            'companySlug' => $d->perusahaan->slug,
+                            'jobSlug' => $d->slug,
+                        ]) }}"
                             class="flex items-center gap-3 px-4 py-3 hover:bg-gray-100">
                             <svg width="24" height="24" viewBox="2 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -49,7 +59,11 @@
                         </a>
 
                         <!-- Gmail -->
-                        <a href="{{ route('lowongan.share', ['platform' => 'email', 'slug' => $d->slug]) }}"
+                        <a href="{{ route('lowongan.share', [
+                            'platform' => 'email',
+                            'companySlug' => $d->perusahaan->slug,
+                            'jobSlug' => $d->slug,
+                        ]) }}"
                             class="flex items-center gap-4 px-4 py-3 hover:bg-gray-100">
                             <svg width="20" height="16" viewBox="0 0 20 16" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -62,7 +76,11 @@
                         </a>
 
                         <!-- Website -->
-                        <a href="{{ route('lowongan.share', ['platform' => 'website', 'slug' => $d->slug]) }}"
+                        <a href="{{ route('lowongan.share', [
+                            'platform' => 'website',
+                            'companySlug' => $d->perusahaan->slug,
+                            'jobSlug' => $d->slug,
+                        ]) }}"
                             class="flex items-center gap-4 px-4 py-3 hover:bg-gray-100">
                             <svg width="18" height="10" viewBox="0 0 18 10" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -75,7 +93,11 @@
                         </a>
 
                         <!-- WhatsApp -->
-                        <a href="{{ route('lowongan.share', ['platform' => 'whatsapp', 'slug' => $d->slug]) }}"
+                        <a href="{{ route('lowongan.share', [
+                            'platform' => 'whatsapp',
+                            'companySlug' => $d->perusahaan->slug,
+                            'jobSlug' => $d->slug,
+                        ]) }}"
                             class="flex items-center gap-3 px-4 py-3 hover:bg-gray-100">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -147,22 +169,37 @@
                 <li>Diminta mengirimkan video perkenalan singkat (detail diberikan nanti).</li>
             </ul>
 
-            <span class="text-xs text-gray-400">Aktif
-                {{ $d->published_at->diffForHumans() }}</span>
+            <div class="flex items-center justify-between mt-3 text-[#565656]">
+                <span class="text-xs text-gray-400">
+                    Aktif {{ $d->published_at->diffForHumans() }}
+                </span>
+
+                <p id="countdown-{{ $d->id }}" class="text-red-500 font-medium text-right text-xs"></p>
+            </div>
+
         </div>
 
         {{-- Detail --}}
         <div x-show="open" x-collapse class="mt-6">
+            @php
+                $expired = $d->batas_lamaran && now()->greaterThan($d->batas_lamaran);
+            @endphp
+
             <div class="space-y-6">
-                <button @click.stop="showConfirm = true"
-                    class="inline-block px-4 py-2 bg-orange-500 text-white rounded-lg text-sm font-semibold hover:bg-orange-600 transition">
-                    Lamar Cepat
+
+                {{-- Tombol Lamar Cepat + kondisi expired --}}
+                <button @if (!$expired) @click.stop="showConfirm = true" @endif
+                    class="inline-block px-4 py-2 rounded-lg text-sm font-semibold transition
+               {{ $expired ? 'bg-gray-300 text-gray-600 cursor-not-allowed' : 'bg-orange-500 text-white hover:bg-orange-600' }}">
+                    {{ $expired ? 'Lamaran Ditutup' : 'Lamar Cepat' }}
                 </button>
+
                 <hr>
+
                 <div>
                     <h3 class="font-semibold text-lg mb-2">Detail Lowongan</h3>
-                    <div class="flex items-start gap-3 mt-4">
 
+                    <div class="flex items-start gap-3 mt-4">
                         <!-- ICON -->
                         <svg width="23" height="19" viewBox="0 0 23 19" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -173,7 +210,6 @@
 
                         <div>
                             <h3 class="font-semibold text-lg">Jenis Lowongan</h3>
-
                             <span
                                 class="inline-block mt-2 px-4 py-1 bg-gray-300 rounded-md font-semibold text-gray-700 text-sm">
                                 {{ $d->jenis }}
@@ -184,10 +220,14 @@
 
                 <div>
                     <h3 class="font-semibold text-lg mb-2">Lokasi</h3>
-                    <p class="text-gray-600"><i class="ph ph-map-pin text-2xl ml-5"></i><span
-                            class="ml-3">{{ $d->alamat }}</span></p>
+                    <p class="text-gray-600">
+                        <i class="ph ph-map-pin text-2xl ml-5"></i>
+                        <span class="ml-3">{{ $d->alamat }}</span>
+                    </p>
                 </div>
+
                 <hr>
+
                 <div>
                     <h3 class="font-semibold text-lg mb-2">Deskripsi Lowongan</h3>
                     <p class="text-gray-700 leading-relaxed">{{ $d->deskripsi }}</p>
@@ -221,7 +261,9 @@
                         @endforeach
                     </ul>
                 </div>
+
             </div>
+
         </div>
 
         {{-- Tombol toggle detail --}}
@@ -317,4 +359,33 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const countdownEl = document.getElementById('countdown-{{ $d->id }}');
+
+            // batas lamaran pakai 23:59:59 agar pas sehari penuh
+            const batasLamaran = new Date(
+                "{{ \Carbon\Carbon::parse($d->batas_lamaran)->format('Y-m-d') }} 23:59:59").getTime();
+
+            if (countdownEl) {
+                const interval = setInterval(function() {
+                    const now = new Date().getTime();
+                    const distance = batasLamaran - now;
+
+                    if (distance < 0) {
+                        clearInterval(interval);
+                        countdownEl.innerHTML = "Batas lamaran telah berakhir";
+                    } else {
+                        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+                        countdownEl.innerHTML = `${days}h ${hours}j ${minutes}m lagi`;
+                    }
+                }, 1000);
+            }
+        });
+    </script>
+
 @endif

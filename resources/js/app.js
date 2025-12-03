@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     element: '#profile-link',
                     intro: `
                         <div style="max-width:180px; text-align:center">
-                            <img src="/images/Klik Profil.jpg" style="width:100%; border-radius:12px;" />
+                            <img src="/images/klik3.png" style="width:100%; border-radius:12px;" />
                         </div>
                     `,
                     position: 'right',
@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     element: '#profile-lank',
                     intro: `
                         <div style="max-width:180px; text-align:center">
-                            <img src="/images/Klik Profil.jpg" style="width:100%; border-radius:12px;" />
+                            <img src="/images/klik3.png" style="width:100%; border-radius:12px;" />
                         </div>
                     `,
                     position: 'right',

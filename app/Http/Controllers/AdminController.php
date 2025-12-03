@@ -18,6 +18,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class AdminController extends Controller
 {
@@ -56,42 +57,83 @@ class AdminController extends Controller
 
     public function update_profile_admin(Request $request, Admin $admin)
     {
-        $validated = $request->validate([
-            'name'     => "nullable|string",
-            'email'    => "nullable|email",
+        try {
 
-        ]);
+            /* ============================================================
+           VALIDASI USER
+        ============================================================ */
+            $validated = $request->validate([
+                'name'  => "nullable|string",
+                'email' => "nullable|email",
+            ]);
 
-        $user = User::where('id', $admin->user_id);
-        $user->update($validated);
+            $user = User::where('id', $admin->user_id);
+            $user->update($validated);
 
-        $valid = $request->validate([
-            "nama_lengkap"  => 'nullable|string',
-            "img_profile"   => 'nullable|file|image|mimes:png,jpg,jpeg',
-            'provinsi_id'  => 'nullable|exists:provinsis,id',
-            'kota_id'      => 'nullable|exists:kotas,id',
-            'kecamatan_id' => 'nullable|exists:kecamatans,id',
-            "desa"          => 'nullable|string',
-            "kode_pos"      => 'nullable',
-            "detail_alamat" => 'nullable|string'
-        ]);
+            /* ============================================================
+           VALIDASI ADMIN
+        ============================================================ */
+            $valid = $request->validate([
+                "nama_lengkap"  => 'nullable|string',
+                "img_profile"   => 'nullable|file|image|mimes:png,jpg,jpeg',
+                'provinsi_id'   => 'nullable|exists:provinsis,id',
+                'kota_id'       => 'nullable|exists:kotas,id',
+                'kecamatan_id'  => 'nullable|exists:kecamatans,id',
+                "desa"          => 'nullable|string',
+                "kode_pos"      => 'nullable',
+                "detail_alamat" => 'nullable|string'
+            ]);
 
-        if ($request->hasFile('img_profile')) {
-            // Hapus foto lama jika ada
-            if ($admin->img_profile && Storage::exists('public/' . $admin->img_profile)) {
-                Storage::delete('public/' . $admin->img_profile);
+            /* ============================================================
+           UPDATE FOTO PROFIL
+        ============================================================ */
+            if ($request->hasFile('img_profile')) {
+
+                if ($admin->img_profile && Storage::exists('public/' . $admin->img_profile)) {
+                    Storage::delete('public/' . $admin->img_profile);
+                }
+
+                $valid['img_profile'] = $request->file('img_profile')->store('images', 'public');
             }
 
-            // Simpan foto baru ke storage/app/public/images
-            $valid['img_profile'] = $request->file('img_profile')->store('images', 'public');
+            $valid['user_id'] = Auth::user()->id;
+            $admin->update($valid);
+
+            /* ============================================================
+           NOTIFIKASI BERHASIL UNTUK ADMIN (DIRI SENDIRI)
+        ============================================================ */
+            Notifikasi::create([
+                'user_id' => Auth::id(),
+                'perusahaan_id' => null,
+                'judul' => 'Profil Berhasil Diperbarui',
+                'pesan' => 'Profil Anda berhasil diperbarui.',
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7),
+                'pelamar_lowongan_id' => null,
+            ]);
+
+            return redirect()->route('admin.profile')
+                ->with('success', 'Profil berhasil diperbarui.');
+        } catch (\Exception $e) {
+
+            /* ============================================================
+           NOTIFIKASI GAGAL UNTUK ADMIN
+        ============================================================ */
+            Notifikasi::create([
+                'user_id' => Auth::id(),
+                'perusahaan_id' => null,
+                'judul' => 'Gagal Mengupdate Profil',
+                'pesan' => 'Terjadi kesalahan saat memperbarui profil Anda.',
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7),
+                'pelamar_lowongan_id' => null,
+            ]);
+
+            return redirect()->route('admin.profile')
+                ->with('error', 'Terjadi kesalahan! Profil gagal diperbarui.');
         }
-
-
-        $valid['user_id'] = Auth::user()->id;
-        $admin->update($valid);
-        return redirect()->route('admin.profile')
-            ->with('success', 'Profile berhasil diupdate');
     }
+
 
     public function destroy_profile(Admin $admin)
     {
@@ -135,30 +177,95 @@ class AdminController extends Controller
         ]);
     }
 
+
+
     public function updateTraining(Request $request, $id)
     {
-        $request->validate([
-            'mulai_pelatihan' => 'required|date',
-            'selesai_pelatihan' => 'required|date|after:mulai_pelatihan',
-        ]);
+        try {
 
-        $pelamar = Pelamar::findOrFail($id);
-        $pelamar->mulai_pelatihan = $request->mulai_pelatihan;
-        $pelamar->selesai_pelatihan = $request->selesai_pelatihan;
-        $pelamar->save();
+            // VALIDASI
+            $request->validate([
+                'mulai_pelatihan' => 'required|date',
+                'selesai_pelatihan' => 'required|date|after:mulai_pelatihan',
+            ]);
 
-        Notifikasi::create([
-            'user_id' => $pelamar->user_id,
-            'perusahaan_id' => null,
-            'judul' => 'Jadwal Pelatihan Diperbarui',
-            'pesan' => 'Silahkan Untuk Mengikuti Pelatihan Pada Tanggal <b>' . $request->mulai_pelatihan . '</b> sampai <b>' . $request->selesai_pelatihan . '</b> untuk <b>' . $pelamar->nama_pelamar . '</b>.',
-            'is_read' => 0,
-            'expired_at' => now()->addDays(7),
-            'pelamar_lowongan_id' => null,
-        ]);
+            $pelamar = Pelamar::findOrFail($id);
 
-        return back()->with('success', '');
+            $pelamar->mulai_pelatihan = $request->mulai_pelatihan;
+            $pelamar->selesai_pelatihan = $request->selesai_pelatihan;
+            $pelamar->save();
+
+            /* ============================================================
+           NOTIFIKASI UNTUK PELAMAR
+        ============================================================ */
+            Notifikasi::create([
+                'user_id' => $pelamar->user_id,
+                'perusahaan_id' => null,
+                'judul' => 'Jadwal Pelatihan Diperbarui',
+                'pesan' =>
+                'Silakan mengikuti pelatihan pada tanggal <b>' .
+                    $request->mulai_pelatihan .
+                    '</b> sampai <b>' .
+                    $request->selesai_pelatihan .
+                    '</b>.',
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7),
+                'pelamar_lowongan_id' => null,
+            ]);
+
+            /* ============================================================
+           NOTIFIKASI UNTUK ADMIN (BERHASIL)
+        ============================================================ */
+            Notifikasi::create([
+                'user_id' => Auth::id(),
+                'perusahaan_id' => null,
+                'judul' => 'Berhasil Mengupdate Jadwal Pelatihan',
+                'pesan' =>
+                'Jadwal pelatihan untuk pelamar <b>' .
+                    $pelamar->nama_pelamar .
+                    '</b> telah berhasil diperbarui.',
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7),
+                'pelamar_lowongan_id' => null,
+            ]);
+
+            return back()->with('success', 'Jadwal pelatihan berhasil diperbarui.');
+        } catch (ValidationException $e) {
+
+            /* ============================================================
+           NOTIFIKASI VALIDASI GAGAL (CONTOH: tanggal selesai < tanggal mulai)
+        ============================================================ */
+            Notifikasi::create([
+                'user_id' => Auth::id(),
+                'perusahaan_id' => null,
+                'judul' => 'Validasi Jadwal Pelatihan Gagal',
+                'pesan' => 'Tanggal pelatihan tidak valid. Pastikan tanggal selesai setelah tanggal mulai.',
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7),
+                'pelamar_lowongan_id' => null,
+            ]);
+
+            return back()->withErrors($e->errors())->with('error', 'Validasi gagal! Periksa kembali tanggal pelatihan.');
+        } catch (\Exception $e) {
+
+            /* ============================================================
+           NOTIFIKASI ERROR UMUM
+        ============================================================ */
+            Notifikasi::create([
+                'user_id' => Auth::id(),
+                'perusahaan_id' => null,
+                'judul' => 'Gagal Mengupdate Jadwal Pelatihan',
+                'pesan' => 'Terjadi kesalahan saat menyimpan jadwal pelatihan.',
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7),
+                'pelamar_lowongan_id' => null,
+            ]);
+
+            return back()->with('error', 'Terjadi kesalahan! Jadwal pelatihan gagal diperbarui.');
+        }
     }
+
+
 
     public function lulus($id)
     {
@@ -376,34 +483,112 @@ class AdminController extends Controller
         ]);
 
         if (auth()->id() == $id) {
+            // Notifikasi gagal
+            Notifikasi::create([
+                'user_id' => Auth::id(),
+                'perusahaan_id' => null,
+                'judul' => 'Gagal Membekukan Akun',
+                'pesan' => 'Anda tidak dapat membekukan akun Anda sendiri.',
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7),
+                'pelamar_lowongan_id' => null,
+            ]);
+
             return response()->json(['message' => 'Anda tidak dapat membekukan akun sendiri'], 403);
         }
 
-        $user = User::findOrFail($id);
+        try {
+            $user = User::findOrFail($id);
 
-        $user->update([
-            'alasan_freeze_akun' => $request->alasan,
-            'status' => 1,
-        ]);
+            $user->update([
+                'alasan_freeze_akun' => $request->alasan,
+                'status' => 1,
+            ]);
 
-        return response()->json(['message' => 'Akun berhasil dibekukan']);
+            // Notifikasi berhasil
+            Notifikasi::create([
+                'user_id' => Auth::id(),
+                'perusahaan_id' => null,
+                'judul' => 'Akun Berhasil Dibekukan',
+                'pesan' => 'Akun milik <b>' . $user->username . '</b> berhasil dibekukan.',
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7),
+                'pelamar_lowongan_id' => null,
+            ]);
+
+            return response()->json(['message' => 'Akun berhasil dibekukan']);
+        } catch (\Exception $e) {
+
+            // Notifikasi gagal
+            Notifikasi::create([
+                'user_id' => Auth::id(),
+                'perusahaan_id' => null,
+                'judul' => 'Gagal Membekukan Akun',
+                'pesan' => 'Terjadi kesalahan saat membekukan akun.',
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7),
+                'pelamar_lowongan_id' => null,
+            ]);
+
+            return response()->json(['message' => 'Terjadi kesalahan'], 500);
+        }
     }
+
 
     public function aktifkan($id)
     {
         if (auth()->id() == $id) {
+            // Notifikasi gagal
+            Notifikasi::create([
+                'user_id' => Auth::id(),
+                'perusahaan_id' => null,
+                'judul' => 'Gagal Mengaktifkan Akun',
+                'pesan' => 'Anda tidak dapat mengaktifkan akun Anda sendiri.',
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7),
+                'pelamar_lowongan_id' => null,
+            ]);
+
             return response()->json(['message' => 'Anda tidak dapat mengubah status akun sendiri'], 403);
         }
 
-        $user = User::findOrFail($id);
+        try {
+            $user = User::findOrFail($id);
 
-        $user->update([
-            'alasan_freeze_akun' => null,
-            'status' => 0,
-        ]);
+            $user->update([
+                'alasan_freeze_akun' => null,
+                'status' => 0,
+            ]);
 
-        return response()->json(['message' => 'Akun berhasil diaktifkan kembali']);
+            // Notifikasi berhasil
+            Notifikasi::create([
+                'user_id' => Auth::id(),
+                'perusahaan_id' => null,
+                'judul' => 'Akun Berhasil Diaktifkan',
+                'pesan' => 'Akun milik <b>' . $user->username . '</b> berhasil diaktifkan kembali.',
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7),
+                'pelamar_lowongan_id' => null,
+            ]);
+
+            return response()->json(['message' => 'Akun berhasil diaktifkan kembali']);
+        } catch (\Exception $e) {
+
+            // Notifikasi gagal
+            Notifikasi::create([
+                'user_id' => Auth::id(),
+                'perusahaan_id' => null,
+                'judul' => 'Gagal Mengaktifkan Akun',
+                'pesan' => 'Terjadi kesalahan saat mengaktifkan akun.',
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7),
+                'pelamar_lowongan_id' => null,
+            ]);
+
+            return response()->json(['message' => 'Terjadi kesalahan'], 500);
+        }
     }
+
 
     public function detailPerusahaan($id)
     {
@@ -413,14 +598,19 @@ class AdminController extends Controller
         ]);
     }
 
-    public function detailLowongan($id)
+    public function detailLowongan(Perusahaan $perusahaan, LowonganPerusahaan $lowongan)
     {
-        $lowongan = LowonganPerusahaan::with(['perusahaan'])->findOrFail($id);
+        // Pastikan lowongan milik perusahaan tersebut
+        if ($lowongan->perusahaan_id !== $perusahaan->id) {
+            abort(404);
+        }
 
         return view('admin.perusahaan.view-data-lowongan', [
-            'lowongan' => $lowongan
+            'lowongan'   => $lowongan,
+            'perusahaan' => $perusahaan,
         ]);
     }
+
 
 
 

@@ -105,13 +105,18 @@ class LowonganPerusahaanController extends Controller
         return redirect()->route('lowongan.saya.perusahaan')->with('success', 'Lowongan berhasil ditambahkan!');
     }
 
-    public function show(LowonganPerusahaan $lowongan)
+    public function show(Perusahaan $perusahaan, LowonganPerusahaan $lowongan)
     {
         $lowonganLainnya = LowonganPerusahaan::where('perusahaan_id', $lowongan->perusahaan_id)
             ->where('id', '!=', $lowongan->id)
             ->latest()
             ->take(5)
             ->get();
+
+        // Tambahan keamanan → pastikan lowongan ini milik perusahaan yang ada di URL
+        if ($lowongan->perusahaan_id !== $perusahaan->id) {
+            abort(404);
+        }
 
         return view('perusahaan.lowongan-saya.detail-lowongan', [
             "data" => $lowongan,
@@ -120,8 +125,12 @@ class LowonganPerusahaanController extends Controller
         ]);
     }
 
-    public function edit(LowonganPerusahaan $lowongan)
+    public function edit(Perusahaan $perusahaan, LowonganPerusahaan $lowongan)
     {
+        // Tambahan keamanan pastikan lowongan ini milik perusahaan yang ada di URL
+        if ($lowongan->perusahaan_id !== $perusahaan->id) {
+            abort(404);
+        }
         $categories = Category::all();
         return view('perusahaan.lowongan-saya.edit', [
             "data" => $lowongan,
@@ -148,7 +157,10 @@ class LowonganPerusahaanController extends Controller
 
         $valid['perusahaan_id'] = Auth::user()->perusahaan->id;
         $lowongan->update($valid);
-        return redirect()->route('lowongan.detail', $lowongan->id)->with('success', 'Lowongan berhasil diperbarui.');
+        return redirect()->route('lowongan.detail', [
+            'perusahaan' => $lowongan->perusahaan->slug,
+            'lowongan'   => $lowongan->slug,    
+        ])->with('success', 'Lowongan berhasil diperbarui.');
     }
 
     public function destroy(LowonganPerusahaan $lowongan)
@@ -284,12 +296,17 @@ class LowonganPerusahaanController extends Controller
     {
         $lowongan = LowonganPerusahaan::findOrFail($id);
 
-        $lowongan->rekomendasi = $lowongan->rekomendasi ? 0 : 1;
-        $lowongan->save();
+        if ($lowongan->rekomendasi) {
+            // Jika sedang direkomendasikan, hapus timestamp (jadikan NULL)
+            $lowongan->rekomendasi = null;
+            $pesan = 'Lowongan berhasil dihapus dari rekomendasi.';
+        } else {
+            // Jika tidak direkomendasikan → beri timestamp now()
+            $lowongan->rekomendasi = now();
+            $pesan = 'Lowongan berhasil dijadikan rekomendasi.';
+        }
 
-        $pesan = $lowongan->rekomendasi
-            ? 'Lowongan berhasil dijadikan rekomendasi.'
-            : 'Lowongan berhasil dihapus dari rekomendasi.';
+        $lowongan->save();
 
         return redirect()->back()->with('success', $pesan);
     }

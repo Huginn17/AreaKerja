@@ -9,7 +9,8 @@
                 showConfirmTerima: false,
                 showConfirmTolak: false,
                 showAlasan: false,
-                showSuccess: false
+                showSuccess: false,
+                showTolakSuccess: false
             }">
 
                 <div class="bg-white rounded-lg shadow p-6 space-y-4">
@@ -121,19 +122,19 @@
                         <p class="text-gray-700 mb-4"><b>Responsibilities</b></p>
                         <ul class="list-disc pl-6 text-gray-600 space-y-2">
                             @foreach (preg_split("/\r\n|\n|\r/", $tawaran->lowonganPerusahaan->tanggung_jawab) as $res)
-                        @php
-                            $trim = trim($res);
-                            $isNumbered = preg_match('/^\d+[\.\-\)]\s*/', $trim);
-                        @endphp
+                                @php
+                                    $trim = trim($res);
+                                    $isNumbered = preg_match('/^\d+[\.\-\)]\s*/', $trim);
+                                @endphp
 
-                        @if ($trim !== '')
-                            @if ($isNumbered)
-                                <li style="list-style-type: none;">{{ $trim }}</li>
-                            @else
-                                <li>{{ $trim }}</li>
-                            @endif
-                        @endif
-                    @endforeach
+                                @if ($trim !== '')
+                                    @if ($isNumbered)
+                                        <li style="list-style-type: none;">{{ $trim }}</li>
+                                    @else
+                                        <li>{{ $trim }}</li>
+                                    @endif
+                                @endif
+                            @endforeach
                         </ul>
                     </div>
                 </div>
@@ -155,26 +156,28 @@
                             </button>
                             <button
                                 @click="
-                                fetch('{{ route('kandidat.updateStatus', $tawaran->id) }}', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'Accept': 'application/json',
-                                        'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
-                                    },
-                                    body: JSON.stringify({ status: 'diterima' })
-                                })
-                                .then(res => res.json())
-                                .then(data => {
-                                    if (data.status === 'success') {
-                                        showConfirmTerima = false;
-                                        showSuccess = true;
-                                    }
-                                })
-                            "
+       fetch('{{ route('kandidat.updateStatus', $tawaran->id) }}', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
+    },
+    body: JSON.stringify({ status: 'diterima' })
+})
+
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 'success') {
+                showConfirmTerima = false; // tutup modal konfirmasi
+                showSuccess = true;        // tampilkan modal sukses
+            }
+        });
+    "
                                 class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600">
                                 Ya, Terima
                             </button>
+
                         </div>
                     </div>
                 </div>
@@ -223,21 +226,35 @@
                                 class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Batal</button>
                             <button
                                 @click="
-                                const form = document.getElementById('form-penolakan');
-                                const formData = new FormData(form);
-                                const alasanDipilih = formData.get('alasan_penolakan_custom') || formData.get('alasan_penolakan');
-                                showAlasan = false;
-                                fetch('{{ route('kandidat.updateStatus', $tawaran->id) }}', {
-                                    method: 'POST',
-                                    headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content },
-                                    body: new URLSearchParams({ status: 'ditolak', alasan_penolakan: alasanDipilih })
-                                })
-                                .then(res => res.json())
-                                .then(data => { if (data.status === 'success') window.location.reload(); });
-                            "
+        const form = document.getElementById('form-penolakan');
+        const formData = new FormData(form);
+        const alasanDipilih = formData.get('alasan_penolakan_custom') || formData.get('alasan_penolakan');
+
+        showAlasan = false;
+
+      fetch('{{ route('kandidat.updateStatus', $tawaran->id) }}', {
+    method: 'POST',
+    headers: { 
+        'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content,
+        'Accept': 'application/json'
+    },
+    body: new URLSearchParams({
+        status: 'ditolak',
+        alasan_penolakan: alasanDipilih
+    })
+})
+.then(res => res.json())
+.then(data => {
+    if (data.status === 'success') {
+        showTolakSuccess = true;
+    }
+});
+
+    "
                                 class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
                                 Kirim
                             </button>
+
                         </div>
                     </div>
                 </div>
@@ -249,17 +266,41 @@
                         <button @click="showSuccess = false"
                             class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl">&times;</button>
                         <h2 class="text-lg font-semibold mb-3">
-                            Selamat! Anda telah menjadi bagian dari <br>
-                            <b>{{ $tawaran->lowonganPerusahaan->perusahaan->nama_perusahaan }}</b>
+                            Tawaran yang diberikan kepada Anda telah berhasil dikonfirmasi.
+                            <br>
+                            <b>Mohon tunggu tindak lanjut dari perusahaan.</b>
                         </h2>
                         <img src="{{ asset('images/orang.png') }}" alt="Success"
                             class="mx-auto my-4 w-40 h-40 object-contain">
                         <p class="text-gray-600">
-                            Silakan tunggu <b>{{ $tawaran->lowonganPerusahaan->perusahaan->nama_perusahaan }}</b>
-                            menghubungi Anda.
+                            Kami berharap proses selanjutnya berjalan lancar.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div x-show="showTolakSuccess" x-cloak
+                    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <div class="bg-white rounded-xl p-6 w-[380px] text-center relative">
+                        <button @click="showTolakSuccess = false"
+                            class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl">&times;</button>
+
+                        <h2 class="text-lg font-semibold mb-3">
+                            Anda telah menolak tawaran dari
+                            <br>
+                            <b>{{ $tawaran->lowonganPerusahaan->perusahaan->nama_perusahaan }}</b>
+                        </h2>
+
+                        <img src="{{ asset('images/orang.png') }}" alt="Success"
+                            class="mx-auto my-4 w-40 h-40 object-contain">
+
+                        <p class="text-gray-600">
+                            Terima kasih! Keputusan Anda telah dikirim ke perusahaan.
                         </p>
                     </div>
                 </div>
+
+
             </div>
 
             <!-- Kanan: Lowongan Lain -->

@@ -6,6 +6,7 @@ use App\Models\LowonganPerusahaan;
 use App\Models\Notifikasi;
 use App\Models\Pelamar;
 use App\Models\PembeliKandidat;
+use App\Models\Perusahaan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\User;
@@ -168,27 +169,32 @@ class PembeliKandidatController extends Controller
         return redirect()->back()->with('success', 'Status berhasil diperbarui');
     }
 
-    public function detailTawaran($id)
+    public function detailTawaran(Perusahaan $perusahaan, LowonganPerusahaan $lowongan)
     {
         $pelamar = auth()->user()->pelamar ?? null;
         if (!$pelamar) abort(403);
 
-        // Ambil tawaran berdasarkan ID pembelian
+        // Ambil tawaran berdasarkan pelamar & lowongan
         $tawaran = PembeliKandidat::with(['lowonganPerusahaan.perusahaan'])
             ->where('pelamar_id', $pelamar->id)
-            ->findOrFail($id);
+            ->where('lowongan_perusahaan_id', $lowongan->id)
+            ->firstOrFail();
 
-        // Ambil semua lowongan lain yang PERNAH dibeli perusahaan tersebut,
-        // kecuali lowongan yang sedang dibuka.
+        // Lowongan lain yg pernah dibeli perusahaan itu
         $lowonganLain = PembeliKandidat::with('lowonganPerusahaan')
             ->where('pelamar_id', $pelamar->id)
-            ->where('id', '!=', $id)
+            ->where('id', '!=', $tawaran->id)
             ->latest()
             ->take(3)
             ->get();
 
+        // Tambahan keamanan → pastikan lowongan ini milik perusahaan yang ada di URL
+        if ($lowongan->perusahaan_id !== $perusahaan->id) {
+            abort(404);
+        }
+
         return view('kandidat.detail_rekrut', [
-            'tawaran' => $tawaran,
+            'tawaran'      => $tawaran,
             'lowonganLain' => $lowonganLain,
         ]);
     }

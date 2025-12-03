@@ -191,8 +191,40 @@
 
                 </div>
 
+                <!-- No. Telepon -->
+                <div>
+                    <label class="block text-md font-medium mb-1">No. Telepon <span class="text-red-500">*</span></label>
+                    <input type="text" name="telepon_pelamar" value="{{ $pelamar->telepon_pelamar ?? '' }}"
+                        class="w-full mt-1 border-2 border-gray-400 shadow rounded-lg px-3 py-2"
+                        placeholder="08********" />
+                </div>
+
+                @php
+                    $kategori = $kategori ?? request()->route('kategori'); // misalnya dikirim dari controller
+                @endphp
+                <!-- Hidden input kategori -->
+                <input type="hidden" name="kategori"
+                    value="@switch($kategori)
+        @case('non_kandidat') pelamar @break
+        @case('calon_kandidat') calon kandidat @break
+        @case('kandidat') kandidat aktif @break
+        @default pelamar
+    @endswitch">
+
+                {{-- Bidang yang Diminati --}}
+                @if (in_array($kategori, ['calon_kandidat', 'kandidat']))
+                    <select id="divisi" name="divisi[]" multiple
+                        class="w-full border-2 border-gray-400 shadow rounded-lg px-3 py-2">
+                        @foreach ($divisis as $divisi)
+                            <option value="{{ $divisi->divisi }}"
+                                {{ in_array($divisi->divisi, (array) $pelamar->divisi) ? 'selected' : '' }}>
+                                {{ $divisi->divisi }}
+                            </option>
+                        @endforeach
+                    </select>
+                @endif
+
                 <!-- Alamat -->
-                <!-- Organisasi -->
                 @if (isset($pelamar) && $pelamar->alamat_pelamar->count() > 0)
                     <label class="text-md font-medium">Alamat</label>
                     <div class="flex justify-between">
@@ -247,13 +279,7 @@
                     </div>
                 @endif
 
-                <!-- No. Telepon -->
-                <div>
-                    <label class="block text-md font-medium mb-1">No. Telepon <span class="text-red-500">*</span></label>
-                    <input type="text" name="telepon_pelamar" value="{{ $pelamar->telepon_pelamar ?? '' }}"
-                        class="w-full mt-1 border-2 border-gray-400 shadow rounded-lg px-3 py-2"
-                        placeholder="No Telepon" />
-                </div>
+
                 <div>
                     <!-- Pendidikan -->
                     @if (isset($pelamar) && $pelamar->riwayat_pendidikan->count() > 0)
@@ -455,30 +481,7 @@
                         </div>
                     @endif
                 </div>
-                @php
-                    $kategori = $kategori ?? request()->route('kategori'); // misalnya dikirim dari controller
-                @endphp
-                <!-- Hidden input kategori -->
-                <input type="hidden" name="kategori"
-                    value="@switch($kategori)
-        @case('non_kandidat') pelamar @break
-        @case('calon_kandidat') calon kandidat @break
-        @case('kandidat') kandidat aktif @break
-        @default pelamar
-    @endswitch">
 
-                {{-- Bidang yang Diminati --}}
-                @if (in_array($kategori, ['calon_kandidat', 'kandidat']))
-                    <select id="divisi" name="divisi[]" multiple
-                        class="w-full border-2 border-gray-400 shadow rounded-lg px-3 py-2">
-                        @foreach ($divisis as $divisi)
-                            <option value="{{ $divisi->divisi }}"
-                                {{ in_array($divisi->divisi, (array) $pelamar->divisi) ? 'selected' : '' }}>
-                                {{ $divisi->divisi }}
-                            </option>
-                        @endforeach
-                    </select>
-                @endif
 
 
                 <!-- Social Media -->

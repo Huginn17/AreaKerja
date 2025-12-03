@@ -13,6 +13,7 @@ use App\Models\Notifikasi;
 use App\Models\Pelamar;
 use App\Models\PelamarLowongan;
 use App\Models\PembeliKandidat;
+use App\Models\Perusahaan;
 use App\Models\RiwayatPendidikan;
 use App\Models\SimpanLowongan;
 use App\Models\TipsKerja;
@@ -46,7 +47,7 @@ class PelamarController extends Controller
 
 
 
-    public function detail_lowongan_non_user(LowonganPerusahaan $lowongan)
+    public function detail_lowongan_non_user(Perusahaan $perusahaan, LowonganPerusahaan $lowongan)
     {
         $pelamar = auth()->user()->pelamar ?? null;
         if (!$pelamar) abort(403);
@@ -92,62 +93,9 @@ class PelamarController extends Controller
                 ->take(3)
                 ->get();
         }
-
-        return view('non-user.lowongan-detail', [
-            'data' => $lowongan,
-            'Data' => $Data,
-            'isSaved' => $isSaved,
-            'lowonganLain' => $lowonganLain,
-            'tawaran' => $tawaran,
-        ]);
-    }
-
-
-    public function detail_lowongan_non_userShare($slug)
-    {
-        // Ambil lowongan berdasarkan slug
-        $lowongan = LowonganPerusahaan::where('slug', $slug)
-            ->with('perusahaan')
-            ->firstOrFail();
-
-        // Pastikan user adalah pelamar
-        $pelamar = auth()->user()->pelamar ?? null;
-        if (!$pelamar) abort(403);
-
-        // Ambil semua lowongan aktif (untuk sidebar)
-        $Data = LowonganPerusahaan::with('perusahaan')
-            ->whereNotNull('published_at')
-            ->where(function ($q) {
-                $q->whereNull('expired_at')->orWhere('expired_at', '>', now());
-            })
-            ->latest()
-            ->get();
-
-        // CEK apakah lowongan ini sudah disimpan oleh pelamar
-        $isSaved = SimpanLowongan::where('pelamar_id', $pelamar->id)
-            ->where('lowongan_id', $lowongan->id)
-            ->exists();
-
-        // Ambil tawaran, bisa null
-        $tawaran = PembeliKandidat::with(['lowonganPerusahaan.perusahaan'])
-            ->where('pelamar_id', $pelamar->id)
-            ->where('lowongan_perusahaan_id', $lowongan->id)
-            ->first();
-
-        // Ambil lowongan lain, menyesuaikan apakah ada tawaran atau tidak
-        if ($tawaran && $tawaran->lowonganPerusahaan) {
-            $lowonganLain = LowonganPerusahaan::where('perusahaan_id', $tawaran->lowonganPerusahaan->perusahaan_id)
-                ->where('id', '!=', $tawaran->lowongan_perusahaan_id)
-                ->whereNotNull('published_at')
-                ->latest()
-                ->take(3)
-                ->get();
-        } else {
-            $lowonganLain = LowonganPerusahaan::where('id', '!=', $lowongan->id)
-                ->whereNotNull('published_at')
-                ->latest()
-                ->take(3)
-                ->get();
+        // Tambahan keamanan → pastikan lowongan ini milik perusahaan yang ada di URL
+        if ($lowongan->perusahaan_id !== $perusahaan->id) {
+            abort(404);
         }
 
         return view('non-user.lowongan-detail', [
@@ -158,6 +106,71 @@ class PelamarController extends Controller
             'tawaran' => $tawaran,
         ]);
     }
+
+
+    public function detail_lowongan_non_userShare(Perusahaan $perusahaan, LowonganPerusahaan $lowongan)
+    {
+        // Cek user pelamar
+        $pelamar = auth()->user()->pelamar ?? null;
+        if (!$pelamar) abort(403);
+
+        // Pastikan lowongan milik perusahaan di URL
+        if ($lowongan->perusahaan_id !== $perusahaan->id) {
+            abort(404);
+        }
+
+        // Ambil sidebar data
+        $Data = LowonganPerusahaan::with('perusahaan')
+            ->whereNotNull('published_at')
+            ->where(function ($q) {
+                $q->whereNull('expired_at')->orWhere('expired_at', '>', now());
+            })
+            ->latest()
+            ->get();
+
+        // Apakah disimpan?
+        $isSaved = SimpanLowongan::where('pelamar_id', $pelamar->id)
+            ->where('lowongan_id', $lowongan->id)
+            ->exists();
+
+        // Ambil tawaran
+        $tawaran = PembeliKandidat::with(['lowonganPerusahaan.perusahaan'])
+            ->where('pelamar_id', $pelamar->id)
+            ->where('lowongan_perusahaan_id', $lowongan->id)
+            ->first();
+
+        // Ambil lowongan lain
+        if ($tawaran && $tawaran->lowonganPerusahaan) {
+            $lowonganLain = LowonganPerusahaan::where('perusahaan_id', $tawaran->lowonganPerusahaan->perusahaan_id)
+                ->where('id', '!=', $tawaran->lowongan_perusahaan_id)
+                ->whereNotNull('published_at')
+                ->where(function ($q) {
+                    $q->whereNull('expired_at')->orWhere('expired_at', '>', now());
+                })
+                ->latest()
+                ->take(3)
+                ->get();
+        } else {
+            $lowonganLain = LowonganPerusahaan::where('id', '!=', $lowongan->id)
+                ->whereNotNull('published_at')
+                ->where(function ($q) {
+                    $q->whereNull('expired_at')->orWhere('expired_at', '>', now());
+                })
+                ->latest()
+                ->take(3)
+                ->get();
+        }
+
+        // Kirim ke view
+        return view('non-user.lowongan-detail', [
+            'data' => $lowongan,
+            'Data' => $Data,
+            'isSaved' => $isSaved,
+            'lowonganLain' => $lowonganLain,
+            'tawaran' => $tawaran,
+        ]);
+    }
+
 
 
 
@@ -186,10 +199,11 @@ class PelamarController extends Controller
                     $q->where('kategori', $kategori);
                 }
             })
-            ->orderByDesc('rekomendasi')
-            ->orderByDesc('published_at')
-            // ->orderByDesc('created_at')
+            ->orderByRaw('rekomendasi IS NULL') // yang NULL (tidak direkomendasikan) turun ke bawah
+            ->orderBy('rekomendasi', 'asc')     // rekomendasi tertua → paling kiri/atas
+            ->orderBy('created_at', 'asc')      // jika timestamp rekomendasi sama → yang dibuat paling lama naik
             ->get();
+
 
         return view('non-user.home', [
             "Data" => $Data,
@@ -680,7 +694,7 @@ class PelamarController extends Controller
         $transaksi = CatatanCash::findOrFail($id);
 
         $request->validate([
-            'bukti' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'bukti' => 'required|mimes:jpg,jpeg,png,pdf|max:5120',
         ]);
 
         $path = $request->file('bukti')->store('bukti-transfer', 'public');

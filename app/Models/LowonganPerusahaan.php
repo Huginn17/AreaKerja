@@ -14,14 +14,28 @@ class LowonganPerusahaan extends Model
 
     public function resolveRouteBinding($value, $field = null)
     {
-        // Jika numeric, ambil berdasarkan ID
-        if (is_numeric($value)) {
-            return $this->where('id', $value)->firstOrFail();
+        // Hanya redirect pada GET
+        if (request()->method() === 'GET' && is_numeric($value)) {
+
+            $item = $this->with('perusahaan')->findOrFail($value);
+
+            return abort(301, '', [
+                'Location' => route(
+                    request()->route()->getName(),
+                    [
+                        'perusahaan' => $item->perusahaan->slug,
+                        'lowongan'   => $item->slug,
+                    ]
+                )
+            ]);
         }
 
-        // Selain itu, ambil berdasarkan slug
-        return $this->where('slug', $value)->firstOrFail();
+        // PUT / POST / DELETE → jangan redirect
+        return $this->where('slug', $value)->orWhere('id', $value)->firstOrFail();
     }
+
+
+
 
 
 

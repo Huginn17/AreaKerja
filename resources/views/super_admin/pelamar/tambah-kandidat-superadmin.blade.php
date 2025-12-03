@@ -169,16 +169,24 @@
                 </div>
 
                 <div>
+                    <label class="block text-md font-medium mb-1">Kata Sandi <span class="text-red-500">*</span></label>
+                    <input type="password" name="password" value="{{ $pelamar?->user?->password }}"
+                        class="w-full mt-1 border-2 border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Kata Sandi" />
+                </div>
+
+                <div>
                     <label class="block text-md font-medium mb-1">Nama Lengkap <span class="text-red-500">*</span></label>
                     <input type="text" name="nama_pelamar"
                         class="w-full mt-1 border-2 border-gray-400 shadow rounded-lg px-3 py-2" placeholder="Nama Lengkap"
                         value="{{ $pelamar->nama_pelamar ?? '' }}" />
                 </div>
+
+                <!-- No. Telepon -->
                 <div>
-                    <label class="block text-md font-medium mb-1">Kata Sandi <span class="text-red-500">*</span></label>
-                    <input type="password" name="password" value="{{ $pelamar?->user?->password }}"
+                    <label class="block text-md font-medium mb-1">No. Telepon <span class="text-red-500">*</span></label>
+                    <input type="text" name="telepon_pelamar" value="{{ $pelamar->telepon_pelamar ?? '' }}"
                         class="w-full mt-1 border-2 border-gray-400 shadow rounded-lg px-3 py-2"
-                        placeholder="Kata Sandi" />
+                        placeholder="No Telepon" />
                 </div>
 
                 <!-- Gender -->
@@ -204,8 +212,49 @@
 
                 </div>
 
+
+
+                @php
+                    $kategori = $kategori ?? request()->route('kategori'); // misalnya dikirim dari controller
+                @endphp
+                <!-- Hidden input kategori -->
+                <input type="hidden" name="kategori"
+                    value="@switch($kategori)
+        @case('non_kandidat') pelamar @break
+        @case('calon_kandidat') calon kandidat @break
+        @case('kandidat') kandidat aktif @break
+        @default pelamar
+    @endswitch">
+
+                @php
+                    // Pastikan $pelamar->divisi berupa array (JSON decode)
+                    $selectedDivisi = is_array($pelamar?->divisi)
+                        ? $pelamar?->divisi
+                        : json_decode($pelamar?->divisi, true);
+
+                    // Jika old() ada, gunakan old()
+                    $selectedDivisi = old('divisi', $selectedDivisi ?? []);
+                @endphp
+
+                {{-- Bidang yang Diminati --}}
+                <div id="divisi-wrapper"
+                    class="mt-4 {{ in_array($kategori, ['calon_kandidat', 'kandidat']) ? '' : 'hidden' }}">
+                    <label class="block text-md font-medium mb-1">Bidang yang Diminati <span
+                            class="text-red-500">*</span></label>
+                    <select id="divisi" name="divisi[]" multiple
+                        class="w-full border-2 border-gray-400 shadow rounded-lg px-3 py-2">
+                        @foreach ($divisis as $divisi)
+                            <option value="{{ $divisi->divisi }}"
+                                {{ in_array($divisi->divisi, $selectedDivisi) ? 'selected' : '' }}>
+                                {{ $divisi->divisi }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                
+
                 <!-- Alamat -->
-                <!-- Organisasi -->
+
                 @if (isset($pelamar) && $pelamar->alamat_pelamar->count() > 0)
                     <label class="text-sm font-medium">Alamat</label>
                     <div class="flex justify-between">
@@ -260,13 +309,7 @@
                     </div>
                 @endif
 
-                <!-- No. Telepon -->
-                <div>
-                    <label class="block text-md font-medium mb-1">No. Telepon <span class="text-red-500">*</span></label>
-                    <input type="text" name="telepon_pelamar" value="{{ $pelamar->telepon_pelamar ?? '' }}"
-                        class="w-full mt-1 border-2 border-gray-400 shadow rounded-lg px-3 py-2"
-                        placeholder="No Telepon" />
-                </div>
+
 
                 <!-- Pendidikan -->
                 @if (isset($pelamar) && $pelamar->riwayat_pendidikan->count() > 0)
@@ -468,43 +511,6 @@
                     </div>
                 @endif
 
-                @php
-                    $kategori = $kategori ?? request()->route('kategori'); // misalnya dikirim dari controller
-                @endphp
-                <!-- Hidden input kategori -->
-                <input type="hidden" name="kategori"
-                    value="@switch($kategori)
-        @case('non_kandidat') pelamar @break
-        @case('calon_kandidat') calon kandidat @break
-        @case('kandidat') kandidat aktif @break
-        @default pelamar
-    @endswitch">
-
-                @php
-                    // Pastikan $pelamar->divisi berupa array (JSON decode)
-                    $selectedDivisi = is_array($pelamar?->divisi)
-                        ? $pelamar?->divisi
-                        : json_decode($pelamar?->divisi, true);
-
-                    // Jika old() ada, gunakan old()
-                    $selectedDivisi = old('divisi', $selectedDivisi ?? []);
-                @endphp
-
-                {{-- Bidang yang Diminati --}}
-                <div id="divisi-wrapper"
-                    class="mt-4 {{ in_array($kategori, ['calon_kandidat', 'kandidat']) ? '' : 'hidden' }}">
-                    <label class="block text-md font-medium mb-1">Bidang yang Diminati <span
-                            class="text-red-500">*</span></label>
-                    <select id="divisi" name="divisi[]" multiple
-                        class="w-full border-2 border-gray-400 shadow rounded-lg px-3 py-2">
-                        @foreach ($divisis as $divisi)
-                            <option value="{{ $divisi->divisi }}"
-                                {{ in_array($divisi->divisi, $selectedDivisi) ? 'selected' : '' }}>
-                                {{ $divisi->divisi }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
 
                 <!-- Social Media -->
                 @php

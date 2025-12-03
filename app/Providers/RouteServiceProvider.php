@@ -34,6 +34,11 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
+
+        parent::boot();
+
+        Route::model('perusahaan', \App\Models\Perusahaan::class);
+        Route::model('lowongan', \App\Models\LowonganPerusahaan::class);
     }
 
     /**

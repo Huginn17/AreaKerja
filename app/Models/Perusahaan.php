@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Perusahaan extends Model
 {
@@ -15,6 +16,52 @@ class Perusahaan extends Model
         // 'tanggal_berlangganan' => 'datetime',
         'tanggal_expired' => 'datetime',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (empty($model->slug)) {
+                $model->slug = Str::slug($model->nama_perusahaan) . '-' . rand(1000, 9999);
+            }
+        });
+
+        static::updating(function ($model) {
+            if ($model->isDirty('nama_perusahaan')) {
+                $model->slug = Str::slug($model->nama_perusahaan) . '-' . rand(1000, 9999);
+            }
+        });
+    }
+    public function resolveRouteBinding($value, $field = null)
+    {
+        if (request()->routeIs('superadmin.panggilan.list')) {
+            return $this->findOrFail($value);
+        }
+
+
+        // Hanya redirect pada GET
+        if (request()->method() === 'GET' && is_numeric($value)) {
+
+            $item = $this->findOrFail($value);
+
+            return abort(301, '', [
+                'Location' => route(
+                    request()->route()->getName(),
+                    [
+                        'perusahaan' => $item->slug,
+                    ]
+                )
+            ]);
+        }
+
+        // PUT / POST / DELETE → jangan redirect
+        return $this->where('slug', $value)->orWhere('id', $value)->firstOrFail();
+    }
+
+
+
+
 
     public function user()
     {

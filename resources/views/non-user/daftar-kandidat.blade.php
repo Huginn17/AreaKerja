@@ -171,10 +171,10 @@
                 <div class="h-1 w-32 bg-orange-500 mb-6"></div>
 
                 <div class="border border-orange-400 rounded-lg p-6 space-y-3 text-sm">
-                    <div class="flex justify-between">
-                        <span>No. Transaksi</span>
-                        <span id="detailTransaksi">-</span>
-                    </div>
+                    {{-- <div class="flex justify-between"> --}}
+                        {{-- <span>No. Transaksi</span>
+                        <span id="detailTransaksi">-</span> --}}
+                    {{-- </div> --}}
                     <div class="flex justify-between">
                         <span>Divisi</span>
                         <span id="detailDivisi">-</span>
@@ -271,11 +271,11 @@
                     const deposit = 200000;
                     const totalBayar = deposit + biayaAdmin;
 
-                    const randomPart = Math.floor(Math.random() * 1000000);
-                    const noTransaksi = "TRX" + Date.now() + randomPart;
+                    // const randomPart = Math.floor(Math.random() * 1000000);
+                    // const noTransaksi = "TRX" + Date.now() + randomPart;
                     const namaPengirim = "{{ Auth::user()->pelamar->name_pelamar ?? Auth::user()->username }}";
 
-                    document.getElementById('detailTransaksi').innerText = noTransaksi;
+                    // document.getElementById('detailTransaksi').innerText = noTransaksi;
                     document.getElementById('detailDivisi').innerText = selectedDivisi ?? '-';
                     document.getElementById('detailPengirim').innerText = namaPengirim;
                     document.getElementById('detailBank').innerText = selectedBank ?? '-';

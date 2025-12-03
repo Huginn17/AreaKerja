@@ -29,27 +29,61 @@
         <div class="max-w-6xl mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-center gap-6 flex-wrap">
 
+                @php
+                    // Mapping warna header paket
+                    $warnaHeader = [
+                        'Gold' => 'bg-yellow-500',
+                        'Silver' => 'bg-gray-500',
+                        'Bronze' => 'bg-amber-700',
+                    ];
+
+                    // Mapping durasi paket
+                    $durasiPaket = [
+                        'Gold' => '6 Bulan',
+                        'Silver' => '1 Bulan',
+                        'Bronze' => '1 Minggu',
+                    ];
+                @endphp
+
                 @foreach ($pakets as $paket)
                     <div class="w-72">
                         <div
-                            class="bg-white border border-gray-400 rounded-xl shadow-sm hover:shadow-lg overflow-hidden flex flex-col transition-all duration-500 hover:scale-105">
-                            <!-- Warna header sesuai nama paket -->
-                            <div
-                                class="py-3 text-center 
-                            @if ($paket->nama == 'Gold') bg-yellow-500 
-                            @elseif($paket->nama == 'Silver') bg-gray-500 
-                            @elseif($paket->nama == 'Bronze') bg-amber-700 
-                            @else bg-orange-500 @endif">
-                                <h3 class="text-xl font-bold text-white uppercase">{{ $paket->nama }}</h3>
+                            class="bg-white border border-gray-300 rounded-xl shadow-sm hover:shadow-lg overflow-hidden flex flex-col transition-all duration-500 hover:scale-105">
+
+                            <!-- Header Paket -->
+                            <div class="py-3 text-center {{ $warnaHeader[$paket->nama] ?? 'bg-orange-500' }}">
+                                <h3 class="text-xl font-bold text-white uppercase tracking-wide">
+                                    {{ $paket->nama }}
+                                </h3>
                             </div>
+
+                            <!-- Isi Card -->
                             <div class="p-6 flex-1 flex flex-col">
+
+                                <!-- Deskripsi -->
                                 <h4 class="text-base font-semibold mb-1 text-center">Lebih Banyak Benefit</h4>
-                                <p class="text-sm text-gray-700 mb-2 text-center">
+                                <p class="text-sm text-gray-700 mb-3 text-center">
                                     {{ $paket->deskripsi }}
                                 </p>
+
+                                <!-- Durasi Publish -->
+                                <div
+                                    class="bg-gray-100 border border-gray-300 rounded-md py-2 px-3 
+            text-sm font-semibold mb-4 flex items-center justify-center gap-2">
+
+                                    <i class="ph ph-calendar-dots text-xl"></i>
+
+                                    <span class="text-gray-700">Masa Publikasi:</span>
+
+                                    <span class="font-bold text-gray-900">
+                                        {{ $durasiPaket[$paket->nama] }}
+                                    </span>
+                                </div>
+
+
                                 <hr class="my-3 border-gray-300">
 
-                                <!-- List benefit bisa disimpan di tabel atau hardcode -->
+                                <!-- List Benefit -->
                                 <ul class="text-sm text-gray-700 space-y-2 mb-6 flex-1">
                                     <li class="flex items-start"><span class="mr-2">✔</span> Website & Aplikasi</li>
                                     <li class="flex items-start"><span class="mr-2">✔</span> Instagram Post & Story</li>
@@ -61,20 +95,19 @@
                                     <li class="flex items-start"><span class="mr-2">✔</span> Telegram</li>
                                 </ul>
 
-                                <!-- Tombol pasang lowongan -->
+                                <!-- Tombol -->
                                 <button type="button"
                                     onclick="openModal({{ $paket->id }}, '{{ $paket->nama }}', {{ $paket->harga }})"
-                                    class="@if ($paket->nama == 'Gold') bg-yellow-500 
-                                       @elseif($paket->nama == 'Silver') bg-gray-500 
-                                       @elseif($paket->nama == 'Bronze') bg-amber-700 
-                                       @else bg-orange-500 @endif
-                                       text-white font-semibold py-2 rounded-md hover:opacity-90 w-full">
+                                    class="{{ $warnaHeader[$paket->nama] ?? 'bg-orange-500' }} 
+                           text-white font-semibold py-2 rounded-md hover:opacity-90 w-full transition">
                                     Pasang Lowongan
                                 </button>
+
                             </div>
                         </div>
                     </div>
                 @endforeach
+
 
             </div>
         </div>
@@ -215,7 +248,7 @@
                 <!-- Detail Paket -->
                 <div class="space-y-2 bg-gray-50 p-4 rounded-xl border border-gray-200 mb-4">
                     <p class="text-sm">
-                        Paket: 
+                        Paket:
                         <span id="modal_paket_name" class="font-semibold text-gray-800"></span>
                     </p>
                     <p class="text-sm">

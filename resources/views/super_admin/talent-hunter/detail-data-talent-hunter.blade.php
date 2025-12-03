@@ -87,9 +87,6 @@
                             @endif
                         </h2>
 
-                        <h2 class="text-lg font-semibold mb-4">Culture Perusahaan</h2>
-                        <h2 class="text-md font-normal mb-2 text-red-500 ml-2">-
-                        </h2>
                         <h2 class="text-lg font-semibold mb-4">Alamat Perusahaan</h2>
                         <h2 class="text-md font-normal mb-4 ml-2">{{ $talentHunter->alamat ?? '-' }}</h2>
 
@@ -105,6 +102,8 @@
                                 {{ $talentHunter->gaji_akhir ?? '-' }}</span></p>
                         <p class="m-2">Pengalaman Kerja <span class="ml-[138px]">:
                                 {{ $talentHunter->pengalaman_kerja ?? '-' }}</span></p>
+                        <p class="m-2">Kontak Perusahaan <span class="ml-[130px]">:
+                                {{ $talentHunter->perusahaan->telepon_perusahaan ?? '-' }}</span></p>
                     </div>
                 </div>
 

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nama')->nullable();
             $table->string('slug')->nullable()->unique();
             $table->string('jenis')->nullable();
-            $table->tinyInteger('rekomendasi')->default(0);
+            $table->timestamp('rekomendasi')->nullable();
             $table->string('gaji_awal')->nullable();
             $table->string('gaji_akhir')->nullable();
             $table->string('label_gaji')->nullable();

@@ -9,7 +9,7 @@
 
             <img src="{{ $header && $header->link ? asset('storage/' . $header->link) : asset('images/woi.jpg') }}"
                 alt="Header Image" class="w-full h-[600px] object-cover">
-{{-- 
+            {{-- 
             <img src="{{ asset('images/woi.jpg') }}" alt="hero" class="w-full h-[350px] object-cover"> --}}
             <div class="absolute inset-0 bg-black bg-opacity-40"></div>
             <div class="absolute bottom-52 left-20 text-white">
@@ -191,7 +191,7 @@
 
                             <!-- Button -->
                             <button type="submit"
-                                class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition font-semibold shadow">
+                                class="w-full bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-400 transition font-semibold shadow">
                                 Simpan
                             </button>
                         </form>
@@ -310,29 +310,49 @@
 
 
     <script>
-        document.getElementById('btnDaftarTH').addEventListener('click', async function() {
-            const response = await fetch('{{ route('talent-hunter.harga') }}');
-            const data = await response.json();
+        let formDataTH = null; // GLOBAL (dipakai submit & beli)
 
-            if (data.koin_perusahaan >= data.harga) {
-                document.getElementById('hargaTH').innerText = data.harga;
-                openModal('modalBeli');
-            } else {
-                openModal('modalKoinKurang');
-            }
+        // 1️⃣ Klik Daftar Talent Hunter → buka form
+        document.getElementById('btnDaftarTH').addEventListener('click', function() {
+            openModal('modalFormTH');
         });
 
+        // 2️⃣ Submit Form TH → JANGAN SIMPAN KE DB
+        document.getElementById('formTalentHunter').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            formDataTH = new FormData(this); // simpan data sementara
+
+            // ambil harga untuk ditampilkan
+            fetch('{{ route('talent-hunter.harga') }}')
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('hargaTH').innerText = data.harga;
+
+                    closeModal('modalFormTH');
+                    openModal('modalBeli');
+                });
+        });
+
+        // 3️⃣ Klik KONFIRMASI BELI → BARU PROSES DB
         document.getElementById('btnConfirmBeli').addEventListener('click', async function() {
-            const res = await fetch('{{ route('talent-hunter.beli') }}', {
+
+            if (!formDataTH) {
+                alert("Form belum diisi!");
+                return;
+            }
+
+            formDataTH.append('_token', '{{ csrf_token() }}');
+
+            const res = await fetch('{{ route('talent-hunter.store') }}', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
+                body: formDataTH
             });
+
             const result = await res.json();
 
             if (result.success) {
+
                 closeModal('modalBeli');
 
                 Swal.fire({
@@ -344,53 +364,8 @@
                 });
 
                 setTimeout(() => {
-                    openModal('modalFormTH');
+                    window.location.href = result.redirect_url;
                 }, 1500);
-
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Gagal!',
-                    text: result.message
-                });
-            }
-        });
-
-        document.getElementById('formTalentHunter').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const formData = new FormData(this);
-
-            const res = await fetch('{{ route('talent-hunter.store') }}', {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: formData
-            });
-
-            const result = await res.json();
-
-            if (result.success) {
-
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil!',
-                    text: result.message,
-                    timer: 1500,
-                    showConfirmButton: false
-                });
-
-                closeModal('modalFormTH');
-
-                if (result.redirect_url) {
-                    setTimeout(() => {
-                        window.location.href = result.redirect_url;
-                    }, 1500);
-                } else {
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1500);
-                }
 
             } else {
                 Swal.fire({
@@ -411,6 +386,7 @@
             document.getElementById(id).classList.remove('flex');
         }
     </script>
+
 
     {{-- TOP UP --}}
     <script>

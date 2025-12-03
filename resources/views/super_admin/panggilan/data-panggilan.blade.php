@@ -50,7 +50,6 @@
                         <span class="font-semibold">{{ Auth::user()->username }}</span>
                         <p class="text-gray-500 text-sm">{{ Auth::user()->email }}</p>
                     </div>
-
                     {{-- <select class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
                         <option value=""></option>
                         <option>Text 1</option>
@@ -64,7 +63,7 @@
         <div class="flex items-center justify-between mb-6">
             <div class="flex items-center gap-4">
                 <div>
-                    <a href="/super_admin/tambah/perusahaan"
+                    <a href="{{ route('superadmin.add.user.createForm') }}"
                         class="bg-orange-500 border hover:bg-orange-600 text-white px-3 py-2 rounded-lg inline-flex items-center justify-center">
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -72,7 +71,6 @@
                                 stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                     </a>
-
                 </div>
                 <div>
                     <button class="bg-white border border-orange-600 text-orange-600 px-4 py-3 rounded-lg">
@@ -178,21 +176,23 @@
                             $alamat = $p->alamat_perusahaan->first();
                         @endphp
 
+
                         <tr class="border-b-[2px] border-gray-300">
-                        <tr class="border-b">
-                        <tr class="border-b-[2px] border-gray-300">
-                            <td class="px-4 py-3">{{ str_pad($p->id, 8, '0', STR_PAD_LEFT) }}</td>
-                            <td class="px-4 py-3">{{ $p->nama_perusahaan }}</td>
-                            <td class="px-4 py-3">{{ $p->user->email }}</td>
-                            <td class="px-4 py-3">{{ $p->telepon_perusahaan }}</td>
-                            <td class="px-4 py-3">
+                            <td class="px-4 py-3 whitespace-normal break-words max-w-[200px]">
+                                {{ str_pad($p->id, 8, '0', STR_PAD_LEFT) }}</td>
+                            <td class="px-4 py-3 whitespace-normal break-words max-w-[200px]">{{ $p->nama_perusahaan }}
+                            </td>
+                            <td class="px-4 py-3 whitespace-normal break-words max-w-[200px]">{{ $p->user->email }}</td>
+                            <td class="px-4 py-3 whitespace-normal break-words max-w-[200px]">{{ $p->telepon_perusahaan }}
+                            </td>
+                            <td class="px-4 py-3 whitespace-normal break-words max-w-[200px]">
                                 @if ($alamat)
                                     {{ $alamat->detail ?? '-' }},
-                                    {{ $alamat->desa ?? '' }},
-                                    {{ $alamat->kecamatan->nama ?? '' }},
-                                    {{ $alamat->kota->nama ?? '' }},
-                                    {{ $alamat->provinsi->nama ?? '' }},
-                                    {{ $alamat->kode_pos ?? '' }}
+                                    {{ $alamat->desa ?? '-' }},
+                                    {{ $alamat->kecamatan->nama ?? '-' }},
+                                    {{ $alamat->kota->nama ?? '-' }},
+                                    {{ $alamat->provinsi->nama ?? '-' }},
+                                    {{ $alamat->kode_pos ?? '-' }}
                                 @else
                                     -
                                 @endif
@@ -206,7 +206,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M7 8h10M7 12h10M7 16h10" />
                                     </svg>
-                                    <span>List Nama Pekerja</span>
+                                    <span>List Nama Kandidat</span>
                                 </a>
                             </td>
 

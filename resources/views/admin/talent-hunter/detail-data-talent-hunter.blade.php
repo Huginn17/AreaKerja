@@ -81,9 +81,7 @@
                         @else
                             <p class="font-bold text-black m-2">{{ $talentHunter->deskripsi }}</p>
                         @endif
-                        <h2 class="text-lg font-semibold mb-2">Culture Perusahaan</h2>
-                        <p class="text-red-500 font-medium m-2">Perusahaan Belum Menyelesaikan Bagian Ini</p>
-
+                        
                         <h2 class="text-lg font-semibold mb-2">Alamat Perusahaan</h2>
                         <p class="font-medium">{{ $talentHunter->alamat ?? '-' }}</p>
 
@@ -109,6 +107,10 @@
                             <div class="flex mb-3">
                                 <div class="w-48 text-black">Pengalaman Kerja</div>
                                 <div>: {{ $talentHunter->pengalaman_kerja ?? '-' }}</div>
+                            </div>
+                            <div class="flex mb-3">
+                                <div class="w-48 text-black">Kontak Perusahaan</div>
+                                <div>: {{ $talentHunter->perusahaan->telepon_perusahaan ?? '-' }}</div>
                             </div>
                         </div>
                     </div>

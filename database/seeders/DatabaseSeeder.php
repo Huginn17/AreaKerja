@@ -183,17 +183,17 @@ class DatabaseSeeder extends Seeder
         $pakets = [
             [
                 'nama' => 'Gold',
-                'batas_listing' => 5,   // aktif 7 hari
+                'batas_listing' => 180,   // aktif 5 hari
                 // 'harga' => 200          // harga 50 koin
             ],
             [
                 'nama' => 'Silver',
-                'batas_listing' => 3,   // aktif 3 hari
+                'batas_listing' => 30,   // aktif 3 hari
                 // 'harga' => 150,          // harga 30 koin
             ],
             [
                 'nama' => 'Bronze',
-                'batas_listing' => 1,   // aktif 1 hari
+                'batas_listing' => 7,   // aktif 1 hari
                 // 'harga' => 100,          // harga 10 koin
             ],
         ];

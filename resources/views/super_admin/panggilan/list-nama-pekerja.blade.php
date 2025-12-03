@@ -1,18 +1,16 @@
 @extends('super_admin.sidebar.index')
+
 @section('sidebarsuperadmin')
-    <div class="flex-1 p-6 sm:ml-64 bg-white overflow-y-auto">
-        <div class="bg-gray-50 p-6 rounded-xl">
+    <div class="p-6 w-full sm:ml-64 max-h-6xl">
+        <div>
+
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-xl font-semibold text-gray-700">
-                    Daftar Pelamar Diterima - {{ $perusahaan->user->name ?? $perusahaan->nama_perusahaan }}
+                    Data Kandidat Perusahaan - {{ $perusahaan->user->name ?? $perusahaan->nama_perusahaan }}
                 </h2>
-
-                <a href="{{ route('superadmin.panggilan') }}"
-                    class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all">
-                    ← Kembali
-                </a>
             </div>
-  
+
+            {{-- FORM SEARCH --}}
             <div class="flex justify-end mb-4">
                 <form method="GET" action="{{ route('superadmin.panggilan.list', $perusahaan->id) }}" class="flex gap-2">
                     <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama pelamar..."
@@ -25,7 +23,7 @@
                 </form>
             </div>
 
-
+            {{-- TABEL --}}
             <div class="overflow-x-auto bg-white rounded-lg shadow">
                 <table class="min-w-full border border-gray-200">
                     <thead class="bg-orange-500">
@@ -35,6 +33,7 @@
                             <th class="px-4 py-2 border-b">Email</th>
                             <th class="px-4 py-2 border-b">Lowongan</th>
                             <th class="px-4 py-2 border-b">Tanggal Diterima</th>
+                            <th class="px-4 py-2 border-b">Kegiatan</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,15 +44,27 @@
                                 <td class="px-4 py-2">{{ $p['email'] }}</td>
                                 <td class="px-4 py-2">{{ $p['lowongan'] }}</td>
                                 <td class="px-4 py-2">{{ $p['tanggal_diterima'] }}</td>
+
+                                <td class="px-4 py-2">
+                                    @if ($p['jenis'] === 'pelamar_melamar')
+                                        <span class="text-green-600 font-semibold">Wawancara</span>
+                                    @else
+                                        <span class="text-red-600 font-semibold">-</span>
+                                    @endif
+                                </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="text-center py-3 text-gray-500">Belum ada pekerja diterima</td>
+                                <td colspan="6" class="text-center py-3 text-gray-500">
+                                    Belum ada pekerja diterima
+                                </td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
+
         </div>
+
     </div>
 @endsection

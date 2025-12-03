@@ -49,7 +49,7 @@
                 <div class="flex flex-col sm:flex-row sm:items-center gap-4">
                     <label class="w-40 font-medium">Alamat Perusahaan <span class="text-red-500">*</span></label>
                     <a href="{{ route('alamat.perusahaan') }}"
-                        class="px-4 py-2 bg-orange-500 text-white rounded-md">Alamat</a>
+                        class="px-4 py-2 bg-orange-500 text-white rounded-md ml-60">Alamat</a>
                 </div>
                 <div class="grid grid-cols-3 gap-4 items-center">
                     <label class="text-sm font-medium">Bidang Usaha <span class="text-red-500">*</span></label>

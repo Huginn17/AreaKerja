@@ -1,4 +1,4 @@
-<div id="modalPeringatan" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+<div id="modalPeringatan" class="hidden fixed inset-0 bg-black bg-opacity-40 inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center">
     <div class="bg-white p-6 rounded-xl w-[450px] text-center shadow-xl">
         <div class="w-20 mx-auto mb-3 flex items-center justify-center">
 

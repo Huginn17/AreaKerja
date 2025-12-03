@@ -15,22 +15,23 @@
         </style>
     </head>
 
-    <body class="bg-gray-100 flex">
+    <body class="bg-gray-100 min-h-screen flex flex-col">
 
         <!-- Container -->
-        <div class="flex w-full">
+      <div class="flex flex-col md:flex-row w-full min-h-screen">
 
             <!-- Form -->
-            <div class="flex w-full md:w-4/5 bg-white items-center justify-center px-10">
-                <div class="w-full max-w-md">
+            <div class="flex w-full md:w-3/5 bg-white items-center justify-center px-6 sm:px-10 py-10">
+
+                <div class="w-full max-w-md mb-24">
 
                     <!-- Logo -->
-                    <div class="absolute top-6 left-6 gap-1 flex items-center">
+                   <div class="flex items-center gap-2 mb-8 md:mb-14">
                         <img src="{{ asset('images/logoarea.png') }}" alt="Logo" class="h-12 w-12">
                         <span class="font-bold mb-1 text-orange-500">areakerja.com</span>
                     </div>
 
-                    <div class="pt-20">
+                    <div class="pt-4">
                         <h2 class="text-2xl font-semibold text-center text-orange-600 mb-6">Buat Akun</h2>
                     </div>
 
@@ -181,7 +182,7 @@
             {{-- =============== MODAL PERUSAHAAN =============== --}}
             <div id="successModal_perusahaan"
                 class="hidden fixed inset-0 z-50 items-center justify-center bg-black/50">
-                <div class="relative bg-white rounded-2xl shadow-lg w-[90%] max-w-md p-8 text-center">
+               <div class="relative bg-white rounded-2xl shadow-lg w-[90%] max-w-md p-6 sm:p-8 text-center">
                     <button onclick="closeModal()"
                         class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-xl font-bold">&times;</button>
                     <h2 class="text-2xl font-bold mb-3">Selamat!</h2>
@@ -197,7 +198,7 @@
                 </div>
             </div>
 
-            <section class="relative hidden md:flex w-2/4">
+           <section class="relative hidden md:flex md:w-2/5 lg:w-2/4 h-screen overflow-hidden">
                 <img src="{{ asset('images/gambar2.jpg') }}" alt="Background" class="w-full h-full object-cover">
                 <div
                     class="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center text-center text-white px-6 pb-56">

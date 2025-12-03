@@ -3,7 +3,12 @@
     <meta property="og:title" content="{{ $data->nama }}">
     <meta property="og:site_name" content="Area Kerja">
     <meta property="og:description" content="{{ strip_tags(Str::limit($data->deskripsi, 150)) }}">
-    <meta property="og:url" content="{{ route('detail.lowongan.non.user', $data->slug) }}">
+    <meta property="og:url"
+        content="{{ route('detail.lowongan.non.user', [
+            'perusahaan' => $data->perusahaan->slug,
+            'lowongan' => $data->slug,
+        ]) }}">
+
     <meta property="og:type" content="article">
 
     <meta property="og:image" content="{{ asset($data->gambar ?? 'default.jpg') }}">
@@ -76,8 +81,6 @@
                                         <i x-show="saved" class="ph ph-heart-straight text-4xl"></i>
 
                                     </button>
-
-
                                 </div>
                             @endif
 
@@ -143,7 +146,8 @@
                 <div class="bg-white rounded-lg shadow p-12 space-y-6">
                     <div>
                         <h2 class="font-semibold text-lg mb-2">Detail Lowongan</h2>
-                        <p class="text-semibold text-gray-500">Berikut merupakan deskripsi lengkap terkait perusahaan yang anda tuju</p>
+                        <p class="text-semibold text-gray-500">Berikut merupakan deskripsi lengkap terkait perusahaan yang
+                            anda tuju</p>
                         <div class="flex items-start gap-3 mt-4">
 
                             <!-- ICON -->
@@ -170,7 +174,7 @@
                                     class="ml-3">{{ $data->alamat }}</span></p>
                         </div>
                     </div>
-<hr>
+                    <hr>
                     <div>
                         <h2 class="font-semibold text-lg mb-2">Requirements</h2>
                         <p class="text-gray-700">
@@ -183,20 +187,20 @@
                     <div>
                         <h2 class="font-semibold text-lg mb-2">Responsibilities</h2>
                         <p class="text-gray-700">
-                           @foreach (preg_split("/\r\n|\n|\r/", $data->tanggung_jawab) as $res)
-                        @php
-                            $trim = trim($res);
-                            $isNumbered = preg_match('/^\d+[\.\-\)]\s*/', $trim);
-                        @endphp
+                            @foreach (preg_split("/\r\n|\n|\r/", $data->tanggung_jawab) as $res)
+                                @php
+                                    $trim = trim($res);
+                                    $isNumbered = preg_match('/^\d+[\.\-\)]\s*/', $trim);
+                                @endphp
 
-                        @if ($trim !== '')
-                            @if ($isNumbered)
-                                <li style="list-style-type: none;">{{ $trim }}</li>
-                            @else
-                                <li>{{ $trim }}</li>
-                            @endif
-                        @endif
-                    @endforeach
+                                @if ($trim !== '')
+                                    @if ($isNumbered)
+                                        <li style="list-style-type: none;">{{ $trim }}</li>
+                                    @else
+                                        <li>{{ $trim }}</li>
+                                    @endif
+                                @endif
+                            @endforeach
                         </p>
                     </div>
                 </div>
@@ -210,7 +214,10 @@
 
                 <div class="bg-white rounded-lg shadow p-4 space-y-4">
                     @forelse ($lowonganLain as $item)
-                        <a href="{{ route('detail.lowongan.non.user', $item->id) }}"
+                        <a href="{{ route('detail.lowongan.non.user', [
+                            'perusahaan' => $item->perusahaan->slug,
+                            'lowongan' => $item->slug,
+                        ]) }}"
                             class="block border-b pb-4 hover:bg-gray-50 transition rounded-md p-2">
                             <div class="flex items-start gap-3">
                                 <img src="{{ asset('storage/' . $data->perusahaan->img_profile) }}" alt="logo"

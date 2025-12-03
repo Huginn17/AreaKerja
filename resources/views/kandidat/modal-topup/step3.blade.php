@@ -9,8 +9,8 @@
 
             <div class="border border-orange-400 rounded-lg p-6 space-y-3 text-sm">
                 <div class="flex justify-between">
-                    <span>No. Transaksi</span>
-                    <span id="detailTransaksi">-</span>
+                    {{-- <span>No. Transaksi</span>
+                    <span id="detailTransaksi">-</span> --}}
                 </div>
                 <div class="flex justify-between">
                     <span>Nama Pengirim</span>

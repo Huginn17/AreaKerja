@@ -65,7 +65,7 @@
         <div class="flex items-center justify-between mb-6">
             <div class="flex items-center gap-4">
                 <div>
-                    <a href="/super_admin/tambah/perusahaan"
+                    <a href="{{ route('superadmin.add.user.createForm') }}"
                         class="bg-orange-500 hover:bg-orange-600 border border-orange-600 text-white px-3 py-2 rounded-lg inline-flex items-center justify-center">
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
                             xmlns="http://www.w3.org/2000/svg">

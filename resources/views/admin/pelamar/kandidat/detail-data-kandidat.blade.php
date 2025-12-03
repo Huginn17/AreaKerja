@@ -147,14 +147,11 @@
                                         <rect width="335" height="1" fill="#FA6601" />
                                     </svg>
                                 </div>
-                                <table style="width: 100%;  font-size: 12px; margin-bottom: 24px;">
+                                <table style="width: auto;  font-size: 12px; margin-bottom: 24px;">
                                     @forelse ($pelamar->skill as $skill)
-                                        <tr>
+                                        <tr class="flex justify-between">
                                             <td style="padding: 2px 0;" class="font-bold">
-                                                ﹒{{ $skill->skill }}
-                                            </td>
-                                            <td style="text-align: right; padding: 2px 0;" class="font-bold">
-                                                {{ $skill->experience_level }}
+                                                ﹒{{ $skill->skill }} - {{ $skill->experience_level }}
                                             </td>
                                         </tr>
                                     @empty

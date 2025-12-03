@@ -261,7 +261,7 @@ class SuperAdminController extends Controller
         ]);
     }
 
-    
+
 
 
     public function pelamarhal(Request $request)
@@ -1231,12 +1231,16 @@ class SuperAdminController extends Controller
         ]);
     }
 
-    public function detailLowongan($id)
+    public function detailLowongan(Perusahaan $perusahaan, LowonganPerusahaan $lowongan)
     {
-        $lowongan = LowonganPerusahaan::with(['perusahaan'])->findOrFail($id);
+        // Pastikan lowongan milik perusahaan tersebut
+        if ($lowongan->perusahaan_id !== $perusahaan->id) {
+            abort(404);
+        }
 
         return view('super_admin.perusahaan.detail-lowongan', [
-            'lowongan' => $lowongan
+            'lowongan'   => $lowongan,
+            'perusahaan' => $perusahaan,
         ]);
     }
 
@@ -1500,9 +1504,7 @@ class SuperAdminController extends Controller
     {
         $search = $request->input('search');
 
-        $perusahaans = Perusahaan::whereHas('pasanglowongan.pelamar', function ($query) {
-            $query->where('pelamar_lowongans.status', 'diterima');
-        })
+        $perusahaans = Perusahaan::query()
             ->when($search, function ($query) use ($search) {
                 $query->where('nama_perusahaan', 'like', '%' . $search . '%');
             })
@@ -1524,40 +1526,54 @@ class SuperAdminController extends Controller
     }
 
 
+
     public function listPekerja(Request $request, $perusahaan_id)
     {
         $search = $request->input('search');
 
         $perusahaan = Perusahaan::with([
-            'pasanglowongan.pelamar' => function ($query) use ($search) {
-                $query->where('pelamar_lowongans.status', 'diterima');
-
-
-                if ($search) {
-                    $query->where('nama_pelamar', 'like', '%' . $search . '%');
-                }
-            },
-            'pasanglowongan'
+            'pasanglowongan',
         ])->findOrFail($perusahaan_id);
 
-        $pelamarDiterima = $perusahaan->pasanglowongan
-            ->flatMap(function ($lowongan) {
-                return $lowongan->pelamar->map(function ($pelamar) use ($lowongan) {
-                    return [
-                        'nama' => $pelamar->nama_pelamar ?? '-',
-                        'email' => $pelamar->user->email ?? '-',
-                        'lowongan' => $lowongan->nama ?? '-',
-                        'tanggal_diterima' => $pelamar->pivot->updated_at->format('d M Y'),
-                    ];
+        // =============================
+        // Pelamar dari tabel pelamar_lowongans
+        // =============================
+        $pelamarDiterima = PelamarLowongan::with(['pelamar.user', 'lowongan_perusahaan'])
+            ->where('status', 'diterima')
+            ->whereHas('lowongan_perusahaan', function ($q) use ($perusahaan_id) {
+                $q->where('perusahaan_id', $perusahaan_id);
+            })
+            ->when($search, function ($q) use ($search) {
+                $q->whereHas('pelamar', function ($sub) use ($search) {
+                    $sub->where('nama_pelamar', 'like', "%$search%");
                 });
+            })
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'nama' => $item->pelamar->nama_pelamar,
+                    'email' => $item->pelamar->user->email,
+                    'lowongan' => $item->lowongan_perusahaan->nama,
+                    'tanggal_diterima' => $item->updated_at->format('d M Y'),
+                    'jenis' => 'pelamar_melamar'
+                ];
             });
+
+        // =============================
+        // Nomor WhatsApp admin
+        // =============================
+        $waAdmin = '6287874732189'; // nomor WA admin
+        $waUrl = "https://wa.me/{$waAdmin}";
 
         return view('super_admin.panggilan.list-nama-pekerja', [
             'perusahaan' => $perusahaan,
             'pelamarDiterima' => $pelamarDiterima,
-            'search' => $search
+            'search' => $search,
+            'waUrl' => $waUrl,
         ]);
     }
+
+
 
 
 

@@ -17,7 +17,6 @@
             <h1 class="text-3xl md:text-4xl font-semibold mt-3 max-w-2xl">
                 Talent Hunter 
             </h1>
-            
             <p class="text-sm mt-4">Daftarkan perusahaan anda dan biar kami</p>
             <p class="text-sm"> yang mencarikan kandidat yang cocok untuk anda</p><br>
             <button>
@@ -75,8 +74,6 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
     </section>
 

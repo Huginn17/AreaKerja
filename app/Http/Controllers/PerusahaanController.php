@@ -46,34 +46,62 @@ class PerusahaanController extends Controller
 
     public function update_profile_perusahaan(Request $request, Perusahaan $perusahaan)
     {
-        $validated = $request->validate([
-            'nama_perusahaan'     => "nullable|string",
-            'jenis_perusahaan'    => "nullable|string",
-            'website_perusahaan'  => "nullable|string",
-            'telepon_perusahaan'  => "nullable|string",
-            'whatsapp'            => "nullable|string",
-            'legalitas'           => "nullable|string",
-            'deskripsi'           => "nullable|string",
-            'visi'                => "nullable|string",
-            'misi'                => "nullable|string",
-            'img_profile'         => "nullable|image|mimes:jpg,jpeg,png|max:2048",
-        ]);
+        try {
+            $validated = $request->validate([
+                'nama_perusahaan'     => "nullable|string",
+                'jenis_perusahaan'    => "nullable|string",
+                'website_perusahaan'  => "nullable|string",
+                'telepon_perusahaan'  => "nullable|string",
+                'whatsapp'            => "nullable|string",
+                'legalitas'           => "nullable|string",
+                'deskripsi'           => "nullable|string",
+                'visi'                => "nullable|string",
+                'misi'                => "nullable|string",
+                'img_profile'         => "nullable|image|mimes:jpg,jpeg,png|max:2048",
+            ]);
 
-        if ($request->hasFile('img_profile')) {
-            // Hapus foto lama jika ada
-            if ($perusahaan->img_profile && Storage::exists('public/' . $perusahaan->img_profile)) {
-                Storage::delete('public/' . $perusahaan->img_profile);
+            if ($request->hasFile('img_profile')) {
+                // Hapus foto lama jika ada
+                if ($perusahaan->img_profile && Storage::exists('public/' . $perusahaan->img_profile)) {
+                    Storage::delete('public/' . $perusahaan->img_profile);
+                }
+
+                // Simpan foto baru ke storage/app/public/images
+                $validated['img_profile'] = $request->file('img_profile')->store('images', 'public');
             }
 
-            // Simpan foto baru ke storage/app/public/images
-            $validated['img_profile'] = $request->file('img_profile')->store('images', 'public');
+            $perusahaan->update($validated);
+
+            // Notifikasi berhasil update
+            Notifikasi::create([
+                'user_id' => Auth::id(),
+                'perusahaan_id' => $perusahaan->id,
+                'judul' => 'Profile Perusahaan Diperbarui',
+                'pesan' => 'Profile perusahaan <b>' . $perusahaan->nama_perusahaan . '</b> berhasil diperbarui.',
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7),
+                'pelamar_lowongan_id' => null,
+            ]);
+
+            return redirect()->route('profile.perusahaan')
+                ->with('success', 'Profile berhasil diupdate');
+        } catch (\Exception $e) {
+            // Notifikasi gagal update
+            Notifikasi::create([
+                'user_id' => Auth::id(),
+                'perusahaan_id' => $perusahaan->id,
+                'judul' => 'Gagal Memperbarui Profile Perusahaan',
+                'pesan' => 'Terjadi kesalahan saat memperbarui profile perusahaan <b>' . $perusahaan->nama_perusahaan . '</b>: ' . $e->getMessage(),
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7),
+                'pelamar_lowongan_id' => null,
+            ]);
+
+            return redirect()->route('profile.perusahaan')
+                ->with('error', 'Terjadi kesalahan! Profile gagal diperbarui.');
         }
-
-        $perusahaan->update($validated);
-
-        return redirect()->route('profile.perusahaan')
-            ->with('success', 'Profile berhasil diupdate');
     }
+
 
 
 
@@ -129,35 +157,75 @@ class PerusahaanController extends Controller
     {
         $perusahaan = Auth::user()->perusahaan;
 
-        // Hitung alamat yang sudah dimiliki perusahaan
-        $jumlahAlamat = $perusahaan->alamat_perusahaan()->count();
+        try {
+            // Hitung alamat yang sudah dimiliki perusahaan
+            $jumlahAlamat = $perusahaan->alamat_perusahaan()->count();
 
-        // Jika sudah 4 → otomatis tolak
-        if ($jumlahAlamat >= 4) {
+            // Jika sudah 4 → otomatis tolak
+            if ($jumlahAlamat >= 4) {
+                // Notifikasi gagal karena alamat maksimal
+                Notifikasi::create([
+                    'user_id' => Auth::id(),
+                    'perusahaan_id' => $perusahaan->id,
+                    'judul' => 'Gagal Menambahkan Alamat',
+                    'pesan' => 'Maksimal 4 alamat perusahaan yang diperbolehkan.',
+                    'is_read' => 0,
+                    'expired_at' => now()->addDays(7),
+                    'pelamar_lowongan_id' => null,
+                ]);
+
+                return redirect()
+                    ->route('alamat.perusahaan')
+                    ->with('error', 'Maksimal 4 alamat perusahaan yang diperbolehkan.');
+            }
+
+            // Validasi
+            $validated = $request->validate([
+                'label'        => 'nullable|string|max:255',
+                'desa'         => 'nullable|string|max:255',
+                'provinsi_id'  => 'nullable|exists:provinsis,id',
+                'kota_id'      => 'nullable|exists:kotas,id',
+                'kecamatan_id' => 'nullable|exists:kecamatans,id',
+                'kode_pos'     => 'nullable|string|max:10',
+                'detail'       => 'nullable|string|max:500',
+            ]);
+
+            $validated['perusahaan_id'] = $perusahaan->id;
+
+            AlamatPerusahaan::create($validated);
+
+            // Notifikasi berhasil
+            Notifikasi::create([
+                'user_id' => Auth::id(),
+                'perusahaan_id' => $perusahaan->id,
+                'judul' => 'Alamat Berhasil Ditambahkan',
+                'pesan' => 'Alamat baru perusahaan telah berhasil ditambahkan.',
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7),
+                'pelamar_lowongan_id' => null,
+            ]);
+
             return redirect()
                 ->route('alamat.perusahaan')
-                ->with('error', 'Maksimal 4 alamat perusahaan yang diperbolehkan.');
+                ->with('success', 'Alamat berhasil ditambahkan');
+        } catch (\Exception $e) {
+            // Notifikasi gagal karena error lain
+            Notifikasi::create([
+                'user_id' => Auth::id(),
+                'perusahaan_id' => $perusahaan->id,
+                'judul' => 'Gagal Menambahkan Alamat',
+                'pesan' => 'Terjadi kesalahan saat menambahkan alamat: ' . $e->getMessage(),
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7),
+                'pelamar_lowongan_id' => null,
+            ]);
+
+            return redirect()
+                ->route('alamat.perusahaan')
+                ->with('error', 'Terjadi kesalahan! Alamat gagal ditambahkan.');
         }
-
-        // Validasi
-        $validated = $request->validate([
-            'label'        => 'nullable|string|max:255',
-            'desa'         => 'nullable|string|max:255',
-            'provinsi_id'  => 'nullable|exists:provinsis,id',
-            'kota_id'      => 'nullable|exists:kotas,id',
-            'kecamatan_id' => 'nullable|exists:kecamatans,id',
-            'kode_pos'     => 'nullable|string|max:10',
-            'detail'       => 'nullable|string|max:500',
-        ]);
-
-        $validated['perusahaan_id'] = $perusahaan->id;
-
-        AlamatPerusahaan::create($validated);
-
-        return redirect()
-            ->route('alamat.perusahaan')
-            ->with('success', 'Alamat berhasil ditambahkan');
     }
+
 
 
     public function edit_alamat(AlamatPerusahaan $alamatperusahaan)

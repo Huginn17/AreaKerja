@@ -6,7 +6,7 @@
             {{-- Search Bar --}}
             <form action="{{ route('lowongan.search') }}" method="GET">
                 <div
-                    class="flex flex-col md:flex-row py-3 border border-gray-500 items-center text-gray-700 font-semibold rounded-xl shadow-md">
+                    class="flex flex-col md:flex-row py-3 border border-gray-300 items-center text-gray-700 font-semibold rounded-xl shadow-lg">
 
                     {{-- ICON search --}}
                     <img src="{{ asset('images/search.png') }}" alt="search" class="w-5 h-5 ml-7 mb-1">

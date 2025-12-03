@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AlamatPelamar;
+use App\Models\Notifikasi;
 use App\Models\Pelamar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,40 +25,66 @@ class ProfileController extends Controller
 
     public function update_profile(Request $request, Pelamar $pelamar)
     {
+        try {
 
-        $validated = $request->validate([
-            "nama_pelamar"    =>      "nullable",
-            "img_profile"     =>      "nullable|file|image",
-            "gender"          =>      "nullable",
-            "tanggal_lahir"   =>      "nullable",
-            "deskripsi_diri"  =>     "nullable",
-            "gaji_minimal"    =>     "nullable",
-            "gaji_maksimal"    =>     "nullable"
-        ]);
+            $validated = $request->validate([
+                "nama_pelamar"    => "nullable",
+                "img_profile"     => "nullable|file|image",
+                "gender"          => "nullable",
+                "tanggal_lahir"   => "nullable",
+                "deskripsi_diri"  => "nullable",
+                "gaji_minimal"    => "nullable",
+                "gaji_maksimal"   => "nullable"
+            ]);
 
-        if ($request->hasFile('img_profile')) {
-            // Hapus foto lama jika ada
-            if ($pelamar->img_profile && Storage::exists('public/' . $pelamar->img_profile)) {
-                Storage::delete('public/' . $pelamar->img_profile);
+            if ($request->hasFile('img_profile')) {
+                if ($pelamar->img_profile && Storage::exists('public/' . $pelamar->img_profile)) {
+                    Storage::delete('public/' . $pelamar->img_profile);
+                }
+
+                $validated['img_profile'] = $request
+                    ->file('img_profile')
+                    ->store('images', 'public');
             }
-            // Simpan foto baru
-            $validated['img_profile'] = $request->file('img_profile')->store('images', 'public');
+
+            $validated['user_id'] = Auth::id();
+            $pelamar->update($validated);
+
+            // Update sosmed
+            $sosmed = $request->only(['instagram', 'linkedin', 'website', 'twitter']);
+            $pelamar->sosmed()->updateOrCreate([], $sosmed);
+
+            /* ============================
+           INSERT NOTIFIKASI BERHASIL
+        ============================= */
+            Notifikasi::create([
+                'user_id'   => Auth::id(),
+                'judul'     => 'Profil Berhasil Diperbarui',
+                'pesan'     => 'Data profil Anda telah berhasil disimpan.',
+                'is_read'   => 0,
+                'expired_at' => now()->addDays(7),
+            ]);
+
+            return redirect()->route('profile.index')
+                ->with('success', 'Profile berhasil diperbarui');
+        } catch (\Exception $e) {
+
+            /* ============================
+           INSERT NOTIFIKASI GAGAL
+        ============================= */
+            Notifikasi::create([
+                'user_id'   => Auth::id(),
+                'judul'     => 'Gagal Memperbarui Profil',
+                'pesan'     => 'Terjadi kesalahan saat menyimpan data profil Anda.',
+                'is_read'   => 0,
+                'expired_at' => now()->addDays(7),
+            ]);
+
+            return redirect()->back()
+                ->with('error', 'Profile gagal diperbarui! Error: ' . $e->getMessage());
         }
-
-        $validated['user_id'] = Auth::user()->id;
-        $pelamar->update($validated);
-
-        $sosmed = $request->validate([
-            "instagram" => "nullable",
-            "linkedin" => "nullable",
-            "website" => "nullable",
-            "twitter" => "nullable",
-        ]);
-
-        $sosmed = $request->only(['instagram', 'linkedin', 'website', 'twitter']);
-        $pelamar->sosmed()->updateOrCreate([], $sosmed);
-        return redirect()->route('profile.index')->with('success', 'Profile berhasil diupdate');
     }
+
     public function destroy_profile(Pelamar $pelamar)
     {
 
@@ -107,31 +134,71 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        // Hitung alamat yang sudah ada
-        $jumlahAlamat = $user->pelamar->alamat_pelamar()->count();
+        try {
+            // Hitung alamat yang sudah ada
+            $jumlahAlamat = $user->pelamar->alamat_pelamar()->count();
 
-        // Jika sudah 4 → stop
-        if ($jumlahAlamat >= 4) {
-            return redirect()->route('alamat')->with('error', 'Maksimal 4 alamat diperbolehkan.');
+            // Jika sudah 4 → stop + buat notifikasi
+            if ($jumlahAlamat >= 4) {
+
+                Notifikasi::create([
+                    'user_id'   => $user->id,
+                    'judul'     => 'Batas Maksimal Alamat',
+                    'pesan'     => 'Anda hanya dapat menyimpan maksimal 4 alamat.',
+                    'is_read'   => 0,
+                    'expired_at' => now()->addDays(7),
+                ]);
+
+                return redirect()->route('alamat')
+                    ->with('error', 'Maksimal 4 alamat diperbolehkan.');
+            }
+
+            // Validasi
+            $validated = $request->validate([
+                'label'      => 'nullable',
+                'desa'       => 'nullable',
+                'kecamatan'  => 'nullable',
+                'kota'       => 'nullable',
+                'provinsi'   => 'nullable',
+                'kode_pos'   => 'nullable',
+                'detail'     => 'nullable'
+            ]);
+
+            $validated['pelamar_id'] = $user->pelamar->id;
+
+            AlamatPelamar::create($validated);
+
+            /* ============================
+           NOTIFIKASI BERHASIL
+        ============================ */
+            Notifikasi::create([
+                'user_id'   => $user->id,
+                'judul'     => 'Alamat Berhasil Ditambahkan',
+                'pesan'     => 'Alamat baru Anda telah berhasil disimpan.',
+                'is_read'   => 0,
+                'expired_at' => now()->addDays(7),
+            ]);
+
+            return redirect()->route('alamat')
+                ->with('success', 'Alamat berhasil disimpan.');
+        } catch (\Exception $e) {
+
+            /* ============================
+           NOTIFIKASI GAGAL
+        ============================ */
+            Notifikasi::create([
+                'user_id'   => $user->id,
+                'judul'     => 'Gagal Menyimpan Alamat',
+                'pesan'     => 'Terjadi kesalahan saat menyimpan alamat Anda.',
+                'is_read'   => 0,
+                'expired_at' => now()->addDays(7),
+            ]);
+
+            return redirect()->route('alamat')
+                ->with('error', 'Terjadi kesalahan! Alamat gagal disimpan.');
         }
-
-        // Validasi
-        $validated = $request->validate([
-            'label'      => 'nullable',
-            'desa'       => 'nullable',
-            'kecamatan'  => 'nullable',
-            'kota'       => 'nullable',
-            'provinsi'   => 'nullable',
-            'kode_pos'   => 'nullable',
-            'detail'     => 'nullable'
-        ]);
-
-        $validated['pelamar_id'] = $user->pelamar->id;
-
-        AlamatPelamar::create($validated);
-
-        return redirect()->route('alamat')->with('success', 'Alamat berhasil disimpan.');
     }
+
 
 
     public function edit_alamat(AlamatPelamar $alamatpelamar)

@@ -132,7 +132,7 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            /* background: rgba(0, 0, 0, 0.8); */
             justify-content: center;
             align-items: center;
         }
@@ -275,7 +275,6 @@
                 </a>
 
 
-
                 <a href="{{ url('/pelamar/tips-kerja') }}"
                     class=" hover:text-orange-500 hover:scale-105 hover:font-bold transition-all duration-400
                         {{ Route::is('pelamar.tips-kerja') ? 'font-bold text-orange-500 text-md scale-105' : '' }}">
@@ -375,10 +374,10 @@
                         </button>
 
                         {{-- Dropdown --}}
-                        <div class="z-50 hidden my-4 text-base bg-white divide-y divide-gray-100 rounded-lg shadow-md"
+                        <div class="z-50 max-w-[300px] hidden my-4 text-base bg-white divide-y divide-gray-100 rounded-lg shadow-lg"
                             id="user-dropdown">
                             <div class="px-4 py-3">
-                                <span class="block text-sm text-gray-900">{{ Auth::user()->username }}</span>
+                                <span class="block text-sm text-gray-900 break-all">{{ Auth::user()->username }}</span>
                                 <span class="block text-sm text-gray-500 truncate">{{ Auth::user()->email }}</span>
                             </div>
                             <ul class="py-2" aria-labelledby="user-menu-button">

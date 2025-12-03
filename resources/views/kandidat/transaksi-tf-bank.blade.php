@@ -9,7 +9,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
             <!-- Kiri -->
             <div class="text-sm">
-                <p class="font-medium text-gray-600">No. Transaksi</p>
+                <p class="font-medium text-gray-600">No. Referensi</p>
                 <p class="text-lg font-semibold text-gray-800 mb-6">{{ $transaksi->no_referensi }}</p>
 
                 <p class="font-medium text-gray-600 mb-2">Status Tagihan</p>

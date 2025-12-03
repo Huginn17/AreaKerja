@@ -128,7 +128,7 @@
                             <div class="text-sm font-medium space-y-2">
                                 @foreach ($perusahaan->lowonganPerusahaans as $lowongan)
                                     <div>
-                                        <a href="{{ route('admin.lowongan.detail', $lowongan->id) }}"
+                                        <a href="{{ route('admin.lowongan.detail', [$perusahaan->slug, $lowongan->slug]) }}"
                                             class="text-blue-500 text-sm font-semibold hover:underline mb-1">{{ $lowongan->nama }}</a>
                                         <p class="text-gray-400 mb-1">{{ $lowongan->alamat }} </p>
                                         <p class="text-gray-400">{{ $lowongan->published_at ?? $lowongan->created_at }}</p>

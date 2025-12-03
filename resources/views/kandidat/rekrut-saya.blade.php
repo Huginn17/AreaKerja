@@ -22,7 +22,10 @@
     <!-- Card List -->
     <div class="max-w-4xl mx-auto my-8 px-4 grid gap-4">
         @forelse ($tawaran as $t)
-            <a href="{{ route('kandidat.detailTawaran', $t->id) }}"
+            <a href="{{ route('kandidat.detailTawaran', [
+                'perusahaan' => $t->lowonganPerusahaan->perusahaan->slug,
+                'lowongan' => $t->lowonganPerusahaan->slug,
+            ]) }}"
                 class="block bg-white rounded-xl shadow-[0_3px_10px_rgba(0,0,0,0.08)] p-5 hover:shadow-lg transition transform hover:-translate-y-1">
                 <div class="flex items-start justify-between">
                     <div class="flex items-start space-x-4">

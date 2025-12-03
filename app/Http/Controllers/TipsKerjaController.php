@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notifikasi;
 use App\Models\TipsKerja;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,72 +37,91 @@ class TipsKerjaController extends Controller
 
     public function store_tips_kerja(Request $request)
     {
-        $d = $request->validate([
-            'title'   => 'nullable|string',
-            'content' => 'nullable|string',
-            'penulis' => 'nullable|string',
-            'image'   => 'nullable|image|mimes:png,jpg,jpeg',
-            'status'  => 'nullable|in:terbit,belum terbit',
-            'intro'   => 'nullable|string',
-            'section' => 'nullable|json',
-        ]);
+        try {
+            $d = $request->validate([
+                'title'   => 'nullable|string',
+                'content' => 'nullable|string',
+                'penulis' => 'nullable|string',
+                'image'   => 'nullable|image|mimes:png,jpg,jpeg',
+                'status'  => 'nullable|in:terbit,belum terbit',
+                'intro'   => 'nullable|string',
+                'section' => 'nullable|json',
+            ]);
 
-        // Tambah slug
-        if (!empty($request->title)) {
-            // Contoh: judul → "tips-wawancara-kerja"
-            $baseSlug = Str::slug($request->title);
-            $slug = $baseSlug;
+            // Slug
+            if (!empty($request->title)) {
+                $baseSlug = Str::slug($request->title);
+                $slug = $baseSlug;
 
-            // Cek apakah slug sudah digunakan → jika ya, tambahkan angka di belakang
-            $counter = 1;
-            while (TipsKerja::where('slug', $slug)->exists()) {
-                $slug = $baseSlug . '-' . $counter++;
-            }
-        } else {
-            // Title kosong → slug pakai timestamp agar tetap unik
-            $slug = 'tips-' . time();
-        }
-
-        $d['slug'] = $slug;
-
-        $d['penulis'] = Auth::user()->username;
-        $d['status'] = 'belum terbit';
-
-        if (empty($request->intro) && !empty($request->content)) {
-            $d['intro'] = Str::limit(strip_tags($request->content), 150);
-        } else {
-            $d['intro'] = $request->intro;
-        }
-
-        if (empty($request->section) && !empty($request->content)) {
-            $paragraphs = preg_split('/\r\n|\r|\n/', strip_tags($request->content));
-
-            $sections = [];
-            foreach ($paragraphs as $index => $pgr) {
-                if (trim($pgr) !== '') {
-                    $sections[] = [
-                        "judul" => "Bagian " . ($index + 1),
-                        "isi"   => $pgr,
-                    ];
+                $counter = 1;
+                while (TipsKerja::where('slug', $slug)->exists()) {
+                    $slug = $baseSlug . '-' . $counter++;
                 }
+            } else {
+                $slug = 'tips-' . time();
+            }
+            $d['slug'] = $slug;
+
+            $d['penulis'] = Auth::user()->username;
+            $d['status'] = 'belum terbit';
+
+            if (empty($request->intro) && !empty($request->content)) {
+                $d['intro'] = Str::limit(strip_tags($request->content), 150);
+            } else {
+                $d['intro'] = $request->intro;
             }
 
-            $d['section'] = json_encode($sections);
-        } else {
-            $d['section'] = $request->section;
-        }
+            if (empty($request->section) && !empty($request->content)) {
+                $paragraphs = preg_split('/\r\n|\r|\n/', strip_tags($request->content));
 
-        if ($request->hasFile('image')) {
-            if ($request->image && Storage::exists('public/' . $request->image)) {
-                Storage::delete('public/' . $request->image);
+                $sections = [];
+                foreach ($paragraphs as $index => $pgr) {
+                    if (trim($pgr) !== '') {
+                        $sections[] = [
+                            "judul" => "Bagian " . ($index + 1),
+                            "isi"   => $pgr,
+                        ];
+                    }
+                }
+
+                $d['section'] = json_encode($sections);
+            } else {
+                $d['section'] = $request->section;
             }
-            $d['image'] = $request->file('image')->store('images', 'public');
+
+            if ($request->hasFile('image')) {
+                $d['image'] = $request->file('image')->store('images', 'public');
+            }
+
+            TipsKerja::create($d);
+
+            /* NOTIFIKASI BERHASIL */
+            Notifikasi::create([
+                'user_id' => Auth::id(),
+                'perusahaan_id' => null,
+                'judul' => 'Tips Kerja Berhasil Ditambahkan',
+                'pesan' => 'Tips kerja dengan judul <b>' . ($request->title ?? 'Tanpa Judul') . '</b> berhasil disimpan.',
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7)
+            ]);
+
+            return redirect()->route('admin.tips-kerja')->with('success', 'Data berhasil disimpan.');
+        } catch (\Exception $e) {
+
+            /* NOTIFIKASI GAGAL */
+            Notifikasi::create([
+                'user_id' => Auth::id(),
+                'perusahaan_id' => null,
+                'judul' => 'Gagal Menyimpan Tips Kerja',
+                'pesan' => 'Terjadi kesalahan saat menyimpan data tips kerja.',
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7)
+            ]);
+
+            return redirect()->back()->with('error', 'Gagal menyimpan data.');
         }
-
-        TipsKerja::create($d);
-
-        return redirect()->route('admin.tips-kerja')->with('success', 'Data berhasil disimpan.');
     }
+
 
 
     public function update_status(Request $request)
@@ -109,26 +129,64 @@ class TipsKerjaController extends Controller
         $ids = $request->ids;
 
         if (!$ids) {
+
+            Notifikasi::create([
+                'user_id' => Auth::id(),
+                'judul' => 'Gagal Mengubah Status Tips Kerja',
+                'pesan' => 'Tidak ada data yang dipilih untuk diubah statusnya.',
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7),
+            ]);
+
             return redirect()->back()->with('error', 'Data yang ingin diubah tidak ditemukan.');
         }
 
         TipsKerja::whereIn('id', $ids)->update([
             'status' => $request->status
         ]);
+
+        Notifikasi::create([
+            'user_id' => Auth::id(),
+            'judul' => 'Status Tips Kerja Diperbarui',
+            'pesan' => count($ids) . ' data tips kerja berhasil diubah statusnya menjadi <b>' . $request->status . '</b>.',
+            'is_read' => 0,
+            'expired_at' => now()->addDays(7),
+        ]);
+
         return redirect()->route('admin.tips-kerja')->with('success', 'Data berhasil diubah.');
     }
+
 
     public function destroy(Request $request)
     {
         $ids = $request->ids;
 
         if (!$ids) {
+
+            Notifikasi::create([
+                'user_id' => Auth::id(),
+                'judul' => 'Gagal Menghapus Tips Kerja',
+                'pesan' => 'Tidak ada data yang dipilih untuk dihapus.',
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7),
+            ]);
+
             return redirect()->back()->with('error', 'Data yang ingin dihapus tidak ditemukan.');
         }
 
         TipsKerja::whereIn('id', $ids)->delete();
+
+        Notifikasi::create([
+            'user_id' => Auth::id(),
+            'judul' => 'Tips Kerja Berhasil Dihapus',
+            'pesan' => count($ids) . ' data tips kerja berhasil dihapus.',
+            'is_read' => 0,
+            'expired_at' => now()->addDays(7),
+        ]);
+
         return redirect()->route('admin.tips-kerja')->with('success', 'Data berhasil dihapus.');
     }
+
 
 
 
@@ -155,75 +213,94 @@ class TipsKerjaController extends Controller
 
     public function store_tips_kerja_superadmin(Request $request)
     {
-        $d = $request->validate([
-            'title'   => 'nullable|string',
-            'content' => 'nullable|string',
-            'penulis' => 'nullable|string',
-            'image'   => 'nullable|file|image|mimes:png,jpg,jpeg',
-            'status'  => 'nullable',
-            'intro'   => 'nullable|string',
-            'section' => 'nullable|json',
-        ]);
+        try {
+            $d = $request->validate([
+                'title'   => 'nullable|string',
+                'content' => 'nullable|string',
+                'penulis' => 'nullable|string',
+                'image'   => 'nullable|file|image|mimes:png,jpg,jpeg',
+                'status'  => 'nullable',
+                'intro'   => 'nullable|string',
+                'section' => 'nullable|json',
+            ]);
 
-        // ==== SLUG ====
-        if (!empty($request->title)) {
+            // SLUG
+            if (!empty($request->title)) {
+                $baseSlug = Str::slug($request->title);
+                $slug = $baseSlug;
 
-            // Buat slug dasar
-            $baseSlug = Str::slug($request->title);
-            $slug = $baseSlug;
-
-            // Cek apakah slug sudah ada
-            $counter = 1;
-            while (TipsKerja::where('slug', $slug)->exists()) {
-                $slug = $baseSlug . '-' . $counter++;
-            }
-        } else {
-            // Title kosong → slug pakai timestamp
-            $slug = 'tips-' . time();
-        }
-
-        $d['slug'] = $slug;
-        // ==============
-
-
-        $d['penulis'] = Auth::user()->username;
-        $d['status'] = 'belum terbit';
-
-        if (empty($request->intro) && !empty($request->content)) {
-            $d['intro'] = Str::limit(strip_tags($request->content), 150);
-        } else {
-            $d['intro'] = $request->intro;
-        }
-
-        if (empty($request->section) && !empty($request->content)) {
-            $paragraphs = preg_split('/\r\n|\r|\n/', strip_tags($request->content));
-
-            $sections = [];
-            foreach ($paragraphs as $index => $pgr) {
-                if (trim($pgr) !== '') {
-                    $sections[] = [
-                        "judul" => "Bagian " . ($index + 1),
-                        "isi"   => $pgr,
-                    ];
+                $counter = 1;
+                while (TipsKerja::where('slug', $slug)->exists()) {
+                    $slug = $baseSlug . '-' . $counter++;
                 }
+            } else {
+                $slug = 'tips-' . time();
             }
 
-            $d['section'] = json_encode($sections);
-        } else {
-            $d['section'] = $request->section;
-        }
+            $d['slug'] = $slug;
 
-        if ($request->hasFile('image')) {
-            if ($request->image && Storage::exists('public/' . $request->image)) {
-                Storage::delete('public/' . $request->image);
+            // Set default
+            $d['penulis'] = Auth::user()->username;
+            $d['status'] = 'belum terbit';
+
+            if (empty($request->intro) && !empty($request->content)) {
+                $d['intro'] = Str::limit(strip_tags($request->content), 150);
+            } else {
+                $d['intro'] = $request->intro;
             }
-            $d['image'] = $request->file('image')->store('images', 'public');
+
+            if (empty($request->section) && !empty($request->content)) {
+                $paragraphs = preg_split('/\r\n|\r|\n/', strip_tags($request->content));
+
+                $sections = [];
+                foreach ($paragraphs as $index => $pgr) {
+                    if (trim($pgr) !== '') {
+                        $sections[] = [
+                            "judul" => "Bagian " . ($index + 1),
+                            "isi"   => $pgr,
+                        ];
+                    }
+                }
+
+                $d['section'] = json_encode($sections);
+            } else {
+                $d['section'] = $request->section;
+            }
+
+            if ($request->hasFile('image')) {
+                $d['image'] = $request->file('image')->store('images', 'public');
+            }
+
+            TipsKerja::create($d);
+
+            /* ========= NOTIFIKASI BERHASIL =========== */
+            Notifikasi::create([
+                'user_id' => Auth::id(),
+                'perusahaan_id' => null,
+                'judul' => 'Tips Kerja Berhasil Ditambahkan (Superadmin)',
+                'pesan' => 'Tips kerja dengan judul <b>' . ($request->title ?? 'Tanpa Judul') . '</b> berhasil disimpan.',
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7),
+            ]);
+
+            return redirect()->route('superadmin.tips-kerja')
+                ->with('success', 'Data berhasil disimpan.');
+        } catch (\Exception $e) {
+
+            /* ========= NOTIFIKASI GAGAL =========== */
+            Notifikasi::create([
+                'user_id' => Auth::id(),
+                'perusahaan_id' => null,
+                'judul' => 'Gagal Menambah Tips Kerja (Superadmin)',
+                'pesan' => 'Terjadi kesalahan saat menyimpan tips kerja.',
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7),
+            ]);
+
+            return redirect()->back()->with('error', 'Gagal menyimpan data.');
         }
-
-        TipsKerja::create($d);
-
-        return redirect()->route('superadmin.tips-kerja')->with('success', 'Data berhasil disimpan.');
     }
+
 
 
     public function update_status_superadmin(Request $request)
@@ -231,24 +308,61 @@ class TipsKerjaController extends Controller
         $ids = $request->ids;
 
         if (!$ids) {
-            return redirect()->back()->with('error', 'Data yang ingin diubah tidak ditemukan.');
+
+            Notifikasi::create([
+                'user_id' => Auth::id(),
+                'judul' => 'Gagal Mengubah Status Tips Kerja (Superadmin)',
+                'pesan' => 'Tidak ada data yang dipilih untuk diubah statusnya.',
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7),
+            ]);
+
+            return redirect()->back()->with('error', 'Data tidak ditemukan.');
         }
 
         TipsKerja::whereIn('id', $ids)->update([
             'status' => $request->status
         ]);
+
+        Notifikasi::create([
+            'user_id' => Auth::id(),
+            'judul' => 'Status Tips Kerja Diperbarui (Superadmin)',
+            'pesan' => count($ids) . ' tips kerja berhasil diperbarui menjadi <b>' . $request->status . '</b>.',
+            'is_read' => 0,
+            'expired_at' => now()->addDays(7),
+        ]);
+
         return redirect()->route('superadmin.tips-kerja')->with('success', 'Data berhasil diubah.');
     }
+
 
     public function destroy_superadmin(Request $request)
     {
         $ids = $request->ids;
 
         if (!$ids) {
-            return redirect()->back()->with('error', 'Data yang ingin dihapus tidak ditemukan.');
+
+            Notifikasi::create([
+                'user_id' => Auth::id(),
+                'judul' => 'Gagal Menghapus Tips Kerja (Superadmin)',
+                'pesan' => 'Tidak ada data yang dipilih untuk dihapus.',
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7),
+            ]);
+
+            return redirect()->back()->with('error', 'Data tidak ditemukan.');
         }
 
         TipsKerja::whereIn('id', $ids)->delete();
+
+        Notifikasi::create([
+            'user_id' => Auth::id(),
+            'judul' => 'Tips Kerja Berhasil Dihapus (Superadmin)',
+            'pesan' => count($ids) . ' tips kerja berhasil dihapus.',
+            'is_read' => 0,
+            'expired_at' => now()->addDays(7),
+        ]);
+
         return redirect()->route('superadmin.tips-kerja')->with('success', 'Data berhasil dihapus.');
     }
 }

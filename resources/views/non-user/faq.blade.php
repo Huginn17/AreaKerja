@@ -37,7 +37,7 @@
                 <!-- Kolom Kiri -->
                 <div class="space-y-6">
                     <div>
-                        <h3 class="font-semibold mb-1">Bagaimana Melamar Pekerjaan di Area Kerja ?</h3>
+                        <h3 class="font-semibold mb-1">Bagaimana Melamar Pekerjaan di Area Kerja?</h3>
                         <p class="text-sm text-gray-600">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. <span class="text-orange-500">Viverra
                                 faucibus lectus viverra id</span>. Lectus habitant nisl, posuere at urna ut vitae hac

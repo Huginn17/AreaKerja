@@ -21,10 +21,11 @@
 </head>
 
 <body class="bg-gray-100">
-    <div class="flex min-h-screen">
+   <div class="flex flex-col md:flex-row min-h-screen">
 
         {{-- Background dengan overlay  --}}
-        <section class="relative h-screen w-2/4">
+       <section class="relative h-64 md:h-screen md:w-2/4 w-full hidden md:block">
+
             <img src="{{ asset('images/gambar2.jpg') }}" alt="Background"
                 class="absolute inset-0 w-full h-full object-cover">
 
@@ -41,7 +42,7 @@
                 </div>
 
                 <!-- Text -->
-                <h1 class="text-3xl font-bold mt-[-45%] mb-10">Hallo, Pekerja</h1>
+                <h1 class="text-3xl font-bold mt-10 md:mt-[-45%] mb-10">Hallo, Pekerja</h1>
                 <p class="text-sm mb-10">untuk tetap terhubung dengan kami, silakan<br> masuk dengan informasi pribadi
                     Anda</p>
 
@@ -57,6 +58,7 @@
 
         <!-- Kanan -->
         <div class="flex w-full md:w-4/5 bg-white items-center justify-center">
+
             <div class="w-full max-w-md p-8">
                 <h2 class="text-2xl font-bold text-center text-orange-600 mb-6">Masuk</h2>
 

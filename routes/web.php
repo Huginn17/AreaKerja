@@ -49,7 +49,8 @@ Route::controller(UploadController::class)->group(function () {
 
 //SHARE LOWONGAN
 Route::controller(ShareLowonganController::class)->group(function () {
-    Route::get('/share/{platform}/{slug}', 'share')->name('lowongan.share');
+    Route::get('/share/{platform}/{companySlug}/{jobSlug}', 'share')
+        ->name('lowongan.share');
     Route::get('/tips/share/{platform}/{slug}', 'sharetips')->name('tips.share');
 });
 
@@ -149,7 +150,7 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
         Route::post('/lamar-cepat/{lowongan}', 'storeQuick')->name('lamar.cepat');
 
         //detail lowongan
-        Route::get('/detail-lowongan/{lowongan}', 'detail_lowongan_non_user')->name('detail.lowongan.non.user');
+        Route::get('/detail-lowongan/{perusahaan}/{lowongan}', 'detail_lowongan_non_user')->name('detail.lowongan.non.user');
         Route::get('/detail-lowongan/{slug}', 'detail_lowongan_non_userShare')->name('lowongan.show');
 
         //notifikasi lamaran pelamar
@@ -161,10 +162,14 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
         Route::get('/kandidat/transaksi/{id}', 'transaksi')->name('kandidat.transaksi');
         Route::post('/kandidat/{id}/upload-bukti', 'uploadBukti')->name('kandidat.catatan_cash.upload_bukti');
 
-        //Transaksi
+        //Transaksi 
         Route::get('/transaksi', 'transaksiPendaftaranKandidat')->name('transaksi.pendaftaran');
     });
 
+    Route::controller(PelamarLowonganController::class)->group(function () {
+        //lamar
+        Route::post('/lamar-cepat/{lowongan}', 'storeQuick')->name('lamar.cepat');
+    });
 
 
     //PROFILE CONTROLLER
@@ -230,7 +235,8 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
     Route::controller(PembeliKandidatController::class)->group(function () {
         //tawaran
         Route::get('/tawaran', 'tawaran')->name('pelamar.tawaran');
-        Route::get('/kandidat/tawaran/{id}', 'detailTawaran')->name('kandidat.detailTawaran');
+        Route::get('/kandidat/tawaran/{perusahaan}/{lowongan}', 'detailTawaran')
+            ->name('kandidat.detailTawaran');
         Route::post('/pembeli_kandidat/{id}/status', 'updateStatus')->name('kandidat.updateStatus');
     });
 });
@@ -388,7 +394,7 @@ Route::prefix('admin')->middleware('auth', 'role:admin', 'CheckUserStatus')->gro
         //perusahaan admin
         Route::get('/perusahaan', 'halPerusahaan')->name('admin.perusahaan');
         Route::get('/perusahaan/detail/{id}', 'detailPerusahaan')->name('admin.perusahaan.detail');
-        Route::get('/admin/lowongan/{id}', 'detailLowongan')->name('admin.lowongan.detail');
+        Route::get('/admin/lowongan/{perusahaan}/{lowongan}', 'detailLowongan')->name('admin.lowongan.detail');
         Route::get('/perusahaan/talent/hunter', function () {
             return view('perusahaan.talenthunter-perusahaan');
         });
@@ -451,6 +457,7 @@ Route::prefix('admin')->middleware('auth', 'role:admin', 'CheckUserStatus')->gro
     });
 });
 /**---------------------------------------- END ADMIN PREFIX -------------------------------------*/
+
 
 
 
@@ -521,7 +528,7 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
         //perusahaan
         Route::get('/perusahaan', 'halPerusahaan')->name('superadmin.perusahaan');
         Route::get('/perusahaan/{id}', 'detailPerusahaan')->name('superadmin.perusahaan.detail');
-        Route::get('/lowongan/{id}', 'detailLowongan')->name('superadmin.lowongan.detail');
+        Route::get('/lowongan/{perusahaan}/{lowongan}', 'detailLowongan')->name('superadmin.lowongan.detail');
 
         //paket harga
         Route::get('/paket/harga', 'halFinance')->name('superadmin.paket-harga');
@@ -538,7 +545,7 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
 
         //Panggilan
         Route::get('/panggilan', 'panggilan')->name('superadmin.panggilan');
-        Route::get('/panggilan/{perusahaan}/list', 'listPekerja')->name('superadmin.panggilan.list');
+        Route::get('/panggilan/{perusahaan_id}/list', 'listPekerja')->name('superadmin.panggilan.list');
 
         //recruitment
         Route::get('/recruitment/perusahaan', 'recruitmentPerusahaan')->name('superadmin.recruitment.perusahaan');
@@ -701,7 +708,10 @@ Route::prefix('perusahaan')->middleware('guest')->group(function () {
 
 Route::controller(LowonganPerusahaanController::class)->group(function () {
     //lowongan
-    Route::get('/perusahaan/lowongan/detail/{lowongan:id}', 'show')->name('lowongan.detail')->middleware('auth', 'CheckUserStatus');
+    Route::get(
+        '/perusahaan/{perusahaan:slug}/lowongan/{lowongan:slug}',
+        'show'
+    )->name('lowongan.detail')->middleware('auth', 'CheckUserStatus');
 });
 
 
@@ -790,7 +800,7 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
         Route::get('/lowongan', 'index')->name('lowongan.saya.perusahaan');
         Route::get('/createform/lowongan', 'createForm')->name('lowongan.create.form');
         Route::post('/buat/lowongan', 'store')->name('lowongan.saya.store');
-        Route::get('/edit/lowongan/{lowongan:id}', 'edit')->name('lowongan.edit.form');
+        Route::get('/edit/lowongan/{perusahaan}/{lowongan}', 'edit')->name('lowongan.edit.form');
         Route::put('/update/lowongan/{lowongan:id}', 'update')->name('lowongan.update');
         Route::delete('/lowongan/{lowongan:id}', 'destroy')->name('lowongan.destroy');
 

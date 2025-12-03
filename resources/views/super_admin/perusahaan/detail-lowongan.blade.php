@@ -194,21 +194,24 @@
                 <div class="flex flex-col items-center space-y-3 max-w-lg mx-auto mt-8">
                     <!-- Tombol Tambah Lowongan -->
                     <div class="rounded-md p-4 mb-4 flex justify-between items-center">
-                        <form action="{{ route('superadmin.lowongan.toggleRekomendasi', $lowongan->id) }}"
-                            method="POST">
-                            @csrf
-                            @if ($lowongan->rekomendasi == 1)
-                                <button type="submit"
-                                    class="bg-gray-500 text-white w-48 p-2 rounded-md hover:bg-gray-600 transition duration-300">
-                                    Hapus Rekomendasi
-                                </button>
-                            @else
-                                <button type="submit"
-                                    class="bg-orange-500 text-white w-48 p-2 rounded-md hover:bg-orange-600 transition duration-300">
-                                    Jadikan Rekomendasi
-                                </button>
-                            @endif
-                        </form>
+                       <form action="{{ route('superadmin.lowongan.toggleRekomendasi', $lowongan->id) }}" method="POST"
+                        class="w-full">
+                        @csrf
+
+                        @if ($lowongan->rekomendasi !== null)
+                            <!-- Jika sedang direkomendasikan -->
+                            <button type="submit"
+                                class="w-full bg-orange-600 text-white font-medium py-2 rounded-lg hover:bg-orange-500 transition duration-300">
+                                Hapus dari Rekomendasi
+                            </button>
+                        @else
+                            <!-- Jika belum direkomendasikan -->
+                            <button type="submit"
+                                class="w-full bg-gray-700 text-white font-medium py-2 rounded-lg hover:bg-gray-600 transition duration-300">
+                                Jadikan Rekomendasi
+                            </button>
+                        @endif
+                    </form>
                     </div>
                     <div>
                         <a href="{{ route('superadmin.perusahaan.detail', $lowongan->perusahaan_id) }}"

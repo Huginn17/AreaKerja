@@ -29,6 +29,14 @@ class PelamarLowonganController extends Controller
             ], 403);
         }
 
+        // cek apakah sudah lewat batas lamaran
+        if ($lowongan->batas_lamaran && now()->greaterThan($lowongan->batas_lamaran)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Lamaran sudah ditutup karena telah melewati batas waktu.'
+            ], 403);
+        }
+        
         $pelamar = $user->pelamar;
 
         // cek apakah CV sudah lengkap
@@ -85,4 +93,4 @@ class PelamarLowonganController extends Controller
             'message' => 'Lamaran berhasil dikirim!'
         ]);
     }
-    }
+}

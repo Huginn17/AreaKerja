@@ -54,7 +54,7 @@
                 @foreach ($pakets as $paket)
                     <option value="{{ $paket->id }}" {{ request('paket') == $paket->id ? 'selected' : '' }}>
                         {{ $paket->nama }}
-                    </option> 
+                    </option>
                 @endforeach
             </select>
 
@@ -81,7 +81,11 @@
         @forelse ($Data as $d)
             @if ($d->paket_id && $d->published_at)
                 <!-- Card Published -->
-                <a href="{{ route('lowongan.detail', $d->id) }}">
+                <a
+                    href="{{ route('lowongan.detail', [
+                        'perusahaan' => $d->perusahaan->slug,
+                        'lowongan' => $d->slug,
+                    ]) }}">
                     <div class="flex shadow-md p-4">
                         <div>
                             <img src="{{ asset('Icon/seveninc.png') }}" alt="">
@@ -173,7 +177,11 @@
                         <img src="{{ asset('Icon/seveninc.png') }}" alt="">
                     </div>
                     <div class="w-full">
-                        <a href="{{ route('lowongan.detail', $d->id) }}">
+                        <a
+                            href="{{ route('lowongan.detail', [
+                                'perusahaan' => $d->perusahaan->slug,
+                                'lowongan' => $d->slug,
+                            ]) }}">
                             <p>{{ Auth::user()->perusahaan->nama_perusahaan }}</p>
                             <h1 class="font-semibold">{{ $d->nama }} - {{ $d->jenis }}</h1>
                             <span>Yogyakarta</span>
@@ -230,11 +238,26 @@
             <div class="flex items-center justify-between">
                 <!-- Kiri: Logo + Info -->
                 <div class="flex items-center gap-4">
-                    <img src="{{ asset('images/seven.png') }}" alt="Logo" class="w-20 h-20 object-contain">
+                    @if (Auth::user()->role == 'perusahaan')
+                        @if (Auth::user()->perusahaan->img_profile)
+                            <img id="pu" class="w-20 h-20 object-cover rounded-full profile-img"
+                                src="{{ asset('storage/' . Auth::user()->perusahaan->img_profile) }}" alt="Profile">
+                        @else
+                            <img id="pu" class="w-20 h-20 rounded-full"
+                                src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                                alt="">
+                        @endif
+                    @else
+                        <img class="w-10 h-10 rounded-full"
+                            src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                            alt="">
+                    @endif
                     <div>
-                        <h1 class="font-semibold text-lg m-1">Seven_Inc</h1>
-                        <p class="text-lg m-1">Jasa TI dan Konsultan TI</p>
-                        <p class="text-sm text-gray-400">Jakarta Timur, DKI Jakarta, Indonesia</p>
+                        <span class="font-semibold">{{ Auth::user()->username }}</span>
+                        <p class="text-lg m-1">{{ Auth::user()->perusahaan->jenis_perusahaan }}</p>
+                        <p class="text-sm text-gray-400">{{ Auth::user()->perusahaan->alamatUtama->kota->nama }},
+                            {{ Auth::user()->perusahaan->alamatUtama->provinsi->nama }},
+                            {{ Auth::user()->perusahaan->alamatUtama->kecamatan->nama }}</p>
                     </div>
                 </div>
 
