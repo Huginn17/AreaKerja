@@ -253,7 +253,7 @@
             <div x-show="openMenu" x-transition
                 class="md:hidden absolute top-16 left-0 w-full bg-white border-t border-gray-200 flex flex-col py-4 shadow-lg z-40">
 
-                
+
                 <a href="{{ route('perusahaan.dashboard') }}" class="px-6 py-3 hover:bg-orange-50 text-gray-700">
                     Beranda
                 </a>
@@ -275,8 +275,8 @@
             </div>
 
             {{-- logo --}}
-            <div class="flex items-center gap-2">
-                <img src="{{ asset('images/logoarea.png') }}" alt="Areakerja Logo" class="h-12">
+            <div class="hidden md:flex items-center gap-2"">
+                <img src="{{ asset('images/logoarea.png') }}" alt="Areakerja Logo" class="h-10">
                 <span class="font-bold text-xl text-orange-600 ">areakerja.com</span>
             </div>
 
