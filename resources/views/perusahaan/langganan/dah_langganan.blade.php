@@ -10,8 +10,9 @@
             alt="Header Image" class="w-full h-[600px] object-cover">
         {{-- <img src="{{ asset('images/ntap.png') }}" alt="hero" class="w-full h-[350px] object-cover"> --}}
         <div class="absolute inset-0 bg-black bg-opacity-40"></div>
-        <div class="absolute bottom-52 left-20 text-white">
-            <h1 class="text-3xl md:text-4xl font-semibold max-w-2xl">
+        <div class="absolute bottom-52 left-0 pl-6 text-left
+            md:pl-0 md:left-20 text-white">
+           <h1 class="text-3xl md:text-4xl font-semibold mt-3 max-w-2xl">
                 Selamat Datang
             </h1>
             <p class="text-sm mt-4">Sambutlah hari ini dengan semangat, dan <br>

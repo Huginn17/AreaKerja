@@ -4,37 +4,37 @@
 
 
         {{-- Header --}}
-        <div class="flex justify-between items-start">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0">
             {{-- 🔹 Label Direkomendasikan --}}
-            <div>
+            <div class="flex flex-col gap-2">
                 @if ($d->rekomendasi !== null)
                     <p class="bg-[#fdedf4] w-fit px-3 py-1 text-blue-500 font-semibold rounded-md text-xs">
                         Direkomendasikan
                     </p>
                 @endif
                 @if ($d->urgent ?? true)
-                    <p class="bg-[#fdedf4] w-fit px-3 py-1 text-[#9d2b6b] font-semibold rounded-md text-xs mt-3">
+                    <p class="bg-[#fdedf4] w-fit px-3 py-1 text-[#9d2b6b] font-semibold rounded-md text-xs">
                         Dibutuhkan segera
                     </p>
                 @endif
                 @if (now()->greaterThan(\Carbon\Carbon::parse($d->batas_lamaran)))
-                    <p class="bg-red-100 w-fit px-3 py-1 text-red-600 font-semibold rounded-md text-xs mt-3">
+                    <p class="bg-red-100 w-fit px-3 py-1 text-red-600 font-semibold rounded-md text-xs">
                         Batas lamaran berakhir
                     </p>
                 @endif
 
-
-                <h1 class="font-bold text-lg my-3">
+                <h1 class="font-bold text-lg md:text-xl mt-2 md:mt-3">
                     {{ $d->nama }} - {{ $d->jenis }}
                 </h1>
             </div>
+
             <div>
                 <div x-data="{ showMenu: false }" class="relative">
 
                     <!-- Tombol titik tiga -->
                     <button @click="showMenu = !showMenu"
                         class="text-2xl text-gray-500 hover:text-gray-700 p-1 rounded-lg">
-                        <i class="ph ph-dots-three-vertical"></i>
+                        <i class="ph ph-dots-three-vertical ml-[250px]"></i>
                     </button>
 
                     <!-- Popup -->
@@ -112,26 +112,26 @@
                     </div>
                 </div>
             </div>
+
         </div>
 
         {{-- Perusahaan & Lokasi --}}
-        <p class="text-gray-500 font-semibold">{{ $d->perusahaan->nama_perusahaan }}</p>
+        <p class="text-gray-500 font-semibold mt-2 md:mt-3">{{ $d->perusahaan->nama_perusahaan }}</p>
         <p class="text-gray-500 font-semibold">{{ $d->alamat }}</p>
 
         {{-- Rentang Gaji --}}
         <p class="bg-[#d7d6d6] w-fit my-3 px-3 py-1 text-[#565656] font-semibold rounded-md text-sm">
-            Rp. {{ number_format($d->gaji_awal, 0, ',', '.') }} – Rp.
-            {{ number_format($d->gaji_akhir, 0, ',', '.') }} / bulan
+            Rp. {{ number_format($d->gaji_awal, 0, ',', '.') }} – Rp. {{ number_format($d->gaji_akhir, 0, ',', '.') }} /
+            bulan
         </p>
 
         {{-- Ringkasan --}}
         <div x-show="!open" class="mt-3">
-            <div class="flex items-center justify-between my-4 text-gray-600">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between my-4 text-gray-600 gap-4">
                 <div class="flex items-center gap-2">
                     <i class="ph-fill ph-paper-plane-right text-blue-600 text-xl"></i>
                     <span class="font-medium">Lamar Dengan Cepat</span>
                 </div>
-
 
                 {{-- Tombol Simpan Lowongan --}}
                 @auth
@@ -145,7 +145,8 @@
                         <form action="{{ route('simpan-lowongan.store') }}" method="POST">
                             @csrf
                             <input type="hidden" name="lowongan_id" value="{{ $d->id }}">
-                            <button type="submit" class="text-gray-400 hover:text-blue-600" title="Simpan Lowongan">
+                            <button type="submit" class="text-gray-400 hover:text-blue-600 mt-2 md:mt-0"
+                                title="Simpan Lowongan">
                                 <i class="ph ph-bookmark-simple text-2xl"></i>
                             </button>
                         </form>
@@ -153,7 +154,8 @@
                         <form action="{{ route('simpan-lowongan.destroy', $d->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="text-blue-600 hover:text-red-500" title="Hapus dari Simpan">
+                            <button type="submit" class="text-blue-600 hover:text-red-500 mt-2 md:mt-0"
+                                title="Hapus dari Simpan">
                                 <i class="ph-fill ph-bookmark-simple text-2xl"></i>
                             </button>
                         </form>
@@ -162,22 +164,20 @@
             </div>
 
             <ul class="ps-5 mt-2 space-y-1 list-disc list-inside mb-5 text-sm text-gray-600">
-                <li>Gaji – Rp{{ $d->gaji_awal }} – Rp{{ $d->gaji_akhir }} per bulan tergantung
-                    pengalaman.
-                </li>
+                <li>Gaji – Rp{{ $d->gaji_awal }} – Rp{{ $d->gaji_akhir }} per bulan tergantung pengalaman.</li>
                 <li>Harus menyelesaikan penilaian pra-wawancara singkat sebelum diwawancara.</li>
                 <li>Diminta mengirimkan video perkenalan singkat (detail diberikan nanti).</li>
             </ul>
 
-            <div class="flex items-center justify-between mt-3 text-[#565656]">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between text-[#565656] gap-2">
                 <span class="text-xs text-gray-400">
                     Aktif {{ $d->published_at->diffForHumans() }}
                 </span>
 
                 <p id="countdown-{{ $d->id }}" class="text-red-500 font-medium text-right text-xs"></p>
             </div>
-
         </div>
+
 
         {{-- Detail --}}
         <div x-show="open" x-collapse class="mt-6">

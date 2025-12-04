@@ -159,7 +159,7 @@ class AuthController extends Controller
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|min:3',
                 'role' => 'required',
-                'telepon_pelamar' => 'required|numeric',
+                'telepon_pelamar' =>  ['required', 'regex:/^(?:\+62|62|0)[0-9]+$/'],
                 'agree_pelamar' => 'accepted'
             ], [
                 'username.required' => 'Username wajib diisi.',
@@ -175,16 +175,21 @@ class AuthController extends Controller
                 'agree_pelamar.accepted' => 'Anda harus menyetujui syarat dan ketentuan.'
             ]);
 
+            // Normalisasi nomor telepon
+            $telepon = preg_replace('/[^0-9\+]/', '', $request->telepon_pelamar);
+            $telepon = preg_replace('/^\+62/', '0', $telepon);
+            $telepon = preg_replace('/^62/', '0', $telepon);
+
+            $valid['telepon_pelamar'] = $telepon;
+
             $valid['password'] = Hash::make($request->password);
             $user = User::create($valid);
 
-            $valid_datapelamar = $request->validate([
-                'telepon_pelamar' => 'required'
-            ], [
-                'telepon_pelamar.required' => 'Nomor telepon wajib diisi.'
+            $user->pelamar()->create([
+                'telepon_pelamar' => $telepon
             ]);
 
-            $user->pelamar()->create($valid_datapelamar);
+            return response()->json(['success' => true]);
 
             return response()->json(['success' => true]);
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -278,7 +283,7 @@ class AuthController extends Controller
                 'email' => 'required|email',
                 'password' => 'required|min:3',
                 'role' => 'required',
-                'telepon_perusahaan' => 'required|numeric',
+                'telepon_perusahaan' =>  ['required', 'regex:/^(?:\+62|62|0)[0-9]+$/'],
                 'agree_perusahaan' => 'accepted'
             ], [
                 'username.required' => 'Username wajib diisi.',
@@ -290,21 +295,26 @@ class AuthController extends Controller
                 'role.required' => 'Role wajib diisi.',
                 'telepon_perusahaan.required' => 'Nomor telepon perusahaan wajib diisi.',
                 'telepon_perusahaan.numeric' => 'Nomor telepon perusahaan harus berupa angka.',
+                'telepon_perusahaan.regex' => 'Nomor telepon perusahaan harus diawali dengan 0 atau +62.',
                 'agree_perusahaan.accepted' => 'Anda harus menyetujui syarat dan ketentuan.'
             ]);
+
+            // Normalisasi nomor telepon
+            $telepon = preg_replace('/[^0-9\+]/', '', $request->telepon_perusahaan);
+            $telepon = preg_replace('/^\+62/', '0', $telepon);
+            $telepon = preg_replace('/^62/', '0', $telepon);
+
+            $valid['telepon_perusahaan'] = $telepon;
 
             $valid['password'] = Hash::make($request->password);
             $user = User::create($valid);
 
-            $valid_dataperusahaan = $request->validate([
-                'telepon_perusahaan' => 'required'
-            ], [
-                'telepon_perusahaan.required' => 'Nomor telepon perusahaan wajib diisi.'
+            $user->perusahaan()->create([
+                'telepon_perusahaan' => $telepon,
+                'nama_perusahaan' => $request->nama_perusahaan,
             ]);
 
-            $valid_dataperusahaan['nama_perusahaan'] = $request->username;
-
-            $user->perusahaan()->create($valid_dataperusahaan);
+            // $valid_dataperusahaan['nama_perusahaan'] = $request->username;
 
             return response()->json(['success' => true]);
         } catch (\Illuminate\Validation\ValidationException $e) {

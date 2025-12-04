@@ -250,28 +250,32 @@
             </button>
 
             <!-- MENU MOBILE -->
-            <div x-show="openMenu" x-transition
+            <div x-show="openMenu" x-transition x-cloak
                 class="md:hidden absolute top-16 left-0 w-full bg-white border-t border-gray-200 flex flex-col py-4 shadow-lg z-40">
 
+                <div class="flex items-center gap-2 px-6 pb-3 pt-4">
+                    <img src="{{ asset('images/logoarea.png') }}" class="h-9" alt="">
+                    <span class="font-semibold text-orange-600">areakerja.com</span>
+                </div>
 
-                <a href="{{ route('perusahaan.dashboard') }}" class="px-6 py-3 hover:bg-orange-50 text-gray-700">
+                <a href="{{ route('perusahaan.dashboard') }}" class="px-6 py-3 text-gray-700 hover:bg-gray-100 hover:text-orange-500  transition duration-300">
                     Beranda
                 </a>
-                <a href="{{ route('perusahaan.berlangganan') }}" class="px-6 py-3 hover:bg-orange-50 text-gray-700">
+                <a href="{{ route('perusahaan.berlangganan') }}" class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500  transition duration-300 text-gray-700">
                     Berlangganan
                 </a>
-                <a href="{{ route('talent-hunter.index') }}" class="px-6 py-3 hover:bg-orange-50 text-gray-700">
+                <a href="{{ route('talent-hunter.index') }}" class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500  transition duration-300 text-gray-700">
                     Talent Hunter
                 </a>
-                <a href="{{ route('perusahaan.kandidat.ak') }}" class="px-6 py-3 hover:bg-orange-50 text-gray-700">
+                <a href="{{ route('perusahaan.kandidat.ak') }}" class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500  transition duration-300 text-gray-700">
                     Kandidat
                 </a>
-                <a href="{{ route('paket.form') }}" class="px-6 py-3 hover:bg-orange-50 text-gray-700">
+                <a href="{{ route('paket.form') }}" class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500  transition duration-300 text-gray-700">
                     Pasang Lowongan
                 </a>
-                <a href="{{ route('perusahaan.event.index') }}" class="px-6 py-3 hover:bg-orange-50 text-gray-700">
+                <a href="{{ route('perusahaan.event.index') }}" class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500  transition duration-300 text-gray-700">
                     Event
-                    </a>
+                </a>
             </div>
 
             {{-- logo --}}
@@ -279,6 +283,8 @@
                 <img src="{{ asset('images/logoarea.png') }}" alt="Areakerja Logo" class="h-10">
                 <span class="font-bold text-xl text-orange-600 ">areakerja.com</span>
             </div>
+
+            
 
             {{-- menu --}}
             <nav class="hidden md:flex gap-8 font-medium text-gray-800">
@@ -452,7 +458,7 @@
                             @if (Auth::user()->role == 'perusahaan')
                                 <div
                                     class="px-6 py-2 bg-orange-500 rounded-xl text-white font-semibold text-center max-w-[130px] truncate">
-                                    {{ Auth::user()->perusahaan->nama_perusahaan }}
+                                    {{ Auth::user()->perusahaan->nama_perusahaan ?? Auth::user()->username }}
                                 </div>
                             @else
                                 <div class="px-6 py-2 bg-orange-500 rounded-xl text-white font-semibold text-center">

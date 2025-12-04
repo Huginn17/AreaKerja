@@ -18,7 +18,7 @@
     <body class="bg-gray-100 min-h-screen flex flex-col">
 
         <!-- Container -->
-      <div class="flex flex-col md:flex-row w-full min-h-screen">
+        <div class="flex flex-col md:flex-row w-full min-h-screen">
 
             <!-- Form -->
             <div class="flex w-full md:w-3/5 bg-white items-center justify-center px-6 sm:px-10 py-10">
@@ -26,7 +26,7 @@
                 <div class="w-full max-w-md mb-24">
 
                     <!-- Logo -->
-                   <div class="flex items-center gap-2 mb-8 md:mb-14">
+                    <div class="flex items-center gap-2 mb-8 md:mb-14">
                         <img src="{{ asset('images/logoarea.png') }}" alt="Logo" class="h-12 w-12">
                         <span class="font-bold mb-1 text-orange-500">areakerja.com</span>
                     </div>
@@ -79,10 +79,12 @@
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 m-2">No. Tlp</label>
-                                <input type="text" name="telepon_pelamar" placeholder="No. Tlp"
+                                <input type="text" name="telepon_pelamar" placeholder="08xxxxxxxx"
                                     class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring-orange-500 focus:border-orange-500">
                                 <p class="text-red-500 text-sm mt-1 error-message" data-field="telepon_pelamar"></p>
                             </div>
+
+
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 m-2">Kata Sandi</label>
@@ -129,10 +131,13 @@
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 m-2">No. Tlp Perusahaan</label>
-                                <input type="text" name="telepon_perusahaan" placeholder="No. Tlp"
+                                <input type="text" name="telepon_perusahaan" placeholder="08xxxxxxxx"
                                     class="w-full px-4 py-3 border border-gray-700 rounded-lg focus:ring-orange-500 focus:border-orange-500">
-                                <p class="text-red-500 text-sm mt-1 error-message" data-field="telepon_perusahaan"></p>
+                                <p class="text-red-500 text-sm mt-1 error-message" data-field="telepon_perusahaan">
+                                </p>
                             </div>
+
+
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 m-2">Kata Sandi</label>
@@ -182,7 +187,7 @@
             {{-- =============== MODAL PERUSAHAAN =============== --}}
             <div id="successModal_perusahaan"
                 class="hidden fixed inset-0 z-50 items-center justify-center bg-black/50">
-               <div class="relative bg-white rounded-2xl shadow-lg w-[90%] max-w-md p-6 sm:p-8 text-center">
+                <div class="relative bg-white rounded-2xl shadow-lg w-[90%] max-w-md p-6 sm:p-8 text-center">
                     <button onclick="closeModal()"
                         class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-xl font-bold">&times;</button>
                     <h2 class="text-2xl font-bold mb-3">Selamat!</h2>
@@ -198,7 +203,7 @@
                 </div>
             </div>
 
-           <section class="relative hidden md:flex md:w-2/5 lg:w-2/4 h-screen overflow-hidden">
+            <section class="relative hidden md:flex md:w-2/5 lg:w-2/4 h-screen overflow-hidden">
                 <img src="{{ asset('images/gambar2.jpg') }}" alt="Background" class="w-full h-full object-cover">
                 <div
                     class="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center text-center text-white px-6 pb-56">

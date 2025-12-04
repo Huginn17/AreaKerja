@@ -4,7 +4,7 @@
         <!-- Header Perusahaan -->
         @if (Auth::user()->perusahaan->pasanglowongan->count() > 0)
             <div class="max-w-4xl mx-auto px-4 py-6">
-                <div class="flex items-center justify-between">
+                <div class="flex items-center justify-between relative">
                     <!-- Kiri: Logo + Info -->
                     <div class="flex items-center gap-4">
                         @if (Auth::user()->role == 'perusahaan')
@@ -31,12 +31,13 @@
                     </div>
 
                     <!-- Tombol tambah -->
-                    <div>
+                    <div class="hidden md:block">
                         <a href="{{ route('lowongan.create.form') }}"
                             class="absolute w-16 h-16 border border-orange-500 rounded-md flex items-center justify-center text-orange-500 hover:bg-orange-50">
                             <i class="ph ph-plus text-xl"></i>
                         </a>
                     </div>
+
                 </div>
             </div>
     </div>
@@ -44,6 +45,11 @@
     <!-- Lowongan -->
     <div class="max-w-5xl mx-auto px-4 mb-10">
         <h2 class="text-base font-medium mb-3 flex">Lowongan</h2>
+
+        <a href="{{ route('lowongan.create.form') }}"
+            class="block md:hidden ml-auto mb-4 w-10 h-10 border border-orange-500 rounded-md flex items-center justify-center text-orange-500 hover:bg-orange-50">
+            <i class="ph ph-plus text-xl"></i>
+        </a>
 
         <!-- Filter -->
         <form method="GET" class="flex justify-end gap-2 mb-3">
@@ -135,7 +141,7 @@
                 @if ($d->expired_at && $d->expired_at < now())
                     <!-- Tombol Publish Ulang -->
                     <button type="button"
-                        class="block mt-3 pl-0 lg:pl-10 md:pl-10 bg-orange-500 px-10 py-2 rounded-md text-white hover:bg-orange-600 transition"
+                        class="block mt-3 pl-0 lg:pl-10 md:pl-10 bg-orange-500 px-10 py-2 text-center rounded-md text-white hover:bg-orange-600 transition"
                         data-modal-target="modal-expired-{{ $d->id }}"
                         data-modal-toggle="modal-expired-{{ $d->id }}">
                         Publish Ulang
@@ -172,7 +178,7 @@
                 <div class="flex justify-between items-end text-center gap-3 my-5">
                     <h3 class="font-semibold text-center text-orange-500">Lowongan Draft</h3>
                 </div>
-                <div class="flex shadow-md p-4">
+                <div class="flex shadow-md p-4 border rounded-md">
                     <div>
                         <img src="{{ asset('Icon/seveninc.png') }}" alt="">
                     </div>
@@ -186,13 +192,14 @@
                             <h1 class="font-semibold">{{ $d->nama }} - {{ $d->jenis }}</h1>
                             <span>Yogyakarta</span>
                             <div class="mt-5 block lg:flex md:flex justify-between items-center w-full">
-                                <span class="px-3 bg-[#d7d6d6] text-[#565656] py-2 rounded-md">
+                                <span
+                                    class="px-3 bg-[#d7d6d6] text-[#565656] py-2 rounded-md whitespace-nowrap  overflow-hidden text-ellipsis block max-w-full">
                                     Rp.{{ $d->gaji_awal }} - Rp.{{ $d->gaji_akhir }} per bulan
                                 </span>
                             </div>
                         </a>
                         <button type="button"
-                            class="publish-btn block mt-3 pl-0 lg:pl-10 md:pl-10 bg-orange-500 px-10 py-2 rounded-md text-white"
+                            class="publish-btn block mt-5 bg-orange-500 px-10 py-2 rounded-md text-white hover:bg-orange-600 transition"
                             data-id="{{ $d->id }}">
                             Publish
                         </button>
@@ -235,7 +242,7 @@
     <!-- Jika tidak ada pasanglowongan -->
     <div class="bg-white text-gray-800">
         <div class="max-w-4xl mx-auto px-4 py-6">
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-between relative">
                 <!-- Kiri: Logo + Info -->
                 <div class="flex items-center gap-4">
                     @if (Auth::user()->role == 'perusahaan')
@@ -264,8 +271,8 @@
                 <!-- Tombol tambah -->
                 <div>
                     <a href="{{ route('lowongan.create.form') }}"
-                        class="absolute w-16 h-16 border border-orange-500 rounded-md flex items-center justify-center text-orange-500 hover:bg-orange-50">
-                        <i class="ph ph-plus text-xl"></i>
+                        class="absolute border border-orange-500 rounded-md flex items-center justify-center text-orange-500 hover:bg-orange-50">
+                        <i class="ph ph-plus text-md"></i>
                     </a>
                 </div>
             </div>

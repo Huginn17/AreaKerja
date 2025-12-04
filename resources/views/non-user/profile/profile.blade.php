@@ -120,13 +120,13 @@
 
 
             <!-- <div class="flex justify-between w-[1025px] my-5">
-                                                        <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
-                                                            Data Diri
-                                                        </div>
-                                                        <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
-                                                            Informasi Akun
-                                                        </div>
-                                                    </div> -->
+                                                                <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
+                                                                    Data Diri
+                                                                </div>
+                                                                <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
+                                                                    Informasi Akun
+                                                                </div>
+                                                            </div> -->
 
 
             <!-- Grid: Dua Kolom -->
@@ -206,12 +206,16 @@
                             <input type="text" placeholder="08xxxxxxxx" name="telepon_pelamar"
                                 class="w-full mt-1 border rounded-md px-3 py-2 text-sm"
                                 value="{{ Auth::user()->pelamar->telepon_pelamar }}">
+                            @error('telepon_pelamar')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                     @else
                         <div>
                             <label class="text-sm font-medium">No. Tlp <span class="text-red-500">*</span></label>
                             <input type="text" placeholder="No. Tlp" name="telepon_pelamar"
                                 class="w-full mt-1 border rounded-md px-3 py-2 text-sm">
+                            <p class="text-red-500 text-sm mt-1 error-message" data-field="telepon_pelamar"></p>
                         </div>
                     @endif
 
@@ -452,9 +456,9 @@
                                     viewBox="0 0 24 24">
                                     <path
                                         d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
-                                                                                                                                        7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
-                                                                                                                                      1.003 0 0 0-1.42 0l-1.83 1.83 3.75
-                                                                                                                                    3.75 1.84-1.82z" />
+                                                                                                                                                7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
+                                                                                                                                              1.003 0 0 0-1.42 0l-1.83 1.83 3.75
+                                                                                                                                            3.75 1.84-1.82z" />
                                 </svg>
                             </a>
                         </div>
@@ -473,9 +477,9 @@
                                     viewBox="0 0 24 24">
                                     <path
                                         d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
-                                                                                                                                                                                                                                                                                                                               7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
-                                                                                                                                                                                                                                                                                                                               1.003 0 0 0-1.42 0l-1.83 1.83 3.75
-                                                                                                                                                                                                                                                                                                                               3.75 1.84-1.82z" />
+                                                                                                                                                                                                                                                                                                                                       7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
+                                                                                                                                                                                                                                                                                                                                       1.003 0 0 0-1.42 0l-1.83 1.83 3.75
+                                                                                                                                                                                                                                                                                                                                       3.75 1.84-1.82z" />
                                 </svg>
                             </span>
                         </div>
@@ -487,7 +491,8 @@
                         <label class="text-lg font-medium">Ekspektasi Gaji</label>
                         <div class="w-30 h-1 bg-orange-500 mt-3"></div><br>
                         <div class="flex items-center gap-2 mt-1">
-                            <div class="flex items-center border border-black rounded-md px-4 py-2 text-orange-500 w-29 gap-2">
+                            <div
+                                class="flex items-center border border-black rounded-md px-4 py-2 text-orange-500 w-29 gap-2">
                                 <span class="text-orange-500">Rp.</span>
                                 <input type="number" placeholder="" name="gaji_minimal" class="border-none"
                                     value="{{ Auth::user()->pelamar->gaji_minimal ?? '' }}">

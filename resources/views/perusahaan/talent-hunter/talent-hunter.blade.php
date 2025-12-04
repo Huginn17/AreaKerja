@@ -12,7 +12,8 @@
             {{-- 
             <img src="{{ asset('images/woi.jpg') }}" alt="hero" class="w-full h-[350px] object-cover"> --}}
             <div class="absolute inset-0 bg-black bg-opacity-40"></div>
-            <div class="absolute bottom-52 left-20 text-white">
+            <div class="absolute bottom-52 left-0 pl-6 text-left
+            md:pl-0 md:left-20 text-white">
                 <h1 class="text-3xl md:text-4xl font-semibold mt-3 max-w-2xl">
                     Talent Hunter
                 </h1>
@@ -79,7 +80,7 @@
                 <!-- Modal Konfirmasi Pembelian -->
                 <div id="modalBeli"
                     class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 transition">
-                    <div class="bg-white rounded-2xl shadow-xl p-8 w-[420px] animate-[fadeIn_0.2s_ease-out]">
+                    <div class="bg-white rounded-2xl shadow-xl p-8 w-[420px] scale-[0.85] sm:scale-100 animate-[fadeIn_0.2s_ease-out]">
 
                         <!-- Icon -->
                         <div
@@ -114,8 +115,15 @@
 
                 <!-- Modal Form Talent Hunter -->
                 <div id="modalFormTH"
-                    class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-                    <div class="bg-white rounded-2xl shadow-xl p-8 w-[500px] animate-fadeIn relative">
+                    class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 px-4">
+       <div class="bg-white rounded-2xl shadow-xl p-8 
+            w-[500px] max-w-full
+            scale-[0.85] md:scale-100
+            max-h-[90vh] overflow-y-auto
+            animate-fadeIn relative">
+
+
+
 
                         <!-- Close -->
                         <button onclick="document.getElementById('modalFormTH').classList.add('hidden')"
@@ -163,7 +171,7 @@
                             </div>
 
                             <!-- Gaji -->
-                            <div class="grid grid-cols-2 gap-4">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                 <div>
                                     <label class="text-sm font-medium text-gray-600">Gaji Awal</label>
                                     <input type="text" id="gaji_awal_display"
@@ -200,7 +208,7 @@
 
                 <!-- Modal Koin Tidak Cukup -->
                 <div id="modalKoinKurang" class="fixed inset-0 hidden items-center justify-center bg-black/50 z-50">
-                    <div class="bg-white rounded-2xl shadow-lg p-6 w-[400px] relative text-center">
+                    <div class="bg-white rounded-2xl shadow-lg p-4 sm:p-6 px-4 w-full max-w-[400px] scale-[0.85] sm:scale-100 transform-gpu relative text-center">
                         <button onclick="closeModal('modalKoinKurang')"
                             class="absolute top-3 right-3 text-gray-500 text-2xl">&times;</button>
                         <h2 class="text-lg font-bold text-red-600 mb-3">Koin Tidak Cukup</h2>

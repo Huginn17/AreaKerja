@@ -7,10 +7,10 @@
                 {{ $perusahaan->nama_perusahaan }}</h1>
 
             <!-- Grid utama -->
-            <div class="grid grid-cols-3 gap-4 items-start">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
 
                 <!-- === Lowongan Saya === -->
-                <div class="bg-orange-500 text-white p-7 rounded-xl shadow md:col-span-2">
+                <div class="bg-orange-500 text-white p-7 rounded-xl shadow lg:col-span-2">
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-xl font-semibold">Lowongan Saya</h3>
                         <a href="{{ route('lowongan.saya.perusahaan') }}"
@@ -143,7 +143,7 @@
                             @foreach ($lowongans as $lowongan)
                                 @if ($lowongan->published_at)
                                     <div
-                                        class="bg-white rounded-lg p-5 flex flex-col md:flex-row md:items-center justify-between shadow-sm">
+                                        class="bg-white rounded-lg p-5 flex flex-col lg:flex-row lg:items-center justify-between shadow-sm gap-4">
                                         <div class="flex items-center gap-4">
                                             <img src="{{ asset('storage/' . $lowongan->perusahaan->img_profile) }}"
                                                 alt="logo" class="w-12 h-12 rounded-full">
@@ -222,17 +222,17 @@
                     </div>
 
                     <hr>
-                    <div class="flex flex-col items-center">
-                        <h2 class="text-xl font-semibold text-white mb-4 mt-2">Kandidat Saya</h2>
+                    <div class="flex flex-col">
+                        <h2 class="text-xl font-semibold text-white mb-4 mt-5">Kandidat Saya</h2>
                         <!-- Tombol Lihat Kandidat -->
                         <a href="{{ route('perusahaan.kandidat.saya') }}"
-                            class="w-48 py-2 mb-4 border border-white text-white font-semibold rounded-lg hover:bg-white/20 transition">
+                            class="w-48 mx-auto py-2 mb-4 border border-white text-white font-semibold rounded-lg hover:bg-white/20 transition">
                             <span class="ml-[40px]">Lihat Kandidat</span>
                         </a>
 
                         <!-- Tombol Cari Kandidat -->
                         <a href="{{ route('perusahaan.kandidat.ak') }}"
-                            class="w-48 py-2 bg-white text-black font-semibold rounded-lg hover:bg-gray-100 transition">
+                            class="w-48 mx-auto py-2 bg-white text-black font-semibold rounded-lg hover:bg-gray-100 transition">
                             <span class="ml-[40px]">Cari Kandidat</span>
                         </a>
                     </div>
@@ -299,7 +299,8 @@
         <!-- ================= MODAL STEP 1 ================= -->
         <!-- ================= MODAL STEP 1 ================= -->
         <div id="modalStep1" class="fixed inset-0 hidden bg-black bg-opacity-50 z-50 flex items-center justify-center">
-            <div class="bg-white w-full max-w-md rounded-2xl shadow-xl relative p-6 max-h-[80vh] overflow-y-auto">
+           <div class="bg-white w-80 sm:w-full sm:max-w-md rounded-2xl shadow-xl relative p-6 max-h-[80vh] overflow-y-auto">
+
                 <button onclick="closeAllModal()" class="absolute top-3 right-3 text-gray-400 hover:text-black">✕</button>
                 <h2 class="text-lg font-semibold mb-4">Top Up Koin</h2>
                 <div class="grid grid-cols-3 gap-4">
@@ -340,7 +341,8 @@
 
         <!-- ================= MODAL STEP 2 ================= -->
         <div id="modalStep2" class="fixed inset-0 hidden bg-black bg-opacity-50 z-50 flex items-center justify-center">
-            <div class="bg-white w-full max-w-md rounded-2xl shadow-xl relative p-6">
+           <div class="bg-white w-80 sm:w-full sm:max-w-md rounded-2xl shadow-xl relative p-6">
+
                 <button onclick="closeAllModal()" class="absolute top-3 right-3 text-gray-400 hover:text-black">✕</button>
 
                 <h2 class="text-lg font-semibold mb-4">Metode Pembayaran</h2>
@@ -414,7 +416,8 @@
 
         <!-- ================= MODAL STEP 3 ================= -->
         <div id="modalStep3" class="fixed inset-0 hidden bg-black bg-opacity-50 z-50 flex items-center justify-center">
-            <div class="bg-white w-full max-w-lg rounded-2xl shadow-xl relative p-8">
+           <div class="bg-white w-80 sm:w-full sm:max-w-lg rounded-2xl shadow-xl relative p-8">
+
                 <button onclick="closeAllModal()"
                     class="absolute top-4 right-4 text-gray-500 hover:text-black text-xl">✕</button>
 

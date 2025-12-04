@@ -242,6 +242,8 @@ class PelamarController extends Controller
 
     public function destroy($lowonganId)
     {
+        dd($lowonganId);
+
         $pelamar = Auth::user()->pelamar;
 
         $simpan = SimpanLowongan::where('pelamar_id', $pelamar->id)

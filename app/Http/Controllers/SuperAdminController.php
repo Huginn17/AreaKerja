@@ -831,143 +831,196 @@ class SuperAdminController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
-        $rules = [
-            'email'        => 'required|email|unique:users',
-            'username'     => 'required|unique:users',
-            'role'         => 'required|in:admin,finance,perusahaan,pelamar',
-            'password'     => 'required|min:3',
-            'img_profile'  => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ];
+        try {
+            // RULES VALIDASI
+            $rules = [
+                'email'        => 'required|email|unique:users',
+                'username'     => 'required|unique:users',
+                'role'         => 'required|in:admin,finance,perusahaan,pelamar',
+                'password'     => 'required|min:3',
+                'img_profile'  => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            ];
 
-        if (in_array($request->role, ['admin', 'finance'])) {
-            $rules['nama_lengkap'] = 'required';
-            $rules['provinsi_id']   = 'nullable|exists:provinsis,id';
-            $rules['kota_id']       = 'nullable|exists:kotas,id';
-            $rules['kecamatan_id']  = 'nullable|exists:kecamatans,id';
-            $rules['desa']          = 'nullable|string';
-            $rules['kode_pos']      = 'nullable|string';
-            $rules['detail_alamat'] = 'nullable|string';
+            // Tambahan rules untuk admin / finance
+            if (in_array($request->role, ['admin', 'finance'])) {
+                $rules['nama_lengkap'] = 'required';
+                $rules['provinsi_id']  = 'nullable|exists:provinsis,id';
+                $rules['kota_id']      = 'nullable|exists:kotas,id';
+                $rules['kecamatan_id'] = 'nullable|exists:kecamatans,id';
+                $rules['desa']         = 'nullable|string';
+                $rules['kode_pos']     = 'nullable|string';
+                $rules['detail_alamat'] = 'nullable|string';
+            }
+
+            // Tambahan rules untuk perusahaan
+            if ($request->role === 'perusahaan') {
+                $rules['telepon_perusahaan'] = [
+                    "nullable",
+                    "regex:/^(?:\+62|62|0)[0-9]{8,15}$/"
+                ];
+                $rules['whatsapp'] = [
+                    "nullable",
+                    "regex:/^(?:\+62|62|0)[0-9]{8,15}$/"
+                ];
+            }
+
+            // Tambahan rules untuk pelamar (DITAMBAHKAN)
+            if ($request->role === 'pelamar') {
+                $rules['telepon_pelamar'] = [
+                    "nullable",
+                    "regex:/^(?:\+62|62|0)[0-9]{8,15}$/"
+                ];
+            }
+
+            // Pesan error
+            $messages = [
+                'email.required' => 'Email wajib diisi.',
+                'email.email'    => 'Format email tidak valid.',
+                'email.unique'   => 'Email sudah terdaftar.',
+
+                'username.required' => 'Username wajib diisi.',
+                'username.unique'   => 'Username sudah digunakan.',
+
+                'role.required' => 'Role wajib diisi.',
+                'role.in'       => 'Role tidak valid.',
+
+                'password.required' => 'Password wajib diisi.',
+                'password.min'      => 'Password minimal 3 karakter.',
+
+                'img_profile.image' => 'File harus berupa gambar.',
+                'img_profile.mimes' => 'Gambar harus bertipe jpg, jpeg, atau png.',
+                'img_profile.max' => 'Ukuran gambar maksimal 2MB.',
+
+                // nomor
+                'telepon_perusahaan.regex' => "Nomor telepon perusahaan tidak valid.",
+                'whatsapp.regex'           => "Nomor WhatsApp tidak valid.",
+                'telepon_pelamar.regex'    => "Nomor telepon pelamar tidak valid.",
+            ];
+
+            $request->validate($rules, $messages);
+
+            // CREATE USER
+            $user = User::create([
+                'email'    => $request->email,
+                'username' => $request->username,
+                'password' => Hash::make($request->password),
+                'role'     => $request->role,
+            ]);
+
+            // HANDLE GAMBAR
+            $imgPath = null;
+            if ($request->hasFile('img_profile')) {
+                $imgPath = $request->file('img_profile')->store('images', 'public');
+            }
+
+            // UTIL UNTUK NORMALISASI NOMOR TELEPON  "0xxxxxxxx"
+            $normalizePhone = function ($number) {
+                if (!$number) return null;
+                $num = preg_replace('/[^0-9\+]/', '', $number);
+                $num = preg_replace('/^\+62/', '0', $num);
+                $num = preg_replace('/^62/', '0', $num);
+                return $num;
+            };
+
+            // SIMPAN SESUAI ROLE
+            switch ($request->role) {
+
+                case 'admin':
+                    Admin::create([
+                        'user_id'       => $user->id,
+                        'nama_lengkap'  => $request->nama_lengkap,
+                        'provinsi_id'   => $request->provinsi_id,
+                        'kota_id'       => $request->kota_id,
+                        'kecamatan_id'  => $request->kecamatan_id,
+                        'kode_pos'      => $request->kode_pos,
+                        'detail_alamat' => $request->detail_alamat,
+                        'img_profile'   => $imgPath,
+                    ]);
+                    break;
+
+                case 'finance':
+                    Finance::create([
+                        'user_id'       => $user->id,
+                        'nama_lengkap'  => $request->nama_lengkap,
+                        'provinsi_id'   => $request->provinsi_id,
+                        'kota_id'       => $request->kota_id,
+                        'kecamatan_id'  => $request->kecamatan_id,
+                        'kode_pos'      => $request->kode_pos,
+                        'detail_alamat' => $request->detail_alamat,
+                        'img_profile'   => $imgPath,
+                    ]);
+                    break;
+
+                case 'perusahaan':
+                    Perusahaan::create([
+                        'user_id'             => $user->id,
+                        'nama_perusahaan'     => $request->nama_perusahaan,
+                        'jenis_perusahaan'    => $request->jenis_perusahaan,
+                        'website_perusahaan'  => $request->website_perusahaan,
+                        'telepon_perusahaan'  => $normalizePhone($request->telepon_perusahaan),
+                        'whatsapp'            => $normalizePhone($request->whatsapp),
+                        'legalitas'           => $request->legalitas,
+                        'deskripsi'           => $request->deskripsi,
+                        'visi'                => $request->visi,
+                        'misi'                => $request->misi,
+                        'img_profile'         => $imgPath,
+                    ]);
+                    break;
+
+                case 'pelamar':
+                    Pelamar::create([
+                        'user_id'         => $user->id,
+                        'nama_pelamar'    => $request->nama_pelamar,
+                        'telepon_pelamar' => $normalizePhone($request->telepon_pelamar),
+                        'img_profile'     => $imgPath,
+                        'deskripsi_diri'  => $request->deskripsi_diri,
+                        'kategori'        => $request->kategori,
+                        'gender'          => $request->gender,
+                        'gaji_minimal'    => $request->gaji_minimal,
+                        'gaji_maksimal'   => $request->gaji_maksimal,
+                        'tanggal_lahir'   => $request->tanggal_lahir,
+                    ]);
+                    break;
+            }
+            $me = Auth::user();
+            // ==============================
+            //           NOTIFIKASI BERHASIL
+            // ================================
+            Notifikasi::create([
+                'user_id'              => $me->id, // notif ke superadmin
+                // 'perusahaan_id'        => null,
+                'judul'                => 'Akun Berhasil Dibuat',
+                'pesan'                => 'Akun Anda telah berhasil dibuat oleh Superadmin.',
+                'is_read'              => 0,
+                'expired_at'           => now()->addDays(7),
+                'pelamar_lowongan_id'  => null,
+            ]);
+
+            return redirect()->route('superadmin.add.user')
+                ->with('success', 'Data Berhasil Ditambahkan');
+        } catch (\Exception $e) {
+
+                $me = Auth::user();
+            // ==============================
+            //          NOTIFIKASI GAGAL
+            // ================================
+            Notifikasi::create([
+                'user_id'              => $me->id, // notif ke superadmin
+                // 'perusahaan_id'        => null,
+                'judul'                => 'Gagal Menambahkan User',
+                'pesan'                => 'Terjadi kesalahan: ' . $e->getMessage(),
+                'is_read'              => 0,
+                'expired_at'           => now()->addDays(3),
+                'pelamar_lowongan_id'  => null,
+            ]);
+
+            return back()->with('error', 'Gagal menambahkan data: ' . $e->getMessage());
         }
-
-
-        $messages = [
-            'email.required' => 'Email wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
-            'email.unique' => 'Email sudah terdaftar.',
-
-            'username.required' => 'Username wajib diisi.',
-            'username.unique' => 'Username sudah digunakan.',
-
-            'role.required' => 'Role wajib diisi.',
-            'role.in' => 'Role tidak valid.',
-
-            'password.required' => 'Password wajib diisi.',
-            'password.min' => 'Password minimal 3 karakter.',
-
-            'img_profile.image' => 'File harus berupa gambar.',
-            'img_profile.mimes' => 'Gambar harus bertipe jpg, jpeg, atau png.',
-            'img_profile.max' => 'Ukuran gambar maksimal 2MB.',
-
-            // Untuk admin/finance
-            'nama_lengkap.required' => 'Nama lengkap wajib diisi.',
-            'provinsi_id.exists' => 'Provinsi tidak valid.',
-            'kota_id.exists' => 'Kota tidak valid.',
-            'kecamatan_id.exists' => 'Kecamatan tidak valid.',
-        ];
-
-
-        $request->validate($rules, $messages);
-
-        $user = User::create([
-            'email'    => $request->email,
-            'username' => $request->username,
-            'password' => Hash::make($request->password),
-            'role'     => $request->role,
-        ]);
-
-        // $valid = $request->only([
-        //     'nama_lengkap',
-        //     'provinsi',
-        //     'kota',
-        //     'kecamatan',
-        //     'kode_pos',
-        //     'detail_alamat'
-        // ]);
-
-        $imgPath = null;
-        if ($request->hasFile('img_profile')) {
-            $imgPath = $request->file('img_profile')->store('images', 'public');
-        }
-
-        // if ($request->role === 'admin') {
-        //     $valid['user_id'] = $user->id;
-        //     // dd($valid);
-        //     Admin::create($valid);
-        // } elseif ($request->role === 'finance') {
-        //     $valid['user_id'] = $user->id;
-        //     Finance::create($valid);
-        // };  
-
-        switch ($request->role) {
-            case 'admin':
-                Admin::create([
-                    'user_id'       => $user->id,
-                    'nama_lengkap'  => $request->nama_lengkap,
-                    'provinsi_id'      => $request->provinsi_id,
-                    'kota_id'          => $request->kota_id,
-                    'kecamatan_id'     => $request->kecamatan_id,
-                    'kode_pos'      => $request->kode_pos,
-                    'detail_alamat' => $request->detail_alamat,
-                    'img_profile'   => $imgPath,
-                ]);
-                break;
-
-            case 'finance':
-                Finance::create([
-                    'user_id'       => $user->id,
-                    'nama_lengkap'  => $request->nama_lengkap,
-                    'provinsi_id'      => $request->provinsi_id,
-                    'kota_id'          => $request->kota_id,
-                    'kecamatan_id'     => $request->kecamatan_id,
-                    'kode_pos'      => $request->kode_pos,
-                    'detail_alamat' => $request->detail_alamat,
-                    'img_profile'   => $imgPath,
-                ]);
-                break;
-
-            case 'perusahaan':
-                Perusahaan::create([
-                    'user_id'           => $user->id,
-                    'nama_perusahaan'   => $request->nama_perusahaan,
-                    'jenis_perusahaan'  => $request->jenis_perusahaan,
-                    'website_perusahaan' => $request->website_perusahaan,
-                    'telepon_perusahaan' => $request->telepon_perusahaan,
-                    'whatsapp'          => $request->whatsapp,
-                    'legalitas'         => $request->legalitas,
-                    'deskripsi'         => $request->deskripsi,
-                    'visi'              => $request->visi,
-                    'misi'              => $request->misi,
-                    'img_profile'       => $imgPath,
-                ]);
-                break;
-            case 'pelamar':
-                Pelamar::create([
-                    'user_id'           => $user->id,
-                    'nama_pelamar'      => $request->nama_pelamar,
-                    'telepon_pelamar'   => $request->telepon_pelamar,
-                    'img_profile'       => $imgPath,
-                    'deskripsi_diri'    => $request->deskripsi_diri,
-                    'kategori'          => $request->kategori,
-                    'gender'            => $request->gender,
-                    'gaji_minimal'      => $request->gaji_minimal,
-                    'gaji_maksimal'     => $request->gaji_maksimal,
-                    'tanggal_lahir'     => $request->tanggal_lahir,
-                ]);
-        }
-
-        return redirect()->route('superadmin.add.user')->with('success', 'Data Berhasil Ditambahkan');
     }
+
+
+
+
 
     public function edit($id)
     {
@@ -988,121 +1041,144 @@ class SuperAdminController extends Controller
 
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);
+        try {
+            $user = User::findOrFail($id);
 
-        $rules = [
-            'email'        => 'required|email|unique:users,email,' . $user->id,
-            'username'     => 'required|unique:users,username,' . $user->id,
-            'role'         => 'required|in:admin,finance,perusahaan,pelamar',
-            'img_profile'  => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ];
+            // Sanitasi nomor dulu agar regex tidak gagal
+            $request->merge([
+                'telepon_perusahaan' => $request->telepon_perusahaan
+                    ? preg_replace('/\D+/', '', $request->telepon_perusahaan)
+                    : null,
 
-        if (in_array($request->role, ['admin', 'finance'])) {
-            $rules['nama_lengkap'] = 'required';
-            $rules['provinsi_id']   = 'nullable|exists:provinsis,id';
-            $rules['kota_id']       = 'nullable|exists:kotas,id';
-            $rules['kecamatan_id']  = 'nullable|exists:kecamatans,id';
-            $rules['desa']          = 'nullable|string';
-            $rules['kode_pos']      = 'nullable|string';
-            $rules['detail_alamat'] = 'nullable|string';
-        }
+                'whatsapp' => $request->whatsapp
+                    ? preg_replace('/\D+/', '', $request->whatsapp)
+                    : null,
 
-        $request->validate($rules);
+                'telepon_pelamar' => $request->telepon_pelamar
+                    ? preg_replace('/\D+/', '', $request->telepon_pelamar)
+                    : null,
+            ]);
 
-        // Simpan role lama dan role baru
-        $oldRole = $user->role;
-        $newRole = $request->role;
+            // FIX VALIDASI
+            $rules = [
+                'email'        => 'required|email|unique:users,email,' . $user->id,
+                'username'     => 'required|unique:users,username,' . $user->id,
+                'role'         => 'required|in:admin,finance,perusahaan,pelamar',
+                'img_profile'  => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            ];
 
-        // Update data utama user
-        $user->update([
-            'email'    => $request->email,
-            'username' => $request->username,
-            'role'     => $newRole,
-            'password' => $request->filled('password') ? Hash::make($request->password) : $user->password,
-        ]);
-
-        // 🧹 Jika role berubah, hapus data + foto lama dari relasi sebelumnya
-        if ($oldRole !== $newRole) {
-            switch ($oldRole) {
-                case 'admin':
-                    if ($user->admin && $user->admin->img_profile) {
-                        Storage::delete('public/' . $user->admin->img_profile);
-                    }
-                    $user->admin()?->delete();
-                    break;
-
-                case 'finance':
-                    if ($user->finance && $user->finance->img_profile) {
-                        Storage::delete('public/' . $user->finance->img_profile);
-                    }
-                    $user->finance()?->delete();
-                    break;
-
-                case 'perusahaan':
-                    if ($user->perusahaan && $user->perusahaan->img_profile) {
-                        Storage::delete('public/' . $user->perusahaan->img_profile);
-                    }
-                    $user->perusahaan()?->delete();
-                    break;
-
-                case 'pelamar':
-                    if ($user->pelamar && $user->pelamar->img_profile) {
-                        Storage::delete('public/' . $user->pelamar->img_profile);
-                    }
-                    $user->pelamar()?->delete();
-                    break;
+            if (in_array($request->role, ['admin', 'finance'])) {
+                $rules['nama_lengkap'] = 'required';
+                $rules['provinsi_id']   = 'nullable|exists:provinsis,id';
+                $rules['kota_id']       = 'nullable|exists:kotas,id';
+                $rules['kecamatan_id']  = 'nullable|exists:kecamatans,id';
+                $rules['desa']          = 'nullable|string';
+                $rules['kode_pos']      = 'nullable|string';
+                $rules['detail_alamat'] = 'nullable|string';
             }
-        }
 
-        // Ambil foto lama kalau masih role yang sama
-        $imgPath = match ($newRole) {
-            'admin' => $user->admin->img_profile ?? null,
-            'finance' => $user->finance->img_profile ?? null,
-            'perusahaan' => $user->perusahaan->img_profile ?? null,
-            'pelamar' => $user->pelamar->img_profile ?? null,
-            default => null
-        };
+            // Validasi role perusahaan
+            if ($request->role === 'perusahaan') {
 
-        //  Upload foto baru kalau ada
-        if ($request->hasFile('img_profile')) {
-            if ($imgPath) Storage::delete('public/' . $imgPath);
-            $imgPath = $request->file('img_profile')->store('images', 'public');
-        }
+                $rules['telepon_perusahaan'] = [
+                    'nullable',
+                    'regex:/^(?:\\+62|62|0)[0-9]{8,15}$/'
+                ];
 
-        //  Update / create relasi sesuai role baru
-        switch ($newRole) {
-            case 'admin':
-                $user->admin()->updateOrCreate(
-                    [],
-                    [
-                        'nama_lengkap'  => $request->nama_lengkap,
-                        'provinsi_id'   => $request->provinsi_id,
-                        'kota_id'       => $request->kota_id,
-                        'kecamatan_id'  => $request->kecamatan_id,
-                        'kode_pos'      => $request->kode_pos,
-                        'detail_alamat' => $request->detail_alamat,
-                        'img_profile'   => $imgPath,
-                    ]
-                );
-                break;
+                $rules['whatsapp'] = [
+                    'nullable',
+                    'regex:/^(?:\\+62|62|0)[0-9]{8,15}$/'
+                ];
+            }
 
-            case 'finance':
-                $user->finance()->updateOrCreate(
-                    [],
-                    [
-                        'nama_lengkap'  => $request->nama_lengkap,
-                        'provinsi_id'   => $request->provinsi_id,
-                        'kota_id'       => $request->kota_id,
-                        'kecamatan_id'  => $request->kecamatan_id,
-                        'kode_pos'      => $request->kode_pos,
-                        'desa'          => $request->desa,
-                        'detail_alamat' => $request->detail_alamat,
-                        'img_profile'   => $imgPath,
-                    ]
-                );
-                break;
+            // Validasi role pelamar (FIX TELEPON)
+            if ($request->role === 'pelamar') {
+                $rules['telepon_pelamar'] = [
+                    'nullable',
+                    'regex:/^(?:\\+62|62|0)[0-9]{8,15}$/'
+                ];
+            }
 
-            case 'perusahaan':
+            // Pesan error
+            $request->validate($rules, [
+                'telepon_perusahaan.regex' => 'Nomor telepon harus diawali 0, 62 atau +62.',
+                'whatsapp.regex' => 'Nomor Whatsapp harus diawali 0, 62 atau +62.',
+                'telepon_pelamar.regex' => 'Nomor telepon pelamar harus diawali 0, 62 atau +62.',
+            ]);
+
+            // Simpan role lama dan role baru
+            $oldRole = $user->role;
+            $newRole = $request->role;
+
+            // Update data utama user
+            $user->update([
+                'email'    => $request->email,
+                'username' => $request->username,
+                'role'     => $newRole,
+                'password' => $request->filled('password') ? Hash::make($request->password) : $user->password,
+            ]);
+
+            // Hapus relasi lama jika role berubah
+            if ($oldRole !== $newRole) {
+                switch ($oldRole) {
+                    case 'admin':
+                        if ($user->admin && $user->admin->img_profile) {
+                            Storage::delete('public/' . $user->admin->img_profile);
+                        }
+                        $user->admin()?->delete();
+                        break;
+
+                    case 'finance':
+                        if ($user->finance && $user->finance->img_profile) {
+                            Storage::delete('public/' . $user->finance->img_profile);
+                        }
+                        $user->finance()?->delete();
+                        break;
+
+                    case 'perusahaan':
+                        if ($user->perusahaan && $user->perusahaan->img_profile) {
+                            Storage::delete('public/' . $user->perusahaan->img_profile);
+                        }
+                        $user->perusahaan()?->delete();
+                        break;
+
+                    case 'pelamar':
+                        if ($user->pelamar && $user->pelamar->img_profile) {
+                            Storage::delete('public/' . $user->pelamar->img_profile);
+                        }
+                        $user->pelamar()?->delete();
+                        break;
+                }
+            }
+
+            // Ambil foto lama
+            $imgPath = match ($newRole) {
+                'admin' => $user->admin->img_profile ?? null,
+                'finance' => $user->finance->img_profile ?? null,
+                'perusahaan' => $user->perusahaan->img_profile ?? null,
+                'pelamar' => $user->pelamar->img_profile ?? null,
+                default => null
+            };
+
+            // Upload foto baru
+            if ($request->hasFile('img_profile')) {
+                if ($imgPath) Storage::delete('public/' . $imgPath);
+                $imgPath = $request->file('img_profile')->store('images', 'public');
+            }
+
+            // FORMAT NOMOR (PERUSAHAAN, WA, PELAMAR)
+            foreach (['telepon_perusahaan', 'whatsapp', 'telepon_pelamar'] as $field) {
+                if ($request->$field) {
+                    $num = $request->$field;
+                    $num = preg_replace('/^62/', '0', $num);
+                    $num = preg_replace('/^\+62/', '0', $num);
+
+                    $request->merge([$field => $num]);
+                }
+            }
+
+            // Update perusahaan
+            if ($newRole === 'perusahaan') {
                 $user->perusahaan()->updateOrCreate(
                     ['user_id' => $user->id],
                     [
@@ -1118,13 +1194,14 @@ class SuperAdminController extends Controller
                         'img_profile'       => $imgPath,
                     ]
                 );
-                break;
+            }
 
-            case 'pelamar':
+            // Update pelamar
+            if ($newRole === 'pelamar') {
                 $user->pelamar()->updateOrCreate(
                     ['user_id' => $user->id],
                     [
-                        'nama_pelamar'  => $request->nama_pelamar,
+                        'nama_pelamar'      => $request->nama_pelamar,
                         'telepon_pelamar'   => $request->telepon_pelamar,
                         'deskripsi_diri'    => $request->deskripsi_diri,
                         'tanggal_lahir'     => $request->tanggal_lahir,
@@ -1135,11 +1212,44 @@ class SuperAdminController extends Controller
                         'img_profile'       => $imgPath,
                     ]
                 );
-                break;
-        }
+            }
 
-        return redirect()->route('superadmin.add.user')->with('success', 'Data Berhasil Disimpan');
+            $me = Auth::user();
+            // ===========================================
+            //  SIMPAN NOTIFIKASI BERHASIL
+            // ===========================================
+            Notifikasi::create([
+                'user_id'   => $me->id,
+                'perusahaan_id' => $me->perusahaan->id ?? null,
+                'judul'     => 'Pembaharuan Berhasil',
+                'pesan'     => 'Data akun Anda berhasil diperbarui.',
+                'is_read'   => 0,
+                'expired_at' => now()->addDays(7),
+                'pelamar_lowongan_id' => null,
+            ]);
+
+            return redirect()->route('superadmin.add.user')->with('success', 'Data Berhasil Disimpan');
+        } catch (\Exception $e) {
+
+            $me = Auth::user();
+            // ===========================================
+            //  SIMPAN NOTIFIKASI GAGAL
+            // ===========================================
+            Notifikasi::create([
+                'user_id'   => $me->id,
+                'perusahaan_id' => null,
+                'judul'     => 'Gagal Memperbarui Data',
+                'pesan'     => 'Terjadi kesalahan saat memperbarui data: ' . $e->getMessage(),
+                'is_read'   => 0,
+                'expired_at' => now()->addDays(7),
+                'pelamar_lowongan_id' => null,
+            ]);
+
+            return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage());
+        }
     }
+
+
 
 
 

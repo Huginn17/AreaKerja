@@ -22,17 +22,30 @@ class Perusahaan extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            if (empty($model->slug)) {
-                $model->slug = Str::slug($model->nama_perusahaan) . '-' . rand(1000, 9999);
-            }
+            $model->slug = static::generateUniqueSlug($model->nama_perusahaan);
         });
 
         static::updating(function ($model) {
             if ($model->isDirty('nama_perusahaan')) {
-                $model->slug = Str::slug($model->nama_perusahaan) . '-' . rand(1000, 9999);
+                $model->slug = static::generateUniqueSlug($model->nama_perusahaan);
             }
         });
     }
+
+    protected static function generateUniqueSlug($nama)
+    {
+        $slug = Str::slug($nama);
+        $originalSlug = $slug;
+        $counter = 1;
+
+        // Cek apakah slug sudah ada
+        while (self::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . $counter++;
+        }
+
+        return $slug;
+    }
+
     public function resolveRouteBinding($value, $field = null)
     {
         if (request()->routeIs('superadmin.panggilan.list')) {

@@ -341,6 +341,7 @@ Route::prefix('finance')->middleware('auth', 'role:finance', 'CheckUserStatus')-
 
 
 
+
 /**---------------------------------------- ADMIN PREFIX -------------------------------------*/
 //Admin PREFIX
 Route::controller(AuthController::class)->middleware('auth')->group(function () {
@@ -457,6 +458,7 @@ Route::prefix('admin')->middleware('auth', 'role:admin', 'CheckUserStatus')->gro
     });
 });
 /**---------------------------------------- END ADMIN PREFIX -------------------------------------*/
+
 
 
 

@@ -25,9 +25,9 @@
             </div>
         </section>
     </div>
-    <section class="py-16 mt-20">
+    <section class="py-16">
         <div class="max-w-6xl mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-center gap-6 flex-wrap">
+            <div class="flex flex-col md:flex-row justify-center gap-6 flex-wrap md:mt-16">
 
                 @php
                     // Mapping warna header paket
@@ -231,7 +231,7 @@
     <!-- Modal -->
     <div id="paketModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
 
-        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 animate-scaleIn">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 scale-[0.85] md:scale-100">
 
             <!-- Header -->
             <div class="flex items-center justify-between mb-4">

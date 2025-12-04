@@ -34,9 +34,37 @@ class ProfileController extends Controller
                 "tanggal_lahir"   => "nullable",
                 "deskripsi_diri"  => "nullable",
                 "gaji_minimal"    => "nullable",
-                "gaji_maksimal"   => "nullable"
+                "gaji_maksimal"   => "nullable",
+
+                // VALIDASI TELEPON PELAMAR
+                "telepon_pelamar" => [
+                    "nullable",
+                    "regex:/^(?:\+62|62|0)[0-9]+$/"
+                ],
+            ], [
+                "telepon_pelamar.regex" => "Nomor telepon harus diawali dengan 0, 62 atau +62."
             ]);
 
+            /* ==========================
+            NOMOR TELEPON
+        =========================== */
+            if (!empty($request->telepon_pelamar)) {
+
+                // Hapus karakter non angka kecuali +
+                $telepon = preg_replace('/[^0-9\+]/', '', $request->telepon_pelamar);
+
+                // +62 → 0
+                $telepon = preg_replace('/^\+62/', '0', $telepon);
+
+                // 62 → 0
+                $telepon = preg_replace('/^62/', '0', $telepon);
+
+                $validated['telepon_pelamar'] = $telepon;
+            }
+
+            /* ==========================
+            HANDLE GAMBAR PROFILE
+        =========================== */
             if ($request->hasFile('img_profile')) {
                 if ($pelamar->img_profile && Storage::exists('public/' . $pelamar->img_profile)) {
                     Storage::delete('public/' . $pelamar->img_profile);
@@ -50,13 +78,15 @@ class ProfileController extends Controller
             $validated['user_id'] = Auth::id();
             $pelamar->update($validated);
 
-            // Update sosmed
+            /* ==========================
+            UPDATE SOSMED
+        =========================== */
             $sosmed = $request->only(['instagram', 'linkedin', 'website', 'twitter']);
             $pelamar->sosmed()->updateOrCreate([], $sosmed);
 
-            /* ============================
-           INSERT NOTIFIKASI BERHASIL
-        ============================= */
+            /* ==========================
+         NOTIFIKASI BERHASIL
+        =========================== */
             Notifikasi::create([
                 'user_id'   => Auth::id(),
                 'judul'     => 'Profil Berhasil Diperbarui',
@@ -69,9 +99,9 @@ class ProfileController extends Controller
                 ->with('success', 'Profile berhasil diperbarui');
         } catch (\Exception $e) {
 
-            /* ============================
-           INSERT NOTIFIKASI GAGAL
-        ============================= */
+            /* ==========================
+         NOTIFIKASI GAGAL
+        =========================== */
             Notifikasi::create([
                 'user_id'   => Auth::id(),
                 'judul'     => 'Gagal Memperbarui Profil',
@@ -81,9 +111,11 @@ class ProfileController extends Controller
             ]);
 
             return redirect()->back()
-                ->with('error', 'Profile gagal diperbarui! Error: ' . $e->getMessage());
+                ->withErrors(['error' => 'Profile gagal diperbarui! Error: ' . $e->getMessage()])
+                ->withInput();
         }
     }
+
 
     public function destroy_profile(Pelamar $pelamar)
     {

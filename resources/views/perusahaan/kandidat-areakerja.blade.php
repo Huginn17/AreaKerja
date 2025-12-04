@@ -23,90 +23,92 @@
     <!-- Filter -->
     <form action="{{ route('perusahaan.kandidat.ak') }}" method="get">
         <div class="bg-white border-2 shadow-md p-6 -mt-12 relative z-10 max-w-4xl mx-auto rounded-lg">
-            <div class="flex items-center gap-4">
-                <!-- Skill -->
-                <div class="flex items-center gap-2 border-r pr-4">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                        <rect width="24" height="24" fill="url(#pattern0_661_9288)" fill-opacity="0.3" />
-                        <defs>
-                            <pattern id="pattern0_661_9288" patternContentUnits="objectBoundingBox" width="1"
-                                height="1">
-                                <use xlink:href="#image0_661_9288" transform="scale(0.0104167)" />
-                            </pattern>
-                            <image id="image0_661_9288" width="96" height="96" preserveAspectRatio="none"
-                                xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAAAsTAAALEwEAmpwYAAAEIklEQVR4nO2cTYhWVRjHf6OjhGOJaS5Ey8LsQ9H8wIIWgbqRwChcBLVwYQoaooIIMooQiA4agbkoqCgF3RkpIZIuitCCQNMxA1skIgouzCbx+5EDJ5RBnefM3Pee59xzfvDfvTz3PP/nvOeej3svFAqFQqFQKBQKhYI9ngTeBNYC3yh+L8aVBFOBTcBvwO3ABGIbnGwBOoBlwMkBJhDb4OQK0AFsAC5VlEBsg5MpQBuwGDhfcQKxDU6iABOAH1qUQGyDzRdgIXClhQmIcUVjELAFuNPiBMS4ojAY+KqmBDYr47iO8EEFuc0Driuv2UUEhgDf1tiD2oDPlbFu+SGxv7wG9Civ9bVvW620VdjzJeAv7Ia7Pcp4rvfO70duLwdMnfcD7USgqwVj6LvKaw8FDihj9vjerGU8cFYZ+2dgGBF4q4IbrjxAN/zekAaX+I/KuJeBVxQxRwGnlDG7/V5W7UwE/mmB+eL1H/C6si0jgePKuG5R+Fwfq/Yjylh/A+OIQNsAFlkSINdjZyjb9BRwWhn3L2DsQyYT3ytjuHvDS0RiSQ3mi9cF4Hllu54Fzinjnug1dLhOtTPgfvIqkRgOXKyxAOJvhk8r2zcpoH2/+Hwc2wLuT/2ZUVXGxprNl/tudqOVbZwN/KuMexDoVP7WTTjeIyKP+3FZIulX3wYNc4FrFV9/JZFZEdF88ToMPKZs7wLgZkXXdad30fnTQAEE2Buw6lxUwVrlixhbDL2ZZcB4uU87/XaEhg8HcJ19sbYYerPFgOnSS9sD2v9RP+If8QszE/R1kB5L6wNy2BEQ93e/wjbB6Bbt+UhFWqXMw43jXyrXHW4zzgxvGzBZHqHbAfPzIYpVrlvMmWKDAZNFcfDyjjKfvjbYzLHLgMGi0FXgjaYVYLCh+b8o5FbqjSrAagOmSqAaU4BnAja1LKkxBdhnwEzJtQDvGzBSci3AqAiHLlIKcA/t0ZxVJf0PmGN820GaXAD3jM0ZAwZKrgXYasA8ybUA0yo8vout5ArQ7t9WjG2c5FqApQZMkxoLYI7vDJgmORfgmAHTJOcCpL7wktQL8II/zIhtnORaAMeUgBcdrCtppgOfBbyYZlGNYIR/D+APA4ZKjgX4n0EGDJWa5DYh12AQyUTdAU9e14pkoBvATIwiGWgdhpGG66iVR9AfhjRYN5Uvb0dFGqwuEkAaqsuxPjMQijRUnSSCNFDXgTEkgjRQu0kIaaAWkBApPiEtfUw9nyAhug2YJhXqJxLjEwOmSYVy+SR3WnbLgHFSkZaTICEvOVvXPBLEfaHwkAHzpAK9SKK4InzagOFoHIkzGfjYf3ctxSnqSDJDjMl9riArxJiyQ4wpO8SYskOMKTvEmLJDjCk7xJiyQ4wpO8SYskOMKTvEmAqFQqFQKBQKhUKBVnIXvexR+hsD3XMAAAAASUVORK5CYII=" />
-                        </defs>
-                    </svg>
+            <div class="overflow-x-auto">
+                <div class="flex items-center gap-4 min-w-max">
+                    <!-- Skill -->
+                    <div class="flex items-center gap-2 text-center border-r pr-4">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <rect width="24" height="24" fill="url(#pattern0_661_9288)" fill-opacity="0.3" />
+                            <defs>
+                                <pattern id="pattern0_661_9288" patternContentUnits="objectBoundingBox" width="1"
+                                    height="1">
+                                    <use xlink:href="#image0_661_9288" transform="scale(0.0104167)" />
+                                </pattern>
+                                <image id="image0_661_9288" width="96" height="96" preserveAspectRatio="none"
+                                    xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAAAsTAAALEwEAmpwYAAAEIklEQVR4nO2cTYhWVRjHf6OjhGOJaS5Ey8LsQ9H8wIIWgbqRwChcBLVwYQoaooIIMooQiA4agbkoqCgF3RkpIZIuitCCQNMxA1skIgouzCbx+5EDJ5RBnefM3Pee59xzfvDfvTz3PP/nvOeej3svFAqFQqFQKBQKhYI9ngTeBNYC3yh+L8aVBFOBTcBvwO3ABGIbnGwBOoBlwMkBJhDb4OQK0AFsAC5VlEBsg5MpQBuwGDhfcQKxDU6iABOAH1qUQGyDzRdgIXClhQmIcUVjELAFuNPiBMS4ojAY+KqmBDYr47iO8EEFuc0Driuv2UUEhgDf1tiD2oDPlbFu+SGxv7wG9Civ9bVvW620VdjzJeAv7Ia7Pcp4rvfO70duLwdMnfcD7USgqwVj6LvKaw8FDihj9vjerGU8cFYZ+2dgGBF4q4IbrjxAN/zekAaX+I/KuJeBVxQxRwGnlDG7/V5W7UwE/mmB+eL1H/C6si0jgePKuG5R+Fwfq/Yjylh/A+OIQNsAFlkSINdjZyjb9BRwWhn3L2DsQyYT3ytjuHvDS0RiSQ3mi9cF4Hllu54Fzinjnug1dLhOtTPgfvIqkRgOXKyxAOJvhk8r2zcpoH2/+Hwc2wLuT/2ZUVXGxprNl/tudqOVbZwN/KuMexDoVP7WTTjeIyKP+3FZIulX3wYNc4FrFV9/JZFZEdF88ToMPKZs7wLgZkXXdad30fnTQAEE2Buw6lxUwVrlixhbDL2ZZcB4uU87/XaEhg8HcJ19sbYYerPFgOnSS9sD2v9RP+If8QszE/R1kB5L6wNy2BEQ93e/wjbB6Bbt+UhFWqXMw43jXyrXHW4zzgxvGzBZHqHbAfPzIYpVrlvMmWKDAZNFcfDyjjKfvjbYzLHLgMGi0FXgjaYVYLCh+b8o5FbqjSrAagOmSqAaU4BnAja1LKkxBdhnwEzJtQDvGzBSci3AqAiHLlIKcA/t0ZxVJf0PmGN820GaXAD3jM0ZAwZKrgXYasA8ybUA0yo8vout5ArQ7t9WjG2c5FqApQZMkxoLYI7vDJgmORfgmAHTJOcCpL7wktQL8II/zIhtnORaAMeUgBcdrCtppgOfBbyYZlGNYIR/D+APA4ZKjgX4n0EGDJWa5DYh12AQyUTdAU9e14pkoBvATIwiGWgdhpGG66iVR9AfhjRYN5Uvb0dFGqwuEkAaqsuxPjMQijRUnSSCNFDXgTEkgjRQu0kIaaAWkBApPiEtfUw9nyAhug2YJhXqJxLjEwOmSYVy+SR3WnbLgHFSkZaTICEvOVvXPBLEfaHwkAHzpAK9SKK4InzagOFoHIkzGfjYf3ctxSnqSDJDjMl9riArxJiyQ4wpO8SYskOMKTvEmLJDjCk7xJiyQ4wpO8SYskOMKTvEmAqFQqFQKBQKhUKBVnIXvexR+hsD3XMAAAAASUVORK5CYII=" />
+                            </defs>
+                        </svg>
 
-                    <select name="skill"
-                        class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
-                        <option value="">Skill</option>
-                        @foreach ($skills as $skill)
-                            <option value="{{ $skill }}" {{ request('skill') == $skill ? 'selected' : '' }}>
-                                {{ $skill }}
-                            </option>
-                        @endforeach
-                    </select>
+                        <select name="skill"
+                            class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
+                            <option value="">Skill</option>
+                            @foreach ($skills as $skill)
+                                <option value="{{ $skill }}" {{ request('skill') == $skill ? 'selected' : '' }}>
+                                    {{ $skill }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Umur -->
+                    <div class="flex items-center gap-2 border-r pr-4 text-center">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <rect opacity="0.3" width="24" height="24" fill="url(#pattern0_661_9289)" />
+                            <defs>
+                                <pattern id="pattern0_661_9289" patternContentUnits="objectBoundingBox" width="1"
+                                    height="1">
+                                    <use xlink:href="#image0_661_9289" transform="scale(0.0104167)" />
+                                </pattern>
+                                <image id="image0_661_9289" width="96" height="96" preserveAspectRatio="none"
+                                    xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAAAsTAAALEwEAmpwYAAACjklEQVR4nO2dS04cMRCG/83kLHkckCVeIiUQEKdJcoyQgwTYTaRCI3UkQJNMM9j1Fa76pFr7f7jdI43UloqiKIpiHHZgaKLrm96gBdc3vUELrm96gxZc3/QGLbi+6Q1acH3TG7Tg+qY3aMH1HeSTpK+SbiTdrzD01ud+8Xoh6SMZ/DtJ15L+BAjFoNl5v5K0IcL/ESAACzLfvUu4DmDags2l55mf+dixf8xW0gePAi4DmLWgc+5RwK8ARi3o/PQo4C6AUQs6tx4F0CYt+FQBqgLwXWj1BPBBWB1BfBgGTL0DVAXgu9DqCeCDsDqC+DAMmHoHqArAd6HVE8AHYVmPoNkx2j8uAAb3jwuAwf3jAmBw/7gAGNw/LgAG948LgMH94wJgcP+4gEc0SWfyBfePC3gU/t81PUvA/eMC9DR87xJw/7SA9p+1zxL4RwW0FeuPLiFtAW3F2h4lpCygvSD80SWkK6AdEf7IElIV0F4R/qgS0hTQOoQ/ooQUBbSO4fcuYfoC2oDwe5YwfQHRwf3jAmBw/7gAGNw/LgAG948LgMH94wJgcP+4ABjcPy4ABvc/WsDJijWOndM34D+EgJOg4acpoHcJvcJPVUCvEnqGn66A15bQO/yUBRxbwojw0xbw0hJGhZ+6gLUljAxf2Qs4VMLo8CP45wVofwke4YfwjwvYU4JX+CH84wKe/X+8G09w/7gAGNw/LgAG948LgMH94wJgcP+3K0Rknd8eBdwEMGqZP118EcCoBZ3PHgXsru2oz9dr7+fr38uJqwC7zYLN7mRwY7Nc20GbtiDzjbhHZrNc5rANEIBBs112vnv4z98J58svgAx3C9wtXr94XVlSFEVRFEVRFEVRFEVRaAoeAGng/CsPyJlSAAAAAElFTkSuQmCC" />
+                            </defs>
+                        </svg>
+
+                        <select name="umur"
+                            class="appearance-none px-12 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
+                            <option value="">Umur</option>
+                            @foreach ($umurRange as $umur)
+                                <option value="{{ $umur }}" {{ request('umur') == $umur ? 'selected' : '' }}>
+                                    {{ $umur }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                    </div>
+
+                    <!-- Gender -->
+                    <div class="flex items-center gap-2">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <rect width="24" height="23.8689" fill="url(#pattern0_661_9290)" fill-opacity="0.3" />
+                            <defs>
+                                <pattern id="pattern0_661_9290" patternContentUnits="objectBoundingBox" width="1"
+                                    height="1">
+                                    <use xlink:href="#image0_661_9290"
+                                        transform="matrix(0.0103597 0 0 0.0104167 0.00273224 0)" />
+                                </pattern>
+                                <image id="image0_661_9290" width="96" height="96" preserveAspectRatio="none"
+                                    xlink:href="data:image/png;base64,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" />
+                            </defs>
+                        </svg>
+
+                        <select name="gender"
+                            class="appearance-none px-12 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
+                            <option value="">Gender</option>
+                            <option value="Laki-laki">Laki-laki</option>
+                            <option value="Perempuan">Perempuan</option>
+                        </select>
+
+                    </div>
+
+                    <!-- Button -->
+                    <button type="submit"
+                        class="ml-auto bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-md text-sm font-medium">
+                        Cari Kandidat
+                    </button>
                 </div>
-
-                <!-- Umur -->
-                <div class="flex items-center gap-2 border-r pr-4">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                        <rect opacity="0.3" width="24" height="24" fill="url(#pattern0_661_9289)" />
-                        <defs>
-                            <pattern id="pattern0_661_9289" patternContentUnits="objectBoundingBox" width="1"
-                                height="1">
-                                <use xlink:href="#image0_661_9289" transform="scale(0.0104167)" />
-                            </pattern>
-                            <image id="image0_661_9289" width="96" height="96" preserveAspectRatio="none"
-                                xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAAAsTAAALEwEAmpwYAAACjklEQVR4nO2dS04cMRCG/83kLHkckCVeIiUQEKdJcoyQgwTYTaRCI3UkQJNMM9j1Fa76pFr7f7jdI43UloqiKIpiHHZgaKLrm96gBdc3vUELrm96gxZc3/QGLbi+6Q1acH3TG7Tg+qY3aMH1HeSTpK+SbiTdrzD01ud+8Xoh6SMZ/DtJ15L+BAjFoNl5v5K0IcL/ESAACzLfvUu4DmDags2l55mf+dixf8xW0gePAi4DmLWgc+5RwK8ARi3o/PQo4C6AUQs6tx4F0CYt+FQBqgLwXWj1BPBBWB1BfBgGTL0DVAXgu9DqCeCDsDqC+DAMmHoHqArAd6HVE8AHYVmPoNkx2j8uAAb3jwuAwf3jAmBw/7gAGNw/LgAG948LgMH94wJgcP+4gEc0SWfyBfePC3gU/t81PUvA/eMC9DR87xJw/7SA9p+1zxL4RwW0FeuPLiFtAW3F2h4lpCygvSD80SWkK6AdEf7IElIV0F4R/qgS0hTQOoQ/ooQUBbSO4fcuYfoC2oDwe5YwfQHRwf3jAmBw/7gAGNw/LgAG948LgMH94wJgcP+4ABjcPy4ABvc/WsDJijWOndM34D+EgJOg4acpoHcJvcJPVUCvEnqGn66A15bQO/yUBRxbwojw0xbw0hJGhZ+6gLUljAxf2Qs4VMLo8CP45wVofwke4YfwjwvYU4JX+CH84wKe/X+8G09w/7gAGNw/LgAG948LgMH94wJgcP+3K0Rknd8eBdwEMGqZP118EcCoBZ3PHgXsru2oz9dr7+fr38uJqwC7zYLN7mRwY7Nc20GbtiDzjbhHZrNc5rANEIBBs112vnv4z98J58svgAx3C9wtXr94XVlSFEVRFEVRFEVRFEVRaAoeAGng/CsPyJlSAAAAAElFTkSuQmCC" />
-                        </defs>
-                    </svg>
-
-                    <select name="umur"
-                        class="appearance-none px-12 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
-                        <option value="">Umur</option>
-                        @foreach ($umurRange as $umur)
-                            <option value="{{ $umur }}" {{ request('umur') == $umur ? 'selected' : '' }}>
-                                {{ $umur }}
-                            </option>
-                        @endforeach
-                    </select>
-
-                </div>
-
-                <!-- Gender -->
-                <div class="flex items-center gap-2">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                        <rect width="24" height="23.8689" fill="url(#pattern0_661_9290)" fill-opacity="0.3" />
-                        <defs>
-                            <pattern id="pattern0_661_9290" patternContentUnits="objectBoundingBox" width="1"
-                                height="1">
-                                <use xlink:href="#image0_661_9290"
-                                    transform="matrix(0.0103597 0 0 0.0104167 0.00273224 0)" />
-                            </pattern>
-                            <image id="image0_661_9290" width="96" height="96" preserveAspectRatio="none"
-                                xlink:href="data:image/png;base64,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" />
-                        </defs>
-                    </svg>
-
-                    <select name="gender"
-                        class="appearance-none px-12 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
-                        <option value="">Gender</option>
-                        <option value="Laki-laki">Laki-laki</option>
-                        <option value="Perempuan">Perempuan</option>
-                    </select>
-
-                </div>
-
-                <!-- Button -->
-                <button type="submit"
-                    class="ml-auto bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-md text-sm font-medium">
-                    Cari Kandidat
-                </button>
             </div>
         </div>
     </form>
@@ -210,8 +212,8 @@
     </div>
 
     {{-- MODAL CV --}}
-    <div id="confirmModal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-40">
-        <div class="bg-white p-6 rounded-lg text-center max-w-sm w-full">
+    <div id="confirmModal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+        <div class="bg-white p-6 rounded-lg text-center max-w-sm w-full scale-[0.85] md:scale-100">
             <div class="flex justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-orange-500 mb-4" fill="currentColor"
                     viewBox="0 0 24 24">
@@ -227,8 +229,8 @@
     </div>
 
     <!-- Modal 2: Sukses -->
-    <div id="successModal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-40">
-        <div class="bg-white p-6 rounded-lg text-center max-w-sm w-full">
+    <div id="successModal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+        <div class="bg-white p-6 rounded-lg text-center max-w-sm w-full scale-[0.85] md:scale-100">
             <div class="flex justify-center">
                 <div class="bg-orange-100 p-4 rounded-full">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-orange-500" fill="none"

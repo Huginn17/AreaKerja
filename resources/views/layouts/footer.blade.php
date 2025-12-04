@@ -63,8 +63,8 @@
             <h3 class="mb-4 text-xl">Kontak Kami</h3>
             <form class="flex overflow-hidden sm:rounded-lg bg-white">
                 <input type="email" placeholder="Email address"
-                    class="flex-1 px-4 py-2 text-black focus:outline-none">
-                <button type="submit" class="bg-black text-orange-500 px-5 hover:bg-gray-800">Submit</button>
+                    class="flex-1 px-2 py-2 text-black focus:outline-none">
+                <button type="submit" class="bg-black text-orange-500 px-3 hover:bg-gray-800">Submit</button>
             </form>
         </div>
     </div>

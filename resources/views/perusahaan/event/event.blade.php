@@ -2,26 +2,28 @@
 @section('content')
     <div class="flex flex-col gap-6 items-center justify-center min-h-screen p-6 mt-16">
         @foreach ($events as $event)
-            <div class="w-[800px] rounded-xl overflow-hidden relative">
+           <div class="w-full max-w-3xl mx-auto rounded-xl overflow-hidden relative">
+
                 <!-- Gambar -->
                 <img src="{{ $event->image ? asset('storage/' . $event->image) : asset('images/megangbuku.jpg') }}"
-                    alt="Event" class="w-full h-[250px] object-cover">
+                    alt="Event" class="w-full h-48 sm:h-56 md:h-64 object-cover">
 
                 <!-- Overlay -->
                 <div class="absolute inset-0 bg-black bg-opacity-40 rounded-xl"></div>
 
                 <!-- Konten -->
-                <div class="absolute inset-0    flex flex-col justify-between p-6 text-white">
+                <div class="absolute inset-0 flex flex-col justify-between p-4 sm:p-6 text-white">
+
                     <!-- Tanggal (atas kanan) -->
-                    <div class="text-sm text-right">
+                    <div class="text-xs sm:text-sm text-right">
                         {{ \Carbon\Carbon::parse($event->tgl_mulai)->translatedFormat('j F Y') }}
                     </div>
 
 
                     <!-- Info -->
                     <div>
-                        <h2 class="text-2xl font-bold mb-2">{{ $event->title }}</h2>
-                        <p class="text-sm mb-3 w-[80%]">
+                        <h2 class="text-xl sm:text-2xl font-bold mb-2">{{ $event->title }}</h2>
+                        <p class="text-xs sm:text-sm mb-3 w-full sm:w-[80%]">
                             {{ Str::limit(strip_tags($event->content), 120) }}
                         </p>
 
@@ -38,7 +40,7 @@
         @if ($events->isEmpty())
             <div class="flex items-center justify-center min-h-screen bg-gray-white">
                 <div
-                    class="bg-white border border-gray-300 rounded-2xl shadow-sm w-full max-w-2xl flex flex-col items-center justify-center py-40 px-40">
+                    class="bg-white border border-gray-300 rounded-2xl shadow-sm w-full max-w-2xl flex flex-col items-center justify-center py-20 px-10">
                     <!-- Icon Amplop Terbuka Mirip Gambar -->
                     <svg width="110" height="110" viewBox="0 0 150 139" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
