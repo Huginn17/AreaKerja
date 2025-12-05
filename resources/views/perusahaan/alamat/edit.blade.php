@@ -1,12 +1,12 @@
 @extends('layouts.index-perusahaan')
 @section('content')
-    <div class="bg-white min-h-screen p-10 mt-16">
+    <div class="bg-white min-h-screen p-4 sm:p-10 mt-20">
         <!-- Judul -->
         <h2 class="text-xl font-semibold text-gray-800">Edit Alamat</h2>
         <hr class="border-t-2 border-orange-500 mt-1 mb-6" />
 
         <!-- Form -->
-        <form action="{{ route('alamat.update.perusahaan', $data->id) }}" method="POST" class="ml-12 space-y-5 w-[1100px]">
+        <form action="{{ route('alamat.update.perusahaan', $data->id) }}" method="POST" class="px-0 sm:px-12 space-y-5 w-full max-w-4xl">
             @csrf
             @method('PUT')
 
@@ -16,7 +16,7 @@
                     Nama Alamat <span class="text-red-500">*</span>
                 </label>
                 <input type="text" name="label" placeholder="Nama Alamat" value="{{ $data->label }}"
-                    class="w-full border border-orange-500 rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500">
+                    class="w-full border border-orange-500 rounded-md px-4 py-3 outline-none focus:ring-1 focus:ring-orange-500">
             </div>
 
             <!-- Kode Pos -->
@@ -25,7 +25,7 @@
                     Kode Pos <span class="text-red-500">*</span>
                 </label>
                 <input type="text" name="kode_pos" placeholder="Kode Pos" value="{{ $data->kode_pos }}"
-                    class="w-full border border-orange-500 rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500">
+                    class="w-full border border-orange-500 rounded-md px-4 py-3 outline-none focus:ring-1 focus:ring-orange-500">
             </div>
 
             <!-- Desa -->
@@ -34,7 +34,7 @@
                     Desa <span class="text-red-500">*</span>
                 </label>
                 <input type="text" name="desa" placeholder="Desa" value="{{ $data->desa }}"
-                    class="w-full border border-orange-500 rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500">
+                    class="w-full border border-orange-500 rounded-md px-4 py-3 outline-none focus:ring-1 focus:ring-orange-500">
             </div>
 
             <!-- Provinsi -->
@@ -42,7 +42,7 @@
                 <label class="block text-sm font-medium text-gray-800 mb-1">Provinsi <span
                         class="text-red-500">*</span></label>
                 <select id="provinsiSelect" name="provinsi_id"
-                    class="w-full border border-orange-500 rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500">
+                    class="w-full border border-orange-500 rounded-md px-4 py-3 outline-none focus:ring-1 focus:ring-orange-500">
                     <option value="">Pilih Provinsi</option>
                     @foreach ($provinsis as $prov)
                         <option value="{{ $prov->id }}" {{ $data->provinsi_id == $prov->id ? 'selected' : '' }}>
@@ -56,7 +56,7 @@
             <div>
                 <label class="block text-sm font-medium text-gray-800 mb-1">Kota <span class="text-red-500">*</span></label>
                 <select id="kotaSelect" name="kota_id"
-                    class="w-full border border-orange-500 rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500">
+                    class="w-full border border-orange-500 rounded-md px-4 py-3 outline-none focus:ring-1 focus:ring-orange-500">
                     <option value="">Pilih Kota</option>
                     @if ($data->kota)
                         <option value="{{ $data->kota_id }}" selected>{{ $data->kota->nama }}</option>
@@ -69,7 +69,7 @@
                 <label class="block text-sm font-medium text-gray-800 mb-1">Kecamatan <span
                         class="text-red-500">*</span></label>
                 <select id="kecamatanSelect" name="kecamatan_id"
-                    class="w-full border border-orange-500 rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500">
+                    class="w-full border border-orange-500 rounded-md px-4 py-3 outline-none focus:ring-1 focus:ring-orange-500">
                     <option value="">Pilih Kecamatan</option>
                     @if ($data->kecamatan)
                         <option value="{{ $data->kecamatan_id }}" selected>{{ $data->kecamatan->nama }}</option>
@@ -83,11 +83,11 @@
                     Detail Alamat <span class="text-red-500">*</span>
                 </label>
                 <textarea name="detail" rows="4" placeholder="Detail Alamat"
-                    class="w-full border border-orange-500 rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500">{{ $data->detail }}</textarea>
+                    class="w-full border border-orange-500 rounded-md px-4 py-3 outline-none focus:ring-1 focus:ring-orange-500">{{ $data->detail }}</textarea>
             </div>
 
             <!-- Tombol -->
-            <div class="flex justify-end space-x-4 pt-4">
+            <div class="flex flex-wrap justify-center gap-4">
                 <a href="{{ route('alamat.perusahaan') }}"
                     class="px-6 py-2 border border-orange-500 text-orange-500 rounded-md hover:bg-orange-50">Batal</a>
                 <button type="submit" class="px-6 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600">

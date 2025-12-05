@@ -25,6 +25,37 @@
             font-family: 'Poppins', sans-serif;
         }
     </style>
+    <style>
+        @media (max-width: 640px) {
+            .cv-wrapper {
+                padding: 1rem !important;
+            }
+
+            .cv-header {
+                flex-direction: column !important;
+                text-align: center !important;
+                gap: 1.5rem !important;
+            }
+
+            .cv-header-left {
+                flex-direction: column !important;
+                text-align: center !important;
+            }
+
+            .cv-header-contact {
+                text-align: center !important;
+            }
+
+            .cv-two-col {
+                grid-template-columns: 1fr !important;
+            }
+
+            .cv-skill-table tr {
+                display: block !important;
+            }
+        }
+    </style>
+
 </head>
 <style>
     select {
@@ -48,71 +79,72 @@
         display: none !important;
     }
 
-      .tinymce-content {
-    font-family: Inter, Arial, sans-serif;
-    font-size: 16px;
-    line-height: 1.7;
-}
+    .tinymce-content {
+        font-family: Inter, Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.7;
+    }
 
-/* Paragraph spacing */
-.tinymce-content p {
-    margin-bottom: 1rem;
-}
+    /* Paragraph spacing */
+    .tinymce-content p {
+        margin-bottom: 1rem;
+    }
 
-/* LIST — supaya BULLET hitam muncul */
-.tinymce-content ul,
-.tinymce-content ul li {
-    list-style-type: disc !important;
-    list-style-position: outside !important;
-    margin-left: 1.5rem !important;
-    padding-left: 0.5rem !important;
-}
+    /* LIST — supaya BULLET hitam muncul */
+    .tinymce-content ul,
+    .tinymce-content ul li {
+        list-style-type: disc !important;
+        list-style-position: outside !important;
+        margin-left: 1.5rem !important;
+        padding-left: 0.5rem !important;
+    }
 
-.tinymce-content ol,
-.tinymce-content ol li {
-    list-style-type: decimal !important;
-    list-style-position: outside !important;
-    margin-left: 1.5rem !important;
-    padding-left: 0.5rem !important;
-}
+    .tinymce-content ol,
+    .tinymce-content ol li {
+        list-style-type: decimal !important;
+        list-style-position: outside !important;
+        margin-left: 1.5rem !important;
+        padding-left: 0.5rem !important;
+    }
 
-/* Gambar responsif */
-.tinymce-content img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 1rem auto;
-    border-radius: 6px;
-}
+    /* Gambar responsif */
+    .tinymce-content img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 1rem auto;
+        border-radius: 6px;
+    }
 
-/* Blockquote */
-.tinymce-content blockquote {
-    border-left: 4px solid #ccc;
-    padding-left: 1rem;
-    margin: 1rem 0;
-    font-style: italic;
-    color: #555;
-}
+    /* Blockquote */
+    .tinymce-content blockquote {
+        border-left: 4px solid #ccc;
+        padding-left: 1rem;
+        margin: 1rem 0;
+        font-style: italic;
+        color: #555;
+    }
 
-/* Tabel */
-.tinymce-content table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 1rem 0;
-}
+    /* Tabel */
+    .tinymce-content table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1rem 0;
+    }
 
-.tinymce-content table,
-.tinymce-content th,
-.tinymce-content td {
-    border: 1px solid #ddd;
-}
+    .tinymce-content table,
+    .tinymce-content th,
+    .tinymce-content td {
+        border: 1px solid #ddd;
+    }
 
-.tinymce-content th,
-.tinymce-content td {
-    padding: 8px;
-}
-
+    .tinymce-content th,
+    .tinymce-content td {
+        padding: 8px;
+    }
 </style>
+
+
 
 <body>
 
@@ -133,13 +165,21 @@
         aria-label="Sidebar">
         <div class="h-full px-3 py-4 overflow-y-auto bg-gray-600 dark:bg-gray-800 ">
             <a href="https://flowbite.com/" class="flex items-center mb-5">
-                <img src="{{ asset('images/logo_area_kerja_putih.png') }}" class=" me-1 sm:h-14"
-                    alt="areakerjaputih Logo" />
-                <span class="self-center text-xl font-semibold whitespace-nowrap text-white">areakerja.com</span>
+
+                <!-- Logo responsif -->
+                <img src="{{ asset('images/logo_area_kerja_putih.png') }}"
+                    class="h-10 sm:h-14 w-auto object-contain me-1" alt="areakerjaputih Logo" />
+
+                <!-- Teks responsif -->
+                <span class="self-center text-lg sm:text-xl font-semibold whitespace-nowrap text-white">
+                    areakerja.com
+                </span>
+
             </a>
+
             <hr>
             <ul class="space-y-2 font-medium">
-                
+
                 <p class="flex items-center p-2 text-white rounded-lg dark:text-white">
                     <span class="ms-3 mt-3">Umum</span>
                 </p>
@@ -190,8 +230,8 @@
                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect y="0.5" width="20" height="20" fill="url(#pattern0_690_13060)" />
                             <defs>
-                                <pattern id="pattern0_690_13060" patternContentUnits="objectBoundingBox"
-                                    width="1" height="1">
+                                <pattern id="pattern0_690_13060" patternContentUnits="objectBoundingBox" width="1"
+                                    height="1">
                                     <use xlink:href="#image0_690_13060" transform="scale(0.00195312)" />
                                 </pattern>
                                 <image id="image0_690_13060" width="512" height="512"

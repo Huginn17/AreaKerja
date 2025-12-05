@@ -9,23 +9,25 @@
             @endphp
 
             <img src="{{ $header && $header->link ? asset('storage/' . $header->link) : asset('images/ntap.png') }}"
-                alt="Header Image" class="w-full h-[600px] object-cover">
+                alt="Header Image" class="w-full h-[400px] sm:h-[500px] md:h-[600px] object-cover">
 
-            {{-- <img src="{{ asset('images/ntap.png') }}" alt="hero" class="w-full h-[350px] object-cover"> --}}
             <div class="absolute inset-0 bg-black bg-opacity-30"></div>
-            <div class="absolute bottom-52 left-20 text-white">
-                <h3 class="text-3xl md:text-4xl font-semibold mt-3 max-w-2xl">
+
+            <div
+                class="absolute bottom-32 sm:bottom-40 md:bottom-52 left-4 sm:left-10 md:left-20 text-white max-w-xs sm:max-w-md md:max-w-2xl">
+                <h3 class="text-xl sm:text-2xl md:text-4xl font-semibold mt-3">
                     Daftar Kandidat
                 </h3>
-                <p class="text-sm mt-4">Ikuti pelatihan terakreditasi AreaKerja.com</p>
-                <p class="text-sm "> dan dapatkan pekerjaan impian anda!</p><br>
+                <p class="text-sm mt-2 sm:mt-4">Ikuti pelatihan terakreditasi AreaKerja.com</p>
+                <p class="text-sm">dan dapatkan pekerjaan impian anda!</p><br>
                 <!-- Tombol Daftar -->
-                <button onclick="goToStep(1)" class="bg-orange-500 hover:bg-orange-600 text-sm px-8 py-2 rounded-lg ">
+                <button onclick="goToStep(1)"
+                    class="bg-orange-500 hover:bg-orange-600 text-sm sm:text-base px-4 sm:px-8 py-2 rounded-lg">
                     Daftar
                 </button>
-
             </div>
         </section>
+
 
         <section class="text-white py-12" style="background: linear-gradient(to left, rgb(255, 196, 0), #ff7b00)">
             <div class="max-w-6xl mx-auto grid md:grid-cols-2 items-center gap-8 px-6">
@@ -87,7 +89,7 @@
 
                 <!-- Right Image -->
                 <div class="flex justify-center">
-                    <img src="{{ asset('images/ntep.png') }}" alt="Kandidat" class="rounded-lg ">
+                    <img src="{{ asset('images/ntep.png') }}" alt="Kandidat" class="rounded-lg mr-[140px]">
                 </div>
             </div>
         </section>
@@ -125,8 +127,8 @@
         </section>
 
         <!-- ================= MODAL STEP 1 (PILIH DIVISI) ================= -->
-        <div id="modalStep1" class="fixed inset-0 hidden bg-black bg-opacity-50 z-50 flex items-center justify-center">
-            <div class="bg-white w-full max-w-md rounded-2xl shadow-xl relative p-6 max-h-[90vh] overflow-y-auto">
+        <div id="modalStep1" class="fixed inset-0 hidden bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+            <div class="bg-white w-full sm:max-w-md rounded-2xl shadow-xl relative p-4 sm:p-6 max-h-[90vh] overflow-y-auto">
                 <button onclick="closeAllModal()"
                     class="absolute top-3 right-3 text-gray-400 hover:text-black text-xl">✕</button>
 
@@ -148,33 +150,33 @@
                 </select>
 
                 <!-- Footer Button -->
-                <div class="flex justify-between mt-6">
-                    <button onclick="closeAllModal()" class="text-orange-500 font-medium">Kembali</button>
-                    <button onclick="saveDivisiAndNext()" class="text-orange-500 font-semibold">Selanjutnya</button>
+                <div class="flex flex-col sm:flex-row justify-between mt-6 gap-3 sm:gap-0">
+                    <button onclick="closeAllModal()" class="text-orange-500 font-medium w-full sm:w-auto">Kembali</button>
+                    <button onclick="saveDivisiAndNext()"
+                        class="text-orange-500 font-semibold w-full sm:w-auto">Selanjutnya</button>
                 </div>
             </div>
         </div>
 
 
 
+
         <!-- ================= MODAL STEP 2 ================= -->
-       @include('kandidat.modal-topup.step2')
+        @include('kandidat.modal-topup.step2')
 
 
         <!-- ================= MODAL STEP 3 ================= -->
-        <div id="modalStep3" class="fixed inset-0 hidden bg-black bg-opacity-50 z-50 flex items-center justify-center">
-            <div class="bg-white w-full max-w-lg rounded-2xl shadow-xl relative p-8">
+        <div id="modalStep3"
+            class="fixed inset-0 hidden bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+            <div
+                class="bg-white w-full sm:max-w-lg rounded-2xl shadow-xl relative p-4 sm:p-8 max-h-[90vh] overflow-y-auto">
                 <button onclick="closeAllModal()"
                     class="absolute top-4 right-4 text-gray-500 hover:text-black text-xl">✕</button>
 
                 <h2 class="text-xl font-bold">Detail Pembayaran</h2>
                 <div class="h-1 w-32 bg-orange-500 mb-6"></div>
 
-                <div class="border border-orange-400 rounded-lg p-6 space-y-3 text-sm">
-                    {{-- <div class="flex justify-between"> --}}
-                        {{-- <span>No. Transaksi</span>
-                        <span id="detailTransaksi">-</span> --}}
-                    {{-- </div> --}}
+                <div class="border border-orange-400 rounded-lg p-4 sm:p-6 space-y-3 text-sm">
                     <div class="flex justify-between">
                         <span>Divisi</span>
                         <span id="detailDivisi">-</span>
@@ -211,22 +213,22 @@
                     </div>
                 </div>
 
-                <form action="{{ route('kandidat.storePendaftaran') }}" method="post">
+                <form action="{{ route('kandidat.storePendaftaran') }}" method="post" class="mt-6">
                     @csrf
                     <!-- hidden input -->
                     <input type="hidden" name="daftar_bank_id" id="inputBank">
                     <input type="hidden" name="divisi" id="inputDivisi">
 
-                    <div class="flex justify-center mt-8">
+                    <div class="flex justify-center mt-4">
                         <button type="submit"
                             class="w-full py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-full">
                             Konfirmasi
                         </button>
                     </div>
                 </form>
-
             </div>
         </div>
+
 
 
 

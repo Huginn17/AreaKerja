@@ -1,20 +1,21 @@
 @extends('layouts.index-perusahaan')
 @section('content')
-    <div class="max-w-6xl mt-24 mx-auto p-7 rounded-lg">
+    <div class="max-w-6xl mt-24 mx-auto p-4 sm:p-7 rounded-lg">
+        <h2 class="text-lg font-semibold mb-4">Kandidat Saya</h2>
         <!-- Header -->
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-lg font-semibold">Kandidat Saya</h2>
+        <div class="flex flex-col sm:flex-row items-center mb-4 gap-6">
+            
             @php
                 // Ambil semua skill unik dari seluruh pelamar yang ada di data recruitments
                 $skillList = collect($recruitments)->pluck('pelamar.skill')->flatten()->unique('skill')->values();
             @endphp
 
-            <div class="flex gap-10">
-                <form action="" method="get">
+            <div class="flex flex-col sm:flex-row sm:gap-4 gap-6">
+                <form action="" method="get" class="flex flex-col sm:flex-row sm:items-center sm:gap-4 gap-3">
                     <input type="text" name="search" value="{{ request('search') }}"
-                        placeholder="nama kandidat/username ..." class="border rounded-full px-10 py-2 text-sm w-64">
+                        placeholder="nama kandidat/username ..." class="border rounded-full px-8 py-2 text-sm w-full sm:w-72 border-gray-300 shadow-lg">
 
-                    <select name="skill" class="border rounded-full px-10 py-2 text-sm">
+                    <select name="skill" class="border border-gray-300 rounded-full px-10 py-2 text-sm shadow-lg">
                         <option value="">Skill</option>
                         @foreach ($skillList as $skill)
                             <option value="{{ $skill->skill }}" {{ request('skill') == $skill->skill ? 'selected' : '' }}>
@@ -23,7 +24,7 @@
                         @endforeach
                     </select>
 
-                    <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600">
+                    <button type="submit" class="bg-orange-500 text-white px-8 py-2 rounded-lg hover:bg-orange-600 shadow-lg">
                         Cari
                     </button>
                 </form>
@@ -32,18 +33,18 @@
         </div>
 
         <!-- Table -->
-        <div class="overflow-x-auto border border-gray-300 rounded-2xl mb-16">
+        <div class="overflow-x-auto border border-gray-300 rounded-2xl mb-4 mt-8 shadow-lg">
             <table class="w-full border-collapse bg-white">
                 <thead>
                     <tr>
-                        <th class="p-7 text-center font-semibold">Nama</th>
-                        <th class="p-7 text-center font-semibold">Skill</th>
-                        <th class="p-7 text-center font-semibold">CV</th>
-                        <th class="p-7 text-center font-semibold">Hapus</th>
-                        <th class="p-7 text-center font-semibold">Lowongan</th>
-                        <th class="p-7 text-center font-semibold">Ekspektasi Range Gaji</th>
-                        <th class="p-7 text-center font-semibold">Status</th>
-                        <th class="p-7 text-center font-semibold">Sumber</th>
+                        <th class="p-4 sm:p-7 text-center font-semibold">Nama</th>
+                        <th class="p-4 sm:p-7 text-center font-semibold">Skill</th>
+                        <th class="p-4 sm:p-7 text-center font-semibold">CV</th>
+                        <th class="p-4 sm:p-7 text-center font-semibold">Hapus</th>
+                        <th class="p-4 sm:p-7 text-center font-semibold">Lowongan</th>
+                        <th class="p-4 sm:p-7 text-center font-semibold">Ekspektasi Range Gaji</th>
+                        <th class="p-4 sm:p-7 text-center font-semibold">Status</th>
+                        <th class="p-4 sm:p-7 text-center font-semibold">Sumber</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,7 +57,7 @@
                         @endphp
                         <tr class="border-b">
                             <!-- Nama -->
-                            <td class="p-3 flex items-center gap-3">
+                            <td class="p-10 flex items-center text-center gap-3">
                                 <img src="{{ asset('storage/' . $pelamar->img_profile) }}"
                                     class="w-10 h-10 rounded-full object-cover">
                                 <span>{{ $pelamar->nama_pelamar }}</span>
@@ -123,8 +124,8 @@
 
 
     {{-- MODAL CV --}}
-    <div id="confirmModal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-40">
-        <div class="bg-white p-6 rounded-lg text-center max-w-sm w-full">
+    <div id="confirmModal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+        <div class="bg-white p-6 scale-[0.85] md:scale-100 rounded-lg text-center max-w-sm w-full">
             <div class="flex justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-orange-500 mb-4" fill="currentColor"
                     viewBox="0 0 24 24">
@@ -140,7 +141,7 @@
     </div>
 
     <!-- Modal 2: Sukses -->
-    <div id="successModal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-40">
+    <div id="successModal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
         <div class="bg-white p-6 rounded-lg text-center max-w-sm w-full">
             <div class="flex justify-center">
                 <div class="bg-orange-100 p-4 rounded-full">

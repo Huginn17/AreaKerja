@@ -240,14 +240,14 @@ class PelamarController extends Controller
     }
 
 
-    public function destroy($lowonganId)
+    public function destroy($id)
     {
-        dd($lowonganId);
+        // dd($lowonganId);
 
         $pelamar = Auth::user()->pelamar;
 
         $simpan = SimpanLowongan::where('pelamar_id', $pelamar->id)
-            ->where('lowongan_id', $lowonganId)
+            ->where('lowongan_id', $id)
             ->first();
 
         if (!$simpan) {

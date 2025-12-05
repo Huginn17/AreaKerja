@@ -1,20 +1,21 @@
 @extends('layouts.index')
 @section('content')
-    <div class="min-h-screen bg-gray-50 py-10">
-        <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-md p-8">
+    <div class="min-h-screen bg-gray-50 py-6 md:py-10 mt-10">
+        <div class="w-full max-w-xl md:max-w-2xl mx-auto bg-white rounded-xl shadow-md p-4 md:p-8">
+
             <!-- Header -->
-            <div class="flex items-center justify-between border-b border-gray-200 pb-4 mb-6">
-                <h1 class="text-2xl font-semibold text-gray-800">Edit Riwayat Pendidikan</h1>
+            <div class="flex items-center justify-between border-b border-gray-200 pb-3 mb-5">
+                <h1 class="text-xl md:text-2xl font-semibold text-gray-800">Edit Riwayat Pendidikan</h1>
             </div>
 
             @if (session('success'))
-                <div class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4">
+                <div class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4 text-sm md:text-base">
                     {{ session('success') }}
                 </div>
             @endif
 
             <!-- Form -->
-            <form action="{{ route('pendidikan.update', $DT->id) }}" method="POST" class="space-y-5">
+            <form action="{{ route('pendidikan.update', $DT->id) }}" method="POST" class="space-y-4 md:space-y-5">
                 @csrf
                 @method('PUT')
 
@@ -22,48 +23,51 @@
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Pendidikan</label>
                     <input type="text" name="pendidikan" value="{{ old('pendidikan', $DT->pendidikan) }}"
-                        class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-orange-400 focus:outline-none">
+                        class="w-full border border-gray-300 rounded-lg px-3 md:px-4 py-2 text-sm focus:ring-2 focus:ring-orange-400 focus:outline-none">
                 </div>
 
-                <!-- Juruasan -->
+                <!-- Jurusan -->
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Jurusan</label>
-                    <input type="text" name="jurusan"value="{{ old('jurusan', $DT->jurusan) }}"
-                        class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-orange-400 focus:outline-none">
+                    <input type="text" name="jurusan" value="{{ old('jurusan', $DT->jurusan) }}"
+                        class="w-full border border-gray-300 rounded-lg px-3 md:px-4 py-2 text-sm focus:ring-2 focus:ring-orange-400 focus:outline-none">
                 </div>
 
                 <!-- Asal Pendidikan -->
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Asal Pendidikan</label>
                     <input type="text" name="asal_pendidikan" value="{{ old('asal_pendidikan', $DT->asal_pendidikan) }}"
-                        class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-orange-400 focus:outline-none"></input>
+                        class="w-full border border-gray-300 rounded-lg px-3 md:px-4 py-2 text-sm focus:ring-2 focus:ring-orange-400 focus:outline-none">
                 </div>
 
                 <!-- Tahun Awal & Akhir -->
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Tahun Awal</label>
                         <input type="text" name="tahun_awal" value="{{ old('tahun_awal', $DT->tahun_awal) }}"
-                            class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-orange-400 focus:outline-none">
+                            class="w-full border border-gray-300 rounded-lg px-3 md:px-4 py-2 text-sm focus:ring-2 focus:ring-orange-400 focus:outline-none">
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Tahun Akhir</label>
                         <input type="text" name="tahun_akhir" value="{{ old('tahun_akhir', $DT->tahun_akhir) }}"
-                            class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-orange-400 focus:outline-none">
+                            class="w-full border border-gray-300 rounded-lg px-3 md:px-4 py-2 text-sm focus:ring-2 focus:ring-orange-400 focus:outline-none">
                     </div>
                 </div>
 
                 <!-- Action -->
-                <div class="flex justify-between gap-4">
-                    <button type="submit" class="px-5 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 shadow">
+                <div class="flex flex-col md:flex-row justify-between gap-3 md:gap-4 pt-2">
+                    <button type="submit"
+                        class="w-full md:w-auto px-5 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 shadow text-sm md:text-base">
                         Simpan
                     </button>
-                    <a href=" {{ route('profile.index') }}"
-                        class="px-5 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 shadow">
+
+                    <a href="{{ route('profile.index') }}"
+                        class="w-full md:w-auto px-5 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 shadow text-sm md:text-base text-center">
                         Batal
                     </a>
                 </div>
             </form>
+
         </div>
     </div>
 @endsection

@@ -8,12 +8,15 @@
         <h2 class="text-xl font-semibold mb-6 mt-28 ml-12">Profil Akun</h2>
         <div class="bg-white  mx-12">
             <!-- Header: Avatar + Tombol -->
-            <div class="border-2 border-orange-300 rounded-md">
-                <div class=" border-orange-500 border-rounded-lg p-8 flex items-center justify-between">
+            <div class="border-2 border-orange-300 rounded-md p-4 md:p-0">
+                <div
+                    class="border-orange-500 rounded-lg p-6 md:p-8 flex flex-col md:flex-row items-center md:justify-between gap-6">
+
                     <!-- Kiri: Foto + Upload/Remove -->
-                    <div class="flex items-center gap-8">
+                    <div class="flex flex-col md:flex-row items-center gap-4 md:gap-8 w-full md:w-auto">
+
                         <!-- Avatar + Select -->
-                        <div class="flex flex-col items-center">
+                        <div class="flex flex-col items-center w-full md:w-auto">
                             <div class="relative inline-block">
                                 <div x-data="{ zoom: false }" class="cursor-pointer inline-block" @click="zoom = !zoom">
                                     <img id="pp"
@@ -24,7 +27,6 @@
                                             : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->username) . '&background=random&color=fff&size=128' }}"
                                         alt="Profile">
                                 </div>
-
 
                                 <!-- Tombol Edit -->
                                 <div
@@ -38,12 +40,10 @@
                                 </div>
                             </div>
 
-
                             <!-- Select Box -->
-                            <div class="relative inline-block mt-4 w-[95%]">
+                            <div class="relative inline-block mt-4 w-full md:w-[95%]">
                                 @php
                                     $status = '';
-
                                     if ($pelamar->kategori === 'pelamar') {
                                         $status = 'Pelamar Aktif';
                                     } elseif (in_array($pelamar->kategori, ['calon kandidat', 'kandidat aktif'])) {
@@ -55,30 +55,25 @@
 
                                 <select id="statusSelect"
                                     class="w-full border border-orange-500 text-orange-500 font-semibold rounded-md px-2 py-1 text-xs cursor-pointer appearance-none bg-white">
-
                                     <option value="Pelamar Aktif" {{ $status == 'Pelamar Aktif' ? 'selected' : '' }}>
                                         Pelamar Aktif
                                     </option>
-
                                     <option value="Belum Bekerja" {{ $status == 'Belum Bekerja' ? 'selected' : '' }}>
                                         Belum Bekerja
                                     </option>
-
                                     <option value="Bekerja" {{ $status == 'Bekerja' ? 'selected' : '' }}>
                                         Bekerja
                                     </option>
                                 </select>
 
                                 <input type="hidden" id="kategoriPelamar" value="{{ $pelamar->kategori }}">
-
                             </div>
                         </div>
 
                         <!-- Tombol Upload & Remove -->
-                        <div class="flex items-center gap-3">
-
+                        <div class="flex flex-col md:flex-row items-center gap-3 w-full md:w-auto">
                             <label
-                                class="flex items-center gap-1 border border-orange-400 text-orange-500 px-3 py-2 rounded-md text-sm font-medium hover:bg-orange-50">
+                                class="flex items-center gap-1 border border-orange-400 text-orange-500 px-3 py-2 rounded-md text-sm font-medium hover:bg-orange-50 w-full md:w-auto justify-center">
                                 <input type="file" name="img_profile" id="fileinput" accept="image/*" class="hidden">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
@@ -90,43 +85,42 @@
 
                             <button type="button"
                                 onclick="event.preventDefault(); document.getElementById('removeForm').submit();"
-                                class="px-3 py-2 flex items-center gap-1 border border-gray-400 rounded text-sm text-gray-600 hover:bg-gray-100">
+                                class="px-3 py-2 flex items-center gap-1 border border-gray-400 rounded text-sm text-gray-600 hover:bg-gray-100 w-full md:w-auto justify-center">
                                 <svg width="13" height="13" viewBox="0 0 13 13" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path
-                                        d="M11.7946 2.44649H9.4233V1.97744C9.4233 1.60425 9.27341 1.24634 9.00659 0.982451C8.73977 0.718563 8.37788 0.570313 8.00054 0.570312H5.15501C4.77767 0.570313 4.41579 0.718563 4.14896 0.982451C3.88214 1.24634 3.73225 1.60425 3.73225 1.97744V2.44649H1.36097C1.23519 2.44649 1.11456 2.4959 1.02562 2.58386C0.936685 2.67183 0.886719 2.79113 0.886719 2.91553C0.886719 3.03993 0.936685 3.15923 1.02562 3.24719C1.11456 3.33515 1.23519 3.38457 1.36097 3.38457H1.83523V11.8273C1.83523 12.0761 1.93516 12.3147 2.11304 12.4907C2.29092 12.6666 2.53218 12.7654 2.78374 12.7654H10.3718C10.6234 12.7654 10.8646 12.6666 11.0425 12.4907C11.2204 12.3147 11.3203 12.0761 11.3203 11.8273V3.38457H11.7946C11.9204 3.38457 12.041 3.33515 12.1299 3.24719C12.2189 3.15923 12.2688 3.03993 12.2688 2.91553C12.2688 2.79113 12.2189 2.67183 12.1299 2.58386C12.041 2.4959 11.9204 2.44649 11.7946 2.44649ZM4.68076 1.97744C4.68076 1.85304 4.73072 1.73374 4.81966 1.64578C4.9086 1.55782 5.02923 1.5084 5.15501 1.5084H8.00054C8.12632 1.5084 8.24695 1.55782 8.33589 1.64578C8.42483 1.73374 8.47479 1.85304 8.47479 1.97744V2.44649H4.68076V1.97744ZM10.3718 11.8273H2.78374V3.38457H10.3718V11.8273ZM5.62927 5.72979V9.48213C5.62927 9.60653 5.5793 9.72583 5.49036 9.8138C5.40142 9.90176 5.28079 9.95118 5.15501 9.95118C5.02923 9.95118 4.9086 9.90176 4.81966 9.8138C4.73072 9.72583 4.68076 9.60653 4.68076 9.48213V5.72979C4.68076 5.60539 4.73072 5.48609 4.81966 5.39812C4.9086 5.31016 5.02923 5.26074 5.15501 5.26074C5.28079 5.26074 5.40142 5.31016 5.49036 5.39812C5.5793 5.48609 5.62927 5.60539 5.62927 5.72979ZM8.47479 5.72979V9.48213C8.47479 9.60653 8.42483 9.72583 8.33589 9.8138C8.24695 9.90176 8.12632 9.95118 8.00054 9.95118C7.87476 9.95118 7.75413 9.90176 7.66519 9.8138C7.57625 9.72583 7.52629 9.60653 7.52629 9.48213V5.72979C7.52629 5.60539 7.57625 5.48609 7.66519 5.39812C7.75413 5.31016 7.87476 5.26074 8.00054 5.26074C8.12632 5.26074 8.24695 5.31016 8.33589 5.39812C8.42483 5.48609 8.47479 5.60539 8.47479 5.72979Z"
+                                        d="M11.7946 2.44649H9.4233V1.97744C9.4233 1.60425 9.27341 1.24634 9.00659 0.982451C8.73977 0.718563 8.37788 0.570313 8.00054 0.570312H5.15501C4.77767 0.570313 4.41579 0.718563 4.14896 0.982451C3.88214 1.24634 3.73225 1.60425 3.73225 1.97744V2.44649H1.36097C1.23519 2.44649 1.11456 2.4959 1.02562 2.58386C0.936685 2.67183 0.886719 2.79113 0.886719 2.91553C0.886719 3.03993 0.936685 3.15923 1.02562 3.24719C1.11456 3.33515 1.23519 3.38457 1.36097 3.38457H1.83523V11.8273C1.83523 12.0761 1.93516 12.3147 2.11304 12.4907C2.29092 12.6666 2.53218 12.7654 2.78374 12.7654H10.3718C10.6234 12.7654 10.8646 12.6666 11.0425 12.4907C11.2204 12.3147 11.3203 12.0761 11.3203 11.8273V3.38457H11.7946C11.9204 3.38457 12.041 3.33515 12.1299 3.24719C12.2189 3.15923 12.2688 3.03993 12.2688 2.91553C12.2688 2.79113 12.2189 2.67183 12.1299 2.58386C12.041 2.4959 11.9204 2.44649 11.7946 2.44649Z"
                                         fill="#606060" />
                                 </svg>
-
                                 Remove
                             </button>
                         </div>
                     </div>
 
                     <!-- Bagian Kanan (Tombol CV & Simpan) -->
-                    <div class="flex items-center gap-2">
+                    <div class="flex flex-col md:flex-row items-center gap-2 w-full md:w-auto">
                         <a href="{{ route('cv.download', Auth::user()->pelamar->id) }}"
-                            class="bg-orange-500 text-white text-sm font-semibold px-4 py-2 rounded hover:bg-orange-600">
+                            class="bg-orange-500 text-white text-sm font-semibold px-4 py-2 rounded hover:bg-orange-600 w-full md:w-auto text-center">
                             Unduh CV
                         </a>
                         <button type="submit"
-                            class="bg-green-600 text-white text-sm font-semibold px-4 py-2 rounded hover:bg-green-700">
+                            class="bg-green-600 text-white text-sm font-semibold px-4 py-2 rounded hover:bg-green-700 w-full md:w-auto text-center">
                             Simpan
                         </button>
                     </div>
                 </div>
-
-            </div><br>
+            </div>
+            <br>
 
 
             <!-- <div class="flex justify-between w-[1025px] my-5">
-                                                                <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
-                                                                    Data Diri
-                                                                </div>
-                                                                <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
-                                                                    Informasi Akun
-                                                                </div>
-                                                            </div> -->
+                                                                            <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
+                                                                                Data Diri
+                                                                            </div>
+                                                                            <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
+                                                                                Informasi Akun
+                                                                            </div>
+                                                                        </div> -->
 
 
             <!-- Grid: Dua Kolom -->
@@ -456,9 +450,9 @@
                                     viewBox="0 0 24 24">
                                     <path
                                         d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
-                                                                                                                                                7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
-                                                                                                                                              1.003 0 0 0-1.42 0l-1.83 1.83 3.75
-                                                                                                                                            3.75 1.84-1.82z" />
+                                                                                                                                                            7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
+                                                                                                                                                          1.003 0 0 0-1.42 0l-1.83 1.83 3.75
+                                                                                                                                                        3.75 1.84-1.82z" />
                                 </svg>
                             </a>
                         </div>
@@ -477,9 +471,9 @@
                                     viewBox="0 0 24 24">
                                     <path
                                         d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
-                                                                                                                                                                                                                                                                                                                                       7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
-                                                                                                                                                                                                                                                                                                                                       1.003 0 0 0-1.42 0l-1.83 1.83 3.75
-                                                                                                                                                                                                                                                                                                                                       3.75 1.84-1.82z" />
+                                                                                                                                                                                                                                                                                                                                                   7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
+                                                                                                                                                                                                                                                                                                                                                   1.003 0 0 0-1.42 0l-1.83 1.83 3.75
+                                                                                                                                                                                                                                                                                                                                                   3.75 1.84-1.82z" />
                                 </svg>
                             </span>
                         </div>
@@ -490,29 +484,40 @@
                     <div>
                         <label class="text-lg font-medium">Ekspektasi Gaji</label>
                         <div class="w-30 h-1 bg-orange-500 mt-3"></div><br>
-                        <div class="flex items-center gap-2 mt-1">
+
+                        <!-- Input Gaji (Responsif) -->
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-2 mt-1">
+
+                            <!-- Minimal -->
                             <div
-                                class="flex items-center border border-black rounded-md px-4 py-2 text-orange-500 w-29 gap-2">
+                                class="flex items-center border border-black rounded-md px-3 py-2 text-orange-500 w-full sm:w-56 gap-2">
                                 <span class="text-orange-500">Rp.</span>
-                                <input type="number" placeholder="" name="gaji_minimal" class="border-none"
+                                <input type="number" placeholder="" name="gaji_minimal"
+                                    class="border-none w-full outline-none"
                                     value="{{ Auth::user()->pelamar->gaji_minimal ?? '' }}">
                             </div>
-                            <span>-</span>
-                            <div class="flex items-center border border-black rounded-md px-4 py-2 w-29 gap-2">
+
+                            <span class="text-center hidden sm:block">-</span>
+                            <span class="text-center sm:hidden">sampai</span>
+
+                            <!-- Maksimal -->
+                            <div class="flex items-center border border-black rounded-md px-3 py-2 w-full sm:w-56 gap-2">
                                 <span>Rp.</span>
-                                <input type="number" placeholder="" name="gaji_maksimal" class="border-none"
+                                <input type="number" placeholder="" name="gaji_maksimal"
+                                    class="border-none w-full outline-none"
                                     value="{{ Auth::user()->pelamar->gaji_maksimal ?? '' }}">
                             </div>
                         </div>
+
                         <input type="range" class="w-full mt-4 accent-orange-600">
                     </div>
 
                     <!-- Catatan -->
-                    <div class="text-orange-500 text-sm space-y-2 mt-2">
-                        <p>✓ Setelah menjadi kandidat AreaKerja, CV anda akan otomatis terunggah ke etalase perusahaan
-                        </p>
+                    <div class="text-orange-500 text-sm space-y-2 mt-2 mb-2">
+                        <p>✓ Setelah menjadi kandidat AreaKerja, CV anda akan otomatis terunggah ke etalase perusahaan</p>
                         <p>✓ Range gaji akan tampil pada profil anda di etalase perusahaan</p>
                     </div>
+
                 </div>
             </div>
         </div>

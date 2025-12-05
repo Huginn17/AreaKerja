@@ -1,9 +1,11 @@
 @extends('layouts.index-perusahaan')
 @section('content')
-    <div class="bg-white flex items-start mb-36 mt-16">
+   <div class="bg-white flex flex-col lg:flex-row items-start mb-36 mt-28 px-4 sm:px-8">
+
         <div class="w-full max-w-3xl px-8 pl-12">
             <!-- Logo + Info Perusahaan -->
-            <div class="flex items-center gap-4 mt-10 mb-12">
+            <div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-12">
+
                 @if (Auth::user()->perusahaan->img_profile)
                     <img id="pp" class="w-32 h-32 object-contain mb-3 profile-img"
                         src="{{ asset('storage/' . Auth::user()->perusahaan->img_profile) }}" alt="Profile">
@@ -43,10 +45,10 @@
             @endif
 
             <!-- Tombol Aksi -->
-            <div class="mt-2 ml-14 space-y-8">
+            <div class="mt-2 space-y-8">
                 <!-- Ganti Password -->
                 <button onclick="document.getElementById('passwordForm').classList.toggle('hidden')"
-                    class="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg text-left pl-5">
+                    class="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg text-left px-5">
                     Ganti Password
                 </button>
                 <!-- Form Ganti Password (hidden default) -->
@@ -80,7 +82,7 @@
 
                 <!-- Ganti Email -->
                 <a href="{{ route('email.ubah') }}"
-                    class="block w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg text-left pl-5">
+                    class="block w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg text-left px-5">
                     Ganti Email
                 </a>
 

@@ -143,7 +143,7 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
 
         //simpan lowongan
         Route::post('/simpan-lowongan', 'store')->name('simpan-lowongan.store');
-        Route::delete('/simpan-lowongan/{lowongan}', 'destroy')->name('simpan-lowongan.destroy');
+        Route::delete('/simpan-lowongan/{id}', 'destroy')->name('simpan-lowongan.destroy');
         Route::get('/lowongan-tersimpan', 'lowongansimpanform')->name('lowongan.tersimpan');
 
         //lamar

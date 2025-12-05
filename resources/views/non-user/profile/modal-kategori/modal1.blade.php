@@ -1,7 +1,9 @@
-<div id="modalPeringatan" class="hidden fixed inset-0 bg-black bg-opacity-40 inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center">
-    <div class="bg-white p-6 rounded-xl w-[450px] text-center shadow-xl">
-        <div class="w-20 mx-auto mb-3 flex items-center justify-center">
+<div id="modalPeringatan"
+    class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+    <div
+        class="bg-white p-6 rounded-xl w-full max-w-[450px] text-center shadow-xl">
 
+        <div class="w-20 mx-auto mb-3 flex items-center justify-center">
             <svg width="72" height="78" viewBox="0 0 72 78" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M35.6875 23.8711V42.445" stroke="#F21919" stroke-width="7.05766" stroke-linecap="round"
                     stroke-linejoin="round" />
@@ -12,15 +14,18 @@
                     stroke-linejoin="round" />
             </svg>
         </div>
-        <p class="text-lg font-semibold mb-3">
+
+        <p class="text-base sm:text-lg font-semibold mb-3">
             Peringatan, Akun anda akan dinyatakan Non Aktif Sementara Dan sudah bekerja
         </p>
 
-        <p class="text-sm font-semibold mb-3">Apakah anda yakin untuk merubah Status ?</p>
+        <p class="text-xs sm:text-sm font-semibold mb-3">
+            Apakah anda yakin untuk merubah Status ?
+        </p>
 
-        <div class="flex justify-center mt-5 gap-4">
-            <button id="yaPeringatan" class="bg-green-600 px-6 py-2 rounded text-white">Ya</button>
-            <button id="tidakPeringatan" class="bg-red-600 px-6 py-2 rounded text-white">Tidak</button>
+        <div class="flex flex-col sm:flex-row justify-center mt-5 gap-3 sm:gap-4">
+            <button id="yaPeringatan" class="bg-green-600 px-6 py-2 rounded text-white w-full sm:w-auto">Ya</button>
+            <button id="tidakPeringatan" class="bg-red-600 px-6 py-2 rounded text-white w-full sm:w-auto">Tidak</button>
         </div>
     </div>
 </div>

@@ -1,9 +1,10 @@
 @extends('layouts.index-perusahaan')
 @section('content')
     @if (Auth::user()->perusahaan->alamat_perusahaan->count())
-        <div class="bg-white min-h-screen p-8 mt-16">
+        <div class="bg-white min-h-screen p-4 sm:p-8 mt-20">
             <!-- Header -->
-            <div class="flex items-center space-x-4">
+           <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
+
                 @if (Auth::user()->perusahaan->img_profile)
                     <img id="pp" class="w-20 h-20 object-contain mb-3 profile-img"
                         src="{{ asset('storage/' . Auth::user()->perusahaan->img_profile) }}" alt="Profile">
@@ -14,7 +15,7 @@
                 @endif
                 <div>
                     <span class="text-lg font-semibold mb-1">{{ Auth::user()->perusahaan->nama_perusahaan }}</span>
-                    <p class="text-lg text-gray-600 m-2">{{ Auth::user()->perusahaan->jenis_perusahaan }}</p>
+                    <p class="text-lg text-gray-600">{{ Auth::user()->perusahaan->jenis_perusahaan }}</p>
                     <p class="text-sm text-gray-400">{{ Auth::user()->perusahaan->alamatUtama->kota->nama ?? '-' }},
                         {{ Auth::user()->perusahaan->alamatUtama->provinsi->nama ?? '-' }},
                         {{ Auth::user()->perusahaan->alamatUtama->kecamatan->nama ?? '-' }}</p>
@@ -22,7 +23,7 @@
             </div>
 
             <!-- Garis & Judul -->
-            <div class="mt-6 ml-12">
+            <div class="mt-6 px-0 sm:px-12">
                 <div>
                     <h2 class="font-semibold text-gray-800">Alamat</h2>
                     <!-- Pesan sukses / error -->
@@ -48,14 +49,15 @@
                         </div>
                     @endif
                 </div>
-                <hr class="border border-orange-500 mt-3 " />
+                <hr class="border border-orange-500 mt-2 mb-2"/>
                 <span class="text-sm text-orange-500">Untuk Melengkapi Profile Silahkan Jadikan Alamat Utama Terlebih
                     Dahulu</span>
             </div>
 
             <!-- Box Alamat -->
             @foreach (Auth::user()->perusahaan->alamat_perusahaan as $almtp)
-                <div class="mt-6 ml-12 border border-orange-400 rounded-md p-6 w-[500px]">
+              <div class="mt-6 border border-orange-400 rounded-md p-4 sm:p-6 px-6 max-w-full sm:max-w-[500px]">
+
                     <h3 class="font-semibold text-orange-500">{{ $almtp->label }}</h3>
                     <p class="text-orange-600 text-sm mt-1">
                         {{ $almtp->desa }}, {{ $almtp->kecamatan->nama }}, {{ $almtp->kota->nama }},
@@ -65,7 +67,8 @@
                         {{ $almtp->detail }}
                     </p>
 
-                    <div class="flex items-center gap-3 mt-4">
+                    <div class="flex flex-wrap items-center gap-3 mt-4">
+
 
                         <!-- Edit -->
                         <a href="{{ route('alamat.edit.perusahaan', $almtp->id) }}"
@@ -141,13 +144,13 @@
             </div>
 
             <!-- Garis & Judul -->
-            <div class="mt-6 ml-12">
+            <div class="mt-6 px-0 sm:px-12">
                 <h2 class="font-semibold text-gray-800">Alamat</h2>
                 <hr class="border border-orange-500 mt-3 " />
             </div>
 
             <!-- Box Alamat -->
-            <div class="mt-6 ml-12 border border-orange-400 rounded-md p-6 w-[500px]">
+            <div class="mt-6 px-0 sm:px-12 border border-orange-400 rounded-md p-6 w-[500px]">
                 <div class="flex items-center text-gray-400 space-x-2 mb-6">
                     <span class="font-medium">Alamat Kosong</span>
                     <!-- Icon dokumen -->
@@ -158,7 +161,7 @@
                     </svg>
                 </div>
                 <a href="{{ route('form.alamat.perusahaan') }}"
-                    class="ml-72 bg-orange-500 text-white px-4 py-1 rounded-md text-sm hover:bg-orange-600">
+                    class="block w-max ml-auto bg-orange-500 text-white px-4 py-1 rounded-md text-sm hover:bg-orange-600">
                     Tambah Alamat
                 </a>
             </div>

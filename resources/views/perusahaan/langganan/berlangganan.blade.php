@@ -86,7 +86,7 @@
     <!-- Section Harga & Ajak Berlangganan -->
     <div>
         <div
-            class="max-w-6xl mx-auto border-4 border-orange-500 rounded-2xl p-10 py-2 flex flex-col md:flex-row justify-between items-center gap-8 mb-24 mt-24">
+            class="max-w-6xl mx-auto border-4 border-orange-500 rounded-2xl p-10 py-2 flex flex-col md:flex-row justify-between items-center gap-8 mb-24 mt-24 scale-[0.85] md:scale-100">
             <!-- Text -->
             <div class="md:w-1/2">
                 <h3 class="text-xl font-bold text-blue-900 mb-4">Berlangganan Bersama Kami</h3>

@@ -1,12 +1,18 @@
 @extends('admin.sidebar.index')
 @section('sidebaradmin')
     <div class="p-4 sm:ml-64" x-data="{ openNotif: false, openAllNotif: false }">
+
         <!-- Header -->
-        <header class="w-full flex items-center justify-between px-6 py-3 border-bshadow-sm">
+        <header
+            class="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between 
+                    px-6 py-3 border-b shadow-sm gap-3 sm:gap-0">
+
             <h1 class="text-xl font-semibold">Dashboard</h1>
-            <div class="flex items-center gap-3">
+
+            <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+
                 {{-- Tombol Notifikasi --}}
-                <button @click="openNotif = true" class="relative">
+                <button @click="openNotif = true" class="relative ml-28">
                     <!-- Icon Lonceng -->
                     <svg width="31" height="32" viewBox="0 0 31 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_722_7956)">
@@ -19,8 +25,6 @@
                         </g>
                     </svg>
 
-
-                    <!-- Badge jumlah notif belum dibaca -->
                     @if ($global_notifikasi_unread > 0)
                         <span id="notif-badge"
                             class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
@@ -29,37 +33,40 @@
                     @endif
                 </button>
 
-
+                <!-- Profil -->
                 <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
+
                     <a href="#">
                         @if (Auth::user()->role == 'admin')
                             @if (Auth::user()->admin->img_profile)
-                                <img id="pu" class="w-10 h-10  object-cover rounded-full profile-img"
+                                <img id="pu" class="w-10 h-10 object-cover rounded-full profile-img"
                                     src="{{ asset('storage/' . Auth::user()->admin->img_profile) }}" alt="Profile">
                             @else
                                 <img id="pu" class="w-10 h-10 rounded-full"
-                                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
-                                    alt="">
+                                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128">
                             @endif
                         @else
                             <img class="w-10 h-10 rounded-full"
-                                src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
-                                alt="">
+                                src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128">
                         @endif
                     </a>
-                    <div class="text-sm mr-14">
-                        <span class="font-semibold">{{ Auth::user()->username }}</span>
-                        <p class="text-gray-500 text-sm">{{ Auth::user()->email }}</p>
+
+                    <div class="text-sm">
+                        <span class="font-semibold block leading-tight">{{ Auth::user()->username }}</span>
+                        <p class="text-gray-500 text-xs leading-tight">{{ Auth::user()->email }}</p>
                     </div>
+
                 </div>
+
             </div>
+
         </header>
 
-
-        <div class="flex gap-6 mt-6 px-5">
+        <!-- Cards Statistik -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6 px-5">
 
             <!-- PERUSAHAAN -->
-            <div class="bg-white shadow-lg rounded-md p-5 w-60 hover:bg-gray-50 hover:scale-105 transition duration-300">
+            <div class="bg-white shadow-lg rounded-md p-5 hover:bg-gray-50 hover:scale-105 transition duration-300">
                 <h3 class="text-gray-700 text-sm font-medium mb-2">Perusahaan</h3>
                 <div class="flex items-center gap-2">
                     <span class="text-2xl font-bold text-gray-900">{{ $totalPerusahaan }}</span>
@@ -70,7 +77,7 @@
             </div>
 
             <!-- KANDIDAT -->
-            <div class="bg-white shadow-lg rounded-md p-5 w-60 hover:bg-gray-50 hover:scale-105 transition duration-300">
+            <div class="bg-white shadow-lg rounded-md p-5 hover:bg-gray-50 hover:scale-105 transition duration-300">
                 <h3 class="text-gray-700 text-sm font-medium mb-2">Kandidat</h3>
                 <div class="flex items-center gap-2">
                     <span class="text-2xl font-bold text-gray-900">{{ $totalKandidat }}</span>
@@ -81,7 +88,7 @@
             </div>
 
             <!-- NON KANDIDAT -->
-            <div class="bg-white shadow-lg rounded-md p-5 w-60 hover:bg-gray-50 hover:scale-105 transition duration-300">
+            <div class="bg-white shadow-lg rounded-md p-5 hover:bg-gray-50 hover:scale-105 transition duration-300">
                 <h3 class="text-gray-700 text-sm font-medium mb-2">Non Kandidat</h3>
                 <div class="flex items-center gap-2">
                     <span class="text-2xl font-bold text-gray-900">{{ $totalNonKandidat }}</span>
@@ -92,7 +99,7 @@
             </div>
 
             <!-- LOWONGAN -->
-            <div class="bg-white shadow-lg rounded-md p-5 w-60 hover:bg-gray-50 hover:scale-105 transition duration-300">
+            <div class="bg-white shadow-lg rounded-md p-5 hover:bg-gray-50 hover:scale-105 transition duration-300">
                 <h3 class="text-gray-700 text-sm font-medium mb-2">Lowongan</h3>
                 <div class="flex items-center gap-2">
                     <span class="text-2xl font-bold text-gray-900">{{ $totalLowongan }}</span>
@@ -103,10 +110,11 @@
             </div>
 
         </div>
-        
+
         @include('admin.notif.modal_notif')
         @include('admin.notif.modal_semua')
 
     </div>
+
 
 @endsection

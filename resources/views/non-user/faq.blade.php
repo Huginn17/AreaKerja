@@ -5,13 +5,17 @@
         <div class="max-w-6xl mx-auto px-4 py-10">
 
             <!-- Header -->
-            <h2 class="text-2xl font-semibold mb-6">Frequently Asked Questions</h2>
+            <h2 class="text-2xl md:text-3xl font-semibold mb-6">Frequently Asked Questions</h2>
 
             <!-- Search Bar -->
-            <div class="flex items-center w-full max-w-xl border border-gray-400 rounded-lg py-3 overflow-hidden mb-10">
+            <div
+                class="flex flex-col sm:flex-row items-center w-full max-w-xl border border-gray-400 rounded-lg 
+                    px-3 py-2 sm:py-3 overflow-hidden mb-10 gap-3 sm:gap-0">
+
                 <!-- Icon Search -->
-                <div class="pl-4 text-gray-500">
-                    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <div class="pl-0 sm:pl-4 text-gray-500">
+                    <svg width="22" height="22" class="sm:w-[25px] sm:h-[25px]" viewBox="0 0 25 25" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M10.7954 3.125C9.27835 3.125 7.79535 3.57486 6.53396 4.4177C5.27257 5.26053 4.28943 6.45849 3.70888 7.86007C3.12832 9.26166 2.97642 10.8039 3.27239 12.2918C3.56835 13.7797 4.29889 15.1465 5.37161 16.2192C6.44434 17.2919 7.81108 18.0225 9.29899 18.3184C10.7869 18.6144 12.3292 18.4625 13.7308 17.8819C15.1323 17.3014 16.3303 16.3183 17.1731 15.0569C18.016 13.7955 18.4658 12.3125 18.4658 10.7954C18.4657 8.76113 17.6575 6.81021 16.2191 5.37175C14.7806 3.9333 12.8297 3.12513 10.7954 3.125Z"
                             stroke="black" stroke-opacity="0.6" stroke-width="1.5625" stroke-miterlimit="10" />
@@ -22,128 +26,89 @@
 
                 <!-- Input -->
                 <input type="text" placeholder="Apa yang bisa kami bantu?"
-                    class="flex-grow px-3 py-2 focus:outline-none">
+                    class="flex-grow w-full sm:w-auto px-3 py-2 text-sm sm:text-base focus:outline-none">
 
                 <!-- Tombol Cari -->
-                <button class="bg-orange-500 hover:bg-orange-600 text-white font-medium px-12 py-2 rounded-md mr-6">
+                <button
+                    class="bg-orange-500 hover:bg-orange-600 text-white font-medium 
+                       px-6 py-2 rounded-md w-full sm:w-auto text-center">
                     Cari
                 </button>
             </div>
 
-
             <!-- FAQ Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
 
                 <!-- Kolom Kiri -->
-                <div class="space-y-6">
+                <div class="space-y-6 md:space-y-8 text-sm md:text-base">
                     <div>
-                        <h3 class="font-semibold mb-1">Bagaimana Melamar Pekerjaan di Area Kerja?</h3>
-                        <p class="text-sm text-gray-600">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. <span class="text-orange-500">Viverra
-                                faucibus lectus viverra id</span>. Lectus habitant nisl, posuere at urna ut vitae hac
-                            ultricies. Commodo ridiculus augue condimentum molestie dolor, morbi luctus nullam. Malesuada
-                            eget eu ultricies.
+                        <h3 class="font-semibold mb-1 text-base md:text-lg">Bagaimana Melamar Pekerjaan di Area Kerja?</h3>
+                        <p class="text-gray-600">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            <span class="text-orange-500">Viverra faucibus lectus viverra id</span>.
+                            Lectus habitant nisl, posuere at urna ut vitae hac ultricies.
                         </p>
                     </div>
 
                     <div>
-                        <h3 class="font-semibold mb-1">Apa itu kandidat Area Kerja?</h3>
-                        <p class="text-sm text-gray-600">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. <span class="text-orange-500">Viverra
-                                faucibus lectus viverra id</span>. Lectus habitant nisl, posuere at urna ut vitae hac
-                            ultricies. Commodo ridiculus augue condimentum molestie dolor, morbi luctus nullam. <span
-                                class="text-gray-500">Malesuada eget eu ultricies</span>.
+                        <h3 class="font-semibold mb-1 text-base md:text-lg">Apa itu kandidat Area Kerja?</h3>
+                        <p class="text-gray-600">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            <span class="text-orange-500">Viverra faucibus lectus viverra id</span>.
+                            Commodo ridiculus augue condimentum molestie dolor.
                         </p>
                     </div>
 
                     <div>
-                        <h3 class="font-semibold mb-1">Apa itu daftar kandidat?</h3>
-                        <p class="text-sm text-gray-600">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. <span class="text-orange-500">Viverra
-                                faucibus lectus viverra id</span>. Lectus habitant nisl, posuere at urna ut vitae hac
-                            ultricies. Commodo ridiculus augue condimentum molestie dolor, morbi luctus nullam. Malesuada
-                            eget eu ultricies.
+                        <h3 class="font-semibold mb-1 text-base md:text-lg">Apa itu daftar kandidat?</h3>
+                        <p class="text-gray-600">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            <span class="text-orange-500">Viverra faucibus lectus viverra id</span>.
                         </p>
                     </div>
 
                     <div>
-                        <h3 class="font-semibold mb-1">Apa itu kandidat area kerja?</h3>
-                        <p class="text-sm text-gray-600">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. <span class="text-orange-500">Viverra
-                                faucibus lectus viverra id</span>. Lectus habitant nisl, posuere at urna ut vitae hac
-                            ultricies. Commodo ridiculus augue condimentum molestie dolor, morbi luctus nullam. <span
-                                class="text-gray-500">Malesuada eget eu ultricies</span>.
-                        </p>
-                    </div>
-
-                    <div>
-                        <h3 class="font-semibold mb-1">Apa itu kandidat area kerja?</h3>
-                        <p class="text-sm text-gray-600">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. <span class="text-orange-500">Viverra
-                                faucibus lectus viverra id</span>. Lectus habitant nisl, posuere at urna ut vitae hac
-                            ultricies. Commodo ridiculus augue condimentum molestie dolor, morbi luctus nullam. Malesuada
-                            eget eu ultricies.
+                        <h3 class="font-semibold mb-1 text-base md:text-lg">Apa itu kandidat area kerja?</h3>
+                        <p class="text-gray-600">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            <span class="text-gray-500">Malesuada eget eu ultricies</span>.
                         </p>
                     </div>
                 </div>
 
                 <!-- Kolom Kanan -->
-                <div class="space-y-6">
+                <div class="space-y-6 md:space-y-8 text-sm md:text-base">
                     <div>
-                        <h3 class="font-semibold mb-1">Apa itu Area Kerja?</h3>
-                        <p class="text-sm text-gray-600">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. <span class="text-orange-500">Viverra
-                                faucibus lectus viverra id</span>. Lectus habitant nisl, posuere at urna ut vitae hac
-                            ultricies. Commodo ridiculus augue condimentum molestie dolor, morbi luctus nullam. Malesuada
-                            eget eu ultricies.
+                        <h3 class="font-semibold mb-1 text-base md:text-lg">Apa itu Area Kerja?</h3>
+                        <p class="text-gray-600">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            <span class="text-orange-500">Viverra faucibus lectus viverra id</span>.
                         </p>
                     </div>
 
                     <div>
-                        <h3 class="font-semibold mb-1">Bagaimana cara melamar kerja lewat Areakerja.com ?</h3>
-                        <p class="text-sm text-gray-600">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. <span class="text-orange-500">Viverra
-                                faucibus lectus viverra id</span>. Lectus habitant nisl, posuere at urna ut vitae hac
-                            ultricies. Commodo ridiculus augue condimentum molestie dolor, morbi luctus nullam. Malesuada
-                            eget eu ultricies.
+                        <h3 class="font-semibold mb-1 text-base md:text-lg">Bagaimana cara melamar kerja lewat Areakerja.com
+                            ?</h3>
+                        <p class="text-gray-600">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            <span class="text-orange-500">Viverra faucibus lectus viverra id</span>.
                         </p>
                     </div>
 
                     <div>
-                        <h3 class="font-semibold mb-1">Bagaimana cara mengganti sandi?</h3>
-                        <p class="text-sm text-gray-600">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. <span
-                                class="text-orange-500">Condimentum molestie dolor sit amet</span>. Lectus habitant nisl,
-                            posuere at urna ut vitae hac ultricies. Commodo ridiculus augue condimentum molestie dolor,
-                            morbi luctus nullam. <span class="text-gray-500">Malesuada eget eu ultricies</span>.
-                        </p>
-                    </div>
-
-                    <div>
-                        <h3 class="font-semibold mb-1">Bagaimana cara melamar kerja lewat Areakerja.com ?</h3>
-                        <p class="text-sm text-gray-600">
-                            Lorem ipsum <span class="text-orange-500">dolor sit amet</span>, consectetur adipiscing elit.
-                            Viverra faucibus lectus viverra id. Lectus habitant nisl, posuere at urna ut vitae hac
-                            ultricies. Commodo ridiculus augue condimentum molestie dolor, morbi luctus nullam. Malesuada
-                            eget eu ultricies.
-                        </p>
-                    </div>
-
-                    <div>
-                        <h3 class="font-semibold mb-1">Bagaimana cara melamar kerja lewat Areakerja.com ?</h3>
-                        <p class="text-sm text-gray-600">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Viverra faucibus lectus viverra id.
-                            Lectus habitant nisl, posuere at urna ut vitae hac ultricies. Commodo ridiculus augue
-                            condimentum molestie dolor, morbi luctus nullam. <span class="text-gray-500">Malesuada eget eu
-                                ultricies</span>.
+                        <h3 class="font-semibold mb-1 text-base md:text-lg">Bagaimana cara mengganti sandi?</h3>
+                        <p class="text-gray-600">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            <span class="text-orange-500">Condimentum molestie dolor sit amet</span>.
                         </p>
                     </div>
                 </div>
+
             </div>
 
             <!-- Tombol bawah -->
             <div class="flex justify-center mt-12">
-                <button class="bg-orange-500 text-medium hover:bg-orange-600 text-white px-6 py-2 rounded-md">
+                <button class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-md text-sm md:text-base">
                     Lihat Semua FAQ →
                 </button>
             </div>
@@ -151,5 +116,6 @@
         </div>
 
     </div>
+
     @include('layouts.footer')
 @endsection

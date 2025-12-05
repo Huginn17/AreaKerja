@@ -1,6 +1,6 @@
 @extends('layouts.index')
 @section('content')
-    <div class="max-w-4xl scale-90 mx-auto bg-white px-14 py-12 rounded-xl shadow border mt-16">
+    <div class="max-w-4xl mx-auto w-full px-4 sm:px-6 md:px-14 py-12 bg-white rounded-xl shadow border mt-16">
         <!-- Header -->
         <h2 class="text-2xl font-medium mb-2">Detail Transaksi</h2>
         <hr class="border-b border-gray-200 mb-10">
@@ -15,11 +15,11 @@
                 <p class="font-medium text-gray-600 mb-2">Status Tagihan</p>
                 <span
                     class="inline-block mb-2 px-8 py-2 rounded-full text-sm 
-                    @if ($transaksi->status == 'pending') bg-orange-100 text-orange-600
-                    @elseif($transaksi->status == 'menunggu_verifikasi') bg-blue-100 text-blue-600
-                    @elseif($transaksi->status == 'diterima') bg-green-100 text-green-600
-                    @elseif($transaksi->status == 'expired') bg-gray-200 text-gray-600
-                    @else bg-red-100 text-red-600 @endif">
+                @if ($transaksi->status == 'pending') bg-orange-100 text-orange-600
+                @elseif($transaksi->status == 'menunggu_verifikasi') bg-blue-100 text-blue-600
+                @elseif($transaksi->status == 'diterima') bg-green-100 text-green-600
+                @elseif($transaksi->status == 'expired') bg-gray-200 text-gray-600
+                @else bg-red-100 text-red-600 @endif">
                     {{ $transaksi->status == 'pending' ? 'Menunggu Pembayaran' : ucfirst(str_replace('_', ' ', $transaksi->status)) }}
                 </span>
 
@@ -46,22 +46,22 @@
             </div>
 
             <!-- Rekening Tujuan -->
-            <div class="border rounded-lg p-5 w-full text-left shadow-sm">
+            <div class="border rounded-lg p-5 w-full text-left shadow-sm overflow-x-auto">
                 @if ($transaksi->sumberDana === 'Qris')
-                    {{-- Tampilan QRIS --}}
                     <div class="flex flex-col items-center text-center">
                         <p class="text-gray-500 text-sm mb-2">Bayar Melalui</p>
-                        <img src="{{ asset('images/qrrrr-removebg-preview.png') }}" alt="QRIS Logo" class="w-24 mb-3">
+                        <img src="{{ asset('images/qrrrr-removebg-preview.png') }}" alt="QRIS Logo"
+                            class="w-24 mb-3 max-w-full h-auto">
                         <p class="text-lg font-semibold">QRIS</p>
                         <p class="text-gray-600 text-sm mb-3">NMID : ID12233445566778</p>
-                        <img src="{{ asset('images/barcode.jpg') }}" alt="QRIS QR Code" class="w-40 h-40">
+                        <img src="{{ asset('images/barcode.jpg') }}" alt="QRIS QR Code"
+                            class="w-40 h-40 max-w-full object-contain">
                     </div>
                 @else
-                    {{-- Tampilan Bank Transfer --}}
                     <p class="text-gray-500 text-sm">Rekening Tujuan</p>
-                    <div class="flex justify-center items-center gap-3">
+                    <div class="flex justify-center items-center gap-3 overflow-x-auto">
                         <img src="{{ asset($transaksi->bank->logo_image) }}" alt="Bank Logo"
-                            class="w-40 h-28 object-contain">
+                            class="w-40 h-28 object-contain max-w-full">
                     </div>
                     <p class="font-semibold text-lg mt-2">{{ $transaksi->bank->nama_bank }}</p>
                     <p class="text-gray-600 text-sm mt-1">a/n {{ $transaksi->bank->owner }}</p>
@@ -118,7 +118,6 @@
         <!-- Upload Bukti -->
         @if ($transaksi->status == 'pending' || $transaksi->status == 'ditolak')
             <div class="mb-6">
-
                 @if ($transaksi->status == 'ditolak')
                     <p class="mb-2 text-sm text-red-600 font-medium">
                         Bukti transfer ditolak. Silakan upload ulang bukti yang benar.
@@ -135,30 +134,31 @@
                     @enderror
 
                     <button type="submit"
-                        class="px-5 py-3 text-sm bg-green-500 hover:bg-green-600 text-white rounded-lg shadow">
+                        class="px-5 py-3 text-sm bg-green-500 hover:bg-green-600 text-white rounded-lg shadow w-full sm:w-auto">
                         {{ $transaksi->status == 'pending' ? 'Upload Bukti' : 'Upload Ulang Bukti' }}
                     </button>
                 </form>
             </div>
         @endif
 
-
-
-
         <!-- Petunjuk Pembayaran -->
         <div class="w-full">
             <h3 class="text-2xl font-medium mb-3">Petunjuk Pembayaran</h3>
-            <div class="flex items-center justify-between py-3 border-b-2 border-gray-300">
+            <div
+                class="flex flex-col md:flex-row items-start md:items-center justify-between py-3 border-b-2 border-gray-300">
                 <span class="font-medium text-md">Transfer mBanking</span>
             </div>
-            <div class="flex items-center justify-between py-3 border-b-2 border-gray-300">
+            <div
+                class="flex flex-col md:flex-row items-start md:items-center justify-between py-3 border-b-2 border-gray-300">
                 <span class="font-medium text-md">Transfer iBanking</span>
             </div>
-            <div class="flex items-center justify-between py-3 border-b-2 border-gray-300">
+            <div
+                class="flex flex-col md:flex-row items-start md:items-center justify-between py-3 border-b-2 border-gray-300">
                 <span class="font-medium text-md">Transfer ATM</span>
             </div>
         </div>
     </div>
+
 
     <script>
         //SALIN NO REK

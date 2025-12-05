@@ -1,7 +1,7 @@
 @extends('layouts.index')
 
 @section('content')
-    <div class="bg-gray-50 mt-10">
+    <div class="bg-gray-50 mt-16">
         <div class="max-w-7xl mx-auto py-8 px-4 md:px-8 grid md:grid-cols-3 gap-6">
 
             <!-- Kiri: Detail Utama -->
@@ -142,72 +142,72 @@
                 <!-- === MODALS === -->
                 <!-- Modal Konfirmasi Terima -->
                 <div x-show="showConfirmTerima" x-cloak
-                    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div class="bg-white rounded-xl p-6 w-[360px] text-center">
+                    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-4">
+                    <div class="bg-white rounded-xl p-6 w-11/12 max-w-sm text-center">
                         <h2 class="text-lg font-semibold mb-3">Konfirmasi</h2>
                         <p class="text-gray-600 mb-6">
                             Yakin ingin menerima rekrutan dari
                             <b>{{ $tawaran->lowonganPerusahaan->perusahaan->nama_perusahaan }}</b>?
                         </p>
-                        <div class="flex justify-center gap-4">
+                        <div class="flex flex-col sm:flex-row justify-center gap-4">
                             <button @click="showConfirmTerima = false"
-                                class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300">
+                                class="w-full sm:w-auto bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300">
                                 Batal
                             </button>
                             <button
                                 @click="
-       fetch('{{ route('kandidat.updateStatus', $tawaran->id) }}', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
-    },
-    body: JSON.stringify({ status: 'diterima' })
-})
-
-        .then(res => res.json())
-        .then(data => {
-            if (data.status === 'success') {
-                showConfirmTerima = false; // tutup modal konfirmasi
-                showSuccess = true;        // tampilkan modal sukses
-            }
-        });
-    "
-                                class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600">
+                    fetch('{{ route('kandidat.updateStatus', $tawaran->id) }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
+                        },
+                        body: JSON.stringify({ status: 'diterima' })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            showConfirmTerima = false; // tutup modal konfirmasi
+                            showSuccess = true;        // tampilkan modal sukses
+                        }
+                    });
+                "
+                                class="w-full sm:w-auto bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600">
                                 Ya, Terima
                             </button>
-
                         </div>
                     </div>
                 </div>
 
+
                 <!-- Modal Konfirmasi Tolak -->
                 <div x-show="showConfirmTolak" x-cloak
-                    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div class="bg-white rounded-xl p-6 w-[360px] text-center">
+                    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-4">
+                    <div class="bg-white rounded-xl p-6 w-11/12 max-w-sm text-center">
                         <h2 class="text-lg font-semibold mb-3">Konfirmasi Penolakan</h2>
                         <p class="text-gray-600 mb-6">
                             Yakin ingin menolak tawaran dari
                             <b>{{ $tawaran->lowonganPerusahaan->perusahaan->nama_perusahaan }}</b>?
                         </p>
-                        <div class="flex justify-center gap-4">
+                        <div class="flex flex-col sm:flex-row justify-center gap-4">
                             <button @click="showConfirmTolak = false"
-                                class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300">
+                                class="w-full sm:w-auto bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300">
                                 Batal
                             </button>
                             <button @click="showConfirmTolak = false; showAlasan = true"
-                                class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
+                                class="w-full sm:w-auto bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
                                 Lanjut
                             </button>
                         </div>
                     </div>
                 </div>
 
+
                 <!-- Modal Alasan Penolakan -->
                 <div x-show="showAlasan" x-cloak
-                    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div class="bg-white rounded-xl p-6 w-[380px]">
+                    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-4">
+                    <div class="bg-white rounded-xl p-6 w-11/12 max-w-sm">
                         <h2 class="text-lg font-semibold mb-4">Pilih Alasan Penolakan</h2>
                         <form id="form-penolakan" class="space-y-3">
                             @foreach (config('alasan_penolakan') as $alasan)
@@ -221,48 +221,47 @@
                                 <textarea name="alasan_penolakan_custom" rows="3" class="w-full border rounded px-3 py-2"></textarea>
                             </div>
                         </form>
-                        <div class="flex justify-end gap-3 mt-4">
+                        <div class="flex flex-col sm:flex-row justify-end gap-3 mt-4">
                             <button @click="showAlasan = false"
-                                class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Batal</button>
+                                class="w-full sm:w-auto px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Batal</button>
                             <button
                                 @click="
-        const form = document.getElementById('form-penolakan');
-        const formData = new FormData(form);
-        const alasanDipilih = formData.get('alasan_penolakan_custom') || formData.get('alasan_penolakan');
+                    const form = document.getElementById('form-penolakan');
+                    const formData = new FormData(form);
+                    const alasanDipilih = formData.get('alasan_penolakan_custom') || formData.get('alasan_penolakan');
 
-        showAlasan = false;
+                    showAlasan = false;
 
-      fetch('{{ route('kandidat.updateStatus', $tawaran->id) }}', {
-    method: 'POST',
-    headers: { 
-        'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content,
-        'Accept': 'application/json'
-    },
-    body: new URLSearchParams({
-        status: 'ditolak',
-        alasan_penolakan: alasanDipilih
-    })
-})
-.then(res => res.json())
-.then(data => {
-    if (data.status === 'success') {
-        showTolakSuccess = true;
-    }
-});
-
-    "
-                                class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+                    fetch('{{ route('kandidat.updateStatus', $tawaran->id) }}', {
+                        method: 'POST',
+                        headers: { 
+                            'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content,
+                            'Accept': 'application/json'
+                        },
+                        body: new URLSearchParams({
+                            status: 'ditolak',
+                            alasan_penolakan: alasanDipilih
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            showTolakSuccess = true;
+                        }
+                    });
+                "
+                                class="w-full sm:w-auto px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
                                 Kirim
                             </button>
-
                         </div>
                     </div>
                 </div>
 
+
                 <!-- Modal Sukses Terima -->
                 <div x-show="showSuccess" x-cloak
-                    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div class="bg-white rounded-xl p-6 w-[380px] text-center relative">
+                    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-4">
+                    <div class="bg-white rounded-xl p-6 w-11/12 max-w-sm text-center relative">
                         <button @click="showSuccess = false"
                             class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl">&times;</button>
                         <h2 class="text-lg font-semibold mb-3">
@@ -276,12 +275,12 @@
                             Kami berharap proses selanjutnya berjalan lancar.
                         </p>
                     </div>
-
                 </div>
 
+
                 <div x-show="showTolakSuccess" x-cloak
-                    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div class="bg-white rounded-xl p-6 w-[380px] text-center relative">
+                    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-4">
+                    <div class="bg-white rounded-xl p-6 w-11/12 max-w-sm text-center relative">
                         <button @click="showTolakSuccess = false"
                             class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl">&times;</button>
 
@@ -301,6 +300,7 @@
                 </div>
 
 
+
             </div>
 
             <!-- Kanan: Lowongan Lain -->
@@ -315,7 +315,10 @@
                 <div class="bg-white rounded-lg shadow p-4 space-y-4">
                     @foreach ($lowonganLain as $row)
                         @php $low = $row->lowonganPerusahaan; @endphp
-                        <a href="{{ route('kandidat.detailTawaran', $row->id) }}"
+                        <a href="{{ route('kandidat.detailTawaran', [
+                            'perusahaan' => $low->perusahaan->slug,
+                            'lowongan' => $low->slug,
+                        ]) }}"
                             class="flex items-start gap-3 border-b pb-4 hover:bg-gray-50 transition">
                             <img src="{{ asset('storage/' . ($low->perusahaan->img_profile ?? 'images/logo.png')) }}"
                                 alt="Logo" class="w-10 h-10 rounded">

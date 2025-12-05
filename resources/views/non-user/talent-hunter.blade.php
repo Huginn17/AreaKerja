@@ -2,44 +2,49 @@
 @section('content')
     <!-- Hero Section -->
     <section class="relative">
-        
         @php
             $header = \App\Models\SocialLink::where('nama', 'header_talent_hunter')->first();
         @endphp
 
         <img src="{{ $header && $header->link ? asset('storage/' . $header->link) : asset('images/woi.jpg') }}"
-            alt="Header Image" class="w-full h-[600px] object-cover">
+            alt="Header Image" class="w-full h-[400px] sm:h-[500px] md:h-[600px] object-cover">
 
-
-        {{-- <img src="{{ asset('images/woi.jpg') }}" alt="hero" class="w-full h-[350px] object-cover"> --}}
         <div class="absolute inset-0 bg-black bg-opacity-40"></div>
-        <div class="absolute bottom-52 left-20 text-white">
-            <h1 class="text-3xl md:text-4xl font-semibold mt-3 max-w-2xl">
-                Talent Hunter 
+
+        <div
+            class="absolute left-5 sm:left-10 md:left-20 bottom-20 sm:bottom-32 md:bottom-52 text-white max-w-xs sm:max-w-md md:max-w-2xl">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold mt-3">
+                Talent Hunter
             </h1>
-            <p class="text-sm mt-4">Daftarkan perusahaan anda dan biar kami</p>
-            <p class="text-sm"> yang mencarikan kandidat yang cocok untuk anda</p><br>
+            <p class="text-xs sm:text-sm mt-2">Daftarkan perusahaan anda dan biar kami</p>
+            <p class="text-xs sm:text-sm">yang mencarikan kandidat yang cocok untuk anda</p><br>
             <button>
-                <span class="bg-gray-700 hover:bg-gray-800 text-sm px-8 py-2 rounded-lg">Daftar</span>
+                <span class="bg-gray-700 hover:bg-gray-800 text-xs sm:text-sm px-6 sm:px-8 py-2 rounded-lg">Daftar</span>
             </button>
         </div>
     </section>
 
-    <section class="text-white py-20 rounded-b-[50px]" style="background: linear-gradient(to right, orange, #ff7b00)">
-        <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-8 items-center px-6">
 
+    <section class="text-white py-12 md:py-20 rounded-b-[50px]"
+        style="background: linear-gradient(to right, orange, #ff7b00)">
+        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center px-4 sm:px-6">
+
+            <!-- Gambar -->
             <div class="flex justify-center">
-                <img src="{{ asset('images/ntip.png') }}" alt="Talent Hunter" class="h-96 w-96 ">
+                <img src="{{ asset('images/ntip.png') }}" alt="Talent Hunter"
+                    class="h-48 w-48 sm:h-72 sm:w-72 md:h-96 md:w-96">
             </div>
 
+            <!-- Konten steps -->
             <div>
-                <h2 class="text-2xl font-semibold mb-6 leading-snug">
+                <h2 class="text-xl sm:text-2xl font-semibold mb-6 leading-snug">
                     Langkah - Langkah Daftar <br> Talent Hunter
                 </h2>
-                <div class="relative flex max-w-xl">
+
+                <div class="relative flex max-w-full sm:max-w-xl">
                     <!-- Garis vertikal -->
-                    <div class="flex flex-col items-center mr-6 mt-4">
-                        <svg width="16" height="280" viewBox="0 0 16 310" fill="none"
+                    <div class="flex flex-col items-center mr-4 sm:mr-6 mt-4">
+                        <svg width="12" class="sm:w-16" height="220" sm:h-[280px]" viewBox="0 0 16 310" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path d="M8 8V302.001" stroke="white" stroke-width="3" stroke-linecap="round" />
                             <circle cx="8" cy="8" r="8" fill="white" />
@@ -52,31 +57,34 @@
                     <!-- Konten step -->
                     <div class="flex flex-col">
                         <!-- Step 1 -->
-                        <div class="mb-8">
-                            <p class="text-lg leading-relaxed">Klik tombol daftar untuk mendaftarkan perusahaan anda</p>
+                        <div class="mb-6 sm:mb-8">
+                            <p class="text-sm sm:text-lg leading-relaxed">Klik tombol daftar untuk mendaftarkan perusahaan
+                                anda</p>
                         </div>
 
                         <!-- Step 2 -->
-                        <div class="mb-8">
-                            <p class="text-lg leading-relaxed">Mengisi formulir pendaftaran dan kirim formulir pendaftaran
-                            </p>
+                        <div class="mb-6 sm:mb-8">
+                            <p class="text-sm sm:text-lg leading-relaxed">Mengisi formulir pendaftaran dan kirim formulir
+                                pendaftaran</p>
                         </div>
 
                         <!-- Step 3 -->
-                        <div class="mb-8">
-                            <p class="text-lg leading-relaxed">Tunggu pemberitahuan selanjutnya setelah pendaftaran</p>
+                        <div class="mb-6 sm:mb-8">
+                            <p class="text-sm sm:text-lg leading-relaxed">Tunggu pemberitahuan selanjutnya setelah
+                                pendaftaran</p>
                         </div>
 
                         <!-- Step 4 -->
                         <div>
-                            <p class="text-lg leading-relaxed">Perusahaan berhasil didaftarkan</p>
+                            <p class="text-sm sm:text-lg leading-relaxed">Perusahaan berhasil didaftarkan</p>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
-
+    
 
     <!-- Benefit Talent Hunter -->
     <section class="bg-white py-12">

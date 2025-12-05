@@ -20,26 +20,27 @@
 
 
     <!-- Card List -->
-    <div class="max-w-4xl mx-auto my-8 px-4 grid gap-4">
+    <div class="max-w-4xl mx-auto my-8 px-4 sm:px-6 grid gap-4">
         @forelse ($tawaran as $t)
             <a href="{{ route('kandidat.detailTawaran', [
                 'perusahaan' => $t->lowonganPerusahaan->perusahaan->slug,
                 'lowongan' => $t->lowonganPerusahaan->slug,
             ]) }}"
                 class="block bg-white rounded-xl shadow-[0_3px_10px_rgba(0,0,0,0.08)] p-5 hover:shadow-lg transition transform hover:-translate-y-1">
-                <div class="flex items-start justify-between">
-                    <div class="flex items-start space-x-4">
+
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div class="flex items-start sm:items-center space-x-4">
                         <!-- Logo -->
                         @if ($t->lowonganPerusahaan->perusahaan && $t->lowonganPerusahaan->perusahaan->img_profile)
                             <img src="{{ asset('storage/' . $t->lowonganPerusahaan->perusahaan->img_profile) }}"
-                                class="w-12 h-12 object-contain rounded" alt="logo">
+                                class="w-12 h-12 object-contain rounded flex-shrink-0" alt="logo">
                         @else
-                            <img src="{{ asset('images/logo.png') }}" class="w-12 h-12 object-contain rounded"
+                            <img src="{{ asset('images/logo.png') }}" class="w-12 h-12 object-contain rounded flex-shrink-0"
                                 alt="logo">
                         @endif
 
                         <!-- Detail -->
-                        <div>
+                        <div class="mt-2 sm:mt-0">
                             <p class="text-sm text-gray-500 font-medium">
                                 {{ $t->lowonganPerusahaan->perusahaan->nama_perusahaan }}
                             </p>
@@ -50,7 +51,7 @@
                                 {{ $t->lowonganPerusahaan->alamat }}
                             </p>
                             <span
-                                class="inline-block mt-2 bg-gray-200 text-gray-800 text-sm px-3 py-1 rounded-full font-medium">
+                                class="inline-block mt-2 mr-2 bg-gray-200 text-gray-800 text-sm px-3 py-1 rounded-full font-medium">
                                 Rp. {{ number_format($t->lowonganPerusahaan->gaji_awal, 0, ',', '.') }} –
                                 Rp. {{ number_format($t->lowonganPerusahaan->gaji_akhir, 0, ',', '.') }} / bulan
                             </span>
@@ -58,10 +59,8 @@
                     </div>
 
                     <!-- Waktu -->
-                    <div class="text-right">
-                        <p class="text-sm text-gray-400">
-                            {{ $t->lowonganPerusahaan->created_at->diffForHumans() }}
-                        </p>
+                    <div class="text-right text-sm text-gray-400 mt-2 sm:mt-0">
+                        {{ $t->lowonganPerusahaan->created_at->diffForHumans() }}
                     </div>
                 </div>
             </a>
@@ -69,6 +68,7 @@
             <p class="text-center text-gray-500 mt-10">Belum ada tawaran yang masuk.</p>
         @endforelse
     </div>
+
 
     <!-- Button at the Bottom -->
     <div class="flex justify-center my-8">

@@ -12,11 +12,11 @@
 
 <body class="font-[Poppins] bg-gray-100">
     <div class="flex items-center justify-center min-h-screen">
-        <div class="w-full max-w-md p-8 bg-white rounded-2xl shadow-xl border border-gray-200">
+        <div class="w-full max-w-md p-8 bg-white rounded-2xl shadow-xl border border-gray-200 scale-[0.85] md:scale-100">
             {{-- Judul --}}
-            <div class="flex items-center justify-center mb-6">
+            <div class="flex flex-col items-center justify-center mb-6 gap-y-3">
                 <div class="bg-orange-100 text-orange-500 p-3 rounded-full shadow">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2
                             2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
