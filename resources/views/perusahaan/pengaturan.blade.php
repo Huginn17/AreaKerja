@@ -1,8 +1,8 @@
 @extends('layouts.index-perusahaan')
 @section('content')
-   <div class="bg-white flex flex-col lg:flex-row items-start mb-36 mt-28 px-4 sm:px-8">
+   <div class="bg-white flex flex-col lg:flex-row items-start mb-36 mt-32 px-4 sm:px-8">
 
-        <div class="w-full max-w-3xl px-8 pl-12">
+        <div class="w-full max-w-3xl px-8 pl-12 mb-12">
             <!-- Logo + Info Perusahaan -->
             <div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-12">
 
@@ -85,8 +85,6 @@
                     class="block w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg text-left px-5">
                     Ganti Email
                 </a>
-
-
 
             </div>
         </div>

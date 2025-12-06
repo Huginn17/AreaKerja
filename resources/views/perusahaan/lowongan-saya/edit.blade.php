@@ -1,6 +1,6 @@
 @extends('layouts.index-perusahaan')
 @section('content')
-    <div class="max-w-4xl mx-auto px-6 py-10 mt-20 bg-white shadow rounded-lg ">
+    <div class="max-w-4xl mx-auto px-6 py-10 mt-28 bg-white shadow-md border rounded-lg mb-8">
 
         <div class="flex items-center justify-between p-4 mb-6">
             <div class="flex items-center space-x-4">
@@ -32,7 +32,7 @@
                                                                                                 </button> -->
         </div>
 
-        <h2 class="text-2xl font-bold mb-6 border-b-2 border-orange-400 pb-2">Edit Lowongan</h2>
+        <h2 class="text-2xl font-semibold mb-6 border-b-2 border-orange-400 pb-2">Edit Lowongan</h2>
 
         <form action="{{ route('lowongan.update', $data->id) }}" method="POST" class="space-y-8">
             @csrf
@@ -50,7 +50,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-4 gap-6 items-end">
+            <div class="grid grid-cols-2 gap-6">
                 <div>
                     <label class="block font-medium mb-1">Jenis Lowongan</label>
                     <select name="jenis"
@@ -117,11 +117,11 @@
 
             </div>
 
-            <label class="block font-medium mb-1">Deskripsi Gaji</label>
+            <label class="block font-medium">Deskripsi Gaji</label>
             <textarea class="w-full border-2 rounded-md px-3 py-2 focus:ring-orange-400 focus:border-orange-400" name="deskripsi"
                 cols="30" rows="10">{!! old('deskripsi', $data->deskripsi ?? '') !!}</textarea>
 
-            <label class="block font-medium mb-1">Tanggung Jawab</label>
+            <label class="block font-medium">Tanggung Jawab</label>
             <textarea class="w-full border-2 rounded-md px-3 py-2 focus:ring-orange-400 focus:border-orange-400"
                 name="tanggung_jawab" cols="30" rows="10">{!! old('tanggung_jawab', $data->tanggung_jawab ?? '') !!}</textarea>
 
@@ -163,4 +163,5 @@
             </div>`
         </form>
     </div>
+    @include('layouts.footer')
 @endsection

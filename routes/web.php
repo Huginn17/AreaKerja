@@ -271,6 +271,14 @@ Route::controller(TipsKerjaController::class)->group(function () {
 
 
 
+
+
+
+
+
+
+
+
 /**---------------------------------------- FINANCE PREFIX -------------------------------------*/
 //Finance PREFIX
 Route::controller(AuthController::class)->middleware('auth')->group(function () {
@@ -334,6 +342,10 @@ Route::prefix('finance')->middleware('auth', 'role:finance', 'CheckUserStatus')-
     });
 });
 /**---------------------------------------- END FINANCE PREFIX -------------------------------------*/
+
+
+
+
 
 
 
@@ -416,7 +428,7 @@ Route::prefix('admin')->middleware('auth', 'role:admin', 'CheckUserStatus')->gro
         Route::get('/recruitment/{id}/detail', 'detailRecruitment')->name('admin.recruitment.detail');
         Route::delete('/recruitment/{id}/hapus', 'destroyRecruitment')->name('admin.recruitment.destroy');
 
-        //filter provinsi
+        //FILTER PROVINSI
         // Pilih Provinsi
         Route::get('/dashboard/pilih-provinsi', 'pilihProvinsi')->name('dashboard.pilih-provinsi');
 
@@ -458,6 +470,12 @@ Route::prefix('admin')->middleware('auth', 'role:admin', 'CheckUserStatus')->gro
     });
 });
 /**---------------------------------------- END ADMIN PREFIX -------------------------------------*/
+
+
+
+
+
+
 
 
 
@@ -685,6 +703,14 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
     });
 });
 /**---------------------------------------- END SUPER ADMIN PREFIX -------------------------------------*/
+
+
+
+
+
+
+
+
 
 
 

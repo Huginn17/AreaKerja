@@ -13,7 +13,7 @@
                 <label class="text-sm font-medium mb-2">Logo Perusahaan <span class="text-red-500">*</span></label>
                 <div class="col-span-2 flex items-center space-x-4">
                     <div
-                        class="w-40 h-40 sm:w-56 sm:h-52 border border-gray-300 rounded-lg flex items-center justify-center overflow-hidden">
+                        class="w-40 h-40 sm:w-56 sm:h-52 rounded-lg flex items-center justify-center overflow-hidden">
                         @if (Auth::user()->perusahaan->img_profile)
                             <img id="pu" class="w-56 h-56 object-contain mb-3 profile-img"
                                 src="{{ asset('storage/' . Auth::user()->perusahaan->img_profile) }}" alt="Profile">

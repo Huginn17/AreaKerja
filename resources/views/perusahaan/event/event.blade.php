@@ -1,8 +1,8 @@
 @extends('layouts.index-perusahaan')
 @section('content')
-    <div class="flex flex-col gap-6 items-center justify-center min-h-screen p-6 mt-16">
+    <div class="flex flex-col gap-6 items-center justify-center min-h-screen p-4 sm:p-6 mt-16">
         @foreach ($events as $event)
-           <div class="w-full max-w-3xl mx-auto rounded-xl overflow-hidden relative">
+          <div class="w-full max-w-xl sm:max-w-2xl md:max-w-3xl mx-auto rounded-xl overflow-hidden relative">
 
                 <!-- Gambar -->
                 <img src="{{ $event->image ? asset('storage/' . $event->image) : asset('images/megangbuku.jpg') }}"
@@ -12,7 +12,7 @@
                 <div class="absolute inset-0 bg-black bg-opacity-40 rounded-xl"></div>
 
                 <!-- Konten -->
-                <div class="absolute inset-0 flex flex-col justify-between p-4 sm:p-6 text-white">
+                <div class="absolute inset-0 flex flex-col justify-between p-4 sm:p-6 text-white break-all">
 
                     <!-- Tanggal (atas kanan) -->
                     <div class="text-xs sm:text-sm text-right">

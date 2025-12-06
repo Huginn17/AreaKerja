@@ -26,7 +26,7 @@
                     @endif
 
                     <div class="flex-1">
-                        <p class="text-xs sm:text-sm leading-snug">{!! $notif->pesan !!}</p>
+                        <p class="text-xs break-all sm:text-sm leading-snug">{!! $notif->pesan !!}</p>
                         <p class="text-[10px] sm:text-xs text-gray-400 mt-1">
                             {{ $notif->created_at->diffForHumans() }}
                         </p>

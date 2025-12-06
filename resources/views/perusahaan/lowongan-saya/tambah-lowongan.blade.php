@@ -1,10 +1,12 @@
 @extends('layouts.index-perusahaan')
 @section('content')
-    <div class="bg-white flex justify-center py-10 mt-24">
+    <div class="bg-white flex justify-center py-10 mt-20">
 
-        <div class="w-[900px] p-6">
+        <div class="w-full max-w-[900px] p-4 sm:p-6">
+
             <!-- Header -->
-            <div class="flex items-center gap-4 mb-6">
+            <div class="flex flex-col sm:flex-row sm:items-center gap-4 border p-4 rounded-md mb-6 shadow-md">
+
                 @if (Auth::user()->role == 'perusahaan')
                     @if (Auth::user()->perusahaan->img_profile)
                         <img id="pu" class="w-20 h-20 object-cover rounded-full profile-img"
@@ -29,12 +31,12 @@
             </div>
 
             <!-- Form -->
-            <div class="border border-gray-800 rounded-md p-6">
+            <div class="border shadow-md rounded-md p-6">
                 <h2 class="font-semibold text-lg mb-4">Tambah Lowongan</h2>
                 <form action="{{ route('lowongan.saya.store') }}" method="POST" class="space-y-5">
                     @csrf
                     <!-- Judul & Alamat -->
-                    <div class="grid grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium">Judul <span class="text-red-500">*</span></label>
                             <input type="text" name="nama"
@@ -48,7 +50,7 @@
                     </div>
 
                     <!-- Jenis Lowongan & Gaji -->
-                    <div class="grid grid-cols-[200px_1fr] gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                         <!-- Jenis Lowongan -->
                         <div class="flex flex-col">
                             <label class="text-sm font-medium">
@@ -64,11 +66,11 @@
                             </select>
                         </div>
 
-                        <div>
-                            <label class="block font-medium mb-1">Kategori<span class="text-red-500">*</span></label>
-                            <select name="kategori" class="form-select"
+                        <div class="flex flex-col">
+                            <label class="text-sm font-medium">Kategori<span class="text-red-500"> *</span></label>
+                            <select name="kategori"
                                 class="border rounded-md px-3 py-2 mt-1 outline-none focus:ring-1 focus:ring-orange-500 w-50">
-                                <option value="">-- Pilih Kategori --</option>
+                                <option value=""> Pilih Kategori </option>
                                 @foreach ($categories as $cat)
                                     <option value="{{ $cat->nama }}"
                                         {{ old('kategori', $lowongan->kategori ?? '') == $cat->nama ? 'selected' : '' }}>
@@ -79,30 +81,30 @@
                         </div>
 
                         <div>
-                            <label class="block font-medium mb-1">Label Gaji<span class="text-red-500">*</span></label>
+                            <label class="text-sm font-medium mb-1">Label Gaji<span class="text-red-500"> *</span></label>
                             <input type="text" name="label_gaji"
-                                class="w-44 border rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500" />
+                                class="w-full sm:w-40 border rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500" />
                         </div>
 
 
                         <div>
-                            <label class="block font-medium mb-1">Benefit<span class="text-red-500">*</span></label>
+                            <label class="text-sm font-medium mb-1">Benefit<span class="text-red-500"> *</span></label>
                             <input type="text" name="benefit"
-                                class="w-44 border rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500" />
+                                class="w-full sm:w-40 border rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500" />
 
                         </div>
 
                         <!-- Gaji -->
                         <div class="flex flex-col">
                             <label class="text-sm font-medium">
-                                Gaji <span class="text-red-500">*</span>
+                                Gaji <span class="text-red-500"> *</span>
                             </label>
                             <div class="flex items-center gap-2 mt-1">
                                 <input type="number" name="gaji_awal"
-                                    class="w-44 border rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500" />
+                                    class="w-full sm:w-40 border rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500" />
                                 <span>-</span>
                                 <input type="number" name="gaji_akhir"
-                                    class="w-44 border rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500" />
+                                    class="w-full sm:w-40 border rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500" />
                                 {{-- <label class="block font-medium mb-1">Periode</label>
                                 <select name="batas_lamaran"
                                     class="border rounded-md px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500 w-full">
@@ -117,13 +119,13 @@
 
                     <!-- Deskripsi -->
                     <div>
-                        <label class="block text-sm font-medium">Deskripsi <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium">Deskripsi <span class="text-red-500"> *</span></label>
                         <textarea rows="3" name="deskripsi"
                             class="w-full border rounded-md px-3 py-2 mt-1 outline-none focus:ring-1 focus:ring-orange-500"></textarea>
                     </div>
                     <!-- Tanggung Jawab -->
                     <div>
-                        <label class="block text-sm font-medium">Tanggung Jawab <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium">Tanggung Jawab <span class="text-red-500"> *</span></label>
                         <textarea rows="3" name="tanggung_jawab"
                             class="w-full border rounded-md px-3 py-2 mt-1 outline-none focus:ring-1 focus:ring-orange-500"></textarea>
                     </div>
@@ -132,58 +134,35 @@
                     <div>
                         <h4 class="font-medium mb-2">Syarat Pekerjaan</h4>
                         <!-- Pendidikan -->
-                        <div class=" grid-cols-3 gap-4 flex items-center mb-3">
-                            <label class="text-sm font-medium mt-2">Pendidikan <span class="text-red-500">*</span></label>
-                            <div class="col-span-2">
-                                <div class="grid grid-cols-4 gap-x-4 gap-y-2 ml-12">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-start mb-3">
+
+                            <label class="text-sm font-medium mt-1 break-words">
+                                Pendidikan <span class="text-red-500"> *</span>
+                            </label>
+
+                            <div class="sm:col-span-2">
+                                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 gap-2 mt-2">
+
                                     @foreach (['SD', 'SMP', 'SMA', 'SMK', 'S1', 'S2', 'S3'] as $pend)
-                                        <label class="flex items-center gap-2 text-sm"><input
-                                                class="border border-orange-500" type="radio" value="{{ $pend }}"
-                                                name="syarat_pekerjaan">
-                                            <span>{{ $pend }}</span></label>
+                                        <label class="flex items-center gap-2 text-sm break-words whitespace-normal">
+                                            <input class="border border-orange-500" type="radio"
+                                                value="{{ $pend }}" name="syarat_pekerjaan">
+                                            <span class="break-words">{{ $pend }}</span>
+                                        </label>
                                     @endforeach
+
                                 </div>
                             </div>
+
                         </div>
-                        {{-- 
-                        <!-- Jurusan -->
-                        <div class="flex grid-cols-3 gap-4 items-center mb-3">
-                            <label class="text-sm font-medium">Jurusan</label>
-                            <input type="text"
-                                class="col-span-2 border rounded-md px-3 py-2 ml-20 mt-2 outline-none focus:ring-1 focus:ring-orange-500">
-                        </div> --}}
-
-                        <!-- Gender -->
-                        {{-- <div class="flex grid-cols-3 gap-4 items-center mb-3">
-                            <label class="text-sm font-medium">Gender <span class="text-red-500">*</span></label>
-                            <div class="col-span-2 flex gap-6 ml-20 mt-2">
-                                <label class="flex items-center gap-2 text-sm"><input class="border border-orange-500"
-                                        type="radio" name="gender">
-                                    Laki-Laki</label>
-                                <label class="flex items-center gap-2 text-sm"><input class="border border-orange-500"
-                                        type="radio" name="gender">
-                                    Perempuan</label>
-                            </div>
-                        </div> --}}
-
-                        <!-- Umur -->
-                        {{-- <div class="flex grid-cols-3 gap-4 items-center mb-3">
-                            <label class="text-sm font-medium">Umur <span class="text-red-500">*</span></label>
-                            <div class="col-span-2 flex items-center gap-2 ml-24 mt-2">
-                                <input type="number"
-                                    class="w-16 border rounded-md px-2 py-1 outline-none focus:ring-1 focus:ring-orange-500">
-                                <span>-</span>
-                                <input type="number"
-                                    class="w-16 border rounded-md px-2 py-1 outline-none focus:ring-1 focus:ring-orange-500">
-                            </div>
-                        </div> --}}
 
                         <!-- Batas Waktu -->
-                        <div class="flex grid-cols-3 gap-4 items-center">
-                            <label class="text-sm font-medium">Batas Waktu <span class="text-red-500">*</span></label>
+                        <div class="mt-4">
+                            <label class="text-sm font-medium">Batas Waktu <span class="text-red-500"> *</span></label>
                             <input type="date" name="batas_lamaran"
-                                class="col-span-2 w-48 border rounded-md px-3 py-2 ml-10 mt-2 outline-none focus:ring-1 focus:ring-orange-500">
+                                class="w-full sm:w-48 border rounded-md px-3 py-2 mt-2 focus:ring-1 focus:ring-orange-500">
                         </div>
+
                     </div>
                     <div class="flex justify-center space-x-4 pt-6">
                         <a href="{{ route('lowongan.saya.perusahaan') }}"

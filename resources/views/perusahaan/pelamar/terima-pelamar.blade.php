@@ -1,7 +1,7 @@
 @extends('layouts.index-perusahaan')
 @section('content')
     <div class="flex justify-center items-center mt-24 mb-10">
-        <div class="w-full max-w-3xl bg-white p-8 rounded-lg shadow-md">
+        <div class="w-full max-w-3xl bg-white p-8 rounded-lg shadow-md border mt-6">
             <!-- Judul -->
             <h2 class="text-xl font-semibold mb-6 text-center">Konfirmasi Terima Lamaran</h2>
             <p class="mb-6 text-center text-gray-600">Silahkan input jadwal wawancara untuk calon kandidat</p>

@@ -434,7 +434,7 @@ class PelamarController extends Controller
     public function konfirmasi_hal(PelamarLowongan $pelamarlowongan)
     {
         return view('perusahaan.pelamar.terima-pelamar', [
-            "data" => $pelamarlowongan
+            "data" => $pelamarlowongan  
         ]);
     }
 

@@ -52,10 +52,10 @@
         </a>
 
         <!-- Filter -->
-        <form method="GET" class="flex justify-end gap-2 mb-3">
+        <form method="GET" class="flex flex-col sm:flex-row justify-end gap-3 mb-3 w-full">
 
             <!-- Dropdown Jenis Paket -->
-            <select name="paket" class="border rounded-md text-sm px-6 py-2">
+            <select name="paket" class="border rounded-md text-sm px-6 py-2 w-full sm:w-auto break-words">
                 <option value="">Jenis Paket</option>
                 @foreach ($pakets as $paket)
                     <option value="{{ $paket->id }}" {{ request('paket') == $paket->id ? 'selected' : '' }}>
@@ -65,7 +65,7 @@
             </select>
 
             <!-- Dropdown Jenis Lowongan -->
-            <select name="jenis" class="border rounded-md text-sm px-6 py-2">
+            <select name="jenis" class="border rounded-md text-sm px-6 py-2 w-full sm:w-auto break-words">
                 <option value="">Jenis Lowongan</option>
                 @foreach ($jenisLowongan as $jenis)
                     <option value="{{ $jenis }}" {{ request('jenis') == $jenis ? 'selected' : '' }}>
@@ -74,14 +74,16 @@
                 @endforeach
             </select>
 
-            <button class="bg-orange-500 text-white px-4 py-2 rounded-md">
+            <button class="bg-orange-500 text-white px-4 py-2 rounded-md w-full sm:w-auto">
                 Filter
             </button>
 
-            <a href="{{ route('lowongan.saya.perusahaan') }}" class="bg-orange-500 text-white px-4 py-2 rounded-md">
+            <a href="{{ route('lowongan.saya.perusahaan') }}"
+                class="bg-orange-500 text-white px-4 py-2 rounded-md text-center w-full sm:w-auto">
                 Reset
             </a>
         </form>
+
 
 
         @forelse ($Data as $d)
@@ -269,9 +271,9 @@
                 </div>
 
                 <!-- Tombol tambah -->
-                <div>
+                <div class="hidden md:block">
                     <a href="{{ route('lowongan.create.form') }}"
-                        class="absolute border border-orange-500 rounded-md flex items-center justify-center text-orange-500 hover:bg-orange-50">
+                        class="absolute h-16 w-16 border border-orange-500 rounded-md flex items-center justify-center text-orange-500 hover:bg-orange-50">
                         <i class="ph ph-plus text-md"></i>
                     </a>
                 </div>

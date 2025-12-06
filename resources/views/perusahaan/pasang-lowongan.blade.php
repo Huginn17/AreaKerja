@@ -27,7 +27,7 @@
     </div>
     <section class="py-16">
         <div class="max-w-6xl mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-center gap-6 flex-wrap md:mt-16">
+            <div class="flex flex-col md:flex-row justify-center gap-6 flex-wrap md:mt-16 ">
 
                 @php
                     // Mapping warna header paket
@@ -46,7 +46,7 @@
                 @endphp
 
                 @foreach ($pakets as $paket)
-                    <div class="w-72">
+                    <div class="w-72 mx-auto">
                         <div
                             class="bg-white border border-gray-300 rounded-xl shadow-sm hover:shadow-lg overflow-hidden flex flex-col transition-all duration-500 hover:scale-105">
 

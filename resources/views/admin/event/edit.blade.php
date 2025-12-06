@@ -8,18 +8,22 @@
 
             {{-- content --}}
             <div class="w-full bg-white">
-                <form action="{{ route('admin.event.update', $event->id) }}" method="post" enctype="multipart/form-data">
+
+                <form action="{{ route('admin.event.update', $event->id) }}" method="post" enctype="multipart/form-data"
+                    class="space-y-6">
+
                     @csrf
                     @method('PUT')
 
                     <!-- Judul -->
                     <input type="text" placeholder="Masukkan judul event" name="title"
                         value="{{ old('title', $event->title) }}"
-                        class="w-full bg-gray-200 border border-gray-400 rounded-md px-4 py-2 mb-8">
+                        class="w-full bg-gray-200 border border-gray-400 rounded-md px-4 py-2 mb-8 break-words">
 
                     <!-- Upload Media -->
                     <div class="mb-4">
                         <p class="mb-2">Gambar Saat Ini:</p>
+
                         <img id="preview-image"
                             src="{{ $event->image ? asset('storage/' . $event->image) : 'https://via.placeholder.com/150x150?text=No+Image' }}"
                             class="w-40 h-40 object-cover rounded-md mb-2">
@@ -31,134 +35,204 @@
                         <input id="uploadMedia" type="file" name="image" accept="image/*" hidden>
                     </div>
 
-
                     <!-- Editor -->
                     <div class="rounded-md overflow-hidden mt-4">
                         <label class="block mb-2 text-lg font-medium">Isi Artikel</label>
 
                         <textarea id="editor" name="content" class="w-full h-48 border border-gray-400 rounded-lg">
-        {{ old('content', $event->content ?? '') }}
-    </textarea>
+                {{ old('content', $event->content ?? '') }}
+            </textarea>
                     </div>
 
-                    <div class="space-y-4 mt-4">
-                        <!-- Waktu Acara -->
-                        <div>
-                            <label class="block font-medium mb-1">Waktu Acara</label>
-                            <div class="flex items-center gap-2">
-                                <input type="date" name="tgl_mulai" id="tgl_mulai"
-                                    class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-40"
-                                    value="{{ old('tgl_mulai', $event->tgl_mulai) }}">
-                                <input type="date" name="tgl_akhir" id="tgl_akhir"
-                                    class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-40"
-                                    value="{{ old('tgl_akhir', $event->tgl_akhir) }}">
+                    <!-- Waktu Acara -->
+                    <div>
+                        <label class="block font-medium mb-1">Waktu Acara</label>
+
+                        <div class="flex flex-wrap items-center gap-3">
+
+                            <input type="date" name="tgl_mulai"
+                                class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-full sm:w-40"
+                                value="{{ old('tgl_mulai', $event->tgl_mulai) }}">
+
+                            <input type="date" name="tgl_akhir"
+                                class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-full sm:w-40"
+                                value="{{ old('tgl_akhir', $event->tgl_akhir) }}">
+
+                            <!-- Jam Mulai -->
+                            <div class="relative w-full sm:w-32">
                                 <input type="time" name="jam_mulai" id="jam_mulai"
-                                    class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-24"
+                                    class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-full
+        focus:border-orange-500 focus:ring-0"
                                     value="{{ old('jam_mulai', $event->jam_mulai) }}">
-                                <span>Sampai</span>
+
+                                <!-- Fake Placeholder -->
+                                <span id="ph_mulai"
+                                    class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs pointer-events-none">
+                                    12:00 PM
+                                </span>
+                            </div>
+
+                            <span class="text-center">Sampai</span>
+
+                            <!-- Jam Akhir -->
+                            <div class="relative w-full sm:w-32">
                                 <input type="time" name="jam_akhir" id="jam_akhir"
-                                    class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-24"
+                                    class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-full
+        focus:border-orange-500 focus:ring-0"
                                     value="{{ old('jam_akhir', $event->jam_akhir) }}">
+
+                                <!-- Fake Placeholder -->
+                                <span id="ph_akhir"
+                                    class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs pointer-events-none">
+                                    12:00 PM
+                                </span>
                             </div>
-                        </div>
 
-                        <!-- Penutupan Pendaftaran -->
-                        <div>
-                            <label class="block font-medium mb-1">Penutupan Pendaftaran</label>
-                            <input type="date" name="penutupan_pendaftaran" id="penutupan_pendaftaran"
-                                class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-40"
-                                value="{{ old('penutupan_pendaftaran', $event->penutupan_pendaftaran) }}">
-                        </div>
+                            <script>
+                                const inputMulai = document.getElementById('jam_mulai');
+                                const phMulai = document.getElementById('ph_mulai');
 
-                        <!-- Kuota -->
-                        <div>
-                            <label class="block font-medium mb-1">Kuota Partisipasi</label>
-                            <input type="number" name="kuota" value="{{ old('kuota', $event->kuota) }}"
-                                class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-24" placeholder="000">
-                        </div>
+                                inputMulai.addEventListener('input', () => {
+                                    phMulai.style.display = inputMulai.value ? 'none' : 'block';
+                                });
 
-                        <div>
-                            <label class="block font-medium mb-1">Link Form</label>
-                            <input type="url" name="link_form" value="{{ old('link_form', $event->link_form) }}"
-                                class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-auto" placeholder="https://example.com">
-                        </div>
+                                const inputAkhir = document.getElementById('jam_akhir');
+                                const phAkhir = document.getElementById('ph_akhir');
 
-                        <!-- Lokasi -->
-                        <div>
-                            <label class="block font-medium mb-1">Lokasi</label>
-                            <textarea name="lokasi" class="w-96 bg-gray-200 border rounded-md px-3 py-2 text-sm h-32 max-h-64"
-                                placeholder="Isi Detail Alamat Acara">{{ old('lokasi', $event->lokasi) }}</textarea>
-                        </div>
+                                inputAkhir.addEventListener('input', () => {
+                                    phAkhir.style.display = inputAkhir.value ? 'none' : 'block';
+                                });
+                            </script>
 
-                        <!-- Daftar Kegiatan -->
-                        <div>
-                            <label class="block font-medium mb-2">Daftar Kegiatan</label>
-                            <div id="kegiatan-list" class="space-y-2">
-                                @foreach ($event->kegiatan as $k)
-                                    <div
-                                        class="flex items-center gap-2 kegiatan-item bg-gray-100 p-2 rounded-md cursor-move">
-                                        <input type="time" name="kegiatan_waktu[]" value="{{ $k->waktu }}"
-                                            class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-24">
-                                        <input type="text" name="kegiatan_nama[]" value="{{ $k->kegiatan }}"
-                                            class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-80"
-                                            placeholder="Isi Kegiatan">
-                                        <button type="button" onclick="hapusKegiatan(this)"
-                                            class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm">
-                                            Hapus
-                                        </button>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-
-                        <!-- Tombol Tambah Acara -->
-                        <div>
-                            <button type="button" @click="openModal = true"
-                                class="bg-green-600 text-white px-4 py-2 rounded-md shadow">Tambah Acara</button>
-                        </div>
-
-                        <!-- Modal -->
-                        <!-- Modal Tambah Kegiatan -->
-                        <div x-cloak x-show="openModal"
-                            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                            <div class="bg-white rounded-lg shadow-lg p-6 w-96">
-                                <h2 class="text-lg font-medium mb-4">Tambah Kegiatan</h2>
-
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium">Waktu</label>
-                                    <input type="time" id="modal-waktu"
-                                        class="w-full border rounded-md px-3 py-2 bg-gray-100">
-                                </div>
-
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium">Nama Kegiatan</label>
-                                    <input type="text" id="modal-kegiatan"
-                                        class="w-full border rounded-md px-3 py-2 bg-gray-100" placeholder="Isi Kegiatan">
-                                </div>
-
-                                <div class="flex justify-end gap-2">
-                                    <button type="button" @click="openModal = false"
-                                        class="px-4 py-2 bg-gray-400 text-white rounded-md">Batal</button>
-                                    <button type="button" onclick="tambahKegiatan(); openModal=false;"
-                                        class="px-4 py-2 bg-green-600 text-white rounded-md">Tambah</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Submit -->
-                        <div class="flex gap-4 mt-6">
-                            <button type="submit"
-                                class="bg-green-600 text-white px-14 py-2 text-lg rounded-md shadow hover:bg-green-500">
-                                Update
-                            </button>
-                            <a href="{{ route('admin.eventform') }}"
-                                class="bg-red-600 hover:bg-red-500 text-white px-16 py-2 text-lg rounded-md shadow">
-                                Batal
-                            </a>
                         </div>
                     </div>
+
+                    <!-- Penutupan Pendaftaran -->
+                    <div>
+                        <label class="block font-medium mb-1">Penutupan Pendaftaran</label>
+
+                        <input type="date" name="penutupan_pendaftaran"
+                            class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-full sm:w-40"
+                            value="{{ old('penutupan_pendaftaran', $event->penutupan_pendaftaran) }}">
+                    </div>
+
+                    <!-- Kuota -->
+                    <div>
+                        <label class="block font-medium mb-1">Kuota Partisipasi</label>
+
+                        <input type="number" name="kuota" value="{{ old('kuota', $event->kuota) }}"
+                            class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-24" placeholder="000">
+                    </div>
+
+                    <!-- Link Form -->
+                    <div>
+                        <label class="block font-medium mb-1">Link Form</label>
+
+                        <input type="url" name="link_form" value="{{ old('link_form', $event->link_form) }}"
+                            class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-full sm:w-96 break-words"
+                            placeholder="https://example.com">
+                    </div>
+
+                    <!-- Lokasi -->
+                    <div>
+                        <label class="block font-medium mb-1">Lokasi</label>
+
+                        <textarea name="lokasi"
+                            class="w-full sm:w-96 bg-gray-200 border rounded-md px-3 py-2 text-sm h-32 max-h-64 break-words"
+                            placeholder="Isi Detail Alamat Acara">{{ old('lokasi', $event->lokasi) }}</textarea>
+                    </div>
+
+                    <!-- Daftar Kegiatan -->
+                    <div>
+                        <label class="block font-medium mb-2">Daftar Kegiatan</label>
+
+                        <div id="kegiatan-list" class="space-y-2">
+
+                            @foreach ($event->kegiatan as $k)
+                                <div class="flex flex-wrap items-center gap-2 kegiatan-item bg-gray-100 p-2 rounded-md">
+
+                                    <input type="time" name="kegiatan_waktu[]" value="{{ $k->waktu }}"
+                                        class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-24">
+
+                                    <input type="text" name="kegiatan_nama[]" value="{{ $k->kegiatan }}"
+                                        class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-full sm:w-80 break-words"
+                                        placeholder="Isi Kegiatan">
+
+                                    <button type="button" onclick="hapusKegiatan(this)"
+                                        class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm">
+                                        Hapus
+                                    </button>
+                                </div>
+                            @endforeach
+
+                        </div>
+                    </div>
+
+                    <!-- Tombol Tambah Acara -->
+                    <div>
+                        <button type="button" @click="openModal = true"
+                            class="bg-green-600 text-white px-4 py-2 rounded-md shadow">
+                            Tambah Acara
+                        </button>
+                    </div>
+
+                    <!-- Modal -->
+                    <div x-cloak x-show="openModal"
+                        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+
+                        <div class="bg-white rounded-lg shadow-lg p-6 w-11/12 sm:w-96">
+
+                            <h2 class="text-lg font-medium mb-4">Tambah Kegiatan</h2>
+
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium">Waktu</label>
+
+                                <input type="time" id="modal-waktu"
+                                    class="w-full border rounded-md px-3 py-2 bg-gray-100 placeholder-gray-400"
+                                    placeholder="12:00 AM" onfocus="this.showPicker();"
+                                    onblur="if(!this.value){ this.type='text'; this.placeholder='12:00 AM'; }"
+                                    onfocusin="this.type='time';">
+                            </div>
+
+
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium">Nama Kegiatan</label>
+                                <input type="text" id="modal-kegiatan"
+                                    class="w-full border rounded-md px-3 py-2 bg-gray-100" placeholder="Isi Kegiatan">
+                            </div>
+
+                            <div class="flex justify-end gap-2">
+                                <button type="button" @click="openModal = false"
+                                    class="px-4 py-2 bg-gray-400 text-white rounded-md">
+                                    Batal
+                                </button>
+
+                                <button type="button" onclick="tambahKegiatan(); openModal=false;"
+                                    class="px-4 py-2 bg-green-600 text-white rounded-md">
+                                    Tambah
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="flex flex-wrap gap-4 mt-6">
+                        <button type="submit"
+                            class="bg-green-600 text-white px-14 py-2 text-lg rounded-md shadow hover:bg-green-500 w-full sm:w-auto">
+                            Update
+                        </button>
+
+                        <a href="{{ route('admin.eventform') }}"
+                            class="bg-red-600 hover:bg-red-500 text-white px-16 py-2 text-lg rounded-md shadow w-full sm:w-auto text-center">
+                            Batal
+                        </a>
+                    </div>
+
                 </form>
+
             </div>
+
 
 
             <!-- TinyMCE -->
@@ -252,14 +326,22 @@
                             "cursor-move");
 
                         div.innerHTML = `
-                <input type="time" name="kegiatan_waktu[]" value="${waktu}"
-                    class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-24">
-                <input type="text" name="kegiatan_nama[]" value="${kegiatan}"
-                    class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-80">
-                <button type="button" onclick="hapusKegiatan(this)"
-                    class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm">
-                    Hapus
-                </button>
+               <div
+    class="flex flex-col sm:flex-row sm:items-center gap-2 kegiatan-item bg-gray-100 p-2 rounded-md cursor-move w-full">
+
+    <input type="time" name="kegiatan_waktu[]" value="${waktu}"
+        class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-full sm:w-24">
+
+    <input type="text" name="kegiatan_nama[]" value="${kegiatan}"
+        class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-full sm:w-80 break-words">
+
+    <button type="button" onclick="hapusKegiatan(this)"
+        class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm w-full sm:w-auto text-center">
+        Hapus
+    </button>
+
+</div>
+
             `;
 
                         container.appendChild(div);

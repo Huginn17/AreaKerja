@@ -13,12 +13,14 @@
                 alt="Header Image" class="w-full h-[600px] object-cover">
             {{-- <img src="{{ asset('images/ntap.png') }}" alt="hero" class="w-full h-[350px] object-cover"> --}}
             <div class="absolute inset-0 bg-black bg-opacity-40"></div>
-            <div class="absolute bottom-52 left-20 text-white">
-                <h1 class="text-3xl md:text-4xl font-semibold max-w-2xl">
+            <div class="absolute bottom-52 left-0 pl-6 text-left
+            md:pl-0 md:left-20 text-white">
+                <h1 class="text-3xl md:text-4xl font-semibold mt-3 max-w-2xl">
                     Request Data
                 </h1>
                 <p class="text-sm mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit.<br> Unde id velit illo totam
-                    dolor quisquam, dignissimos alias a, autem, cupiditate <br> corrupti mollitia voluptatibus itaque minima ex
+                    dolor quisquam, dignissimos alias a, autem, cupiditate <br> corrupti mollitia voluptatibus itaque minima
+                    ex
                     temporibus ullam reiciendis iste.</p>
             </div>
         </section>
@@ -27,7 +29,8 @@
         <div class="max-w-5xl mx-auto py-12 px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
 
             <!-- Card 1 -->
-            <div class="bg-orange-500 rounded-lg p-8 text-center text-white w-60 shadow-lg hover:scale-105">
+            <div
+                class="bg-orange-500 rounded-lg p-8 text-center text-white w-full max-w-xs mx-auto shadow-lg hover:scale-105 transition duration-500 hover:shadow-xl">
                 <div class="flex justify-center mb-4">
                     <!-- Icon -->
                     <svg width="88" height="88" viewBox="0 0 88 88" fill="none"
@@ -40,13 +43,15 @@
                 <h3 class="font-medium mb-6 text-lg leading-tight">
                     List Pekerja Bermasalah
                 </h3>
-                <a href="{{ route('perusahaan.data.pekerja-bermasalah') }}" class="bg-white text-orange-500 hover:bg-gray-200 text-sm font-medium px-4 py-2 rounded-lg">
+                <a href="{{ route('perusahaan.data.pekerja-bermasalah') }}"
+                    class="bg-white text-orange-500 hover:bg-gray-200 text-sm font-medium px-4 py-2 rounded-lg">
                     lebih Detail
                 </a>
             </div>
 
             <!-- Card 2 -->
-            <div class="bg-orange-500 rounded-lg p-8 text-center text-white w-60 shadow-lg hover:scale-105">
+            <div
+                class="bg-orange-500 rounded-lg p-8 text-center text-white w-full max-w-xs mx-auto shadow-lg hover:scale-105 transition duration-500 hover:shadow-xl">
                 <div class="flex justify-center mb-4">
                     <!-- Icon -->
                     <svg width="82" height="84" viewBox="0 0 82 84" fill="none"
@@ -65,14 +70,16 @@
                 <h3 class="font-medium mb-6 text-lg leading-tight">
                     Cari Nama<br>Pekerja
                 </h3>
-                <a href="{{ route('perusahaan.cari.nama.pekerja') }}" class="bg-white text-orange-500 hover:bg-gray-200 text-sm font-medium px-4 py-2 rounded-lg">
+                <a href="{{ route('perusahaan.cari.nama.pekerja') }}"
+                    class="bg-white text-orange-500 hover:bg-gray-200 text-sm font-medium px-4 py-2 rounded-lg">
                     lebih Detail
                 </a>
             </div>
 
             <!-- Card 3 -->
-            <div class="bg-orange-500 rounded-lg p-8 text-center text-white w-60 shadow-lg hover:scale-105">
-                <div class="flex justify-center mb-4">
+            <div
+                class="bg-orange-500 rounded-lg p-8 text-center text-white w-full max-w-xs mx-auto shadow-lg hover:scale-105 transition duration-500 hover:shadow-xl">
+                <div class="flex justify-center">
                     <!-- Icon -->
                     <svg width="103" height="100" viewBox="0 0 103 100" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
@@ -94,15 +101,14 @@
                 <h3 class="font-medium mb-6 text-lg leading-tight">
                     Laporan Harian <br>Pekerja
                 </h3>
-                <a href="{{ route('perusahaan.laporan.harian') }}" class="bg-white text-orange-500 hover:bg-gray-200 text-sm font-medium px-4 py-2 rounded-lg">
+                <a href="{{ route('perusahaan.laporan.harian') }}"
+                    class="bg-white text-orange-500 hover:bg-gray-200 text-sm font-medium px-4 py-2 rounded-lg">
                     lebih Detail
                 </a>
-
             </div>
-
         </div>
     </div>
 
-    </div>
+
     @include('layouts.footer')
 @endsection

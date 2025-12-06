@@ -63,18 +63,22 @@
             </div>
             <!-- Konten utama -->
             <div class="bg-white rounded-xl p-6 relative">
-                <div class="max-w-6xl mx-auto border-2 border-gray-400 rounded-xl shadow">
+                <div class="w-full max-w-6xl mx-auto border-2 border-gray-400 rounded-xl shadow p-4 sm:p-6">
                     <!-- Header -->
-                    <div class="flex items-center border border-gray-400 rounded-xl shadow-lg py-1 gap-4 mb-4">
+                    <div
+                        class="flex flex-col md:flex-row items-center border border-gray-400 rounded-xl shadow-lg py-3 gap-4 mb-4 px-4">
                         <img src="{{ $lowongan->perusahaan->img_profile ? asset('storage/' . $lowongan->perusahaan->img_profile) : asset('images/seven.png') }}"
-                            alt="foto kandidat" class="w-68 h-64 mr-4">
-                        <div class="ml-20">
-                            <h2 class="text-xl font-semibold">{{ $lowongan->nama }}</h2>
+                            alt="foto kandidat" class="w-48 h-48 object-cover rounded-lg flex-shrink-0">
+
+                        <div class="text-center md:text-left md:ml-8">
+                            <h2 class="text-xl md:text-2xl font-bold uppercase">
+                                {{ $lowongan->nama }}
+                            </h2>
                         </div>
                     </div>
 
-
-                    <div class="translate-x-20 mr-24">
+                    <!-- Detail -->
+                    <div class="md:translate-x-20 md:mr-24">
                         <h2 class="text-lg font-semibold mb-4">Detail Lowongan</h2>
 
                         <!-- Gaji -->
@@ -96,7 +100,8 @@
                                 <li>{{ $lowongan->deskripsi }}</li>
                             </ul>
                         </div>
-                        <!-- Tanggung jawab -->
+
+                        <!-- Tanggung Jawab -->
                         <div class="mb-4">
                             <h3 class="font-semibold text-lg mb-2">Deskripsi Pekerjaan</h3>
                             <ul class="list-disc list-inside space-y-1">
@@ -116,6 +121,7 @@
                                 @endforeach
                             </ul>
                         </div>
+
                         <!-- Syarat Pekerjaan -->
                         <div class="mb-4">
                             <h3 class="font-semibold text-lg mb-2">Syarat Pekerjaan</h3>
@@ -124,13 +130,15 @@
                             </ul>
                         </div>
 
-                        <!-- Aktivitas Lowongan -->
+                        <!-- Aktivitas -->
                         <div class="mb-2">
                             <h3 class="font-semibold text-lg">Aktivitas Lowongan</h3>
-                            <p>Lowongan Di Pasang Pada {{ $lowongan->published_at }}</p> <br>
+                            <p>Lowongan Di Pasang Pada {{ $lowongan->published_at }}</p>
+                            <br>
                         </div>
                     </div>
                 </div>
+
 
 
                 <!-- Tombol aksi -->
@@ -144,7 +152,7 @@
                         @if ($lowongan->rekomendasi !== null)
                             <!-- Jika sedang direkomendasikan -->
                             <button type="submit"
-                                class="w-full bg-orange-600 text-white font-medium py-2 rounded-lg hover:bg-orange-500 transition duration-300">
+                                class="w-full bg-gray-600 text-white font-medium py-2 rounded-lg hover:bg-gray-500 transition duration-300">
                                 Hapus dari Rekomendasi
                             </button>
                         @else

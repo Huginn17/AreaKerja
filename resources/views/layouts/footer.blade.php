@@ -27,10 +27,14 @@
             @auth
                 @if (Auth::user()->role == 'pelamar')
                     <ul class="grid grid-cols-2 gap-y-3 text-sm">
-                        <li><a href="{{ route('beranda') }}" class="hover:text-orange-200 transition hover:scale-105">Beranda</a></li>
-                        <li><a href="{{ url('/pelamar/tips-kerja') }}" class="hover:text-orange-200 transition hover:scale-105">Tips Kerja</a></li>
-                        <li><a href="{{ route('transaksi.pendaftaran') }}" class="hover:text-orange-200 transition hover:scale-105">Transaksi</a></li>
-                        <li><a href="{{ url('/bantuan') }}" class="hover:text-orange-200 transition hover:scale-105">Bantuan</a>
+                        <li><a href="{{ route('beranda') }}"
+                                class="hover:text-orange-200 transition hover:scale-105">Beranda</a></li>
+                        <li><a href="{{ url('/pelamar/tips-kerja') }}"
+                                class="hover:text-orange-200 transition hover:scale-105">Tips Kerja</a></li>
+                        <li><a href="{{ route('transaksi.pendaftaran') }}"
+                                class="hover:text-orange-200 transition hover:scale-105">Transaksi</a></li>
+                        <li><a href="{{ url('/bantuan') }}"
+                                class="hover:text-orange-200 transition hover:scale-105">Bantuan</a>
                         </li>
                     </ul>
                 @elseif (Auth::user()->role == 'perusahaan')
@@ -61,12 +65,20 @@
         <!-- Kontak -->
         <div>
             <h3 class="mb-4 text-xl">Kontak Kami</h3>
-            <form class="flex overflow-hidden sm:rounded-lg bg-white">
+
+            <form class="flex flex-col sm:flex-row overflow-hidden sm:rounded-lg bg-white gap-2 sm:gap-0">
+
                 <input type="email" placeholder="Email address"
-                    class="flex-1 px-2 py-2 text-black focus:outline-none">
-                <button type="submit" class="bg-black text-orange-500 px-3 hover:bg-gray-800">Submit</button>
+                    class="flex-1 px-2 py-2 text-black focus:outline-none border border-gray-300 sm:border-0 rounded-md sm:rounded-none w-full break-words">
+
+                <button type="submit"
+                    class="bg-black text-orange-500 px-3 py-2 hover:bg-gray-800 rounded-md sm:rounded-none sm:rounded-r-lg w-full sm:w-auto text-center">
+                    Submit
+                </button>
+
             </form>
         </div>
+
     </div>
 
     <!-- Divider -->

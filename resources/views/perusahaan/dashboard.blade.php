@@ -243,14 +243,13 @@
 
             <h1 class="text-center text-3xl text-orange-500 font-bold mt-8">Tentang Area Kerja</h1>
             <!-- === Bagian Bawah === -->
-            <div class="grid md:grid-cols-2 gap-8 mt-12 items-center">
+            <div class="grid md:grid-cols-2 gap-8 mb-4 items-center">
                 <!-- Gambar -->
                 <div class="flex justify-center">
                     <img src="{{ asset('images/nari.jpg') }}" alt="Illustrasi" class="w-full max-w-md">
                 </div>
-
                 <!-- 3 Card kecil -->
-                <div class="grid md:grid-cols-2 gap-6 max-w-5xl">
+                <div class="grid lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
                     <!-- Card 1 -->
                     <div
                         class="bg-orange-500 text-white p-6 max-h-44 mt-28 rounded-lg flex flex-col justify-center shadow">
@@ -280,6 +279,7 @@
                                 Temukan berbagai lowongan terbaru yang selalu diperbarui setiap hari.
                             </p>
                         </div>
+
                         <div class="border-2 border-orange-500 rounded-lg p-6 text-orange-500 shadow-sm">
                             <div class="flex items-center space-x-3 mb-3">
                                 <img src="{{ asset('images/logoarea.png') }}" alt="logo" class="w-10 h-10">
@@ -294,12 +294,15 @@
                         </div>
                     </div>
                 </div>
+
             </div>
+        </div>
         </div>
         <!-- ================= MODAL STEP 1 ================= -->
         <!-- ================= MODAL STEP 1 ================= -->
         <div id="modalStep1" class="fixed inset-0 hidden bg-black bg-opacity-50 z-50 flex items-center justify-center">
-           <div class="bg-white w-80 sm:w-full sm:max-w-md rounded-2xl shadow-xl relative p-6 max-h-[80vh] overflow-y-auto">
+            <div
+                class="bg-white w-80 sm:w-full sm:max-w-md rounded-2xl shadow-xl relative p-6 max-h-[80vh] overflow-y-auto">
 
                 <button onclick="closeAllModal()" class="absolute top-3 right-3 text-gray-400 hover:text-black">✕</button>
                 <h2 class="text-lg font-semibold mb-4">Top Up Koin</h2>
@@ -341,7 +344,7 @@
 
         <!-- ================= MODAL STEP 2 ================= -->
         <div id="modalStep2" class="fixed inset-0 hidden bg-black bg-opacity-50 z-50 flex items-center justify-center">
-           <div class="bg-white w-80 sm:w-full sm:max-w-md rounded-2xl shadow-xl relative p-6">
+            <div class="bg-white w-80 sm:w-full sm:max-w-md rounded-2xl shadow-xl relative p-6">
 
                 <button onclick="closeAllModal()" class="absolute top-3 right-3 text-gray-400 hover:text-black">✕</button>
 
@@ -416,7 +419,7 @@
 
         <!-- ================= MODAL STEP 3 ================= -->
         <div id="modalStep3" class="fixed inset-0 hidden bg-black bg-opacity-50 z-50 flex items-center justify-center">
-           <div class="bg-white w-80 sm:w-full sm:max-w-lg rounded-2xl shadow-xl relative p-8">
+            <div class="bg-white w-80 sm:w-full sm:max-w-lg rounded-2xl shadow-xl relative p-8">
 
                 <button onclick="closeAllModal()"
                     class="absolute top-4 right-4 text-gray-500 hover:text-black text-xl">✕</button>
@@ -425,10 +428,10 @@
                 <div class="h-1 w-32 bg-orange-500 mb-6"></div>
 
                 <div class="border border-orange-400 rounded-lg p-6 space-y-3 text-sm">
-                    <div class="flex justify-between">
+                    {{-- <div class="flex justify-between">
                         <span>No. Transaksi</span>
                         <span id="detailTransaksi">-</span>
-                    </div>
+                    </div> --}}
                     <div class="flex justify-between">
                         <span>Nama Pengirim</span>
                         <span id="detailPengirim">-</span>
@@ -561,11 +564,11 @@
                     const biayaAdmin = 2000;
                     const totalBayar = (selectedHarga ?? 0) + biayaAdmin;
 
-                    // 🔑 Buat No Transaksi random unik
-                    const randomPart = Math.floor(Math.random() * 1000000);
-                    const noTransaksi = "TRX" + Date.now() + randomPart;
+                    // // 🔑 Buat No Transaksi random unik
+                    // const randomPart = Math.floor(Math.random() * 1000000);
+                    // const noTransaksi = "TRX" + Date.now() + randomPart;
 
-                    document.getElementById('detailTransaksi').innerText = noTransaksi;
+                    // document.getElementById('detailTransaksi').innerText = noTransaksi;
                     document.getElementById('detailPengirim').innerText = "{{ Auth::user()->perusahaan->nama_perusahaan }}";
                     document.getElementById('detailBank').innerText = selectedBank ?? '-';
                     document.getElementById('detailWaktu').innerText = new Date().toLocaleString('id-ID');

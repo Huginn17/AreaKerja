@@ -152,7 +152,7 @@
 
 
     <!-- Tabel Kandidat -->
-    <div class="max-w-6xl mx-auto mt-6 mb-10 overflow-x-auto rounded-lg">
+    <div class="max-w-6xl mx-auto mt-6 mb-10 overflow-x-auto rounded-lg border shadow-md">
         <table class="w-full border-collapse text-sm">
             <thead>
                 <tr class="bg-orange-500 text-white text-center">

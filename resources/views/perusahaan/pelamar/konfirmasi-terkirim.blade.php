@@ -2,23 +2,27 @@
 
 @section('content')
     <!-- Judul di luar border -->
-    <h1 class="text-lg font-medium mb-4 mt-24 ml-56">Konfirmasi Terima Lamaran</h1>
+
 
     <!-- Box utama dengan border -->
     <div class="max-w-4xl mx-auto px-4">
+        <h1 class="text-lg font-semibold mb-4 mt-28  md:ml-10 sm:ml-4 sm:text-base">
+            Konfirmasi Terima Lamaran
+        </h1>
+
         <div class="border border-gray-300 rounded-xl p-6 bg-white shadow-sm mb-10">
 
             <!-- Header: Logo dan Informasi -->
-            <div class="flex items-start gap-6 mb-4">
+            <div class="flex items-start gap-6 mb-4 sm:flex-col sm:items-center sm:text-center">
                 <!-- Logo -->
-                <div class="w-30">
-                    <img src="{{ asset('images/seven.png') }}" alt="Seven Logo" class="w-30 h-30" />
+                <div class="w-30 sm:w-24 sm:h-24">
+                    <img src="{{ asset('storage/' . $data->lowongan_perusahaan->perusahaan->img_profile) }}" alt="Seven Logo"
+                        class="w-52 h-52 sm:w-24 sm:h-24 object-contain" />
                 </div>
 
                 <!-- Teks -->
-                <div>
-                    <h2 class="text-xl font-semibold">Selamat Kepada</h2><br>
-
+                <div class="sm:mt-3 sm:text-sm">
+                    <h2 class="text-xl font-semibold sm:text-lg">Selamat Kepada</h2><br>
                     <!-- Nama pelamar -->
                     <p class="mb-4 mt-1 font-medium">{{ $data->pelamar->nama_pelamar ?? '-' }}</p>
                     <span class="font-semibold">Status :</span>
@@ -34,7 +38,7 @@
                         Oleh karena itu, kami mengharapkan kehadiran anda pada :
                     </p>
 
-                    <div class="mt-4 space-y-1">
+                    <div class="mt-4 space-y-1 sm:text-sm">
                         <p><span class="font-semibold">Tanggal</span> :
                             {{ \Carbon\Carbon::parse($konfirmasi['tanggal'])->translatedFormat('d F Y') }}</p>
                         <p><span class="font-semibold">Pukul</span> : {{ $konfirmasi['waktu'] }}</p>
@@ -59,7 +63,7 @@
             </div>
 
             <!-- Tombol -->
-            <div class="flex justify-end gap-2 mt-6">
+            <div class="flex justify-center gap-2 mt-6 sm:flex-col sm:w-full sm:gap-3 sm:items-center">
                 <a href="{{ route('pelamar.konfirmasi', $data->id) }}"
                     class="px-7 py-1 bg-orange-500 text-white rounded-lg hover:bg-orange-600">Kembali</a>
                 <form action="{{ route('pelamar.konfirmasi.kirim', $data->id) }}" method="POST">
