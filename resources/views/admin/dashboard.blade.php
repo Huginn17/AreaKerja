@@ -5,7 +5,7 @@
         <!-- Header -->
         <header
             class="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between 
-                    px-6 py-3 border-b shadow-sm gap-3 sm:gap-0">
+                    px-6 py-3  gap-3 sm:gap-0">
 
             <h1 class="text-xl font-semibold">Dashboard</h1>
 

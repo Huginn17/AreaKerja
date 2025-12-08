@@ -96,6 +96,8 @@
         .tinymce-content td {
             padding: 8px;
         }
+
+      
     </style>
 
 </head>
@@ -103,7 +105,7 @@
 <body>
     <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar"
         type="button"
-        class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+        class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 hover:text-white rounded-lg md:hidden hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-400 dark:text-gray-400 dark:hover:bg-orange-500 dark:focus:ring-orange-400 transition duration-300">
         <span class="sr-only">Open sidebar</span>
         <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg">
@@ -116,9 +118,9 @@
     <div class="flex">
         <!-- Sidebar -->
         <aside id="logo-sidebar"
-            class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+            class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 overflow-y-auto"
             aria-label="Sidebar">
-            <div class=" h-full w-64 bg-orange-600 text-white fixed">
+            <div class="min-h-screen w-64 bg-orange-600 text-white ">
                 <!-- Logo -->
                 <div class="px-4 py-2">
                     <div class="inline-flex items-center gap-1 border-b-2 border-orange-300">

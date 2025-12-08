@@ -8,7 +8,7 @@
 
     <!-- Headline Artikel -->
     @if ($headline)
-        <div class="mb-8">
+        <div class="mb-8 mt-20">
             <!-- Gambar -->
             <div class="w-full max-h-full overflow-hidden bg-white flex justify-center">
                 <img src="{{ $headline->image ? asset('storage/' . $headline->image) : asset('images/cwe.png') }}"

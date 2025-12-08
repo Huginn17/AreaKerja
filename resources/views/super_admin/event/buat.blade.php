@@ -1,146 +1,93 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
-    <main class="flex-1 p-6 sm:ml-64 bg-white overflow-y-auto" x-data="{ openModal: false }">
-        <div class="flex justify-between items-center mb-10">
-            <h1 class="text-2xl font-medium">Buat Event Baru</h1>
-            <!-- Profil Admin -->
-            <div class="flex items-center gap-3">
-                <svg width="31" height="32" viewBox="0 0 31 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <ellipse cx="21.3472" cy="5.13034" rx="6.35506" ry="6.15646" fill="#E46054" />
-                </svg>
-                <div
-                    class="flex items-center justify-between w-90 h-14 bg-white border border-orange-500 shadow-md rounded-2xl px-3 py-2">
-                    <div class="flex items-center gap-2 mr-2">
-                        <a href="#">
-                            @if (Auth::user()->role == 'super_admin')
-                                @if (Auth::user()->superadmin && Auth::user()->superadmin->img_profile)
-                                    <img id="pu" class="w-10 h-10 object-cover rounded-full profile-img"
-                                        src="{{ asset('storage/' . Auth::user()->superadmin->img_profile) }}"
-                                        alt="Profile">
-                                @else
-                                    <img id="pu" class="w-10 h-10 rounded-full"
-                                        src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
-                                        alt="">
-                                @endif
-                            @elseif (Auth::user()->role == 'admin')
-                                @if (Auth::user()->admin && Auth::user()->admin->img_profile)
-                                    <img id="pu" class="w-10 h-10 object-cover rounded-full profile-img"
-                                        src="{{ asset('storage/' . Auth::user()->admin->img_profile) }}" alt="Profile">
-                                @else
-                                    <img id="pu" class="w-10 h-10 rounded-full"
-                                        src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
-                                        alt="">
-                                @endif
-                            @else
-                                <img class="w-10 h-10 rounded-full"
-                                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
-                                    alt="">
-                            @endif
-
-                        </a>
-                        <div class="text-sm">
-                            <span class="font-semibold">{{ Auth::user()->username }}</span>
-                            <p class="text-gray-500 text-sm">{{ Auth::user()->email }}</p>
-                        </div>
-                    </div>
-                    {{-- <select class="appearance-none text-gray-600 text-xs px-8 focus:outline-none cursor-pointer">
-                        <option>Text 1</option>
-                        <option>Text 2</option>
-                        <option>Text 3</option>
-                    </select> --}}
-                </div>
-            </div>
-        </div>
+    <main class="flex-1 p-6 sm:ml-64 bg-white overflow-y-auto" x-data="{ openModal: false, openNotif: false, openAllNotif: false }">
 
         {{-- content --}}
         <div class="w-full bg-white">
-            <form action="{{ route('superadmin.event.store') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('superadmin.event.store') }}" method="post" enctype="multipart/form-data"
+                class="w-full">
                 @csrf
 
                 <!-- Judul -->
                 <input type="text" placeholder="Masukkan judul artikel" name="title"
-                    class="w-full bg-gray-200 border-2 border-gray-400 rounded-md px-4 py-2 mb-8"><br>
+                    class="w-full bg-gray-200 border-2 border-gray-400 rounded-md px-4 py-2 mb-8 
+               break-words max-w-full">
 
                 <!-- Upload Media -->
                 <div class="mb-4">
                     <label for="uploadMedia"
-                        class="cursor-pointer px-4 py-2 bg-gray-100 border-2 border-gray-400 rounded-lg shadow hover:bg-gray-200 text-sm font-medium">
+                        class="cursor-pointer inline-block px-4 py-2 bg-gray-100 border-2 border-gray-400 
+                   rounded-lg shadow hover:bg-gray-200 text-sm font-medium">
                         Tambahkan Media
-                    </label><br>
+                    </label>
 
-                    <input id="uploadMedia" type="file" name="image" accept="image/*" hidden><br>
+                    <input id="uploadMedia" type="file" name="image" accept="image/*" hidden>
+
                     <!-- Preview Gambar -->
-                    <div class="mt-3 w-64 h-40 border-2 border-gray-400 rounded-md overflow-hidden">
+                    <div
+                        class="mt-3 w-full max-w-xs sm:max-w-sm md:max-w-md h-40 
+                    border-2 border-gray-400 rounded-md overflow-hidden">
                         <img id="previewImage"
                             src="{{ isset($event) && $event->image ? asset('storage/' . $event->image) : asset('images/no images.jpg') }}"
                             class="w-full h-full object-contain">
                     </div>
-
                 </div>
 
-                <!-- Editor -->
-                <div class="rounded-md overflow-hidden mt-4">
-                    <label class="block mb-2 text-lg font-medium">Isi Artikel</label>
 
-                    <textarea id="editor" name="content" class="w-full h-48 border border-gray-400 rounded-lg">
+                <!-- Editor -->
+                <div class="rounded-md overflow-hidden mt-4 w-full">
+                    <label class="block mb-2 text-lg font-medium break-words">Isi Artikel</label>
+
+                    <textarea id="editor" name="content"
+                        class="w-full min-h-48 border border-gray-400 rounded-lg p-3
+               break-words overflow-y-auto resize-y">
         {{ old('content', $event->content ?? '') }}
     </textarea>
                 </div>
 
+
                 <div class="space-y-4 mt-4">
+
                     <!-- Waktu Acara -->
                     <div>
                         <label class="block font-medium mb-1">Waktu Acara</label>
-                        <div class="flex items-center gap-2">
+
+                        <div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-2 w-full">
+
+                            <!-- Tanggal Mulai -->
                             <input type="date" name="tgl_mulai" id="tgl_mulai"
-                                class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-40"
+                                class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-full md:w-40"
                                 value="{{ old('tgl_mulai') }}">
+
+                            <!-- Tanggal Akhir -->
                             <input type="date" name="tgl_akhir" id="tgl_akhir"
-                                class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-40"
+                                class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-full md:w-40"
                                 value="{{ old('tgl_akhir') }}">
+
                             <!-- Jam Mulai -->
-                            <div class="relative w-full sm:w-32">
+                            <div class="relative w-full md:w-32">
                                 <input type="time" name="jam_mulai" id="jam_mulai"
                                     class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-full
-        focus:border-orange-500 focus:ring-0">
-
-                                <!-- Fake Placeholder -->
+                    focus:border-orange-500 focus:ring-0">
                                 <span id="ph_mulai"
                                     class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs pointer-events-none">
                                     12:00 PM
                                 </span>
                             </div>
 
-                            <span class="text-center">Sampai</span>
+                            <span class="text-center hidden md:block">Sampai</span>
+                            <span class="text-center md:hidden">→</span>
 
                             <!-- Jam Akhir -->
-                            <div class="relative w-full sm:w-32">
+                            <div class="relative w-full md:w-32">
                                 <input type="time" name="jam_akhir" id="jam_akhir"
                                     class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-full
-        focus:border-orange-500 focus:ring-0">
-
-                                <!-- Fake Placeholder -->
+                    focus:border-orange-500 focus:ring-0">
                                 <span id="ph_akhir"
                                     class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs pointer-events-none">
                                     12:00 PM
                                 </span>
                             </div>
-
-                            <script>
-                                const inputMulai = document.getElementById('jam_mulai');
-                                const phMulai = document.getElementById('ph_mulai');
-
-                                inputMulai.addEventListener('input', () => {
-                                    phMulai.style.display = inputMulai.value ? 'none' : 'block';
-                                });
-
-                                const inputAkhir = document.getElementById('jam_akhir');
-                                const phAkhir = document.getElementById('ph_akhir');
-
-                                inputAkhir.addEventListener('input', () => {
-                                    phAkhir.style.display = inputAkhir.value ? 'none' : 'block';
-                                });
-                            </script>
                         </div>
                     </div>
 
@@ -148,7 +95,7 @@
                     <div>
                         <label class="block font-medium mb-1">Penutupan Pendaftaran</label>
                         <input type="date" name="penutupan_pendaftaran" id="penutupan_pendaftaran"
-                            class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-40"
+                            class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-full md:w-40"
                             value="{{ old('penutupan_pendaftaran') }}">
                     </div>
 
@@ -156,60 +103,53 @@
                     <div>
                         <label class="block font-medium mb-1">Kuota Partisipasi</label>
                         <input type="number" name="kuota"
-                            class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-24"
+                            class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-full md:w-24"
                             placeholder="000">
                     </div>
-                    <!-- Kuota -->
+
+                    <!-- Link Form -->
                     <div>
-                        <label class="block font-medium mb-1">Link Form </label>
+                        <label class="block font-medium mb-1">Link Form</label>
                         <input type="text" name="link_form"
-                            class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-[350px]"
+                            class="bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm w-full md:w-[350px] break-words"
                             placeholder="https://forms.gle/...">
                     </div>
 
                     <!-- Lokasi -->
                     <div>
                         <label class="block font-medium mb-1">Lokasi</label>
-                        <textarea name="lokasi" class="w-96 bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm h-32 max-h-64"
+                        <textarea name="lokasi"
+                            class="w-full md:w-96 bg-gray-200 border-2 border-gray-400 rounded-md px-3 py-2 text-sm h-32 max-h-64 break-words"
                             placeholder="Isi Detail Alamat Acara"></textarea>
                     </div>
 
                     <!-- Daftar Kegiatan -->
                     <div>
                         <label class="block font-medium mb-2">Daftar Kegiatan</label>
-                        <div id="kegiatan-list" class="space-y-2">
-                            {{-- <div class="flex items-center gap-2 kegiatan-item bg-gray-100 p-2 rounded-md cursor-move">
-                                    <input type="time" name="kegiatan_waktu[]" value="{{ $k->waktu }}"
-                                        class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-24">
-                                    <input type="text" name="kegiatan_nama[]" value="{{ $k->kegiatan }}"
-                                        class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-80"
-                                        placeholder="Isi Kegiatan">
-                                    <button type="button" onclick="hapusKegiatan(this)"
-                                        class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm">
-                                        Hapus
-                                    </button>
-                                </div> --}}
-                        </div>
+                        <div id="kegiatan-list" class="space-y-2"></div>
                     </div>
 
                     <!-- Tombol Tambah Acara -->
                     <div>
                         <button type="button" @click="openModal = true"
-                            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md shadow">Tambah
-                            Acara</button>
+                            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md shadow w-full md:w-auto">
+                            Tambah Acara
+                        </button>
                     </div>
 
                     <!-- Modal -->
                     <div x-show="openModal"
-                        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" x-cloak>
-                        <div class="bg-white rounded-lg shadow-lg w-96 p-6">
+                        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4" x-cloak>
+                        <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
                             <h2 class="text-lg font-semibold mb-4">Tambah Kegiatan</h2>
+
                             <div class="space-y-3">
                                 <div>
                                     <label class="block text-sm font-medium">Waktu</label>
                                     <input type="time" id="modal-waktu"
                                         class="w-full border-2 border-gray-400 rounded-md px-3 py-2 bg-gray-100">
                                 </div>
+
                                 <div>
                                     <label class="block text-sm font-medium">Kegiatan</label>
                                     <input type="text" id="modal-kegiatan"
@@ -217,11 +157,13 @@
                                         placeholder="Nama kegiatan">
                                 </div>
                             </div>
+
                             <div class="mt-6 flex justify-end gap-3">
                                 <button type="button" @click="openModal = false"
                                     class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md">
                                     Batal
                                 </button>
+
                                 <button type="button" onclick="tambahKegiatan(); openModal=false"
                                     class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md">
                                     Simpan
@@ -231,11 +173,16 @@
                     </div>
 
                     <!-- Submit -->
-                    <div class="flex gap-4 mt-6">
+                    <div class="flex flex-col md:flex-row gap-4 mt-6 w-full">
                         <button type="submit"
-                            class="bg-green-600 text-white px-14 py-2 text-lg rounded-md shadow hover:bg-green-700">Simpan</button>
+                            class="bg-green-600 text-white px-6 md:px-14 py-2 text-lg rounded-md shadow hover:bg-green-700 w-full md:w-auto">
+                            Simpan
+                        </button>
+
                         <a href="/super_admin/event"
-                            class="bg-red-600 hover:bg-red-700 text-white px-16 py-2 text-lg rounded-md shadow">Batal</a>
+                            class="bg-red-600 hover:bg-red-700 text-white px-6 md:px-16 py-2 text-lg rounded-md shadow w-full md:w-auto text-center">
+                            Batal
+                        </a>
                     </div>
                 </div>
             </form>
@@ -327,14 +274,21 @@
                         "cursor-move");
 
                     div.innerHTML = `
-                <input type="time" name="kegiatan_waktu[]" value="${waktu}"
-                    class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-24">
-                <input type="text" name="kegiatan_nama[]" value="${kegiatan}"
-                    class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-80">
-                <button type="button" onclick="hapusKegiatan(this)"
-                    class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm">
-                    Hapus
-                </button>
+                <div class="flex flex-col md:flex-row items-start md:items-center gap-2 kegiatan-item bg-gray-100 p-2 rounded-md w-full">
+
+    <input type="time" name="kegiatan_waktu[]" value="${waktu}"
+        class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-full md:w-24">
+
+    <input type="text" name="kegiatan_nama[]" value="${kegiatan}"
+        class="bg-gray-200 border rounded-md px-3 py-2 text-sm w-full md:w-80 break-words">
+
+    <button type="button" onclick="hapusKegiatan(this)"
+        class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm w-full md:w-auto text-center">
+        Hapus
+    </button>
+
+</div>
+
             `;
 
                     container.appendChild(div);

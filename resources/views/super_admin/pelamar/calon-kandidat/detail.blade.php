@@ -1,18 +1,19 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
-    <div class="sm:ml-64 p-10 bg-white min-h-screen font-[Poppins] translate-x-24" 
+    <div class="sm:ml-64 p-6 md:p-10 bg-white min-h-screen font-[Poppins] w-full">
+
 
         <!-- Header -->
-        <h1 class="text-2xl font-semibold mb-8 text-gray-800">Detail Calon Kandidat</h1>
+        <h1 class="text-xl sm:text-2xl font-semibold mb-8 text-gray-800">Detail Calon Kandidat</h1>
 
         <!-- Kartu Kandidat -->
-        <div class="max-w-4xl mx-auto bg-orange-600 rounded-2xl shadow-lg text-white p-8 md:p-10">
+        <div class="max-w-4xl mx-auto bg-orange-600 rounded-2xl shadow-lg text-white p-6 sm:p-8 md:p-10">
             <div class="flex flex-col md:flex-row items-center gap-6 mb-8">
                 @if ($pelamar->img_profile)
                     <img class="w-28 h-28 object-cover rounded-full shadow-md border-4 border-white"
                         src="{{ asset('storage/' . $pelamar->img_profile) }}" alt="Profile">
                 @else
-                    <img class="w-28 h-28 object-cover rounded-full shadow-md border-4 border-white"
+                    <img class="w-24 h-24 sm:w-28 sm:h-28 object-cover rounded-full shadow-md border-4 border-white"
                         src="https://ui-avatars.com/api/?name={{ urlencode($pelamar->nama_pelamar) }}&background=random&color=fff&size=128"
                         alt="Profile">
                 @endif
@@ -25,7 +26,7 @@
 
             <!-- Form Input Tanggal -->
             <form method="POST" action="{{ route('superadmin.calon.update', $pelamar->id) }}"
-                class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
                 @csrf
 
                 <div>
@@ -48,7 +49,7 @@
                         class="w-full px-3 py-2 rounded-md text-black border border-gray-300 focus:ring-2 focus:ring-orange-400 focus:outline-none">
                 </div>
 
-                <div class="col-span-3 flex mx-auto mt-6">
+                <div class="col-span-1 sm:col-span-2 md:col-span-3 flex justify-center mt-6">
                     <button type="submit"
                         class="bg-orange-400 text-white hover:bg-orange-500 transition duration-300 font-semibold px-6 py-2 rounded-lg shadow">
                         Simpan Tanggal
@@ -58,7 +59,8 @@
         </div>
 
         <!-- Tombol Aksi -->
-        <div class="mt-10 flex flex-col items-center gap-4">
+       <div class="mt-10 flex flex-col items-center gap-4 px-4">
+
             <form action="{{ route('superadmin.calon.lulus', $pelamar->id) }}" method="POST" class="w-full max-w-sm">
                 @csrf
                 <button

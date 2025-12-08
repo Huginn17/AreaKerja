@@ -203,7 +203,7 @@
                 </div>
             </div>
 
-            <section class="relative hidden md:flex md:w-2/5 lg:w-2/4 h-screen overflow-hidden">
+            <section class="relative hidden md:flex md:w-2/5 lg:w-2/4 min:h-screen overflow-hidden">
                 <img src="{{ asset('images/gambar2.jpg') }}" alt="Background" class="w-full h-full object-cover">
                 <div
                     class="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center text-center text-white px-6 pb-56">

@@ -2,10 +2,15 @@
 
 @section('sidebarsuperadmin')
     <main class="flex-1 p-6 sm:ml-64 bg-white overflow-y-auto" x-data="{ openNotif: false, openAllNotif: false }">
-         <!-- Header -->
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-medium">Tambah User</h1>
-            <div class="flex items-center gap-3">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-6 flex-wrap gap-4">
+
+            <!-- Judul -->
+            <h1 class="text-2xl font-medium break-words">Tambah User</h1>
+
+            <!-- Bagian kanan: notif + profile -->
+            <div class="flex items-center gap-3 flex-wrap sm:flex-nowrap">
+
                 {{-- Tombol Notifikasi --}}
                 <button @click="openNotif = true" class="relative">
                     <!-- Icon Lonceng -->
@@ -19,9 +24,6 @@
                                 fill="black" /> --}}
                         </g>
                     </svg>
-
-
-                    <!-- Badge jumlah notif belum dibaca -->
                     @if ($global_notifikasi_unread > 0)
                         <span id="notif-badge"
                             class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
@@ -30,94 +32,118 @@
                     @endif
                 </button>
 
+                <!-- Profile Box -->
+                <div
+                    class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl 
+                    w-full sm:w-auto break-words">
 
-                <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
-                    <a href="{{ route('superadmin.profile') }}">
+                    <a href="{{ route('superadmin.profile') }}" class="shrink-0">
                         @if (Auth::user()->role == 'super_admin')
                             @if (Auth::user()->superadmin?->img_profile)
                                 <img id="pu" class="w-10 h-10 object-cover rounded-full profile-img"
                                     src="{{ asset('storage/' . Auth::user()->superadmin->img_profile) }}" alt="Profile">
                             @else
                                 <img id="pu" class="w-10 h-10 rounded-full"
-                                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
-                                    alt="">
+                                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128">
                             @endif
                         @else
                             <img class="w-10 h-10 rounded-full"
-                                src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
-                                alt="">
+                                src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128">
                         @endif
-
                     </a>
-                    <div class="text-sm">
-                        <span class="font-semibold">{{ Auth::user()->username }}</span>
-                        <p class="text-gray-500 text-sm">{{ Auth::user()->email }}</p>
-                    </div>
 
-                    {{-- <select class="appearance-none px-8 py-2 bg-transparent text-gray-600 text-sm focus:outline-none">
-                        <option>Text 1</option>
-                        <option>Text 2</option>
-                        <option>Text 3</option>
-                    </select> --}}
+                    <div class="text-sm min-w-0">
+                        <span class="font-semibold block truncate max-w-[150px] sm:max-w-[200px]">
+                            {{ Auth::user()->username }}
+                        </span>
+                        <p class="text-gray-500 text-sm break-all">
+                            {{ Auth::user()->email }}
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
 
 
-        <div class="max-w-3xl mx-auto border-2 border-gray-400 rounded-lg p-6 shadow-sm">
-            <h2 class="text-center text-xl font-semibold mb-6">Tambah User</h2>
+
+        <div class="max-w-3xl mx-auto border-2 border-gray-400 rounded-lg p-6 shadow-sm 
+            w-full sm:px-8">
+
+            <h2 class="text-center text-xl font-semibold mb-6 break-words">
+                Tambah User
+            </h2>
 
             <!-- Form Create -->
             <form action="{{ route('superadmin.add.user.store') }}" method="POST" enctype="multipart/form-data"
-                class="space-y-4">
+                class="space-y-4 w-full">
                 @csrf
 
                 <!-- Foto Profil -->
                 <div class="flex justify-center mb-6">
-                    <div class="relative">
-                        <label for="fileinputrole" class="cursor-pointer">
-                            <img id="pa" class="w-40 h-40 object-cover rounded-full"
+                    <div class="relative flex flex-col items-center">
+
+                        <label for="fileinputrole" class="cursor-pointer block">
+                            <img id="pa"
+                                class="w-32 h-32 sm:w-40 sm:h-40 object-cover rounded-full shadow-md border border-gray-300"
                                 src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
                                 alt="Profile">
                         </label>
+
                         <input id="fileinputrole" type="file" name="img_profile" class="hidden" accept="image/*">
+
                     </div>
                 </div>
+
 
                 <!-- Email & Username -->
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Email</label>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                    <div class="w-full">
+                        <label class="block text-sm font-medium mb-1 break-words">Email</label>
                         <input type="email" name="email" value="{{ old('email') }}"
-                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2" required>
+                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2 break-words" required>
                         @error('email')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-500 text-sm mt-1 break-words">{{ $message }}</p>
                         @enderror
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Username</label>
+
+                    <div class="w-full">
+                        <label class="block text-sm font-medium mb-1 break-words">Username</label>
                         <input type="text" name="username" value="{{ old('username') }}"
-                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2" required>
+                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2 break-words" required>
                         @error('username')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-500 text-sm mt-1 break-words">{{ $message }}</p>
                         @enderror
                     </div>
+
                 </div>
 
+
                 <!-- Password -->
-                <div>
-                    <label class="block text-sm font-medium mb-1">Password</label>
-                    <input type="password" name="password" class="w-full border-2 border-gray-400 rounded-md px-3 py-2"
-                        required>
+                <div class="w-full max-w-full overflow-hidden">
+                    <label class="block text-sm font-medium mb-1 break-words">
+                        Password
+                    </label>
+
+                    <input type="password" name="password"
+                        class="w-full border-2 border-gray-400 rounded-md px-3 py-2 text-sm sm:text-base" required>
+
                     @error('password')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        <p class="text-red-500 text-sm mt-1 break-words">
+                            {{ $message }}
+                        </p>
                     @enderror
                 </div>
 
+
                 <!-- Role -->
-                <div>
-                    <label class="block text-sm font-medium mb-1">Role</label>
-                    <select name="role" id="roleSelect" class="w-full border-2 border-gray-400 rounded-md px-3 py-2"
+                <div class="w-full max-w-full overflow-hidden">
+                    <label class="block text-sm font-medium mb-1 break-words">
+                        Role
+                    </label>
+
+                    <select name="role" id="roleSelect"
+                        class="w-full border-2 border-gray-400 rounded-md px-3 py-2 text-sm sm:text-base break-words"
                         required>
                         <option value="">-- Pilih Role --</option>
                         <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
@@ -127,75 +153,96 @@
                     </select>
                 </div>
 
+
                 <!-- ================= FORM ADMIN / FINANCE ================= -->
-                <div id="form-alamat" class="space-y-4">
+                <div id="form-alamat" class="space-y-4 w-full max-w-full overflow-hidden">
+
+                    <!-- Nama lengkap -->
                     <div>
-                        <label class="block text-sm font-medium mb-1">Nama Lengkap</label>
+                        <label class="block text-sm font-medium mb-1 break-words">Nama Lengkap</label>
                         <input type="text" name="nama_lengkap" value="{{ old('nama_lengkap') }}"
-                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2" required>
+                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2 break-words" required>
                     </div>
 
-                    <div class="grid grid-cols-3 gap-4">
+                    <!-- Provinsi - Kota - Kecamatan -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
                         <div>
-                            <label class="block text-sm font-medium mb-1">Provinsi</label>
+                            <label class="block text-sm font-medium mb-1 break-words">Provinsi</label>
                             <select name="provinsi_id" id="provinsi"
-                                class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
+                                class="w-full border-2 border-gray-400 rounded-md px-3 py-2 break-words">
                                 <option value="">Pilih Provinsi</option>
                                 @foreach ($provinsis as $provinsi)
                                     <option value="{{ $provinsi->id }}">{{ $provinsi->nama }}</option>
                                 @endforeach
                             </select>
                         </div>
+
                         <div>
-                            <label class="block text-sm font-medium mb-1">Kota/Kabupaten</label>
+                            <label class="block text-sm font-medium mb-1 break-words">Kota/Kabupaten</label>
                             <select name="kota_id" id="kota"
-                                class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
+                                class="w-full border-2 border-gray-400 rounded-md px-3 py-2 break-words">
                                 <option value="">Pilih Kota</option>
                             </select>
                         </div>
+
                         <div>
-                            <label class="block text-sm font-medium mb-1">Kecamatan</label>
+                            <label class="block text-sm font-medium mb-1 break-words">Kecamatan</label>
                             <select name="kecamatan_id" id="kecamatan"
-                                class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
+                                class="w-full border-2 border-gray-400 rounded-md px-3 py-2 break-words">
                                 <option value="">Pilih Kecamatan</option>
                             </select>
                         </div>
+
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4">
+                    <!-- Kode Pos dan Alamat lengkap -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
                         <div>
-                            <label class="block text-sm font-medium mb-1">Kode Pos</label>
+                            <label class="block text-sm font-medium mb-1 break-words">Kode Pos</label>
                             <input type="text" name="kode_pos" value="{{ old('kode_pos') }}"
-                                class="w-full border-2 border-gray-400 rounded-md px-3 py-2">
+                                class="w-full border-2 border-gray-400 rounded-md px-3 py-2 break-words">
                         </div>
+
                         <div>
-                            <label class="block text-sm font-medium mb-1">Alamat Lengkap</label>
-                            <textarea name="detail_alamat" class="w-full border-2 border-gray-400 rounded-md px-3 py-2" rows="2">{{ old('detail_alamat') }}</textarea>
+                            <label class="block text-sm font-medium mb-1 break-words">Alamat Lengkap</label>
+                            <textarea name="detail_alamat" class="w-full border-2 border-gray-400 rounded-md px-3 py-2 break-words"
+                                rows="2">{{ old('detail_alamat') }}</textarea>
                         </div>
+
                     </div>
+
                 </div>
 
+
                 {{-- -------------- form PELAMAR ------------------- --}}
-                <div id="form-pelamar" class="hidden space-y-4">
-                    <h3 class="font-semibold text-gray-700 mt-4">Data Pelamar</h3>
+                <div id="form-pelamar" class="hidden space-y-4 w-full max-w-full overflow-hidden">
+
+                    <h3 class="font-semibold text-gray-700 mt-4 break-words">Data Pelamar</h3>
 
                     <input type="hidden" name="kategori" value="{{ 'pelamar' }}">
 
+                    <!-- Nama Pelamar -->
                     <div>
-                        <label class="block text-sm font-medium mb-1">Nama Pelamar</label>
+                        <label class="block text-sm font-medium mb-1 break-words">Nama Pelamar</label>
                         <input type="text" name="nama_pelamar" value="{{ old('nama_pelamar') }}"
-                            class="w-full border rounded-md px-3 py-2">
+                            class="w-full border rounded-md px-3 py-2 break-words">
                     </div>
 
+                    <!-- Gender -->
                     <div>
-                        <label class="block text-md font-medium mb-1">Gender <span class="text-red-500">*</span></label>
-                        <div class="flex gap-6 mt-1">
+                        <label class="block text-md font-medium mb-1 break-words">
+                            Gender <span class="text-red-500">*</span>
+                        </label>
+                        <div class="flex flex-col sm:flex-row gap-4 mt-1 break-words">
                             <label class="flex items-center gap-2">
                                 <input type="radio" name="gender" value="laki-laki"
                                     class="accent-orange-500 border-2 border-orange-500"
                                     {{ old('gender', $pelamar->gender ?? '') == 'laki-laki' ? 'checked' : '' }}>
                                 <span>Laki-Laki</span>
                             </label>
+
                             <label class="flex items-center gap-2">
                                 <input type="radio" name="gender" value="perempuan"
                                     class="accent-orange-500 border-2 border-orange-500"
@@ -205,102 +252,136 @@
                         </div>
                     </div>
 
+                    <!-- Tanggal Lahir -->
                     <div>
-                        <label class="block text-sm font-medium mb-1">Tanggal Lahir</label>
-                        <input type="date" name="tanggal_lahir" class="w-full border rounded-md px-3 py-2">
+                        <label class="block text-sm font-medium mb-1 break-words">Tanggal Lahir</label>
+                        <input type="date" name="tanggal_lahir"
+                            class="w-full border rounded-md px-3 py-2 break-words">
                     </div>
 
+                    <!-- Deskripsi -->
                     <div>
-                        <label class="block text-sm font-medium mb-1">Deskripsi</label>
-                        <textarea name="deskripsi_diri" class="w-full border rounded-md px-3 py-2" rows="2"></textarea>
+                        <label class="block text-sm font-medium mb-1 break-words">Deskripsi</label>
+                        <textarea name="deskripsi_diri" class="w-full border rounded-md px-3 py-2 break-words" rows="2"></textarea>
                     </div>
 
-                    <h3 class="font-semibold text-gray-700 mt-4">Kontak</h3>
-                    <div class="grid grid-cols-2 gap-4">
+                    <h3 class="font-semibold text-gray-700 mt-4 break-words">Kontak</h3>
+
+                    <!-- Telepon -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium mb-1">No. Telepon Pelamar</label>
-                            <input type="text" name="telepon_pelamar" class="w-full border rounded-md px-3 py-2">
+                            <label class="block text-sm font-medium mb-1 break-words">No. Telepon Pelamar</label>
+                            <input type="text" name="telepon_pelamar"
+                                class="w-full border rounded-md px-3 py-2 break-words">
                         </div>
                     </div>
+
+                    <!-- Ekspektasi Gaji -->
                     <div>
-                        <label class="text-lg font-medium">Ekspektasi Gaji</label>
-                        {{-- <div class="w-30 h-1 bg-orange-500 mt-3"></div><br> --}}
-                        <div class="flex items-center gap-2 mt-1">
-                            <div class="border border-black rounded-md px-4 py-2 text-orange-500 w-29">
+                        <label class="text-lg font-medium break-words">Ekspektasi Gaji</label>
+
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 mt-2">
+
+                            <div
+                                class="flex items-center gap-2 border border-black rounded-md px-3 py-2 w-full sm:w-auto break-words">
                                 <span class="text-orange-500">Rp.</span>
-                                <input type="number" placeholder="" name="gaji_minimal"
+                                <input type="number" name="gaji_minimal" class="w-full sm:w-28 focus:outline-none"
                                     value="{{ Auth::user()->pelamar->gaji_minimal ?? '' }}">
                             </div>
-                            <span>-</span>
-                            <div class="border border-black rounded-md px-4 py-2 w-29">
+
+                            <span class="hidden sm:block">-</span>
+
+                            <div
+                                class="flex items-center gap-2 border border-black rounded-md px-3 py-2 w-full sm:w-auto break-words">
                                 <span>Rp.</span>
-                                <input type="number" placeholder="" name="gaji_maksimal"
+                                <input type="number" name="gaji_maksimal" class="w-full sm:w-28 focus:outline-none"
                                     value="{{ Auth::user()->pelamar->gaji_maksimal ?? '' }}">
                             </div>
+
                         </div>
                     </div>
+
                 </div>
+
 
                 <!-- ================= FORM PERUSAHAAN ================= -->
-                <div id="form-perusahaan" class="hidden space-y-4">
-                    <h3 class="font-semibold text-gray-700 mt-4">Data Perusahaan</h3>
+                <div id="form-perusahaan" class="hidden space-y-4 w-full max-w-full overflow-hidden">
+
+                    <h3 class="font-semibold text-gray-700 mt-4 break-words">Data Perusahaan</h3>
 
                     <div>
-                        <label class="block text-sm font-medium mb-1">Nama Perusahaan</label>
-                        <input type="text" name="nama_perusahaan" class="w-full border rounded-md px-3 py-2">
+                        <label class="block text-sm font-medium mb-1 break-words">Nama Perusahaan</label>
+                        <input type="text" name="nama_perusahaan"
+                            class="w-full border rounded-md px-3 py-2 break-words">
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium mb-1">Jenis Perusahaan</label>
-                        <input type="text" name="jenis_perusahaan" class="w-full border rounded-md px-3 py-2">
+                        <label class="block text-sm font-medium mb-1 break-words">Jenis Perusahaan</label>
+                        <input type="text" name="jenis_perusahaan"
+                            class="w-full border rounded-md px-3 py-2 break-words">
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium mb-1">Legalitas</label>
-                        <input type="text" name="legalitas" class="w-full border rounded-md px-3 py-2">
+                        <label class="block text-sm font-medium mb-1 break-words">Legalitas</label>
+                        <input type="text" name="legalitas" class="w-full border rounded-md px-3 py-2 break-words">
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium mb-1">Website</label>
-                        <input type="text" name="website_perusahaan" class="w-full border rounded-md px-3 py-2">
+                        <label class="block text-sm font-medium mb-1 break-words">Website</label>
+                        <input type="text" name="website_perusahaan"
+                            class="w-full border rounded-md px-3 py-2 break-words">
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium mb-1">Deskripsi</label>
-                        <textarea name="deskripsi" class="w-full border rounded-md px-3 py-2" rows="2"></textarea>
+                        <label class="block text-sm font-medium mb-1 break-words">Deskripsi</label>
+                        <textarea name="deskripsi" class="w-full border rounded-md px-3 py-2 break-words" rows="2"></textarea>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium mb-1">Visi</label>
-                        <textarea name="visi" class="w-full border rounded-md px-3 py-2" rows="2"></textarea>
+                        <label class="block text-sm font-medium mb-1 break-words">Visi</label>
+                        <textarea name="visi" class="w-full border rounded-md px-3 py-2 break-words" rows="2"></textarea>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium mb-1">Misi</label>
-                        <textarea name="misi" class="w-full border rounded-md px-3 py-2" rows="2"></textarea>
+                        <label class="block text-sm font-medium mb-1 break-words">Misi</label>
+                        <textarea name="misi" class="w-full border rounded-md px-3 py-2 break-words" rows="2"></textarea>
                     </div>
 
-                    <h3 class="font-semibold text-gray-700 mt-4">Kontak</h3>
+                    <h3 class="font-semibold text-gray-700 mt-4 break-words">Kontak</h3>
 
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium mb-1">No. Telepon Perusahaan</label>
-                            <input type="text" name="telepon_perusahaan" class="w-full border rounded-md px-3 py-2">
+                            <label class="block text-sm font-medium mb-1 break-words">No. Telepon Perusahaan</label>
+                            <input type="text" name="telepon_perusahaan"
+                                class="w-full border rounded-md px-3 py-2 break-words">
                         </div>
+
                         <div>
-                            <label class="block text-sm font-medium mb-1">No. Whatsapp</label>
-                            <input type="text" name="whatsapp" class="w-full border rounded-md px-3 py-2">
+                            <label class="block text-sm font-medium mb-1 break-words">No. Whatsapp</label>
+                            <input type="text" name="whatsapp" class="w-full border rounded-md px-3 py-2 break-words">
                         </div>
                     </div>
+
                 </div>
+
 
                 <!-- Tombol -->
-                <div class="flex justify-center gap-4 mt-6">
+                <div class="flex flex-col sm:flex-row justify-center gap-4 mt-6 w-full">
+
                     <button type="submit"
-                        class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md">Simpan</button>
+                        class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md 
+               w-full sm:w-auto text-center break-words">
+                        Simpan
+                    </button>
+
                     <a href="{{ route('superadmin.add.user') }}"
-                        class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-md">Batal</a>
+                        class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-md 
+               w-full sm:w-auto text-center break-words">
+                        Batal
+                    </a>
+
                 </div>
+
             </form>
         </div>
         @include('super_admin.notif.modal_notif')

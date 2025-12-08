@@ -1,7 +1,7 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
-    <main class="flex-1 p-6 sm:ml-64 bg-white overflow-x-auto" x-data="{ openNotif: false, openAllNotif: false }">
-        <div class="flex justify-between items-center mb-6">
+    <main class="flex-1 p-4 sm:p-6 sm:ml-64 bg-white overflow-x-auto" x-data="{ openNotif: false, openAllNotif: false }">
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
             <h1 class="text-2xl font-medium">
                 @if ($kategori === 'non_kandidat')
                     Edit Non Kandidat
@@ -13,7 +13,8 @@
                     Edit Data
                 @endif
             </h1>
-            <div class="flex items-center gap-3">
+           <div class="flex items-center gap-3 flex-wrap">
+
                 {{-- Tombol Notifikasi --}}
                 <button @click="openNotif = true" class="relative">
                     <!-- Icon Lonceng -->
@@ -72,7 +73,8 @@
             </div>
         </div>
 
-        <div class="max-w-6xl mx-auto p-6 bg-white border-2 border-gray-400 rounded-2xl shadow-md">
+       <div class="w-full max-w-6xl mx-auto p-4 sm:p-6 bg-white border-2 border-gray-400 rounded-2xl shadow-md form-container">
+
             <h2 class="text-lg font-semibold mb-10">
                 @if ($kategori === 'non_kandidat')
                     Tambahkan Non Kandidat
@@ -103,10 +105,10 @@
 
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-10">
-                    <div class="flex items-center gap-2">
+                   <div class="flex flex-col sm:flex-row sm:items-center gap-4">
                         <div>
                             <div>
-                                <img id="pp" class="w-40 h-40 object-cover rounded-full border border-gray-300"
+                                <img id="pp" class="profile-img-big object-cover rounded-full border border-gray-300"
                                     src="{{ $pelamar && $pelamar->img_profile
                                         ? asset('storage/' . $pelamar->img_profile)
                                         : 'https://ui-avatars.com/api/?name=' .
@@ -227,7 +229,8 @@
                 <!-- Alamat -->
                 @if (isset($pelamar) && $pelamar->alamat_pelamar->count() > 0)
                     <label class="text-md font-medium">Alamat</label>
-                    <div class="flex justify-between">
+                   <div class="flex flex-col sm:flex-row sm:justify-between gap-4">
+
                         <div class="p-4 w-full bg-gray-100 rounded-lg">
                             @foreach ($pelamar->alamat_pelamar ?? [] as $almt)
                                 <div class="mb-6 border-b border-gray-200 pb-3">
@@ -284,7 +287,8 @@
                     <!-- Pendidikan -->
                     @if (isset($pelamar) && $pelamar->riwayat_pendidikan->count() > 0)
                         <label class="text-md font-medium">Pendidikan</label>
-                        <div class="flex justify-between mt-2">
+                        <div class="flex flex-col sm:flex-row sm:justify-between gap-4">
+
                             <div class="p-4 w-full bg-gray-100 rounded-lg">
                                 @foreach ($pelamar->riwayat_pendidikan ?? [] as $pend)
                                     <div class="mb-6">

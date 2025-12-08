@@ -1,7 +1,8 @@
 @extends('super_admin.sidebar.index')
 @section('sidebarsuperadmin')
     <main class="flex-1 p-6 sm:ml-64 bg-white overflow-y-auto" x-data="{ openNotif: false, openAllNotif: false }">
-        <div class="flex justify-between items-center mb-6">
+     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6"> 
+        <!-- 🔧 UPDATED -->
             <h1 class="text-2xl font-medium">Detail Non Kandidat</h1>
             <div class="flex items-center gap-3">
                 {{-- Tombol Notifikasi --}}
@@ -28,7 +29,7 @@
                     @endif
                 </button>
 
-                <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl">
+                <div class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl flex-shrink-0 w-full sm:w-auto">
                     <a href="{{ route('superadmin.profile') }}">
                         @if (Auth::user()->role == 'super_admin')
                             @if (Auth::user()->superadmin?->img_profile)
@@ -61,13 +62,14 @@
         </div>
 
         <!-- Konten utama -->
-        <div class="max-w-6xl mx-auto bg-white rounded-xl shadow-md p-6 relative">
+        <div class="max-w-6xl mx-auto bg-white rounded-xl border shadow-md p-6 relative">
             <div class="max-w-3xl mx-auto">
                 <!-- Tombol close -->
                 <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
 
                 <!-- Header -->
-                <div class="flex items-center gap-4 mb-8">
+               <div class="flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-8"> 
+
                     @if ($data->img_profile)
                         <img id="pp" class="w-32 h-32 object-cover rounded-full"
                             src="{{ asset('storage/' . $data->img_profile) }}" alt="Profile">
@@ -86,7 +88,8 @@
                 </div>
 
                 <!-- Grid data kandidat -->
-                <div class="grid grid-cols-2 gap-6 text-sm">
+               <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm"> 
+
                     <!-- Kolom Kiri -->
                     @if ($data->sosmed)
                         <div>
@@ -129,7 +132,8 @@
                 </div>
 
                 <!-- Organisasi -->
-                <div class="mt-4 text-sm">
+                <div class="mt-6 text-sm space-y-4"> 
+
                     <h3 class="font-medium mb-2">Organisasi</h3>
                     @forelse ($data->pengalaman_organisasi as $org)
                         <div class="mb-4">

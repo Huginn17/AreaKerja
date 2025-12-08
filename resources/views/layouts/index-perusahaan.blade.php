@@ -236,13 +236,13 @@
     @endif
 </head>
 
-<body x-data="{ openNotif: false, openAllNotif: false, openMenu: false, openTabletMenu: false }">
+<body x-data="{ openNotif: false, openAllNotif: false, openMenu: false }">
     {{-- navbar --}}
     <header class="bg-white border-b py-2 border-gray-300 fixed top-0 left-0 w-full z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
 
-            <!-- HAMBURGER UNTUK TABLET -->
-            <button @click="openTabletMenu = !openTabletMenu" class="hidden md:flex lg:hidden">
+            <!-- HAMBURGER UNTUK TABLET DAN MOBILE -->
+            <button @click="openMenu = !openMenu" class="flex xl:hidden">
                 <!-- ikon hamburger -->
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-8 h-8 text-gray-700">
@@ -251,55 +251,10 @@
                 </svg>
             </button>
 
-            <!-- MENU TABLET (md only) -->
-            <div x-show="openTabletMenu" x-transition x-cloak
-                class="hidden md:flex absolute top-16 left-0 w-full bg-white border-t border-gray-200 flex-col py-4 shadow-lg z-40">
-
-                <div class="flex items-center gap-2 px-6 pb-3 pt-4">
-                    <img src="{{ asset('images/logoarea.png') }}" class="h-9" alt="">
-                    <span class="font-semibold text-orange-600">areakerja.com</span>
-                </div>
-
-                <a href="{{ route('perusahaan.dashboard') }}"
-                    class="px-6 py-3 text-gray-700 hover:bg-gray-100 hover:text-orange-500  transition duration-300">
-                    Beranda
-                </a>
-                <a href="{{ route('perusahaan.berlangganan') }}"
-                    class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500 transition duration-300 text-gray-700">
-                    Berlangganan
-                </a>
-                <a href="{{ route('talent-hunter.index') }}"
-                    class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500 transition duration-300 text-gray-700">
-                    Talent Hunter
-                </a>
-                <a href="{{ route('perusahaan.kandidat.ak') }}"
-                    class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500 transition duration-300 text-gray-700">
-                    Kandidat
-                </a>
-                <a href="{{ route('paket.form') }}"
-                    class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500 transition duration-300 text-gray-700">
-                    Pasang Lowongan
-                </a>
-                <a href="{{ route('perusahaan.event.index') }}"
-                    class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500 transition duration-300 text-gray-700">
-                    Event
-                </a>
-            </div>
-
-            <!-- Tombol hamburger -->
-            <button @click="openMenu = !openMenu" class="md:hidden focus:outline-none">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-8 h-8 text-gray-700">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                </svg>
-            </button>
-
-
-            <!-- MENU MOBILE -->
-             
+            <!-- MENU TABLET DAN MOBILE -->
             <div x-show="openMenu" x-transition x-cloak
-                class="md:hidden absolute top-16 left-0 w-full bg-white border-t border-gray-200 flex flex-col py-4 shadow-lg z-40">
+               class="flex flex-col absolute top-16 left-0 w-full bg-white border-t border-gray-200 py-4 shadow-lg z-40 xl:hidden">
+
 
                 <div class="flex items-center gap-2 px-6 pb-3 pt-4">
                     <img src="{{ asset('images/logoarea.png') }}" class="h-9" alt="">
@@ -311,26 +266,27 @@
                     Beranda
                 </a>
                 <a href="{{ route('perusahaan.berlangganan') }}"
-                    class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500  transition duration-300 text-gray-700">
+                    class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500 transition duration-300 text-gray-700">
                     Berlangganan
                 </a>
                 <a href="{{ route('talent-hunter.index') }}"
-                    class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500  transition duration-300 text-gray-700">
+                    class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500 transition duration-300 text-gray-700">
                     Talent Hunter
                 </a>
                 <a href="{{ route('perusahaan.kandidat.ak') }}"
-                    class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500  transition duration-300 text-gray-700">
+                    class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500 transition duration-300 text-gray-700">
                     Kandidat
                 </a>
                 <a href="{{ route('paket.form') }}"
-                    class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500  transition duration-300 text-gray-700">
+                    class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500 transition duration-300 text-gray-700">
                     Pasang Lowongan
                 </a>
                 <a href="{{ route('perusahaan.event.index') }}"
-                    class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500  transition duration-300 text-gray-700">
+                    class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500 transition duration-300 text-gray-700">
                     Event
                 </a>
             </div>
+
 
             {{-- logo --}}
             <div class="hidden xl:flex items-center gap-2"">

@@ -3,7 +3,7 @@
     <main class="flex-1 p-6 sm:ml-64 bg-white overflow-y-auto">
         {{-- Paket Harga Koin --}}
         <div class="mb-10">
-            <div class="flex justify-between items-center mb-4">
+            <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
                 <h2 class="text-xl font-semibold text-gray-700">Paket Harga Koin</h2>
             </div>
 
@@ -11,26 +11,26 @@
                 @csrf
                 @method('PUT')
 
-                <div class="overflow-hidden border-2 border-gray-400 rounded-2xl shadow-sm">
-                    <table class="w-full border-collapse">
+                <div class="overflow-x-auto border-2 border-gray-400 rounded-2xl shadow-sm">
+                    <table class="w-full min-w-[500px] border-collapse">
                         <thead>
                             <tr class="bg-orange-500 text-white">
-                                <th class="px-6 py-3 text-left font-semibold text-lg">Nama</th>
-                                <th class="px-6 py-3 text-right font-semibold text-lg">Koin</th>
+                                <th class="px-6 py-3 text-left font-semibold text-lg whitespace-nowrap">Nama</th>
+                                <th class="px-6 py-3 text-right font-semibold text-lg whitespace-nowrap">Koin</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-400">
                             @foreach ($koin as $k)
                                 <tr class="hover:bg-gray-50">
-                                    <td class="py-3 px-6 text-gray-700">{{ $k->nama }}</td>
+                                    <td class="py-3 px-6 text-gray-700 break-words">{{ $k->nama }}</td>
                                     <td class="py-3 px-6 text-right">
                                         <div
-                                            class="inline-flex items-center bg-gray-100 px-3 py-1 rounded-lg border border-gray-300">
+                                            class="inline-flex items-center bg-gray-100 px-3 py-1 rounded-lg border border-gray-300 flex-wrap gap-1">
                                             <input type="hidden" name="id[]" value="{{ $k->id }}">
                                             <input type="number" name="harga[]"
                                                 class="bg-transparent w-20 text-center outline-none text-gray-800 font-medium"
                                                 value="{{ $k->harga }}">
-                                            <span class="ml-2 text-sm text-gray-600">Koin</span>
+                                            <span class="text-sm text-gray-600 whitespace-nowrap">Koin</span>
                                         </div>
                                     </td>
                                 </tr>

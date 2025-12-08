@@ -720,20 +720,6 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
 
 
 /**---------------------------------------- PERUSAHAAN PREFIX -------------------------------------*/
-Route::prefix('perusahaan')->middleware('guest')->group(function () {
-
-    //VERFIKASI PASSWORD
-    Route::get('/verifikasi', [LupaPasswordController::class, 'showEmailForm_perusahaan'])->name('verifikasi_perusahaan');
-    Route::post('/verifikasi', [LupaPasswordController::class, 'sendOtp_perusahaan'])->name('password.email.perusahaan');
-
-    Route::get('/verifikasi/otp/{token}', [LupaPasswordController::class, 'showOtpForm_perusahaan'])->name('password.otp.form.perusahaan');
-    Route::post('/verifikasi/otp', [LupaPasswordController::class, 'verifyOtp_perusahaan'])->name('password.otp.verif.perusahaan');
-
-    Route::get('/reset-password/{token}', [LupaPasswordController::class, 'showResetForm_perusahaan'])->name('password.reset.form.perusahaan');
-    Route::post('/reset-password', [LupaPasswordController::class, 'resetPassword_perusahaan'])->name('password.update.perusahaan');
-});
-
-
 Route::controller(LowonganPerusahaanController::class)->group(function () {
     //lowongan
     Route::get(

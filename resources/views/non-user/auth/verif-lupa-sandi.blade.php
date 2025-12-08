@@ -17,9 +17,10 @@
 </head>
 
 <body class="bg-gray-100">
-    <div class="flex min-h-screen">
+    <div class="flex min-h-screen w-screen overflow-x-hidden">
+
         <!-- Background kiri -->
-        <section class="relative h-screen w-2/4 hidden md:block">
+        <section class="relative lg:h-auto w-2/4 hidden lg:block">
             <img src="{{ asset('images/gambar2.jpg') }}" alt="Background"
                 class="absolute inset-0 w-full h-full object-cover">
             <div class="absolute inset-0 bg-black bg-opacity-50"></div>
@@ -36,9 +37,9 @@
         </section>
 
         <!-- Form Reset Password -->
-        <div class="flex w-full md:w-4/5 bg-white items-center justify-center">
+        <div class="flex w-full lg:w-4/5 bg-white items-center justify-center">
             <div class="w-full max-w-md px-6 py-10">
-                <h2 class="text-2xl font-bold text-orange-600 mb-2">Lupa Kata Sandi</h2>
+                <h2 class="text-2xl font-semibold text-orange-600 mb-2">Lupa Kata Sandi</h2>
                 <p class="text-gray-600 text-sm mb-6">Masukkan kata sandi baru.<br>Kata sandi harus mengandung:</p>
 
                 <!-- Syarat Password -->
@@ -69,14 +70,14 @@
 
                     <!-- Password Baru -->
                     <div>
-                        <label class="block text-sm font-medium">Kata Sandi Baru</label>
+                        <label class="block text-sm font-medium mb-1">Kata Sandi Baru</label>
                         <input type="password" id="password" name="password" placeholder="Kata Sandi"
                             class="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-orange-500" required>
                     </div>
 
                     <!-- Konfirmasi Password -->
                     <div>
-                        <label class="block text-sm font-medium">Konfirmasi Kata Sandi</label>
+                        <label class="block text-sm font-medium mb-1">Konfirmasi Kata Sandi</label>
                         <input type="password" id="password_confirmation" name="password_confirmation"
                             placeholder="Kata Sandi"
                             class="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-orange-500" required>

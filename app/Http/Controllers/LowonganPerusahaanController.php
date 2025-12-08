@@ -159,7 +159,7 @@ class LowonganPerusahaanController extends Controller
         $lowongan->update($valid);
         return redirect()->route('lowongan.detail', [
             'perusahaan' => $lowongan->perusahaan->slug,
-            'lowongan'   => $lowongan->slug,    
+            'lowongan'   => $lowongan->slug,
         ])->with('success', 'Lowongan berhasil diperbarui.');
     }
 
@@ -443,7 +443,10 @@ class LowonganPerusahaanController extends Controller
             $valid['slug'] = Str::slug($request->nama . '-' . time());
         }
         $lowongan->update($valid);
-        return redirect()->route('superadmin.lowongan.detail', $lowongan->id)->with('success', 'Lowongan berhasil diperbarui.');
+        return redirect()->route('superadmin.lowongan.detail', [
+            'perusahaan' => $lowongan->perusahaan->slug ?? $lowongan->perusahaan_id,
+            'lowongan'   => $lowongan->id
+        ])->with('success', 'Lowongan berhasil diperbarui.');
     }
 
 

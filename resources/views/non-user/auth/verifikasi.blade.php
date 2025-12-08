@@ -19,10 +19,11 @@
 </head>
 
 <body class="bg-gray-100">
-    <div class="flex min-h-screen">
+    <div class="flex min-h-screen w-screen overflow-x-hidden">
+
 
         <!-- Background -->
-        <section class="relative h-screen w-2/4">
+        <section class="relative w-2/4 lg:h-auto hidden lg:block">
             <img src="{{ asset('images/gambar2.jpg') }}" alt="Background"
                 class="absolute inset-0 w-full h-full object-cover">
 
@@ -33,7 +34,7 @@
                 <p class="text-sm mb-10">untuk tetap terhubung dengan kami, silakan<br> masuk dengan informasi pribadi
                     Anda</p>
 
-                <a href="#"
+                <a href="{{ url('/login') }}"
                     class="px-20 py-3 border border-white rounded-full hover:bg-white hover:text-black transition">
                     Masuk
                 </a>
@@ -41,16 +42,16 @@
         </section>
 
         <!-- Kanan -->
-        <div class="flex w-full md:w-4/2 bg-white items-center justify-center">
+        <div class="flex w-full lg:w-4/2 bg-white items-center justify-center">
             <div class="w-full max-w-md p-8">
-                <h2 class="text-2xl font-bold text-center text-orange-600 mb-8">Verifikasi Akun</h2>
+                <h2 class="text-2xl font-semibold text-center text-orange-600 mb-8">Verifikasi Akun</h2>
 
                 <p class="text-center text-gray-500 mb-6 mt-6 text-sm">kata sandi Anda akan diatur ulang melalui email
                 </p>
 
                 <form action="{{ route('password.email.pelamar') }}" method="POST" class="space-y-4">
                     @csrf
-                    <div>
+                    <div class="space-y-3">
                         <label for="email" class="block text-sm font-medium text-gray-700">E-mail</label>
                         <input type="email" id="email" name="email" placeholder="Email"
                             value="{{ old('email') }}"
@@ -59,16 +60,15 @@
                         @error('email')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
-                    </div>
-
-                    <div class="flex justify-center">
+                    
                         <button type="submit"
-                            class="bg-orange-500 text-white px-40 py-3 rounded text-sm hover:bg-orange-600 transition">
+                             class="mt-2 block w-full border border-orange-500 bg-orange-500 text-white hover:bg-orange-600 rounded-lg p-2.5 transition duration-300" />
                             Lanjutkan
                         </button>
-                    </div>
+                    
 
                     <a href="{{ route('login') }}" class="flex justify-center text-sm text-orange-500">Kembali</a>
+                    </div>
                 </form>
             </div>
         </div>
