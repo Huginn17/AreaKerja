@@ -194,10 +194,10 @@
                     </label>
                     <input type="text" name="telepon_pelamar" value="{{ $pelamar->telepon_pelamar ?? '' }}"
                         class="w-full mt-1 border-2 border-gray-400 shadow rounded-lg px-3 py-2 truncate"
-                        placeholder="No Telepon" />
+                        placeholder="08xxxxxxx" />
                 </div>
 
-
+              
                 <!-- Gender -->
                 <div class="mt-2">
                     <label class="block text-md font-medium mb-1">Gender <span class="text-red-500">*</span></label>
@@ -246,18 +246,19 @@
                     class="mt-4 {{ in_array($kategori, ['calon_kandidat', 'kandidat']) ? '' : 'hidden' }}">
                     <label class="block text-md font-medium mb-1">Bidang yang Diminati <span
                             class="text-red-500">*</span></label>
-                    <div class="overflow-x-auto">
-                        <select id="divisi" name="divisi[]" multiple
-                            class="w-full min-w-[200px] border-2 border-gray-400 shadow rounded-lg px-3 py-2 text-sm sm:text-base">
-                            @foreach ($divisis as $divisi)
-                                <option value="{{ $divisi->divisi }}"
-                                    {{ in_array($divisi->divisi, $selectedDivisi) ? 'selected' : '' }}>
-                                    {{ $divisi->divisi }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
+                    <select id="divisi" name="divisi[]" multiple
+                        class="w-full min-w-[200px] border-2 border-gray-400 shadow rounded-lg px-3 py-2 text-sm sm:text-base">
+                        @foreach ($divisis as $divisi)
+                            <option value="{{ $divisi->divisi }}"
+                                {{ in_array($divisi->divisi, $selectedDivisi) ? 'selected' : '' }}>
+                                {{ $divisi->divisi }}
+                            </option>
+                        @endforeach
+                    </select>
+
                 </div>
+
+                {{-- {{ dd($kategori) }} --}}
 
 
                 <!-- Alamat -->

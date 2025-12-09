@@ -112,17 +112,7 @@
             </div>
             <br>
 
-
-            <!-- <div class="flex justify-between w-[1025px] my-5">
-                                                                            <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
-                                                                                Data Diri
-                                                                            </div>
-                                                                            <div class="w-2/5 border-b-4 border-orange-400 pb-1 font-semibold">
-                                                                                Informasi Akun
-                                                                            </div>
-                                                                        </div> -->
-
-
+            
             <!-- Grid: Dua Kolom -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Kolom Kiri -->
@@ -448,11 +438,10 @@
                             <a href="{{ route('email.ubah') }}" class="mt-1 text-orange-500 cursor-pointer">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5"
                                     viewBox="0 0 24 24">
-                                    <path
-                                        d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
-                                                                                                                                                            7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
-                                                                                                                                                          1.003 0 0 0-1.42 0l-1.83 1.83 3.75
-                                                                                                                                                        3.75 1.84-1.82z" />
+                                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
+                                            7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
+                                           1.003 0 0 0-1.42 0l-1.83 1.83 3.75
+                                           3.75 1.84-1.82z" />
                                 </svg>
                             </a>
                         </div>
@@ -466,16 +455,14 @@
                                 class="w-full mt-1 border rounded-md px-3 py-2 text-sm focus:outline-none">
 
                             <!-- Icon di luar border -->
-                            <span class="mt-1 text-orange-500 cursor-pointer">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5"
-                                    viewBox="0 0 24 24">
+                            <button data-modal-target="gantipwmodal" data-modal-toggle="gantipwmodal" type="button">
+                                <svg width="18" height="16" viewBox="0 0 10 11" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
                                     <path
-                                        d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
-                                                                                                                                                                                                                                                                                                                                                   7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
-                                                                                                                                                                                                                                                                                                                                                   1.003 0 0 0-1.42 0l-1.83 1.83 3.75
-                                                                                                                                                                                                                                                                                                                                                   3.75 1.84-1.82z" />
+                                        d="M9.83752 2.87443C10.0542 2.65779 10.0542 2.29673 9.83752 2.0912L8.5377 0.791384C8.33218 0.574747 7.97112 0.574747 7.75448 0.791384L6.7324 1.80791L8.81544 3.89095M0 8.54586V10.6289H2.08304L8.22664 4.47976L6.14359 2.39672L0 8.54586Z"
+                                        fill="#FA6601" />
                                 </svg>
-                            </span>
+                            </button>
                         </div>
 
                     </div>
@@ -542,6 +529,7 @@
     @include('non-user.profile.skill.modal-show')
     @include('non-user.profile.kerja.modal-show')
     @include('non-user.profile.pendidikan.modal-show')
+    @include('non-user.components.gantipw')
     <script>
         document.getElementById('fileinput').addEventListener('change', function(e) {
             const file = e.target.files[0];

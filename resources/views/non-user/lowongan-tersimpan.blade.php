@@ -7,11 +7,12 @@
         @endphp
 
         <img src="{{ $header && $header->link ? asset('storage/' . $header->link) : asset('images/tersimpan.jpg') }}"
-            alt="Header Image" class="w-screen h-60 md:h-[600px] object-cover">
+            alt="Header Image" class="w-full h-[400px] sm:h-[500px] md:h-[600px] object-cover">
 
-        <div
-            class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center px-6 md:px-10 text-center md:text-left">
-            <h1 class="text-white text-2xl md:text-4xl font-bold">Lowongan Tersimpan</h1>
+        <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+
+         <div class="absolute left-5 sm:left-10 md:left-20 bottom-20 sm:bottom-32 md:bottom-52 text-white max-w-xs sm:max-w-md md:max-w-2xl">
+            <h1 class="text-xl md:text-3xl lg:text-4xl font-semibold mt-3 max-w-xs md:max-w-2xl">Lowongan Tersimpan</h1>
             <p class="text-white text-sm md:text-lg mt-2">
                 Lowongan anda yang sudah tersimpan <br class="hidden md:block"> disistem areakerja.com
             </p>

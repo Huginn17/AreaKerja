@@ -17,6 +17,7 @@
     </style>
 </head>
 
+
 <body class="bg-gray-100">
     <div class="flex min-h-screen w-screen overflow-x-hidden">
         <!-- Background dengan overlay -->
@@ -52,7 +53,7 @@
 
                 <p class="mb-6 leading-relaxed mt-4">
                     Kode verifikasi telah dikirim ke email
-                    <span class="font-semibold">emailpengguna@gmail.com</span>.
+                    <span class="font-semibold">{{ $email }}</span>.
                 </p>
 
                 <!-- FORM OTP -->
@@ -63,13 +64,13 @@
 
                     <div class="flex justify-center gap-3 mb-6">
                         @for ($i = 1; $i <= 6; $i++)
-                            <input type="text" maxlength="1" name="otp"
-                                class="w-12 h-12 text-center border-b-4 border-black text-lg focus:outline-none otp-input rounded-sm">
+                            <input type="text" maxlength="1"
+                                class="otp-input w-12 h-12 text-center border-b-4 border-black text-lg focus:outline-none rounded-sm">
                         @endfor
                     </div>
 
                     <!-- Hidden input untuk gabung semua OTP -->
-                    <input type="hidden" name="otp" id="otp_code">
+                    <input type="hidden" name="otp" id="otp">
                     <input type="hidden" name="email" value="{{ $email }}">
                     <input type="hidden" name="token" value="{{ $token }}">
 
@@ -98,80 +99,141 @@
 
     </div>
 
+
     <script>
         const inputs = document.querySelectorAll('.otp-input');
+        const otpHidden = document.getElementById('otp');
+
         inputs.forEach((input, index) => {
             input.addEventListener('input', () => {
-                if (input.value && index < inputs.length - 1) {
+                if (input.value.length === 1 && index < inputs.length - 1) {
                     inputs[index + 1].focus();
                 }
+
+                // gabungkan angka ke hidden
+                let otpValue = '';
+                inputs.forEach(i => otpValue += i.value);
+                otpHidden.value = otpValue;
             });
         });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
 
-        document.getElementById('otpForm').addEventListener('submit', function(e) {
-            let otp = '';
-            document.querySelectorAll('.otp-input').forEach(input => otp += input.value);
-            document.getElementById('otp_code').value = otp;
-        });
+            const inputs = document.querySelectorAll('.otp-input');
+            inputs.forEach((input, index) => {
+                input.addEventListener('input', () => {
+                    if (input.value && index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    }
+                });
+            });
+
+            document.getElementById('otpForm').addEventListener('submit', function(e) {
+                let otp = '';
+                document.querySelectorAll('.otp-input').forEach(input => otp += input.value);
+                document.getElementById('otp_code').value = otp;
+            });
 
 
-        const countdownEl = document.getElementById("countdown");
-        let timeLeft = 45;
-        let timer = null;
+            const countdownEl = document.getElementById("countdown");
+            let timeLeft = 45;
+            let timer = null;
 
-        function startCountdown() {
-            clearInterval(timer);
-            timeLeft = 45; // reset setiap kali countdown dimulai
-            countdownEl.classList.remove("text-blue-600", "cursor-pointer");
-            countdownEl.classList.add("text-orange-500");
-            countdownEl.style.pointerEvents = "none";
+            function startCountdown() {
+                clearInterval(timer);
+                timeLeft = 45;
+                countdownEl.textContent = "(00:45)";
+                countdownEl.classList.remove("text-blue-600", "cursor-pointer");
+                countdownEl.classList.add("text-orange-500");
+                countdownEl.style.pointerEvents = "none";
 
-            timer = setInterval(() => {
-                if (timeLeft <= 0) {
-                    clearInterval(timer);
-                    countdownEl.textContent = "Kirim Ulang";
-                    countdownEl.classList.remove("text-orange-500");
-                    countdownEl.classList.add("text-blue-600", "cursor-pointer");
-                    countdownEl.style.pointerEvents = "auto";
-                } else {
-                    let minutes = String(Math.floor(timeLeft / 60)).padStart(2, '0');
-                    let seconds = String(timeLeft % 60).padStart(2, '0');
-                    countdownEl.textContent = `(${minutes}:${seconds})`;
-                    timeLeft--;
-                }
-            }, 1000);
-        }
-
-        function resendOtp() {
-            fetch("{{ route('password.email.pelamar') }}", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                    },
-                    body: JSON.stringify({
-                        email: "{{ $email ?? '' }}"
-                    })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    alert(data.message);
-                    startCountdown(); // mulai lagi countdown baru
-                })
-                .catch(err => console.error(err));
-        }
-
-        countdownEl.addEventListener("click", () => {
-            if (countdownEl.textContent.trim() === "Kirim Ulang") {
-                resendOtp();
+                timer = setInterval(() => {
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        countdownEl.textContent = "Kirim Ulang";
+                        countdownEl.classList.remove("text-orange-500");
+                        countdownEl.classList.add("text-blue-600", "cursor-pointer");
+                        countdownEl.style.pointerEvents = "auto";
+                    } else {
+                        let minutes = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+                        let seconds = String(timeLeft % 60).padStart(2, '0');
+                        countdownEl.textContent = `(${minutes}:${seconds})`;
+                        timeLeft--;
+                    }
+                }, 1000);
             }
-        });
 
-        startCountdown();
+
+            function resendOtp() {
+
+                Swal.fire({
+                    title: "Mengirim OTP...",
+                    text: "Mohon tunggu sebentar",
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                fetch("{{ route('password.otp.resend.pelamar') }}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                        },
+                        body: JSON.stringify({
+                            email: "{{ $email ?? '' }}"
+                        })
+                    })
+                    .then(async res => {
+                        let data = await res.json();
+
+                        Swal.close();
+
+                        if (!res.ok) {
+                            return Swal.fire({
+                                icon: "error",
+                                title: "Gagal!",
+                                text: data.message,
+                            });
+                        }
+
+                        Swal.fire({
+                            icon: "success",
+                            title: "Berhasil!",
+                            text: data.message,
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+
+                        startCountdown();
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        Swal.close();
+                        Swal.fire({
+                            icon: "error",
+                            title: "Terjadi Kesalahan",
+                            text: "Silakan coba lagi.",
+                        });
+                    });
+            }
+
+
+            countdownEl.addEventListener("click", () => {
+                if (countdownEl.textContent.trim() === "Kirim Ulang") {
+                    resendOtp();
+                }
+            });
+
+            startCountdown();
+
+        });
     </script>
 
 
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

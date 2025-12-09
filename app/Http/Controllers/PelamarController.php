@@ -20,6 +20,7 @@ use App\Models\TipsKerja;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 class PelamarController extends Controller
@@ -434,7 +435,7 @@ class PelamarController extends Controller
     public function konfirmasi_hal(PelamarLowongan $pelamarlowongan)
     {
         return view('perusahaan.pelamar.terima-pelamar', [
-            "data" => $pelamarlowongan  
+            "data" => $pelamarlowongan
         ]);
     }
 
@@ -890,5 +891,69 @@ class PelamarController extends Controller
         return view('non-user.transaksi.transaksi-kosong', [
             'transaksi' => $transaksi
         ]);
+    }
+
+
+    //GANTI PW
+    public function updatePassword(Request $request)
+    {
+        // Validasi biasa
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|min:3',
+            'new_password_confirmation' => 'required'
+        ]);
+
+        $user = $request->user();
+
+        // ==== CEK PASSWORD BARU & KONFIRMASI ====
+        if ($request->new_password !== $request->new_password_confirmation) {
+
+            // Simpan notifikasi gagal
+            Notifikasi::create([
+                'user_id'    => $user->id,
+                'perusahaan_id' => null,
+                'judul'      => 'Gagal Mengubah Password',
+                'pesan'      => 'Password baru dan konfirmasi password tidak sama.',
+                'is_read'    => 0,
+                'expired_at' => now()->addDays(7),
+                'pelamar_lowongan_id' => null,
+            ]);
+
+            return back()->with('error', 'Password baru dan konfirmasi password tidak cocok.');
+        }
+
+        // ==== CEK PASSWORD LAMA ====
+        if (!Hash::check($request->old_password, $user->password)) {
+
+            Notifikasi::create([
+                'user_id'    => $user->id,
+                'perusahaan_id' => null,
+                'judul'      => 'Gagal Mengubah Password',
+                'pesan'      => 'Password gagal diubah karena password lama tidak sesuai.',
+                'is_read'    => 0,
+                'expired_at' => now()->addDays(7),
+                'pelamar_lowongan_id' => null,
+            ]);
+
+            return back()->with('error', 'Password lama salah.');
+        }
+
+        // ==== UPDATE PASSWORD ====
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        // Notifikasi berhasil
+        Notifikasi::create([
+            'user_id'    => $user->id,
+            'perusahaan_id' => null,
+            'judul'      => 'Password Berhasil Diubah',
+            'pesan'      => 'Password akun Anda berhasil diperbarui.',
+            'is_read'    => 0,
+            'expired_at' => now()->addDays(7),
+            'pelamar_lowongan_id' => null,
+        ]);
+
+        return back()->with('success', 'Password berhasil diubah.');
     }
 }

@@ -108,7 +108,7 @@
                    <div class="flex flex-col sm:flex-row sm:items-center gap-4">
                         <div>
                             <div>
-                                <img id="pp" class="profile-img-big object-cover rounded-full border border-gray-300"
+                                <img id="pp" class="w-28 h-28 object-cover rounded-full border border-gray-300"
                                     src="{{ $pelamar && $pelamar->img_profile
                                         ? asset('storage/' . $pelamar->img_profile)
                                         : 'https://ui-avatars.com/api/?name=' .

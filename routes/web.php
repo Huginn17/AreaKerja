@@ -96,7 +96,7 @@ Route::controller(AuthController::class)->group(function () {
 
 
 
-//VERFIKASI PASSWORD PELAMAR
+//VERFIKASI PASSWORD 
 Route::controller(LupaPasswordController::class)->group(function () {
     Route::get('/verifikasi', 'showEmailForm_pelamar')->name('verifikasi_pelamar');
     Route::post('/verifikasi', 'sendOtp')->name('password.email.pelamar');
@@ -105,7 +105,9 @@ Route::controller(LupaPasswordController::class)->group(function () {
     Route::post('/verifikasi/otp', 'verifyOtp')->name('password.otp.verif.pelamar');
 
     Route::get('/reset-password/{token}', 'showResetForm_pelamar')->name('password.reset.form.pelamar');
-    Route::post('/reset-password', 'resetPassword')->name('password.update.pelamar');
+    Route::post('/reset-password/{token}', 'resetPassword')->name('password.update.pelamar');
+
+    Route::post('/verifikasi/otp/resend', 'resendOtp')->name('password.otp.resend.pelamar');
 });
 
 
@@ -134,6 +136,9 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
     Route::controller(PelamarController::class)->group(function () {
         //beranda
         Route::get('/home', 'index')->name('beranda');
+
+        //ganti password
+        Route::post('/ganti-password', 'updatePassword')->name('pelamar.password.update');
 
         //riwayat pendidikan
         Route::post('/create/pendidikan', 'storependidikan')->name('pendidikan.store');

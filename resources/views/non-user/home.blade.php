@@ -1,7 +1,7 @@
 @extends('layouts.index')
 
 @section('content')
-    <section class="bg-white py-8 mt-20">
+    <section class="bg-white py-8 mt-24">
         <div class="max-w-5xl mx-auto px-4">
 
             {{-- Search Bar --}}
@@ -12,13 +12,11 @@
                     {{-- Search bar --}}
                     <form action="{{ route('lowongan.search') }}" method="GET">
                         <div
-                            class="flex flex-col md:flex-row items-center gap-3 md:gap-0 
-                       py-3 border border-gray-300 rounded-xl shadow-lg 
-                       px-4 md:px-6 w-full bg-white">
+                            class="flex flex-col md:flex-row items-center gap-3 md:gap-0 py-3 border border-gray-300 rounded-xl shadow-lg px-4 md:px-6 w-full bg-white">
 
                             {{-- ICON search --}}
                             <div class="flex items-center gap-2 w-full md:w-auto">
-                                <img src="{{ asset('images/search.png') }}" class="w-5 h-5 ml-[45px] opacity-70">
+                                <img src="{{ asset('images/search.png') }}" class="w-5 h-5 opacity-70">
                                 <input type="text" name="posisi" value="{{ request('posisi') }}"
                                     placeholder="Posisi lowongan, kata kunci..."
                                     class="flex-1 py-2 w-full border-none focus:ring-0 text-sm md:text-base">
@@ -29,7 +27,7 @@
 
                             {{-- ICON maps --}}
                             <div class="flex items-center gap-2 w-full md:w-auto">
-                                <img src="{{ asset('images/maps.png') }}" class="w-5 h-5 ml-[45px] opacity-70">
+                                <img src="{{ asset('images/maps.png') }}" class="w-5 h-5 opacity-70">
                                 <input type="text" name="lokasi" value="{{ request('lokasi') }}"
                                     placeholder="Kota, provinsi, kode pos..."
                                     class="flex-1 py-2 w-full border-none focus:ring-0 text-sm md:text-base">
@@ -38,17 +36,16 @@
                             {{-- Tombol --}}
                             <button type="submit"
                                 class="bg-orange-500 px-5 py-2.5 text-white text-sm md:text-base rounded-md 
-                           hover:bg-orange-600 mt-2 ml-[30px] md:mt-0 w-[200px] md:w-400px">
-                                Cari Lowongan
+                           hover:bg-orange-600 mt-2 md:mt-0 ml-auto md:w-400px">
+                                Cari Lowongan Kerja
                             </button>
 
                         </div>
                     </form>
-
                 </div>
             </div>
 
-            <div class="mt-6 text-center">
+            <div class="mt-8 text-center">
                 <p class="text-sm">
                     <span class="text-orange-500 font-semibold">Lamar Pekerjaan Kamu</span>
                     <span class="font-semibold text-gray-500">- Dengan waktu dan langkah cepat</span>
@@ -108,7 +105,6 @@
 
 
 
-
     <!-- Tabs -->
     <div x-data="{ tab: 'umpan' }">
         <div class="flex justify-center border-b">
@@ -156,7 +152,7 @@
                 @if (!empty($riwayat) && count($riwayat) > 0)
                     @foreach ($riwayat as $r)
                         <h2 class="font-bold text-lg mb-3">
-                            {{ $r['posisi'] ?: '-' }} <span class="font-medium"> - </span>
+                            {{ $r['posisi'] ?: 'Nama Lowongan' }} <span class="font-medium"> - </span>
                             {{ $r['lokasi'] ?: 'Lokasi apapun' }}
                         </h2>
 

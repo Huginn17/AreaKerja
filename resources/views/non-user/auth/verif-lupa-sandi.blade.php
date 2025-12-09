@@ -63,17 +63,21 @@
                 </div>
 
 
-                <form id="reset-passwordForm" action="{{ route('password.update.pelamar') }}" method="POST" class="space-y-4">
+                <form id="reset-passwordForm" action="{{ route('password.update.pelamar', ['token' => $token]) }}"
+                    method="POST" class="space-y-4">
                     @csrf
+
                     <input type="hidden" name="email" value="{{ $email }}">
                     <input type="hidden" name="token" value="{{ $token }}">
 
                     <!-- Password Baru -->
+
                     <div>
                         <label class="block text-sm font-medium mb-1">Kata Sandi Baru</label>
                         <input type="password" id="password" name="password" placeholder="Kata Sandi"
                             class="w-full border rounded-md px-4 py-2 focus:ring-2 focus:ring-orange-500" required>
                     </div>
+
 
                     <!-- Konfirmasi Password -->
                     <div>
@@ -114,13 +118,15 @@
                         </button>
 
                         <!-- Judul -->
-                        <h2 class="text-2xl font-bold mb-3">Selamat Akun anda berhasil dibuat <br>Silahkan masuk terlebih dahulu</h2>
-
+                        <h2 class="text-2xl font-bold mb-3">
+                            Password Anda Berhasil Diperbarui
+                        </h2>
 
                         <!-- Pesan -->
-                        {{-- <p class="text-gray-700 mb-8">
-                            setelah ini anda hanya perlu login <br>untuk terhubung dengan areakerja
-                        </p> --}}
+                        <p class="text-gray-700 mb-6">
+                            Kata sandi akun Anda telah berhasil diubah.
+                            Silakan masuk kembali untuk melanjutkan.
+                        </p>
 
                         <!-- Gambar ilustrasi -->
                         <div class="flex justify-center mb-6">
@@ -133,7 +139,6 @@
                                 class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg">
                                 Masuk
                             </button>
-
                         </div>
                     </div>
                 </div>
@@ -144,6 +149,8 @@
         </div>
     </div>
 
+
+    
     <!-- Script Validasi Password -->
     <script>
         const password = document.getElementById('password');
@@ -163,17 +170,21 @@
                 "text-red-500";
         });
     </script>
-     {{-- modal lupa pw --}}
+    {{-- modal lupa pw --}}
     <script>
         document.getElementById("reset-passwordForm").addEventListener("submit", async function(e) {
             e.preventDefault();
 
             let formData = new FormData(this);
 
-            let response = await fetch("{{ route('password.update.pelamar') }}", {
+            console.log("URL dikirim ke:", this.action); // cek apakah benar
+
+            let response = await fetch(this.action, {
                 method: "POST",
                 headers: {
-                    "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
+                    "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value,
+                    "Accept": "application/json",
+                    "X-Requested-With": "XMLHttpRequest"
                 },
                 body: formData
             });
@@ -183,17 +194,17 @@
             if (data.success) {
                 let modal = document.getElementById("successModal");
                 modal.classList.remove("hidden");
-                modal.classList.add("flex"); // ✅ bikin tampil
+                modal.classList.add("flex");
             } else {
                 alert("Terjadi kesalahan, coba lagi.");
             }
         });
 
-        // tombol "Masuk"
         document.getElementById("goLogin").addEventListener("click", function() {
             window.location.href = "{{ route('login') }}";
         });
     </script>
+
 </body>
 
 </html>

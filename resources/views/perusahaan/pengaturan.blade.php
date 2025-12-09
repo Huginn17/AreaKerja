@@ -1,6 +1,6 @@
 @extends('layouts.index-perusahaan')
 @section('content')
-   <div class="bg-white flex flex-col lg:flex-row items-start mb-36 mt-32 px-4 sm:px-8">
+    <div class="bg-white flex flex-col lg:flex-row items-start mb-36 mt-32 px-4 sm:px-8">
 
         <div class="w-full max-w-3xl px-8 pl-12 mb-12">
             <!-- Logo + Info Perusahaan -->
@@ -20,6 +20,8 @@
                     <p class="text-gray-500 text-sm">Jakarta Timur, DKI Jakarta, Indonesia</p>
                 </div>
             </div>
+
+          
 
             <!-- Pesan sukses / error -->
             @if (session('success'))

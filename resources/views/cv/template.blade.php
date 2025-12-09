@@ -105,10 +105,9 @@
                             <div class="font-bold text-orange-600 text-lg mb-2">ORGANISASI</div>
                             <div class="w-10 h-1 bg-orange-500 mb-4"></div>
                             @forelse ($data->pengalaman_organisasi as $org)
-                                <p class="mb-4 break-words">
+                                <p class="space-y-4">
                                     <b class="text-sm">Jabatan – {{ $org->jabatan }}</b>
-                                    <span
-                                        class="float-right"><b>({{ $org->tahun_awal }}–{{ $org->tahun_akhir }})</b></span><br>
+                                    <b>({{ $org->tahun_awal }}–{{ $org->tahun_akhir }})</b><br>
                                     <b class="text-sm">{{ $org->nama_organisasi }}</b>
                                 <h4 class="text-sm mt-1 break-words">{{ $org->deskripsi }}</h4>
                                 </p>
@@ -124,12 +123,11 @@
                         <section>
                             <div class="font-bold text-orange-600 text-lg mb-2">PENGALAMAN KERJA</div>
                             <div class="w-10 h-1 bg-orange-500 mb-4"></div>
-                            <div class="space-y-4 text-sm">
+                            <div class="space-y-4">
                                 @forelse ($data->pengalaman_kerja as $p)
                                     <p class="break-words">
                                         <b class="text-sm">Jabatan – {{ $p->jabatan_pekerjaan ?? '-' }}</b>
-                                        <span
-                                            class="float-right"><b>({{ $p->tahun_awal }}–{{ $p->tahun_akhir }})</b></span><br>
+                                        <b>({{ $p->tahun_awal }}–{{ $p->tahun_akhir }})</b><br>
                                         <b class="text-sm">{{ $p->nama_perusahaan ?? '-' }}</b><br>
                                         {{ $p->deskripsi ?? '-' }}
                                     </p>
@@ -143,12 +141,11 @@
                         <section>
                             <div class="font-bold text-orange-600 text-lg mb-2">LATAR BELAKANG PENDIDIKAN</div>
                             <div class="w-10 h-1 bg-orange-500 mb-4"></div>
-                            <div class="space-y-2 text-sm">
+                            <div class="space-y-4">
                                 @forelse ($data->riwayat_pendidikan as $r)
                                     <p class="break-words">
                                         <b class="text-sm">{{ $r->pendidikan ?? '-' }}</b>
-                                        <span
-                                            class="float-right"><b>({{ $r->tahun_awal }}–{{ $r->tahun_akhir }})</b></span><br>
+                                        <b>({{ $r->tahun_awal }}–{{ $r->tahun_akhir }})</b><br>
                                         <b class="text-sm">{{ $r->jurusan ?? '-' }}</b>
                                     </p>
                                 @empty

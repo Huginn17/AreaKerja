@@ -8,10 +8,48 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class LupaPasswordController extends Controller
 {
+
+    public function resendOtp(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email'
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'Email tidak ditemukan'], 404);
+        }
+
+        $otp = rand(100000, 999999);
+
+        // AMANKAN 👉 token TIDAK diganti
+        $verif = PasswordVerification::where('email', $request->email)->first();
+
+        if (!$verif) {
+            return response()->json(['message' => 'Token tidak ditemukan'], 404);
+        }
+
+        $verif->update([
+            'otp' => $otp
+        ]);
+
+        Mail::raw("Kode OTP Anda adalah: {$otp}", function ($message) use ($user) {
+            $message->to($user->email)
+                ->subject('Kode Verifikasi OTP - AreaKerja');
+        });
+
+        return response()->json([
+            'message' => 'OTP telah dikirim ulang.'
+        ]);
+    }
+
+
     public function showEmailForm_pelamar()
     {
         return view('non-user.auth.verifikasi');
@@ -81,14 +119,16 @@ class LupaPasswordController extends Controller
         if (!$verif) {
             return back()->withErrors(['otp' => 'Kode OTP tidak valid.']);
         }
-        return redirect()->route('password.reset.form.pelamar', [
-            'token' => $verif->token,
-            'email' => $verif->email
-        ]);
+
+        // FIX: redirect benar
+        return redirect(
+            url('/reset-password/' . $verif->token) . '?email=' . urlencode($verif->email)
+        );
     }
 
+
     //form lupa pwnya
-    public function showResetForm_pelamar(Request $request, $token = null)
+    public function showResetForm_pelamar($token, Request $request)
     {
         return view('non-user.auth.verif-lupa-sandi', [
             'token' => $token,
@@ -96,47 +136,59 @@ class LupaPasswordController extends Controller
         ]);
     }
 
+
     //simpan pw baru
+
     public function resetPassword(Request $request)
     {
-
-        $request->validate([
+        // Validasi manual supaya AJAX dapat JSON, bukan HTML
+        $validator = Validator::make($request->all(), [
             'email'    => 'required|email|exists:users,email',
             'password' => [
                 'required',
                 'string',
                 'min:8',
                 'confirmed',
-                'regex:/[A-Z]/',      // huruf besar
-                'regex:/[a-z]/',      // huruf kecil
-                'regex:/[0-9]/',      // angka
-                'regex:/[@$!%*?&#]/', // simbol
+                'regex:/[A-Z]/',
+                'regex:/[a-z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*?&#]/',
             ],
             'token'    => 'required',
-        ], [
-            'password.min' => 'Password minimal 8 karakter.',
-            'password.regex' => 'Password harus mengandung huruf besar, huruf kecil, angka, dan simbol.',
-            'password.confirmed' => 'Konfirmasi password tidak cocok.',
         ]);
 
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors'  => $validator->errors()
+            ], 422);
+        }
+
+        // Cek token
         $verif = PasswordVerification::where('email', $request->email)
             ->where('token', $request->token)
             ->first();
 
         if (!$verif) {
-            return back()->withErrors(['token' => 'Token tidak valid.']);
+            return response()->json([
+                'success' => false,
+                'message' => 'Token tidak valid.'
+            ], 404);
         }
 
+        // Update password
         $user = User::where('email', $request->email)->first();
         $user->update([
             'password' => Hash::make($request->password)
         ]);
 
-        //hapus klo berhasil
+        // Hapus token setelah dipakai
         $verif->delete();
         Auth::logout();
 
-        return redirect()->route('login')->with('success', 'Password berhasil diubah.');
+        return response()->json([
+            'success' => true
+        ]);
     }
 
 

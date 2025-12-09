@@ -10,31 +10,33 @@
             <!-- Search Bar -->
             <div
                 class="flex flex-col sm:flex-row items-center w-full max-w-xl border border-gray-400 rounded-lg 
-                    px-3 py-2 sm:py-3 overflow-hidden mb-10 gap-3 sm:gap-0">
+           px-3 py-2 sm:py-3 overflow-hidden mb-10 gap-3 sm:gap-0">
 
-                <!-- Icon Search -->
-                <div class="pl-0 sm:pl-4 text-gray-500">
-                    <svg width="22" height="22" class="sm:w-[25px] sm:h-[25px]" viewBox="0 0 25 25" fill="none"
+                <!-- Wadah Input + Icon -->
+                <div class="relative w-full flex items-center">
+                    <!-- Icon Search -->
+                    <svg width="24" height="24" class="ml-2" viewBox="0 0 25 25" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M10.7954 3.125C9.27835 3.125 7.79535 3.57486 6.53396 4.4177C5.27257 5.26053 4.28943 6.45849 3.70888 7.86007C3.12832 9.26166 2.97642 10.8039 3.27239 12.2918C3.56835 13.7797 4.29889 15.1465 5.37161 16.2192C6.44434 17.2919 7.81108 18.0225 9.29899 18.3184C10.7869 18.6144 12.3292 18.4625 13.7308 17.8819C15.1323 17.3014 16.3303 16.3183 17.1731 15.0569C18.016 13.7955 18.4658 12.3125 18.4658 10.7954C18.4657 8.76113 17.6575 6.81021 16.2191 5.37175C14.7806 3.9333 12.8297 3.12513 10.7954 3.125Z"
-                            stroke="black" stroke-opacity="0.6" stroke-width="1.5625" stroke-miterlimit="10" />
-                        <path d="M16.5176 16.5176L21.8745 21.8745" stroke="black" stroke-opacity="0.6" stroke-width="1.5625"
+                            stroke="gray" stroke-opacity="0.6" stroke-width="1.5625" stroke-miterlimit="10" />
+                        <path d="M16.5176 16.5176L21.8745 21.8745" stroke="gray" stroke-opacity="0.6" stroke-width="1.5625"
                             stroke-miterlimit="10" stroke-linecap="round" />
                     </svg>
-                </div>
 
-                <!-- Input -->
-                <input type="text" placeholder="Apa yang bisa kami bantu?"
-                    class="flex-grow w-full sm:w-auto px-3 py-2 text-sm sm:text-base focus:outline-none">
+                    <!-- Input -->
+                    <input type="text" placeholder="Apa yang bisa kami bantu?"
+                        class="w-full pl-4 pr-3 py-2 text-sm sm:text-base focus:ring-0 focus:outline-0 border-none">
+                </div>
 
                 <!-- Tombol Cari -->
                 <button
                     class="bg-orange-500 hover:bg-orange-600 text-white font-medium 
-                       px-6 py-2 rounded-md w-full sm:w-auto text-center">
+               px-6 py-2 rounded-md w-full sm:w-auto text-center">
                     Cari
                 </button>
             </div>
+
 
             <!-- FAQ Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">

@@ -1,11 +1,11 @@
 @extends('layouts.index')
 @section('content')
-    <div class="flex justify-center py-8">
+    <div class="flex justify-center mt-10   py-8">
         <div class="w-full max-w-6xl bg-white p-6">
 
             <!-- Header Profil -->
             <h2 class="text-lg font-semibold mb-4">Profil Akun</h2>
-
+      
             <div
                 class="border border-orange-400 rounded-lg p-4 
                     flex flex-col md:flex-row md:items-center md:justify-between gap-6">

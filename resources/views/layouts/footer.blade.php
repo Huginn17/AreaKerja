@@ -66,18 +66,23 @@
         <div>
             <h3 class="mb-4 text-xl">Kontak Kami</h3>
 
-            <form class="flex flex-col sm:flex-row overflow-hidden sm:rounded-lg bg-white gap-2 sm:gap-0">
+            <form class="flex flex-col sm:flex-row bg-white overflow-hidden rounded-lg">
 
                 <input type="email" placeholder="Email address"
-                    class="flex-1 px-2 py-2 text-black focus:outline-none border border-gray-300 sm:border-0 rounded-md sm:rounded-none w-full break-words">
+                    class="flex-1 px-3 py-2 text-black focus:outline-none 
+                   border border-gray-300 sm:border-r-0 
+                   rounded-md sm:rounded-none w-full">
 
                 <button type="submit"
-                    class="bg-black text-orange-500 px-3 py-2 hover:bg-gray-800 rounded-md sm:rounded-none sm:rounded-r-lg w-full sm:w-auto text-center">
+                    class="bg-black text-orange-500 px-4 py-2 hover:bg-gray-800 
+                   rounded-md sm:rounded-none sm:rounded-r-lg 
+                   w-full sm:w-auto text-center">
                     Submit
                 </button>
 
             </form>
         </div>
+
 
     </div>
 

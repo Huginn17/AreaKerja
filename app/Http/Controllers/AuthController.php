@@ -496,7 +496,7 @@ class AuthController extends Controller
 
         $growthNonKandidat = $this->calcGrowth($lastNonKandidat, $currentNonKandidat);
 
-
+    
 
         // ===========================
         // LOWONGAN PERUSAHAAN

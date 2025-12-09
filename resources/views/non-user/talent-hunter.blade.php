@@ -11,9 +11,8 @@
 
         <div class="absolute inset-0 bg-black bg-opacity-40"></div>
 
-        <div
-            class="absolute left-5 sm:left-10 md:left-20 bottom-20 sm:bottom-32 md:bottom-52 text-white max-w-xs sm:max-w-md md:max-w-2xl">
-            <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold mt-3">
+        <div class="absolute left-5 sm:left-10 md:left-20 bottom-20 sm:bottom-32 md:bottom-52 text-white max-w-xs sm:max-w-md md:max-w-2xl">
+           <h1 class="text-xl md:text-3xl lg:text-4xl font-semibold mt-3 max-w-xs md:max-w-2xl">
                 Talent Hunter
             </h1>
             <p class="text-xs sm:text-sm mt-2">Daftarkan perusahaan anda dan biar kami</p>

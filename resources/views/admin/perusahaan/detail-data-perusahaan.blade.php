@@ -59,7 +59,7 @@
 
 
             <!-- Konten utama -->
-            <div class="max-w-7xl mx-auto bg-white rounded-xl p-6 relative">
+            <div class="w-full mx-auto bg-white rounded-xl p-6 relative">
 
                 <div class="w-full mx-auto border-2 border-gray-400 rounded-xl shadow overflow-hidden">
                     <!-- overflow-hidden added -->

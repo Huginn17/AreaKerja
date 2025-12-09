@@ -326,6 +326,9 @@ class SuperAdminController extends Controller
             $divisis = Divisi::all();
         }
 
+        // dd($kategori, $divisis);
+
+
         $pelamar = null;
 
         if (session('pelamar_terakhir_id')) {
@@ -357,93 +360,119 @@ class SuperAdminController extends Controller
 
 
 
-
     public function storeUser(Request $request)
     {
-        // dd($request->all());
+        //  CARI USER YANG SUDAH ADA
+        $existingUser = null;
 
+        if (session('pelamar_terakhir_id')) {
+            $existingPelamar = Pelamar::find(session('pelamar_terakhir_id'));
+            $existingUser = $existingPelamar ? $existingPelamar->user : null;
+        }
+
+        if (!$existingUser && $request->email) {
+            $existingUser = User::where('email', $request->email)->first();
+        }
+
+        $userId = $existingUser?->id;
+
+        //  VALIDASI UNIQUE
         $request->validate([
-            'email' => 'nullable|email|unique:users,email',
-            'username' => 'nullable|string|unique:users,username',
-        ], [
-            'email.unique' => 'Email sudah digunakan.',
-            'username.unique' => 'Username sudah digunakan.',
+            'email' => $userId
+                ? 'nullable|email|unique:users,email,' . $userId
+                : 'nullable|email|unique:users,email',
+
+            'username' => $userId
+                ? 'nullable|string|unique:users,username,' . $userId
+                : 'nullable|string|unique:users,username',
         ]);
 
-        if (
-            empty($request->username) &&
-            empty($request->email) &&
-            empty($request->password)
-        ) {
-            return back()->with('error', 'Tidak bisa menyimpan data. Minimal isi email, username, atau password.');
-        }
+        // ========== USER ==========
 
-        if (
-            empty($request->nama_pelamar) &&
-            empty($request->tanggal_lahir) &&
-            empty($request->gender) &&
-            empty($request->telepon_pelamar) &&
-            empty($request->divisi) &&
-            empty($request->kategori) &&
-            !$request->hasFile('img_profile')
-        ) {
-            return back()->with('error', 'Data pelamar masih kosong. Minimal isi 1 data.');
-        }
+        if (!$existingUser) {
+            // User baru, password WAJIB ada
+            if (
+                empty($request->username) &&
+                empty($request->email) &&
+                empty($request->password)
+            ) {
+                return back()->with('error', 'Minimal isi email, username, atau password.');
+            }
 
-
-        // 1️⃣ Cek apakah user sudah ada berdasarkan email
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user) {
             $user = User::create([
                 'username' => $request->username,
                 'email'    => $request->email,
-                'password' => bcrypt($request->password),
+                'password' => $request->password ? bcrypt($request->password) : null,
                 'role'     => 'pelamar',
                 'status'   => 0,
             ]);
+        } else {
+            // User lama → jangan ubah password kalau kosong
+            $existingUser->update([
+                'username' => $request->username ?? $existingUser->username,
+                'email'    => $request->email ?? $existingUser->email,
+            ]);
+
+            if ($request->password) {
+                $existingUser->update([
+                    'password' => bcrypt($request->password)
+                ]);
+            }
+
+            $user = $existingUser;
         }
 
-
-        // 2️⃣ Cek apakah pelamar sudah ada berdasarkan user_id
-        $pelamar = Pelamar::where('user_id', $user->id)->first();
-
+        //  SIMPAN FOTO
         $path = null;
         if ($request->hasFile('img_profile')) {
             $path = $request->file('img_profile')->store('images', 'public');
         }
 
-        if (!$pelamar) {
-            $pelamar = Pelamar::create([
-                'user_id'         => $user->id,
+        // ========== PELAMAR ==========
+
+        $pelamar = Pelamar::firstOrCreate(
+            ['user_id' => $user->id],
+            [
                 'nama_pelamar'    => $request->nama_pelamar,
                 'deskripsi_diri'  => $request->deskripsi_diri,
                 'tanggal_lahir'   => $request->tanggal_lahir,
                 'gender'          => $request->gender,
                 'telepon_pelamar' => $request->telepon_pelamar,
-                'divisi'          => $request->divisi,
+                'divisi'          => json_encode($request->divisi),
                 'kategori'        => $request->kategori,
                 'img_profile'     => $path,
-            ]);
-        } else {
-            // Jika pelamar sudah ada dan upload foto baru, ganti
-            if ($request->hasFile('img_profile')) {
-                if ($pelamar->img_profile && Storage::exists('public/' . $pelamar->img_profile)) {
-                    Storage::delete('public/' . $pelamar->img_profile);
-                }
-                $pelamar->update(['img_profile' => $path]);
-            }
+            ]
+        );
+
+        // BERSIHKAN NOMOR TELEPON MENGGUNAKAN REGEX
+        $telepon = $pelamar->telepon_pelamar;
+
+        if ($request->filled('telepon_pelamar')) {
+            $telp = preg_replace('/[^0-9\+]/', '', $request->telepon_pelamar); // hapus karakter selain angka & +
+            $telp = preg_replace('/^\+62/', '0', $telp); // +62 → 0
+            $telp = preg_replace('/^62/', '0', $telp);  // 62 → 0
+            $telepon = $telp;
         }
 
+        // UPDATE DATA LANJUTAN
+        $pelamar->update([
+            'nama_pelamar'    => $request->nama_pelamar ?? $pelamar->nama_pelamar,
+            'tanggal_lahir'   => $request->tanggal_lahir ?? $pelamar->tanggal_lahir,
+            'gender'          => $request->gender ?? $pelamar->gender,
+            'telepon_pelamar' => $telepon,
+            'divisi'          => $request->divisi ? json_encode($request->divisi) : $pelamar->divisi,
+            'kategori'        => $request->kategori ?? $pelamar->kategori,
+            'img_profile'     => $path ?? $pelamar->img_profile,
+        ]);
 
 
-        // 3️⃣ Simpan session
+        // SIMPAN SESSION
         session([
             'pelamar_terakhir_id' => $pelamar->id,
             'kategori_terakhir' => $pelamar->kategori
         ]);
 
-        // 4️⃣ Simpan relasi-relasi lain (alamat, pendidikan, dst)
+        // ================= RELASI =================
         if ($request->alamat) {
             foreach ($request->alamat as $data) {
                 $pelamar->alamat_pelamar()->create($data);
@@ -474,11 +503,11 @@ class SuperAdminController extends Controller
             }
         }
 
-        // ✅ 5️⃣ Simpan sosmed (update atau create baru)
-        if ($request->has('social_media') && is_array($request->social_media)) {
+        if ($request->social_media) {
             $pelamar->sosmed()->updateOrCreate([], $request->social_media);
         }
 
+        // ================= REDIRECT =================
         $isComplete =
             $pelamar->alamat_pelamar()->exists() &&
             $pelamar->riwayat_pendidikan()->exists() &&
@@ -502,6 +531,7 @@ class SuperAdminController extends Controller
         return redirect()->route('superadmin.pelamar.create', ['kategori' => $kategori])
             ->with('success', 'Data pendidikan berhasil disimpan.');
     }
+
 
     public function editUser($kategori, $id)
     {
@@ -537,7 +567,6 @@ class SuperAdminController extends Controller
     public function updateUser(Request $request, $id)
     {
         $pelamar = Pelamar::findOrFail($id);
-
         $user = $pelamar->user ?? null;
 
         $request->validate([
@@ -548,7 +577,7 @@ class SuperAdminController extends Controller
             'img_profile'  => 'nullable|image',
         ]);
 
-        // Update foto profil
+        // ================== FOTO PROFIL ==================
         $path = $pelamar->img_profile;
         if ($request->hasFile('img_profile')) {
             if ($pelamar->img_profile && Storage::exists('public/' . $pelamar->img_profile)) {
@@ -557,13 +586,25 @@ class SuperAdminController extends Controller
             $path = $request->file('img_profile')->store('images', 'public');
         }
 
-        // Update data utama
+        // ================== TELEPON (Regex Normalisasi) ==================
+        $telepon = $pelamar->telepon_pelamar;
+        if ($request->filled('telepon_pelamar')) {
+
+            // Hapus semua karakter selain angka dan "+"
+            $telepon = preg_replace('/[^0-9\+]/', '', $request->telepon_pelamar);
+
+            // Ubah format internasional ke format lokal
+            $telepon = preg_replace('/^\+62/', '0', $telepon); // +62xxxxx -> 0xxxx
+            $telepon = preg_replace('/^62/', '0', $telepon);   // 62xxxxx  -> 0xxxx
+        }
+
+        // ================== UPDATE DATA UTAMA ==================
         $pelamar->update([
             'nama_pelamar'    => $request->nama_pelamar,
             'deskripsi_diri'  => $request->deskripsi_diri,
             'tanggal_lahir'   => $request->tanggal_lahir,
             'gender'          => $request->gender,
-            'telepon_pelamar' => $request->telepon_pelamar,
+            'telepon_pelamar' => $telepon,
             'divisi'          => $request->divisi,
             'kategori'        => $request->kategori,
             'gaji_minimal'    => $request->gaji_minimal,
@@ -571,19 +612,18 @@ class SuperAdminController extends Controller
             'img_profile'     => $path,
         ]);
 
-
+        // ================== UPDATE USER ==================
         if ($user) {
             $user->update([
                 'username' => $request->username,
                 'email'    => $request->email,
                 'password' => $request->filled('password')
                     ? bcrypt($request->password)
-                    : $user->password, // kalau password kosong, jangan diubah
+                    : $user->password,
             ]);
         }
 
-
-        // Tambahkan data baru relasi
+        // ================== RELASI ==================
         if ($request->filled('alamat')) {
             $pelamar->alamat_pelamar()->delete();
             foreach ($request->alamat as $data) {
@@ -619,20 +659,11 @@ class SuperAdminController extends Controller
             }
         }
 
-        // Sosial media
         if ($request->has('social_media') && is_array($request->social_media)) {
             $pelamar->sosmed()->updateOrCreate([], $request->social_media);
         }
 
-        // Mapping kategori ke slug untuk redirect
-        $mapKategori = [
-            'pelamar' => 'non_kandidat',
-            'calon kandidat' => 'calon_kandidat',
-            'kandidat aktif' => 'kandidat',
-        ];
-
-        $kategori = $mapKategori[strtolower($pelamar->kategori)] ?? 'non_kandidat';
-
+        // ================== REDIRECT ==================
         return redirect()->route('superadmin.pelamar')
             ->with('success', 'Data pelamar berhasil diperbarui.');
     }
@@ -1000,7 +1031,7 @@ class SuperAdminController extends Controller
                 ->with('success', 'Data Berhasil Ditambahkan');
         } catch (\Exception $e) {
 
-                $me = Auth::user();
+            $me = Auth::user();
             // ==============================
             //          NOTIFIKASI GAGAL
             // ================================
