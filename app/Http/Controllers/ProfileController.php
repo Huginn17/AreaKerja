@@ -39,10 +39,10 @@ class ProfileController extends Controller
                 // VALIDASI TELEPON PELAMAR
                 "telepon_pelamar" => [
                     "nullable",
-                    "regex:/^(?:\+628|628|08)[0-9]+$/"
+                    "regex:/^(?:628|08)[0-9]+$/"
                 ],
             ], [
-                "telepon_pelamar.regex" => "Nomor telepon harus diawali dengan 08, 628 atau +628."
+                "telepon_pelamar.regex" => "Nomor telepon harus diawali dengan 08, atau 628."
             ]);
 
             /* ==========================
@@ -51,10 +51,7 @@ class ProfileController extends Controller
             if (!empty($request->telepon_pelamar)) {
 
                 // Hapus karakter non angka kecuali +
-                $telepon = preg_replace('/[^0-9\+]/', '', $request->telepon_pelamar);
-
-                // +62 → 0
-                $telepon = preg_replace('/^\+62/', '0', $telepon);
+                $telepon = preg_replace('/[^0-9]/', '', $request->telepon_pelamar);
 
                 // 62 → 0
                 $telepon = preg_replace('/^62/', '0', $telepon);

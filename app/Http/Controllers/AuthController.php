@@ -159,7 +159,7 @@ class AuthController extends Controller
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|min:3',
                 'role' => 'required',
-                'telepon_pelamar' => ['required', 'regex:/^(?:\+628|628|08)[0-9]+$/'],
+                'telepon_pelamar' => ['required', 'regex:/^(?:628|08)[0-9]+$/'],
                 'agree_pelamar' => 'accepted'
             ], [
                 'username.required' => 'Username wajib diisi.',
@@ -173,12 +173,11 @@ class AuthController extends Controller
                 'telepon_pelamar.required' => 'Nomor telepon wajib diisi.',
                 'telepon_pelamar.numeric' => 'Nomor telepon harus berupa angka.',
                 'agree_pelamar.accepted' => 'Anda harus menyetujui syarat dan ketentuan.',
-                'telepon_pelamar.regex' => 'Nomor telepon harus diawali dengan +628, 628, atau 08.'
+                'telepon_pelamar.regex' => 'Nomor telepon harus diawali dengan 628, atau 08.'
             ]);
 
             // Normalisasi nomor telepon
             $telepon = preg_replace('/[^0-9\+]/', '', $request->telepon_pelamar);
-            $telepon = preg_replace('/^\+62/', '0', $telepon);
             $telepon = preg_replace('/^62/', '0', $telepon);
 
             $valid['telepon_pelamar'] = $telepon;
@@ -284,7 +283,7 @@ class AuthController extends Controller
                 'email' => 'required|email',
                 'password' => 'required|min:3',
                 'role' => 'required',
-                'telepon_perusahaan' =>  ['required', 'regex:/^(?:\+628|628|08)[0-9]+$/'],
+                'telepon_perusahaan' =>  ['required', 'regex:/^(?:628|08)[0-9]+$/'],
                 'agree_perusahaan' => 'accepted'
             ], [
                 'username.required' => 'Username wajib diisi.',
@@ -296,13 +295,12 @@ class AuthController extends Controller
                 'role.required' => 'Role wajib diisi.',
                 'telepon_perusahaan.required' => 'Nomor telepon perusahaan wajib diisi.',
                 'telepon_perusahaan.numeric' => 'Nomor telepon perusahaan harus berupa angka.',
-                'telepon_perusahaan.regex' => 'Nomor telepon harus diawali dengan +628, 628, atau 08.',
+                'telepon_perusahaan.regex' => 'Nomor telepon harus diawali dengan 628, atau 08.',
                 'agree_perusahaan.accepted' => 'Anda harus menyetujui syarat dan ketentuan.',
             ]);
 
             // Normalisasi nomor telepon
             $telepon = preg_replace('/[^0-9\+]/', '', $request->telepon_perusahaan);
-            $telepon = preg_replace('/^\+62/', '0', $telepon);
             $telepon = preg_replace('/^62/', '0', $telepon);
 
             $valid['telepon_perusahaan'] = $telepon;

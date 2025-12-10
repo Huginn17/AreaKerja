@@ -1,4 +1,4 @@
-<div id="modalNonaktif" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+<div id="modalNonaktif" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-[9999]">
 
     <div class="bg-white p-6 rounded-xl w-full max-w-[450px] text-center shadow-xl">
 

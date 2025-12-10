@@ -388,7 +388,7 @@ class SuperAdminController extends Controller
 
             'telepon_pelamar' => [
                 'required',
-                'regex:/^(?:\+628|628|08)[0-9]+$/'
+                'regex:/^(?:628|08)[0-9]+$/'
             ],
 
         ]);
@@ -454,8 +454,7 @@ class SuperAdminController extends Controller
         $telepon = $pelamar->telepon_pelamar;
 
         if ($request->filled('telepon_pelamar')) {
-            $telp = preg_replace('/[^0-9\+]/', '', $request->telepon_pelamar); // hapus karakter selain angka & +
-            $telp = preg_replace('/^\+62/', '0', $telp); // +62 → 0
+            $telp = preg_replace('/[^0-9]/', '', $request->telepon_pelamar); // hapus karakter selain angka 
             $telp = preg_replace('/^62/', '0', $telp);  // 62 → 0
             $telepon = $telp;
         }
@@ -583,7 +582,7 @@ class SuperAdminController extends Controller
             'img_profile'  => 'nullable|image',
             'telepon_pelamar' => [
                 'required',
-                'regex:/^(?:\+628|628|08)[0-9]+$/'
+                'regex:/^(?:628|08)[0-9]+$/'
             ],
         ]);
 
@@ -601,10 +600,9 @@ class SuperAdminController extends Controller
         if ($request->filled('telepon_pelamar')) {
 
             // Hapus semua karakter selain angka dan "+"
-            $telepon = preg_replace('/[^0-9\+]/', '', $request->telepon_pelamar);
+            $telepon = preg_replace('/[^0-9]/', '', $request->telepon_pelamar);
 
-            // Ubah format internasional ke format lokal
-            $telepon = preg_replace('/^\+62/', '0', $telepon); // +62xxxxx -> 0xxxx
+            // Ubah format internasional ke format lokal // +62xxxxx -> 0xxxx
             $telepon = preg_replace('/^62/', '0', $telepon);   // 62xxxxx  -> 0xxxx
         }
 
@@ -897,11 +895,11 @@ class SuperAdminController extends Controller
             if ($request->role === 'perusahaan') {
                 $rules['telepon_perusahaan'] = [
                     "nullable",
-                    "regex:/^(?:\+628|628|08)[0-9]{8,15}$/"
+                    "regex:/^(?:628|08)[0-9]{8,15}$/"
                 ];
                 $rules['whatsapp'] = [
                     "nullable",
-                    "regex:/^(?:\+628|628|08)[0-9]{8,15}$/"
+                    "regex:/^(?:628|08)[0-9]{8,15}$/"
                 ];
             }
 
@@ -909,7 +907,7 @@ class SuperAdminController extends Controller
             if ($request->role === 'pelamar') {
                 $rules['telepon_pelamar'] = [
                     "nullable",
-                    "regex:/^(?:\+628|628|08)[0-9]{8,15}$/"
+                    "regex:/^(?:628|08)[0-9]{8,15}$/"
                 ];
             }
 
@@ -957,8 +955,7 @@ class SuperAdminController extends Controller
             // UTIL UNTUK NORMALISASI NOMOR TELEPON  "0xxxxxxxx"
             $normalizePhone = function ($number) {
                 if (!$number) return null;
-                $num = preg_replace('/[^0-9\+]/', '', $number);
-                $num = preg_replace('/^\+62/', '0', $num);
+                $num = preg_replace('/[^0-9]/', '', $number);
                 $num = preg_replace('/^62/', '0', $num);
                 return $num;
             };
@@ -1123,12 +1120,12 @@ class SuperAdminController extends Controller
 
                 $rules['telepon_perusahaan'] = [
                     'nullable',
-                    'regex:/^(?:\\+628|628|08)[0-9]{8,15}$/'
+                    'regex:/^(?:628|08)[0-9]{8,15}$/'
                 ];
 
                 $rules['whatsapp'] = [
                     'nullable',
-                    'regex:/^(?:\\+628|628|08)[0-9]{8,15}$/'
+                    'regex:/^(?:628|08)[0-9]{8,15}$/'
                 ];
             }
 
@@ -1136,15 +1133,15 @@ class SuperAdminController extends Controller
             if ($request->role === 'pelamar') {
                 $rules['telepon_pelamar'] = [
                     'nullable',
-                    'regex:/^(?:\\+628|628|08)[0-9]{8,15}$/'
+                    'regex:/^(?:628|08)[0-9]{8,15}$/'
                 ];
             }
 
             // Pesan error
             $request->validate($rules, [
-                'telepon_perusahaan.regex' => 'Nomor telepon harus diawali 08, 628 atau +628.',
-                'whatsapp.regex' => 'Nomor Whatsapp harus diawali 08, 628 atau +628.',
-                'telepon_pelamar.regex' => 'Nomor telepon pelamar harus diawali 08, 628 atau +628.',
+                'telepon_perusahaan.regex' => 'Nomor telepon perusahaan harus diawali 08 atau 628.',
+                'whatsapp.regex' => 'Nomor Whatsapp harus diawali 08 atau 628.',
+                'telepon_pelamar.regex' => 'Nomor telepon pelamar harus diawali 08 atau 628.',
             ]);
 
             // Simpan role lama dan role baru
@@ -1212,7 +1209,6 @@ class SuperAdminController extends Controller
                 if ($request->$field) {
                     $num = $request->$field;
                     $num = preg_replace('/^62/', '0', $num);
-                    $num = preg_replace('/^\+62/', '0', $num);
 
                     $request->merge([$field => $num]);
                 }

@@ -54,7 +54,7 @@
                                 @endphp
 
                                 <select id="statusSelect"
-                                    class="w-full border border-orange-500 text-orange-500 font-semibold rounded-md px-2 py-1 text-xs cursor-pointer appearance-none bg-white">
+                                    class="w-full border border-orange-500 text-orange-500 font-semibold rounded-md px-2 py-1 text-xs cursor-pointer appearance-none">
                                     <option value="Pelamar Aktif" {{ $status == 'Pelamar Aktif' ? 'selected' : '' }}>
                                         Pelamar Aktif
                                     </option>

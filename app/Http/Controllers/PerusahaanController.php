@@ -54,11 +54,11 @@ class PerusahaanController extends Controller
                 'website_perusahaan'  => "nullable|string",
                 'telepon_perusahaan'  => [
                     "nullable",
-                    "regex:/^(?:\+628|628|08)[0-9]+$/"
+                    "regex:/^(?:\+628|08)[0-9]+$/"
                 ],
                 'whatsapp'            => [
                     "nullable",
-                    "regex:/^(?:\+628|628|08)[0-9]+$/"
+                    "regex:/^(?:628|08)[0-9]+$/"
                 ],
                 'legalitas'           => "nullable|string",
                 'deskripsi'           => "nullable|string",
@@ -66,8 +66,8 @@ class PerusahaanController extends Controller
                 'misi'                => "nullable|string",
                 'img_profile'         => "nullable|image|mimes:jpg,jpeg,png|max:2048",
             ], [
-                'telepon_perusahaan.regex' => "Nomor telepon harus diawali 08, 628 atau +628.",
-                'whatsapp.regex'           => "Nomor WhatsApp harus diawali 08, 628 atau +628.",
+                'telepon_perusahaan.regex' => "Nomor telepon harus diawali 08, atau 628.",
+                'whatsapp.regex'           => "Nomor WhatsApp harus diawali 08, atau 628.",
             ]);
 
             /* ==========================
@@ -76,16 +76,14 @@ class PerusahaanController extends Controller
 
             // TELEPON PERUSAHAAN
             if (!empty($request->telepon_perusahaan)) {
-                $telepon = preg_replace('/[^0-9\+]/', '', $request->telepon_perusahaan);
-                $telepon = preg_replace('/^\+62/', '0', $telepon);
+                $telepon = preg_replace('/[^0-9]/', '', $request->telepon_perusahaan);
                 $telepon = preg_replace('/^62/', '0', $telepon);
                 $validated['telepon_perusahaan'] = $telepon;
             }
 
             // WHATSAPP
             if (!empty($request->whatsapp)) {
-                $wa = preg_replace('/[^0-9\+]/', '', $request->whatsapp);
-                $wa = preg_replace('/^\+62/', '0', $wa);
+                $wa = preg_replace('/[^0-9]/', '', $request->whatsapp);
                 $wa = preg_replace('/^62/', '0', $wa);
                 $validated['whatsapp'] = $wa;
             }

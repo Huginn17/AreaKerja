@@ -96,8 +96,6 @@
         .tinymce-content td {
             padding: 8px;
         }
-
-      
     </style>
 
 </head>
@@ -120,7 +118,7 @@
         <aside id="logo-sidebar"
             class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 overflow-y-auto"
             aria-label="Sidebar">
-            <div class="min-h-screen w-64 bg-orange-600 text-white ">
+            <div class="min-h-screen w-64 bg-orange-600 text-white overflow-y-auto">
                 <!-- Logo -->
                 <div class="px-4 py-2">
                     <div class="inline-flex items-center gap-1 border-b-2 border-orange-300">
@@ -232,6 +230,15 @@
                                     fill="currentColor" />
                             </svg>
                             Event
+                        </a>
+                    </div>
+                    <div class="font-bold mb-3 ml-3 mt-3">Manajemen Lowongan</div>
+                    <div
+                        class="{{ request()->is('super_admin/manajemen/lowongan') ? 'bg-white text-orange-500' : '' }} rounded-md">
+                        <a href="{{ route('superadmin.manajemen.lowongan') }}"
+                            class="flex font-semibold items-center mb-1 gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-1 transition duration-300">
+                            <i class="ph ph-wrench text-2xl"></i>
+                            Setting Lowongan
                         </a>
                     </div>
                     <div class="font-bold mb-3 ml-3 mt-3">Manajemen Akun</div>

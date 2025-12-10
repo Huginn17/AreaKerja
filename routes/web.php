@@ -12,6 +12,7 @@ use App\Http\Controllers\HargaController;
 use App\Http\Controllers\KandidatController;
 use App\Http\Controllers\LowonganPerusahaanController;
 use App\Http\Controllers\LupaPasswordController;
+use App\Http\Controllers\ManajemenLowonganController;
 use App\Http\Controllers\PelamarController;
 use App\Http\Controllers\PelamarLowonganController;
 use App\Http\Controllers\PembeliKandidatController;
@@ -687,6 +688,14 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
         Route::delete('/delete/skill/{skill:id}', 'destroySuper')->name('superadmin.skill.destroy')->middleware('auth');
     });
 
+
+    //MANAJEMEN LOWONGAN CONTROLLER
+    Route::controller(ManajemenLowonganController::class)->group(function () {
+        //manajemen lowongan
+        Route::get('/manajemen/lowongan/gold', 'gold')->name('superadmin.manajemen.lowongan.gold')->middleware('auth');
+         Route::get('/manajemen/lowongan/silver', 'silver')->name('superadmin.manajemen.lowongan.silver')->middleware('auth');
+          Route::get('/manajemen/lowongan/bronze', 'bronze')->name('superadmin.manajemen.lowongan.bronze')->middleware('auth');
+    });
 
     //SOCIAL LINK CONTROLLER
     Route::controller(SocialLinkController::class)->group(function () {
