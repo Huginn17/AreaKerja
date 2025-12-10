@@ -172,7 +172,8 @@ class AuthController extends Controller
                 'role.required' => 'Role wajib diisi.',
                 'telepon_pelamar.required' => 'Nomor telepon wajib diisi.',
                 'telepon_pelamar.numeric' => 'Nomor telepon harus berupa angka.',
-                'agree_pelamar.accepted' => 'Anda harus menyetujui syarat dan ketentuan.'
+                'agree_pelamar.accepted' => 'Anda harus menyetujui syarat dan ketentuan.',
+                'telepon_pelamar.regex' => 'Nomor telepon harus diawali dengan +628, 628, atau 08.'
             ]);
 
             // Normalisasi nomor telepon
@@ -295,8 +296,8 @@ class AuthController extends Controller
                 'role.required' => 'Role wajib diisi.',
                 'telepon_perusahaan.required' => 'Nomor telepon perusahaan wajib diisi.',
                 'telepon_perusahaan.numeric' => 'Nomor telepon perusahaan harus berupa angka.',
-                'telepon_perusahaan.regex' => 'Nomor telepon perusahaan harus diawali dengan 0 atau +62.',
-                'agree_perusahaan.accepted' => 'Anda harus menyetujui syarat dan ketentuan.'
+                'telepon_perusahaan.regex' => 'Nomor telepon harus diawali dengan +628, 628, atau 08.',
+                'agree_perusahaan.accepted' => 'Anda harus menyetujui syarat dan ketentuan.',
             ]);
 
             // Normalisasi nomor telepon
