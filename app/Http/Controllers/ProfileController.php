@@ -39,10 +39,10 @@ class ProfileController extends Controller
                 // VALIDASI TELEPON PELAMAR
                 "telepon_pelamar" => [
                     "nullable",
-                    "regex:/^(?:\+62|62|0)[0-9]+$/"
+                    "regex:/^(?:\+628|628|08)[0-9]+$/"
                 ],
             ], [
-                "telepon_pelamar.regex" => "Nomor telepon harus diawali dengan 0, 62 atau +62."
+                "telepon_pelamar.regex" => "Nomor telepon harus diawali dengan 08, 628 atau +628."
             ]);
 
             /* ==========================

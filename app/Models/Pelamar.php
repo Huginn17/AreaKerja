@@ -17,6 +17,37 @@ class Pelamar extends Model
         'divisi' => 'array',
     ];
 
+    public function getDivisiAttribute($value)
+    {
+        // kalau kosong → array kosong
+        if (!$value) return [];
+
+        // 1. Bersihkan karakter escape yang rusak (misal: \" )
+        $clean = str_replace(['\\"', '\\\''], ['"', "'"], $value);
+
+        // 2. Coba decode JSON
+        $decoded = json_decode($clean, true);
+
+        // 3. Kalau decode berhasil dan hasilnya array → return
+        if (is_array($decoded)) {
+            return $decoded;
+        }
+
+        // 4. Jika decode tetap gagal → fallback:
+        //    hilangkan bracket [ ] lalu pecah manual berdasarkan koma
+        $fallback = trim($clean, "[]");
+
+        // jika hasil kosong → return array kosong
+        if (!$fallback) return [];
+
+        // pisahkan berdasarkan koma
+        $items = array_map(function ($item) {
+            return trim($item, "\"' ");
+        }, explode(',', $fallback));
+
+        return array_filter($items); // hilangkan kosong
+    }
+
 
 
     public function getUmurAttribute()
@@ -40,7 +71,7 @@ class Pelamar extends Model
     {
         return !(
             empty($this->nama_pelamar) ||
-            empty($this->img_profile ) ||
+            empty($this->img_profile) ||
             empty($this->gender) ||
             empty($this->tanggal_lahir) ||
             empty($this->deskripsi_diri) ||
@@ -118,6 +149,6 @@ class Pelamar extends Model
             && $this->pengalaman_kerja()->exists()
             && $this->skill()->exists()
             && $this->pengalaman_organisasi()->exists()
-            && $this->sosmed()->exists();   
+            && $this->sosmed()->exists();
     }
 }

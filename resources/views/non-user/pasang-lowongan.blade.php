@@ -2,7 +2,6 @@
 @section('content')
     <!-- Hero Section -->
     <section class="relative">
-
         @php
             $header = \App\Models\SocialLink::where('nama', 'header_pasang_lowongan')->first();
         @endphp

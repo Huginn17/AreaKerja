@@ -385,6 +385,12 @@ class SuperAdminController extends Controller
             'username' => $userId
                 ? 'nullable|string|unique:users,username,' . $userId
                 : 'nullable|string|unique:users,username',
+
+            'telepon_pelamar' => [
+                'required',
+                'regex:/^(?:\+628|628|08)[0-9]+$/'
+            ],
+
         ]);
 
         // ========== USER ==========
@@ -575,6 +581,10 @@ class SuperAdminController extends Controller
             'username'     => 'required|string|max:255',
             'password'     => 'nullable|min:3',
             'img_profile'  => 'nullable|image',
+            'telepon_pelamar' => [
+                'required',
+                'regex:/^(?:\+628|628|08)[0-9]+$/'
+            ],
         ]);
 
         // ================== FOTO PROFIL ==================
@@ -887,11 +897,11 @@ class SuperAdminController extends Controller
             if ($request->role === 'perusahaan') {
                 $rules['telepon_perusahaan'] = [
                     "nullable",
-                    "regex:/^(?:\+62|62|0)[0-9]{8,15}$/"
+                    "regex:/^(?:\+628|628|08)[0-9]{8,15}$/"
                 ];
                 $rules['whatsapp'] = [
                     "nullable",
-                    "regex:/^(?:\+62|62|0)[0-9]{8,15}$/"
+                    "regex:/^(?:\+628|628|08)[0-9]{8,15}$/"
                 ];
             }
 
@@ -899,7 +909,7 @@ class SuperAdminController extends Controller
             if ($request->role === 'pelamar') {
                 $rules['telepon_pelamar'] = [
                     "nullable",
-                    "regex:/^(?:\+62|62|0)[0-9]{8,15}$/"
+                    "regex:/^(?:\+628|628|08)[0-9]{8,15}$/"
                 ];
             }
 
@@ -1113,12 +1123,12 @@ class SuperAdminController extends Controller
 
                 $rules['telepon_perusahaan'] = [
                     'nullable',
-                    'regex:/^(?:\\+62|62|0)[0-9]{8,15}$/'
+                    'regex:/^(?:\\+628|628|08)[0-9]{8,15}$/'
                 ];
 
                 $rules['whatsapp'] = [
                     'nullable',
-                    'regex:/^(?:\\+62|62|0)[0-9]{8,15}$/'
+                    'regex:/^(?:\\+628|628|08)[0-9]{8,15}$/'
                 ];
             }
 
@@ -1126,15 +1136,15 @@ class SuperAdminController extends Controller
             if ($request->role === 'pelamar') {
                 $rules['telepon_pelamar'] = [
                     'nullable',
-                    'regex:/^(?:\\+62|62|0)[0-9]{8,15}$/'
+                    'regex:/^(?:\\+628|628|08)[0-9]{8,15}$/'
                 ];
             }
 
             // Pesan error
             $request->validate($rules, [
-                'telepon_perusahaan.regex' => 'Nomor telepon harus diawali 0, 62 atau +62.',
-                'whatsapp.regex' => 'Nomor Whatsapp harus diawali 0, 62 atau +62.',
-                'telepon_pelamar.regex' => 'Nomor telepon pelamar harus diawali 0, 62 atau +62.',
+                'telepon_perusahaan.regex' => 'Nomor telepon harus diawali 08, 628 atau +628.',
+                'whatsapp.regex' => 'Nomor Whatsapp harus diawali 08, 628 atau +628.',
+                'telepon_pelamar.regex' => 'Nomor telepon pelamar harus diawali 08, 628 atau +628.',
             ]);
 
             // Simpan role lama dan role baru

@@ -89,11 +89,8 @@
                 </form>
 
                 <div class="text-center mt-4">
-                    <a href="{{ route('email.ubah') }}" class="font-semibold text-orange-500 hover:text-orange-600">
-                        Ubah Email
-                    </a>
+                    <a href="{{ route('login') }}" class="text-orange-600 font-medium hover:underline">Kembali</a>
                 </div>
-
             </div>
         </div>
 

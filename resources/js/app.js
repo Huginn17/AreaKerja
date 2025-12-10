@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const disabledRoutes = [
         '/pelamar/profile',
         '/pelamar/form/alamat',
-        '/pelamar/edit/alamat' // <-- untuk route /edit/alamat/{id}
+        '/pelamar/edit/alamat' // untuk route /edit/alamat/{id}
     ];
 
     const currentPath = window.location.pathname;

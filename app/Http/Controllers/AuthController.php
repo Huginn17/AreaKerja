@@ -159,7 +159,7 @@ class AuthController extends Controller
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|min:3',
                 'role' => 'required',
-                'telepon_pelamar' =>  ['required', 'regex:/^(?:\+62|62|0)[0-9]+$/'],
+                'telepon_pelamar' => ['required', 'regex:/^(?:\+628|628|08)[0-9]+$/'],
                 'agree_pelamar' => 'accepted'
             ], [
                 'username.required' => 'Username wajib diisi.',
@@ -283,7 +283,7 @@ class AuthController extends Controller
                 'email' => 'required|email',
                 'password' => 'required|min:3',
                 'role' => 'required',
-                'telepon_perusahaan' =>  ['required', 'regex:/^(?:\+62|62|0)[0-9]+$/'],
+                'telepon_perusahaan' =>  ['required', 'regex:/^(?:\+628|628|08)[0-9]+$/'],
                 'agree_perusahaan' => 'accepted'
             ], [
                 'username.required' => 'Username wajib diisi.',
@@ -496,7 +496,7 @@ class AuthController extends Controller
 
         $growthNonKandidat = $this->calcGrowth($lastNonKandidat, $currentNonKandidat);
 
-    
+
 
         // ===========================
         // LOWONGAN PERUSAHAAN

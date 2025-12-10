@@ -120,6 +120,8 @@ class LupaPasswordController extends Controller
             return back()->withErrors(['otp' => 'Kode OTP tidak valid.']);
         }
 
+        session(['otp_verified' => true]);
+
         // FIX: redirect benar
         return redirect(
             url('/reset-password/' . $verif->token) . '?email=' . urlencode($verif->email)
@@ -141,21 +143,44 @@ class LupaPasswordController extends Controller
 
     public function resetPassword(Request $request)
     {
-        // Validasi manual supaya AJAX dapat JSON, bukan HTML
         $validator = Validator::make($request->all(), [
-            'email'    => 'required|email|exists:users,email',
-            'password' => [
-                'required',
-                'string',
-                'min:8',
-                'confirmed',
-                'regex:/[A-Z]/',
-                'regex:/[a-z]/',
-                'regex:/[0-9]/',
-                'regex:/[@$!%*?&#]/',
-            ],
-            'token'    => 'required',
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required|string',
+            'password_confirmation' => 'required|string',
+            'token' => 'required',
         ]);
+
+        $validator->after(function ($validator) use ($request) {
+
+            $password = $request->password;
+            $confirm  = $request->password_confirmation;
+
+            // 1. Cek konfirmasi tidak cocok
+            if ($password !== $confirm) {
+                $validator->errors()->add('password', 'Konfirmasi kata sandi tidak cocok.');
+            }
+
+            // 2. Minimal 8 karakter
+            if (strlen($password) < 8)
+                $validator->errors()->add('password', 'Password harus minimal 8 karakter.');
+
+            // 3. Huruf besar
+            if (!preg_match('/[A-Z]/', $password))
+                $validator->errors()->add('password', 'Password harus mengandung minimal satu huruf besar.');
+
+            // 4. Huruf kecil
+            if (!preg_match('/[a-z]/', $password))
+                $validator->errors()->add('password', 'Password harus mengandung minimal satu huruf kecil.');
+
+            // 5. Angka
+            if (!preg_match('/[0-9]/', $password))
+                $validator->errors()->add('password', 'Password harus mengandung minimal satu angka.');
+
+            // 6. Simbol
+            if (!preg_match('/[@$!%*?&#]/', $password))
+                $validator->errors()->add('password', 'Password harus mengandung minimal satu simbol.');
+        });
+
 
         if ($validator->fails()) {
             return response()->json([

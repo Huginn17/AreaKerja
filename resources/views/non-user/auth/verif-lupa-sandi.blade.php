@@ -143,14 +143,16 @@
                     </div>
                 </div>
                 <div class="text-center mt-4">
-                    <a href="{{ route('login') }}" class="text-orange-600 font-medium hover:underline">Kembali</a>
+                    <a href="{{ route('email.ubah') }}" class="font-semibold text-orange-500 hover:text-orange-600">
+                        Ubah Email
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 
 
-    
+
     <!-- Script Validasi Password -->
     <script>
         const password = document.getElementById('password');
@@ -177,8 +179,6 @@
 
             let formData = new FormData(this);
 
-            console.log("URL dikirim ke:", this.action); // cek apakah benar
-
             let response = await fetch(this.action, {
                 method: "POST",
                 headers: {
@@ -191,19 +191,77 @@
 
             let data = await response.json();
 
+            // =============================
+            //  Jika VALIDASI GAGAL
+            // =============================
+            if (data.errors) {
+                if (data.errors.password) {
+                    let list = "";
+                    data.errors.password.forEach(msg => {
+                        list += `<li style="text-align:center;">${msg}</li>`;
+                    });
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Password tidak valid',
+                        html: `<ul style="text-align:center; font-size:14px; list-style:none; padding:0;">${list}</ul>`,
+                        confirmButtonColor: '#d33'
+                    });
+
+                    return;
+                }
+
+
+                if (data.errors.email) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Email tidak valid',
+                        text: data.errors.email[0],
+                        confirmButtonColor: '#d33'
+                    });
+                    return;
+                }
+            }
+
+            // =============================
+            //  Jika TOKEN SALAH
+            // =============================
+            if (data.success === false && data.message) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: data.message,
+                    confirmButtonColor: '#d33'
+                });
+                return;
+            }
+
+            // =============================
+            //  Jika BERHASIL
+            // =============================
             if (data.success) {
                 let modal = document.getElementById("successModal");
                 modal.classList.remove("hidden");
                 modal.classList.add("flex");
-            } else {
-                alert("Terjadi kesalahan, coba lagi.");
+                return;
             }
+
+            // Jika error lain
+            Swal.fire({
+                icon: 'error',
+                title: 'Kesalahan',
+                text: 'Terjadi kesalahan, coba lagi.',
+                confirmButtonColor: '#d33'
+            });
         });
 
         document.getElementById("goLogin").addEventListener("click", function() {
             window.location.href = "{{ route('login') }}";
         });
     </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>
 

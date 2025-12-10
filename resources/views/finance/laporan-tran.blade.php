@@ -30,7 +30,7 @@
                     </button>
 
                     {{-- Dropdown --}}
-                    <div x-show="open" @click.outside="open = false"
+                    <div x-show="open" x-cloak @click.outside="open = false"
                         class="absolute left-0 mt-1 w-32 sm:w-36 bg-white shadow-lg rounded-b-md overflow-hidden z-10 text-xs sm:text-sm">
 
                         @foreach ($bulanList as $key => $nama)

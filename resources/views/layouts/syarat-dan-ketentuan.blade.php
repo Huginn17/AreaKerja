@@ -2,16 +2,21 @@
 @section('content')
     <!-- Hero Section -->
     <section class="relative">
-        <img src="{{ asset('images/komputer.jpg') }}" alt="hero" class="w-full h-[350px] object-cover">
+        <img src="{{ asset('images/komputer.jpg') }}" alt="hero" class="w-full h-48 sm:h-auto object-cover">
+
         <div class="absolute inset-0 bg-black bg-opacity-30"></div>
-        <div class="absolute bottom-36 left-20 text-white">
-            <h1 class="text-3xl md:text-4xl font-semibold mt-3 max-w-2xl">
-                Syarat dan <p class="mt-4">Ketentuan</p>
+
+        <div class="absolute bottom-10 sm:bottom-36 left-5 sm:left-20 text-white">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold mt-3 max-w-xs sm:max-w-2xl leading-tight break-words">
+                Syarat dan
+                <p class="mt-2 sm:mt-4">Ketentuan</p>
             </h1>
         </div>
     </section>
-    <div class="bg-white flex justify-center py-10">
-        <div class="p-10 w-full max-w-4xl leading-relaxed text-justify">
+
+    <div class="bg-white flex justify-center py-6 sm:py-10">
+        <div class="p-5 sm:p-10 w-full max-w-4xl leading-relaxed text-justify break-words">
+
 
             <h1 class="text-2xl font-bold mb-6">Syarat &amp; Ketentuan Penggunaan</h1>
 

@@ -57,7 +57,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-900 mb-1">Kode Pos</label>
-                            <input type="text" name="kode_pos"
+                            <input type="number" name="kode_pos"
                                 class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 mb-3">
                         </div>
                     </div>

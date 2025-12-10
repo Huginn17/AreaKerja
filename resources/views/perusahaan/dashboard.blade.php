@@ -192,10 +192,10 @@
 
                 <!-- === Kandidat Saya === -->
                 <div class="bg-orange-500 rounded-2xl p-8 flex flex-col w-full">
-                    <h2 class="text-xl font-semibold text-white mb-6">Koin Saya</h2>
 
                     <div>
                         @if ($publish->isNotEmpty())
+                            <h2 class="text-xl font-semibold text-white mb-6">Koin Saya</h2>
                             <!-- Tampilkan saldo koin -->
                             <div class="mb-6">
                                 <div class="flex flex-col items-center">

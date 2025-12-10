@@ -8,10 +8,10 @@
 
             <!-- Logo -->
             @if (Auth::user()->perusahaan->img_profile)
-                <img id="pp" class="w-20 h-20 object-contain mb-3 profile-img"
+                <img id="pu" class="w-20 h-20 object-contain mb-3 profile-img"
                     src="{{ asset('storage/' . Auth::user()->perusahaan->img_profile) }}" alt="Profile">
             @else
-                <img id="pp" class="w-20 h-20 object-contain mb-3"
+                <img id="pu" class="w-20 h-20 object-contain mb-3"
                     src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
                     alt="">
             @endif
@@ -45,7 +45,7 @@
                 <div class="flex flex-col sm:flex-row items-start">
 
                     <label class="w-32 text-sm mt-2 mb-1">Deskripsi</label>
-                    <textarea name="deskripsi"
+                    <textarea name="deskripsi" readonly
                         class="auto-grow flex-1 border border-orange-400 rounded-md p-2 focus:outline-none resize-none overflow-hidden text-gray-800 text-sm"></textarea>
                 </div>
             </div>

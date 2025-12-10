@@ -16,6 +16,11 @@ class EmailVerificationController extends Controller
     // Form ganti email
     public function showChangeEmailForm()
     {
+        if (!session('otp_verified')) {
+            return abort(403, 'Akses ditolak.');
+        }
+
+        session()->forget('otp_verified');
         return view('auth.ganti-email');
     }
 

@@ -163,9 +163,10 @@
                         <button onclick="toggleModal()"
                             class="flex items-center text-green-600 text-xs font-semibold hover:underline">
                             <span class="mr-1">Top Up Koin</span>
-                            <svg width="18" height="18" viewBox="0 0 22 22" fill="none"
+                            <svg width="20" height="20" viewBox="0 0 22 22" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
-                                <rect x="0.773" y="0.968" width="20" height="20" fill="#42BB72" />
+                                <rect x="0.5" y="0.5" width="20" height="20" rx="10" fill="#42BB72" />
+                                <path d="M11 6V16M6 11H16" stroke="white" stroke-width="2" stroke-linecap="round" />
                             </svg>
                         </button>
                     </div>

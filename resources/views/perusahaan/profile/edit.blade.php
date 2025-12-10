@@ -15,10 +15,10 @@
                     <div
                         class="w-40 h-40 sm:w-56 sm:h-52 rounded-lg flex items-center justify-center overflow-hidden">
                         @if (Auth::user()->perusahaan->img_profile)
-                            <img id="pu" class="w-56 h-56 object-contain mb-3 profile-img"
+                            <img id="pa" class="w-56 h-56 object-contain mb-3 profile-img"
                                 src="{{ asset('storage/' . Auth::user()->perusahaan->img_profile) }}" alt="Profile">
                         @else
-                            <img id="pu" class="w-56 h-34 object-contain mb-3"
+                            <img id="pa" class="w-56 h-34 object-contain mb-3"
                                 src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
                                 alt="Profile">
                         @endif

@@ -54,11 +54,11 @@ class PerusahaanController extends Controller
                 'website_perusahaan'  => "nullable|string",
                 'telepon_perusahaan'  => [
                     "nullable",
-                    "regex:/^(?:\+62|62|0)[0-9]+$/"
+                    "regex:/^(?:\+628|628|08)[0-9]+$/"
                 ],
                 'whatsapp'            => [
                     "nullable",
-                    "regex:/^(?:\+62|62|0)[0-9]+$/"
+                    "regex:/^(?:\+628|628|08)[0-9]+$/"
                 ],
                 'legalitas'           => "nullable|string",
                 'deskripsi'           => "nullable|string",
@@ -66,8 +66,8 @@ class PerusahaanController extends Controller
                 'misi'                => "nullable|string",
                 'img_profile'         => "nullable|image|mimes:jpg,jpeg,png|max:2048",
             ], [
-                'telepon_perusahaan.regex' => "Nomor telepon harus diawali 0, 62 atau +62.",
-                'whatsapp.regex'           => "Nomor WhatsApp harus diawali 0, 62 atau +62.",
+                'telepon_perusahaan.regex' => "Nomor telepon harus diawali 08, 628 atau +628.",
+                'whatsapp.regex'           => "Nomor WhatsApp harus diawali 08, 628 atau +628.",
             ]);
 
             /* ==========================
