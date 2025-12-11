@@ -3,22 +3,18 @@ import '../css/app.css';
 import introJs from 'intro.js';
 import 'intro.js/introjs.css';
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
-    // Tambahkan route dinamis: /pelamar/edit/alamat/{id}
+    // Route yang tidak boleh memunculkan intro
     const disabledRoutes = [
         '/pelamar/profile',
         '/pelamar/form/alamat',
-        '/pelamar/edit/alamat' // untuk route /edit/alamat/{id}
+        '/pelamar/edit/alamat',
+        '/pelamar/alamat'
     ];
 
     const currentPath = window.location.pathname;
-
-    // Cek apakah path sekarang diawali salah satu disabled route
-    const isDisabled = disabledRoutes.some(route =>
-        currentPath.startsWith(route)
-    );
-
+    const isDisabled = disabledRoutes.some(route => currentPath.startsWith(route));
     if (isDisabled) return;
 
     const shouldShowIntro = document.querySelector('meta[name="show-intro"]');
@@ -67,7 +63,22 @@ document.addEventListener("DOMContentLoaded", function() {
             showStepNumbers: false
         });
 
-        intro.onbeforechange(function(targetElement) {
+         // =============== FIX UTAMA ==================
+        // Cek apakah dropdown berhasil tampil
+        function checkDropdownOrRestart() {
+            setTimeout(() => {
+                const isVisible = !dropdown.classList.contains('hidden');
+
+                if (!isVisible) {
+                    // Dropdown gagal tampil → restart ke step awal
+                    intro.goToStep(1).start();
+                }
+            }, 350); // waktu tunggu setelah klik
+        }
+        // =============================================
+
+        // Kunci interaksi kecuali elemen step aktif
+        intro.onbeforechange(function (targetElement) {
             document.body.style.pointerEvents = "none";
             targetElement.style.pointerEvents = "auto";
         });
@@ -76,9 +87,14 @@ document.addEventListener("DOMContentLoaded", function() {
             document.body.style.pointerEvents = "auto";
         });
 
+        // Ketika klik menu
         btnMenu.addEventListener('click', () => {
             dropdown.classList.remove('hidden');
+
             intro.nextStep();
+
+            // Pastikan dropdown muncul, kalau tidak ulangi step
+            checkDropdownOrRestart();
         });
 
         linkProfil.addEventListener('click', () => intro.exit());
@@ -90,28 +106,22 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-//PERUSAHAAN
+
+// PERUSAHAAN
 document.addEventListener("DOMContentLoaded", function () {
 
-    // Tambahkan route dinamis di sini (pakai prefix saja)
     const disabledRoutes = [
         '/perusahaan/profile',
         '/perusahaan/edit/profile',
         '/perusahaan/form/alamat',
         '/perusahaan/alamat',
-        '/perusahaan/edit/alamat' // untuk /edit/alamat/{id}
+        '/perusahaan/edit/alamat'
     ];
 
     const currentPath = window.location.pathname;
-
-    // Cek apakah route sekarang diawali salah satu prefix yang dilarang
-    const isDisabled = disabledRoutes.some(route =>
-        currentPath.startsWith(route)
-    );
-
+    const isDisabled = disabledRoutes.some(route => currentPath.startsWith(route));
     if (isDisabled) return;
 
-    // Mengecek apakah intro boleh tampil
     const shouldShowIntro = document.querySelector('meta[name="show-intro"]');
     if (!shouldShowIntro) return;
 
@@ -158,29 +168,45 @@ document.addEventListener("DOMContentLoaded", function () {
             showStepNumbers: false
         });
 
+        // =============== FIX UTAMA ==================
+        // Cek apakah dropdown berhasil tampil
+        function checkDropdownOrRestart() {
+            setTimeout(() => {
+                const isVisible = !dropdown.classList.contains('hidden');
+
+                if (!isVisible) {
+                    // Dropdown gagal tampil → restart ke step awal
+                    intro.goToStep(1).start();
+                }
+            }, 350); // waktu tunggu setelah klik
+        }
+        // =============================================
+
         // Kunci interaksi kecuali elemen step aktif
         intro.onbeforechange(function (targetElement) {
             document.body.style.pointerEvents = "none";
             targetElement.style.pointerEvents = "auto";
         });
 
-        // Kembalikan ketika selesai
         intro.onexit(() => {
             document.body.style.pointerEvents = "auto";
         });
 
-        // Step klik menu
+        // Ketika klik menu
         btnMenu.addEventListener('click', () => {
             dropdown.classList.remove('hidden');
+
             intro.nextStep();
+
+            // Pastikan dropdown muncul, kalau tidak ulangi step
+            checkDropdownOrRestart();
         });
 
-        // Step klik profil
         linkProfil.addEventListener('click', () => intro.exit());
 
         intro.start();
 
     }, 300);
-
 });
+
 

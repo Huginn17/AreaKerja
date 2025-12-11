@@ -113,12 +113,14 @@ Route::controller(LupaPasswordController::class)->group(function () {
 
 
 //VERIFIKASI EMAIL
-Route::controller(EmailVerificationController::class)->group(function () {
+Route::controller(EmailVerificationController::class)->middleware(['auth', 'email.role'])->group(function () {
     Route::get('email/ubah', 'showChangeEmailForm')->name('email.ubah');
     Route::post('/email/send-verification', 'sendVerification')->name('email.send.verification');
+    // Route::get('/email/verify/{token}', 'verify')->name('email.verify');
+});
+Route::controller(EmailVerificationController::class)->group(function () {
     Route::get('/email/verify/{token}', 'verify')->name('email.verify');
 });
-
 
 
 //TIPS KERJA UNTUK USER BELUM LOGIN
@@ -151,9 +153,6 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
         Route::post('/simpan-lowongan', 'store')->name('simpan-lowongan.store');
         Route::delete('/simpan-lowongan/{id}', 'destroy')->name('simpan-lowongan.destroy');
         Route::get('/lowongan-tersimpan', 'lowongansimpanform')->name('lowongan.tersimpan');
-
-        //lamar
-        Route::post('/lamar-cepat/{lowongan}', 'storeQuick')->name('lamar.cepat');
 
         //detail lowongan
         Route::get('/detail-lowongan/{perusahaan}/{lowongan}', 'detail_lowongan_non_user')->name('detail.lowongan.non.user');
@@ -693,8 +692,12 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
     Route::controller(ManajemenLowonganController::class)->group(function () {
         //manajemen lowongan
         Route::get('/manajemen/lowongan/gold', 'gold')->name('superadmin.manajemen.lowongan.gold')->middleware('auth');
-         Route::get('/manajemen/lowongan/silver', 'silver')->name('superadmin.manajemen.lowongan.silver')->middleware('auth');
-          Route::get('/manajemen/lowongan/bronze', 'bronze')->name('superadmin.manajemen.lowongan.bronze')->middleware('auth');
+        Route::get('/manajemen/lowongan/silver', 'silver')->name('superadmin.manajemen.lowongan.silver')->middleware('auth');
+        Route::get('/manajemen/lowongan/bronze', 'bronze')->name('superadmin.manajemen.lowongan.bronze')->middleware('auth');
+
+        Route::post('/manajemen/lowongan/gold/update', 'updateGold')->name('superadmin.manajemen.lowongan.gold.update')->middleware('auth');
+        Route::post('/manajemen/lowongan/silver/update', 'updatSilver')->name('superadmin.manajemen.lowongan.silver.update')->middleware('auth');
+        Route::post('/manajemen/lowongan/bronze/update', 'updateBronze')->name('superadmin.manajemen.lowongan.bronze.update')->middleware('auth');
     });
 
     //SOCIAL LINK CONTROLLER
@@ -849,7 +852,6 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
         Route::post('/pelamar/{pelamarlowongan}/tolak', 'tolak')->name('pelamar.tolak');
         Route::get('/pelamar/{pelamarlowongan}/detail', 'preview')->name('pelamar.detail');
     });
-
 
 
     //PEMBELI KANDIDAT CONTROLLER

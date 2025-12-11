@@ -16,42 +16,32 @@ class EmailVerificationController extends Controller
     // Form ganti email
     public function showChangeEmailForm()
     {
-        if (!session('otp_verified')) {
-            return abort(403, 'Akses ditolak.');
-        }
-
-        session()->forget('otp_verified');
         return view('auth.ganti-email');
     }
 
     // Kirim token verifikasi
     public function sendVerification(Request $request)
     {
-        // Ambil user (login / non-login)
-        if (Auth::check()) {
-            $user = Auth::user();
-            $request->validate([
-                'new_email' => 'required|email|unique:users,email',
-            ]);
-        } else {
-            $request->validate([
-                'old_email' => 'required|email|exists:users,email',
-                'new_email' => 'required|email|unique:users,email',
-            ]);
-            $user = User::where('email', $request->old_email)->first();
+        // Pastikan user login
+        if (!Auth::check()) {
+            return redirect()->route('login')
+                ->withErrors(['auth' => 'Anda harus login untuk mengubah email.']);
         }
 
-        if (!$user) {
-            return back()->withErrors(['old_email' => 'User tidak ditemukan.']);
-        }
+        $user = Auth::user();
+
+        // Validasi hanya new_email
+        $request->validate([
+            'new_email' => 'required|email|unique:users,email',
+        ]);
 
         $newEmail = $request->new_email;
         $token = Str::random(64);
 
-        // Hapus token lama untuk user ini
+        // Hapus token verifikasi lama milik user
         EmailVerification::where('user_id', $user->id)->delete();
 
-        // Simpan record verifikasi
+        // Simpan token baru
         EmailVerification::create([
             'user_id'   => $user->id,
             'new_email' => $newEmail,
@@ -61,8 +51,9 @@ class EmailVerificationController extends Controller
         // Kirim email verifikasi
         Mail::to($newEmail)->send(new NewEmailVerificationMail($user, $newEmail, $token));
 
-        return redirect()->route('login')->with('success', 'Link verifikasi telah dikirim ke ' . $newEmail);
+        return redirect()->back()->with('success', 'Link verifikasi telah dikirim ke ' . $newEmail);
     }
+
 
     // Verifikasi klik link
     public function verify($token)

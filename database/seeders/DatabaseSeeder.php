@@ -184,17 +184,19 @@ class DatabaseSeeder extends Seeder
             [
                 'nama' => 'Gold',
                 'batas_listing' => 180,   // aktif 5 hari
-                // 'harga' => 200          // harga 50 koin
+                'benefit' => "Website & Aplikasi\nInstagram Post & Story\nHighlight Story Favorit\nGoogle Jobs & Bisnis\nFacebook Post & Story\nTwitter\nLinkedIn\nTelegram",
             ],
             [
                 'nama' => 'Silver',
                 'batas_listing' => 30,   // aktif 3 hari
-                // 'harga' => 150,          // harga 30 koin
+                'benefit' => "Website & Aplikasi\nInstagram Post & Story\nGoogle Jobs & Bisnis\nFacebook Post & Story\nTwitter\nLinkedIn",
+
             ],
             [
                 'nama' => 'Bronze',
-                'batas_listing' => 7,   // aktif 1 hari
-                // 'harga' => 100,          // harga 10 koin
+                'batas_listing' => 7,
+                'benefit' => "Website & Aplikasi\nInstagram Post & Story\nGoogle Jobs & Bisnis\nTwitter",   // aktif 1 hari
+
             ],
         ];
 

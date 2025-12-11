@@ -17,6 +17,7 @@ use App\Models\Perusahaan;
 use App\Models\RiwayatPendidikan;
 use App\Models\SimpanLowongan;
 use App\Models\TipsKerja;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -52,6 +53,11 @@ class PelamarController extends Controller
     {
         $pelamar = auth()->user()->pelamar ?? null;
         if (!$pelamar) abort(403);
+
+        $isExpired = false;
+        if ($lowongan->batas_lamaran) {
+            $isExpired = now()->greaterThan(Carbon::parse($lowongan->batas_lamaran));
+        }
 
         // Ambil semua lowongan aktif (untuk sidebar)
         $Data = LowonganPerusahaan::with('perusahaan')
@@ -105,6 +111,7 @@ class PelamarController extends Controller
             'isSaved' => $isSaved,
             'lowonganLain' => $lowonganLain,
             'tawaran' => $tawaran,
+            'isExpired' => $isExpired,
         ]);
     }
 

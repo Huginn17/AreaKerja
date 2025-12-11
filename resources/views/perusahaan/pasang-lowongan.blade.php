@@ -28,22 +28,45 @@
     <section class="py-16 space-y-6">
         <div class="max-w-6xl mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-center flex-wrap md:mt-16 ">
-
                 @php
-                    // Mapping warna header paket
+                    function formatDurasi($hari)
+                    {
+                        $bulan = intdiv($hari, 30);
+                        $sisaHari = $hari % 30;
+
+                        $minggu = intdiv($sisaHari, 7);
+                        $hariAkhir = $sisaHari % 7;
+
+                        $output = [];
+
+                        if ($bulan > 0) {
+                            $output[] = $bulan . ' Bulan';
+                        }
+
+                        if ($minggu > 0) {
+                            $output[] = $minggu . ' Minggu';
+                        }
+
+                        if ($hariAkhir > 0) {
+                            $output[] = $hariAkhir . ' Hari';
+                        }
+
+                        // Jika semua 0 (misal batas_listing kosong)
+                        if (empty($output)) {
+                            return '0 Hari';
+                        }
+
+                        return implode(' ', $output);
+                    }
+
+                    // Warna header tetap
                     $warnaHeader = [
                         'Gold' => 'bg-yellow-500',
                         'Silver' => 'bg-gray-500',
                         'Bronze' => 'bg-amber-700',
                     ];
-
-                    // Mapping durasi paket
-                    $durasiPaket = [
-                        'Gold' => '6 Bulan',
-                        'Silver' => '1 Bulan',
-                        'Bronze' => '1 Minggu',
-                    ];
                 @endphp
+
 
                 @foreach ($pakets as $paket)
                     <div class="w-72 mx-auto mt-6">
@@ -67,31 +90,31 @@
                                 </p>
 
                                 <!-- Durasi Publish -->
-                                <div
-                                    class="bg-gray-100 border border-gray-300 rounded-md py-2 px-3 text-sm font-semibold mb-4 flex items-center justify-center gap-2">
-
-                                    <i class="ph ph-calendar-dots text-xl"></i>
-
-                                    <span class="text-gray-700">Masa Publikasi:</span>
-
-                                    <span class="font-bold text-gray-900">
-                                        {{ $durasiPaket[$paket->nama] }}
-                                    </span>
+                                <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-4 mb-4">
+                                    <div class="flex items-center justify-center gap-3">
+                                        <div class="p-2 bg-blue-50 text-blue-600 rounded-lg">
+                                            <i class="ph ph-calendar-dots text-2xl"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm text-gray-500 font-medium leading-tight">Masa Publikasi</p>
+                                            <p class="text-lg font-bold text-gray-900">
+                                                {{ formatDurasi($paket->batas_listing) }}
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
+
 
 
                                 <hr class="my-3 border-gray-300">
 
-                                <!-- List Benefit -->
                                 <ul class="text-sm text-gray-700 space-y-2 mb-6 flex-1">
-                                    <li class="flex items-start"><span class="mr-2">✔</span> Website & Aplikasi</li>
-                                    <li class="flex items-start"><span class="mr-2">✔</span> Instagram Post & Story</li>
-                                    <li class="flex items-start"><span class="mr-2">✔</span> Highlight Story Favorit</li>
-                                    <li class="flex items-start"><span class="mr-2">✔</span> Google Jobs & Bisnis</li>
-                                    <li class="flex items-start"><span class="mr-2">✔</span> Facebook Post & Story</li>
-                                    <li class="flex items-start"><span class="mr-2">✔</span> Twitter</li>
-                                    <li class="flex items-start"><span class="mr-2">✔</span> LinkedIn</li>
-                                    <li class="flex items-start"><span class="mr-2">✔</span> Telegram</li>
+                                    @foreach (explode("\n", $paket->benefit) as $item)
+                                        <li class="flex items-start">
+                                            <span class="mr-2">✔</span>
+                                            {{ trim($item) }}
+                                        </li>
+                                    @endforeach
                                 </ul>
 
                                 <!-- Tombol -->

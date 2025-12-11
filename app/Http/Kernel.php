@@ -69,5 +69,6 @@ class Kernel extends HttpKernel
         'CheckUserStatus' => \App\Http\Middleware\CheckUserStatus::class,
         'cekKategori' => \App\Http\Middleware\CekKategoriPelamar::class,
         'check.profile' => \App\Http\Middleware\CheckProfileCompletion::class,
+        'email.role' => \App\Http\Middleware\EmailAccessRole::class,
     ];
 }

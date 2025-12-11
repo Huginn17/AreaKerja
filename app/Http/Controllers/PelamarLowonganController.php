@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\LowonganPerusahaan;
 use App\Models\Notifikasi;
 use App\Models\PelamarLowongan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PelamarLowonganController extends Controller
 {
+
     public function storeQuick(Request $request, LowonganPerusahaan $lowongan)
     {
         $user = Auth::user();
@@ -29,14 +31,22 @@ class PelamarLowonganController extends Controller
             ], 403);
         }
 
-        // cek apakah sudah lewat batas lamaran
-        if ($lowongan->batas_lamaran && now()->greaterThan($lowongan->batas_lamaran)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Lamaran sudah ditutup karena telah melewati batas waktu.'
-            ], 403);
+        // ---------------------------------------------------------
+        //  **CEK BATAS LAMARAN EXPIRED**
+        // ---------------------------------------------------------
+        if ($lowongan->batas_lamaran) {
+            $batas = Carbon::parse($lowongan->batas_lamaran);
+
+            if (now()->greaterThan($batas)) {
+                return response()->json([
+                    'success' => false,
+                    'expired' => true,
+                    'message' => 'Lamaran sudah ditutup karena telah melewati batas waktu.'
+                ], 403);
+            }
         }
-        
+        // ---------------------------------------------------------
+
         $pelamar = $user->pelamar;
 
         // cek apakah CV sudah lengkap
@@ -61,7 +71,7 @@ class PelamarLowonganController extends Controller
                     'message' => 'Anda tidak dapat melamar lagi karena lamaran Anda sebelumnya masih ' . $existingLamaran->status . '.'
                 ]);
             }
-            // jika ditolak → lanjutkan melamar
+            // jika 'ditolak', boleh melamar ulang
         }
 
         // simpan lamaran baru
@@ -87,7 +97,6 @@ class PelamarLowonganController extends Controller
             ]);
         }
 
-        // RESPONSE SUKSES
         return response()->json([
             'success' => true,
             'message' => 'Lamaran berhasil dikirim!'

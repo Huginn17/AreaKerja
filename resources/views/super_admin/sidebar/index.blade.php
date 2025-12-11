@@ -232,16 +232,16 @@
                             Event
                         </a>
                     </div>
-                    <div class="font-bold mb-3 ml-3 mt-3">Manajemen Lowongan</div>
+                    <div class="font-bold mb-4 ml-3 mt-5">Manajemen Lowongan</div>
                     <div
-                        class="{{ request()->is('super_admin/manajemen/lowongan') ? 'bg-white text-orange-500' : '' }} rounded-md">
-                        <a href="{{ route('superadmin.manajemen.lowongan') }}"
+                        class="{{ request()->is('super_admin/manajemen/lowongan/gold') ||  request()->is('super_admin/manajemen/lowongan/silver') ||  request()->is('super_admin/manajemen/lowongan/bronze') ? 'bg-white text-orange-500' : '' }} rounded-md">
+                        <a href="{{ route('superadmin.manajemen.lowongan.gold') }}"
                             class="flex font-semibold items-center mb-1 gap-2 hover:bg-white hover:text-orange-500 rounded-md px-3 py-1 transition duration-300">
                             <i class="ph ph-wrench text-2xl"></i>
                             Setting Lowongan
                         </a>
                     </div>
-                    <div class="font-bold mb-3 ml-3 mt-3">Manajemen Akun</div>
+                    <div class="font-bold mb-4 ml-3 mt-5">Manajemen Akun</div>
                     <div
                         class="{{ request()->is('super_admin/add/user') ? 'bg-white text-orange-500' : '' }} rounded-md">
                         <a href="{{ route('superadmin.add.user') }}"

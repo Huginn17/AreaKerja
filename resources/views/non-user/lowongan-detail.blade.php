@@ -61,10 +61,13 @@
                             @endphp
 
                             @if ($kategori === 'pelamar' || $kategori === 'calon kandidat' || ($kategori === 'kandidat aktif' && !$tawaran))
-                                <button @click="showConfirm = true"
-                                    class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-lg transition">
-                                    Lamar Cepat
+                                <button @click="if(!{{ $isExpired ? 'true' : 'false' }}) showConfirm = true"
+                                    :disabled="{{ $isExpired ? 'true' : 'false' }}"
+                                    class="px-5 py-2 rounded-lg text-white transition
+        {{ $isExpired ? 'bg-gray-300 cursor-not-allowed' : 'bg-orange-500 hover:bg-orange-600' }}">
+                                    {{ $isExpired ? 'Lamaran Kadaluarsa' : 'Lamar Cepat' }}
                                 </button>
+
 
                                 {{-- simpan --}}
                                 <div x-data="saveLowongan({{ $data->id }}, {{ $isSaved ? 'true' : 'false' }})">
