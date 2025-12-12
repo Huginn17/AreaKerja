@@ -85,7 +85,6 @@
         </form>
 
 
-
         @forelse ($Data as $d)
             @if ($d->paket_id && $d->published_at)
                 <!-- Card Published -->

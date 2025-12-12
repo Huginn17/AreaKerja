@@ -5,7 +5,7 @@
 
             <!-- Judul -->
             <h1 class="text-xl md:text-2xl font-medium">
-                Data Kandidat
+                Data Perusahaan
             </h1>
 
             <!-- Bagian kanan -->

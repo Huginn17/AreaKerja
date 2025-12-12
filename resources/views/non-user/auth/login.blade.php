@@ -42,7 +42,7 @@
                 </div>
 
                 <!-- Text -->
-                <h1 class="text-3xl font-bold mt-10 md:mt-[-45%] mb-10">Hallo, Pekerja</h1>
+                <h1 class="text-3xl font-bold mt-10 md:mt-[-45%] mb-10">Hallo, Jobseeker</h1>
                 <p class="text-sm mb-10">untuk tetap terhubung dengan kami, silakan<br> masuk dengan informasi pribadi
                     Anda</p>
 

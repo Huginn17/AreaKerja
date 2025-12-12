@@ -755,7 +755,7 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
         Route::get('/dashboard', 'beranda_perusahaan')->name('perusahaan.dashboard');
     });
 
-
+    
     //PERUSAHAAN CONTROLLER
     Route::controller(PerusahaanController::class)->group(function () {
         //profile perusahaan

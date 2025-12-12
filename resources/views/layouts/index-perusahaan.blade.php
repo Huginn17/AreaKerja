@@ -253,12 +253,13 @@
 
             <!-- MENU TABLET DAN MOBILE -->
             <div x-show="openMenu" x-transition x-cloak
-               class="flex flex-col absolute top-16 left-0 w-full bg-white border-t border-gray-200 py-4 shadow-lg z-40 xl:hidden">
+                class="flex flex-col absolute top-16 left-0 w-full bg-white border-t border-gray-200 py-4 shadow-lg z-40 xl:hidden">
 
 
                 <div class="flex items-center gap-2 px-6 pb-3 pt-4">
                     <img src="{{ asset('images/logoarea.png') }}" class="h-9" alt="">
-                    <span class="font-semibold text-orange-600">areakerja.com</span>
+                    <span class="font-semibold text-orange-600">
+                        <a href="{{ route('perusahaan.dashboard') }}">areakerja.com</a></span>
                 </div>
 
                 <a href="{{ route('perusahaan.dashboard') }}"
@@ -289,14 +290,21 @@
 
 
             {{-- logo --}}
-            <div class="hidden xl:flex items-center gap-2"">
-                <img src="{{ asset('images/logoarea.png') }}" alt="Areakerja Logo" class="h-10">
-                <span class="font-bold text-xl text-orange-600 ">areakerja.com</span>
+            <div class="hidden xl:flex items-center gap-2">
+                <a href="{{ route('perusahaan.dashboard') }}" class="flex items-center gap-2">
+                    <img src="{{ asset('images/logoarea.png') }}" alt="Areakerja Logo" class="h-10">
+                    <span
+                        class="font-bold text-xl 
+            {{ request()->routeIs('perusahaan.dashboard') ? 'text-orange-500' : 'text-orange-600' }}">
+                        areakerja.com
+                    </span>
+                </a>
             </div>
 
 
+
             {{-- menu --}}
-            <nav class="hidden xl:flex gap-8 font-medium text-gray-800">
+            <nav class="hidden xl:flex gap-8 font-mediu m text-gray-800">
 
                 <a href="{{ route('perusahaan.dashboard') }}"
                     class="hover:text-orange-500 hover:font-bold hover:scale-105 transition-all duration-400

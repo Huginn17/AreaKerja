@@ -207,7 +207,7 @@
                 <img src="{{ asset('images/gambar2.jpg') }}" alt="Background" class="w-full h-full object-cover">
                 <div
                     class="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center text-center text-white px-6 pb-56">
-                    <h2 class="text-3xl font-semibold mb-4">Hallo, Pekerja</h2>
+                    <h2 class="text-3xl font-semibold mb-4">Hallo, Jobseeker</h2>
                     <p class="mb-6">Untuk tetap terhubung dengan kami, silakan masuk dengan informasi pribadi Anda.
                     </p>
                     <a href="{{ url('/login') }}"

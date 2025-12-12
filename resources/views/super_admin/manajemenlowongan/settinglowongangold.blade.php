@@ -66,7 +66,7 @@
             <!-- Select utama -->
             <button id="dropdownButton"
                 class="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium px-4 py-2 border border-orange-500 rounded-md flex justify-between items-center focus:outline-none truncate">
-                <span id="dropdownText" class="truncate">Pilih Opsi</span>
+                <span id="dropdownText" class="truncate">Pilih Lowongan</span>
                 <svg class="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>

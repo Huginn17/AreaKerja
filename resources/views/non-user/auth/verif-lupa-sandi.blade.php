@@ -26,7 +26,7 @@
             <div class="absolute inset-0 bg-black bg-opacity-50"></div>
 
             <div class="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-6">
-                <h1 class="text-3xl font-bold mt-[-45%] mb-10">Hallo, Pekerja</h1>
+                <h1 class="text-3xl font-bold mt-[-45%] mb-10">Hallo, Jobseeker</h1>
                 <p class="text-sm mb-10">Untuk tetap terhubung dengan kami, silakan<br> masuk dengan informasi pribadi
                     Anda</p>
                 <a href="{{ route('login') }}"
