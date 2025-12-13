@@ -171,7 +171,7 @@
                         <hr class="my-6 border-gray-300">
                     @endforeach
                 @else
-                    <p class="text-gray-500">Belum ada pencarian.</p>
+                    <p class="text-gray-500 mb-4">Belum ada pencarian.</p>
                 @endif
             </div>
         </div>

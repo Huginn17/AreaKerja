@@ -13,9 +13,9 @@
             <div class="flex flex-col sm:flex-row sm:gap-4 gap-6">
                 <form action="" method="get" class="flex flex-col sm:flex-row sm:items-center sm:gap-4 gap-3">
                     <input type="text" name="search" value="{{ request('search') }}"
-                        placeholder="nama kandidat/username ..." class="border rounded-full px-8 py-2 text-sm w-full sm:w-72 border-gray-300 shadow-lg">
+                        placeholder="nama kandidat/username ..." class="border rounded-lg px-8 py-2 text-sm w-full sm:w-72 border-gray-300 shadow-lg">
 
-                    <select name="skill" class="border border-gray-300 rounded-full px-10 py-2 text-sm shadow-lg">
+                    <select name="skill" class="border border-gray-300 rounded-lg px-10 py-2 text-sm shadow-lg">
                         <option value="">Skill</option>
                         @foreach ($skillList as $skill)
                             <option value="{{ $skill->skill }}" {{ request('skill') == $skill->skill ? 'selected' : '' }}>

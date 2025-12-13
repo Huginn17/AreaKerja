@@ -56,6 +56,11 @@
                     @enderror
                 </div>
 
+                <div id="map" class="w-full h-64 rounded-lg border"></div>
+                <input type="hidden" name="latitude" id="latitude">
+                <input type="hidden" name="longitude" id="longitude">
+
+
                 <!-- Catatan -->
                 <div>
                     <label class="block mb-1 font-medium">Catatan</label>
@@ -73,6 +78,36 @@
             </form>
         </div>
     </div>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script>
+        const map = L.map('map').setView([-6.200000, 106.816666], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(map);
+
+        let marker;
+
+        map.on('click', function(e) {
+            const {
+                lat,
+                lng
+            } = e.latlng;
+
+            document.getElementById('latitude').value = lat;
+            document.getElementById('longitude').value = lng;
+
+            if (marker) {
+                marker.setLatLng(e.latlng);
+            } else {
+                marker = L.marker(e.latlng).addTo(map);
+            }
+        });
+    </script>
+
 
     @include('layouts.footer')
 @endsection

@@ -118,10 +118,22 @@ class LowonganPerusahaanController extends Controller
             abort(404);
         }
 
+
+        $isBoostActive = !is_null($lowongan->boosted_until);
+
+        // optional: waktu terakhir boost (untuk info / sorting / badge)
+        $boostedAt = $lowongan->boosted_until
+            ? \Carbon\Carbon::parse($lowongan->boosted_until)
+            : null;
+
+
+
         return view('perusahaan.lowongan-saya.detail-lowongan', [
             "data" => $lowongan,
             "Data" => LowonganPerusahaan::all(),
             "lowonganLainnya" => $lowonganLainnya,
+            "isBoostActive" => $isBoostActive,
+            "boostedAt" => $boostedAt,
         ]);
     }
 
@@ -211,7 +223,6 @@ class LowonganPerusahaanController extends Controller
         return redirect()->route('lowongan.saya.perusahaan')
             ->with('success', 'Lowongan berhasil dipublish dan aktif selama ' . $paket->batas_listing . ' hari.');
     }
-
 
 
 
@@ -455,5 +466,56 @@ class LowonganPerusahaanController extends Controller
         $perusahaanId = $lowongan->perusahaan_id;
         $lowongan->delete();
         return redirect()->route('superadmin.perusahaan.detail', $perusahaanId)->with('success', 'Lowongan berhasil dihapus.');
+    }
+
+
+
+    public function boost(Request $request)
+    {
+        $request->validate([
+            'lowongan_id' => 'required|exists:lowongan_perusahaans,id'
+        ]);
+
+        $user = Auth::user();
+        $perusahaan = $user->perusahaan;
+
+        $hargaBoost = 300;
+
+        // cek koin
+        if ($perusahaan->koin_perusahaan < $hargaBoost) {
+            return response()->json([
+                'success' => false,
+                'koin_kurang' => true,
+                'message' => 'Koin perusahaan tidak mencukupi.'
+            ]);
+        }
+
+        // ambil lowongan
+        $lowongan = LowonganPerusahaan::where('perusahaan_id', $perusahaan->id)
+            ->whereNotNull('published_at')
+            ->findOrFail($request->lowongan_id);
+
+        // potong koin
+        $perusahaan->decrement('koin_perusahaan', $hargaBoost);
+
+        // simpan waktu boost TERAKHIR
+        $lowongan->boosted_until = now();
+        $lowongan->save();
+
+
+        // catatan koin
+        CatatanKoin::create([
+            'user_id'      => $user->id,
+            'no_referensi' => 'BOOST-' . now()->format('Ymd') . '-' . strtoupper(Str::random(6)),
+            'pesanan'      => 'Boost Lowongan (Tanpa Batas): ' . $lowongan->nama,
+            'dari'         => 'Koin Perusahaan',
+            'sumber_dana'  => 'boost-lowongan',
+            'total'        => '-' . $hargaBoost,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Lowongan berhasil di-boost.'
+        ]);
     }
 }

@@ -1,32 +1,36 @@
 @extends('layouts.index-perusahaan')
 @section('content')
-    <div class="flex flex-col sm:flex-row items-start sm:items-center ml-11 gap-4 mt-16">
+    <div class="border-b pb-4">
+        <div class="flex flex-row sm:flex-row items-center sm:items-center gap-4 pt-28 sm:pt-16 ml-4 sm:ml-11">
 
-        @if (Auth::user()->perusahaan->img_profile)
-            <img id="pp" class="w-20 h-20 object-contain mt-5 sm:mt-[50px] profile-img flex-shrink-0"
-                src="{{ asset('storage/' . Auth::user()->perusahaan->img_profile) }}" alt="Profile">
-        @else
-            <img id="pp" class="w-20 h-20 object-contain mt-5 sm:mt-[50px] flex-shrink-0"
-                src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
-                alt="">
-        @endif
+            @if (Auth::user()->perusahaan->img_profile)
+                <img id="pp"
+                    class="w-14 h-14 sm:w-20 sm:h-20 object-contain mt-0 sm:mt-[50px] profile-img flex-shrink-0"
+                    src="{{ asset('storage/' . Auth::user()->perusahaan->img_profile) }}" alt="Profile">
+            @else
+                <img id="pp"
+                    class="w-14 h-14 sm:w-20 sm:h-20 object-contain mt-0 sm:mt-[50px] flex-shrink-0"
+                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->username) }}&background=random&color=fff&size=128"
+                    alt="">
+            @endif
 
-        <div class="mt-2 sm:mt-10 w-full">
-            <h3 class="font-semibold text-xl m-2 break-words">
-                {{ $data->perusahaan->nama_perusahaan }}
-            </h3>
+            <div class="mt-0 sm:mt-10 w-full">
+                <h3 class="font-semibold text-base sm:text-xl m-0 sm:m-2 break-words">
+                    {{ $data->perusahaan->nama_perusahaan }}
+                </h3>
 
-            <p class="text-medium font-semibold m-2 break-words">
-                {{ $data->perusahaan->jenis_perusahaan }}
-            </p>
+                <p class="text-sm sm:text-medium font-semibold m-0 sm:m-2 break-words">
+                    {{ $data->perusahaan->jenis_perusahaan }}
+                </p>
 
-            <p class="text-sm text-gray-400 mt-1 m-2 break-words">
-                {{ $data->perusahaan->alamatUtama->kota->nama }}
-            </p>
+                <p class="text-xs sm:text-sm text-gray-400 mt-1 m-0 sm:m-2 break-words">
+                    {{ $data->perusahaan->alamatUtama->kota->nama }}
+                </p>
+            </div>
+
         </div>
 
     </div>
-
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <div class="max-w-7xl mx-auto p-4 sm:p-8 text-gray-800 text-sm">
 
@@ -35,14 +39,29 @@
 
             <!-- KIRI: Detail Job -->
             <div class="lg:col-span-2 break-words">
-
+                <h1 class="text-xl font-bold mb-4">Lowongan</h1>
                 <!-- Header Job -->
                 <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
+
                     <img src="{{ asset('storage/' . $data->perusahaan->img_profile) }}" alt="logo"
                         class="w-20 h-20 rounded-full flex-shrink-0">
 
-                    <div class="w-full">
-                        <h2 class="font-bold text-xl break-words">{{ $data->nama }}</h2>
+                    <div>
+                        <div class="flex items-center justify-between gap-4 mb-4">
+                            <!-- KIRI: Nama -->
+                            <h2 class="font-bold text-lg break-words">
+                                {{ $data->nama }}
+                            </h2>
+
+                            <!-- KANAN: Booster -->
+                            @if ($isBoostActive)
+                                <div
+                                    class="flex items-center text-sm font-semibold text-orange-600 bg-orange-100 px-2 rounded-md whitespace-nowrap animate-pulse">
+                                    <i class="ph ph-rocket-launch text-lg mr-1"></i>
+                                    Booster Aktif
+                                </div>
+                            @endif
+                        </div>
                         <p class="text-sm text-gray-500 break-words">{{ $data->perusahaan->nama_perusahaan }}</p>
                         <p class="text-sm mt-1 text-gray-500 break-words">{{ $data->alamat }}</p>
                         <p class="mt-1 text-gray-700 font-semibold">
@@ -58,7 +77,8 @@
                         @csrf
                         @method('delete')
 
-                        <div class="flex items-center gap-2">
+                        <div
+                            class="flex items-center gap-2 hover:bg-orange-100 shadow bg-white px-4 py-2 rounded-md border border-orange-500 transition-colors duration-300">
                             <svg width="23" height="23" viewBox="0 0 23 23" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <mask id="mask0_643_6018" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -78,12 +98,12 @@
                                 </defs>
                             </svg>
 
-                            <button type="submit" class="text-orange-600 text-xs font-medium hover:underline">Tutup
-                                Lowongan</button>
+                            <button type="submit" class="text-orange-600 text-md font-medium">Tutup Lowongan</button>
                         </div>
                     </form>
 
-                    <div class="flex items-center gap-2">
+                    <div
+                        class="flex items-center gap-2 hover:bg-orange-100 shadow bg-white px-4 py-2 rounded-md border border-orange-500 transition-colors duration-300">
                         <svg width="24" height="23" viewBox="0 0 24 23" fill="none"
                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <mask id="mask0_643_6012" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -106,7 +126,7 @@
                             'perusahaan' => $data->perusahaan->slug,
                             'lowongan' => $data->slug,
                         ]) }}"
-                            class="text-orange-600 text-xs font-medium hover:underline">Edit Lowongan</a>
+                            class="text-orange-600 text-md font-medium">Edit Lowongan</a>
                     </div>
                 </div>
 
@@ -189,8 +209,8 @@
             <!-- KANAN: Lowongan Lainnya -->
             <aside class="w-full lg:w-96 break-words">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-semibold text-md break-words">
-                        Lowongan {{ $data->perusahaan->nama_perusahaan }} Lainnya
+                    <h3 class="font-bold text-xl break-words">
+                        Lowongan <span class="text-orange-500">{{ $data->perusahaan->nama_perusahaan }}</span> Lainnya
                     </h3>
                 </div>
 
@@ -199,7 +219,7 @@
                         'perusahaan' => $ll->perusahaan->slug,
                         'lowongan' => $ll->slug,
                     ]) }}"
-                        class="block shadow-md rounded-md p-3 mb-3 hover:shadow-lg transition duration-200">
+                        class="block border shadow-md rounded-md p-3 mb-4 hover:shadow-lg hover:scale-105 transition-all duration-500">
 
                         <div class="flex items-start gap-3">
                             <img src="{{ asset('storage/' . $ll->perusahaan->img_profile) }}" alt="logo"
@@ -236,9 +256,6 @@
 
         </div>
     </div>
-
-    </div>
-
 
     @include('layouts.footer')
 @endsection

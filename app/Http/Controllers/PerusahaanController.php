@@ -556,14 +556,14 @@ class PerusahaanController extends Controller
     public function kandidatSaya(Request $request)
     {
         $search = $request->search;
-        $skill  = $request->skill; // ⬅️ tambahkan ini
+        $skill  = $request->skill; 
 
         $user = auth()->user();
         $perusahaan = Perusahaan::where('user_id', $user->id)->firstOrFail();
         $perusahaanId = $perusahaan->id;
 
         // ==========================
-        // 1️⃣ Dari Pembelian Kandidat
+        // Dari Pembelian Kandidat
         // ==========================
         $recruitment1 = PembeliKandidat::where('status', 'diterima')
             ->whereHas('lowonganPerusahaan', function ($q) use ($perusahaanId) {
@@ -594,7 +594,7 @@ class PerusahaanController extends Controller
             ->get();
 
         // ==========================
-        // 2️⃣ Dari Pelamar Lowongan
+        //  Dari Pelamar Lowongan
         // ==========================
         $recruitment2 = PelamarLowongan::where('status', 'diterima')
             ->whereHas('lowongan_perusahaan', function ($q) use ($perusahaanId) {

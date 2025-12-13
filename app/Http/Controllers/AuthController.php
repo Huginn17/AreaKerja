@@ -76,13 +76,17 @@ class AuthController extends Controller
                 $q->whereNull('expired_at')
                     ->orWhere('expired_at', '>', now());
             })
-            // === Tambahkan filter kategori ===
+            // Filter kategori jika ada
             ->when($kategori, function ($q) use ($kategori) {
                 $q->where('kategori', $kategori);
             })
-            // ================================
-            ->orderBy('rekomendasi', 'desc')
-            ->latest()
+            // === BOOSTER PRIORITAS PALING ATAS ===
+            ->orderByRaw('CASE WHEN boosted_until > NOW() THEN 0 ELSE 1 END') // prioritas booster
+            ->orderBy('boosted_until', 'DESC') // booster paling baru dulu
+            // === SETELAH BOOSTER, BARU REKOMENDASI ===
+            ->orderBy('rekomendasi', 'DESC')
+            // === TERAKHIR BARU LOWONGAN BIASA ===
+            ->orderBy('created_at', 'DESC')
             ->get();
 
         return view('non-user.home', [

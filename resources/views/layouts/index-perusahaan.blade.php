@@ -238,7 +238,7 @@
 
 <body x-data="{ openNotif: false, openAllNotif: false, openMenu: false }">
     {{-- navbar --}}
-    <header class="bg-white border-b py-2 border-gray-300 fixed top-0 left-0 w-full z-50">
+    <header class="bg-white border-b shadow-md py-2 border-gray-300 fixed top-0 left-0 w-full z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
 
             <!-- HAMBURGER UNTUK TABLET DAN MOBILE -->
@@ -459,7 +459,7 @@
                 {{-- </button> --}}
                 @guest
                     <a href="{{ route('login') }}"
-                        class="px-11 py-2 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition">
+                        class="px-11 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition">
                         Masuk
                     </a>
                 @endguest
@@ -473,11 +473,11 @@
                             <span class="sr-only">Open user menu</span>
                             @if (Auth::user()->role == 'perusahaan')
                                 <div
-                                    class="px-6 py-2 bg-orange-500 rounded-xl text-white font-semibold text-center max-w-[130px] truncate">
+                                    class="px-6 py-2 bg-orange-500 rounded-lg text-white font-semibold text-center max-w-[130px] truncate">
                                     {{ Auth::user()->perusahaan->nama_perusahaan ?? Auth::user()->username }}
                                 </div>
                             @else
-                                <div class="px-6 py-2 bg-orange-500 rounded-xl text-white font-semibold text-center">
+                                <div class="px-6 py-2 bg-orange-500 rounded-lg text-white font-semibold text-center">
                                     {{ Auth::user()->username }}
                                 </div>
                             @endif

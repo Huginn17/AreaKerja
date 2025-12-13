@@ -7,6 +7,15 @@
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0">
             {{-- 🔹 Label Direkomendasikan --}}
             <div class="flex flex-col gap-2">
+                {{-- BOOSTED --}}
+                @if (!is_null($d->boosted_until))
+                    <p
+                        class="bg-yellow-100 w-fit px-3 py-1 text-yellow-700 font-semibold rounded-md text-xs flex items-center gap-1">
+                        <i class="ph ph-rocket-launch text-lg"></i>
+                        Boosted
+                    </p>
+                @endif
+
                 @if ($d->rekomendasi !== null)
                     <p class="bg-[#fdedf4] w-fit px-3 py-1 text-blue-500 font-semibold rounded-md text-xs">
                         Direkomendasikan
@@ -17,11 +26,12 @@
                         Dibutuhkan segera
                     </p>
                 @endif
-                @if (now()->greaterThan(\Carbon\Carbon::parse($d->batas_lamaran)))
+                @if ($d->batas_lamaran && now()->greaterThan(\Carbon\Carbon::parse($d->batas_lamaran)->endOfDay()))
                     <p class="bg-red-100 w-fit px-3 py-1 text-red-600 font-semibold rounded-md text-xs">
                         Batas lamaran berakhir
                     </p>
                 @endif
+
 
                 <h1 class="font-bold text-lg md:text-xl mt-2 md:mt-3">
                     {{ $d->nama }} - {{ $d->jenis }}
@@ -188,10 +198,12 @@
             <div class="space-y-6">
 
                 {{-- Tombol Lamar Cepat + kondisi expired --}}
-                <button @if (!$expired) @click.stop="showConfirm = true" @endif
+                <button @if (!$lowongan->is_expired) @click.stop="showConfirm = true" @endif
                     class="inline-block px-4 py-2 rounded-lg text-sm font-semibold transition
-               {{ $expired ? 'bg-gray-300 text-gray-600 cursor-not-allowed' : 'bg-orange-500 text-white hover:bg-orange-600' }}">
-                    {{ $expired ? 'Lamaran Ditutup' : 'Lamar Cepat' }}
+        {{ $lowongan->is_expired
+            ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+            : 'bg-orange-500 text-white hover:bg-orange-600' }}">
+                    {{ $lowongan->is_expired ? 'Lamaran Ditutup' : 'Lamar Cepat' }}
                 </button>
 
                 <hr>

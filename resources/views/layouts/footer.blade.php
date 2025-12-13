@@ -14,7 +14,7 @@
         <!-- Logo + Description -->
         <div class="mt-[-10%]">
             <div>
-                <img src="{{ asset('images/logo_area_kerja_putih.png') }}" alt="Logo" class="w-20 h-20 ">
+                <img src="{{ asset('images/logo_area_kerja_putih.png') }}" alt="Logo" class="w-20 h-17">
             </div>
             <div class="text-sm leading-relaxed ">
                 <p>Lamar Pekerjaan Kamu - Dengan <br> waktu dan langkah yang cepat</p>
@@ -66,16 +66,16 @@
         <div>
             <h3 class="mb-4 text-xl">Kontak Kami</h3>
 
-            <form class="flex flex-col sm:flex-row bg-white overflow-hidden rounded-lg">
+            <form class="flex flex-col sm:flex-row bg-white border-none overflow-hidden rounded-lg shadow-md">
 
                 <input type="email" placeholder="Email address"
                     class="flex-1 px-3 py-2 text-black focus:outline-none 
-                   border border-gray-300 sm:border-r-0 
+                  border-none
                    rounded-md sm:rounded-none w-full">
 
                 <button type="submit"
-                    class="bg-black text-orange-500 px-4 py-2 hover:bg-gray-800 
-                   rounded-md sm:rounded-none sm:rounded-r-lg 
+                    class="bg-black text-orange-500 px-4 foucus:outline-none border-none py-2 hover:bg-gray-800 
+                   rounded-md sm:rounded-none
                    w-full sm:w-auto text-center">
                     Submit
                 </button>
@@ -99,7 +99,7 @@
             @foreach ($socialLinks as $social)
                 @if (in_array(strtolower($social->nama), ['facebook', 'youtube', 'instagram', 'twitter', 'linkedin']))
                     <a href="{{ $social->link }}"
-                        class="border border-orange-400 rounded-md px-2 py-1 hover:bg-orange-600 transition duration-300 hover:scale-110"
+                        class="border border-orange-400 shadow-md hover:shadow-lg rounded-md px-2 py-1 hover:bg-orange-600 transition duration-300 hover:scale-110"
                         title="{{ ucfirst($social->nama) }}">
                         @switch(strtolower($social->nama))
                             @case('facebook')

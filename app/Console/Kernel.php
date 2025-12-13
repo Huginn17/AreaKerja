@@ -28,6 +28,7 @@ class Kernel extends ConsoleKernel
         // Hapus notifikasi yang kadaluarsa tiap hari
         $schedule->command('notifikasi:hapus-expired')->everyMinute();
         $schedule->command('notify:expired-lowongans')->everyFiveMinutes();
+        $schedule->command('lowongan:clean-inactive')->daily();
     }
 
     /**

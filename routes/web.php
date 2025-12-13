@@ -755,7 +755,7 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
         Route::get('/dashboard', 'beranda_perusahaan')->name('perusahaan.dashboard');
     });
 
-    
+
     //PERUSAHAAN CONTROLLER
     Route::controller(PerusahaanController::class)->group(function () {
         //profile perusahaan
@@ -839,6 +839,9 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
         Route::get('/paket/form', 'paketform')->name('paket.form');
         Route::post('/paket/beli', 'beliPaket')->name('paket.beli');
         Route::post('/lowongan/{lowongan}/publish', 'publish')->name('lowongan.publish');
+
+        //Booster Lowongan
+        Route::post('/boost-lowongan', 'boost')->name('boost.lowongan');
     });
 
 

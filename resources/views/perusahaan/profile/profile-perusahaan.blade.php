@@ -18,7 +18,7 @@
             <!-- Info Perusahaan -->
             <div>
                 <span
-                    class="text-lg font-semibold ">{{ Auth::user()->perusahaan->nama_perusahaan ?? Auth::user()->username }}</span>
+                    class="text-xl font-bold mb-4">{{ Auth::user()->perusahaan->nama_perusahaan ?? Auth::user()->username }}</span>
                 <p class="text-sm font-semibold mb-1">{{ Auth::user()->perusahaan->jenis_perusahaan }}</p>
                 <p class="text-xs text-gray-400 mb-4">{{ Auth::user()->perusahaan->alamatUtama->kota->nama ?? '-' }},
                     {{ Auth::user()->perusahaan->alamatUtama->provinsi->nama ?? '-' }},
@@ -132,7 +132,7 @@
         </div>
 
         <!-- Separator -->
-        <div class="my-6 border-t"></div>
+        <div class="my-6 border-t "></div>
 
         <!-- Tombol Lowongan -->
         <div class="flex justify-center">

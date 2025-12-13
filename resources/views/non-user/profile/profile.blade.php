@@ -407,7 +407,7 @@
                         <input type="text" name="website" placeholder="Website"
                             class="w-full border rounded-md px-3 py-2 text-sm"
                             value="{{ Auth::user()->pelamar->sosmed()->latest()->first()->website ?? '' }}">
-                        <label class="text-sm font-medium">Twitter<span class="text-red-500">*</span></label>
+                        <label class="text-sm font-medium">Twitter<span class="text-red-500"></span></label>
                         <input type="text" name="twitter" placeholder="Twitter"
                             class="w-full border rounded-md px-3 py-2 text-sm"
                             value="{{ Auth::user()->pelamar->sosmed()->latest()->first()->twitter ?? '' }}">

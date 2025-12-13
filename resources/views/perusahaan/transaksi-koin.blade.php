@@ -43,6 +43,7 @@
                         Transfer {{ $transaksi->bank->nama_bank }}
                     </span>
                 </div>
+                
             </div>
 
             <!-- Rekening Tujuan -->
@@ -116,6 +117,8 @@
             </table>
         </div>
 
+
+
         <!-- Upload Bukti -->
         @if ($transaksi->status == 'pending' || $transaksi->status == 'ditolak')
             <div class="mb-6">
@@ -129,20 +132,49 @@
                 <form action="{{ route('catatan_cash.upload_bukti', $transaksi->id) }}" method="POST"
                     enctype="multipart/form-data">
                     @csrf
-                    <input type="file" name="bukti" required
-                        class="mb-3 border border-gray-300 rounded p-2 w-full @error('bukti') border-red-500 @enderror">
+
+                    <!-- Tombol Upload Custom -->
+                    <label for="bukti"
+                        class="flex items-center justify-center gap-2 px-4 py-2 bg-orange-500 text-white 
+               rounded-lg cursor-pointer hover:bg-orange-600 transition shadow-sm w-[170px]">
+
+                        <!-- Icon Upload -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M7.5 12l4.5-4.5m0 0L16.5 12m-4.5-4.5V15" />
+                        </svg>
+
+                        Pilih File
+                    </label>
+
+                    <!-- Input File Hidden -->
+                    <input type="file" id="bukti" name="bukti" required class="hidden">
+
+                    <!-- Nama File -->
+                    <p id="file-name" class="text-sm text-gray-600 mt-2">
+                        Belum ada file yang dipilih
+                    </p>
+
                     @error('bukti')
                         <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                     @enderror
 
                     <button type="submit"
-                        class="px-5 py-3 text-sm bg-green-500 hover:bg-green-600 text-white rounded-lg shadow">
+                        class="px-5 py-3 mt-4 text-sm bg-green-500 hover:bg-green-600 
+               text-white rounded-lg shadow">
                         {{ $transaksi->status == 'pending' ? 'Upload Bukti' : 'Upload Ulang Bukti' }}
                     </button>
                 </form>
+
+                <script>
+                    document.getElementById('bukti').addEventListener('change', function() {
+                        document.getElementById('file-name').textContent =
+                            this.files.length ? this.files[0].name : 'Belum ada file yang dipilih';
+                    });
+                </script>
             </div>
         @endif
-
 
 
 
@@ -160,6 +192,8 @@
             </div>
         </div>
     </div>
+
+
 
     <script>
         //SALIN NO REK

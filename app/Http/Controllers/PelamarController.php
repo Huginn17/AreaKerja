@@ -202,15 +202,58 @@ class PelamarController extends Controller
 
         $Data = LowonganPerusahaan::with('perusahaan')
             ->whereNotNull('published_at')
+
             ->when($kategori, function ($q) use ($KategoriList, $kategori) {
                 if ($KategoriList->contains($kategori)) {
                     $q->where('kategori', $kategori);
                 }
             })
-            ->orderByRaw('rekomendasi IS NULL') // yang NULL (tidak direkomendasikan) turun ke bawah
-            ->orderBy('rekomendasi', 'asc')     // rekomendasi tertua → paling kiri/atas
-            ->orderBy('created_at', 'asc')      // jika timestamp rekomendasi sama → yang dibuat paling lama naik
+
+            /* ===============================
+     | PRIORITAS GRUP
+     =============================== */
+            ->orderByRaw("
+        CASE
+            WHEN boosted_until IS NOT NULL AND rekomendasi IS NOT NULL THEN 0
+            WHEN boosted_until IS NOT NULL AND rekomendasi IS NULL THEN 1
+            WHEN boosted_until IS NULL AND rekomendasi IS NOT NULL THEN 2
+            ELSE 3
+        END
+    ")
+
+            /* ===============================
+     | URUTAN DALAM GRUP
+     =============================== */
+
+            // -- Boost + Rekomendasi → BOOST TERBARU DI ATAS
+            ->orderByRaw("
+        CASE
+            WHEN boosted_until IS NOT NULL AND rekomendasi IS NOT NULL
+            THEN boosted_until
+        END DESC
+    ")
+
+            // -- Boost saja → BOOST TERBARU DI ATAS
+            ->orderByRaw("
+        CASE
+            WHEN boosted_until IS NOT NULL AND rekomendasi IS NULL
+            THEN boosted_until
+        END DESC
+    ")
+
+            // -- Rekomendasi saja → PALING LAMA DI ATAS
+            ->orderByRaw("
+        CASE
+            WHEN boosted_until IS NULL AND rekomendasi IS NOT NULL
+            THEN rekomendasi
+        END ASC
+    ")
+
+            // -- Biasa → TERBARU DI ATAS
+            ->orderBy('created_at', 'DESC')
+
             ->get();
+
 
 
         return view('non-user.home', [
@@ -219,6 +262,7 @@ class PelamarController extends Controller
             "kategori" => $kategori,
         ]);
     }
+
 
 
 
@@ -450,20 +494,34 @@ class PelamarController extends Controller
     public function konfirmasi_simpan(Request $request, PelamarLowongan $pelamarlowongan)
     {
         $val = $request->validate([
-            'tanggal' => 'required|date',
-            'jam'     => 'required|numeric',
-            'menit'   => 'required|numeric',
-            'tempat'  => 'required|string',
-            'catatan' => 'nullable|string',
+            'tanggal'   => 'required|date',
+            'jam'       => 'required|numeric',
+            'menit'     => 'required|numeric',
+            'tempat'    => 'required|string',
+            'catatan'   => 'nullable|string',
+            'latitude'  => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
         ]);
 
-        $val['waktu'] = str_pad($val['jam'], 2, '0', STR_PAD_LEFT) . ':' . str_pad($val['menit'], 2, '0', STR_PAD_LEFT);
+        // Gabung jam & menit
+        $val['waktu'] = str_pad($val['jam'], 2, '0', STR_PAD_LEFT)
+            . ':' .
+            str_pad($val['menit'], 2, '0', STR_PAD_LEFT);
+
         unset($val['jam'], $val['menit']);
 
+        //  SIMPAN KE SESSION (seperti sekarang)
         session(['konfirmasi' => $val]);
+
+        //  SIMPAN KOORDINAT KE DB
+        $pelamarlowongan->update([
+            'latitude'  => $val['latitude'],
+            'longitude' => $val['longitude'],
+        ]);
 
         return redirect()->route('pelamar.detail', $pelamarlowongan->id);
     }
+
 
     // PREVIEW
     public function preview(PelamarLowongan $pelamarlowongan)
@@ -477,7 +535,7 @@ class PelamarController extends Controller
 
         return view('perusahaan.pelamar.konfirmasi-terkirim', [
             "data"       => $pelamarlowongan,
-            "konfirmasi" => $konfirmasi
+            "konfirmasi" => $konfirmasi,
         ]);
     }
 
@@ -489,6 +547,12 @@ class PelamarController extends Controller
     {
         $pelamar = $pelamarlowongan->pelamar;
         $konfirmasi = session('konfirmasi');
+
+        $mapsUrl = null;
+        if ($pelamarlowongan->latitude && $pelamarlowongan->longitude) {
+            $mapsUrl = "https://www.google.com/maps?q={$pelamarlowongan->latitude},{$pelamarlowongan->longitude}";
+        }
+
 
         if (!$konfirmasi) {
             return redirect()->route('pelamar.konfirmasi', $pelamarlowongan->id)
@@ -508,7 +572,8 @@ class PelamarController extends Controller
                 $pelamar,
                 $pelamarlowongan->lowongan_perusahaan,
                 $konfirmasi,
-                $pelamarlowongan
+                $pelamarlowongan,
+                $mapsUrl
             ));
 
         $statusText = $pelamarlowongan->status === 'diterima' ? 'Diterima' : 'Ditolak';

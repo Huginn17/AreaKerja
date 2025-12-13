@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -36,7 +37,17 @@ class LowonganPerusahaan extends Model
 
 
 
+    public function touchActivity()
+    {
+        $this->update(['last_activity' => now()]);
+    }
 
+    protected static function booted()
+    {
+        static::saving(function ($lowongan) {
+            $lowongan->last_activity = now();
+        });
+    }
 
 
     public function paket()
@@ -72,5 +83,13 @@ class LowonganPerusahaan extends Model
     protected $casts = [
         'published_at' => 'datetime',
         'expired_at'   => 'datetime',
+        'batas_lamaran' => 'date',
     ];
+
+    public function getIsExpiredAttribute()
+    {
+        return $this->batas_lamaran
+            ? Carbon::parse($this->batas_lamaran)->endOfDay()->isPast()
+            : false;
+    }
 }

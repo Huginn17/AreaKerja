@@ -74,26 +74,4 @@ class CatatanCashController extends Controller
             ->with('success', 'Bukti transfer berhasil diupload.');
     }
 
-
-    // public function updateStatus(Request $request, $id)
-    // {
-    //     $transaksi = CatatanCash::findOrFail($id);
-
-    //     $request->validate([
-    //         'status' => 'required|in:diterima,ditolak',
-    //     ]);
-
-    //     $transaksi->update([
-    //         'status' => $request->status
-    //     ]);
-
-    //     //jika diterima, tambahkan koin perusahaan
-    //     if ($request->status == 'diterima') {
-    //         $perusahaan = Perusahaan::where('user_id', $transaksi->user_id)->first();
-    //         if ($perusahaan) {
-    //             $perusahaan->increment('koin_perusahaan', $transaksi->hargaPembayaran->jumlah_koin);
-    //         }
-    //     }
-    //     return back()->with('success', 'Status transaksi berhasil diperbarui.');
-    // }
 }

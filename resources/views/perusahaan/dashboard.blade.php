@@ -4,7 +4,8 @@
             <!-- Header -->
             <h2 class="text-lg text-orange-500 font-semibold">Dashboard</h2>
             <h1 class="text-2xl font-semibold mt-1 mb-4">Selamat Datang di Area Kerja <br>
-                {{ $perusahaan->nama_perusahaan }}</h1>
+                <span class="text-orange-500 font-bold">{{ $perusahaan->nama_perusahaan }}</span>
+            </h1>
 
             <!-- Grid utama -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
@@ -14,7 +15,7 @@
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-xl font-semibold">Lowongan Saya</h3>
                         <a href="{{ route('lowongan.saya.perusahaan') }}"
-                            class="border border-orange-500 bg-orange-500 text-white px-3 py-1 rounded-md text-xl font-semibold hover:bg-white hover:text-orange-500 transition duration-300">
+                            class="border-2 border-white bg-orange-500 text-white px-4 py-1 rounded-md text-lg font-semibold hover:bg-white/20 transition duration-300">
                             Kelola Lowongan
                         </a>
 
@@ -153,22 +154,33 @@
                                                 </h4>
                                                 <p class="text-black font-medium">{{ $lowongan->nama }} -
                                                     {{ $lowongan->jenis }}</p>
-                                                <p class="text-gray-500 text-sm">{{ $lowongan->alamat }}</p>
+                                                <p class="text-gray-500 text-sm mb-2">{{ $lowongan->alamat }}</p>
                                                 <p
                                                     class="text-gray-700 text-sm bg-gray-300 px-2 py-1 inline-block rounded">
                                                     Rp. {{ number_format($lowongan->gaji_awal, 0, ',', '.') }} –
                                                     Rp. {{ number_format($lowongan->gaji_akhir, 0, ',', '.') }} per bulan
                                                 </p>
-                                                <p class="text-xs text-gray-400 mt-1">
+                                                <p class="text-xs text-gray-400 mt-2">
                                                     Aktif {{ $lowongan->created_at->diffForHumans() }}
                                                 </p>
                                             </div>
                                         </div>
                                         <div class="flex items-center gap-3 mt-3 md:mt-0">
-                                            <span
-                                                class="px-3 py-1 border border-gray-400 rounded-md text-sm text-gray-600">
+                                            @php
+                                                $paket = strtolower($lowongan->paket->nama ?? '');
+
+                                                $paketStyle = match ($paket) {
+                                                    'gold' => 'border-yellow-500 bg-yellow-100 text-yellow-600',
+                                                    'silver' => 'border-gray-400 bg-gray-100 text-gray-500',
+                                                    'bronze' => 'border-amber-600 bg-amber-100 text-amber-700',
+                                                    default => 'border-gray-300 text-gray-500',
+                                                };
+                                            @endphp
+
+                                            <span class="px-3 py-1.5 border-2 rounded-md text-sm {{ $paketStyle }}">
                                                 {{ ucfirst($lowongan->paket->nama ?? '-') }}
                                             </span>
+
                                             <a href="{{ route('perusahaan.pelamar', $lowongan->slug) }}"
                                                 class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md text-sm font-medium transition">
                                                 Lihat Pelamar
@@ -221,12 +233,13 @@
                         @endif
                     </div>
 
-                    <hr>
+                    <div class="border-t border-orange-400 my-2"></div>
+
                     <div class="flex flex-col">
                         <h2 class="text-xl font-semibold text-white mb-4 mt-5">Kandidat Saya</h2>
                         <!-- Tombol Lihat Kandidat -->
                         <a href="{{ route('perusahaan.kandidat.saya') }}"
-                            class="w-48 mx-auto py-2 mb-4 border border-white text-white font-semibold rounded-lg hover:bg-white/20 transition">
+                            class="w-48 mx-auto py-2 mb-4 border border-white text-white font-semibold rounded-lg hover:bg-white/10 transition">
                             <span class="ml-[40px]">Lihat Kandidat</span>
                         </a>
 

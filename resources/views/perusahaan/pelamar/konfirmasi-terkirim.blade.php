@@ -25,8 +25,8 @@
                     <h2 class="text-xl font-semibold sm:text-lg">Selamat Kepada</h2><br>
                     <!-- Nama pelamar -->
                     <p class="mb-4 mt-1 font-medium">{{ $data->pelamar->nama_pelamar ?? '-' }}</p>
-                    <span class="font-semibold">Status :</span>
-                    <span class="font-normal">{{ $data->pelamar->status_pekerjaan ?? 'Belum Kerja' }}</span>
+                    <span class="font-semibold">Kategori :</span>
+                    <span class="font-normal">{{ $data->pelamar->kategori ?? 'Belum Kerja' }}</span>
 
                     <p class="mt-4">
                         Lamaran yang anda ajukan ke lowongan kami pada Divisi <br>
@@ -43,6 +43,17 @@
                             {{ \Carbon\Carbon::parse($konfirmasi['tanggal'])->translatedFormat('d F Y') }}</p>
                         <p><span class="font-semibold">Pukul</span> : {{ $konfirmasi['waktu'] }}</p>
                         <p><span class="font-semibold">Tempat</span> : {{ $konfirmasi['tempat'] }}</p>
+                        {{-- LINK GOOGLE MAPS --}}
+                        @if (!empty($konfirmasi['latitude']) && !empty($konfirmasi['longitude']))
+                            <p class="flex items-center gap-2 text-orange-600 ml-24">
+                                <i class="ph ph-map-pin text-3xl"></i>
+
+                                <a href="https://www.google.com/maps?q={{ $konfirmasi['latitude'] }},{{ $konfirmasi['longitude'] }}"
+                                    target="_blank" class="underline hover:text-orange-700 font-medium">
+                                    Lihat lokasi di Google Maps
+                                </a>
+                            </p>
+                        @endif
                         <p><span class="font-semibold">Keperluan</span> : Wawancara Kerja</p>
                     </div>
 
