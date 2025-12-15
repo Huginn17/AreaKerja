@@ -55,26 +55,25 @@ class ShareLowonganController extends Controller
     {
         $tips = TipsKerja::where('slug', $slug)->firstOrFail();
 
-        // URL detail Tips Kerja
-        $url = route('pelamar.tips-kerja.show', $tips->id);
-
-        // Pesan share default
-        $text = "Baca tips kerja ini: {$tips->title}\n{$url}";
+        // PAKAI SLUG (BUKAN ID)
+        $url = route('pelamar.tips-kerja.show', $tips->slug);
 
         switch ($platform) {
 
             case 'whatsapp':
+                $text = "Baca tips kerja ini:\n\n{$tips->title}\n\n{$url}";
                 $shareUrl = "https://wa.me/?text=" . urlencode($text);
                 break;
 
             case 'email':
                 $subject = "Tips Kerja: {$tips->title}";
+                $body = "{$tips->title}\n\n{$url}";
                 $shareUrl = "mailto:?subject=" . urlencode($subject) .
-                    "&body=" . urlencode($text);
+                    "&body=" . urlencode($body);
                 break;
 
             case 'linkedin':
-                $shareUrl = "https://www.linkedin.com/sharing/share-offsite/?url=" . $url;
+                $shareUrl = "https://www.linkedin.com/sharing/share-offsite/?url=" . urlencode($url);
                 break;
 
             case 'website':

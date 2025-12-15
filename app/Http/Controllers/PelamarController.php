@@ -377,6 +377,7 @@ class PelamarController extends Controller
         return redirect()->back()->with('success', 'Pendidikan berhasil dihapus');
     }
 
+    
     // RIWAYAT PENDIDIKAN SUper ADmin
     public function storependidikanSuper(Request $request)
     {
@@ -493,34 +494,52 @@ class PelamarController extends Controller
     // SIMPAN INPUTAN FORM KE SESSION
     public function konfirmasi_simpan(Request $request, PelamarLowongan $pelamarlowongan)
     {
+        // dd($request->all());
         $val = $request->validate([
             'tanggal'   => 'required|date',
-            'jam'       => 'required|numeric',
-            'menit'     => 'required|numeric',
-            'tempat'    => 'required|string',
+            'jam'       => 'required|integer|min:0|max:23',
+            'menit'     => 'required|integer|min:0|max:59',
+            'tempat'    => 'required|string|max:255',
             'catatan'   => 'nullable|string',
-            'latitude'  => 'nullable|numeric',
-            'longitude' => 'nullable|numeric',
+            'gmaps_url' => [
+                'required',
+                'string',
+                'max:1000',
+                function ($attr, $value, $fail) {
+                    if (!str_contains($value, 'google.com/maps') && !str_contains($value, 'maps.app.goo.gl')) {
+                        $fail('Link harus berasal dari Google Maps.');
+                    }
+                }
+            ],
         ]);
 
-        // Gabung jam & menit
-        $val['waktu'] = str_pad($val['jam'], 2, '0', STR_PAD_LEFT)
-            . ':' .
+        // ======================
+        // GABUNG JAM & MENIT
+        // ======================
+        $val['waktu'] =
+            str_pad($val['jam'], 2, '0', STR_PAD_LEFT) . ':' .
             str_pad($val['menit'], 2, '0', STR_PAD_LEFT);
 
         unset($val['jam'], $val['menit']);
 
-        //  SIMPAN KE SESSION (seperti sekarang)
+        // ======================
+        // SIMPAN KE SESSION
+        // ======================
         session(['konfirmasi' => $val]);
 
-        //  SIMPAN KOORDINAT KE DB
+        // ======================
+        // SIMPAN KE DATABASE
+        // ======================
         $pelamarlowongan->update([
-            'latitude'  => $val['latitude'],
-            'longitude' => $val['longitude'],
+            'gmaps_url' => $val['gmaps_url'],
         ]);
 
         return redirect()->route('pelamar.detail', $pelamarlowongan->id);
     }
+
+
+
+
 
 
     // PREVIEW

@@ -28,8 +28,8 @@
             </div>
 
             <!-- <button class="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 flex items-center shadow">
-                                                                                                    <span class="text-lg font-bold mr-2">+</span> Tambah
-                                                                                                </button> -->
+                    <span class="text-lg font-bold mr-2">+</span> Tambah
+                 </button> -->
         </div>
 
         <h2 class="text-2xl font-semibold mb-6 border-b-2 border-orange-400 pb-2">Edit Lowongan</h2>

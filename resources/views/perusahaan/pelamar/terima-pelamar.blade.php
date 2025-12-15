@@ -6,6 +6,16 @@
             <h2 class="text-xl font-semibold mb-6 text-center">Konfirmasi Terima Lamaran</h2>
             <p class="mb-6 text-center text-gray-600">Silahkan input jadwal wawancara untuk calon kandidat</p>
 
+            @if ($errors->any())
+                <div class="mb-4 p-3 bg-red-100 text-red-700 rounded">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>• {{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <!-- Form -->
             <form action="{{ route('pelamar.konfirmasi.simpan', $data->id) }}" method="POST" class="space-y-6">
                 @csrf
@@ -22,29 +32,35 @@
 
                 <!-- Waktu -->
                 <div>
-                    <label class="block mb-1 font-medium">Waktu <span class="text-red-500">*</span></label>
+                    <label class="block mb-1 font-medium">
+                        Waktu <span class="text-red-500">*</span>
+                    </label>
+
                     <div class="flex gap-2">
                         <select name="jam"
                             class="w-20 border rounded-md px-2 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500">
                             @for ($i = 0; $i < 24; $i++)
-                                <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}"
-                                    {{ old('jam', isset($jadwal) ? substr($jadwal->waktu, 0, 2) : '') == str_pad($i, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>
+                                <option value="{{ $i }}"
+                                    {{ (int) old('jam', isset($jadwal) ? substr($jadwal->waktu, 0, 2) : -1) === $i ? 'selected' : '' }}>
                                     {{ str_pad($i, 2, '0', STR_PAD_LEFT) }}
                                 </option>
                             @endfor
                         </select>
+
                         <span class="flex items-center">:</span>
+
                         <select name="menit"
                             class="w-20 border rounded-md px-2 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500">
                             @for ($i = 0; $i < 60; $i++)
-                                <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}"
-                                    {{ old('menit', isset($jadwal) ? substr($jadwal->waktu, 3, 2) : '') == str_pad($i, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>
+                                <option value="{{ $i }}"
+                                    {{ (int) old('menit', isset($jadwal) ? substr($jadwal->waktu, 3, 2) : -1) === $i ? 'selected' : '' }}>
                                     {{ str_pad($i, 2, '0', STR_PAD_LEFT) }}
                                 </option>
                             @endfor
                         </select>
                     </div>
                 </div>
+
 
                 <!-- Tempat -->
                 <div>
@@ -55,10 +71,22 @@
                         <p class="text-red-500 text-sm">{{ $message }}</p>
                     @enderror
                 </div>
+                <div class="mt-4">
+                    <label class="block font-semibold mb-1">
+                        Lokasi (Google Maps)
+                    </label>
 
-                <div id="map" class="w-full h-64 rounded-lg border"></div>
-                <input type="hidden" name="latitude" id="latitude">
-                <input type="hidden" name="longitude" id="longitude">
+                    <input type="url" name="gmaps_url" class="w-full border rounded-lg p-2"
+                        placeholder="https://maps.google.com/?q=-6.200000,106.816666">
+
+                    <p class="text-sm text-gray-500 mt-1">
+                        Buka Google Maps → Pilih lokasi → Share → Salin link
+                    </p>
+
+                    @error('gmaps_url')
+                        <p class="text-red-500 text-sm">{{ $message }}</p>
+                    @enderror
+                </div>
 
 
                 <!-- Catatan -->
@@ -68,10 +96,11 @@
                         class="w-full flex items-start h-24 border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500">{{ old('catatan', $jadwal->catatan ?? '') }}</textarea>
                 </div>
 
+
                 <!-- Tombol -->
-                <div class="flex justify-center pt-3">
+                <div class="flex justify-center pt-3 gap-4">
                     <button type="submit"
-                        class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-md font-medium">
+                        class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-md font-medium transition duration-300">
                         Selanjutnya
                     </button>
                 </div>
@@ -79,34 +108,7 @@
         </div>
     </div>
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
-    <script>
-        const map = L.map('map').setView([-6.200000, 106.816666], 13);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap'
-        }).addTo(map);
-
-        let marker;
-
-        map.on('click', function(e) {
-            const {
-                lat,
-                lng
-            } = e.latlng;
-
-            document.getElementById('latitude').value = lat;
-            document.getElementById('longitude').value = lng;
-
-            if (marker) {
-                marker.setLatLng(e.latlng);
-            } else {
-                marker = L.marker(e.latlng).addTo(map);
-            }
-        });
-    </script>
+    
 
 
     @include('layouts.footer')

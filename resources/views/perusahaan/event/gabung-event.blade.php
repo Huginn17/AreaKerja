@@ -15,11 +15,11 @@
                 @endif
             </div>
 
-            <div class="flex justify-end items-center mb-6">
+            {{-- <div class="flex justify-end items-center mb-6">
                 <button class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg text-sm">
                     Lihat Partisipan
                 </button>
-            </div>
+            </div> --}}
 
             <!-- Tanggal -->
             <div class="text-sm font-medium text-gray-800 mb-2">

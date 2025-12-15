@@ -76,10 +76,26 @@ class FinanceController extends Controller
     {
 
         $queryCash = CatatanCash::with(['user', 'hargaPembayaran', 'bank']);
+
         if ($request->periode) {
             $queryCash->where('created_at', '>=', now()->subMonths($request->periode));
         }
-        $catatanCash = $queryCash->orderBy('created_at', 'desc')->take(6)->get();
+
+        // sembunyikan expired_at lewat + status pending / expired
+        $queryCash->where(function ($q) {
+            $q->whereNull('expired_at')
+                ->orWhere('expired_at', '>', now())
+                ->orWhere(function ($sub) {
+                    $sub->where('expired_at', '<=', now())
+                        ->whereIn('status', ['diterima', 'ditolak', 'menunggu_verifikasi']);
+                });
+        });
+
+        $catatanCash = $queryCash
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+
 
         $queryKoin = CatatanKoin::with(['user']);
         if ($request->periode) {

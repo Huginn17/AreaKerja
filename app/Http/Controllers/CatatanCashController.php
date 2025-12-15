@@ -52,6 +52,18 @@ class CatatanCashController extends Controller
     public function show($id)
     {
         $transaksi = CatatanCash::with('hargaPembayaran', 'bank')->findOrFail($id);
+        if (
+            $transaksi->status === 'pending' &&
+            $transaksi->expired_at &&
+            $transaksi->expired_at <= now()
+        ) {
+            $transaksi->update([
+                'status' => 'expired'
+            ]);
+
+            $transaksi->refresh();
+        }
+
         return view('perusahaan.transaksi-koin', compact('transaksi'));
     }
 
@@ -73,5 +85,4 @@ class CatatanCashController extends Controller
         return redirect()->route('catatan_cash.show', $transaksi->id)
             ->with('success', 'Bukti transfer berhasil diupload.');
     }
-
 }

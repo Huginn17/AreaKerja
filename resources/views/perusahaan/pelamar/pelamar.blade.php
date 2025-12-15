@@ -153,7 +153,7 @@
 
                 <!-- Footer Info -->
                 <div class="flex items-start gap-2 text-red-500 text-sm mt-4 break-words">
-                    <svg class="w-[33px] h-[33px] text-orange-500" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                    <svg class="w-[33px] h-[33px] text-red-500" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                         viewBox="0 0 24 24">
                         <path fill-rule="evenodd"
                             d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v5a1 1 0 1 0 2 0V8Zm-1 7a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H12Z"
@@ -170,7 +170,7 @@
         </div>
 
         {{-- MODAL CV --}}
-        <div id="confirmModal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 px-4">
+        <div id="confirmModal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 px-4 z-[9999]">
 
             <div class="bg-white p-5 md:p-6 rounded-lg text-center w-full max-w-sm break-words">
 
@@ -234,36 +234,33 @@
         <!-- Modal Tolak -->
         <div id="modalTolak" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-4">
 
-            <div class="bg-white p-5 md:p-6 rounded-lg shadow-lg w-full max-w-md break-words">
+            <div class="bg-white p-5 md:p-6 rounded-lg text-center shadow-lg w-full max-w-md break-words">
 
-                <h2 class="text-lg md:text-xl font-bold mb-3 text-center md:text-left break-words">
+                <h2 class="text-lg md:text-xl font-bold mb-3 text-center break-words">
                     Konfirmasi Tolak Lamaran
                 </h2>
 
-                <p class="mb-4 break-words text-center md:text-left">
+                <p class="mb-4 break-words text-center">
                     Apakah anda yakin ingin menolak lamaran ini?
                 </p>
 
-                <form id="tolakForm" method="POST" action="">
+                <form id="tolakForm" method="POST" action="" class="text-center">
                     @csrf
 
-                    <div class="flex flex-col sm:flex-row justify-center sm:justify-start gap-3">
-
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
                         <button type="submit"
-                            class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded w-full sm:w-auto">
+                            class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded w-full sm:w-auto transition duration-200">
                             Tolak
                         </button>
 
                         <button type="button" onclick="closeTolakModal()"
-                            class="bg-gray-300 px-5 py-2 rounded w-full sm:w-auto">
+                            class="bg-gray-400 hover:bg-gray-500 px-5 py-2 rounded w-full sm:w-auto transition duration-200">
                             Batal
                         </button>
-
                     </div>
                 </form>
 
             </div>
-
         </div>
 
 

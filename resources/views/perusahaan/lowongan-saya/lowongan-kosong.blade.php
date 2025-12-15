@@ -52,14 +52,27 @@
         </a>
 
         <!-- Filter -->
-        <div class="flex flex-col sm:flex-row justify-end gap-3 mb-3 w-full">
-            <!-- Trigger -->
-            <button id="openBoostBtn" class="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600">
-                Boost Lowongan
-            </button>
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-end gap-3 mb-3 w-full">
 
-            <!-- Modal Boost -->
-            <div id="boostModal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+            <!-- Trigger Boost -->
+            <div class="relative flex justify-end lg:inline-flex items-center gap-2 group w-full lg:w-auto">
+
+                <button id="openBoostBtn"
+                    class="bg-orange-500 text-white px-4 py-2.5 rounded-md hover:bg-orange-600 w-auto justify-end lg:w-auto">
+                    Boost Lowongan
+                </button>
+
+                <!-- Tooltip -->
+                <div
+                    class="absolute bottom-full right-0 translate-x-0 mb-2 lg:left-1/2 lg:-translate-x-1/2 w-64 sm:w-72 bg-gray-200 text-gray-800 text-xs rounded-lg rounded-br-none px-3 py-2 opacity-0 invisible shadow-sm group-hover:opacity-100 group-hover:visible transition duration-200 z-10 text-center">
+                    Boost Lowongan membuat lowongan Anda tampil paling atas.
+                    Lowongan yang di-boost akan diprioritaskan agar lebih mudah dilihat.
+                </div>
+            </div>
+
+            <!-- Modal Boost (tidak diubah logic) -->
+            <div id="boostModal"
+                class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 px-4">
                 <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 relative">
                     <button id="closeBoostBtn" class="absolute right-4 top-4 text-gray-400 hover:text-gray-600">✕</button>
                     <h2 class="text-xl font-semibold mb-4">Boost Lowongan</h2>
@@ -80,12 +93,11 @@
                 </div>
             </div>
 
+            <!-- Form Filter -->
+            <form method="GET" class="flex flex-col sm:flex-row flex-wrap gap-3 w-full lg:w-auto">
 
-            <form method="GET">
-
-                <!-- Dropdown Jenis Paket -->
-                <select name="paket" class="border rounded-md text-sm px-6 py-2 w-full sm:w-auto break-words">
-                    <option value=""> Jenis Paket </option>
+                <select name="paket" class="border border-gray-300 rounded-md text-sm px-8 py-2.5 leading-relaxed w-full sm:w-auto focus:outline-none focus:ring-1 focus:ring-gray-300">
+                    <option value="">Jenis Paket</option>
                     @foreach ($pakets as $paket)
                         <option value="{{ $paket->id }}" {{ request('paket') == $paket->id ? 'selected' : '' }}>
                             {{ $paket->nama }}
@@ -93,9 +105,8 @@
                     @endforeach
                 </select>
 
-                <!-- Dropdown Jenis Lowongan -->
-                <select name="jenis" class="border rounded-md text-sm px-6 py-2 w-full sm:w-auto break-words">
-                    <option value=""> Jenis Lowongan </option>
+                <select name="jenis" class="border border-gray-300 rounded-md text-sm px-8 py-2.5 leading-relaxed w-full sm:w-auto focus:outline-none focus:ring-1 focus:ring-gray-300">
+                    <option value="">Jenis Lowongan</option>
                     @foreach ($jenisLowongan as $jenis)
                         <option value="{{ $jenis }}" {{ request('jenis') == $jenis ? 'selected' : '' }}>
                             {{ $jenis }}
@@ -114,16 +125,18 @@
             </form>
         </div>
 
+
         <div class="flex flex-col gap-4">
             @forelse ($Data as $d)
                 @if ($d->paket_id && $d->published_at)
                     <!-- Card Published -->
-                    <a 
-                        href="{{ route('lowongan.detail', [
-                            'perusahaan' => $d->perusahaan->slug,
-                            'lowongan' => $d->slug,
-                        ]) }}" class="block">
-                        <div class="flex shadow-md rounded-md border p-4 mb-2 hover:shadow-lg hover:scale-105 transition-all duration-500">
+                    <a href="{{ route('lowongan.detail', [
+                        'perusahaan' => $d->perusahaan->slug,
+                        'lowongan' => $d->slug,
+                    ]) }}"
+                        class="block">
+                        <div
+                            class="flex shadow-md rounded-md border p-4 mb-2 hover:shadow-lg hover:scale-105 transition-all duration-500">
                             <div>
                                 <img src="{{ asset('Icon/seveninc.png') }}" alt="">
                             </div>
@@ -209,16 +222,17 @@
                     <div class="flex justify-between items-end text-center gap-3 my-5">
                         <h3 class="font-semibold text-lg text-center text-orange-500">Lowongan Draft</h3>
                     </div>
-                    <div class="flex shadow-md p-4 border rounded-md mb-2 hover:shadow-lg hover:scale-105 transition-all duration-500">
+                    <div
+                        class="flex shadow-md p-4 border rounded-md mb-2 hover:shadow-lg hover:scale-105 transition-all duration-500">
                         <div>
                             <img src="{{ asset('Icon/seveninc.png') }}" alt="">
                         </div>
                         <div class="w-full">
-                            <a
-                                href="{{ route('lowongan.detail', [
-                                    'perusahaan' => $d->perusahaan->slug,
-                                    'lowongan' => $d->slug,
-                                ]) }}" class="block">
+                            <a href="{{ route('lowongan.detail', [
+                                'perusahaan' => $d->perusahaan->slug,
+                                'lowongan' => $d->slug,
+                            ]) }}"
+                                class="block">
                                 <p>{{ Auth::user()->perusahaan->nama_perusahaan }}</p>
                                 <h1 class="font-semibold">{{ $d->nama }} - {{ $d->jenis }}</h1>
                                 <span>Yogyakarta</span>
@@ -375,26 +389,38 @@
 
 
     <!-- Modal Konfirmasi Boost -->
-    <div id="confirmBoostModal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-6 relative">
-            <h2 class="text-lg font-semibold mb-3">Konfirmasi Boost</h2>
-            <p class="text-gray-600 mb-4">
-                Anda akan menggunakan <span class="font-bold text-orange-500">300 koin</span>
+    <div id="confirmBoostModal"
+        class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 px-4">
+
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-5 sm:p-6 relative text-center">
+
+            <h2 class="text-lg sm:text-xl font-semibold mb-3">
+                Konfirmasi Boost
+            </h2>
+
+            <p class="text-gray-600 mb-5">
+                Anda akan menggunakan
+                <span class="font-bold text-orange-500">
+                    {{ number_format($hargaBoost) }} koin
+                </span>
                 untuk melakukan boost lowongan ini
             </p>
 
-            <div class="flex justify-end gap-3">
-                <button onclick="closeConfirmBoost()" class="px-4 py-2 rounded-lg border hover:bg-gray-100">
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <button onclick="closeConfirmBoost()"
+                    class="px-4 py-2 rounded-lg border bg-gray-400 hover:bg-gray-500 w-full sm:w-auto">
                     Batal
                 </button>
 
                 <button onclick="processBoost()"
-                    class="px-4 py-2 rounded-lg bg-orange-500 text-white hover:bg-orange-600">
+                    class="px-4 py-2 rounded-lg bg-orange-500 text-white hover:bg-orange-600 w-full sm:w-auto">
                     Ya, Boost Sekarang
                 </button>
             </div>
+
         </div>
     </div>
+
 
     <!-- Modal Koin Tidak Cukup -->
     <div id="modalKoinKurang"
@@ -430,11 +456,11 @@
 
     <script>
         /*
-                  Unified modal script
-                  - Menyediakan global window.openModal(id) & window.closeModal(id) (aman)
-                  - Fungsi khusus untuk boost dan publish tanpa menimpa global names
-                  - Robust fetch handling (JSON / non-JSON) dan error logging
-                */
+                                          Unified modal script
+                                          - Menyediakan global window.openModal(id) & window.closeModal(id) (aman)
+                                          - Fungsi khusus untuk boost dan publish tanpa menimpa global names
+                                          - Robust fetch handling (JSON / non-JSON) dan error logging
+                                        */
 
         /* ---------- Safe global modal helpers ---------- */
         window.openModal = function(id) {

@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('pelamar_lowongans', function (Blueprint $table) {
-            $table->decimal('latitude', 10, 7)->nullable()->after('status');
-            $table->decimal('longitude', 10, 7)->nullable()->after('latitude');
+            $table->string('gmaps_url')->nullable()->after('status');
         });
     }
 
@@ -23,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('pelamar_lowongans', function (Blueprint $table) {
-            $table->dropColumn(['latitude', 'longitude']);
+            $table->dropColumn('gmaps_url');
         });
     }
 };

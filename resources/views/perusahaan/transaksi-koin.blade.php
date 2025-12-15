@@ -43,7 +43,7 @@
                         Transfer {{ $transaksi->bank->nama_bank }}
                     </span>
                 </div>
-                
+
             </div>
 
             <!-- Rekening Tujuan -->
@@ -196,13 +196,12 @@
 
 
     <script>
-        //SALIN NO REK
+        // SALIN NO REK
         document.addEventListener("DOMContentLoaded", function() {
             document.querySelectorAll(".copy-rek").forEach(function(el) {
                 el.addEventListener("click", function() {
                     const noRek = this.getAttribute("data-rek");
 
-                    // Copy ke clipboard
                     navigator.clipboard.writeText(noRek).then(() => {
                         alert("Nomor rekening berhasil disalin: " + noRek);
                     }).catch(err => {
@@ -211,30 +210,39 @@
                 });
             });
         });
-        @if ($transaksi->status == 'pending' && $transaksi->expired_at)
+
+        @if ($transaksi->status === 'pending' && $transaksi->expired_at)
             let expireTime = new Date("{{ $transaksi->expired_at }}").getTime();
 
             let timer = setInterval(function() {
                 let now = new Date().getTime();
                 let distance = expireTime - now;
 
-                if (distance < 0) {
+                if (distance <= 0) {
                     clearInterval(timer);
-                    document.getElementById("countdown").innerHTML = "Expired";
 
-                    // optional: auto reload untuk ubah status
-                    location.reload();
-                } else {
-                    let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    const countdownEl = document.getElementById("countdown");
+                    if (countdownEl) {
+                        countdownEl.innerHTML = "Expired";
+                        countdownEl.classList.remove("text-orange-600");
+                        countdownEl.classList.add("text-red-600");
+                    }
 
-                    document.getElementById("countdown").innerHTML =
-                        hours + " Jam " + minutes + " Menit " + seconds + " Detik";
+                    // ❌ JANGAN reload halaman
+                    // status expired harus di-handle backend
+                    return;
                 }
+
+                let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById("countdown").innerHTML =
+                    hours + " Jam " + minutes + " Menit " + seconds + " Detik";
             }, 1000);
         @endif
     </script>
+
 
     @include('layouts.footer')
 @endsection

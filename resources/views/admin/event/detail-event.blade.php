@@ -102,10 +102,10 @@
                         Edit Event
                     </a>
 
-                    <a href="#"
+                    {{-- <a href="#"
                         class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg text-sm w-full sm:w-auto text-center">
                         Lihat Partisipan
-                    </a>
+                    </a> --}}
                 </div>
 
                 {{-- tanggal --}}

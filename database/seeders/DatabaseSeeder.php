@@ -101,6 +101,10 @@ class DatabaseSeeder extends Seeder
             "harga"    =>      150
         ]);
         Hargakoin::create([
+            "nama"     =>      "Boost Lowongan",
+            "harga"    =>      300
+        ]);
+        Hargakoin::create([
             "nama"     =>      "Berlangganan",
             "harga"    =>      1000
         ]);

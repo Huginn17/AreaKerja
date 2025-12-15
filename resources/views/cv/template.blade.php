@@ -30,6 +30,7 @@
                         </div>
                     </div>
 
+
                     <!-- Kontak -->
                     <div class="text-sm space-y-2 text-right font-semibold w-full md:w-auto break-words">
                         <p class="flex items-center gap-2 flex-wrap">
@@ -70,6 +71,7 @@
                         </p>
                     </div>
                 </div>
+                
 
                 <!-- Body CV: 2 Kolom -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">

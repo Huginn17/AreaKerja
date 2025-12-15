@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Notifikasi;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -31,6 +32,7 @@ class EventController extends Controller
         return view('super_admin.event.buat');
     }
 
+
     public function store_event(Request $request)
     {
         try {
@@ -51,6 +53,32 @@ class EventController extends Controller
                 'kegiatan_nama.*' => 'nullable|string|max:255',
             ]);
 
+            /* =============================
+           VALIDASI JAM AKHIR > JAM MULAI
+        ==============================*/
+            if ($request->jam_akhir) {
+
+                $tglAkhir = $request->tgl_akhir ?? $request->tgl_mulai;
+
+                $mulai = Carbon::createFromFormat(
+                    'Y-m-d H:i',
+                    $request->tgl_mulai . ' ' . $request->jam_mulai
+                );
+
+                $akhir = Carbon::createFromFormat(
+                    'Y-m-d H:i',
+                    $tglAkhir . ' ' . $request->jam_akhir
+                );
+
+                if ($akhir->lessThanOrEqualTo($mulai)) {
+                    return back()
+                        ->withErrors([
+                            'jam_akhir' => 'Jam akhir harus setelah jam mulai.'
+                        ])
+                        ->withInput();
+                }
+            }
+
             // Upload foto
             if ($request->hasFile('image')) {
                 $validated['image'] = $request->file('image')->store('events', 'public');
@@ -66,9 +94,6 @@ class EventController extends Controller
             // Simpan kegiatan event
             $this->syncKegiatan($event, $request);
 
-            /* =====================================
-        NOTIFIKASI BERHASIL
-        ===================================== */
             Notifikasi::create([
                 'user_id' => Auth::id(),
                 'perusahaan_id' => null,
@@ -84,9 +109,6 @@ class EventController extends Controller
                 ->with('success', 'Event berhasil ditambahkan');
         } catch (\Exception $e) {
 
-            /* =====================================
-        NOTIFIKASI GAGAL
-        ===================================== */
             Notifikasi::create([
                 'user_id' => Auth::id(),
                 'perusahaan_id' => null,
@@ -105,7 +127,6 @@ class EventController extends Controller
     }
 
 
-
     public function detail(Event $event)
     {
         $event->load('kegiatan');
@@ -118,10 +139,10 @@ class EventController extends Controller
         return view('super_admin.event.edit', compact('event'));
     }
 
+
     public function update_event(Request $request, Event $event)
     {
         try {
-
             $validated = $request->validate([
                 'title' => 'required|string|max:255',
                 'status' => 'nullable|string',
@@ -137,6 +158,32 @@ class EventController extends Controller
                 'penutupan_pendaftaran' => 'nullable|date|before_or_equal:tgl_mulai',
             ]);
 
+            /* =============================
+           VALIDASI JAM AKHIR > JAM MULAI
+        ==============================*/
+            if ($request->jam_akhir) {
+
+                $tglAkhir = $request->tgl_akhir ?? $request->tgl_mulai;
+
+                $mulai = Carbon::createFromFormat(
+                    'Y-m-d H:i',
+                    $request->tgl_mulai . ' ' . $request->jam_mulai
+                );
+
+                $akhir = Carbon::createFromFormat(
+                    'Y-m-d H:i',
+                    $tglAkhir . ' ' . $request->jam_akhir
+                );
+
+                if ($akhir->lessThanOrEqualTo($mulai)) {
+                    return back()
+                        ->withErrors([
+                            'jam_akhir' => 'Jam akhir harus setelah jam mulai.'
+                        ])
+                        ->withInput();
+                }
+            }
+
             // Update foto
             if ($request->hasFile('image')) {
                 if ($event->image) {
@@ -147,13 +194,10 @@ class EventController extends Controller
 
             $event->update($validated);
 
-            // Hapus kegiatan lama lalu buat baru
+            // Sync kegiatan
             $event->kegiatan()->delete();
             $this->syncKegiatan($event, $request);
 
-            /* =============================
-            NOTIFIKASI BERHASIL
-        ==============================*/
             Notifikasi::create([
                 'user_id' => Auth::id(),
                 'perusahaan_id' => null,
@@ -169,9 +213,6 @@ class EventController extends Controller
                 ->with('success', 'Event berhasil diperbarui');
         } catch (\Exception $e) {
 
-            /* =============================
-            NOTIFIKASI GAGAL
-        ==============================*/
             Notifikasi::create([
                 'user_id' => Auth::id(),
                 'perusahaan_id' => null,
@@ -188,6 +229,7 @@ class EventController extends Controller
                 ->withInput();
         }
     }
+
 
 
     public function destroy(Event $event)
@@ -296,6 +338,7 @@ class EventController extends Controller
         return view('admin.event.buat-event');
     }
 
+
     public function store_event_admin(Request $request)
     {
         try {
@@ -316,21 +359,47 @@ class EventController extends Controller
                 'kegiatan_nama.*' => 'nullable|string|max:255',
             ]);
 
+            /* =============================
+           VALIDASI JAM AKHIR > JAM MULAI
+        ==============================*/
+            if ($request->jam_akhir) {
+
+                $tglAkhir = $request->tgl_akhir ?? $request->tgl_mulai;
+
+                $mulai = Carbon::createFromFormat(
+                    'Y-m-d H:i',
+                    $request->tgl_mulai . ' ' . $request->jam_mulai
+                );
+
+                $akhir = Carbon::createFromFormat(
+                    'Y-m-d H:i',
+                    $tglAkhir . ' ' . $request->jam_akhir
+                );
+
+                if ($akhir->lessThanOrEqualTo($mulai)) {
+                    return back()
+                        ->withErrors([
+                            'jam_akhir' => 'Jam akhir harus setelah jam mulai.'
+                        ])
+                        ->withInput();
+                }
+            }
+
             // Handle image
             if ($request->hasFile('image')) {
                 $validated['image'] = $request->file('image')->store('events', 'public');
             }
 
             // Simpan event
-            $eventData = collect($validated)->except(['kegiatan_waktu', 'kegiatan_nama'])->toArray();
+            $eventData = collect($validated)
+                ->except(['kegiatan_waktu', 'kegiatan_nama'])
+                ->toArray();
+
             $event = Event::create($eventData);
 
             // Simpan kegiatan
             $this->syncKegiatan($event, $request);
 
-            /* =============================
-            NOTIFIKASI BERHASIL
-        ==============================*/
             Notifikasi::create([
                 'user_id' => Auth::id(),
                 'perusahaan_id' => null,
@@ -341,13 +410,11 @@ class EventController extends Controller
                 'pelamar_lowongan_id' => null,
             ]);
 
-            return redirect()->route('admin.eventform', $event->id)
+            return redirect()
+                ->route('admin.eventform', $event->id)
                 ->with('success', 'Event berhasil ditambahkan');
         } catch (\Exception $e) {
 
-            /* =============================
-            NOTIFIKASI GAGAL
-        ==============================*/
             Notifikasi::create([
                 'user_id' => Auth::id(),
                 'perusahaan_id' => null,
@@ -358,11 +425,13 @@ class EventController extends Controller
                 'pelamar_lowongan_id' => null,
             ]);
 
-            return redirect()->back()
+            return redirect()
+                ->back()
                 ->with('error', 'Gagal menambahkan event.')
                 ->withInput();
         }
     }
+
 
 
     public function detail_admin(Event $event)
@@ -376,6 +445,7 @@ class EventController extends Controller
         $event->load('kegiatan');
         return view('admin.event.edit', compact('event'));
     }
+
 
     public function update_event_admin(Request $request, Event $event)
     {
@@ -395,6 +465,33 @@ class EventController extends Controller
                 'penutupan_pendaftaran' => 'nullable|date|before_or_equal:tgl_mulai',
             ]);
 
+            /* =============================
+           VALIDASI JAM AKHIR > JAM MULAI
+        ==============================*/
+            if ($request->jam_akhir) {
+
+                $tglAkhir = $request->tgl_akhir ?? $request->tgl_mulai;
+
+                $mulai = Carbon::createFromFormat(
+                    'Y-m-d H:i',
+                    $request->tgl_mulai . ' ' . $request->jam_mulai
+                );
+
+                $akhir = Carbon::createFromFormat(
+                    'Y-m-d H:i',
+                    $tglAkhir . ' ' . $request->jam_akhir
+                );
+
+                if ($akhir->lessThanOrEqualTo($mulai)) {
+                    return back()
+                        ->withErrors([
+                            'jam_akhir' => 'Jam akhir harus setelah jam mulai.'
+                        ])
+                        ->withInput();
+                }
+            }
+
+            // Update image
             if ($request->hasFile('image')) {
                 if ($event->image) {
                     Storage::disk('public')->delete($event->image);
@@ -408,7 +505,6 @@ class EventController extends Controller
             $event->kegiatan()->delete();
             $this->syncKegiatan($event, $request);
 
-            // Notifikasi berhasil update
             Notifikasi::create([
                 'user_id' => Auth::id(),
                 'perusahaan_id' => null,
@@ -419,10 +515,11 @@ class EventController extends Controller
                 'pelamar_lowongan_id' => null,
             ]);
 
-            return redirect()->route('admin.detail.event', $event->id)
+            return redirect()
+                ->route('admin.detail.event', $event->id)
                 ->with('success', 'Event berhasil diperbarui');
         } catch (\Exception $e) {
-            // Notifikasi gagal update
+
             Notifikasi::create([
                 'user_id' => Auth::id(),
                 'perusahaan_id' => null,
@@ -433,50 +530,13 @@ class EventController extends Controller
                 'pelamar_lowongan_id' => null,
             ]);
 
-            return redirect()->back()
+            return redirect()
+                ->back()
                 ->with('error', 'Gagal memperbarui event.')
                 ->withInput();
         }
     }
 
-    public function destroy_admin(Event $event)
-    {
-        try {
-            if ($event->image) {
-                Storage::disk('public')->delete($event->image);
-            }
-            $event->kegiatan()->delete();
-            $event->delete();
-
-            // Notifikasi berhasil hapus
-            Notifikasi::create([
-                'user_id' => Auth::id(),
-                'perusahaan_id' => null,
-                'judul' => 'Event Dihapus',
-                'pesan' => 'Event <b>' . $event->title . '</b> berhasil dihapus.',
-                'is_read' => 0,
-                'expired_at' => now()->addDays(7),
-                'pelamar_lowongan_id' => null,
-            ]);
-
-            return redirect()->route('admin.eventform')
-                ->with('success', 'Event berhasil dihapus');
-        } catch (\Exception $e) {
-            // Notifikasi gagal hapus
-            Notifikasi::create([
-                'user_id' => Auth::id(),
-                'perusahaan_id' => null,
-                'judul' => 'Gagal Menghapus Event',
-                'pesan' => 'Event <b>' . $event->title . '</b> gagal dihapus: ' . $e->getMessage(),
-                'is_read' => 0,
-                'expired_at' => now()->addDays(7),
-                'pelamar_lowongan_id' => null,
-            ]);
-
-            return redirect()->back()
-                ->with('error', 'Gagal menghapus event.');
-        }
-    }
 
 
 

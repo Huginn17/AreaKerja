@@ -104,7 +104,7 @@
 
                 <!-- Siap Kerja -->
                 <div class="flex flex-col items-center">
-                    <img src="{{ asset('images/p.png') }}" class="w-12 h-12 mb-3" />
+                    <img src="{{ asset('images/komputer.jpg') }}" class="w-12 h-12 mb-2" />
                     <h3 class="font-bold text-orange-500">Siap Kerja</h3>
                     <p class="text-sm text-orange-500">Kandidat yang didapatkan dipastikan siap kerja dengan perusahaan yang
                         direkomendasikan.</p>

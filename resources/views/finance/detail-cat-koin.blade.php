@@ -185,13 +185,16 @@
 
                     <h2 class="text-xl font-semibold text-center mb-6"
                         x-text="
-                        detailCash.status == 'Diterima' 
-                            ? 'Top Up Berhasil' 
-                            : (detailCash.status == 'Ditolak' 
-                                ? 'Top Up Ditolak' 
-                                : 'Menunggu Verifikasi')
-                ">
+        detailCash.status == 'Diterima'
+            ? 'Top Up Berhasil'
+            : detailCash.status == 'Ditolak'
+                ? 'Top Up Ditolak'
+                : detailCash.status == 'Expired'
+                    ? 'Top Up Kedaluwarsa'
+                    : 'Menunggu Verifikasi'
+    ">
                     </h2>
+
 
                     <div class="flex justify-center mb-6">
                         <template x-if="detailCash.status == 'Diterima'">
@@ -226,6 +229,20 @@
                                 </svg>
                             </div>
                         </template>
+
+                        <template x-if="detailCash.status == 'Expired'">
+                            <div
+                                class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-red-100 flex items-center justify-center">
+
+                                <!-- Icon Expired -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 sm:w-8 sm:h-8 text-red-600"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M12 8v4l3 3M12 2a10 10 0 100 20 10 10 0 000-20z" />
+                                </svg>
+                            </div>
+                        </template>
+
                     </div>
 
                     <div class="text-sm space-y-2">

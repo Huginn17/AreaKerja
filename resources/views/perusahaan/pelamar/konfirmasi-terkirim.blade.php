@@ -6,7 +6,7 @@
 
     <!-- Box utama dengan border -->
     <div class="max-w-4xl mx-auto px-4">
-        <h1 class="text-lg font-semibold mb-4 mt-28  md:ml-10 sm:ml-4 sm:text-base">
+        <h1 class="text-2xl font-bold mb-4 mt-28 md:ml-10 sm:ml-4 sm:text-base">
             Konfirmasi Terima Lamaran
         </h1>
 
@@ -43,16 +43,11 @@
                             {{ \Carbon\Carbon::parse($konfirmasi['tanggal'])->translatedFormat('d F Y') }}</p>
                         <p><span class="font-semibold">Pukul</span> : {{ $konfirmasi['waktu'] }}</p>
                         <p><span class="font-semibold">Tempat</span> : {{ $konfirmasi['tempat'] }}</p>
-                        {{-- LINK GOOGLE MAPS --}}
-                        @if (!empty($konfirmasi['latitude']) && !empty($konfirmasi['longitude']))
-                            <p class="flex items-center gap-2 text-orange-600 ml-24">
-                                <i class="ph ph-map-pin text-3xl"></i>
-
-                                <a href="https://www.google.com/maps?q={{ $konfirmasi['latitude'] }},{{ $konfirmasi['longitude'] }}"
-                                    target="_blank" class="underline hover:text-orange-700 font-medium">
-                                    Lihat lokasi di Google Maps
-                                </a>
-                            </p>
+                        @if ($data->gmaps_url)
+                            <a href="{{ $data->gmaps_url }}" target="_blank"
+                                class="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg">
+                                📍 Buka Lokasi di Google Maps
+                            </a>
                         @endif
                         <p><span class="font-semibold">Keperluan</span> : Wawancara Kerja</p>
                     </div>

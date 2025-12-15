@@ -37,11 +37,14 @@ class LowonganPerusahaanController extends Controller
         // Ambil lowongan yang sesuai dengan filter
         $lowongans = $query->latest()->paginate(10);
 
+        $hargaBoost = HargaKoin::where('nama', 'Boost Lowongan')->value('harga');
+
         return view('perusahaan.lowongan-saya.lowongan-kosong', [
             "Data" => $lowongans,
             'lowongans' => $lowongans,
             'pakets' => $pakets,
             'jenisLowongan' => $jenisLowongan,
+            'hargaBoost' => $hargaBoost,
         ]);
     }
 
@@ -479,9 +482,17 @@ class LowonganPerusahaanController extends Controller
         $user = Auth::user();
         $perusahaan = $user->perusahaan;
 
-        $hargaBoost = 300;
+        // ambil harga boost dari tabel harga_koins
+        $hargaBoost = HargaKoin::where('nama', 'Boost Lowongan')->value('harga');
 
-        // cek koin
+        if (!$hargaBoost) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Harga boost belum tersedia.'
+            ], 422);
+        }
+
+        // cek koin perusahaan
         if ($perusahaan->koin_perusahaan < $hargaBoost) {
             return response()->json([
                 'success' => false,
@@ -490,7 +501,7 @@ class LowonganPerusahaanController extends Controller
             ]);
         }
 
-        // ambil lowongan
+        // ambil lowongan milik perusahaan & sudah publish
         $lowongan = LowonganPerusahaan::where('perusahaan_id', $perusahaan->id)
             ->whereNotNull('published_at')
             ->findOrFail($request->lowongan_id);
@@ -498,19 +509,19 @@ class LowonganPerusahaanController extends Controller
         // potong koin
         $perusahaan->decrement('koin_perusahaan', $hargaBoost);
 
-        // simpan waktu boost TERAKHIR
-        $lowongan->boosted_until = now();
-        $lowongan->save();
-
+        // simpan waktu boost terakhir
+        $lowongan->update([
+            'boosted_until' => now()
+        ]);
 
         // catatan koin
         CatatanKoin::create([
             'user_id'      => $user->id,
             'no_referensi' => 'BOOST-' . now()->format('Ymd') . '-' . strtoupper(Str::random(6)),
-            'pesanan'      => 'Boost Lowongan (Tanpa Batas): ' . $lowongan->nama,
+            'pesanan'      => 'Boost Lowongan: ' . $lowongan->nama,
             'dari'         => 'Koin Perusahaan',
             'sumber_dana'  => 'boost-lowongan',
-            'total'        => '-' . $hargaBoost,
+            'total'        => -$hargaBoost,
         ]);
 
         return response()->json([

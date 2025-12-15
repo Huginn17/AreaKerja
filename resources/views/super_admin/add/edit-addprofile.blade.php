@@ -330,6 +330,12 @@
                     </div>
 
                     <div class="min-w-0">
+                        <label class="block text-sm font-medium mb-1 break-words">Koin Perusahaan</label>
+                        <input type="number" name="koin_perusahaan" value="{{ old('koin_perusahaan', $detail->koin_perusahaan ?? '') }}"
+                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2 truncate">
+                    </div>
+
+                    <div class="min-w-0">
                         <label class="block text-sm font-medium mb-1 break-words">Website</label>
                         <input type="text" name="website_perusahaan"
                             value="{{ old('website_perusahaan', $detail->website_perusahaan ?? '') }}"

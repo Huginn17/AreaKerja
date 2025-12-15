@@ -39,87 +39,96 @@ class SuperAdminController extends Controller
     {
         $now = Carbon::now();
 
-        // tanggal 1 bulan ini
+        // ===========================
+        // RANGE WAKTU
+        // ===========================
+
+        // Awal bulan ini
         $startThisMonth = $now->copy()->startOfMonth();
 
-        // tanggal 1 dari 11 bulan lalu
-        $start11MonthsAgo = $now->copy()->subMonths(11)->startOfMonth();
+        // Awal 3 bulan sebelumnya
+        $startThreeMonthsAgo = $now->copy()->subMonths(3)->startOfMonth();
+
+        // Akhir bulan lalu
+        $endLastMonth = $startThisMonth->copy()->subSecond();
 
 
-        // === PELAMAR ===
+        // ===========================
+        // PELAMAR
+        // ===========================
         $currentPelamar = Pelamar::whereBetween('created_at', [
             $startThisMonth,
             $now
         ])->count();
 
-        $last11Pelamar = Pelamar::whereBetween('created_at', [
-            $start11MonthsAgo,
-            $startThisMonth->copy()->subSecond()
+        $lastPelamar = Pelamar::whereBetween('created_at', [
+            $startThreeMonthsAgo,
+            $endLastMonth
         ])->count();
 
-        $growthPelamar = $this->calcGrowth($last11Pelamar, $currentPelamar);
+        $growthPelamar = $this->calcGrowth($lastPelamar, $currentPelamar);
 
 
-
-        // === PERUSAHAAN ===
+        // ===========================
+        // PERUSAHAAN
+        // ===========================
         $currentPerusahaan = Perusahaan::whereBetween('created_at', [
             $startThisMonth,
             $now
         ])->count();
 
-        $last11Perusahaan = Perusahaan::whereBetween('created_at', [
-            $start11MonthsAgo,
-            $startThisMonth->copy()->subSecond()
+        $lastPerusahaan = Perusahaan::whereBetween('created_at', [
+            $startThreeMonthsAgo,
+            $endLastMonth
         ])->count();
 
-        $growthPerusahaan = $this->calcGrowth($last11Perusahaan, $currentPerusahaan);
+        $growthPerusahaan = $this->calcGrowth($lastPerusahaan, $currentPerusahaan);
 
 
-
-        // === ADMIN ===
+        // ===========================
+        // ADMIN
+        // ===========================
         $currentAdmin = User::where('role', 'admin')
             ->whereBetween('created_at', [$startThisMonth, $now])
             ->count();
 
-        $last11Admin = User::where('role', 'admin')
-            ->whereBetween('created_at', [$start11MonthsAgo, $startThisMonth->copy()->subSecond()])
+        $lastAdmin = User::where('role', 'admin')
+            ->whereBetween('created_at', [$startThreeMonthsAgo, $endLastMonth])
             ->count();
 
-        $growthAdmin = $this->calcGrowth($last11Admin, $currentAdmin);
+        $growthAdmin = $this->calcGrowth($lastAdmin, $currentAdmin);
 
 
-
-        // === SUPER ADMIN ===
+        // ===========================
+        // SUPER ADMIN
+        // ===========================
         $currentSuperAdmin = User::where('role', 'super_admin')
             ->whereBetween('created_at', [$startThisMonth, $now])
             ->count();
 
-        $last11SuperAdmin = User::where('role', 'super_admin')
-            ->whereBetween('created_at', [$start11MonthsAgo, $startThisMonth->copy()->subSecond()])
+        $lastSuperAdmin = User::where('role', 'super_admin')
+            ->whereBetween('created_at', [$startThreeMonthsAgo, $endLastMonth])
             ->count();
 
-        $growthSuperAdmin = $this->calcGrowth($last11SuperAdmin, $currentSuperAdmin);
-
+        $growthSuperAdmin = $this->calcGrowth($lastSuperAdmin, $currentSuperAdmin);
 
 
         return view('super_admin.dashboard', [
             "title" => "Dashboard",
 
-            'totalPelamar' => $currentPelamar,
-            'growthPelamar' => $growthPelamar,
+            'totalPelamar'       => $currentPelamar,
+            'growthPelamar'      => $growthPelamar,
 
-            'totalPerusahaan' => $currentPerusahaan,
-            'growthPerusahaan' => $growthPerusahaan,
+            'totalPerusahaan'    => $currentPerusahaan,
+            'growthPerusahaan'   => $growthPerusahaan,
 
-            'totalAdmin' => $currentAdmin,
-            'growthAdmin' => $growthAdmin,
+            'totalAdmin'         => $currentAdmin,
+            'growthAdmin'        => $growthAdmin,
 
-            'totalSuperAdmin' => $currentSuperAdmin,
-            'growthSuperAdmin' => $growthSuperAdmin,
+            'totalSuperAdmin'    => $currentSuperAdmin,
+            'growthSuperAdmin'   => $growthSuperAdmin,
         ]);
     }
-
-
 
     /**
      * Hitung pertumbuhan dalam persen (%)
@@ -819,8 +828,6 @@ class SuperAdminController extends Controller
 
 
 
-
-
     //CV
     public function cv(Pelamar $pelamar)
     {
@@ -901,6 +908,11 @@ class SuperAdminController extends Controller
                     "nullable",
                     "regex:/^(?:628|08)[0-9]{8,15}$/"
                 ];
+                // $rules['koin_perusahaan'] = [
+                //     "nullable",
+                //     "integer",
+                //     "min:0"
+                // ];
             }
 
             // Tambahan rules untuk pelamar (DITAMBAHKAN)
@@ -998,6 +1010,7 @@ class SuperAdminController extends Controller
                         'telepon_perusahaan'  => $normalizePhone($request->telepon_perusahaan),
                         'whatsapp'            => $normalizePhone($request->whatsapp),
                         'legalitas'           => $request->legalitas,
+                        'koin_perusahaan'     => $request->koin_perusahaan,
                         'deskripsi'           => $request->deskripsi,
                         'visi'                => $request->visi,
                         'misi'                => $request->misi,
@@ -1118,6 +1131,11 @@ class SuperAdminController extends Controller
             // Validasi role perusahaan
             if ($request->role === 'perusahaan') {
 
+                $rules['koin_perusahaan'] = [
+                    'nullable',
+                    'integer',
+                    'min:0'
+                ];
                 $rules['telepon_perusahaan'] = [
                     'nullable',
                     'regex:/^(?:628|08)[0-9]{8,15}$/'
@@ -1224,6 +1242,7 @@ class SuperAdminController extends Controller
                         'website_perusahaan' => $request->website_perusahaan,
                         'telepon_perusahaan' => $request->telepon_perusahaan,
                         'whatsapp'          => $request->whatsapp,
+                        'koin_perusahaan'     => $request->koin_perusahaan,
                         'legalitas'         => $request->legalitas,
                         'deskripsi'         => $request->deskripsi,
                         'visi'              => $request->visi,

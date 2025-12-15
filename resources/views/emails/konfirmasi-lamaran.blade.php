@@ -80,20 +80,20 @@ echo match($data->status) {
                             <td>
                                 {{ $konfirmasi['tempat'] }}<br>
 
-                                @if (!empty($konfirmasi['latitude']) && !empty($konfirmasi['longitude']))
-                                    <a href="https://www.google.com/maps?q={{ $konfirmasi['latitude'] }},{{ $konfirmasi['longitude'] }}"
-                                        target="_blank"
+                                @if (!empty($konfirmasi['gmaps_url']))
+                                    <a href="{{ $konfirmasi['gmaps_url'] }}" target="_blank"
                                         style="
-                                           display:inline-block;
-                                           margin-top:6px;
-                                           color:#2563eb;
-                                           text-decoration:none;
-                                           font-weight:600;
-                                       ">
-                                        🗺️ Buka di Google Maps
+               display:inline-block;
+               margin-top:8px;
+               color:#ff7700;
+               text-decoration:underline;
+               font-weight:600;
+           ">
+                                        Buka Lokasi di Google Maps
                                     </a>
                                 @endif
                             </td>
+
                         </tr>
                         <tr>
                             <td style="padding:6px 0; font-weight:600;">🎯 Keperluan</td>
