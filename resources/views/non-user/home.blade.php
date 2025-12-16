@@ -134,7 +134,7 @@
         <!-- =============================== -->
         <!-- TAB: PENCARIAN TERAKHIR -->
         <!-- =============================== -->
-        <div x-show="tab === 'riwayat'" x-transition class="w-full px-4 md:px-24">
+        <div x-show="tab === 'riwayat'" x-transition class="w-full px-4 md:px-36">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mt-8 mb-8">
                 <h3 class="text-gray-500 font-semibold mb-4 md:mb-0">
                     Riwayat pencarian Anda
@@ -179,7 +179,7 @@
         <!-- =============================== -->
         <!-- TAB: UMPAN LOWONGAN -->
         <!-- =============================== -->
-        <div x-show="tab === 'umpan'" x-transition class="w-full px-4 md:px-24 mt-8">
+        <div x-show="tab === 'umpan'" x-transition class="w-full px-4 md:px-36 mt-8">
             <h3 class="text-gray-500 font-semibold mb-8">
                 Lowongan berdasarkan pada aktivitas Anda di areakerja
             </h3>

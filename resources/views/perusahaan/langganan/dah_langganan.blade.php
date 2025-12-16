@@ -26,8 +26,17 @@
         <h2 class="text-2xl font-bold text-center text-white">Request Data Pekerja</h2>
         <div class="w-20 h-1 bg-white mx-auto my-2"></div>
         <p class="text-sm font-medium leading-relaxed text-center text-white mt-6">
-            Dapatkan akses untuk melihat statistik kinerja pekerja secara menyeluruh <br> termasuk daftar pekerja dengan
-            performa baik maupun yang memerlukan evaluasi <br> serta kemampuan untuk membuat laporan kinerja harian pekerja.
+            Dapatkan akses untuk melihat statistik kinerja pekerja secara menyeluruh, <br> termasuk daftar pekerja dengan
+            performa terbaik maupun yang memerlukan evaluasi. <br> Anda juga dapat membuat laporan kinerja harian pekerja
+            secara
+            detail.
+        </p>
+        
+        <p class="text-sm font-medium leading-relaxed text-center text-white mt-6">
+            Selain itu, setiap laporan valid terkait pekerja yang bermasalah atau melakukan pelanggaran akan mendapatkan
+            <span class="font-bold hover:underline"> reward berupa Koin</span>, <br> sebagai bentuk apresiasi atas kontribusi Anda dalam menjaga kualitas dan
+            profesionalisme
+            tenaga kerja.
         </p>
         <div class="max-w-6xl mx-auto space-y-12 mt-12">
             <div class="flex flex-col md:flex-row w-full justify-center items-center">
@@ -147,7 +156,6 @@
                     console.error(err);
                     alert("Terjadi kesalahan. Coba lagi.");
                 });
-
         });
     </script>
     @include('layouts.footer')

@@ -8,24 +8,45 @@
                     <div class="flex items-center justify-between pb-6 cv-header">
 
                         <!-- Foto & Nama -->
-                        <div class="flex items-center gap-4 overflow-y-auto cv-header-left">
-                            @if (!empty($pdf))
-                                <img src="{{ public_path('storage/' . $pelamar->img_profile) }}" alt="Profile"
-                                    class="w-32 h-32 md:w-28 md:h-28 rounded-full object-cover border-4 border-gray-300">
-                            @else
-                                <img src="{{ asset('storage/' . $pelamar->img_profile) }}" alt="Profile"
-                                    class="w-32 h-32 md:w-28 md:h-28 rounded-full object-cover border-4 border-gray-300">
-                            @endif
+                        <div class="flex items-center gap-4 cv-header-left">
+                            <div class="relative flex">
+                                @if (!empty($pdf))
+                                    <img src="{{ public_path('storage/' . $pelamar->img_profile) }}" alt="Profile"
+                                        class="w-32 h-32 md:w-28 md:h-28 rounded-full object-cover border-4 border-gray-300">
+                                @else
+                                    <img src="{{ asset('storage/' . $pelamar->img_profile) }}" alt="Profile"
+                                        class="w-32 h-32 md:w-28 md:h-28 rounded-full object-cover border-4 border-gray-300">
+                                @endif
+
+                                @if (optional($pelamar)->kategori === 'kandidat aktif')
+                                    <div class="absolute bottom-1 right-1 z-20">
+                                        <div class="relative group bg-white rounded-full">
+                                            <img src="{{ $logoBase64 }}" class="h-7 w-8" alt="Badge Areakerja">
+
+                                            <!-- Tooltip -->
+                                            <div
+                                                class="absolute top-full mt-2 left-1/2 -translate-x-[60%] sm:-translate-x-1 w-56 bg-gray-200 text-gray-800 text-xs rounded-md  px-3 py-2 opacity-0 invisible shadow-lg group-hover:opacity-100 group-hover:visible transition duration-200 z-50 text-center">
+                                                Badge Areakerja diberikan kepada pengguna yang telah resmi
+                                                menjadi <strong>Kandidat Areakerja</strong>.
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
                             <img hidden src="{{ public_path('storage/' . $pelamar->img_profile) }}" alt="Profile"
                                 class="w-32 h-32 md:w-28 md:h-28 rounded-full object-cover border-4 border-gray-300">
                             <div>
-                                <h1 class="text-2xl font-bold text-orange-600 mb-1">{{ $pelamar->nama_pelamar ?? $pelamar->user->username }} </h1>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <h1 class="text-2xl font-bold text-orange-600 mb-1">
+                                        {{ $pelamar->nama_pelamar ?? $pelamar->user->username }} </h1>
+                                </div>
+
                                 <p class="text-sm font-semibold">
                                     {{ optional($pelamar->alamat_pelamar->first())->label ?? '-' }},
                                     {{ optional($pelamar->alamat_pelamar->first())->desa ?? '-' }} <br>
                                     {{ optional($pelamar->alamat_pelamar->first())->kecamatan ?? '-' }},
-                                    {{ optional($pelamar->alamat_pelamar->first())->kota ?? '-' }}
-                                    ,<br>
+                                    {{ optional($pelamar->alamat_pelamar->first())->kota ?? '-' }} ,<br>
                                     {{ optional($pelamar->alamat_pelamar->first())->provinsi ?? '-' }},
                                     {{ optional($pelamar->alamat_pelamar->first())->kode_pos ?? '-' }}</p>
                             </div>
@@ -103,7 +124,7 @@
                                         <rect width="335" height="1" fill="#FA6601" />
                                     </svg>
                                 </div>
-                               <table class="cv-skill-table" style="width:auto; font-size:12px; margin-bottom:24px;">
+                                <table class="cv-skill-table" style="width:auto; font-size:12px; margin-bottom:24px;">
                                     @forelse ($pelamar->skill as $skill)
                                         <tr class="flex justify-between">
                                             <td style="padding: 2px 0;" class="font-bold">
@@ -198,12 +219,12 @@
                                 </div>
                                 <div class="mt-3 space-y-2 text-sm">
                                     <div>
-                                        @forelse ($pelamar->riwayat_pendidikan as $r )
-                                        <p style="margin: 0 0 14px 0;">
-                                            <b class="text-sm">{{ optional($r)->pendidikan ?? '-' }}</b> <span
-                                                style="float: right;"><b>({{ optional($r)->tahun_awal }}–{{ optional($r)->tahun_akhir }})</b></span><br>
-                                            <b class="text-sm">{{ optional($r)->jurusan ?? '-' }}</b>
-                                        </p>
+                                        @forelse ($pelamar->riwayat_pendidikan as $r)
+                                            <p style="margin: 0 0 14px 0;">
+                                                <b class="text-sm">{{ optional($r)->pendidikan ?? '-' }}</b> <span
+                                                    style="float: right;"><b>({{ optional($r)->tahun_awal }}–{{ optional($r)->tahun_akhir }})</b></span><br>
+                                                <b class="text-sm">{{ optional($r)->jurusan ?? '-' }}</b>
+                                            </p>
                                         @empty
                                             <p class="text-sm text-gray-600">Tidak ada riwayat pendidikan.</p>
                                         @endforelse

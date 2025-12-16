@@ -47,8 +47,8 @@
                         @endif
                     </a>
                     <div class="text-sm truncate">
-                        <span class="font-semibold block truncate">{{ Auth::user()->username }}</span>
-                        <p class="text-gray-500 text-sm truncate">{{ Auth::user()->email }}</p>
+                        <span class="font-semibold block truncate break-all">{{ Auth::user()->username }}</span>
+                        <p class="text-gray-500 text-sm truncate break-all">{{ Auth::user()->email }}</p>
                     </div>
                 </div>
             </div>
@@ -112,9 +112,9 @@
                     <!-- Kolom Kanan -->
                     <div>
                         <p><span class="font-semibold">Username</span></p>
-                        <p class="mb-3">{{ $data->user->username }}</p>
+                        <p class="mb-3 break-all">{{ $data->user->username }}</p>
                         <p><span class="font-semibold">Email</span></p>
-                        <p class="mb-3"> {{ $data->user->email }}</p>
+                        <p class="mb-3 break-all"> {{ $data->user->email }}</p>
                         <p><span class="font-semibold">Gender</span></p>
                         <p class="mb-3"> {{ $data->gender ?? 'Laki Laki' }}</p>
                         <p><span class="font-semibold">Keahlian</span></p>

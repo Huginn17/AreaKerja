@@ -45,8 +45,8 @@
                         <p><span class="font-semibold">Tempat</span> : {{ $konfirmasi['tempat'] }}</p>
                         @if ($data->gmaps_url)
                             <a href="{{ $data->gmaps_url }}" target="_blank"
-                                class="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg">
-                                📍 Buka Lokasi di Google Maps
+                                class="inline-flex items-center text-blue-500 gap-2 px-4 py-2">
+                                 Buka Lokasi di Google Maps
                             </a>
                         @endif
                         <p><span class="font-semibold">Keperluan</span> : Wawancara Kerja</p>

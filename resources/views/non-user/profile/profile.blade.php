@@ -9,6 +9,7 @@
         <div class="bg-white  mx-12">
             <!-- Header: Avatar + Tombol -->
             <div class="border-2 border-orange-300 rounded-md p-4 md:p-0">
+
                 <div
                     class="border-orange-500 rounded-lg p-6 md:p-8 flex flex-col md:flex-row items-center md:justify-between gap-6">
 
@@ -17,7 +18,8 @@
 
                         <!-- Avatar + Select -->
                         <div class="flex flex-col items-center w-full md:w-auto">
-                            <div class="relative inline-block">
+                            <div class="relative inline-flex items-center gap-3">
+
                                 <div x-data="{ zoom: false }" class="cursor-pointer inline-block" @click="zoom = !zoom">
                                     <img id="pp"
                                         class="w-40 h-40 object-cover rounded-full transition-transform duration-300"
@@ -28,20 +30,36 @@
                                         alt="Profile">
                                 </div>
 
-                                <!-- Tombol Edit -->
-                                <div
-                                    class="absolute bottom-2 right-2 bg-orange-600 rounded-full p-2 cursor-pointer shadow-md">
-                                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M9.83752 2.24552C10.0542 2.02888 10.0542 1.66782 9.83752 1.4623L8.5377 0.162477C8.33218 -0.0541591 7.97112 -0.0541591 7.75448 0.162477L6.7324 1.179L8.81544 3.26205M0 7.91696V10H2.08304L8.22664 3.85085L6.14359 1.76781L0 7.91696Z"
-                                            fill="white" />
-                                    </svg>
-                                </div>
+                                <!-- Badge Areakerja -->
+                                @if (optional($pelamar)->kategori === 'kandidat aktif')
+                                    <div class="absolute bottom-1 right-1 z-20">
+                                        <div class="relative group bg-white rounded-full">
+                                            <img src="{{ asset('images/logoarea.png') }}" class="h-10 w-11"
+                                                alt="Badge Areakerja">
+        
+
+                                            <!-- Tooltip -->
+                                            <div
+                                                class="absolute top-full left-1/2 -translate-x-1/2 mt-2
+                           w-56 bg-gray-200 text-gray-800 text-xs
+                           rounded-md rounded-tr-none
+                           px-3 py-2
+                           opacity-0 invisible
+                           shadow-lg
+                           group-hover:opacity-100 group-hover:visible
+                           transition duration-200
+                           z-50 text-center">
+                                                Badge Areakerja diberikan kepada pengguna yang telah resmi
+                                                menjadi <strong>Kandidat Areakerja</strong>.
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
 
                             <!-- Select Box -->
-                            <div class="relative inline-block mt-4 w-full md:w-[95%]">
+                            <div class="relative flex items-center mt-4 w-full gap-2 md:w-[95%]">
+
                                 @php
                                     $status = '';
                                     if ($pelamar->kategori === 'pelamar') {
@@ -66,12 +84,14 @@
                                     </option>
                                 </select>
 
-                                <input type="hidden" id="kategoriPelamar" value="{{ $pelamar->kategori }}">
+
                             </div>
+
                         </div>
 
                         <!-- Tombol Upload & Remove -->
                         <div class="flex flex-col md:flex-row items-center gap-3 w-full md:w-auto">
+
                             <label
                                 class="flex items-center gap-1 border border-orange-400 text-orange-500 px-3 py-2 rounded-md text-sm font-medium hover:bg-orange-50 w-full md:w-auto justify-center">
                                 <input type="file" name="img_profile" id="fileinput" accept="image/*" class="hidden">
@@ -94,6 +114,8 @@
                                 </svg>
                                 Remove
                             </button>
+
+
                         </div>
                     </div>
 
@@ -112,7 +134,7 @@
             </div>
             <br>
 
-            
+
             <!-- Grid: Dua Kolom -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Kolom Kiri -->
@@ -439,9 +461,9 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5"
                                     viewBox="0 0 24 24">
                                     <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
-                                            7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
-                                           1.003 0 0 0-1.42 0l-1.83 1.83 3.75
-                                           3.75 1.84-1.82z" />
+                                                                            7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
+                                                                           1.003 0 0 0-1.42 0l-1.83 1.83 3.75
+                                                                           3.75 1.84-1.82z" />
                                 </svg>
                             </a>
                         </div>

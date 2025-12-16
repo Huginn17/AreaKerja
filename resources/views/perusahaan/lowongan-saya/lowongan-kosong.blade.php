@@ -41,7 +41,6 @@
                 </div>
             </div>
     </div>
-
     <!-- Lowongan -->
     <div class="max-w-5xl mx-auto px-4 mb-10">
         <h2 class="text-lg font-semibold mb-3 flex">Lowongan</h2>
@@ -130,6 +129,7 @@
             @forelse ($Data as $d)
                 @if ($d->paket_id && $d->published_at)
                     <!-- Card Published -->
+            
                     <a href="{{ route('lowongan.detail', [
                         'perusahaan' => $d->perusahaan->slug,
                         'lowongan' => $d->slug,

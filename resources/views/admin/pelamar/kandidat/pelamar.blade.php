@@ -83,7 +83,7 @@
 
             <!-- Pencarian -->
             <div class="w-full md:w-auto">
-                <form action="{{ route('admin.non-kandidat') }}" class="flex flex-row gap-2">
+                <form action="{{ route('admin.kandidat') }}" class="flex flex-row gap-2">
                     <input type="text" name="q" value="{{ request('q') }}" placeholder="nama/username ..."
                         class="border border-gray-500 rounded-lg px-4 py-2 w-full sm:w-72">
 
@@ -124,7 +124,7 @@
                             <td class="px-4 py-3">{{ $item->riwayat_pendidikan->first()->pendidikan ?? '-' }}</td>
                             <td class="px-4 py-3">{{ $item->alamat_pelamar->first()->provinsi ?? '-' }}</td>
                             <td class="px-4 py-2 flex gap-2 justify-center">
-                                <a href="{{ route('admin.detail.non.kandidat', $item->id) }}"
+                                <a href="{{ route('admin.detail.kandidat', $item->id) }}"
                                     class="bg-gray-500 hover:bg-gray-600 text-white px-2 py-2 rounded-md">
                                     <svg width="20" height="20" viewBox="0 0 20 16" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">

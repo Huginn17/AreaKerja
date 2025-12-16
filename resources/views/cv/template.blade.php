@@ -7,23 +7,42 @@
                 <div class="flex flex-col md:flex-row items-center md:justify-between pb-6 gap-4 md:gap-0">
                     <!-- Foto & Nama -->
                     <div class="flex flex-col md:flex-row items-center gap-4 md:gap-4 w-full md:w-auto">
-                        @if (!empty($pdf))
-                            <img src="{{ public_path('storage/' . $data->img_profile) }}" alt="Profile"
-                                class="w-24 h-24 md:w-28 md:h-28 rounded-full object-cover border-4 border-gray-300 flex-shrink-0">
-                        @else
-                            <img src="{{ asset('storage/' . $data->img_profile) }}" alt="Profile"
-                                class="w-24 h-24 md:w-28 md:h-28 rounded-full object-cover border-4 border-gray-300 flex-shrink-0">
-                        @endif
+                        <div class="relative flex-shrink-0">
+                            @if (!empty($pdf))
+                                <img src="{{ public_path('storage/' . $data->img_profile) }}" alt="Profile"
+                                    class="w-24 h-24 md:w-28 md:h-28 rounded-full object-cover border-4 border-gray-300 flex-shrink-0">
+                            @else
+                                <img src="{{ asset('storage/' . $data->img_profile) }}" alt="Profile"
+                                    class="w-24 h-24 md:w-28 md:h-28 rounded-full object-cover border-4 border-gray-300 flex-shrink-0">
+                            @endif
+                            @if (optional($data->user->pelamar)->kategori === 'kandidat aktif')
+                                <div class="absolute bottom-1 right-1 z-20">
+                                    <div class="relative group bg-white rounded-full">
+                                        <img src="{{ $logoBase64 }}" class="h-7 w-8" alt="Badge Areakerja">
+
+                                        <!-- Tooltip -->
+                                        <div
+                                            class="absolute top-full mt-2 left-1/2 -translate-x-[60%] sm:-translate-x-1 w-56 bg-gray-200 text-gray-800 text-xs rounded-md  px-3 py-2 opacity-0 invisible shadow-lg group-hover:opacity-100 group-hover:visible transition duration-200 z-50 text-center">
+                                            Badge Areakerja diberikan kepada pengguna yang telah resmi
+                                            menjadi <strong>Kandidat Areakerja</strong>.
+                                        </div>
+
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
                         <div class="w-full md:w-auto overflow-x-auto">
-                            <h1 class="text-xl md:text-2xl font-bold text-orange-600 mb-1 break-words">
-                                {{ $data->user->pelamar->nama_pelamar ?? $data->user->username }}
-                            </h1>
+                            <div class="flex items-center gap-2 mb-2">
+                                <h1 class="text-xl md:text-2xl font-bold text-orange-600 break-words">
+                                    {{ $data->user->pelamar->nama_pelamar ?? $data->user->username }}
+                                </h1>
+                            </div>
+
                             <p class="text-sm font-semibold break-words">
                                 {{ optional($data->alamat_pelamar->first())->label ?? '-' }},
                                 {{ optional($data->alamat_pelamar->first())->desa ?? '-' }} <br>
                                 {{ optional($data->alamat_pelamar->first())->kecamatan ?? '-' }},
-                                {{ optional($data->alamat_pelamar->first())->kota ?? '-' }},
-                                <br>
+                                {{ optional($data->alamat_pelamar->first())->kota ?? '-' }},<br>
                                 {{ optional($data->alamat_pelamar->first())->provinsi ?? '-' }},
                                 {{ optional($data->alamat_pelamar->first())->kode_pos ?? '-' }}
                             </p>
@@ -71,7 +90,7 @@
                         </p>
                     </div>
                 </div>
-                
+
 
                 <!-- Body CV: 2 Kolom -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
