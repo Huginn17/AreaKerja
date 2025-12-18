@@ -212,7 +212,7 @@
             <!-- KANAN: LOWONGAN LAIN -->
             <div class="space-y-4">
                 <div class="flex justify-between items-center">
-                    <h2 class="font-semibold">Lowongan Lainnya di {{ $data->perusahaan->nama_perusahaan }}</h2>
+                    <h2 class="font-semibold">Lowongan Lainnya di <span class="font-bold text-orange-500">{{ $data->perusahaan->nama_perusahaan }}</span></h2>
                 </div>
 
                 <div class="bg-white rounded-lg shadow p-4 space-y-4">

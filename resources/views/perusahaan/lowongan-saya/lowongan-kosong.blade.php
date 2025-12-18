@@ -278,9 +278,9 @@
             @endforelse
         </div>
         <div class="flex justify-center mt-8">
-            <button class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-2 rounded-lg shadow">
+            {{-- <button class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-2 rounded-lg shadow">
                 Memuat
-            </button>
+            </button> --}}
         </div>
     </div>
 @else

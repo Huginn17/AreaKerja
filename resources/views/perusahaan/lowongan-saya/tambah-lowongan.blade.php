@@ -59,10 +59,9 @@
                             <select name="jenis"
                                 class="border rounded-md px-3 py-2 mt-1 outline-none focus:ring-1 focus:ring-orange-500 w-50">
                                 <option selected disabled value="">Pilih Jenis Lowongan</option>
-                                <option value="fulltime">Full Time</option>
-                                <option value="middletime">Middle Time</option>
-                                <option value="parttime">Part Time</option>
-                                <option value="freelance">Freelance</option>
+                                <option value="Fulltime">Full Time</option>
+                                <option value="Middletime">Middle Time</option>
+                                <option value="Freelance">Freelance</option>
                             </select>
                         </div>
 

@@ -1,55 +1,64 @@
 @if ($d->published_at && (!$d->expired_at || $d->expired_at > now()))
-    <div x-data="{ open: false, showConfirm: false, showSuccess: false }"
-        class="border-2 border-gray-400 p-6 rounded-lg shadow-sm hover:shadow-md transition bg-white relative overflow-visible self-start">
+    <div x-cloak x-data="{ open: false, showConfirm: false, showSuccess: false }"
+        class="border border-gray-200 p-4 md:p-5 hover:bg-gray-50 rounded-lg shadow-md hover:shadow-lg bg-white relative overflow-visible self-start transition-all duration-500">
 
 
         {{-- Header --}}
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0">
             {{-- 🔹 Label Direkomendasikan --}}
-            <div class="flex flex-col gap-2">
+            <div class="flex flex-col gap-1 flex-1 min-w-0">
                 {{-- BOOSTED --}}
                 @if (!is_null($d->boosted_until))
                     <p
-                        class="bg-yellow-100 w-fit px-3 py-1 text-yellow-700 font-semibold rounded-md text-xs flex items-center gap-1">
+                        class="bg-yellow-100 w-fit px-2 py-0.5 text-yellow-700 font-semibold rounded-md text-[11px] flex items-center gap-1 animate-pulse">
                         <i class="ph ph-rocket-launch text-lg"></i>
                         Boosted
                     </p>
                 @endif
 
                 @if ($d->rekomendasi !== null)
-                    <p class="bg-[#fdedf4] w-fit px-3 py-1 text-blue-500 font-semibold rounded-md text-xs">
+                    <p class="bg-blue-50 w-fit px-2 py-0.5 text-blue-500 font-semibold rounded-md text-[11px]">
                         Direkomendasikan
                     </p>
                 @endif
                 @if ($d->urgent ?? true)
-                    <p class="bg-[#fdedf4] w-fit px-3 py-1 text-[#9d2b6b] font-semibold rounded-md text-xs">
+                    <p class="bg-green-50 w-fit px-2 py-0.5 text-green-500 font-semibold rounded-md text-[11px]">
                         Dibutuhkan segera
                     </p>
                 @endif
                 @if ($d->batas_lamaran && now()->greaterThan(\Carbon\Carbon::parse($d->batas_lamaran)->endOfDay()))
-                    <p class="bg-red-100 w-fit px-3 py-1 text-red-600 font-semibold rounded-md text-xs">
+                    <p class="bg-red-50 w-fit px-2 py-0.5 text-red-600 font-semibold rounded-md text-[11px]">
                         Batas lamaran berakhir
                     </p>
                 @endif
 
 
-                <h1 class="font-bold text-lg md:text-xl mt-2 md:mt-3">
-                    {{ $d->nama }} - {{ $d->jenis }}
+                <h1
+                    class="font-semibold text-base md:text-lg mt-1 md:mt-2 whitespace-nowrap overflow-hidden text-ellipsis">
+                    {{ $d->nama }} <span class="text-gray-400">-</span> {{ $d->jenis }}
                 </h1>
+
+
             </div>
 
             <div>
+
+                <div class=" top-3 right-3 z-10">
+                    <img src="{{ asset('storage/' . $d->perusahaan->img_profile) }}" alt="logo"
+                        class="w-14 h-14 rounded-full object-cover">
+                </div>
+
+
                 <div x-data="{ showMenu: false }" class="relative">
 
                     <!-- Tombol titik tiga -->
-                    <button @click="showMenu = !showMenu"
-                        class="text-2xl text-gray-500 hover:text-gray-700 p-1 rounded-lg">
-                        <i class="ph ph-dots-three-vertical ml-[250px]"></i>
+                    <button @click="showMenu = !showMenu" class="text-2xl text-gray-500 hover:text-gray-700 rounded-lg">
+                        <i class="ph ph-dots-three-vertical ml-5"></i>
                     </button>
 
                     <!-- Popup -->
                     <div x-show="showMenu" @click.outside="showMenu = false" x-transition x-cloak
-                        class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-200 z-100 py-2">
+                        class="absolute ml-[10px] mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-200 z-[999] py-2">
 
                         <!-- LinkedIn -->
                         <a href="{{ route('lowongan.share', [
@@ -123,23 +132,26 @@
                 </div>
             </div>
 
+
         </div>
 
         {{-- Perusahaan & Lokasi --}}
-        <p class="text-gray-500 font-semibold mt-2 md:mt-3">{{ $d->perusahaan->nama_perusahaan }}</p>
+        {{-- <p class="text-gray-500 font-semibold mt-2 md:mt-3">{{ $d->perusahaan->nama_perusahaan }}</p> --}}
         <p class="text-gray-500 font-semibold">{{ $d->alamat }}</p>
 
         {{-- Rentang Gaji --}}
-        <p class="bg-[#d7d6d6] w-fit my-3 px-3 py-1 text-[#565656] font-semibold rounded-md text-sm">
+        <p class="bg-[#d7d6d6] w-fit my-2 px-2 py-0.5 text-[#565656] font-semibold rounded-md text-xs">
             Rp. {{ number_format($d->gaji_awal, 0, ',', '.') }} – Rp. {{ number_format($d->gaji_akhir, 0, ',', '.') }} /
             bulan
         </p>
 
+
+
         {{-- Ringkasan --}}
         <div x-show="!open" class="mt-3">
-            <div class="flex flex-col md:flex-row items-start md:items-center justify-between my-4 text-gray-600 gap-4">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between my-2 text-gray-600 gap-2">
                 <div class="flex items-center gap-2">
-                    <i class="ph-fill ph-paper-plane-right text-blue-600 text-xl"></i>
+                    <i class="ph-fill ph-paper-plane-right text-blue-600 text-lg"></i>
                     <span class="font-medium">Lamar Dengan Cepat</span>
                 </div>
 
@@ -173,18 +185,14 @@
                 @endauth
             </div>
 
-            <ul class="ps-5 mt-2 space-y-1 list-disc list-inside mb-5 text-sm text-gray-600">
-                <li>Gaji – Rp{{ $d->gaji_awal }} – Rp{{ $d->gaji_akhir }} per bulan tergantung pengalaman.</li>
-                <li>Harus menyelesaikan penilaian pra-wawancara singkat sebelum diwawancara.</li>
-                <li>Diminta mengirimkan video perkenalan singkat (detail diberikan nanti).</li>
-            </ul>
+
 
             <div class="flex flex-col md:flex-row items-start md:items-center justify-between text-[#565656] gap-2">
-                <span class="text-xs text-gray-400">
+                <span class="text-[11px] text-gray-400">
                     Aktif {{ $d->published_at->diffForHumans() }}
                 </span>
 
-                <p id="countdown-{{ $d->id }}" class="text-red-500 font-medium text-right text-xs"></p>
+                <p id="countdown-{{ $d->id }}" class="text-red-500 font-medium text-right text-[11px]"></p>
             </div>
         </div>
 
@@ -209,6 +217,13 @@
                 <hr>
 
                 <div>
+                    <ul class="ps-5 mt-2 space-y-1 list-disc list-inside mb-5 text-sm text-gray-600">
+                        <li>Gaji – Rp{{ $d->gaji_awal }} – Rp{{ $d->gaji_akhir }} per bulan tergantung pengalaman.
+                        </li>
+                        <li>Harus menyelesaikan penilaian pra-wawancara singkat sebelum diwawancara.</li>
+                        <li>Diminta mengirimkan video perkenalan singkat (detail diberikan nanti).</li>
+                    </ul>
+
                     <h3 class="font-semibold text-lg mb-2">Detail Lowongan</h3>
 
                     <div class="flex items-start gap-3 mt-4">
@@ -280,10 +295,14 @@
 
         {{-- Tombol toggle detail --}}
         <div class="mt-4">
-            <button @click="open = !open" class="text-sm text-blue-600 hover:underline">
-                <span x-show="!open">Lihat Detail</span>
-                <span x-show="open">Tutup Detail</span>
-            </button>
+            {{-- <button @click="open = !open" class="text-sm text-blue-600 hover:underline"> --}}
+            <a href="{{ route('detail.lowongan.non.user', [
+                'perusahaan' => $lowongan->perusahaan->slug,
+                'lowongan' => $lowongan->slug,
+            ]) }}"
+                class="text-sm text-blue-600 hover:underline">Lihat Detail</a>
+            <span x-show="open">Tutup Detail</span>
+            {{-- </button> --}}
         </div>
 
         {{-- Modal Konfirmasi --}}

@@ -108,13 +108,12 @@
                             <select id="jenis" name="jenis"
                                 class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-orange-500 focus:outline-none truncate">
                                 <option selected disabled value="">Pilih Jenis</option>
-                                <option value="full_time">Full Time</option>
-                                <option value="part_time">Part Time</option>
-                                <option value="middle_time">Middle Time</option>
-                                <option value="freelance">Freelance</option>
+                                <option value="Fulltime">Full Time</option>
+                                <option value="Partime">Part Time</option>
+                                <option value="Freelance">Freelance</option>
                             </select>
                         </div>
-
+                        
                         <!-- Gaji Min -->
                         <div class="w-full">
                             <label for="gaji_awal" class="block font-semibold text-sm mb-1 truncate">

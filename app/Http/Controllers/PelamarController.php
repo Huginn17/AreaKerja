@@ -255,11 +255,17 @@ class PelamarController extends Controller
             ->get();
 
 
+        $jenisList = LowonganPerusahaan::query()
+            ->whereNotNull('jenis')
+            ->where('jenis', '!=', '')
+            ->distinct()
+            ->pluck('jenis');
 
         return view('non-user.home', [
             "Data" => $Data,
             "KategoriList" => $KategoriList,
             "kategori" => $kategori,
+            "jenisList" => $jenisList,
         ]);
     }
 
@@ -377,7 +383,7 @@ class PelamarController extends Controller
         return redirect()->back()->with('success', 'Pendidikan berhasil dihapus');
     }
 
-    
+
     // RIWAYAT PENDIDIKAN SUper ADmin
     public function storependidikanSuper(Request $request)
     {
@@ -860,13 +866,23 @@ class PelamarController extends Controller
 
         $posisi = $request->posisi;
         $lokasi = $request->lokasi;
+        $kategori = $request->kategori;
+        $jenis    = $request->jenis;
+
+        $adaPencarian = $posisi || $lokasi || $kategori || $jenis;
+
+        $jenisList = LowonganPerusahaan::query()
+            ->whereNotNull('jenis')
+            ->distinct()
+            ->pluck('jenis');
+
 
         // Ambil Kategori untuk menghindari error di Blade
         $KategoriList = Category::pluck('nama');
-        $kategori = session()->get('kategori_filter'); // jaga konsistensi filter kategori
+        // $kategori = session()->get('kategori_filter'); // jaga konsistensi filter kategori
 
         // Jika posisi & lokasi kosong → tampilkan normal saja
-        if (empty($posisi) && empty($lokasi)) {
+        if (!$adaPencarian) {
 
             $lowongan = LowonganPerusahaan::with(['perusahaan.alamatUtama'])
                 ->whereNotNull('published_at')
@@ -874,29 +890,85 @@ class PelamarController extends Controller
                     $q->whereNull('expired_at')
                         ->orWhere('expired_at', '>', now());
                 })
-                ->latest()
+
+                /* ===============================
+        | PRIORITAS GRUP
+        =============================== */
+                ->orderByRaw("
+            CASE
+                WHEN boosted_until IS NOT NULL AND rekomendasi IS NOT NULL THEN 0
+                WHEN boosted_until IS NOT NULL AND rekomendasi IS NULL THEN 1
+                WHEN boosted_until IS NULL AND rekomendasi IS NOT NULL THEN 2
+                ELSE 3
+            END
+        ")
+
+                /* ===============================
+        | URUTAN DALAM GRUP
+        =============================== */
+
+                // Boost + Rekomendasi → BOOST TERBARU
+                ->orderByRaw("
+            CASE
+                WHEN boosted_until IS NOT NULL AND rekomendasi IS NOT NULL
+                THEN boosted_until
+            END DESC
+        ")
+
+                // Boost saja → BOOST TERBARU
+                ->orderByRaw("
+            CASE
+                WHEN boosted_until IS NOT NULL AND rekomendasi IS NULL
+                THEN boosted_until
+            END DESC
+        ")
+
+                // Rekomendasi saja → PALING LAMA DI ATAS
+                ->orderByRaw("
+            CASE
+                WHEN boosted_until IS NULL AND rekomendasi IS NOT NULL
+                THEN rekomendasi
+            END ASC
+        ")
+
+                // Biasa → TERBARU
+                ->orderBy('created_at', 'DESC')
+
                 ->paginate(12);
 
             return view('non-user.home', [
-                'Data' => $lowongan,
-                'lowongan' => $lowongan,
-                'posisi' => $posisi,
-                'lokasi' => $lokasi,
+                'Data'         => $lowongan,
+                'lowongan'     => $lowongan,
+                'posisi'       => null,
+                'lokasi'       => null,
+                'kategori'     => null,
+                'jenis'        => null,
                 'riwayat' => session()->get('riwayat_full', []),
                 'KategoriList' => $KategoriList,
-                'kategori' => $kategori,
+                'jenisList'    => $jenisList,
+                "adaPencarian" => $adaPencarian,
             ]);
         }
 
         // Cari lowongan
         $lowongan = LowonganPerusahaan::query()
             ->with(['perusahaan.alamatUtama'])
+
+            ->when($kategori, function ($q) use ($kategori) {
+                $q->where('kategori', $kategori);
+            })
+
+            ->when($jenis, function ($q) use ($jenis) {
+                $q->where('jenis', $jenis);
+            })
+
             ->when($posisi, function ($q) use ($posisi) {
                 $q->where(function ($q2) use ($posisi) {
                     $q2->where('nama', 'like', "%$posisi%")
                         ->orWhere('deskripsi', 'like', "%$posisi%");
                 });
             })
+
             ->when($lokasi, function ($q) use ($lokasi) {
                 $q->whereHas('perusahaan.alamatUtama', function ($alamat) use ($lokasi) {
                     $alamat->where('desa', 'like', "%$lokasi%")
@@ -910,6 +982,7 @@ class PelamarController extends Controller
                         });
                 });
             })
+
             ->whereNotNull('published_at')
             ->where(function ($q) {
                 $q->whereNull('expired_at')
@@ -919,29 +992,37 @@ class PelamarController extends Controller
             ->paginate(12);
 
 
-        // Ambil riwayat
         $riwayat = session()->get('riwayat_full', []);
 
-        // Hapus duplikat
-        $riwayat = collect($riwayat)
-            ->reject(function ($item) use ($posisi, $lokasi) {
-                return $item['posisi'] === $posisi && $item['lokasi'] === $lokasi;
-            })
-            ->values()
-            ->toArray();
+        if ($adaPencarian) {
 
-        // Tambahkan pencarian baru
-        array_unshift($riwayat, [
-            'posisi' => $posisi,
-            'lokasi' => $lokasi,
-            'lowongan_ids' => $lowongan->pluck('id')->toArray(),
-        ]);
+            $riwayat = collect($riwayat)
+                ->reject(function ($item) use ($posisi, $lokasi, $kategori, $jenis) {
+                    return ($item['posisi'] ?? null) === $posisi &&
+                        ($item['lokasi'] ?? null) === $lokasi &&
+                        ($item['kategori'] ?? null) === $kategori &&
+                        ($item['jenis'] ?? null) === $jenis;
+                })
+                ->values()
+                ->toArray();
 
-        // Maksimal 6 riwayat
-        $riwayat = array_slice($riwayat, 0, 6);
 
-        // Simpan
-        session()->put('riwayat_full', $riwayat);
+            // HANYA SIMPAN JIKA ADA HASIL
+            if ($lowongan->count() > 0) {
+                array_unshift($riwayat, [
+                    'posisi'        => $posisi,
+                    'lokasi'        => $lokasi,
+                    'kategori'      => $kategori,
+                    'jenis'         => $jenis,
+                    'lowongan_ids'  => $lowongan->pluck('id')->toArray(),
+                ]);
+            }
+
+            $riwayat = array_slice($riwayat, 0, 6);
+            session()->put('riwayat_full', $riwayat);
+        }
+
+
 
         return view('non-user.home', [
             'Data' => $lowongan,
@@ -949,8 +1030,11 @@ class PelamarController extends Controller
             'posisi' => $posisi,
             'lokasi' => $lokasi,
             'riwayat' => $riwayat,
-            'KategoriList' => $KategoriList, // ← WAJIB ADA
+            'KategoriList' => $KategoriList,
             'kategori' => $kategori,
+            'jenis' => $jenis,
+            'jenisList' => $jenisList,
+            "adaPencarian" => $adaPencarian,
         ]);
     }
 

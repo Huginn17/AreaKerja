@@ -59,7 +59,6 @@ class AuthController extends Controller
 
 
 
-
     //pelamar
     public function beranda(Request $request)
     {
@@ -89,10 +88,18 @@ class AuthController extends Controller
             ->orderBy('created_at', 'DESC')
             ->get();
 
+
+        $jenisList = LowonganPerusahaan::query()
+            ->whereNotNull('jenis')
+            ->where('jenis', '!=', '')
+            ->distinct()
+            ->pluck('jenis');
+
         return view('non-user.home', [
             "Data" => $Data,
             "KategoriList" => $KategoriList,
             "kategori" => $kategori,
+            "jenisList" => $jenisList,
         ]);
     }
 

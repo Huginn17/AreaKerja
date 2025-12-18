@@ -42,6 +42,7 @@ use Illuminate\Support\Str;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 //UPLOAD TINYMCE
 Route::controller(UploadController::class)->group(function () {
     Route::post('/tinymce-upload', 'tinymceUpload')->name('tinymce.upload');
@@ -284,6 +285,10 @@ Route::controller(TipsKerjaController::class)->group(function () {
 
 
 
+
+
+
+
 /**---------------------------------------- FINANCE PREFIX -------------------------------------*/
 //Finance PREFIX
 Route::controller(AuthController::class)->middleware('auth')->group(function () {
@@ -347,6 +352,9 @@ Route::prefix('finance')->middleware('auth', 'role:finance', 'CheckUserStatus')-
     });
 });
 /**---------------------------------------- END FINANCE PREFIX -------------------------------------*/
+
+
+
 
 
 
@@ -475,6 +483,8 @@ Route::prefix('admin')->middleware('auth', 'role:admin', 'CheckUserStatus')->gro
     });
 });
 /**---------------------------------------- END ADMIN PREFIX -------------------------------------*/
+
+
 
 
 

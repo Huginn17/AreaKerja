@@ -35,7 +35,7 @@ class LowonganPerusahaanController extends Controller
         }
 
         // Ambil lowongan yang sesuai dengan filter
-        $lowongans = $query->latest()->paginate(10);
+        $lowongans = $query->latest()->get();
 
         $hargaBoost = HargaKoin::where('nama', 'Boost Lowongan')->value('harga');
 
@@ -47,6 +47,7 @@ class LowonganPerusahaanController extends Controller
             'hargaBoost' => $hargaBoost,
         ]);
     }
+
 
     public function paketform()
     {
@@ -218,10 +219,22 @@ class LowonganPerusahaanController extends Controller
         }
 
 
-        $lowongan->update([
-            'published_at' => now(),
-            'expired_at'   => now()->addDays($paket->batas_listing),
-        ]);
+        $now = now();
+
+        // JIKA LOWONGAN MASIH AKTIF → TAMBAH WAKTU
+        if ($lowongan->expired_at && $lowongan->expired_at > $now) {
+
+            $lowongan->update([
+                'expired_at' => $lowongan->expired_at->addDays($paket->batas_listing),
+            ]);
+        } else {
+            // JIKA BELUM PERNAH / SUDAH EXPIRED
+            $lowongan->update([
+                'published_at' => $now,
+                'expired_at'   => $now->addDays($paket->batas_listing),
+            ]);
+        }
+
 
         return redirect()->route('lowongan.saya.perusahaan')
             ->with('success', 'Lowongan berhasil dipublish dan aktif selama ' . $paket->batas_listing . ' hari.');
@@ -241,67 +254,57 @@ class LowonganPerusahaanController extends Controller
             'lowongan_id' => 'required|exists:lowongan_perusahaans,id',
         ]);
 
-
         $user = Auth::user();
-        $perusahaan = Auth::user()->perusahaan;
+        $perusahaan = $user->perusahaan;
         $paket = PaketLowongan::findOrFail($request->paket_id);
 
-        //  Ambil harga dari relasi harga_koins berdasarkan nama paket
         $namaHarga = 'Pasang Lowongan ' . $paket->nama;
         $hargaKoin = HargaKoin::where('nama', $namaHarga)->first();
 
         if (!$hargaKoin) {
-            return redirect()->back()->with('error', 'Harga untuk paket ini belum diatur.');
+            return back()->with('error', 'Harga untuk paket ini belum diatur.');
         }
 
-        // Simpan harga ke variabel
-        $harga = $hargaKoin->harga;
+        if ($perusahaan->koin_perusahaan < $hargaKoin->harga) {
+            return redirect()->route('paket.form')->with('koin_kurang', true);
+        }
 
-        //  Pastikan lowongan milik perusahaan
         $lowongan = LowonganPerusahaan::where('perusahaan_id', $perusahaan->id)
             ->where('id', $request->lowongan_id)
-            ->first();
+            ->firstOrFail();
 
-        if (!$lowongan) {
-            return redirect()->back()->with('error', 'Lowongan tidak ditemukan atau bukan milik Anda.');
+        // Potong koin
+        $perusahaan->decrement('koin_perusahaan', $hargaKoin->harga);
+
+        // 🔥 LOGIKA INTI
+        if ($lowongan->published_at && $lowongan->expired_at && $lowongan->expired_at > now()) {
+
+            // ➕ TAMBAH WAKTU (EXTEND)
+            $lowongan->update([
+                'paket_id'   => $paket->id,
+                'expired_at' => $lowongan->expired_at->addDays($paket->batas_listing),
+            ]);
+        } else {
+
+            // 📌 BELUM / SUDAH EXPIRED → publish ulang nanti
+            $lowongan->update([
+                'paket_id'     => $paket->id,
+                'published_at' => null,
+                'expired_at'   => null,
+            ]);
         }
-
-        //  Cek saldo koin perusahaan
-        if ($perusahaan->koin_perusahaan < $harga) {
-            return redirect()->route('paket.form')
-                ->with('koin_kurang', true);
-        }
-
-        //  Potong koin
-        $perusahaan->decrement('koin_perusahaan', $harga);
-
-        //  Reset paket lama jika sudah expired atau ada paket baru
-        $lowongan->update([
-            'paket_id'     => $paket->id,
-            'published_at' => null, // reset agar bisa publish ulang
-            'expired_at'   => null, // akan diisi saat publish
-        ]);
-
-        //  Ikatkan paket ke lowongan (belum publish)
-        $lowongan->update([
-            'paket_id'   => $paket->id,
-            'published_at' => null,
-            'expired_at'   => null,
-        ]);
-
-        $noReferensi = 'KOIN-' . now()->format('YmdHis') . '-' . $user->id;
 
         CatatanKoin::create([
             'user_id'      => $user->id,
-            'no_referensi' => $noReferensi,
+            'no_referensi' => 'KOIN-' . now()->format('YmdHis') . '-' . $user->id,
             'pesanan'      => 'Pembelian Paket ' . $paket->nama,
-            'dari'         => $perusahaan->nama_perusahaan ?? 'Perusahaan',
+            'dari'         => $perusahaan->nama_perusahaan,
             'sumber_dana'  => 'Saldo Koin Perusahaan',
-            'total'        => '-' . $harga,
+            'total'        => '-' . $hargaKoin->harga,
         ]);
 
         return redirect()->route('lowongan.saya.perusahaan')
-            ->with('success', "Paket {$paket->nama} berhasil dibeli dan diikatkan ke lowongan {$lowongan->nama}. Silakan klik Publish untuk mengaktifkan.");
+            ->with('success', 'Paket berhasil dibeli. Waktu lowongan otomatis diperpanjang.');
     }
 
 

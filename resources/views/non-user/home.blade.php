@@ -1,5 +1,4 @@
 @extends('layouts.index')
-
 @section('content')
     <section class="bg-white py-8 mt-24">
         <div class="max-w-5xl mx-auto px-4">
@@ -33,10 +32,12 @@
                                     class="flex-1 py-2 w-full border-none focus:ring-0 text-sm md:text-base">
                             </div>
 
+                            <input type="hidden" name="kategori" id="kategoriInput">
+                            <input type="hidden" name="jenis" id="jenisInput">
+
                             {{-- Tombol --}}
                             <button type="submit"
-                                class="bg-orange-500 px-5 py-2.5 text-white text-sm md:text-base rounded-md 
-                           hover:bg-orange-600 mt-2 md:mt-0 ml-auto md:w-400px">
+                                class="bg-orange-500 px-5 py-2.5 text-white text-sm md:text-base rounded-md hover:bg-orange-600 mt-2 md:mt-0 w-full md:w-auto md:ml-auto">
                                 Cari Lowongan Kerja
                             </button>
 
@@ -55,6 +56,7 @@
         </div>
     </section>
 
+
     <!-- Kategori Populer -->
     <section class="max-w-5xl mx-auto px-4 py-8">
 
@@ -62,47 +64,34 @@
             KATEGORI PEKERJAAN POPULER
         </h4>
 
-        <div class="flex flex-col lg:flex-row gap-6">
+        <div class="flex flex-col lg:flex-row gap-4 mt-6 relative">
 
-            <!-- Grid kategori utama -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 flex-1 text-sm font-semibold">
+            <!-- ================= KATEGORI ================= -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4" id="kategori-wrapper">
                 @foreach ($KategoriList as $namaKategori)
-                    @php $isActive = request('kategori') === $namaKategori; @endphp
-
-                    <a href="?kategori={{ urlencode($namaKategori) }}">
-                        <div
-                            class="w-full py-3 border rounded text-center transition text-xs sm:text-sm
-                        {{ $isActive ? 'bg-orange-500 border-orange-500 text-white' : 'text-gray-900 border-gray-300 hover:bg-gray-100' }}">
-                            {{ $namaKategori }}
-                        </div>
-                    </a>
+                    <button type="button" data-kategori="{{ $namaKategori }}" onclick="pilihKategori(this)"
+                        class="kategori-btn px-4 py-3 shadow-sm hover:shadow-lg rounded-lg text-xs sm:text-sm font-semibold transition-all border
+                         bg-white border-gray-300 text-gray-700 hover:bg-orange-500 hover:border-orange-300 hover:text-white">
+                        {{ $namaKategori }}
+                    </button>
                 @endforeach
             </div>
 
-            <!-- Kategori Kanan -->
-            <div class="grid grid-cols-1 gap-3 text-sm font-semibold w-full lg:w-[140px]">
+            <div class="hidden lg:block w-px bg-gray-300 mx-6"></div>
 
-                <div
-                    class="flex items-center gap-2 border border-red-300 text-red-500 px-4 py-3 rounded border-l-4 border-l-red-500 hover:bg-gray-100">
-                    <span>🔥</span><span>Full Time</span>
-                </div>
-
-                <div
-                    class="flex items-center gap-2 border border-blue-300 text-blue-500 px-4 py-3 rounded border-l-4 border-l-blue-500 hover:bg-gray-100">
-                    <span>🌐</span><span>WFO/WFH</span>
-                </div>
-
-                <div
-                    class="flex items-center gap-2 border border-orange-300 text-orange-500 px-4 py-3 rounded border-l-4 border-l-orange-500 hover:bg-gray-100">
-                    <span>🎓</span><span>Graduate</span>
-                </div>
-
+            <!-- ================= JENIS ================= -->
+            <div class="grid grid-flow-col grid-rows-3 gap-4 w-full lg:w-[240px]" id="jenis-wrapper">
+                @foreach ($jenisList as $jenis)
+                    <button type="button" data-jenis="{{ $jenis }}" onclick="pilihJenis(this)"
+                        class="jenis-btn px-4 py-3 shadow-sm hover:shadow-lg rounded-lg text-sm font-medium transition-all duration-300 border
+                             bg-white border-gray-300 text-gray-700 hover:bg-orange-500 hover:border-orange-300 hover:text-white">
+                        {{ $jenis }}
+                    </button>
+                @endforeach
             </div>
 
         </div>
     </section>
-
-
 
 
     <!-- Tabs -->
@@ -134,7 +123,7 @@
         <!-- =============================== -->
         <!-- TAB: PENCARIAN TERAKHIR -->
         <!-- =============================== -->
-        <div x-show="tab === 'riwayat'" x-transition class="w-full px-4 md:px-36">
+        <div x-show="tab === 'riwayat'" x-cloak x-transition class="w-full px-4 md:px-36">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mt-8 mb-8">
                 <h3 class="text-gray-500 font-semibold mb-4 md:mb-0">
                     Riwayat pencarian Anda
@@ -180,19 +169,23 @@
         <!-- TAB: UMPAN LOWONGAN -->
         <!-- =============================== -->
         <div x-show="tab === 'umpan'" x-transition class="w-full px-4 md:px-36 mt-8">
+
             <h3 class="text-gray-500 font-semibold mb-8">
                 Lowongan berdasarkan pada aktivitas Anda di areakerja
             </h3>
 
             <section class="mb-8">
-                <div id="section-umpan-lowongan" class="columns-1 sm:columns-1 md:columns-2 lg:columns-2 gap-3">
+                <div id="section-umpan-lowongan" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-3">
+
                     @foreach ($Data as $d)
-                        <div class="break-inside-avoid mb-3">
+                        <div>
                             @include('non-user.components.card', ['lowongan' => $d])
                         </div>
                     @endforeach
+
                 </div>
             </section>
+
         </div>
     </div>
 
@@ -203,5 +196,96 @@
 
 
     <script src="//unpkg.com/alpinejs" defer></script>
+    <script>
+        function pilihKategori(kategori) {
+            const input = document.getElementById('kategoriInput');
+
+            // toggle
+            if (input.value === kategori) {
+                input.value = '';
+            } else {
+                input.value = kategori;
+            }
+        }
+
+        function pilihJenis(jenis) {
+            const input = document.getElementById('jenisInput');
+
+            // toggle
+            if (input.value === jenis) {
+                input.value = '';
+            } else {
+                input.value = jenis;
+            }
+        }
+    </script>
+
+    <script>
+        function resetKategoriUI() {
+            document.querySelectorAll('.kategori-btn').forEach(el => {
+                el.classList.remove('bg-orange-500', 'border-orange-500', 'text-white');
+                el.classList.add('bg-white', 'border-gray-300', 'text-gray-700');
+            });
+        }
+
+        function resetJenisUI() {
+            document.querySelectorAll('.jenis-btn').forEach(el => {
+                el.classList.remove('bg-orange-500', 'border-orange-500', 'text-white');
+                el.classList.add('bg-white', 'border-gray-300', 'text-gray-700');
+            });
+        }
+
+        function pilihKategori(btn) {
+            const value = btn.dataset.kategori;
+            const input = document.getElementById('kategoriInput');
+
+            // JIKA KLIK KATEGORI YANG SAMA → TOGGLE OFF
+            if (input.value === value) {
+                input.value = '';
+                resetKategoriUI();
+                return;
+            }
+
+            // AKTIFKAN
+            resetKategoriUI();
+            btn.classList.remove('bg-white', 'border-gray-300', 'text-gray-700');
+            btn.classList.add('bg-orange-500', 'border-orange-500', 'text-white');
+            input.value = value;
+        }
+
+        function pilihJenis(btn) {
+            const value = btn.dataset.jenis;
+            const input = document.getElementById('jenisInput');
+
+            if (input.value === value) {
+                input.value = '';
+                resetJenisUI();
+                return;
+            }
+
+            resetJenisUI();
+            btn.classList.remove('bg-white', 'border-gray-300', 'text-gray-700');
+            btn.classList.add('bg-orange-500', 'border-orange-500', 'text-white');
+            input.value = value;
+        }
+    </script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const kategori = "{{ request('kategori') }}";
+            const jenis = "{{ request('jenis') }}";
+
+            if (kategori) {
+                document.querySelector(`[data-kategori="${kategori}"]`)?.click();
+            }
+
+            if (jenis) {
+                document.querySelector(`[data-jenis="${jenis}"]`)?.click();
+            }
+        });
+    </script>
+
+
     @include('layouts.footer')
 @endsection
