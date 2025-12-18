@@ -62,30 +62,73 @@ class AuthController extends Controller
     //pelamar
     public function beranda(Request $request)
     {
-        // Ambil kategori dari query URL
-        $kategori = $request->kategori;
+        // Ambil kategori dari query string
+        $kategori = $request->query('kategori');
 
-        // Ambil list kategori dari database (hasil seeder)
+        // Jika kategori ada → simpan, filter, lalu redirect ke URL bersih
+        if ($kategori) {
+            return redirect()
+                ->to('/pelamar/home')
+                ->with('kategori_filter', $kategori);
+        }
+
+        // Ambil kategori dari session ONLY untuk 1x
+        $kategori = session()->pull('kategori_filter');
+
         $KategoriList = Category::pluck('nama');
 
-        // Ambil lowongan
         $Data = LowonganPerusahaan::with('perusahaan')
             ->whereNotNull('published_at')
-            ->where(function ($q) {
-                $q->whereNull('expired_at')
-                    ->orWhere('expired_at', '>', now());
+
+            ->when($kategori, function ($q) use ($KategoriList, $kategori) {
+                if ($KategoriList->contains($kategori)) {
+                    $q->where('kategori', $kategori);
+                }
             })
-            // Filter kategori jika ada
-            ->when($kategori, function ($q) use ($kategori) {
-                $q->where('kategori', $kategori);
-            })
-            // === BOOSTER PRIORITAS PALING ATAS ===
-            ->orderByRaw('CASE WHEN boosted_until > NOW() THEN 0 ELSE 1 END') // prioritas booster
-            ->orderBy('boosted_until', 'DESC') // booster paling baru dulu
-            // === SETELAH BOOSTER, BARU REKOMENDASI ===
-            ->orderBy('rekomendasi', 'DESC')
-            // === TERAKHIR BARU LOWONGAN BIASA ===
+
+            /* ===============================
+     | PRIORITAS GRUP
+     =============================== */
+            ->orderByRaw("
+        CASE
+            WHEN boosted_until IS NOT NULL AND rekomendasi IS NOT NULL THEN 0
+            WHEN boosted_until IS NOT NULL AND rekomendasi IS NULL THEN 1
+            WHEN boosted_until IS NULL AND rekomendasi IS NOT NULL THEN 2
+            ELSE 3
+        END
+    ")
+
+            /* ===============================
+     | URUTAN DALAM GRUP
+     =============================== */
+
+            // -- Boost + Rekomendasi → BOOST TERBARU DI ATAS
+            ->orderByRaw("
+        CASE
+            WHEN boosted_until IS NOT NULL AND rekomendasi IS NOT NULL
+            THEN boosted_until
+        END DESC
+    ")
+
+            // -- Boost saja → BOOST TERBARU DI ATAS
+            ->orderByRaw("
+        CASE
+            WHEN boosted_until IS NOT NULL AND rekomendasi IS NULL
+            THEN boosted_until
+        END DESC
+    ")
+
+            // -- Rekomendasi saja → PALING LAMA DI ATAS
+            ->orderByRaw("
+        CASE
+            WHEN boosted_until IS NULL AND rekomendasi IS NOT NULL
+            THEN rekomendasi
+        END ASC
+    ")
+
+            // -- Biasa → TERBARU DI ATAS
             ->orderBy('created_at', 'DESC')
+
             ->get();
 
 

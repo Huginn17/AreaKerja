@@ -70,7 +70,7 @@
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4" id="kategori-wrapper">
                 @foreach ($KategoriList as $namaKategori)
                     <button type="button" data-kategori="{{ $namaKategori }}" onclick="pilihKategori(this)"
-                        class="kategori-btn px-4 py-3 shadow-sm hover:shadow-lg rounded-lg text-xs sm:text-sm font-semibold transition-all border
+                        class="kategori-btn px-4 py-3 shadow-sm hover:shadow-lg rounded-lg text-xs sm:text-sm font-semibold transition-all duration-300 border
                          bg-white border-gray-300 text-gray-700 hover:bg-orange-500 hover:border-orange-300 hover:text-white">
                         {{ $namaKategori }}
                     </button>
