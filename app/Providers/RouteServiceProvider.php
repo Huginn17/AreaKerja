@@ -37,6 +37,9 @@ class RouteServiceProvider extends ServiceProvider
 
         parent::boot();
 
+        Route::middleware('web')
+            ->group(base_path('routes/cron.php'));
+
         Route::model('perusahaan', \App\Models\Perusahaan::class);
         Route::model('lowongan', \App\Models\LowonganPerusahaan::class);
     }

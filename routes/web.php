@@ -43,6 +43,9 @@ use Illuminate\Support\Str;
 |
 */
 
+
+
+
 //UPLOAD TINYMCE
 Route::controller(UploadController::class)->group(function () {
     Route::post('/tinymce-upload', 'tinymceUpload')->name('tinymce.upload');
@@ -730,7 +733,6 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
     });
 });
 /**---------------------------------------- END SUPER ADMIN PREFIX -------------------------------------*/
-
 
 
 

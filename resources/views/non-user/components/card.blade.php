@@ -15,7 +15,7 @@
                         Boosted
                     </p>
                 @endif
-
+                
                 @if ($d->rekomendasi !== null)
                     <p class="bg-blue-50 w-fit px-2 py-0.5 text-blue-500 font-semibold rounded-md text-[11px]">
                         Direkomendasikan
@@ -37,8 +37,6 @@
                     class="font-semibold text-base md:text-lg mt-1 md:mt-2 whitespace-nowrap overflow-hidden text-ellipsis">
                     {{ $d->nama }} <span class="text-gray-400">-</span> {{ $d->jenis }}
                 </h1>
-
-
             </div>
 
             <div>
@@ -57,8 +55,8 @@
                     </button>
 
                     <!-- Popup -->
-                    <div x-show="showMenu" @click.outside="showMenu = false" x-transition x-cloak
-                        class="absolute ml-[10px] mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-200 z-[999] py-2">
+                    <div x-show="showMenu" @click.outside="showMenu = false" x-transition x-cloak 
+                        class="absolute ml-[10px] mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-200 z-[10] py-2">
 
                         <!-- LinkedIn -->
                         <a href="{{ route('lowongan.share', [
@@ -198,15 +196,15 @@
 
 
         {{-- Detail --}}
-        <div x-show="open" x-collapse class="mt-6">
+        {{-- <div x-show="open" x-collapse class="mt-6">
             @php
                 $expired = $d->batas_lamaran && now()->greaterThan($d->batas_lamaran);
             @endphp
 
-            <div class="space-y-6">
+            <div class="space-y-6"> --}}
 
                 {{-- Tombol Lamar Cepat + kondisi expired --}}
-                <button @if (!$lowongan->is_expired) @click.stop="showConfirm = true" @endif
+                {{-- <button @if (!$lowongan->is_expired) @click.stop="showConfirm = true" @endif
                     class="inline-block px-4 py-2 rounded-lg text-sm font-semibold transition
         {{ $lowongan->is_expired
             ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
@@ -291,7 +289,7 @@
 
             </div>
 
-        </div>
+        </div> --}}
 
         {{-- Tombol toggle detail --}}
         <div class="mt-4">

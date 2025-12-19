@@ -30,7 +30,7 @@ class AuthController extends Controller
             "username" => "required",
             "password" => "required"
         ]);
-
+        
         if (Auth::attempt($valid)) {
 
             $user = Auth::user();

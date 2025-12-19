@@ -49,7 +49,7 @@ class KonfirmasiLamaranMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Konfirmasi Lamaran Mail',
+            subject: 'Konfirmasi Lamaran Lowongan',
         );
     }
 
