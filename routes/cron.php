@@ -45,7 +45,7 @@ Route::prefix('cron')
             Route::get('/lowongan/reset-expired', 'index');
         });
 
-        // 7. Expire lamaran + notifikasi
+        // 7. Expire lamaran + notifikasi 
         Route::controller(ExpireLamaranController::class)->group(function () {
             Route::get('/lamaran/expire', 'index');
         });

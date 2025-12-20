@@ -547,4 +547,56 @@ class EventController extends Controller
 
         return back()->with('success', 'Status event berhasil diperbarui.');
     }
+
+    public function destroy_admin(Event $event)
+    {
+        try {
+
+            // Hapus gambar
+            if ($event->image) {
+                Storage::disk('public')->delete($event->image);
+            }
+
+            // Hapus kegiatan
+            $event->kegiatan()->delete();
+
+            // Hapus event
+            $event->delete();
+
+            /* =============================
+            NOTIFIKASI BERHASIL
+        ==============================*/
+            Notifikasi::create([
+                'user_id' => Auth::id(),
+                'perusahaan_id' => null,
+                'judul' => 'Event Dihapus',
+                'pesan' => 'Event <b>' . $event->title . '</b> berhasil dihapus.',
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7),
+                'pelamar_lowongan_id' => null,
+            ]);
+
+            return redirect()
+                ->route('admin.eventform')
+                ->with('success', 'Event berhasil dihapus');
+        } catch (\Exception $e) {
+
+            /* =============================
+            NOTIFIKASI GAGAL
+        ==============================*/
+            Notifikasi::create([
+                'user_id' => Auth::id(),
+                'perusahaan_id' => null,
+                'judul' => 'Gagal Menghapus Event',
+                'pesan' => 'Event gagal dihapus: ' . $e->getMessage(),
+                'is_read' => 0,
+                'expired_at' => now()->addDays(7),
+                'pelamar_lowongan_id' => null,
+            ]);
+
+            return redirect()
+                ->back()
+                ->with('error', 'Gagal menghapus event.');
+        }
+    }
 }

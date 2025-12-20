@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Schedules;
+
 use App\Http\Controllers\Controller;
 
 use App\Models\LowonganPerusahaan;
@@ -18,33 +19,38 @@ class NotifyExpiredLowonganController extends Controller
         $sent = 0;
 
         $lowongans = LowonganPerusahaan::whereNotNull('published_at')
-            ->whereDate('expired_at', '<=', now())
+            ->whereNotNull('expired_at')
+            ->where('expired_at', '<=', now())
+            ->with('perusahaan')
             ->get();
 
         foreach ($lowongans as $l) {
 
-            $exists = Notifikasi::where('perusahaan_id', $l->perusahaan_id)
-                ->where('judul', 'Lowongan Kadaluarsa')
-                ->whereDate('expired_at', $l->expired_at)
-                ->exists();
+            $notifExpiredAt = now()->addDays(3);
 
-            if ($exists) continue;
+            $notif = Notifikasi::firstOrCreate(
+                [
+                    'lowongan_id' => $l->id,
+                    'judul'       => 'Lowongan Kadaluarsa',
+                ],
+                [
+                    'user_id'       => $l->perusahaan->user_id,
+                    'perusahaan_id' => $l->perusahaan_id,
+                    'pesan'         => "Lowongan \"{$l->nama}\" telah kadaluarsa.",
+                    'expired_at'    => $notifExpiredAt,
+                    'is_read'       => 0,
+                ]
+            );
 
-            Notifikasi::create([
-                'user_id'       => $l->perusahaan->user_id,
-                'perusahaan_id' => $l->perusahaan_id,
-                'judul'         => 'Lowongan Kadaluarsa',
-                'pesan'         => "Lowongan \"{$l->nama}\" telah kadaluarsa.",
-                'expired_at'    => $l->expired_at,
-                'is_read'       => 0,
-            ]);
-
-            $sent++;
+            // hanya hitung kalau benar-benar BARU dibuat
+            if ($notif->wasRecentlyCreated) {
+                $sent++;
+            }
         }
 
         return response()->json([
-            'task' => 'notify_expired_lowongan',
+            'task' => 'notify_expired_lowongan_per_lowongan',
             'sent' => $sent,
         ]);
     }
-}
+}   

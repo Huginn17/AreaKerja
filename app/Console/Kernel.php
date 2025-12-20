@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
         // $schedule->job(new \App\Jobs\ExpireLamaranJob)->dailyAt('00:00');
         // $schedule->job(new \App\Jobs\DeleteExpiredNotifJob)->dailyAt('01:00');
         // $schedule->command('langganan:cek-expired')->dailyAt('00:00');
-        // Hapus notifikasi yang kadaluarsa tiap hariz
+        // Hapus notifikasi yang kadaluarsa tiap hari
         // $schedule->command('notifikasi:hapus-expired')->everyMinute();
         // $schedule->command('notify:expired-lowongans')->hourly();
         // $schedule->command('lowongan:clean-inactive')->daily();
@@ -46,7 +46,7 @@ class Kernel extends ConsoleKernel
 
         // 1. Transaksi cash expired
         $schedule->call(fn() => $call('/transaksi/expire'))
-            ->hourly();
+            ->hourly(); 
 
         // 2. Reset lowongan expired
         $schedule->call(fn() => $call('/lowongan/reset-expired'))

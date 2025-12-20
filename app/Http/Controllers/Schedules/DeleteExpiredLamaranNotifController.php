@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Schedules;
+
 use App\Http\Controllers\Controller;
 use App\Models\Notifikasi;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+
 
 class DeleteExpiredLamaranNotifController extends Controller
 {
@@ -14,14 +16,16 @@ class DeleteExpiredLamaranNotifController extends Controller
      */
     public function index()
     {
-        $limit = Carbon::now()->subDays(3);
-
-        $deleted = Notifikasi::where('judul', 'Lamaran Expired')
-            ->where('created_at', '<=', $limit)
+        $deleted = Notifikasi::whereIn('judul', [
+            'Lamaran Expired',
+            'Lowongan Kadaluarsa',
+        ])
+            ->whereNotNull('expired_at')
+            ->where('expired_at', '<=', now())
             ->delete();
 
         return response()->json([
-            'task'    => 'delete_expired_lamaran_notif',
+            'task'    => 'cleanup_expired_notifications',
             'deleted' => $deleted,
         ]);
     }

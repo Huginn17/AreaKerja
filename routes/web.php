@@ -181,6 +181,8 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
     });
 
 
+
+
     //PROFILE CONTROLLER
     Route::controller(ProfileController::class)->group(function () {
         //profile

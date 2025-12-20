@@ -1,6 +1,6 @@
 @if ($d->published_at && (!$d->expired_at || $d->expired_at > now()))
     <div x-cloak x-data="{ open: false, showConfirm: false, showSuccess: false }"
-        class="border border-gray-200 p-4 md:p-5 hover:bg-gray-50 rounded-lg shadow-md hover:shadow-lg bg-white relative overflow-visible self-start transition-all duration-500">
+        class="border border-gray-200 p-4 md:p-5 hover:scale-[1.01] hover:bg-gray-50 rounded-lg shadow-md hover:shadow-lg bg-white relative overflow-visible self-start transition-all duration-500">
 
 
         {{-- Header --}}
@@ -35,7 +35,7 @@
 
                 <h1
                     class="font-semibold text-base md:text-lg mt-1 md:mt-2 whitespace-nowrap overflow-hidden text-ellipsis">
-                    {{ $d->nama }} <span class="text-gray-400">-</span> {{ $d->jenis }}
+                    {{ $d->nama }} <span class="text-gray-800">-</span> {{ $d->jenis }}
                 </h1>
             </div>
 

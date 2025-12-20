@@ -42,6 +42,7 @@ class ExpireLamaranController extends Controller
                     'pelamar_lowongan_id' => $pid,
                     'judul'               => 'Lamaran Expired',
                     'pesan'               => 'Lamaran Anda telah expired.',
+                    'expired_at' => now()->addDays(7),
                     'is_read'             => 0,
                 ]);
                 $created++;
