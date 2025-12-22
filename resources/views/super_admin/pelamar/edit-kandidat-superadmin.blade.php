@@ -228,7 +228,7 @@
 
                 <!-- Alamat -->
                 @if (isset($pelamar) && $pelamar->alamat_pelamar->count() > 0)
-                    <label class="text-md font-medium">Alamat</label>
+                    <label class="text-md font-medium mt-4">Alamat</label>
                    <div class="flex flex-col sm:flex-row sm:justify-between gap-4">
 
                         <div class="p-4 w-full bg-gray-100 rounded-lg">

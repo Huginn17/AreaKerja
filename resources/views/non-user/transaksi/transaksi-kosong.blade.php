@@ -1,6 +1,6 @@
 @extends('layouts.index')
 @section('content')
-    <div class="mt-28">
+    <div class="mt-28 min-h-[calc(100vh-200px)]">
 
         <!-- Wrapper scroll untuk mobile -->
         <div class="overflow-x-auto">

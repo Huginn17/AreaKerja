@@ -15,13 +15,20 @@ class TipsKerja extends Model
 
 
     protected static function boot()
-{
-    parent::boot();
+    {
+        parent::boot();
 
-    static::creating(function ($tips) {
-        if (empty($tips->slug)) {
-            $tips->slug = Str::slug($tips->title) . '-' . Str::random(6);
-        }
-    });
-}
+        static::creating(function ($tips) {
+            if (empty($tips->slug)) {
+                $tips->slug = Str::slug($tips->title) . '-' . Str::random(6);
+            }
+        });
+    }
+
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return $this->where('id', $value)
+            ->orWhere('slug', $value)
+            ->firstOrFail();
+    }
 }

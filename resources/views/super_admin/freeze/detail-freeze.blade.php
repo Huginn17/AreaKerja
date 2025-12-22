@@ -106,10 +106,10 @@
                                 src="https://ui-avatars.com/api/?name={{ urlencode($data->username) }}&background=random&color=fff&size=128"
                                 alt="">
                         @endif
-                    @elseif ($data->super_admin)
-                        @if ($data->super_admin->img_profile)
+                    @elseif ($data->superadmin)
+                        @if ($data->superadmin->img_profile)
                             <img id="pu" class="w-32 h-32 md:w-40 md:h-40 object-cover rounded-full"
-                                src="{{ asset('storage/' . $data->super_admin->img_profile) }}" alt="Profile">
+                                src="{{ asset('storage/' . $data->superadmin->img_profile) }}" alt="Profile">
                         @else
                             <img id="pu" class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover"
                                 src="https://ui-avatars.com/api/?name={{ urlencode($data->username) }}&background=random&color=fff&size=128"
@@ -191,39 +191,17 @@
                 <div class="bg-gray-300 rounded-md p-3 min-h-32 overflow-x-auto break-words">
 
                     @php
-                        $user = $data;
-                        $alamat = null;
+                        // Inisialisasi dulu (WAJIB)
+                        $provinsi = null;
+                        $kota = null;
+                        $kecamatan = null;
+                        $desa = null;
+                        $kode_pos = null;
+                        $detail = null;
 
-                        if ($user->role === 'pelamar') {
-                            $alamat = $user->pelamar->alamat_pelamar()->latest()->first();
+                        $alamat = $user->finance ?? null;
 
-                            $provinsi = $alamat->provinsi ?? null;
-                            $kota = $alamat->kota ?? null;
-                            $kecamatan = $alamat->kecamatan ?? null;
-                            $desa = $alamat->desa ?? null;
-                            $kode_pos = $alamat->kode_pos ?? null;
-                            $detail = $alamat->detail ?? null;
-                        } elseif ($user->role === 'perusahaan') {
-                            $alamat = $user->perusahaan->alamatUtama;
-
-                            $provinsi = $alamat->provinsi->nama ?? null;
-                            $kota = $alamat->kota->nama ?? null;
-                            $kecamatan = $alamat->kecamatan->nama ?? null;
-                            $desa = $alamat->desa ?? null;
-                            $kode_pos = $alamat->kode_pos ?? null;
-                            $detail = $alamat->detail ?? null;
-                        } elseif ($user->role === 'admin') {
-                            $alamat = $user->admin;
-
-                            $provinsi = $alamat->provinsi->nama ?? null;
-                            $kota = $alamat->kota->nama ?? null;
-                            $kecamatan = $alamat->kecamatan->nama ?? null;
-                            $desa = $alamat->desa ?? null;
-                            $kode_pos = $alamat->kode_pos ?? null;
-                            $detail = $alamat->detail_alamat ?? null;
-                        } elseif ($user->role === 'finance') {
-                            $alamat = $user->finance;
-
+                        if ($alamat) {
                             $provinsi = $alamat->provinsi->nama ?? null;
                             $kota = $alamat->kota->nama ?? null;
                             $kecamatan = $alamat->kecamatan->nama ?? null;
@@ -235,15 +213,14 @@
                         $bagian = array_filter([$desa, $kecamatan, $kota, $provinsi, $kode_pos]);
                     @endphp
 
+
                     @if ($alamat)
                         <div class="leading-relaxed text-gray-800 break-words">
 
-                            {{-- Detail alamat --}}
                             @if (!empty($detail))
                                 <p class="mb-1 break-words">{{ $detail }}</p>
                             @endif
 
-                            {{-- Alamat lengkap --}}
                             <p class="text-sm text-gray-700 break-words">
                                 {{ implode(', ', $bagian) }}
                             </p>
@@ -252,6 +229,7 @@
                     @else
                         <p class="text-gray-500 italic">Alamat belum diisi.</p>
                     @endif
+
 
                 </div>
             </div>

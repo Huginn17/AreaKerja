@@ -83,7 +83,7 @@
 
             <!-- PELAMAR -->
             <div
-                class="bg-white shadow-lg rounded-md p-5 w-full hover:bg-gray-50 hover:scale-105 transition duration-300 break-words">
+                class="bg-white border border-gray-100 shadow-md hover:shadow-lg rounded-md p-5 w-full hover:bg-gray-50 hover:scale-105 transition duration-300 break-words">
                 <h3 class="text-gray-700 text-sm font-medium mb-2">Pelamar</h3>
                 <div class="flex items-center gap-2">
                     <span class="text-2xl font-bold text-gray-900">{{ $totalPelamar }}</span>
@@ -96,7 +96,7 @@
 
             <!-- PERUSAHAAN -->
             <div
-                class="bg-white shadow-lg rounded-md p-5 w-full hover:bg-gray-50 hover:scale-105 transition duration-300 break-words">
+                class="bg-white border border-gray-100 shadow-md hover:shadow-lg rounded-md p-5 w-full hover:bg-gray-50 hover:scale-105 transition duration-300 break-words">
                 <h3 class="text-gray-700 text-sm font-medium mb-2">Perusahaan</h3>
                 <div class="flex items-center gap-2">
                     <span class="text-2xl font-bold text-gray-900">{{ $totalPerusahaan }}</span>
@@ -109,7 +109,7 @@
 
             <!-- ADMIN -->
             <div
-                class="bg-white shadow-lg rounded-md p-5 w-full hover:bg-gray-50 hover:scale-105 transition duration-300 break-words">
+                class="bg-white border border-gray-100 shadow-md hover:shadow-lg rounded-md p-5 w-full hover:bg-gray-50 hover:scale-105 transition duration-300 break-words">
                 <h3 class="text-gray-700 text-sm font-medium mb-2">Admin</h3>
                 <div class="flex items-center gap-2">
                     <span class="text-2xl font-bold text-gray-900">{{ $totalAdmin }}</span>
@@ -122,7 +122,7 @@
 
             <!-- SUPER ADMIN -->
             <div
-                class="bg-white shadow-lg rounded-md p-5 w-full hover:bg-gray-50 hover:scale-105 transition duration-300 break-words">
+                class="bg-white border border-gray-100 shadow-md hover:shadow-lg rounded-md p-5 w-full hover:bg-gray-50 hover:scale-105 transition duration-300 break-words">
                 <h3 class="text-gray-700 text-sm font-medium mb-2">Super Admin</h3>
                 <div class="flex items-center gap-2">
                     <span class="text-2xl font-bold text-gray-900">{{ $totalSuperAdmin }}</span>

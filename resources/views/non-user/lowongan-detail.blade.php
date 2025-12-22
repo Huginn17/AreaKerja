@@ -57,16 +57,31 @@
 
                         @auth
                             @php
+                                $sudahDiterima = $statusLamaran === 'diterima';
+                                $disableButton = $isExpired || $sudahDiterima;
                                 $kategori = Auth::user()->pelamar->kategori ?? null;
                             @endphp
 
+
+
+
                             @if ($kategori === 'pelamar' || $kategori === 'calon kandidat' || ($kategori === 'kandidat aktif' && !$tawaran))
-                                <button @click="if(!{{ $isExpired ? 'true' : 'false' }}) showConfirm = true"
-                                    :disabled="{{ $isExpired ? 'true' : 'false' }}"
-                                    class="px-5 py-2 rounded-lg text-white transition
-        {{ $isExpired ? 'bg-gray-300 cursor-not-allowed' : 'bg-orange-500 hover:bg-orange-600' }}">
-                                    {{ $isExpired ? 'Lamaran Kadaluarsa' : 'Lamar Cepat' }}
-                                </button>
+                                @if ($kategori === 'pelamar' || $kategori === 'calon kandidat' || ($kategori === 'kandidat aktif' && !$tawaran))
+                                    <button @click="if(!{{ $disableButton ? 'true' : 'false' }}) showConfirm = true"
+                                        :disabled="{{ $disableButton ? 'true' : 'false' }}"
+                                        class="px-5 py-2 rounded-lg text-white transition
+        {{ $disableButton ? 'bg-gray-300 cursor-not-allowed' : 'bg-orange-500 hover:bg-orange-600' }}">
+                                        @if ($isExpired)
+                                            Lamaran Kadaluarsa
+                                        @elseif ($sudahDiterima)
+                                            Sudah Diterima
+                                        @else
+                                            Lamar Cepat
+                                        @endif
+                                    </button>
+                                @endif
+
+
 
 
                                 {{-- simpan --}}
@@ -212,7 +227,8 @@
             <!-- KANAN: LOWONGAN LAIN -->
             <div class="space-y-4">
                 <div class="flex justify-between items-center">
-                    <h2 class="font-semibold">Lowongan Lainnya di <span class="font-bold text-orange-500">{{ $data->perusahaan->nama_perusahaan }}</span></h2>
+                    <h2 class="font-semibold">Lowongan Lainnya di <span
+                            class="font-bold text-orange-500">{{ $data->perusahaan->nama_perusahaan }}</span></h2>
                 </div>
 
                 <div class="bg-white rounded-lg shadow p-4 space-y-4">

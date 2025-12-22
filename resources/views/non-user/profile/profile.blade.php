@@ -36,7 +36,7 @@
                                         <div class="relative group bg-white rounded-full">
                                             <img src="{{ asset('images/logoarea.png') }}" class="h-10 w-11"
                                                 alt="Badge Areakerja">
-        
+
 
                                             <!-- Tooltip -->
                                             <div
@@ -71,6 +71,7 @@
                                     }
                                 @endphp
 
+
                                 <select id="statusSelect"
                                     class="w-full border border-orange-500 text-orange-500 font-semibold rounded-md px-2 py-1 text-xs cursor-pointer appearance-none">
                                     <option value="Pelamar Aktif" {{ $status == 'Pelamar Aktif' ? 'selected' : '' }}>
@@ -83,6 +84,9 @@
                                         Bekerja
                                     </option>
                                 </select>
+
+                                <input type="hidden" id="kategoriPelamar"
+                                    value="{{ strtolower($pelamar->kategori ?? '') }}">
 
 
                             </div>
@@ -461,9 +465,9 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5"
                                     viewBox="0 0 24 24">
                                     <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71
-                                                                            7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
-                                                                           1.003 0 0 0-1.42 0l-1.83 1.83 3.75
-                                                                           3.75 1.84-1.82z" />
+                                                                                7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003
+                                                                               1.003 0 0 0-1.42 0l-1.83 1.83 3.75
+                                                                               3.75 1.84-1.82z" />
                                 </svg>
                             </a>
                         </div>

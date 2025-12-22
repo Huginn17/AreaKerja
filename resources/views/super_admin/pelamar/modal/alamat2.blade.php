@@ -26,7 +26,8 @@
                     method="POST">
                     @csrf
                     @method('PUT')
-                    <input type="hidden" name="pelamar_id" value="{{ $pelamar->id }}">
+                    <input type="hidden" name="pelamar_id" value="{{ $pelamar->id ?? '' }}">
+
                     <div>
                         <label class="block text-sm font-medium text-gray-900 mb-1">Label</label>
                         <input type="text" name="label"

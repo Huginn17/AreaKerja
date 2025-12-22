@@ -37,7 +37,7 @@
                     <input type="hidden" name="is_edit" value="1">
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-900 mb-1">Nama Pekerjaan</label>
+                        <label class="block text-sm font-medium text-gray-900 mb-1">Nama Perusahaan</label>
                         <input type="text" name="nama_perusahaan"
                             class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 mb-3"
                             required>

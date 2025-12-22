@@ -197,7 +197,7 @@
                         placeholder="08xxxxxxx" />
                 </div>
 
-              
+
                 <!-- Gender -->
                 <div class="mt-2">
                     <label class="block text-md font-medium mb-1">Gender <span class="text-red-500">*</span></label>
@@ -264,8 +264,8 @@
                 <!-- Alamat -->
                 @if (isset($pelamar) && $pelamar->alamat_pelamar->count() > 0)
                     <label class="text-sm font-medium mb-2 block">Alamat</label>
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <div class="p-4 w-full bg-gray-100 rounded-lg overflow-x-auto">
+                       <div class="flex flex-col sm:flex-row sm:justify-between gap-4">
+                        <div class="p-4 w-full bg-gray-100 rounded-lg">
                             @foreach ($pelamar->alamat_pelamar ?? [] as $almt)
                                 <div class="mb-6 border-b border-gray-200 pb-3">
                                     <h3 class="font-semibold text-gray-800 text-lg truncate">
@@ -283,8 +283,8 @@
                                 </div>
                             @endforeach
                         </div>
-                        <button data-modal-target="show-org" data-modal-toggle="show-org" type="button"
-                            class="w-full sm:w-auto flex justify-center items-center p-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
+                        <button data-modal-target="show-alamat" data-modal-toggle="show-alamat" type="button"
+                            class="mb-20 ml-4">
                             <svg width="18" height="16" viewBox="0 0 10 11" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -316,8 +316,8 @@
                 <!-- Pendidikan -->
                 @if (isset($pelamar) && $pelamar->riwayat_pendidikan->count() > 0)
                     <label class="text-sm font-medium mb-2 block">Pendidikan</label>
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <div class="p-4 w-full bg-gray-100 rounded-lg overflow-x-auto">
+                       <div class="flex flex-col sm:flex-row sm:justify-between gap-4">
+                        <div class="p-4 w-full bg-gray-100 rounded-lg">
                             @foreach ($pelamar->riwayat_pendidikan ?? [] as $pend)
                                 <div class="mb-6">
                                     <h3 class="font-semibold text-gray-800 text-lg truncate">
@@ -331,7 +331,7 @@
                             @endforeach
                         </div>
                         <button data-modal-target="show-pendidikan" data-modal-toggle="show-pendidikan" type="button"
-                            class="w-full sm:w-auto flex justify-center items-center p-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
+                             class="mb-20 ml-4">
                             <svg width="18" height="16" viewBox="0 0 10 11" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -363,8 +363,8 @@
                 <!-- Organisasi -->
                 @if (isset($pelamar) && $pelamar->pengalaman_organisasi->count() > 0)
                     <label class="text-sm font-medium mb-2 block">Organisasi</label>
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <div class="p-4 w-full bg-gray-100 rounded-lg overflow-x-auto">
+                      <div class="flex flex-col sm:flex-row sm:justify-between gap-4">
+                        <div class="p-4 w-full bg-gray-100 rounded-lg">
                             @foreach ($pelamar->pengalaman_organisasi ?? [] as $org)
                                 <div class="mb-6">
                                     <h3 class="font-semibold text-gray-800 text-lg truncate">
@@ -378,7 +378,7 @@
                             @endforeach
                         </div>
                         <button data-modal-target="show-org" data-modal-toggle="show-org" type="button"
-                            class="w-full sm:w-auto flex justify-center items-center p-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
+                           class="mb-20 ml-4">
                             <svg width="18" height="16" viewBox="0 0 10 11" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -408,8 +408,8 @@
                 <!-- Pengalaman Kerja -->
                 @if (isset($pelamar) && $pelamar->pengalaman_kerja->count() > 0)
                     <label class="text-sm font-medium mb-2 block">Pengalaman Kerja</label>
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <div class="p-4 w-full bg-gray-100 rounded-lg overflow-x-auto">
+                       <div class="flex flex-col sm:flex-row sm:justify-between gap-4">
+                        <div class="p-4 w-full bg-gray-100 rounded-lg">
                             @foreach ($pelamar->pengalaman_kerja ?? [] as $kerja)
                                 <div class="mb-6">
                                     <h3 class="font-semibold text-gray-800 text-lg truncate">
@@ -423,7 +423,7 @@
                             @endforeach
                         </div>
                         <button data-modal-target="show-kerja" data-modal-toggle="show-kerja" type="button"
-                            class="w-full sm:w-auto flex justify-center items-center p-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
+                            class="mb-20 ml-4">
                             <svg width="18" height="16" viewBox="0 0 10 11" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -453,8 +453,8 @@
                 <!-- Skill -->
                 @if (isset($pelamar) && $pelamar->skill->count() > 0)
                     <label class="text-sm font-medium mb-2 block">Skill</label>
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <div class="p-4 w-full bg-gray-100 rounded-lg overflow-x-auto">
+                      <div class="flex flex-col sm:flex-row sm:justify-between gap-4">
+                        <div class="p-4 w-full bg-gray-100 rounded-lg">
                             @foreach ($pelamar->skill as $sk)
                                 <div class="mb-6">
                                     <h3 class="font-semibold text-gray-800 text-lg truncate">
@@ -467,7 +467,7 @@
                             @endforeach
                         </div>
                         <button data-modal-target="show-skill" data-modal-toggle="show-skill" type="button"
-                            class="w-full sm:w-auto flex justify-center items-center p-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
+                           class="mb-20 ml-4">
                             <svg width="18" height="16" viewBox="0 0 10 11" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -688,6 +688,7 @@
         @include('super_admin.pelamar.modal.detail_organisasi')
         @include('super_admin.pelamar.modal.detail_pengalaman')
         @include('super_admin.pelamar.modal.detail_skill')
+        @include('super_admin.pelamar.modal.detail_alamat')
 
         {{-- Tom Select CSS --}}
         <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">

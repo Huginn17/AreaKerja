@@ -56,7 +56,7 @@ Route::controller(UploadController::class)->group(function () {
 Route::controller(ShareLowonganController::class)->group(function () {
     Route::get('/share/{platform}/{companySlug}/{jobSlug}', 'share')
         ->name('lowongan.share');
-    Route::get('/tips/share/{platform}/{slug}', 'sharetips')->name('tips.share');
+    Route::get('/tips/share/{platform}/{tips}', 'sharetips')->name('tips.share');
 });
 
 
@@ -130,7 +130,7 @@ Route::controller(EmailVerificationController::class)->group(function () {
 //TIPS KERJA UNTUK USER BELUM LOGIN
 Route::controller(PelamarController::class)->group(function () {
     Route::get('/pelamar/tips-kerja', 'tips_kerja')->name('pelamar.tips-kerja');
-    Route::get('/pelamar/tips-kerja/{id}', 'detail')->name('pelamar.tips-kerja.show');
+    Route::get('/pelamar/tips-kerja/{tips}', 'detail')->name('pelamar.tips-kerja.show');
 });
 
 

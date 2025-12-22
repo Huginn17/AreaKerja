@@ -42,7 +42,7 @@
                         class="absolute right-0 mt-2 w-48 sm:w-52 bg-white rounded-xl shadow-lg border border-gray-200 z-50 py-2">
 
                         <!-- LinkedIn -->
-                        <a href="{{ route('tips.share', ['platform' => 'linkedin', 'slug' => $artikel->slug]) }}"
+                        <a href="{{ route('tips.share', ['platform' => 'linkedin', 'tips' => $artikel->slug]) }}"
                             class="flex items-center gap-2 sm:gap-3 px-4 py-2 hover:bg-gray-100 text-sm sm:text-base">
                             <svg width="24" height="24" viewBox="2 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -54,7 +54,7 @@
                         </a>
 
                         <!-- Gmail -->
-                        <a href="{{ route('tips.share', ['platform' => 'email', 'slug' => $artikel->slug]) }}"
+                        <a href="{{ route('tips.share', ['platform' => 'email', 'tips' => $artikel->slug]) }}"
                             class="flex items-center gap-2 sm:gap-3 px-4 py-2 hover:bg-gray-100 text-sm sm:text-base">
                             <svg width="20" height="16" viewBox="0 0 20 16" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -66,7 +66,7 @@
                         </a>
 
                         <!-- Website -->
-                        <a href="{{ route('tips.share', ['platform' => 'website', 'slug' => $artikel->slug]) }}"
+                        <a href="{{ route('tips.share', ['platform' => 'website', 'tips' => $artikel->slug]) }}"
                             class="flex items-center gap-2 sm:gap-3 px-4 py-2 hover:bg-gray-100 text-sm sm:text-base">
                             <svg width="18" height="10" viewBox="0 0 18 10" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -78,7 +78,7 @@
                         </a>
 
                         <!-- WhatsApp -->
-                        <a href="{{ route('tips.share', ['platform' => 'whatsapp', 'slug' => $artikel->slug]) }}"
+                        <a href="{{ route('tips.share', ['platform' => 'whatsapp', 'tips' => $artikel->slug]) }}"
                             class="flex items-center gap-2 sm:gap-3 px-4 py-2 hover:bg-gray-100 text-sm sm:text-base">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">

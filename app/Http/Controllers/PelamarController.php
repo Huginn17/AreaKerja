@@ -54,6 +54,12 @@ class PelamarController extends Controller
         $pelamar = auth()->user()->pelamar ?? null;
         if (!$pelamar) abort(403);
 
+        $pelamarLowongan = PelamarLowongan::where('pelamar_id', $pelamar->id)
+            ->where('lowongan_id', $lowongan->id)
+            ->first();
+
+        $statusLamaran = $pelamarLowongan?->status;
+
         $isExpired = false;
         if ($lowongan->batas_lamaran) {
             $isExpired = now()->greaterThan(Carbon::parse($lowongan->batas_lamaran));
@@ -112,6 +118,7 @@ class PelamarController extends Controller
             'lowonganLain' => $lowonganLain,
             'tawaran' => $tawaran,
             'isExpired' => $isExpired,
+            'statusLamaran' => $statusLamaran,
         ]);
     }
 
@@ -752,24 +759,21 @@ class PelamarController extends Controller
         ]);
     }
 
-    public function detail($id)
+    public function detail(TipsKerja $tips)
     {
-        $artikel = TipsKerja::findOrFail($id);
-
-        $related = TipsKerja::where('id', '!=', $id)
+        $related = TipsKerja::where('id', '!=', $tips->id)
             ->where('status', 'terbit')
             ->latest()
             ->take(3)
             ->get();
 
-        //   $artikel->increment('views');
+        // $tips->increment('views');
 
         return view('non-user.tips-kerja1', [
-            "artikel" => $artikel,
-            "related" => $related
+            'artikel' => $tips,
+            'related' => $related,
         ]);
     }
-
     //HAL DAFTAR KANDIDAT
     public function daftar_kandidat()
     {

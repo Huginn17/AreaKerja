@@ -111,7 +111,7 @@
                 <!-- Username -->
                 <div>
                     <label class="block text-sm font-medium mb-1">Username <span class="text-red-500">*</span></label>
-                    <input type="text" value="{{ Auth::user()->username }}" name="username"
+                    <input type="text" value="{{ Auth::user()->username }}" name="username" required
                         class="w-full border text-black border-gray-300 shadow rounded-md px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:outline-none truncate">
                 </div>
 
