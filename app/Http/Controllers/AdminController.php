@@ -345,16 +345,21 @@ class AdminController extends Controller
     //KANDIDAT 
     public function halKandidat(Request $request)
     {
-        $query = Pelamar::join('users', 'pelamars.user_id', '=', 'users.id')
-            ->where('pelamars.kategori', 'kandidat aktif')
-            ->select('pelamars.*', 'users.username');
+        $query = Pelamar::with('user')
+            ->where('kategori', 'kandidat aktif');
 
-        // Jika ada input pencarian username
-        if ($request->has('search') && $request->search != '') {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('users.username', 'like', "%{$search}%")
-                    ->orWhere('pelamars.nama_pelamar', 'like', "%{$search}%"); // ubah ke nama_pelamar
+        if ($request->filled('q')) {
+            $q = $request->q;
+
+            $query->where(function ($query) use ($q) {
+
+                // cari dari relasi user (username)
+                $query->whereHas('user', function ($u) use ($q) {
+                    $u->where('username', 'like', "%{$q}%");
+                })
+
+                    // atau dari nama pelamar
+                    ->orWhere('nama_pelamar', 'like', "%{$q}%");
             });
         }
 
@@ -362,9 +367,10 @@ class AdminController extends Controller
 
         return view('admin.pelamar.kandidat.pelamar', [
             'pelamar' => $pelamar,
-            'search' => $request->search ?? ''
+            'q'       => $request->q
         ]);
     }
+
 
 
     public function detailKandidat($id)

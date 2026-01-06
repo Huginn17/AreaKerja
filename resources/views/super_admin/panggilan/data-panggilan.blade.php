@@ -146,7 +146,7 @@
                                 {{ str_pad($p->id, 8, '0', STR_PAD_LEFT) }}
                             </td>
                             <td class="px-2 sm:px-4 py-2 sm:py-3 whitespace-normal break-words max-w-[200px]">
-                                {{ $p->nama_perusahaan }}
+                                {{ $p->nama_perusahaan ?? $p->user->username }}
                             </td>
                             <td class="px-2 sm:px-4 py-2 sm:py-3 whitespace-normal break-words max-w-[200px]">
                                 {{ $p->user->email }}

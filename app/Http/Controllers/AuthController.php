@@ -16,6 +16,7 @@ use App\Models\PelamarLowongan;
 use App\Models\Pembayaran;
 use App\Models\Perusahaan;
 use App\Models\Provinsi;
+use App\Models\SocialLink;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -26,6 +27,7 @@ class AuthController extends Controller
 {
     public function masuk(Request $request)
     {
+        
         $valid = $request->validate([
             "username" => "required",
             "password" => "required"
@@ -727,12 +729,14 @@ class AuthController extends Controller
     //  NON USER
     public function login_non_user()
     {
-        return view('non-user.auth.login');
+           $socialLinks = SocialLink::all();
+        return view('non-user.auth.login', compact('socialLinks'));
     }
 
     public function regis_non_user()
     {
-        return view('non-user.auth.register');
+        $socialLinks = SocialLink::all();
+        return view('non-user.auth.register', compact('socialLinks'));
     }
 
 

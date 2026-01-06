@@ -139,7 +139,7 @@
                     @forelse ($talentHunter as $th)
                         <tr class="border-b border-gray-300">
                             <td class="px-2 sm:px-4 py-2 break-words">{{ $th->id }}</td>
-                            <td class="px-2 sm:px-4 py-2 break-words">{{ $th->perusahaan->nama_perusahaan }}</td>
+                            <td class="px-2 sm:px-4 py-2 break-words">{{ $th->perusahaan->nama_perusahaan ?? $th->perusahaan->user->username }}</td>
                             <td class="px-2 sm:px-4 py-2 break-words">{{ $th->perusahaan->user->email }}</td>
                             <td class="px-2 sm:px-4 py-2 break-words">{{ $th->posisi }}</td>
                             <td class="px-2 sm:px-4 py-2 break-words">{{ $th->perusahaan->telepon_perusahaan }}</td>

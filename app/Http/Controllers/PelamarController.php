@@ -122,8 +122,8 @@ class PelamarController extends Controller
         ]);
     }
 
-
-    public function detail_lowongan_non_userShare(Perusahaan $perusahaan, LowonganPerusahaan $lowongan)
+    
+    public function detail_wongan_non_userShare(Perusahaan $perusahaan, LowonganPerusahaan $lowongan)
     {
         // Cek user pelamar
         $pelamar = auth()->user()->pelamar ?? null;

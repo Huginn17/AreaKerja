@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Spatie\Browsershot\Browsershot;
 
 class SuperAdminController extends Controller
@@ -1097,6 +1098,10 @@ class SuperAdminController extends Controller
 
             // Sanitasi nomor dulu agar regex tidak gagal
             $request->merge([
+                'username' => trim(strtolower($request->username)),
+
+                'email'    => trim(strtolower($request->email)),
+
                 'telepon_perusahaan' => $request->telepon_perusahaan
                     ? preg_replace('/\D+/', '', $request->telepon_perusahaan)
                     : null,
@@ -1112,11 +1117,19 @@ class SuperAdminController extends Controller
 
             // FIX VALIDASI
             $rules = [
-                'email'        => 'required|email|unique:users,email,' . $user->id,
-                'username'     => 'required|unique:users,username,' . $user->id,
-                'role'         => 'required|in:admin,finance,perusahaan,pelamar',
-                'img_profile'  => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'email' => [
+                    'required',
+                    'email',
+                    Rule::unique('users', 'email')->ignore($user->id),
+                ],
+                'username' => [
+                    'required',
+                    Rule::unique('users', 'username')->ignore($user->id),
+                ],
+                'role'        => 'required|in:admin,finance,perusahaan,pelamar',
+                'img_profile' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             ];
+
 
             if (in_array($request->role, ['admin', 'finance'])) {
                 $rules['nama_lengkap'] = 'required';
@@ -1160,6 +1173,8 @@ class SuperAdminController extends Controller
                 'telepon_perusahaan.regex' => 'Nomor telepon perusahaan harus diawali 08 atau 628.',
                 'whatsapp.regex' => 'Nomor Whatsapp harus diawali 08 atau 628.',
                 'telepon_pelamar.regex' => 'Nomor telepon pelamar harus diawali 08 atau 628.',
+                'email.unique' => 'Email sudah terdaftar pada akun lain.',
+                'username.unique' => 'Username sudah digunakan oleh akun lain.',
             ]);
 
             // Simpan role lama dan role baru
@@ -1167,12 +1182,19 @@ class SuperAdminController extends Controller
             $newRole = $request->role;
 
             // Update data utama user
-            $user->update([
+            $dataUser = [
                 'email'    => $request->email,
                 'username' => $request->username,
                 'role'     => $newRole,
-                'password' => $request->filled('password') ? Hash::make($request->password) : $user->password,
-            ]);
+            ];
+
+            // password hanya diubah jika diisi
+            if ($request->filled('password')) {
+                $dataUser['password'] = Hash::make($request->password);
+            }
+
+            $user->update($dataUser);
+
 
             // Hapus relasi lama jika role berubah
             if ($oldRole !== $newRole) {
@@ -1304,7 +1326,6 @@ class SuperAdminController extends Controller
             return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage());
         }
     }
-
 
 
 
@@ -1889,7 +1910,6 @@ class SuperAdminController extends Controller
     //EDIT RECRUITMENT
     // public function editRecruitment($kategori, $id)
     // {
-
     //     $pembelian = PembeliKandidat::with([
     //         'pelamar.user',
     //         'pelamar.alamat_pelamar',

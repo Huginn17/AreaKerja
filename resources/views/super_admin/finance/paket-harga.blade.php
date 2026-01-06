@@ -271,10 +271,44 @@
                                         </div>
                                     </template>
 
+                                    <template x-if="selected.status == 'menunggu_verifikasi'">
+                                        <div
+                                            class="w-16 h-16 mx-auto rounded-full bg-gray-100 flex items-center justify-center mb-3">
+                                            <svg class="w-8 h-8 text-gray-500 animate-spin" fill="none"
+                                                stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <circle class="opacity-25" cx="12" cy="12" r="10"
+                                                    stroke="currentColor" stroke-width="4"></circle>
+                                                <path class="opacity-75" fill="currentColor"
+                                                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                                            </svg>
+                                        </div>
+                                    </template>
+
+                                    <template x-if="selected.status == 'expired'">
+                                        <div
+                                            class="w-16 h-16 mx-auto rounded-full bg-gray-100 flex items-center justify-center mb-3">
+                                            <svg class="w-8 h-8 text-gray-500 animate-spin" fill="none"
+                                                stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <circle class="opacity-25" cx="12" cy="12" r="10"
+                                                    stroke="currentColor" stroke-width="4"></circle>
+                                                <path class="opacity-75" fill="currentColor"
+                                                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                                            </svg>
+                                        </div>
+                                    </template>
+
                                     <h2 class="text-xl font-semibold"
-                                        x-text="selected.status == 'Diterima' ? 'Top Up Berhasil' :
-                        (selected.status == 'Ditolak' ? 'Top Up Ditolak' : 'Menunggu Verifikasi')">
+                                        x-text="
+        selected.status == 'Diterima'
+            ? 'Top Up Berhasil'
+            : (selected.status == 'Ditolak'
+                ? 'Top Up Ditolak'
+                : (selected.status == 'Expired'
+                    ? 'Top Up Kedaluwarsa'
+                    : 'Menunggu Verifikasi'))
+    ">
                                     </h2>
+
                                 </div>
 
                                 <!-- Detail -->

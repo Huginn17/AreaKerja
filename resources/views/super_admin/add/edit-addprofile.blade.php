@@ -102,16 +102,22 @@
                 </div>
 
                 <!-- Email & Username -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="min-w-0">
                         <label class="block text-sm font-medium mb-1">Email</label>
                         <input type="email" name="email" value="{{ old('email', $user->email) }}"
-                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2 truncate" readonly>
+                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2 truncate">
                     </div>
                     <div class="min-w-0">
                         <label class="block text-sm font-medium mb-1">Username</label>
                         <input type="text" name="username" value="{{ old('username', $user->username) }}"
-                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2 truncate" readonly>
+                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2 truncate">
+                    </div>
+                    <div class="min-w-0">
+                        <label class="block text-sm font-medium mb-1">Password</label>
+                        <input type="password" name="password" 
+                            class="w-full border-2 border-gray-400 rounded-md px-3 py-2 truncate">
+                            <small class="text-sm text-gray-500">Kosongkan jika tidak ingin mengubah password</small>
                     </div>
                 </div>
 
@@ -212,6 +218,7 @@
                     </div>
 
                 </div>
+                
 
                 {{-- ----------------- FORM PELAMAR -------------------- --}}
                 <div id="form-pelamar"
@@ -278,6 +285,9 @@
                         </div>
                     </div>
 
+                    {{-- Lokasi Kerja --}}
+
+
                     {{-- Ekspektasi Gaji --}}
                     <div class="min-w-0">
                         <label class="text-lg font-medium break-words">Ekspektasi Gaji</label>
@@ -302,8 +312,8 @@
                     </div>
 
                 </div>
-
-
+ 
+               
                 <!-- ================= FORM PERUSAHAAN ================= -->
                 <div id="form-perusahaan" class="hidden space-y-4 w-full min-w-0">
 

@@ -26,7 +26,8 @@
                         </span>
                     @endif
                 </button>
-
+                
+                
                 <!-- Profile -->
                 <div
                     class="flex items-center gap-2 bg-white px-3 py-2 border border-gray-500 shadow-md rounded-2xl min-w-0">

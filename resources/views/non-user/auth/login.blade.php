@@ -11,6 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
 
     <style>
@@ -57,34 +58,48 @@
 
 
         <!-- Kanan -->
-       <div class="flex w-full lg:w-4/5 bg-white items-start justify-center min-h-screen py-10">
+        <div class="flex w-full lg:w-4/5 bg-white items-start justify-center min-h-screen py-10">
 
-          <div class="w-full max-w-md p-8 min-h-screen flex flex-col justify-start">
+            <div class="w-full max-w-md p-8 min-h-screen flex flex-col justify-start">
 
                 <div class="w-full flex flex-col">
 
                     <!-- Judul -->
                     <h2 class="text-2xl font-semibold text-center text-orange-600 mb-6">Masuk</h2>
 
-                    <!-- Login Sosial -->
+                    {{-- <!-- Login Sosial -->
                     <div class="flex justify-center mb-5">
                         <div class="flex gap-3">
-                            <button
-                                class="w-10 h-10 flex text-2xl items-center justify-center border rounded-full hover:bg-gray-100 text-gray-700 font-bold">
-                                G
-                            </button>
+                            @foreach ($socialLinks as $social)
+                                @php
+                                    $name = strtolower($social->nama);
+                                @endphp
 
-                            <button
-                                class="w-10 h-10 flex items-center justify-center border rounded-full hover:bg-gray-100 text-gray-700 font-bold">
-                                f
-                            </button>
+                                @if (in_array($name, ['instagram', 'facebook', 'linkedin']))
+                                    <a href="{{ $social->link }}" title="Login dengan {{ ucfirst($social->nama) }}"
+                                        class="w-10 h-10 flex items-center justify-center border rounded-full
+                          hover:bg-gray-100 text-gray-700 font-bold transition hover:scale-110">
 
-                            <button
-                                class="w-10 h-10 flex items-center justify-center border rounded-full hover:bg-gray-100 text-gray-700 font-bold">
-                                in
-                            </button>
+                                        @switch($name)
+                                            @case('instagram')
+                                                <i class="text-2xl ph ph-instagram-logo"></i>
+                                            @break
+
+                                            @case('facebook')
+                                                <span class="text-2xl">f</span>
+                                            @break
+
+                                            @case('linkedin')
+                                                <span class="text-xl">in</span>
+                                            @break
+                                        @endswitch
+
+                                    </a>
+                                @endif
+                            @endforeach
                         </div>
-                    </div>
+                    </div> --}}
+
 
                     <p class="text-center text-gray-500 mb-6 text-sm">
                         gunakan email Anda untuk pendaftaran

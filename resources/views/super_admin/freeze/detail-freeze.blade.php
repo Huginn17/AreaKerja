@@ -61,7 +61,6 @@
         </div>
 
 
-
         <div class="max-w-4xl mx-auto bg-white border border-gray-600 rounded-lg shadow-md overflow-hidden">
 
             <!-- Header dengan foto dan tombol -->
@@ -79,7 +78,7 @@
                                 src="https://ui-avatars.com/api/?name={{ urlencode($data->username) }}&background=random&color=fff&size=128"
                                 alt="">
                         @endif
-                    @elseif ($data->perusahaan)
+                    @elseif ($data->perusahaan) 
                         @if ($data->perusahaan->img_profile)
                             <img id="pu" class="w-32 h-32 md:w-40 md:h-40 object-cover rounded-full"
                                 src="{{ asset('storage/' . $data->perusahaan->img_profile) }}" alt="Profile">

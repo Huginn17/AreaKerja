@@ -83,8 +83,8 @@
 
             <!-- Pencarian -->
             <div class="w-full md:w-auto">
-                <form action="{{ route('admin.kandidat') }}" class="flex flex-row gap-2">
-                    <input type="text" name="q" value="{{ request('q') }}" placeholder="nama/username ..."
+                <form action="{{ route('admin.kandidat') }}" method="GET" class="flex flex-row gap-2">
+                    <input type="text" name="q" value="{{ request('q') }}" placeholder="nama / username ..."
                         class="border border-gray-500 rounded-lg px-4 py-2 w-full sm:w-72">
 
                     <button type="submit" class="bg-gray-500 text-white font-medium px-8 py-2 rounded-xl w-auto">
@@ -92,7 +92,6 @@
                     </button>
                 </form>
             </div>
-
 
         </div>
 

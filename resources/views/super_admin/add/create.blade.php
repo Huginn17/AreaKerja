@@ -201,7 +201,7 @@
 
                         <div>
                             <label class="block text-sm font-medium mb-1 break-words">Kode Pos</label>
-                            <input type="text" name="kode_pos" value="{{ old('kode_pos') }}"
+                            <input type="number" name="kode_pos" value="{{ old('kode_pos') }}"
                                 class="w-full border-2 border-gray-400 rounded-md px-3 py-2 break-words">
                         </div>
 

@@ -7,6 +7,7 @@
         <title>Register - AreaKerja</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+            <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
         <style>
             body {
@@ -16,7 +17,7 @@
     </head>
 
     <body class="bg-gray-100 min-h-screen flex flex-col">
-
+       
         <!-- Container -->
         <div class="flex flex-col md:flex-row w-full min-h-screen">
 
@@ -35,15 +36,34 @@
                         <h2 class="text-2xl font-semibold text-center text-orange-600 mb-6">Buat Akun</h2>
                     </div>
 
-                    <!-- Tombol Sosial -->
+                    {{-- <!-- Tombol Sosial -->
                     <div class="flex space-x-4 mb-6 justify-center">
-                        <button
-                            class="w-10 h-10 flex text-2xl items-center justify-center border rounded-full hover:bg-gray-100 text-gray-700 font-bold">G</button>
-                        <button
-                            class="w-10 h-10 flex items-center justify-center border rounded-full hover:bg-gray-100 text-gray-700 font-bold">f</button>
-                        <button
-                            class="w-10 h-10 flex items-center justify-center border rounded-full hover:bg-gray-100 text-gray-700 font-bold">in</button>
-                    </div>
+                        @foreach ($socialLinks as $social)
+                        
+                            @php
+                                $name = strtolower($social->nama);
+                            @endphp
+
+                            @if (in_array($name, ['instagram', 'facebook', 'linkedin']))
+                                <a href="{{ $social->link }}" title="Login dengan {{ ucfirst($social->nama) }}"
+                                    class="w-10 h-10 flex items-center justify-center border rounded-full hover:bg-gray-100 text-gray-700 font-bold">
+                                    @switch($name)
+                                        @case('instagram')
+                                            <i class="text-2xl ph ph-instagram-logo"></i>
+                                        @break
+
+                                        @case('facebook')
+                                            <span class="text-2xl">f</span>
+                                        @break
+
+                                        @case('linkedin')
+                                            <span class="text-xl">in</span>
+                                        @break
+                                    @endswitch
+                                </a>
+                            @endif
+                        @endforeach
+                    </div> --}}
 
                     <!-- Pilih Role -->
                     <div class="flex justify-center mb-6">
@@ -84,8 +104,6 @@
                                 <p class="text-red-500 text-sm mt-1 error-message" data-field="telepon_pelamar"></p>
                             </div>
 
-
-
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 m-2">Kata Sandi</label>
                                 <input type="password" name="password" placeholder="Kata Sandi"
@@ -100,7 +118,6 @@
                             </label>
                             <p class="error-message text-red-500 text-sm" data-field="agree_pelamar"></p>
 
-
                             <input type="hidden" name="role" value="pelamar">
 
                             <button type="submit"
@@ -109,6 +126,7 @@
                             </button>
                         </form>
                     </div>
+
 
                     {{-- ====================== FORM PERUSAHAAN ====================== --}}
                     <div id="regis_perusahaan" class="hidden">

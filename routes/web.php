@@ -44,13 +44,12 @@ use Illuminate\Support\Str;
 */
 
 
-
-
 //UPLOAD TINYMCE
 Route::controller(UploadController::class)->group(function () {
     Route::post('/tinymce-upload', 'tinymceUpload')->name('tinymce.upload');
     Route::get('/tinymce-mention', 'tinymceMention')->name('tinymce.mention');
 });
+
 
 //SHARE LOWONGAN
 Route::controller(ShareLowonganController::class)->group(function () {
@@ -69,6 +68,7 @@ Route::controller(PelamarController::class)->group(function () {
 });
 
 
+
 //CV CONTROLLER
 Route::controller(CVController::class)->group(function () {
     //DOWNLOAD CV
@@ -79,6 +79,7 @@ Route::controller(CVController::class)->group(function () {
 
 //HALAMAN BERANDA USER BELUM LOGIN
 Route::get('/', [AuthController::class, 'beranda']);
+
 
 
 //LOGIN AUTH
@@ -135,6 +136,7 @@ Route::controller(PelamarController::class)->group(function () {
 
 
 
+
 /**---------------------------------------------- PELAMAR PREFIX ---------------------------------------------------------------*/
 Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')->group(function () {
 
@@ -182,7 +184,6 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
 
 
 
-
     //PROFILE CONTROLLER
     Route::controller(ProfileController::class)->group(function () {
         //profile
@@ -202,7 +203,7 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
         Route::delete('/delete/alamat/{alamatpelamar:id}', 'destroy_alamat')->name('alamat.destroy');
     });
 
-
+    
     //PENGALAMAN ORGANISASI CONTROLLER
     Route::controller(PengalamanOrgController::class)->group(function () {
         //pengalaman organisasi
@@ -357,10 +358,6 @@ Route::prefix('finance')->middleware('auth', 'role:finance', 'CheckUserStatus')-
     });
 });
 /**---------------------------------------- END FINANCE PREFIX -------------------------------------*/
-
-
-
-
 
 
 

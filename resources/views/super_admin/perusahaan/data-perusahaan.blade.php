@@ -139,7 +139,7 @@
                     @forelse ($perusahaan as $p)
                         <tr class="border-b border-gray-300">
                             <td class="px-2 sm:px-4 py-2 break-words">{{ $p->id }}</td>
-                            <td class="px-2 sm:px-4 py-2 break-words">{{ $p->nama_perusahaan }}</td>
+                            <td class="px-2 sm:px-4 py-2 break-words">{{ $p->nama_perusahaan ?? $p->user->username }}</td>
                             <td class="px-2 sm:px-4 py-2 break-words">{{ $p->user->email }}</td>
                             <td class="px-2 sm:px-4 py-2 break-words">{{ $p->telepon_perusahaan }}</td>
                             <td class="px-2 sm:px-4 py-2 break-words">

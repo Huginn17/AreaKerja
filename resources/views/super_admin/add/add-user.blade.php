@@ -105,7 +105,7 @@
             </div>
 
             <!-- Tab: Admin & Finance -->
-            <div x-transition x-show="tab === 'adminFinance'" class="space-y-4">
+            <div x-transition x-cloak x-show="tab === 'adminFinance'" class="space-y-4">
 
                 <div class="overflow-x-auto rounded-lg shadow-md bg-white w-full">
                     <table class="min-w-full text-sm table-auto">
@@ -175,7 +175,7 @@
 
 
             <!-- Tab: Perusahaan & Pelamar -->
-            <div x-transition x-show="tab === 'perusahaanPelamar'" class="space-y-4">
+            <div x-transition x-cloak x-show="tab === 'perusahaanPelamar'" class="space-y-4">
 
                 <div class="overflow-x-auto rounded-lg shadow-md bg-white w-full">
                     <table class="min-w-full text-sm table-auto">

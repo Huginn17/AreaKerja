@@ -65,6 +65,7 @@
         </header>
 
 
+
         <!-- Filter dan tombol -->
         <div class="mt-8">
             <div class="flex flex-wrap items-center gap-4 mb-4">
@@ -165,13 +166,16 @@
                     <!-- Judul -->
                     <h2 class="text-xl font-semibold text-center mb-6"
                         x-text="
-                    selected?.status?.toLowerCase() === 'diterima' 
-                        ? 'Top Up Berhasil' 
-                        : (selected?.status?.toLowerCase() === 'ditolak' 
-                            ? 'Top Up Ditolak' 
-                            : 'Menunggu Verifikasi')
-                ">
+        selected?.status?.toLowerCase() === 'diterima'
+            ? 'Top Up Berhasil'
+            : selected?.status?.toLowerCase() === 'ditolak'
+                ? 'Top Up Ditolak'
+                : selected?.status?.toLowerCase() === 'expired'
+                    ? 'Top Up Kedaluwarsa'
+                    : 'Menunggu Verifikasi'
+    ">
                     </h2>
+
 
                     <!-- DETAIL -->
                     <div class="text-sm space-y-2">
