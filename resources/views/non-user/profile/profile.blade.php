@@ -8,7 +8,7 @@
         <h2 class="text-xl font-semibold mb-6 mt-28 ml-12">Profil Akun</h2>
         <div class="bg-white  mx-12">
             <!-- Header: Avatar + Tombol -->
-            <div class="border-2 border-orange-300 rounded-md p-4 md:p-0">
+              <div class="border-2 border-orange-300 rounded-md p-4 md:p-0">
 
                 <div
                     class="border-orange-500 rounded-lg p-6 md:p-8 flex flex-col md:flex-row items-center md:justify-between gap-6">
@@ -60,7 +60,7 @@
                             <!-- Select Box -->
                             <div class="relative flex items-center mt-4 w-full gap-2 md:w-[95%]">
 
-                                @php
+                                @php                                
                                     $status = '';
                                     if ($pelamar->kategori === 'pelamar') {
                                         $status = 'Pelamar Aktif';
@@ -118,7 +118,6 @@
                                 </svg>
                                 Remove
                             </button>
-
 
                         </div>
                     </div>
@@ -447,8 +446,8 @@
 
 
                     <div>
-                        <label class="text-sm font-medium">Nama Pengguna <span class="text-red-500">*</span></label>
-                        <input type="text" placeholder="Nama Pengguna" value="{{ Auth::user()->username }}"
+                        <label class="text-sm font-medium">Nama Pengguna/Username<span class="text-red-500">*</span></label>    
+                        <input type="text" placeholder="Nama Pengguna" value="{{ Auth::user()->username }}" name="username"
                             class="w-full mt-1 border rounded-md px-3 py-2 text-sm">
                     </div>
 
@@ -456,7 +455,7 @@
                         <label class="text-sm font-medium">Email <span class="text-red-500">*</span></label>
                         <div class="flex items-center gap-2">
                             <!-- Input -->
-                            <input type="email" placeholder="Email" value="{{ Auth::user()->email }}"
+                            <input type="email" placeholder="Email" value="{{ Auth::user()->email }}" readonly
                                 class="w-full mt-1 border rounded-md px-3 py-2 text-sm focus:outline-none">
 
 
@@ -477,7 +476,7 @@
                         <label class="text-sm font-medium">Kata Sandi <span class="text-red-500">*</span></label>
                         <div class="flex items-center gap-2">
                             <!-- Input -->
-                            <input type="password" placeholder="Kata sandi" value=""
+                            <input type="password" placeholder="Kata sandi" value="" readonly
                                 class="w-full mt-1 border rounded-md px-3 py-2 text-sm focus:outline-none">
 
                             <!-- Icon di luar border -->
@@ -522,7 +521,6 @@
                             </div>
                         </div>
 
-                        <input type="range" class="w-full mt-4 accent-orange-600">
                     </div>
 
                     <!-- Catatan -->

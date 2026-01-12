@@ -28,6 +28,7 @@ class ProfileController extends Controller
         try {
 
             $validated = $request->validate([
+                // "username"        => "nullable",
                 "nama_pelamar"    => "nullable",
                 "img_profile"     => "nullable|file|image",
                 "gender"          => "nullable",
@@ -35,7 +36,7 @@ class ProfileController extends Controller
                 "deskripsi_diri"  => "nullable",
                 "gaji_minimal"    => "nullable",
                 "gaji_maksimal"   => "nullable",
-
+ 
                 // VALIDASI TELEPON PELAMAR
                 "telepon_pelamar" => [
                     "nullable",
@@ -73,6 +74,13 @@ class ProfileController extends Controller
             }
 
             $validated['user_id'] = Auth::id();
+
+            if ($request->filled('username')) {
+                Auth::user()->update([
+                    'username' => $request->username
+                ]);
+            }
+
             $pelamar->update($validated);
 
             /* ==========================

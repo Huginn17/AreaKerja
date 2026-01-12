@@ -52,11 +52,8 @@
                             <p class="text-gray-500 text-sm truncate">{{ Auth::user()->email }}</p>
                         </div>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
 
 

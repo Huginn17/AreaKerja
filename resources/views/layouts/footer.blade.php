@@ -66,9 +66,10 @@
         <div>
             <h3 class="mb-4 text-xl">Kontak Kami</h3>
 
-            <form class="flex flex-col sm:flex-row bg-white border-none overflow-hidden rounded-lg shadow-md">
-
-                <input type="email" placeholder="Email address"
+            <form action="{{ route('subscribe.email') }}" method="POST"
+                class="flex flex-col sm:flex-row bg-white border-none overflow-hidden rounded-lg shadow-md">
+                @csrf
+                <input type="email" name="email" placeholder="Email address"
                     class="flex-1 px-3 py-2 text-black focus:outline-none 
                   border-none
                    rounded-md sm:rounded-none w-full">
@@ -81,6 +82,16 @@
                 </button>
 
             </form>
+
+            {{-- error --}}
+            @error('email')
+                <p class="text-white mt-2 text-sm">{{ $message }}</p>
+            @enderror
+
+            {{-- success --}}
+            @if (session('success'))
+                <p class="text-white mt-2 text-sm">{{ session('success') }}</p>
+            @endif
         </div>
 
 

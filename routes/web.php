@@ -5,6 +5,7 @@ use App\Http\Controllers\AlamatPelamarController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CatatanCashController;
 use App\Http\Controllers\CVController;
+use App\Http\Controllers\EmailSubController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FinanceController;
@@ -128,13 +129,16 @@ Route::controller(EmailVerificationController::class)->group(function () {
 });
 
 
-//TIPS KERJA UNTUK USER BELUM LOGIN
+//TIPS KERJA UNTUK USER BELUM LOGIN           
 Route::controller(PelamarController::class)->group(function () {
     Route::get('/pelamar/tips-kerja', 'tips_kerja')->name('pelamar.tips-kerja');
     Route::get('/pelamar/tips-kerja/{tips}', 'detail')->name('pelamar.tips-kerja.show');
 });
 
-
+//EMAIL SUBSCRIBER
+Route::controller(EmailSubController::class)->group(function () {
+    Route::post('/email-subscribe', 'index')->name('subscribe.email');
+});
 
 
 /**---------------------------------------------- PELAMAR PREFIX ---------------------------------------------------------------*/
@@ -203,7 +207,7 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
         Route::delete('/delete/alamat/{alamatpelamar:id}', 'destroy_alamat')->name('alamat.destroy');
     });
 
-    
+
     //PENGALAMAN ORGANISASI CONTROLLER
     Route::controller(PengalamanOrgController::class)->group(function () {
         //pengalaman organisasi
@@ -234,13 +238,11 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
     });
 
 
-
     //KANDIDAT CONTROLLER
     Route::controller(KandidatController::class)->group(function () {
         //CALON KANDIDAT
         Route::get('/calon/kandidat/pelatihan', 'rekrutHalKosong')->name('pelamar.calon-kandidat.pelatihan')->middleware('cekKategori:calon kandidat');
     });
-
 
 
     //PEMBELIAN KANDIDAT
@@ -280,7 +282,6 @@ Route::controller(TipsKerjaController::class)->group(function () {
     //tips kerja
     Route::get('/tips1', 'tips_kerja_tips1')->name('tips-kerja.tips1');
 });
-
 
 
 
@@ -443,6 +444,7 @@ Route::prefix('admin')->middleware('auth', 'role:admin', 'CheckUserStatus')->gro
         Route::get('/recruitment/{id}/detail', 'detailRecruitment')->name('admin.recruitment.detail');
         Route::delete('/recruitment/{id}/hapus', 'destroyRecruitment')->name('admin.recruitment.destroy');
 
+
         //FILTER PROVINSI
         // Pilih Provinsi
         Route::get('/dashboard/pilih-provinsi', 'pilihProvinsi')->name('dashboard.pilih-provinsi');
@@ -532,8 +534,7 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
         Route::get('/pelamar', 'pelamarhal')->name('superadmin.pelamar');
         Route::get('/pelamar/tambah/{kategori}', 'createKategori')->where('kategori', '(kandidat|non_kandidat|calon_kandidat)')->name('superadmin.pelamar.create');
         Route::post('/pelamar/store', 'storeUser')->name('superadmin.pelamar.store');
-        Route::get('/pelamar/edit/{kategori}/{id}', 'editUser')->where('kategori', '(non_kandidat|calon_kandidat|kandidat)')
-            ->name('superadmin.pelamar.edit');
+        Route::get('/pelamar/edit/{kategori}/{id}', 'editUser')->where('kategori', '(non_kandidat|calon_kandidat|kandidat)')->name('superadmin.pelamar.edit');
         Route::put('/pelamar/update/{id}', 'updateUser')->name('superadmin.pelamar.update');
         Route::delete('/pelamar/{id}', 'destroyUser')->name('superadmin.pelamar.destroy');
 
@@ -729,6 +730,15 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
         //talent hunter
         Route::get('/talent-hunter/{id}/edit', 'editTalentHunter')->name('superadmin.talent-hunter.edit')->middleware('auth');
         Route::put('/talent-hunter/{id}', 'update')->name('superadmin.talent-hunter.update')->middleware('auth');
+    });
+
+
+    //Email SUbs
+    Route::controller(EmailSubController::class)->group(function () {
+        //email subs
+        Route::get('/email-subs', 'halEmail')->name('superadmin.email-subs.index');
+        Route::get('/email-subscribers/pdf', 'downloadPdf')->name('superadmin.email-subscribers.pdf');
+        Route::delete('/email-subs/bulk-delete', 'bulkDelete')->name('superadmin.email-subs.bulk-delete');
     });
 });
 /**---------------------------------------- END SUPER ADMIN PREFIX -------------------------------------*/

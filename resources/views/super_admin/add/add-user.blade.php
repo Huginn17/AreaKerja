@@ -258,13 +258,6 @@
                 </div>
 
             </div>
-
-
-            <style>
-                [x-cloak] {
-                    display: none !important;
-                }
-            </style>
             @include('super_admin.notif.modal_notif')
             @include('super_admin.notif.modal_semua')
     </main>
