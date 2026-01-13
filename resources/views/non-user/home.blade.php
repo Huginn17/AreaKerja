@@ -57,6 +57,7 @@
     </section>
 
 
+    
     <!-- Kategori Populer -->
     <section class="max-w-5xl mx-auto px-4 py-8">
 
@@ -178,15 +179,19 @@
                 <div id="section-umpan-lowongan" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-3">
 
                     @foreach ($Data as $d)
-                        <div>
+                        <div
+                            onclick="window.location='{{ route('detail.lowongan.non.user', [
+                                'perusahaan' => $d->perusahaan->slug,
+                                'lowongan' => $d->slug,
+                            ]) }}'">
                             @include('non-user.components.card', ['lowongan' => $d])
-                        </div>
-                    @endforeach
-
                 </div>
-            </section>
+                @endforeach
 
         </div>
+        </section>
+
+    </div>
     </div>
 
 

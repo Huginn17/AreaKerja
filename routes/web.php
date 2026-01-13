@@ -28,6 +28,7 @@ use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\TalentHunterController;
 use App\Http\Controllers\TipsKerjaController;
 use App\Http\Controllers\UploadController;
+use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
@@ -140,7 +141,7 @@ Route::controller(EmailSubController::class)->group(function () {
 });
 
 
-Route::controller(PelamarController::class)->group(function () {
+Route::controller(PelamarController::class)->middleware('CheckUserStatus')->group(function () {
     Route::get('/pelamar/home', 'index')->name('beranda');
     Route::get('/pelamar/detail-lowongan/{perusahaan}/{lowongan}', 'detail_lowongan_non_user')->name('detail.lowongan.non.user');
     Route::get('/pelamar/daftar-kandidat', 'daftar_kandidat')->name('pelamar.daftar-kandidat');
@@ -149,7 +150,6 @@ Route::controller(PelamarController::class)->group(function () {
 /**---------------------------------------------- PELAMAR PREFIX ---------------------------------------------------------------*/
 Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')->group(function () {
     
-
     //PELAMAR CONTROLLER
     Route::controller(PelamarController::class)->group(function () {
         //beranda

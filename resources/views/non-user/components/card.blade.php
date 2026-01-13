@@ -1,6 +1,6 @@
 @if ($d->published_at && (!$d->expired_at || $d->expired_at > now()))
     <div x-cloak x-data="{ open: false, showConfirm: false, showSuccess: false }"
-        class="border border-gray-200 p-4 md:p-5 hover:scale-[1.01] hover:bg-gray-50 rounded-lg shadow-md hover:shadow-lg bg-white relative overflow-visible self-start transition-all duration-500">
+        class="border border-gray-200 p-4 md:p-5 hover:bg-gray-50 rounded-lg shadow-md hover:shadow-lg bg-white relative overflow-visible self-start transition-all duration-500">
 
 
         {{-- Header --}}
@@ -15,7 +15,7 @@
                         Boosted
                     </p>
                 @endif
-                
+
                 @if ($d->rekomendasi !== null)
                     <p class="bg-blue-50 w-fit px-2 py-0.5 text-blue-500 font-semibold rounded-md text-[11px]">
                         Direkomendasikan
@@ -26,11 +26,10 @@
                         Dibutuhkan segera
                     </p>
                 @endif
-                @if ($d->batas_lamaran && now()->greaterThan(\Carbon\Carbon::parse($d->batas_lamaran)->endOfDay()))
-                    <p class="bg-red-50 w-fit px-2 py-0.5 text-red-600 font-semibold rounded-md text-[11px]">
-                        Batas lamaran berakhir
-                    </p>
-                @endif
+                {{-- @if ($d->batas_lamaran && now()->greaterThan(\Carbon\Carbon::parse($d->batas_lamaran)->endOfDay())) --}}
+                <p id="countdown-{{ $d->id }}"
+                    class="bg-red-50 w-fit px-2 py-0.5 text-red-600 font-semibold rounded-md text-[11px]"></p>
+                {{-- @endif --}}
 
 
                 <h1
@@ -40,23 +39,83 @@
             </div>
 
             <div>
-
                 <div class=" top-3 right-3 z-10">
                     <img src="{{ asset('storage/' . $d->perusahaan->img_profile) }}" alt="logo"
                         class="w-14 h-14 rounded-full object-cover">
                 </div>
+            </div>
 
+
+        </div>
+
+        {{-- Perusahaan & Lokasi --}}
+        {{-- <p class="text-gray-500 font-semibold mt-2 md:mt-3">{{ $d->perusahaan->nama_perusahaan }}</p> --}}
+        <p class="text-gray-500 font-semibold">{{ $d->alamat }}</p>
+
+        {{-- Rentang Gaji --}}
+        <p class="bg-[#d7d6d6] w-fit my-2 px-2 py-0.5 text-[#565656] font-semibold rounded-md text-xs">
+            Rp. {{ number_format($d->gaji_awal, 0, ',', '.') }} – Rp. {{ number_format($d->gaji_akhir, 0, ',', '.') }}
+            /
+            bulan
+        </p>
+
+
+
+        {{-- Ringkasan --}}
+        <div x-show="!open" class="mt-3">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between my-2 text-gray-600 gap-2">
+                <div class="flex items-center gap-2">
+                    <i class="ph-fill ph-paper-plane-right text-blue-600 text-lg"></i>
+                    <span class="font-medium">Lamar Dengan Cepat</span>
+                </div>
+
+                {{-- Tombol Simpan Lowongan --}}
+                @auth
+                    @php
+                        $sudahSimpan = Auth::user()->pelamar
+                            ? Auth::user()->pelamar->simpanLowongans()->where('lowongan_id', $d->id)->exists()
+                            : false;
+                    @endphp
+
+                    @if (!$sudahSimpan)
+                        <form action="{{ route('simpan-lowongan.store') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="lowongan_id" value="{{ $d->id }}">
+                            <button type="submit" class="text-gray-400 hover:text-blue-600 mt-2 md:mt-0"
+                                title="Simpan Lowongan">
+                                <i class="ph ph-bookmark-simple text-2xl"></i>
+                            </button>
+                        </form>
+                    @else
+                        <form action="{{ route('simpan-lowongan.destroy', $d->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-blue-600 hover:text-red-500 mt-2 md:mt-0"
+                                title="Hapus dari Simpan">
+                                <i class="ph-fill ph-bookmark-simple text-2xl"></i>
+                            </button>
+                        </form>
+                    @endif
+                @endauth
+            </div>
+
+
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between text-[#565656] gap-2">
+                <span class="text-[11px] text-gray-400">
+                    Aktif {{ $d->published_at->diffForHumans() }}
+                </span>
 
                 <div x-data="{ showMenu: false }" class="relative">
 
                     <!-- Tombol titik tiga -->
-                    <button @click="showMenu = !showMenu" class="text-2xl text-gray-500 hover:text-gray-700 rounded-lg">
+                    <button @click.stop="showMenu = !showMenu"
+                        class="text-2xl text-gray-500 hover:text-gray-700 rounded-lg">
                         <i class="ph ph-dots-three-vertical ml-5"></i>
                     </button>
 
                     <!-- Popup -->
-                    <div x-show="showMenu" @click.outside="showMenu = false" x-transition x-cloak 
-                        class="absolute ml-[10px] mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-200 z-[10] py-2">
+                    <div x-show="showMenu" @click.outside="showMenu = false" @click.stop x-transition x-cloak
+                        class="absolute ml-[10px] mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-200 z-[999] py-2">
 
                         <!-- LinkedIn -->
                         <a href="{{ route('lowongan.share', [
@@ -105,7 +164,6 @@
                                     d="M13.5 0H10.8C10.305 0 9.9 0.45 9.9 1C9.9 1.55 10.305 2 10.8 2H13.5C14.985 2 16.2 3.35 16.2 5C16.2 6.65 14.985 8 13.5 8H10.8C10.305 8 9.9 8.45 9.9 9C9.9 9.55 10.305 10 10.8 10H13.5C15.984 10 18 7.76 18 5C18 2.24 15.984 0 13.5 0ZM5.4 5C5.4 5.55 5.805 6 6.3 6H11.7C12.195 6 12.6 5.55 12.6 5C12.6 4.45 12.195 4 11.7 4H6.3C5.805 4 5.4 4.45 5.4 5ZM7.2 8H4.5C3.015 8 1.8 6.65 1.8 5C1.8 3.35 3.015 2 4.5 2H7.2C7.695 2 8.1 1.55 8.1 1C8.1 0.45 7.695 0 7.2 0H4.5C2.016 0 0 2.24 0 5C0 7.76 2.016 10 4.5 10H7.2C7.695 10 8.1 9.55 8.1 9C8.1 8.45 7.695 8 7.2 8Z"
                                     fill="black" />
                             </svg>
-
                             <span class="text-sm font-bold">Website</span>
                         </a>
 
@@ -128,69 +186,7 @@
 
                     </div>
                 </div>
-            </div>
 
-
-        </div>
-
-        {{-- Perusahaan & Lokasi --}}
-        {{-- <p class="text-gray-500 font-semibold mt-2 md:mt-3">{{ $d->perusahaan->nama_perusahaan }}</p> --}}
-        <p class="text-gray-500 font-semibold">{{ $d->alamat }}</p>
-
-        {{-- Rentang Gaji --}}
-        <p class="bg-[#d7d6d6] w-fit my-2 px-2 py-0.5 text-[#565656] font-semibold rounded-md text-xs">
-            Rp. {{ number_format($d->gaji_awal, 0, ',', '.') }} – Rp. {{ number_format($d->gaji_akhir, 0, ',', '.') }} /
-            bulan
-        </p>
-
-
-
-        {{-- Ringkasan --}}
-        <div x-show="!open" class="mt-3">
-            <div class="flex flex-col md:flex-row items-start md:items-center justify-between my-2 text-gray-600 gap-2">
-                <div class="flex items-center gap-2">
-                    <i class="ph-fill ph-paper-plane-right text-blue-600 text-lg"></i>
-                    <span class="font-medium">Lamar Dengan Cepat</span>
-                </div>
-
-                {{-- Tombol Simpan Lowongan --}}
-                @auth
-                    @php
-                        $sudahSimpan = Auth::user()->pelamar
-                            ? Auth::user()->pelamar->simpanLowongans()->where('lowongan_id', $d->id)->exists()
-                            : false;
-                    @endphp
-
-                    @if (!$sudahSimpan)
-                        <form action="{{ route('simpan-lowongan.store') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="lowongan_id" value="{{ $d->id }}">
-                            <button type="submit" class="text-gray-400 hover:text-blue-600 mt-2 md:mt-0"
-                                title="Simpan Lowongan">
-                                <i class="ph ph-bookmark-simple text-2xl"></i>
-                            </button>
-                        </form>
-                    @else
-                        <form action="{{ route('simpan-lowongan.destroy', $d->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-blue-600 hover:text-red-500 mt-2 md:mt-0"
-                                title="Hapus dari Simpan">
-                                <i class="ph-fill ph-bookmark-simple text-2xl"></i>
-                            </button>
-                        </form>
-                    @endif
-                @endauth
-            </div>
-
-
-
-            <div class="flex flex-col md:flex-row items-start md:items-center justify-between text-[#565656] gap-2">
-                <span class="text-[11px] text-gray-400">
-                    Aktif {{ $d->published_at->diffForHumans() }}
-                </span>
-
-                <p id="countdown-{{ $d->id }}" class="text-red-500 font-medium text-right text-[11px]"></p>
             </div>
         </div>
 
@@ -203,8 +199,8 @@
 
             <div class="space-y-6"> --}}
 
-                {{-- Tombol Lamar Cepat + kondisi expired --}}
-                {{-- <button @if (!$lowongan->is_expired) @click.stop="showConfirm = true" @endif
+        {{-- Tombol Lamar Cepat + kondisi expired --}}
+        {{-- <button @if (!$lowongan->is_expired) @click.stop="showConfirm = true" @endif
                     class="inline-block px-4 py-2 rounded-lg text-sm font-semibold transition
         {{ $lowongan->is_expired
             ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
@@ -294,12 +290,8 @@
         {{-- Tombol toggle detail --}}
         <div class="mt-4">
             {{-- <button @click="open = !open" class="text-sm text-blue-600 hover:underline"> --}}
-            <a href="{{ route('detail.lowongan.non.user', [
-                'perusahaan' => $lowongan->perusahaan->slug,
-                'lowongan' => $lowongan->slug,
-            ]) }}"
-                class="text-sm text-blue-600 hover:underline">Lihat Detail</a>
-            <span x-show="open">Tutup Detail</span>
+            {{-- <p class="text-sm text-blue-600 hover:underline">Lihat Detail</p> --}}
+            {{-- <span x-show="open">Tutup Detail</span> --}}
             {{-- </button> --}}
         </div>
 
@@ -404,7 +396,7 @@
 
                     if (distance < 0) {
                         clearInterval(interval);
-                        countdownEl.innerHTML = "Batas lamaran telah berakhir";
+                        countdownEl.innerHTML = "Batas lamaran berakhir";
                     } else {
                         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
                         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));

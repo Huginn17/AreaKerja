@@ -64,7 +64,7 @@
 
         <!-- Kontak -->
         <div>
-            <h3 class="mb-4 text-xl">Kontak Kami</h3>
+            <h3 class="mb-4 text-xl">Berlangganan Berita</h3>
 
             <form action="{{ route('subscribe.email') }}" method="POST"
                 class="flex flex-col sm:flex-row bg-white border-none overflow-hidden rounded-lg shadow-md">
