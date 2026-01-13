@@ -57,7 +57,7 @@
     </section>
 
 
-    
+
     <!-- Kategori Populer -->
     <section class="max-w-5xl mx-auto px-4 py-8">
 
@@ -153,7 +153,13 @@
                                 @endphp
 
                                 @if ($d)
-                                    @include('non-user.components.card', ['lowongan' => $d])
+                                    <div
+                                        onclick="window.location='{{ route('detail.lowongan.non.user', [
+                                            'perusahaan' => $d->perusahaan->slug,
+                                            'lowongan' => $d->slug,
+                                        ]) }}'">
+                                        @include('non-user.components.card', ['lowongan' => $d])
+                                    </div>
                                 @endif
                             @endforeach
                         </div>
@@ -185,13 +191,13 @@
                                 'lowongan' => $d->slug,
                             ]) }}'">
                             @include('non-user.components.card', ['lowongan' => $d])
+                        </div>
+                    @endforeach
+
                 </div>
-                @endforeach
+            </section>
 
         </div>
-        </section>
-
-    </div>
     </div>
 
 
