@@ -51,47 +51,60 @@ class PelamarController extends Controller
 
     public function detail_lowongan_non_user(Perusahaan $perusahaan, LowonganPerusahaan $lowongan)
     {
-        $pelamar = auth()->user()->pelamar ?? null;
-        if (!$pelamar) abort(403);
+        // Bisa null jika belum login
+        $pelamar = auth()->user()?->pelamar;
 
-        $pelamarLowongan = PelamarLowongan::where('pelamar_id', $pelamar->id)
-            ->where('lowongan_id', $lowongan->id)
-            ->first();
+        // Default value (untuk non-user)
+        $pelamarLowongan = null;
+        $statusLamaran = null;
+        $isSaved = false;
+        $tawaran = null;
 
-        $statusLamaran = $pelamarLowongan?->status;
+        // Jika user login (punya pelamar)
+        if ($pelamar) {
+            $pelamarLowongan = PelamarLowongan::where('pelamar_id', $pelamar->id)
+                ->where('lowongan_id', $lowongan->id)
+                ->first();
 
+            $statusLamaran = $pelamarLowongan?->status;
+
+            $isSaved = SimpanLowongan::where('pelamar_id', $pelamar->id)
+                ->where('lowongan_id', $lowongan->id)
+                ->exists();
+
+            $tawaran = PembeliKandidat::with(['lowonganPerusahaan.perusahaan'])
+                ->where('pelamar_id', $pelamar->id)
+                ->where('lowongan_perusahaan_id', $lowongan->id)
+                ->first();
+        }
+
+        // Cek expired
         $isExpired = false;
         if ($lowongan->batas_lamaran) {
             $isExpired = now()->greaterThan(Carbon::parse($lowongan->batas_lamaran));
         }
 
-        // Ambil semua lowongan aktif (untuk sidebar)
+        // Sidebar: semua lowongan aktif
         $Data = LowonganPerusahaan::with('perusahaan')
             ->whereNotNull('published_at')
             ->where(function ($q) {
-                $q->whereNull('expired_at')->orWhere('expired_at', '>', now());
+                $q->whereNull('expired_at')
+                    ->orWhere('expired_at', '>', now());
             })
             ->latest()
             ->get();
 
-        // CEK apakah lowongan ini sudah disimpan oleh pelamar
-        $isSaved = SimpanLowongan::where('pelamar_id', $pelamar->id)
-            ->where('lowongan_id', $lowongan->id)
-            ->exists();
-
-        // Ambil tawaran, bisa null
-        $tawaran = PembeliKandidat::with(['lowonganPerusahaan.perusahaan'])
-            ->where('pelamar_id', $pelamar->id)
-            ->where('lowongan_perusahaan_id', $lowongan->id)
-            ->first();
-
-        // Ambil lowongan lain (di perusahaan yang sama atau umum)
+        // Lowongan lain
         if ($tawaran && $tawaran->lowonganPerusahaan) {
-            $lowonganLain = LowonganPerusahaan::where('perusahaan_id', $tawaran->lowonganPerusahaan->perusahaan_id)
+            $lowonganLain = LowonganPerusahaan::where(
+                'perusahaan_id',
+                $tawaran->lowonganPerusahaan->perusahaan_id
+            )
                 ->where('id', '!=', $tawaran->lowongan_perusahaan_id)
                 ->whereNotNull('published_at')
                 ->where(function ($q) {
-                    $q->whereNull('expired_at')->orWhere('expired_at', '>', now());
+                    $q->whereNull('expired_at')
+                        ->orWhere('expired_at', '>', now());
                 })
                 ->latest()
                 ->take(3)
@@ -100,13 +113,15 @@ class PelamarController extends Controller
             $lowonganLain = LowonganPerusahaan::where('id', '!=', $lowongan->id)
                 ->whereNotNull('published_at')
                 ->where(function ($q) {
-                    $q->whereNull('expired_at')->orWhere('expired_at', '>', now());
+                    $q->whereNull('expired_at')
+                        ->orWhere('expired_at', '>', now());
                 })
                 ->latest()
                 ->take(3)
                 ->get();
         }
-        // Tambahan keamanan → pastikan lowongan ini milik perusahaan yang ada di URL
+
+        // Keamanan: pastikan URL perusahaan sesuai
         if ($lowongan->perusahaan_id !== $perusahaan->id) {
             abort(404);
         }
@@ -122,7 +137,8 @@ class PelamarController extends Controller
         ]);
     }
 
-    
+
+
     public function detail_wongan_non_userShare(Perusahaan $perusahaan, LowonganPerusahaan $lowongan)
     {
         // Cek user pelamar
@@ -305,7 +321,7 @@ class PelamarController extends Controller
     }
 
 
-    
+
 
     public function destroy($id)
     {

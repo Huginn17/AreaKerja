@@ -164,7 +164,7 @@
         class="fixed top-0 left-0 z-40 w-64 h-screen overflow-y-auto transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar">
         <div class="min-h-screen px-3 py-4 bg-gray-800 overflow-y-auto">
-            <a href="https://flowbite.com/" class="flex items-center mb-5">
+            <a href="{{ route('admin.dashboard') }}" class="flex items-center mb-5">
 
                 <!-- Logo responsif -->
                 <img src="{{ asset('images/logo_area_kerja_putih.png') }}"
@@ -172,7 +172,7 @@
 
                 <!-- Teks responsif -->
                 <span class="self-center text-lg sm:text-xl font-semibold whitespace-nowrap text-white">
-                    areakerja.com
+                    areakerja.com   
                 </span>
 
             </a>

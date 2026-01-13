@@ -274,7 +274,7 @@
 
                     // const randomPart = Math.floor(Math.random() * 1000000);
                     // const noTransaksi = "TRX" + Date.now() + randomPart;
-                    const namaPengirim = "{{ Auth::user()->pelamar->name_pelamar ?? Auth::user()->username }}";
+                    const namaPengirim = "{{ Auth::user()->pelamar->name_pelamar ?? Auth::user()->username ?? 'Guest' }}";
 
                     // document.getElementById('detailTransaksi').innerText = noTransaksi;
                     document.getElementById('detailDivisi').innerText = selectedDivisi ?? '-';

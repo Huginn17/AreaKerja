@@ -82,7 +82,6 @@ Route::controller(CVController::class)->group(function () {
 Route::get('/', [AuthController::class, 'beranda']);
 
 
-
 //LOGIN AUTH
 Route::controller(AuthController::class)->middleware('guest')->group(function () {
     Route::get('/login', 'login_non_user')->name('login');
@@ -141,14 +140,19 @@ Route::controller(EmailSubController::class)->group(function () {
 });
 
 
+Route::controller(PelamarController::class)->group(function () {
+    Route::get('/pelamar/home', 'index')->name('beranda');
+    Route::get('/pelamar/detail-lowongan/{perusahaan}/{lowongan}', 'detail_lowongan_non_user')->name('detail.lowongan.non.user');
+    Route::get('/pelamar/daftar-kandidat', 'daftar_kandidat')->name('pelamar.daftar-kandidat');
+});
+
 /**---------------------------------------------- PELAMAR PREFIX ---------------------------------------------------------------*/
 Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')->group(function () {
-
+    
 
     //PELAMAR CONTROLLER
     Route::controller(PelamarController::class)->group(function () {
         //beranda
-        Route::get('/home', 'index')->name('beranda');
 
         //ganti password
         Route::post('/ganti-password', 'updatePassword')->name('pelamar.password.update');
@@ -165,14 +169,13 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
         Route::get('/lowongan-tersimpan', 'lowongansimpanform')->name('lowongan.tersimpan');
 
         //detail lowongan
-        Route::get('/detail-lowongan/{perusahaan}/{lowongan}', 'detail_lowongan_non_user')->name('detail.lowongan.non.user');
+
         Route::get('/detail-lowongan/{slug}', 'detail_lowongan_non_userShare')->name('lowongan.show');
 
         //notifikasi lamaran pelamar
         Route::get('/notifikasi', 'notifikasi')->name('pelamar.notifikasi');
 
         //daftar kandidat
-        Route::get('/daftar-kandidat', 'daftar_kandidat')->name('pelamar.daftar-kandidat');
         Route::post('/kandidat/pendaftaran', 'storePendaftaran')->name('kandidat.storePendaftaran');
         Route::get('/kandidat/transaksi/{id}', 'transaksi')->name('kandidat.transaksi');
         Route::post('/kandidat/{id}/upload-bukti', 'uploadBukti')->name('kandidat.catatan_cash.upload_bukti');
@@ -310,7 +313,6 @@ Route::prefix('finance')->middleware('auth', 'role:finance', 'CheckUserStatus')-
         Route::get('/dashboard', 'beranda_finance')->name('finance.dashboard');
     });
 
-
     //CATATAN CASH CONTROLLER
     Route::controller(CatatanCashController::class)->group(function () {
         //update status topup
@@ -375,13 +377,14 @@ Route::prefix('finance')->middleware('auth', 'role:finance', 'CheckUserStatus')-
 Route::controller(AuthController::class)->middleware('auth')->group(function () {
     Route::post('/logout/admin', 'logout_admin')->name('logout_admin');
 });
+
+
 Route::prefix('admin')->middleware('auth', 'role:admin', 'CheckUserStatus')->group(function () {
 
     //AUTH CONTROLLER
     Route::controller(AuthController::class)->group(function () {
         Route::get('/dashboard', 'beranda_admin')->name('admin.dashboard');
     });
-
 
     //ADMIN CONTROLLER
     Route::controller(AdminController::class)->group(function () {
@@ -508,9 +511,11 @@ Route::controller(AuthController::class)->middleware('auth')->group(function () 
     Route::post('/logout/superadmin', 'logout_superadmin')->name('logout_superadmin');
 });
 
+
 Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserStatus')->group(function () {
 
     Route::controller(SuperAdminController::class)->group(function () {
+
         //dashboard
         Route::get('/dashboard', 'index')->name('superadmin.dashboard');
 
@@ -768,8 +773,7 @@ Route::controller(LowonganPerusahaanController::class)->group(function () {
 
 
 Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserStatus')->group(function () {
-
-
+    
     //AUTH CONTROLLER
     Route::controller(AuthController::class)->group(function () {
         //beranda perusahaan

@@ -144,7 +144,6 @@
                         </a>
                     </div>
 
-
                     <div class="font-bold ml-3 mb-3">Super Admin</div>
                     <div
                         class="{{ request()->is('super_admin/pelamar') || request()->is('super_admin/pelamar/tambah/kandidat') || request()->is('super_admin/kandidat/1') ? 'bg-white text-orange-500' : '' }} rounded-md">

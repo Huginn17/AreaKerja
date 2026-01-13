@@ -10,6 +10,7 @@
     {{-- <meta name="notif-mark-all-url" content="{{ route('notifikasi.bacaSemua') }}"> --}}
 
 
+    
     <title>areakerja.com</title>
     <link rel="stylesheet" href="https://unpkg.com/intro.js/minified/introjs.min.css">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
@@ -66,7 +67,6 @@
     @if (Auth::check() && $user->role === 'pelamar' && ($isProfileIncomplete || $isAddressIncomplete))
         <meta name="show-intro" content="1">
     @endif
-
 
 
 
@@ -243,8 +243,6 @@
         .tinymce-content td {
             padding: 8px;
         }
-
-        
     </style>
 </head>
 
@@ -271,7 +269,8 @@
 
                 <div class="flex items-center gap-2 px-6 pb-3 pt-4">
                     <img src="{{ asset('images/logoarea.png') }}" class="h-9" alt="">
-                    <a href="{{ route('beranda') }}"><span class="font-semibold text-orange-600">areakerja.com</span></a>
+                    <a href="{{ route('beranda') }}"><span
+                            class="font-semibold text-orange-600">areakerja.com</span></a>
                 </div>
 
                 <a href="{{ route('beranda') }}"
@@ -290,19 +289,19 @@
                 @if (Auth::check() && Auth::user()->pelamar)
                     @if (Auth::user()->pelamar->kategori === 'calon kandidat')
                         <a href="{{ route('pelamar.calon-kandidat.pelatihan') }}"
-                           class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500 transition duration-300 text-gray-700
+                            class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500 transition duration-300 text-gray-700
                             {{ Route::is('pelamar.calon-kandidat.pelatihan') ? '' : '' }}">
                             Rekrut Saya
                         </a>
                     @elseif (Auth::user()->pelamar->kategori === 'kandidat aktif')
                         <a href="{{ route('pelamar.tawaran') }}"
-                           class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500 transition duration-300 text-gray-700
+                            class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500 transition duration-300 text-gray-700
                             {{ Route::is('pelamar.tawaran') ? '' : '' }}">
                             Rekrut Saya
                         </a>
                     @else
                         <a href="{{ route('pelamar.daftar-kandidat') }}"
-                           class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500 transition duration-300 text-gray-700
+                            class="px-6 py-3 hover:bg-gray-100 hover:text-orange-500 transition duration-300 text-gray-700
                             {{ Route::is('pelamar.daftar-kandidat') ? '' : '' }}">
                             Daftar Kandidat
                         </a>
@@ -424,6 +423,19 @@
                 @endguest
 
                 {{-- Jika sudah login tampilkan dropdown --}}
+                @php
+                    $user = Auth::user();
+                    $role = $user->role ?? null;
+
+                    $dashboardRoute = match ($role) {
+                        'super_admin' => route('superadmin.dashboard'),
+                        'admin' => route('admin.dashboard'),
+                        'finance' => route('finance.dashboard'),
+                        'perusahaan' => route('perusahaan.dashboard'),
+                        default => null,
+                    };
+                @endphp
+
                 @auth
                     <div class="flex items-center space-x-3">
                         {{-- Foto Profil --}}
@@ -456,41 +468,55 @@
                                 <span class="block text-sm text-gray-500 truncate">{{ Auth::user()->email }}</span>
                             </div>
                             <ul class="py-2" aria-labelledby="user-menu-button">
-                                <li>
+                                @php
+                                    $user = Auth::user();
+                                @endphp
+
+                                {{-- JIKA ROLE ADMIN / SUPER / FINANCE / PERUSAHAAN --}}
+                                @if ($dashboardRoute)
+                                    <li>
+                                        <a href="{{ $dashboardRoute }}"
+                                            class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500">
+                                            Dashboard
+                                        </a>
+                                    </li>
+                                @else
+                                    {{-- JIKA PELAMAR --}}
                                     @php
-                                        $kategori = Auth::user()->pelamar->kategori ?? null;
+                                        $kategori = $user?->pelamar?->kategori;
                                     @endphp
-                                    @if ($kategori === 'kandidat aktif')
+
+                                    <li>
                                         <a href="{{ route('profile.index') }}"
                                             class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500"
                                             id="profile-link">
-                                            <i class="ph ph-users ml-10"></i>
-                                            <span class="ml-2">Kandidat</span>
+                                            @if ($kategori === 'kandidat aktif')
+                                                <i class="ph ph-users ml-10"></i>
+                                                <span class="ml-2">Kandidat</span>
+                                            @elseif ($kategori === 'calon kandidat')
+                                                <i class="ph ph-users ml-7"></i>
+                                                <span class="ml-2">Calon Kandidat</span>
+                                            @else
+                                                Profil
+                                            @endif
                                         </a>
-                                    @elseif($kategori === 'calon kandidat')
-                                        <a href="{{ route('profile.index') }}"
-                                            class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500"
-                                            id="profile-link">
-                                            <i class="ph ph-users ml-7"></i>
-                                            <span class="ml-2">Calon Kandidat</span>
-                                        </a>
-                                    @else
-                                        <a href="{{ route('profile.index') }}"
-                                            class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500"
-                                            id="profile-link">
-                                            Profil
-                                        </a>
-                                    @endif
-                                </li>
+                                    </li>
+                                @endif
+
                                 <li>
-                                    <a href="{{ route('lowongan.tersimpan') }}"
-                                        class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500">Lowongan
-                                        Tersimpan</a>
+                                    <a href="{{ $dashboardRoute ?? route('lowongan.tersimpan') }}"
+                                        class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500">
+                                        Lowongan Tersimpan
+                                    </a>
                                 </li>
+
                                 <li>
-                                    <a href="{{ route('transaksi.pendaftaran') }}"
-                                        class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500">Transaksi</a>
+                                    <a href="{{ $dashboardRoute ?? route('transaksi.pendaftaran') }}"
+                                        class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500">
+                                        Transaksi
+                                    </a>
                                 </li>
+
                                 <li>
                                     <a href="/bantuan"
                                         class="block px-4 py-2 text-sm hover:bg-gray-100 hover:text-orange-500">Bantuan</a>

@@ -18,10 +18,26 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        if (!Auth::check() || !in_array(Auth::user()->role, $roles)) {
-            abort(404); // atau bisa redirect()->route('login') kalau mau
+        if (!Auth::check()) {
+            return redirect()->route('login');
         }
 
-        return $next($request);
+        $userRole = strtolower(Auth::user()->role);
+        $roles = array_map('strtolower', $roles);
+
+        // ROLE SESUAI → LANJUT
+        if (in_array($userRole, $roles)) {
+            return $next($request);
+        }
+
+        // ROLE TIDAK SESUAI TENDANG KE DASHBOARD SENDIRI
+        return match ($userRole) {
+            'pelamar'     => redirect()->route('beranda'),
+            'perusahaan'  => redirect()->route('perusahaan.dashboard'),
+            'admin'       => redirect()->route('admin.dashboard'),
+            'finance'     => redirect()->route('finance.dashboard'),
+            'super_admin' => redirect()->route('superadmin.dashboard'),
+            default       => abort(403),
+        };
     }
 }
