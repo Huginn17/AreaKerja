@@ -281,6 +281,7 @@
                         method: "POST",
                         headers: {
                             "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                            "Accept": "application/json",
                             "Content-Type": "application/json"
                         },
                         body: JSON.stringify({
@@ -289,20 +290,46 @@
                         })
                     })
                     .then(async res => {
-                        if (!res.ok) {
-                            let err = await res.text();
-                            throw new Error(err);
+                        let data = {};
+
+                        // ⛑️ paksa baca JSON kalau ada
+                        try {
+                            data = await res.json();
+                        } catch (e) {}
+
+                        /* ===============================
+                            SWITCH ALERT VERIFIKASI
+                        =============================== */
+                        if (res.status === 403 && data.type === 'verification') {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Akun Belum Terverifikasi',
+                                text: data.message,
+                                confirmButtonText: 'Mengerti',
+                            });
+                            return null; // STOP TOTAL
                         }
-                        return res.json();
+
+                        if (!res.ok) {
+                            throw new Error(data.message || 'Terjadi kesalahan');
+                        }
+
+                        return data;
                     })
                     .then(data => {
-                        if (data.success) {
+                        if (!data) return;
+
+                        if (data.success && data.redirect_url) {
                             window.location.href = data.redirect_url;
                         }
                     })
                     .catch(err => {
-                        console.error("Error detail:", err.message);
-                        alert("Gagal membuat transaksi: " + err.message);
+                        console.error(err);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: err.message || 'Terjadi kesalahan',
+                        });
                     });
             });
 
@@ -359,12 +386,12 @@
                     const biayaAdmin = 2000;
                     const totalBayar = (selectedHarga ?? 0) + biayaAdmin;
 
-                    // 🔑 Buat No Transaksi random unik
-                    const randomPart = Math.floor(Math.random() * 1000000);
-                    const noTransaksi = "TRX" + Date.now() + randomPart;
+                    // // 🔑 Buat No Transaksi random unik
+                    // const randomPart = Math.floor(Math.random() * 1000000);
+                    // const noTransaksi = "TRX" + Date.now() + randomPart;
 
-                    document.getElementById('detailTransaksi').innerText = noTransaksi;
-                    document.getElementById('detailPengirim').innerText = "Nama User";
+                    // document.getElementById('detailTransaksi').innerText = noTransaksi;
+                    document.getElementById('detailPengirim').innerText = "{{ Auth::user()->perusahaan->nama_perusahaan }}";
                     document.getElementById('detailBank').innerText = selectedBank ?? '-';
                     document.getElementById('detailWaktu').innerText = new Date().toLocaleString('id-ID');
                     document.getElementById('detailHarga').innerText = "Rp. " + (selectedHarga ?? 0).toLocaleString('id-ID');
@@ -426,6 +453,7 @@
             });
         </script>
 
+
         <script>
             function openModal() {
                 document.getElementById('modalBayar').classList.remove('hidden');
@@ -462,7 +490,21 @@
                         .then(res => res.json())
                         .then(data => {
 
-                            // 🔥 Jika koin tidak cukup → Tampilkan modal error
+                            //Jika akun belum verifikasi Tampilkan alert dan stop semua proses
+                            if (!data.success && data.type === 'verification') {
+                                closeModal();
+
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: 'Akun Belum Terverifikasi',
+                                    text: data.message,
+                                    confirmButtonText: 'Mengerti'
+                                });
+
+                                return; //STOP SEMUA PROSES
+                            }
+
+                            // Jika koin tidak cukup → Tampilkan modal error
                             if (data.error === "koin_kurang") {
                                 closeModal();
                                 showErrorKoin();

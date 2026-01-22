@@ -95,7 +95,8 @@
             <!-- Form Filter -->
             <form method="GET" class="flex flex-col sm:flex-row flex-wrap gap-3 w-full lg:w-auto">
 
-                <select name="paket" class="border border-gray-300 rounded-md text-sm px-8 py-2.5 leading-relaxed w-full sm:w-auto focus:outline-none focus:ring-1 focus:ring-gray-300">
+                <select name="paket"
+                    class="border border-gray-300 rounded-md text-sm px-8 py-2.5 leading-relaxed w-full sm:w-auto focus:outline-none focus:ring-1 focus:ring-gray-300">
                     <option value="">Jenis Paket</option>
                     @foreach ($pakets as $paket)
                         <option value="{{ $paket->id }}" {{ request('paket') == $paket->id ? 'selected' : '' }}>
@@ -104,7 +105,8 @@
                     @endforeach
                 </select>
 
-                <select name="jenis" class="border border-gray-300 rounded-md text-sm px-8 py-2.5 leading-relaxed w-full sm:w-auto focus:outline-none focus:ring-1 focus:ring-gray-300">
+                <select name="jenis"
+                    class="border border-gray-300 rounded-md text-sm px-8 py-2.5 leading-relaxed w-full sm:w-auto focus:outline-none focus:ring-1 focus:ring-gray-300">
                     <option value="">Jenis Lowongan</option>
                     @foreach ($jenisLowongan as $jenis)
                         <option value="{{ $jenis }}" {{ request('jenis') == $jenis ? 'selected' : '' }}>
@@ -129,7 +131,7 @@
             @forelse ($Data as $d)
                 @if ($d->paket_id && $d->published_at)
                     <!-- Card Published -->
-            
+
                     <a href="{{ route('lowongan.detail', [
                         'perusahaan' => $d->perusahaan->slug,
                         'lowongan' => $d->slug,
@@ -313,6 +315,7 @@
                     </div>
                 </div>
 
+
                 <!-- Tombol tambah -->
                 <div class="hidden md:block">
                     <a href="{{ route('lowongan.create.form') }}"
@@ -326,7 +329,7 @@
 
     <!-- Card Kosong -->
     <div class="max-w-5xl mx-auto px-4 mb-10">
-        <h2 class="text-base font-medium mb-3 flex">Lowongan</h2>
+        <h2 class="text-base font-medium mb-3 flex">Lowongan</h2> 
 
         <div class="flex justify-end gap-2 mb-3">
             <select class="border rounded-md text-sm px-6 py-2">
@@ -419,7 +422,7 @@
             </div>
 
         </div>
-    </div>
+    </div>  
 
 
     <!-- Modal Koin Tidak Cukup -->
@@ -456,11 +459,11 @@
 
     <script>
         /*
-                                          Unified modal script
-                                          - Menyediakan global window.openModal(id) & window.closeModal(id) (aman)
-                                          - Fungsi khusus untuk boost dan publish tanpa menimpa global names
-                                          - Robust fetch handling (JSON / non-JSON) dan error logging
-                                        */
+                                              Unified modal script
+                                              - Menyediakan global window.openModal(id) & window.closeModal(id) (aman)
+                                              - Fungsi khusus untuk boost dan publish tanpa menimpa global names
+                                              - Robust fetch handling (JSON / non-JSON) dan error logging
+                                            */
 
         /* ---------- Safe global modal helpers ---------- */
         window.openModal = function(id) {
@@ -586,6 +589,7 @@
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
+                             'Accept': 'application/json',
                             'X-CSRF-TOKEN': "{{ csrf_token() }}"
                         },
                         body: JSON.stringify(payload)
@@ -611,6 +615,16 @@
                             window.closeConfirmBoost();
                         } catch (e) {
                             console.warn(e);
+                        }
+
+                        if (data && data.type === 'verification') {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Akun Belum Terverifikasi',
+                                text: data.message || 'Akun perusahaan Anda belum terverifikasi.',
+                                confirmButtonText: 'Mengerti'
+                            });
+                            return; // STOP SEMUA PROSES
                         }
 
                         // If server returned non-json object shape

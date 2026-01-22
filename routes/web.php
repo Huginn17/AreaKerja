@@ -28,6 +28,7 @@ use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\TalentHunterController;
 use App\Http\Controllers\TipsKerjaController;
 use App\Http\Controllers\UploadController;
+use App\Http\Controllers\VerifikasiPerusahaanController;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -149,7 +150,7 @@ Route::controller(PelamarController::class)->middleware('CheckUserStatus')->grou
 
 /**---------------------------------------------- PELAMAR PREFIX ---------------------------------------------------------------*/
 Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')->group(function () {
-    
+
     //PELAMAR CONTROLLER
     Route::controller(PelamarController::class)->group(function () {
         //beranda
@@ -188,7 +189,6 @@ Route::prefix('pelamar')->middleware('auth', 'role:pelamar', 'CheckUserStatus')-
         //lamar
         Route::post('/lamar-cepat/{lowongan}', 'storeQuick')->name('lamar.cepat');
     });
-
 
 
     //PROFILE CONTROLLER
@@ -291,7 +291,7 @@ Route::controller(TipsKerjaController::class)->group(function () {
 
 
 
-
+    
 
 
 
@@ -487,6 +487,12 @@ Route::prefix('admin')->middleware('auth', 'role:admin', 'CheckUserStatus')->gro
     Route::controller(LowonganPerusahaanController::class)->group(function () {
         //rekomendasi lowongan
         Route::post('/lowongan/{id}/rekomendasi', 'toggleRekomendasi')->name('admin.lowongan.toggleRekomendasi');
+    });
+
+    //Verifikasi Perusahaan
+    Route::controller(VerifikasiPerusahaanController::class)->group(function () {
+        Route::post('/perusahaan/approve/{id}', 'approve')->name('admin.perusahaan.approve');
+        Route::post('/perusahaan/reject/{id}', 'reject')->name('admin.perusahaan.reject');
     });
 });
 /**---------------------------------------- END ADMIN PREFIX -------------------------------------*/
@@ -707,7 +713,7 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
 
 
     //MANAJEMEN LOWONGAN CONTROLLER
-    Route::controller(ManajemenLowonganController::class)->group(function () {
+    Route::controller(ManajemenLowonganController::class)->group(function () { 
         //manajemen lowongan
         Route::get('/manajemen/lowongan/gold', 'gold')->name('superadmin.manajemen.lowongan.gold')->middleware('auth');
         Route::get('/manajemen/lowongan/silver', 'silver')->name('superadmin.manajemen.lowongan.silver')->middleware('auth');
@@ -745,6 +751,12 @@ Route::prefix('super_admin')->middleware('auth', 'role:super_admin', 'CheckUserS
         Route::get('/email-subscribers/pdf', 'downloadPdf')->name('superadmin.email-subscribers.pdf');
         Route::delete('/email-subs/bulk-delete', 'bulkDelete')->name('superadmin.email-subs.bulk-delete');
     });
+
+    //Verifikasi Perusahaan 
+    Route::controller(VerifikasiPerusahaanController::class)->group(function () {
+        Route::post('/perusahaan/approve/{id}', 'approveSuper')->name('superadmin.perusahaan.approve');
+        Route::post('/perusahaan/reject/{id}', 'rejectSuper')->name('superadmin.perusahaan.reject');
+    });
 });
 /**---------------------------------------- END SUPER ADMIN PREFIX -------------------------------------*/
 
@@ -773,7 +785,7 @@ Route::controller(LowonganPerusahaanController::class)->group(function () {
 
 
 Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserStatus')->group(function () {
-    
+
     //AUTH CONTROLLER
     Route::controller(AuthController::class)->group(function () {
         //beranda perusahaan
@@ -781,7 +793,7 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
     });
 
 
-    //PERUSAHAAN CONTROLLER
+    //Perusahaan CONTROLLER 
     Route::controller(PerusahaanController::class)->group(function () {
         //profile perusahaan
         Route::get('/profile', 'profile_perusahaan')->name('profile.perusahaan');
@@ -805,7 +817,6 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
 
         //pengaturan perusahaan
         Route::get('/pengaturan', 'pengaturanForm')->name('perusahaan.pengaturan');
-        Route::post('/ganti-password', 'updatePassword')->name('password.update');
 
         //kandidat ak
         Route::get('/kandidat/ak', 'kandidat_ak')->name('perusahaan.kandidat.ak');
@@ -816,19 +827,31 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
 
         //berlangganan
         Route::get('/berlangganan', 'halLangganan')->name('perusahaan.berlangganan');
-        Route::post('/berlangganan', 'storeLangganan')->name('berlangganan.store');
-        //kirim email langganan
-        Route::post('/send-email', 'kirimEmail')->name('send.email')->middleware('auth');
+
+        //Kandidat Saya
+        Route::get('/recruitment/kandidat-saya', 'kandidatSaya')->name('perusahaan.kandidat.saya');
+
         //daftar pekerja bermasalah
         Route::get('/data/pekerja', 'halDaftarPekerja')->name('perusahaan.data.pekerja');
         Route::get('/data/pekerja-bermasalah', 'listPekerjaBermasalah')->name('perusahaan.data.pekerja-bermasalah');
         Route::get('/cari-nama-pekerja', 'halCariNamaPekerja')->name('perusahaan.cari.nama.pekerja');
         Route::get('/laporan-harian', 'halLaporanHarianPekerja')->name('perusahaan.laporan.harian');
+    });
+
+
+    //PERUSAHAAN CONTROLLER WITH VERIFIED MIDDLEWARE
+    Route::controller(PerusahaanController::class)->middleware('perusahaan.verified')->group(function () {
+
+        //pengaturan perusahaan
+        Route::post('/ganti-password', 'updatePassword')->name('password.update');
+
+        //berlangganan
+        Route::post('/berlangganan', 'storeLangganan')->name('berlangganan.store');
+        //kirim email langganan
+        Route::post('/send-email', 'kirimEmail')->name('send.email')->middleware('auth');
 
         //Kandidat Saya
-        Route::get('/recruitment/kandidat-saya', 'kandidatSaya')->name('perusahaan.kandidat.saya');
         Route::delete('/recruitment/{id}/hapus', 'destroyRecruitmentPerusahaan')->name('perusahaan.destroy.kandidat');
-
 
         //diskon fitur
         Route::post('/diskon-fitur', 'DiskonFitur')->name('diskon.fitur');
@@ -842,7 +865,7 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
 
 
     //CATATAN CASH CONTROLLER
-    Route::controller(CatatanCashController::class)->group(function () {
+    Route::controller(CatatanCashController::class)->middleware('perusahaan.verified')->group(function () {
         //top up
         Route::post('/topup/store', 'store')->name('catatan_cash.store');
         Route::get('/topup/{id}', 'show')->name('catatan_cash.show');
@@ -854,6 +877,15 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
     Route::controller(LowonganPerusahaanController::class)->group(function () {
         //lowongan saya
         Route::get('/lowongan', 'index')->name('lowongan.saya.perusahaan');
+
+        //paket lowongan
+        Route::get('/paket/form', 'paketform')->name('paket.form');
+    });
+
+
+    //LOWONGAN CONTROLLER WITH VERIFIED MIDDLEWARE
+    Route::controller(LowonganPerusahaanController::class)->middleware('perusahaan.verified')->group(function () {
+        //lowongan saya
         Route::get('/createform/lowongan', 'createForm')->name('lowongan.create.form');
         Route::post('/buat/lowongan', 'store')->name('lowongan.saya.store');
         Route::get('/edit/lowongan/{perusahaan}/{lowongan}', 'edit')->name('lowongan.edit.form');
@@ -861,7 +893,6 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
         Route::delete('/lowongan/{lowongan:id}', 'destroy')->name('lowongan.destroy');
 
         //paket lowongan
-        Route::get('/paket/form', 'paketform')->name('paket.form');
         Route::post('/paket/beli', 'beliPaket')->name('paket.beli');
         Route::post('/lowongan/{lowongan}/publish', 'publish')->name('lowongan.publish');
 
@@ -871,8 +902,8 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
 
 
 
-    //PELAMAR CONTROLLER
-    Route::controller(PelamarController::class)->group(function () {
+    //PELAMAR CONTROLLER wiTH VERIFIED MIDDLEWARE
+    Route::controller(PelamarController::class)->middleware('perusahaan.verified')->group(function () {
         //pelamar lowongan
         Route::get('/pelamar/{pelamarlowongan}/konfirmasihal', 'konfirmasi_hal')->name('pelamar.konfirmasi');
         Route::post('/pelamar/{pelamarlowongan}/konfirmasi', 'konfirmasi_simpan')->name('pelamar.konfirmasi.simpan');
@@ -883,7 +914,7 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
 
 
     //PEMBELI KANDIDAT CONTROLLER
-    Route::controller(PembeliKandidatController::class)->group(function () {
+    Route::controller(PembeliKandidatController::class)->middleware('perusahaan.verified')->group(function () {
         //kandidat ak
         Route::post('/kandidat/beli', 'beli')->name('kandidat.beli');
     });
@@ -893,6 +924,10 @@ Route::prefix('perusahaan')->middleware('auth', 'role:perusahaan', 'CheckUserSta
     Route::controller(TalentHunterController::class)->group(function () {
         //talent hunter
         Route::get('/talent-hunter', 'index')->name('talent-hunter.index');
+    });
+    //TALENT HUNTER CONTROLLER WITH VERIFIED MIDDLEWARE
+    Route::controller(TalentHunterController::class)->middleware('perusahaan.verified')->group(function () {
+        //talent hunter
         Route::get('/talent-hunter/harga', 'getHarga')->name('talent-hunter.harga');
         Route::post('/talent-hunter/beli', 'beli')->name('talent-hunter.beli');
         Route::post('/talent-hunter/store', 'store')->name('talent-hunter.store');

@@ -72,6 +72,11 @@ class Perusahaan extends Model
         return $this->where('slug', $value)->orWhere('id', $value)->firstOrFail();
     }
 
+    public function isApproved()
+    {
+        return $this->verification_status === 'approved';
+    }
+
 
 
 

@@ -71,5 +71,6 @@ class Kernel extends HttpKernel
         'check.profile' => \App\Http\Middleware\CheckProfileCompletion::class,
         'email.role' => \App\Http\Middleware\EmailAccessRole::class,
         'cron.auth' => \App\Http\Middleware\CronAuth::class,
+        'perusahaan.verified' => \App\Http\Middleware\PerusahaanVerified::class,
     ];
 }

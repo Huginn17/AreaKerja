@@ -249,7 +249,7 @@
 
 <body x-data="{ openNotif: false, openAllNotif: false, openMenu: false }">
     {{-- Navbar --}}
-    <header class="bg-white border-b shadow-md py-2 border-gray-300 fixed top-0 left-0 w-full z-[9999]">
+    <header class="bg-white border-b shadow-md py-2 border-gray-300 fixed top-0 left-0 w-full z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
 
             <!-- HAMBURGER UNTUK TABLET DAN MOBILE -->

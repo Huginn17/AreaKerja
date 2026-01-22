@@ -133,6 +133,8 @@
                         <th class="p-4 sm:p-7 font-medium">Telepon</th>
                         <th class="p-4 sm:p-7 font-medium">Alamat</th>
                         <th class="p-4 sm:p-7 font-medium">Aksi</th>
+                        <th class="p-4 sm:p-7 font-medium">Status</th>
+                        <th class="p-4 sm:p-7 font-medium">Verif</th>
                     </tr>
                 </thead>
                 <tbody class="text-center">
@@ -150,6 +152,31 @@
                                     View
                                 </a>
                             </td>
+                            <td>
+                                <span
+                                    class="
+            {{ $p->verification_status === 'approved'
+                ? 'text-green-600'
+                : ($p->verification_status === 'rejected'
+                    ? 'text-red-600'
+                    : 'text-orange-500') }}">
+                                    {{ ucfirst($p->verification_status) }}
+                                </span>
+                            </td>
+                            <td>
+                                @if ($p->verification_status !== 'approved')
+                                    <form method="POST" action="{{ route('superadmin.perusahaan.approve', $p->id) }}">
+                                        @csrf
+                                        <button
+                                            class="bg-green-600 text-white px-3 py-1 rounded mb-2 mt-2 mr-2">Approve</button>
+                                    </form>
+                                @endif
+
+                                <button onclick="openRejectModal({{ $p->id }})"
+                                    class="bg-red-600 text-white px-3 py-1 rounded mb-2 mr-2">
+                                    Reject
+                                </button>
+                            </td>
                         </tr>
                     @empty
                         <tr>
@@ -162,6 +189,31 @@
 
         @include('super_admin.notif.modal_notif')
         @include('super_admin.notif.modal_semua')
+
+        <!-- Modal Reject Verif Perusahaan -->
+        <div id="modalReject" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+            <div class="bg-white rounded-lg w-[400px] p-5">
+                <h2 class="text-lg font-semibold mb-3">Reject Verif Perusahaan</h2>
+
+                <form method="POST" id="rejectForm">
+                    @csrf
+                    <label class="block text-sm mb-1">
+                        Alasan Penolakan (opsional)
+                    </label>
+                    <textarea name="note" class="w-full border rounded p-2 text-sm" rows="3"
+                        placeholder="Contoh: Dokumen belum lengkap"></textarea>
+
+                    <div class="flex justify-end mt-4 gap-2">
+                        <button type="button" onclick="closeRejectModal()" class="px-4 py-2 bg-gray-300 rounded">
+                            Batal
+                        </button>
+                        <button class="px-4 py-2 bg-red-600 text-white rounded">
+                            Reject
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
     </main>
 
@@ -310,5 +362,22 @@
             if (badge) badge.remove();
         });
     </script>
+
+
+    <script>
+        function openRejectModal(id) {
+            const modal = document.getElementById('modalReject');
+            const form = document.getElementById('rejectForm');
+
+            form.action = `/super_admin/perusahaan/reject/${id}`;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeRejectModal() {
+            document.getElementById('modalReject').classList.add('hidden');
+        }
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 @endsection

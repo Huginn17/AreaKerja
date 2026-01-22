@@ -52,7 +52,7 @@
                     </div>
 
                     <!-- Umur -->
-                   <div class="flex items-center gap-2 text-center border-r pr-4">
+                    <div class="flex items-center gap-2 text-center border-r pr-4">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect opacity="0.3" width="24" height="24" fill="url(#pattern0_661_9289)" />
@@ -79,8 +79,8 @@
                     </div>
 
                     <!-- Gender -->
-                   <div class="flex items-center gap-2 text-center pr-4">
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    <div class="flex items-center gap-2 text-center pr-4">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect opacity="0.3" width="24" height="24" fill="url(#pattern0_661_9289)" />
                             <defs>
@@ -428,6 +428,20 @@
                     console.warn('Respon bukan JSON:', jsonErr);
                 }
 
+                //Jika akun belum verifikasi Tampilkan alert dan stop semua proses
+                if (!data.success && data.type === 'verification') {
+                    
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Akun Belum Terverifikasi',
+                        text: data.message,
+                        confirmButtonText: 'Mengerti'
+                    });
+
+                    return; //STOP SEMUA PROSES
+                }
+
+
                 if (!res.ok) {
                     throw new Error(data.message || `HTTP Error ${res.status}`);
                 }
@@ -446,12 +460,11 @@
                         btn.textContent = 'Beli Lagi';
                         btn.classList.remove('bg-green-500', 'hover:bg-green-600');
                         btn.classList.add('bg-gray-600', 'hover:bg-gray-700');
-                        // ❌ jangan pakai btn.disabled = true
+                        //  jangan pakai btn.disabled = true
                     }
 
                     return;
                 }
-
 
                 // --- jika gagal karena koin ---
                 if (data.message && data.message.toLowerCase().includes('koin')) {
@@ -480,6 +493,7 @@
             }
         });
 
+
         // 🔸 Tombol batal di modal konfirmasi
         document.getElementById('btnKonfirmasiBatal').addEventListener('click', () => {
             modalKonfirmasi.classList.add('hidden');
@@ -492,6 +506,7 @@
             }
         });
     </script>
+
 
     <style>
         @keyframes fade-in {

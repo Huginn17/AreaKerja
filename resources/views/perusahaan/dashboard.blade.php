@@ -499,28 +499,55 @@
                         method: "POST",
                         headers: {
                             "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                             'Accept': 'application/json',
                             "Content-Type": "application/json"
                         },
-                        body: JSON.stringify({
+                        body: JSON.stringify({  
                             harga_pembayaran_id: document.querySelector(".paketCoin:checked").value,
                             daftar_bank_id: document.querySelector(".metodePembayaran:checked").value,
                         })
                     })
                     .then(async res => {
-                        if (!res.ok) {
-                            let err = await res.text();
-                            throw new Error(err);
+                        let data = {};
+
+                        // paksa baca JSON kalau ada
+                        try {
+                            data = await res.json();
+                        } catch (e) {}
+
+                        /* ===============================
+                            SWITCH ALERT VERIFIKASI
+                        =============================== */
+                        if (res.status === 403 && data.type === 'verification') {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Akun Belum Terverifikasi',
+                                text: data.message,
+                                confirmButtonText: 'Mengerti',
+                            });
+                            return null; //  STOP TOTAL
                         }
-                        return res.json();
+
+                        if (!res.ok) {
+                            throw new Error(data.message || 'Terjadi kesalahan');
+                        }
+
+                        return data;
                     })
                     .then(data => {
-                        if (data.success) {
+                        if (!data) return;
+
+                        if (data.success && data.redirect_url) {
                             window.location.href = data.redirect_url;
                         }
                     })
                     .catch(err => {
-                        console.error("Error detail:", err.message);
-                        alert("Gagal membuat transaksi: " + err.message);
+                        console.error(err);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: err.message || 'Terjadi kesalahan',
+                        });
                     });
             });
 

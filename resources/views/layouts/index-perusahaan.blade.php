@@ -301,6 +301,72 @@
                 </a>
             </div>
 
+            @if (auth()->user()->perusahaan?->verification_status !== 'approved')
+            <div>
+                <div id="alert"
+                    class="fixed lg:ml-24 md:ml-72 ml-52 top-24 left-1/2 -translate-x-1/2  bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4 rounded w-full max-w-2xl z-10 shadow-lg animate-slideDown">
+                    <strong>Perhatian!</strong><br>
+                    Akun perusahaan Anda sedang dalam proses verifikasi.
+                    Harap tunggu hingga admin menyetujui data perusahaan Anda.
+                </div>
+            </div>
+            @endif
+
+            <style>
+              
+                @keyframes slideDown {
+                    from {
+                        opacity: 0;
+                        transform: translate(-50%, -20px);
+                    }
+
+                    to {
+                        opacity: 1;
+                        transform: translate(-50%, 0);
+                    }
+                }
+
+              
+                @keyframes slideUp {
+                    from {
+                        opacity: 1;
+                        transform: translate(-50%, 0);
+                    }
+
+                    to {
+                        opacity: 0;
+                        transform: translate(-50%, -20px);
+                    }
+                }
+
+            
+                .animate-slideDown {
+                    animation: slideDown 0.6s ease-out forwards;
+                }
+
+                .animate-slideUp {
+                    animation: slideUp 0.6s ease-in forwards;
+                }
+            </style>
+
+
+
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    setTimeout(() => {
+                        const alert = document.getElementById("alert");
+                        if (!alert) return;
+
+                        alert.classList.remove("animate-slideDown");
+                        alert.classList.add("animate-slideUp");
+
+                        setTimeout(() => {
+                            alert.remove();
+                        }, 600);
+                    }, 10000);
+                });
+            </script>
+
 
 
             {{-- menu --}}
@@ -339,8 +405,6 @@
                 </a>
 
             </nav>
-
-
             {{-- Aksi --}}
             <div class="flex items-center gap-5">
                 {{-- Notifikasi --}}
@@ -361,100 +425,6 @@
                         </span>
                     @endif
                 </button>
-
-
-                {{-- <!-- Dropdown Notifikasi -->
-                <div x-show="openNotif" x-cloak @click.away="openNotif = false"
-                    class="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg z-50 border">
-                    <div class="p-4 border-b font-semibold text-gray-700">
-                        Notifikasi
-                    </div>
-                    <ul class="max-h-60 overflow-y-auto">
-                        @forelse ($global_notifikasis as $notif)
-                            <li onclick="markAsRead('{{ route('notifikasi.baca', $notif->id) }}', this)"
-                                class="px-4 py-3 hover:bg-gray-100 cursor-pointer {{ $notif->is_read ? 'text-gray-500' : 'text-gray-800 font-medium' }}">
-                                <div class="text-sm">{{ $notif->nama }}</div>
-                                <div class="text-xs text-gray-500">{{ $notif->pesan }}</div>
-                                <div class="text-xs text-gray-400">{{ $notif->created_at->diffForHumans() }}</div>
-                            </li>
-                        @empty
-                            <li class="px-4 py-3 text-gray-500 text-sm">
-                                Belum ada notifikasi
-                            </li>
-                        @endforelse
-                    </ul>
-                    <div class="p-2 border-t text-center">
-                        <a href="#" class="text-sm text-orange-500 hover:underline">
-                            Lihat semua
-                        </a>
-                    </div>
-                </div>
-            </div> --}}
-
-                {{-- <!-- Modal -->
-                    <div id="notifModal" class="fixed inset-0 bg-black/40 hidden z-50 justify-end">
-                        <div class="relative w-96 bg-white rounded-xl shadow-xl overflow-hidden mt-16 mr-10"
-                            style="margin-left: 800px">
-
-                            <div class="text-right mr-5 mt-3">
-                                <button onclick="toggleModal()" class="text-gray-400 hover:text-red-500">
-                                    ✕
-                                </button>
-
-                            </div>
-                            <!-- Header -->
-                            <div class="flex justify-between items-center p-4 border-b">
-
-                                <h2 class="text-lg font-medium">Notifikasi</h2>
-                                <a href="#" class="text-orange-500 text-sm">Lihat semua</a>
-                            </div>
-
-                            <!-- Isi Notifikasi -->
-                            <div>
-                                <!-- Item -->
-                                <div class="flex items-start gap-3 p-4 border-b">
-                                    <img src="{{ asset('images/seven.png') }}" class="h-10 w-10" alt="logo">
-                                    <div class="flex-1 text-sm">
-                                        <p>Kandidat Anda Telah Siap</p>
-                                        <div class="text-right">
-                                            <span class="text-xs text-gray-400">2 Jam lalu</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Item -->
-                                <div class="flex items-start gap-3 p-4 border-b bg-gray-50">
-                                    <img src="{{ asset('images/seven.png') }}" class="h-10 w-10" alt="logo">
-                                    <div class="flex-1 text-sm">
-                                        <p>Anda Telah Melakukan Top Up Coin AK Sebesar 1000</p>
-                                        <div class="text-right">
-                                            <span class="text-xs text-gray-400">3 Jam lalu</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex items-start gap-3 p-4 border-b bg-gray-50">
-                                    <img src="{{ asset('images/seven.png') }}" class="h-10 w-10" alt="logo">
-                                    <div class="flex-1 text-sm">
-                                        <p>Selesaikan transaksi sebelum estimasi habis melanjutkan Top Up Poin AK
-                                            sebesar Rp.502.000,-</p>
-                                        <div class="text-right">
-                                            <span class="text-xs text-gray-400">3 Jam lalu</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Footer -->
-                            <div class="p-3 text-right border-t">
-                                <button class="text-sm text-gray-800">Tandai Baca</button>
-                            </div>
-                        </div>
-                    </div> --}}
-
-                {{-- <script>
-                        function toggleModal() {
-                            document.getElementById("notifModal").classList.toggle("hidden");
-                        }
-                    </script> --}}
 
                 {{-- </button> --}}
                 @guest
@@ -620,6 +590,8 @@
     <!-- ================= MODAL STEP 3 ================= -->
     @include('perusahaan.modal-topup.step3')
 
+
+
     <script>
         document.getElementById('fileinputperusahaan').addEventListener('change', function(e) {
             const file = e.target.files[0];
@@ -765,6 +737,7 @@
                     method: "POST",
                     headers: {
                         "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                        "Accept": "application/json",
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
@@ -773,20 +746,46 @@
                     })
                 })
                 .then(async res => {
-                    if (!res.ok) {
-                        let err = await res.text();
-                        throw new Error(err);
+                    let data = {};
+
+                    // paksa baca JSON kalau ada
+                    try {
+                        data = await res.json();
+                    } catch (e) {}
+
+                    /* ===============================
+                        SWITCH ALERT VERIFIKASI
+                    =============================== */
+                    if (res.status === 403 && data.type === 'verification') {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Akun Belum Terverifikasi',
+                            text: data.message,
+                            confirmButtonText: 'Mengerti',
+                        });
+                        return null; // STOP TOTAL
                     }
-                    return res.json();
+
+                    if (!res.ok) {
+                        throw new Error(data.message || 'Terjadi kesalahan');
+                    }
+
+                    return data;
                 })
-                .then(data => {
-                    if (data.success) {
+                .then(data => { 
+                    if (!data) return;
+
+                    if (data.success && data.redirect_url) {
                         window.location.href = data.redirect_url;
                     }
                 })
                 .catch(err => {
-                    console.error("Error detail:", err.message);
-                    alert("Gagal membuat transaksi: " + err.message);
+                    console.error(err);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: err.message || 'Terjadi kesalahan',
+                    });
                 });
         });
 
